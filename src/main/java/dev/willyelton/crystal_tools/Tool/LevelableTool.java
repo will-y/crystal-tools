@@ -2,43 +2,49 @@ package dev.willyelton.crystal_tools.Tool;
 
 import com.google.common.collect.Multimap;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.Tiers;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
+import java.util.List;
+
 // For now just focus on things that mine (not sword)
 // TODO: Store important things in NBT
 public class LevelableTool extends Item {
+    // Just used for default values, just at netherite for now
+    private static Tier tier = Tiers.NETHERITE;
+
     // Exp
     private int experience = 0;
     private int experienceCap;
     private float experienceModifier = 1.1F;
 
     // Things that can be upgraded
-    private float miningSpeed;
+    private float miningSpeed = tier.getSpeed();
     private float attackSpeed;
     private float attackDamage;
-    private int durability;
+    private int durability = tier.getUses();
+    private int maxDurability = tier.getUses();
 
     // Blocks that can be mined
     private Tag<Block> blocks;
 
-    // Just used for default values, just at netherite for now
-    private Tier tier = Tiers.NETHERITE;
-
-    public LevelableTool(Properties properties) {
-        super(properties);
+    public LevelableTool(Properties properties, Tag<Block> mineableBlocks) {
+        super(properties.defaultDurability(tier.getUses()));
+        this.blocks = mineableBlocks;
     }
 
     // From TierdItem.java
@@ -75,16 +81,35 @@ public class LevelableTool extends Item {
             });
         }
 
-        // Maybe store on server or client only
-        this.experience++;
-        System.out.println(this.experience);
+        CompoundTag tag = tool.getTag();
+
+        if (tag != null) {
+            if (tag.contains("experience")) {
+                tag.putInt("experience", tag.getInt("experience") + 1);
+            } else {
+                tag.putInt("experience", 1);
+            }
+        } else {
+            tag = new CompoundTag();
+            tag.putInt("experience" , 1);
+            tool.setTag(tag);
+        }
+
+        System.out.println(tag.getAllKeys());
 
         return true;
     }
 
-    // FORGE START
     @Override
     public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
         return state.is(blocks) && net.minecraftforge.common.TierSortingRegistry.isCorrectTierForDrops(tier, state);
     }
+
+    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> lores, TooltipFlag flag) {
+        if (itemStack.hasTag() && itemStack.getTag().contains("experience")) {
+            lores.add(new TextComponent(Integer.toString(itemStack.getTag().getInt("experience"))));
+        }
+    }
+
+    // TODO: Override all of the Item methods that use maxDamage :(
 }
