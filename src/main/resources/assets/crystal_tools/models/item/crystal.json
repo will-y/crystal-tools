@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "crystal_tools:item/crystal"
+    "layer0": "crystal_tools:items/crystal"
   }
 }
