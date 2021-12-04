@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools;
 
 import dev.willyelton.crystal_tools.Block.ModBlocks;
 import dev.willyelton.crystal_tools.Item.ModItems;
+import dev.willyelton.crystal_tools.Tool.ModTools;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
@@ -42,6 +43,9 @@ public class CrystalTools {
 
         // Register Items
         ModItems.initItems();
+
+        // Register Tools
+        ModTools.initTools();
     }
 
     private void setup(final FMLCommonSetupEvent event) {
