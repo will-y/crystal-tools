@@ -105,9 +105,9 @@ public class LevelableTool extends Item {
         return state.is(blocks) && net.minecraftforge.common.TierSortingRegistry.isCorrectTierForDrops(tier, state);
     }
 
-    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> lores, TooltipFlag flag) {
+    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
         if (itemStack.hasTag() && itemStack.getTag().contains("experience")) {
-            lores.add(new TextComponent(Integer.toString(itemStack.getTag().getInt("experience"))));
+            components.add(new TextComponent("Exp: " + itemStack.getTag().getInt("experience")));
         }
     }
 
