@@ -1,0 +1,80 @@
+{
+  "tiers": [
+    [
+      {
+        "id": 0,
+        "name": "Mining Speed I",
+        "description": "Increases Pickaxe's Mining Speed",
+        "type": "normal",
+        "requirements": []
+      },
+      {
+        "id": 1,
+        "name": "Durability I",
+        "description": "Increases Pickaxe's Durability",
+        "type": "normal",
+        "requirements": []
+      }
+    ],
+    [
+      {
+        "id": 2,
+        "name": "Mining Speed II",
+        "description": "Increases Pickaxe's Mining Speed",
+        "type": "normal",
+        "requirements": [
+          {"node":  0}
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Durability II",
+        "description": "Increases Pickaxe's Durability",
+        "type": "normal",
+        "requirements": [
+          {"node":  1}
+        ]
+      }
+    ],
+    [
+      {
+        "id": 4,
+        "name": "Silk Touch",
+        "description": "Gives Silk Touch To The Pickaxe",
+        "type": "normal",
+        "requirements": [
+          {"not_node":  5}
+        ]
+      },
+      {
+        "id": 5,
+        "name": "Fortune I",
+        "description": "Gives Fortune To The Pickaxe",
+        "type": "normal",
+        "requirements": [
+          {"not_node":  4}
+        ]
+      }
+    ],
+    [
+      {
+        "id":  6,
+        "name": "Infinite Speed",
+        "description": "Add As Many Points To Speed Here As You Want",
+        "type": "infinite",
+        "requirements": [
+          {"node":  2}
+        ]
+      },
+      {
+        "id": 7,
+        "name": "Infinite Durability",
+        "description": "Add As Many Points To Durability Here As You Want",
+        "type": "infinite",
+        "requirements": [
+          {"nodes":  3}
+        ]
+      }
+    ]
+  ]
+}
