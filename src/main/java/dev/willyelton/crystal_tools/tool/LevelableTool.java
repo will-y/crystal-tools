@@ -1,16 +1,14 @@
-package dev.willyelton.crystal_tools.Tool;
+package dev.willyelton.crystal_tools.tool;
 
-import com.google.common.collect.Multimap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.Tag;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
@@ -109,6 +107,11 @@ public class LevelableTool extends Item {
         if (itemStack.hasTag() && itemStack.getTag().contains("experience")) {
             components.add(new TextComponent("Exp: " + itemStack.getTag().getInt("experience")));
         }
+    }
+
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand interactionHand) {
+        return super.use(level, player, interactionHand);
     }
 
     // TODO: Override all of the Item methods that use maxDamage :(

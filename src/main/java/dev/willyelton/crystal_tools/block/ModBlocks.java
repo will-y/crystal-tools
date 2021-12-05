@@ -1,4 +1,4 @@
-package dev.willyelton.crystal_tools.Block;
+package dev.willyelton.crystal_tools.block;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import net.minecraft.util.valueproviders.UniformInt;

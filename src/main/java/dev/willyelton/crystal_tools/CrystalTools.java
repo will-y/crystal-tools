@@ -1,8 +1,8 @@
 package dev.willyelton.crystal_tools;
 
-import dev.willyelton.crystal_tools.Block.ModBlocks;
-import dev.willyelton.crystal_tools.Item.ModItems;
-import dev.willyelton.crystal_tools.Tool.ModTools;
+import dev.willyelton.crystal_tools.block.ModBlocks;
+import dev.willyelton.crystal_tools.item.ModItems;
+import dev.willyelton.crystal_tools.tool.ModTools;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;

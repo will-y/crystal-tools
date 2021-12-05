@@ -1,4 +1,4 @@
-package dev.willyelton.crystal_tools.Tool;
+package dev.willyelton.crystal_tools.tool;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import net.minecraft.tags.BlockTags;

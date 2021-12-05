@@ -1,4 +1,4 @@
-package dev.willyelton.crystal_tools.Item;
+package dev.willyelton.crystal_tools.item;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import net.minecraft.world.item.Item;
