@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public class CrystalTools {
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
-    public static String MODID = "crystal_tools";
+    public static final String MODID = "crystal_tools";
 
     public CrystalTools() {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
