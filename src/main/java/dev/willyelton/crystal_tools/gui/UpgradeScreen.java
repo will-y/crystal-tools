@@ -16,8 +16,11 @@ public class UpgradeScreen extends Screen {
 
     // FOR SOME REASON NEED TO ADD COMPONENTS HERE FOR SOME REASON????
     protected void init() {
-        this.addRenderableWidget(new Button(this.width / 2 + 5, this.height / 6 + 72 - 6, 150, 20, new TextComponent("Test Button"), (button) -> {
+        this.addRenderableWidget(new Button(this.width / 2 + 5, this.height / 6 + 72 - 6, 150, 20, new TextComponent("Add Speed"), (button) -> {
             System.out.println(tool.getTag().getAllKeys());
+
+
+
         }));
 
     }

@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.tool;
 
+import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -82,18 +83,12 @@ public class LevelableTool extends Item {
         CompoundTag tag = tool.getTag();
 
         if (tag != null) {
-            if (tag.contains("experience")) {
-                tag.putInt("experience", tag.getInt("experience") + 1);
-            } else {
-                tag.putInt("experience", 1);
-            }
+            NBTUtils.addValueToTag(tag, "experience", 1);
         } else {
             tag = new CompoundTag();
             tag.putInt("experience" , 1);
             tool.setTag(tag);
         }
-
-        System.out.println(tag.getAllKeys());
 
         return true;
     }
