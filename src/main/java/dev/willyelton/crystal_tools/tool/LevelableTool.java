@@ -49,18 +49,19 @@ public class LevelableTool extends Item {
     // From TierdItem.java
     @Override
     public int getEnchantmentValue() {
-        return this.tier.getEnchantmentValue();
+        return tier.getEnchantmentValue();
     }
 
     @Override
     public boolean isValidRepairItem(@NotNull ItemStack tool, @NotNull ItemStack repairItem) {
-        return this.tier.getRepairIngredient().test(repairItem);
+        return tier.getRepairIngredient().test(repairItem);
     }
 
     // From DiggerItem.java
     @Override
     public float getDestroySpeed(ItemStack tool, BlockState blockState) {
-        return this.blocks.contains(blockState.getBlock()) ? this.miningSpeed : 1.0F;
+        float bonus = NBTUtils.getFloatOrAddKey(tool, "speed_bonus");
+        return (this.blocks.contains(blockState.getBlock()) ? this.miningSpeed : 1.0F) + bonus;
     }
 
     // Idk if these parameters are right, just guessing
@@ -80,15 +81,7 @@ public class LevelableTool extends Item {
             });
         }
 
-        CompoundTag tag = tool.getTag();
-
-        if (tag != null) {
-            NBTUtils.addValueToTag(tag, "experience", 1);
-        } else {
-            tag = new CompoundTag();
-            tag.putInt("experience" , 1);
-            tool.setTag(tag);
-        }
+        NBTUtils.addValueToTag(tool, "experience", 1);
 
         return true;
     }

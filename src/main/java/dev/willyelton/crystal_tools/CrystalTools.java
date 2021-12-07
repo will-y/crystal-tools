@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools;
 import dev.willyelton.crystal_tools.block.ModBlocks;
 import dev.willyelton.crystal_tools.item.ModItems;
 import dev.willyelton.crystal_tools.keybindings.KeyBindings;
+import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.tool.ModTools;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -53,6 +54,9 @@ public class CrystalTools {
 
         // Register Tools
         ModTools.initTools();
+
+        // Register Message Handlers
+        PacketHandler.register();
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {

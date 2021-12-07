@@ -5,8 +5,8 @@ import dev.willyelton.crystal_tools.gui.ModGUIs;
 import dev.willyelton.crystal_tools.gui.UpgradeScreen;
 import dev.willyelton.crystal_tools.keybindings.KeyBindings;
 import dev.willyelton.crystal_tools.tool.LevelableTool;
+import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TickEvent;
@@ -22,11 +22,10 @@ public class KeyPressEvent {
             return;
 
         if (KeyBindings.upgradeMenu.consumeClick()) {
-            for (ItemStack i : mc.player.getHandSlots()) {
-                if (i.getItem() instanceof LevelableTool) {
-                    ModGUIs.openScreen(new UpgradeScreen(i));
-                    break;
-                }
+            ItemStack heldTool = ItemStackUtils.getHeldLevelableTool(mc.player);
+
+            if (!heldTool.isEmpty()) {
+                ModGUIs.openScreen(new UpgradeScreen(heldTool));
             }
         }
     }
