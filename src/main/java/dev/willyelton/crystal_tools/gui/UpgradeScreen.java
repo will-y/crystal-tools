@@ -6,6 +6,8 @@ import dev.willyelton.crystal_tools.network.ToolAttributePacket;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.TitleScreen;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.ItemStack;
 
@@ -17,10 +19,15 @@ public class UpgradeScreen extends Screen {
         tool = itemStack;
     }
 
-    // FOR SOME REASON NEED TO ADD COMPONENTS HERE FOR SOME REASON????
+    // FOR SOME REASON NEED TO ADD COMPONENTS HERE????
     protected void init() {
         this.addRenderableWidget(new Button(this.width / 2 + 5, this.height / 6 + 72 - 6, 150, 20, new TextComponent("Add Speed"), (button) -> {
             PacketHandler.sendToServer(new ToolAttributePacket("speed_bonus", 4));
+        }, (button, poseStack, mouseX, mouseY) -> {
+            Component text = new TextComponent("Text Tooltip");
+
+            UpgradeScreen.this.renderTooltip(poseStack, UpgradeScreen.this.minecraft.font.split(text, Math.max(UpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
+
         }));
 
 
@@ -30,11 +37,6 @@ public class UpgradeScreen extends Screen {
     public void render(PoseStack poseStack, int mouseX, int mouseY, float particleTicks) {
         this.renderBackground(poseStack);
         super.render(poseStack, mouseX, mouseY, particleTicks);
-//        int i = (this.width - 252) / 2;
-//        int j = (this.height - 140) / 2;
-
-//        fill(poseStack, 0, 0, 100, 100, 16777216);
-//        this.blit(poseStack, 100, 100, 0, 0, 252, 140);
 
     }
 
