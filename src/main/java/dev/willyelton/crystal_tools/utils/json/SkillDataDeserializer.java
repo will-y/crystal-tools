@@ -25,6 +25,7 @@ public class SkillDataDeserializer implements JsonDeserializer<SkillData> {
                 List<SkillDataRequirement> requirementsList = new ArrayList<>();
                 requirements.forEach(requirement -> {
                     // TODO: Add the not node requirement
+                    // TODO: Add an or for nodes
                     boolean isNodeRequirement = requirement.getAsJsonObject().keySet().contains("node");
 
                     if (isNodeRequirement) {
@@ -50,6 +51,8 @@ public class SkillDataDeserializer implements JsonDeserializer<SkillData> {
                         nodeObject.get("description").getAsString(),
                         nodeObject.get("type").getAsString(),
                         0,
+                        nodeObject.get("key").getAsString(),
+                        nodeObject.get("value").getAsInt(),
                         requirementsList));
             }));
 

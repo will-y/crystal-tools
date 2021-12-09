@@ -6,14 +6,18 @@
         "name": "Mining Speed I",
         "description": "Increases Pickaxe's Mining Speed",
         "type": "normal",
-        "requirements": []
+        "requirements": [],
+        "key": "speed_bonus",
+        "value": 1
       },
       {
         "id": 1,
         "name": "Durability I",
         "description": "Increases Pickaxe's Durability",
         "type": "normal",
-        "requirements": []
+        "requirements": [],
+        "key": "durability_bonus",
+        "value": 500
       }
     ],
     [
@@ -24,7 +28,9 @@
         "type": "normal",
         "requirements": [
           {"node":  0}
-        ]
+        ],
+        "key": "speed_bonus",
+        "value": 1
       },
       {
         "id": 3,
@@ -33,7 +39,9 @@
         "type": "normal",
         "requirements": [
           {"node":  1}
-        ]
+        ],
+        "key": "durability_bonus",
+        "value": 500
       }
     ],
     [
@@ -44,7 +52,9 @@
         "type": "normal",
         "requirements": [
           {"not_node":  5}
-        ]
+        ],
+        "key": "silk_touch_bonus",
+        "value": 1
       },
       {
         "id": 5,
@@ -53,7 +63,9 @@
         "type": "normal",
         "requirements": [
           {"not_node":  4}
-        ]
+        ],
+        "key": "fortune_bonus",
+        "value": 1
       },
       {
         "id": 6,
@@ -62,7 +74,9 @@
         "type": "normal",
         "requirements": [
           {"node": 2}
-        ]
+        ],
+        "key": "auto_repair",
+        "value": 1
       }
     ],
     [
@@ -73,7 +87,9 @@
         "type": "infinite",
         "requirements": [
           {"node":  2}
-        ]
+        ],
+        "key": "speed_bonus",
+        "value": 1
       },
       {
         "id": 8,
@@ -82,7 +98,9 @@
         "type": "infinite",
         "requirements": [
           {"node":  3}
-        ]
+        ],
+        "key": "durability_bonus",
+        "value": 250
       }
     ]
   ]

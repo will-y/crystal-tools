@@ -11,22 +11,17 @@ public class SkillDataNode {
     private final String type;
     private int points;
     private final List<SkillDataRequirement> requirements;
-    // Need some type of getEffect or something that gets the attribute and the value to add
+    private final String key;
+    private final int value;
 
-    public SkillDataNode(int id, String name, String description, String type, int points) {
-        this(id, name, description, type, points, new ArrayList<>());
-    }
-
-    public SkillDataNode(int id, String name, String description, String type) {
-        this(id, name, description, type, 0, new ArrayList<>());
-    }
-
-    public SkillDataNode(int id, String name, String description, String type, int points, List<SkillDataRequirement> requirements) {
+    public SkillDataNode(int id, String name, String description, String type, int points, String key, int value, List<SkillDataRequirement> requirements) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.type = type;
         this.points = points;
+        this.key = key;
+        this.value = value;
         this.requirements = requirements;
     }
 
