@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dev.willyelton.crystal_tools.utils.ListUtils;
 import dev.willyelton.crystal_tools.utils.json.SkillDataDeserializer;
-import dev.willyelton.crystal_tools.utils.json.SkillDataSerializer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 
@@ -24,7 +23,6 @@ public class SkillData {
     public static SkillData fromResourceLocation(ResourceLocation resourceLocation, int[] skills) {
         GsonBuilder gsonBuilder = new GsonBuilder();
 
-        gsonBuilder.registerTypeAdapter(SkillData.class, new SkillDataSerializer());
         gsonBuilder.registerTypeAdapter(SkillData.class, new SkillDataDeserializer());
 
         Gson gson = gsonBuilder.create();
