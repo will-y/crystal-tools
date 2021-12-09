@@ -1,11 +1,11 @@
 package dev.willyelton.crystal_tools.gui;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.willyelton.crystal_tools.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.network.ToolAttributePacket;
 import dev.willyelton.crystal_tools.tool.skills.SkillData;
 import dev.willyelton.crystal_tools.tool.skills.SkillDataNode;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -76,13 +76,14 @@ public class UpgradeScreen extends Screen {
     }
 
     private void addButtonFromNode(SkillDataNode node, int x, int y) {
-        this.addRenderableWidget(new Button(x, y, X_SIZE, Y_SIZE, new TextComponent(node.getName()), (button) -> {
-            // TODO: make this actually the thing it need to be based off of the node
+        this.addRenderableWidget(new SkillButton(x, y, X_SIZE, Y_SIZE, new TextComponent(node.getName()), (button) -> {
+            // TODO: make this actually the thing it needs to be based off of the node
             PacketHandler.sendToServer(new ToolAttributePacket("speed_bonus", 1));
+            ((SkillButton) button).setComplete();
         }, (button, poseStack, mouseX, mouseY) -> {
             Component text = new TextComponent(node.getDescription());
             UpgradeScreen.this.renderTooltip(poseStack, UpgradeScreen.this.minecraft.font.split(text, Math.max(UpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
-        }));
+        }, this.toolData, node));
     }
 
 
