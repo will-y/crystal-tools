@@ -54,7 +54,7 @@ public class SkillData {
         // TODO: this
     }
 
-    public List<List<SkillDataNode>> getAllNodeByTier() {
+    public List<List<SkillDataNode>> getAllNodesByTier() {
         return this.nodes;
     }
 

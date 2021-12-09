@@ -27,7 +27,6 @@ public class KeyPressEvent {
 
             if (!heldTool.isEmpty()) {
                 ModGUIs.openScreen(new UpgradeScreen(heldTool));
-                SkillData.fromResourceLocation(new ResourceLocation("crystal_tools", "skill_trees/pickaxe.json"), new int[] {});
             }
         }
     }
