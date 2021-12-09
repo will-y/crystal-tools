@@ -18,8 +18,6 @@ import java.util.List;
  * Can be created from a string tool type (later resource location) and an int array? of what is upgraded (id -> points in node)
  */
 public class SkillData {
-    // Methods to create this data class
-    // TODO: Implement this later
     public static SkillData fromResourceLocation(ResourceLocation resourceLocation, int[] skills) {
         GsonBuilder gsonBuilder = new GsonBuilder();
 
@@ -32,8 +30,6 @@ public class SkillData {
         try {
             InputStream in = Minecraft.getInstance().getResourceManager().getResource(resourceLocation).getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-
-//            String line = reader.lines().collect(Collectors.joining());
 
             SkillData result = gson.fromJson(reader, SkillData.class);
 
