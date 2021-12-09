@@ -11,7 +11,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import org.lwjgl.system.CallbackI;
 
 import java.util.List;
 
@@ -19,7 +18,10 @@ public class UpgradeScreen extends Screen {
     private final ItemStack tool;
     private final SkillData toolData;
 
-    // TODO: pass in resource location for the skill tree. For now just make a factory that makes the object
+    private static final int Y_PADDING = 20;
+    private static final int X_SIZE = 100;
+    private static final int Y_SIZE = 20;
+
     public UpgradeScreen(ItemStack itemStack) {
         super(new TextComponent("Test Title"));
         tool = itemStack;
@@ -42,15 +44,11 @@ public class UpgradeScreen extends Screen {
         List<List<SkillDataNode>> tiers = toolData.getAllNodesByTier();
 
         int x = 20;
-        int y = 20;
+        int y = Y_PADDING;
 
         for (List<SkillDataNode> tier : tiers) {
-            for (SkillDataNode node : tier) {
-                this.addButtonFromNode(node, x, y);
-                x += 120;
-            }
-            y += 30;
-            x = 20;
+            this.addButtonsFromTier(tier, y);
+            y += (Y_PADDING + Y_SIZE);
         }
     }
 
@@ -65,8 +63,20 @@ public class UpgradeScreen extends Screen {
         return false;
     }
 
+    private void addButtonsFromTier(List<SkillDataNode> nodes, int y) {
+        int size = nodes.size();
+        int paddingX = (this.width - size * X_SIZE) / (size + 1);
+
+        int x = paddingX;
+
+        for (SkillDataNode node : nodes) {
+            this.addButtonFromNode(node, x, y);
+            x += (paddingX + X_SIZE);
+        }
+    }
+
     private void addButtonFromNode(SkillDataNode node, int x, int y) {
-        this.addRenderableWidget(new Button(x, y, 100, 20, new TextComponent(node.getName()), (button) -> {
+        this.addRenderableWidget(new Button(x, y, X_SIZE, Y_SIZE, new TextComponent(node.getName()), (button) -> {
             // TODO: make this actually the thing it need to be based off of the node
             PacketHandler.sendToServer(new ToolAttributePacket("speed_bonus", 1));
         }, (button, poseStack, mouseX, mouseY) -> {

@@ -54,11 +54,20 @@
         "requirements": [
           {"not_node":  4}
         ]
+      },
+      {
+        "id": 6,
+        "name": "Auto Repair",
+        "description": "Automatically Repairs Your Tool Over Time!",
+        "type": "normal",
+        "requirements": [
+          {"node": 2}
+        ]
       }
     ],
     [
       {
-        "id":  6,
+        "id":  7,
         "name": "Infinite Speed",
         "description": "Add As Many Points To Speed Here As You Want",
         "type": "infinite",
@@ -67,7 +76,7 @@
         ]
       },
       {
-        "id": 7,
+        "id": 8,
         "name": "Infinite Durability",
         "description": "Add As Many Points To Durability Here As You Want",
         "type": "infinite",
