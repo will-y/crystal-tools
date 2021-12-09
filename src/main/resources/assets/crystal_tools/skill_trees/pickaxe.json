@@ -72,7 +72,7 @@
         "description": "Add As Many Points To Durability Here As You Want",
         "type": "infinite",
         "requirements": [
-          {"nodes":  3}
+          {"node":  3}
         ]
       }
     ]

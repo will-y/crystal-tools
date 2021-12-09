@@ -37,7 +37,7 @@ public class ToolAttributePacket {
             ItemStack heldTool = ItemStackUtils.getHeldLevelableTool(playerEntity);
 
             if (!heldTool.isEmpty()) {
-                NBTUtils.setValue(heldTool, msg.key, msg.value);
+                NBTUtils.addValueToTag(heldTool, msg.key, msg.value);
             }
         }
     }

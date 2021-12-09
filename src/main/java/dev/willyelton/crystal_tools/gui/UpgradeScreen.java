@@ -3,10 +3,8 @@ package dev.willyelton.crystal_tools.gui;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.network.ToolAttributePacket;
-import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.ItemStack;
@@ -14,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 public class UpgradeScreen extends Screen {
     private final ItemStack tool;
 
+    // TODO: pass in resource location for the skill tree. For now just make a factory that makes the object
     public UpgradeScreen(ItemStack itemStack) {
         super(new TextComponent("Test Title"));
         tool = itemStack;
