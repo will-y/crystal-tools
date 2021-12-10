@@ -1,10 +1,7 @@
 package dev.willyelton.crystal_tools.utils.json;
 
 import com.google.gson.*;
-import dev.willyelton.crystal_tools.tool.skills.NodeSkillDataRequirement;
-import dev.willyelton.crystal_tools.tool.skills.SkillData;
-import dev.willyelton.crystal_tools.tool.skills.SkillDataNode;
-import dev.willyelton.crystal_tools.tool.skills.SkillDataRequirement;
+import dev.willyelton.crystal_tools.tool.skills.*;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -24,25 +21,20 @@ public class SkillDataDeserializer implements JsonDeserializer<SkillData> {
                 JsonArray requirements = nodeObject.getAsJsonArray("requirements");
                 List<SkillDataRequirement> requirementsList = new ArrayList<>();
                 requirements.forEach(requirement -> {
-                    // TODO: Add the not node requirement
-                    // TODO: Add an or for nodes
-                    boolean isNodeRequirement = requirement.getAsJsonObject().keySet().contains("node");
-
-                    if (isNodeRequirement) {
-                        JsonElement idsJson = requirement.getAsJsonObject().get("node");
-                        int[] ids;
-                        if (idsJson.isJsonPrimitive()) {
-                            ids = new int[] {idsJson.getAsInt()};
-                        } else if (idsJson.isJsonArray()) {
-                            List<Integer> idsList = new ArrayList<>();
-                            idsJson.getAsJsonArray().forEach(id -> {
-                                idsList.add(id.getAsInt());
-                            });
-                            ids= idsList.stream().mapToInt(Integer::intValue).toArray();
-                        } else {
-                            ids = new int[] {};
-                        }
+                    JsonObject requirementObject = requirement.getAsJsonObject();
+                    JsonElement jsonElement;
+                    if (requirementObject.keySet().contains("nodes")) {
+                        jsonElement = requirementObject.get("node");
+                        int[] ids = this.getNodesFromJson(jsonElement);
                         requirementsList.add(new NodeSkillDataRequirement(ids));
+                    } else if (requirementObject.keySet().contains("not_node")) {
+                        jsonElement = requirementObject.get("not_node");
+                        int[] ids = this.getNodesFromJson(jsonElement);
+                        requirementsList.add(new NodeSkillDataRequirement(ids, true));
+                    } else if (requirementObject.keySet().contains("or_node")) {
+                        jsonElement = requirementObject.get("or_node");
+                        int[] ids = this.getNodesFromJson(jsonElement);
+                        requirementsList.add(new NodeOrSkillDataRequirement(ids));
                     }
                 });
 
@@ -61,5 +53,20 @@ public class SkillDataDeserializer implements JsonDeserializer<SkillData> {
 
 
         return new SkillData(skillNodes);
+    }
+
+    private int[] getNodesFromJson(JsonElement jsonElement) {
+        int[] ids;
+        if (jsonElement.isJsonPrimitive()) {
+            ids = new int[] {jsonElement.getAsInt()};
+        } else if (jsonElement.isJsonArray()) {
+            List<Integer> idsList = new ArrayList<>();
+            jsonElement.getAsJsonArray().forEach(id -> idsList.add(id.getAsInt()));
+            ids= idsList.stream().mapToInt(Integer::intValue).toArray();
+        } else {
+            ids = new int[] {};
+        }
+
+        return ids;
     }
 }
