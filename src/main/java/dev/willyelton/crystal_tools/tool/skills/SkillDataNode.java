@@ -53,6 +53,14 @@ public class SkillDataNode {
         return addPoint(1);
     }
 
+    public String getKey() {
+        return this.key;
+    }
+
+    public int getValue() {
+        return this.value;
+    }
+
     public int addPoint(int points) {
         this.points += points;
         return this.points;

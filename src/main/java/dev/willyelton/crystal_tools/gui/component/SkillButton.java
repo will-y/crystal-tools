@@ -17,9 +17,11 @@ public class SkillButton extends Button {
     public static final ResourceLocation SKILL_BUTTON_LOCATION = new ResourceLocation("crystal_tools", "textures/gui/skill_button.png");
     // used when it is completed, should also set not active but render differently
     private boolean isComplete = false;
+    SkillDataNode dataNode;
 
     public SkillButton(int x, int y, int width, int height, Component name, OnPress onPress, OnTooltip onTooltip, SkillData data, SkillDataNode node) {
         super(x, y, width, height, name, onPress, onTooltip);
+        this.dataNode = node;
     }
 
     // TODO: implement this and make own textures
@@ -62,6 +64,10 @@ public class SkillButton extends Button {
     public void setComplete() {
         this.isComplete = true;
         this.active = false;
+    }
+
+    public SkillDataNode getDataNode() {
+        return this.dataNode;
     }
 
 }

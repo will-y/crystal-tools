@@ -12,11 +12,13 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UpgradeScreen extends Screen {
     private final ItemStack tool;
     private final SkillData toolData;
+    private final List<SkillButton> buttons = new ArrayList<>();
 
     private static final int Y_PADDING = 20;
     private static final int X_SIZE = 100;
@@ -33,23 +35,16 @@ public class UpgradeScreen extends Screen {
 
     // FOR SOME REASON NEED TO ADD COMPONENTS HERE????
     protected void init() {
-        // Test button
-//        this.addRenderableWidget(new Button(this.width / 2 + 5, this.height / 6 + 72 - 6, 150, 20, new TextComponent("Add Speed"), (button) -> {
-//            PacketHandler.sendToServer(new ToolAttributePacket("speed_bonus", 4));
-//        }, (button, poseStack, mouseX, mouseY) -> {
-//            Component text = new TextComponent("Text Tooltip");
-//            UpgradeScreen.this.renderTooltip(poseStack, UpgradeScreen.this.minecraft.font.split(text, Math.max(UpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
-//        }));
-
         List<List<SkillDataNode>> tiers = toolData.getAllNodesByTier();
 
-        int x = 20;
         int y = Y_PADDING;
 
         for (List<SkillDataNode> tier : tiers) {
             this.addButtonsFromTier(tier, y);
             y += (Y_PADDING + Y_SIZE);
         }
+
+        this.updateButtons();
     }
 
     @Override
@@ -76,15 +71,28 @@ public class UpgradeScreen extends Screen {
     }
 
     private void addButtonFromNode(SkillDataNode node, int x, int y) {
-        this.addRenderableWidget(new SkillButton(x, y, X_SIZE, Y_SIZE, new TextComponent(node.getName()), (button) -> {
-            // TODO: make this actually the thing it needs to be based off of the node
-            PacketHandler.sendToServer(new ToolAttributePacket("speed_bonus", 1));
+        this.addButton(new SkillButton(x, y, X_SIZE, Y_SIZE, new TextComponent(node.getName()), (button) -> {
+            // TODO: also need to update the nbt int[]
+            PacketHandler.sendToServer(new ToolAttributePacket(node.getKey(), node.getValue()));
             ((SkillButton) button).setComplete();
+            node.addPoint();
+            this.updateButtons();
         }, (button, poseStack, mouseX, mouseY) -> {
             Component text = new TextComponent(node.getDescription());
             UpgradeScreen.this.renderTooltip(poseStack, UpgradeScreen.this.minecraft.font.split(text, Math.max(UpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
         }, this.toolData, node));
     }
 
+    private void addButton(SkillButton button) {
+        this.buttons.add(button);
+        this.addRenderableWidget(button);
+    }
+
+    private void updateButtons() {
+        for (SkillButton button : this.buttons) {
+            SkillDataNode node = button.getDataNode();
+            button.active = node.canLevel(toolData);
+        }
+    }
 
 }

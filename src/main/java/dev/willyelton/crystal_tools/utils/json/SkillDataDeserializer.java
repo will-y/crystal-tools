@@ -23,7 +23,7 @@ public class SkillDataDeserializer implements JsonDeserializer<SkillData> {
                 requirements.forEach(requirement -> {
                     JsonObject requirementObject = requirement.getAsJsonObject();
                     JsonElement jsonElement;
-                    if (requirementObject.keySet().contains("nodes")) {
+                    if (requirementObject.keySet().contains("node")) {
                         jsonElement = requirementObject.get("node");
                         int[] ids = this.getNodesFromJson(jsonElement);
                         requirementsList.add(new NodeSkillDataRequirement(ids));
