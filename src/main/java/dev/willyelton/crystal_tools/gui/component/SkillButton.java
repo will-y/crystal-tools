@@ -16,7 +16,7 @@ import net.minecraft.world.level.levelgen.feature.structures.StructurePoolElemen
 public class SkillButton extends Button {
     public static final ResourceLocation SKILL_BUTTON_LOCATION = new ResourceLocation("crystal_tools", "textures/gui/skill_button.png");
     // used when it is completed, should also set not active but render differently
-    private boolean isComplete = false;
+    public boolean isComplete = false;
     SkillDataNode dataNode;
 
     public SkillButton(int x, int y, int width, int height, Component name, OnPress onPress, OnTooltip onTooltip, SkillData data, SkillDataNode node) {

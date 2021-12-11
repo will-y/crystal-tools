@@ -15,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: Scrolling?
 public class UpgradeScreen extends Screen {
     private final ItemStack tool;
     private final SkillData toolData;
@@ -91,7 +92,7 @@ public class UpgradeScreen extends Screen {
     private void updateButtons() {
         for (SkillButton button : this.buttons) {
             SkillDataNode node = button.getDataNode();
-            button.active = node.canLevel(toolData);
+            button.active = !button.isComplete && node.canLevel(toolData);
         }
     }
 

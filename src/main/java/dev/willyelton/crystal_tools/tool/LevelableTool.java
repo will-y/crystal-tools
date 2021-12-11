@@ -99,6 +99,7 @@ public class LevelableTool extends Item {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand interactionHand) {
+        System.out.println(player.getMainHandItem().getTag());
         return super.use(level, player, interactionHand);
     }
 
