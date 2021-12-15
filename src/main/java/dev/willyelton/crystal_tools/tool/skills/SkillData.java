@@ -25,8 +25,6 @@ public class SkillData {
 
         Gson gson = gsonBuilder.create();
 
-        System.out.println(resourceLocation.getPath());
-
         try {
             InputStream in = Minecraft.getInstance().getResourceManager().getResource(resourceLocation).getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -45,13 +43,19 @@ public class SkillData {
 
 
     private final List<List<SkillDataNode>> nodes;
+    // Flattened nodes, calculated lazily
+    private List<SkillDataNode> flatNodes = null;
 
     public SkillData(List<List<SkillDataNode>> nodes) {
         this.nodes = nodes;
     }
 
     public void applyPoints(int[] points) {
-        // TODO: this
+        List<SkillDataNode> nodes = getAllNodes();
+
+        for (int i = 0; i < nodes.size(); i++) {
+            nodes.get(i).setPoints(points[i]);
+        }
     }
 
     public List<List<SkillDataNode>> getAllNodesByTier() {
@@ -59,7 +63,11 @@ public class SkillData {
     }
 
     public List<SkillDataNode> getAllNodes() {
-        return ListUtils.flattenList(nodes);
+        if (flatNodes == null) {
+            flatNodes = ListUtils.flattenList(nodes);
+        }
+
+        return flatNodes;
     }
 
 }

@@ -66,6 +66,10 @@ public class SkillDataNode {
         return this.points;
     }
 
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
     /**
      * Returns true if all of this node's requirements are met, and it can be leveled
      */
@@ -77,5 +81,9 @@ public class SkillDataNode {
         }
 
         return true;
+    }
+
+    public boolean isComplete() {
+        return this.points == 1 && this.type.equals("normal");
     }
 }

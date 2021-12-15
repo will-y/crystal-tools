@@ -13,22 +13,25 @@ import java.util.function.Supplier;
 public class ToolAttributePacket {
     private final String key;
     private final int value;
+    private final int id;
 
-    public ToolAttributePacket(String key, int value) {
+    public ToolAttributePacket(String key, int value, int id) {
         this.key = key;
         this.value = value;
+        this.id = id;
     }
 
     public static void encode(ToolAttributePacket msg, FriendlyByteBuf buffer) {
         buffer.writeInt(msg.key.length());
         buffer.writeCharSequence(msg.key, Charset.defaultCharset());
         buffer.writeInt(msg.value);
+        buffer.writeInt(msg.id);
     }
 
     public static ToolAttributePacket decode(FriendlyByteBuf buffer) {
         int keyLen = buffer.readInt();
         String key = buffer.readCharSequence(keyLen, Charset.defaultCharset()).toString();
-        return new ToolAttributePacket(key, buffer.readInt());
+        return new ToolAttributePacket(key, buffer.readInt(), buffer.readInt());
     }
 
     public static class Handler {
@@ -38,6 +41,8 @@ public class ToolAttributePacket {
 
             if (!heldTool.isEmpty()) {
                 NBTUtils.addValueToTag(heldTool, msg.key, msg.value);
+                // update the skill points array
+                NBTUtils.addValueToArray(heldTool, "points", msg.id, 1);
             }
         }
     }

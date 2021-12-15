@@ -6,6 +6,7 @@ import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.network.ToolAttributePacket;
 import dev.willyelton.crystal_tools.tool.skills.SkillData;
 import dev.willyelton.crystal_tools.tool.skills.SkillDataNode;
+import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -29,9 +30,10 @@ public class UpgradeScreen extends Screen {
         super(new TextComponent("Test Title"));
         tool = itemStack;
 
-        // TODO get the type from the item and the int[] from nbt of item
-       toolData = SkillData.fromResourceLocation(new ResourceLocation("crystal_tools", "skill_trees/pickaxe.json"), new int[] {});
+        int[] points = NBTUtils.getIntArray(tool, "points");
 
+        // TODO get the type from the item and the int[] from nbt of item
+        toolData = SkillData.fromResourceLocation(new ResourceLocation("crystal_tools", "skill_trees/pickaxe.json"), points);
     }
 
     // FOR SOME REASON NEED TO ADD COMPONENTS HERE????
@@ -73,10 +75,11 @@ public class UpgradeScreen extends Screen {
 
     private void addButtonFromNode(SkillDataNode node, int x, int y) {
         this.addButton(new SkillButton(x, y, X_SIZE, Y_SIZE, new TextComponent(node.getName()), (button) -> {
-            // TODO: also need to update the nbt int[]
-            PacketHandler.sendToServer(new ToolAttributePacket(node.getKey(), node.getValue()));
-            ((SkillButton) button).setComplete();
+            PacketHandler.sendToServer(new ToolAttributePacket(node.getKey(), node.getValue(), node.getId()));
             node.addPoint();
+            if (node.isComplete()) {
+                ((SkillButton) button).setComplete();
+            }
             this.updateButtons();
         }, (button, poseStack, mouseX, mouseY) -> {
             Component text = new TextComponent(node.getDescription());
@@ -93,6 +96,9 @@ public class UpgradeScreen extends Screen {
         for (SkillButton button : this.buttons) {
             SkillDataNode node = button.getDataNode();
             button.active = !button.isComplete && node.canLevel(toolData);
+            if (node.isComplete()) {
+                button.setComplete();
+            }
         }
     }
 
