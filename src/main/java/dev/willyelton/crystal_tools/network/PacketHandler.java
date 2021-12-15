@@ -14,6 +14,7 @@ import java.util.function.Supplier;
 public class PacketHandler {
     private static final String PROTOCOL_VERSION = Integer.toString(4);
     private static short index = 0;
+    // No idea what this does, probably don't need it
 //    private static final PacketSplitManager SPLIT_MANAGER = new PacketSplitManager();
 
     public static final SimpleChannel HANDLER = NetworkRegistry.newSimpleChannel(

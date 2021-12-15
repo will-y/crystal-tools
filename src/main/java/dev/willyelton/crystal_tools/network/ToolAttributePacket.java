@@ -12,10 +12,10 @@ import java.util.function.Supplier;
 
 public class ToolAttributePacket {
     private final String key;
-    private final int value;
+    private final float value;
     private final int id;
 
-    public ToolAttributePacket(String key, int value, int id) {
+    public ToolAttributePacket(String key, float value, int id) {
         this.key = key;
         this.value = value;
         this.id = id;
@@ -24,14 +24,14 @@ public class ToolAttributePacket {
     public static void encode(ToolAttributePacket msg, FriendlyByteBuf buffer) {
         buffer.writeInt(msg.key.length());
         buffer.writeCharSequence(msg.key, Charset.defaultCharset());
-        buffer.writeInt(msg.value);
+        buffer.writeFloat(msg.value);
         buffer.writeInt(msg.id);
     }
 
     public static ToolAttributePacket decode(FriendlyByteBuf buffer) {
         int keyLen = buffer.readInt();
         String key = buffer.readCharSequence(keyLen, Charset.defaultCharset()).toString();
-        return new ToolAttributePacket(key, buffer.readInt(), buffer.readInt());
+        return new ToolAttributePacket(key, buffer.readFloat(), buffer.readInt());
     }
 
     public static class Handler {
