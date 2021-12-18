@@ -1,0 +1,22 @@
+-------------------- 1.0 --------------------
+- Create Following Attributes
+    - General
+        - Durability (Gross)
+        - Auto Repair
+        - Silk Touch
+        - Fortune
+        - Smelt (Maybe enable smelting and fortune)
+        - Multi Type Switcher (Scroll between silk, fortune, ...)
+        - Torch Placer
+    - Axe
+        - Tree Chopper
+    - Sword
+        - Fire
+        - Lifesteal
+        - Attack Speed
+        - Looting
+    - Hoe
+        - Area of Effect
+    - Shovel / Pick
+        - 3x3 Mining
+        - Vein Mining
