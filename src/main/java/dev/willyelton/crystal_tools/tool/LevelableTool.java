@@ -103,5 +103,11 @@ public class LevelableTool extends Item {
         return super.use(level, player, interactionHand);
     }
 
+    // Just don't ever add the enchantment effect
+    @Override
+    public boolean isFoil(ItemStack itemStack) {
+        return false;
+    }
+
     // TODO: Override all of the Item methods that use maxDamage :(
 }
