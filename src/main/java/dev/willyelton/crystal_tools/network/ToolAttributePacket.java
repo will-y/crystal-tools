@@ -5,6 +5,7 @@ import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.nio.charset.Charset;
@@ -40,7 +41,12 @@ public class ToolAttributePacket {
             ItemStack heldTool = ItemStackUtils.getHeldLevelableTool(playerEntity);
 
             if (!heldTool.isEmpty()) {
-                NBTUtils.addValueToTag(heldTool, msg.key, msg.value);
+                if (msg.key.equals("silk_touch_bonus")) {
+                    heldTool.enchant(Enchantments.SILK_TOUCH, 1);
+                } else {
+                    NBTUtils.addValueToTag(heldTool, msg.key, msg.value);
+                }
+
                 // update the skill points array
                 NBTUtils.addValueToArray(heldTool, "points", msg.id, 1);
             }
