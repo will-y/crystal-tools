@@ -43,6 +43,8 @@ public class ToolAttributePacket {
             if (!heldTool.isEmpty()) {
                 if (msg.key.equals("silk_touch_bonus")) {
                     heldTool.enchant(Enchantments.SILK_TOUCH, 1);
+                } else if (msg.key.equals("fortune_bonus")) {
+                    heldTool.enchant(Enchantments.BLOCK_FORTUNE, (int) msg.value);
                 } else {
                     NBTUtils.addValueToTag(heldTool, msg.key, msg.value);
                 }
