@@ -14,25 +14,6 @@ public class NBTUtils {
         }
     }
 
-//    public static void addValueToTag(ItemStack itemStack, String key, int value) {
-//        CompoundTag tag = getTag(itemStack);
-//        if (tag.contains(key)) {
-//            tag.putInt(key, tag.getInt(key) + value);
-//        } else {
-//            tag.putInt(key, value);
-//        }
-//    }
-
-//    public static int getIntOrAddKey(ItemStack itemStack, String key) {
-//        CompoundTag tag = getTag(itemStack);
-//        if (tag.contains(key)) {
-//            return tag.getInt(key);
-//        } else {
-//            tag.putInt(key, 0);
-//            return 0;
-//        }
-//    }
-
     public static float getFloatOrAddKey(ItemStack itemStack, String key) {
         CompoundTag tag = getTag(itemStack);
         if (tag.contains(key)) {
@@ -42,11 +23,6 @@ public class NBTUtils {
             return 0;
         }
     }
-
-//    public static void setValue(ItemStack itemStack, String key, int value) {
-//        CompoundTag tag = getTag(itemStack);
-//        tag.putInt(key, value);
-//    }
 
     public static void setValue(ItemStack itemStack, String key, float value) {
         CompoundTag tag = getTag(itemStack);
