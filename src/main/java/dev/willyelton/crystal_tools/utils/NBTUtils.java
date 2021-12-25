@@ -4,6 +4,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 
 public class NBTUtils {
+
     public static void addValueToTag(ItemStack itemStack, String key, float value) {
         CompoundTag tag = getTag(itemStack);
         if (tag.contains(key)) {

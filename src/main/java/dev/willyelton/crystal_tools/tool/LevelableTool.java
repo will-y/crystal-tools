@@ -8,6 +8,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -107,6 +108,12 @@ public class LevelableTool extends Item {
     @Override
     public boolean isFoil(ItemStack itemStack) {
         return false;
+    }
+
+    // I think the int and boolean parameters are right
+    @Override
+    public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand) {
+        // TODO: Add the auto-repair here
     }
 
     // TODO: Override all of the Item methods that use maxDamage :(
