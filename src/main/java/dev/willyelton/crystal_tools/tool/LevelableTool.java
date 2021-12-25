@@ -24,6 +24,8 @@ import java.util.List;
 // For now just focus on things that mine (not sword)
 // TODO: Store important things in NBT
 public class LevelableTool extends Item {
+    private static final int AUTO_REPAIR_COUNTER = 50;
+
     // Just used for default values, just at netherite for now
     private static Tier tier = Tiers.NETHERITE;
 
@@ -114,6 +116,13 @@ public class LevelableTool extends Item {
     @Override
     public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand) {
         // TODO: Add the auto-repair here
+        if (NBTUtils.getBoolean(itemStack, "auto_repair", false)) {
+            if (NBTUtils.addValueToTag(itemStack, "auto_repair_counter", 1) > AUTO_REPAIR_COUNTER) {
+                NBTUtils.setValue(itemStack, "auto_repair_counter", 0);
+                int repairAmount = Math.min((int) NBTUtils.getFloatOrAddKey(itemStack, "auto_repair_amount"), itemStack.getDamageValue());
+                itemStack.setDamageValue(itemStack.getDamageValue() - repairAmount);
+            }
+        }
     }
 
     // TODO: Override all of the Item methods that use maxDamage :(

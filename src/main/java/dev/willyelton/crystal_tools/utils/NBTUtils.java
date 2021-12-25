@@ -32,6 +32,11 @@ public class NBTUtils {
         tag.putFloat(key, value);
     }
 
+    public static void setValue(ItemStack itemStack, String key, boolean value) {
+        CompoundTag tag = getTag(itemStack);
+        tag.putBoolean(key, value);
+    }
+
     public static void addValueToArray(ItemStack itemStack, String arrayKey, int index, int value) {
         CompoundTag tag = getTag(itemStack);
         int[] points = getIntArray(itemStack, arrayKey);
@@ -63,6 +68,20 @@ public class NBTUtils {
         }
 
         return tag;
+    }
+
+    public static boolean getBoolean(ItemStack itemStack, String key) {
+        return getBoolean(itemStack, key, false);
+    }
+
+    public static boolean getBoolean(ItemStack itemStack, String key, boolean defaultValue) {
+        CompoundTag tag = getTag(itemStack);
+
+        if (tag.contains(key)) {
+            return tag.getBoolean(key);
+        } else {
+            return defaultValue;
+        }
     }
 
 }
