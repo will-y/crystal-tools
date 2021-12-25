@@ -5,12 +5,15 @@ import net.minecraft.world.item.ItemStack;
 
 public class NBTUtils {
 
-    public static void addValueToTag(ItemStack itemStack, String key, float value) {
+    public static float addValueToTag(ItemStack itemStack, String key, float value) {
         CompoundTag tag = getTag(itemStack);
         if (tag.contains(key)) {
-            tag.putFloat(key, tag.getFloat(key) + value);
+            float original = tag.getFloat(key);
+            tag.putFloat(key, original + value);
+            return original + value;
         } else {
             tag.putFloat(key, value);
+            return value;
         }
     }
 
