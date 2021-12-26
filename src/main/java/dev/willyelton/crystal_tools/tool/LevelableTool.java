@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.tags.Tag;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -22,24 +23,11 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 // For now just focus on things that mine (not sword)
-// TODO: Store important things in NBT
 public class LevelableTool extends Item {
     private static final int AUTO_REPAIR_COUNTER = 50;
 
     // Just used for default values, just at netherite for now
     private static Tier tier = Tiers.NETHERITE;
-
-    // Exp
-    private int experience = 0;
-    private int experienceCap;
-    private float experienceModifier = 1.1F;
-
-    // Things that can be upgraded
-    private float miningSpeed = tier.getSpeed();
-    private float attackSpeed;
-    private float attackDamage;
-    private int durability = tier.getUses();
-    private int maxDurability = tier.getUses();
 
     // Blocks that can be mined
     private Tag<Block> blocks;
@@ -64,7 +52,7 @@ public class LevelableTool extends Item {
     @Override
     public float getDestroySpeed(ItemStack tool, BlockState blockState) {
         float bonus = NBTUtils.getFloatOrAddKey(tool, "speed_bonus");
-        return (this.blocks.contains(blockState.getBlock()) ? this.miningSpeed : 1.0F) + bonus;
+        return (this.blocks.contains(blockState.getBlock()) ? tier.getSpeed() : 1.0F) + bonus;
     }
 
     // Idk if these parameters are right, just guessing
@@ -115,15 +103,33 @@ public class LevelableTool extends Item {
     // I think the int and boolean parameters are right
     @Override
     public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand) {
-        // TODO: Add the auto-repair here
-        if (NBTUtils.getBoolean(itemStack, "auto_repair", false)) {
-            if (NBTUtils.addValueToTag(itemStack, "auto_repair_counter", 1) > AUTO_REPAIR_COUNTER) {
-                NBTUtils.setValue(itemStack, "auto_repair_counter", 0);
-                int repairAmount = Math.min((int) NBTUtils.getFloatOrAddKey(itemStack, "auto_repair_amount"), itemStack.getDamageValue());
-                itemStack.setDamageValue(itemStack.getDamageValue() - repairAmount);
+        if (!inHand) {
+            if (NBTUtils.getBoolean(itemStack, "auto_repair", false)) {
+                if (NBTUtils.addValueToTag(itemStack, "auto_repair_counter", 1) > AUTO_REPAIR_COUNTER) {
+                    NBTUtils.setValue(itemStack, "auto_repair_counter", 0);
+                    int repairAmount = Math.min((int) NBTUtils.getFloatOrAddKey(itemStack, "auto_repair_amount"), itemStack.getDamageValue());
+                    itemStack.setDamageValue(itemStack.getDamageValue() - repairAmount);
+                }
             }
         }
     }
 
     // TODO: Override all of the Item methods that use maxDamage :(
+
+    // Changing these two to what they should be @minecraft
+    public int getBarWidth(ItemStack itemStack) {
+        return Math.round(13.0F - (float) itemStack.getDamageValue() * 13.0F / (float) itemStack.getMaxDamage());
+    }
+
+    public int getBarColor(ItemStack itemStack) {
+        float f = Math.max(0.0F, ((float)itemStack.getMaxDamage() - (float)itemStack.getDamageValue()) / (float) itemStack.getMaxDamage());
+        return Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
+    }
+
+    @Override
+    public int getMaxDamage(ItemStack itemStack) {
+        int bonusDurability = (int) NBTUtils.getFloatOrAddKey(itemStack, "durability_bonus");
+
+        return tier.getUses() + bonusDurability;
+    }
 }
