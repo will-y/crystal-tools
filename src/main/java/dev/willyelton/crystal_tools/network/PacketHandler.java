@@ -26,6 +26,7 @@ public class PacketHandler {
 
     public static void register() {
         registerMessage(ToolAttributePacket.class, ToolAttributePacket::encode, ToolAttributePacket::decode, ToolAttributePacket.Handler::handle);
+        registerMessage(ToolHealPacket.class, ToolHealPacket::encode, ToolHealPacket::decode, ToolHealPacket.Handler::handle);
     }
 
     public static void sendToServer(Object msg) {
