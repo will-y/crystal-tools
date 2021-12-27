@@ -23,6 +23,7 @@ public class UpgradeScreen extends Screen {
     private final ItemStack tool;
     private final SkillData toolData;
     private final List<SkillButton> skillButtons = new ArrayList<>();
+    private Button healButton;
 
     private static final int Y_PADDING = 20;
     private static final int X_SIZE = 100;
@@ -51,18 +52,17 @@ public class UpgradeScreen extends Screen {
         }
 
         // add button to spend skill points to heal tool
-        addRenderableWidget(new Button(5, 15, 30, Y_SIZE, new TextComponent("Heal"), (button) -> {
+        healButton = addRenderableWidget(new Button(5, 15, 30, Y_SIZE, new TextComponent("Heal"), (button) -> {
             PacketHandler.sendToServer(new ToolHealPacket());
             // also do client side to update ui, seems to work, might want to test more
             NBTUtils.addValueToTag(tool, "skill_points", -1);
+            this.updateButtons();
         }, (button, poseStack, mouseX, mouseY) -> {
             Component text = new TextComponent("Uses a skill point to fully repair this tool");
             UpgradeScreen.this.renderTooltip(poseStack, UpgradeScreen.this.minecraft.font.split(text, Math.max(UpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
         }));
 
         this.updateButtons();
-
-
     }
 
     @Override
@@ -110,13 +110,19 @@ public class UpgradeScreen extends Screen {
     }
 
     private void updateButtons() {
+        int skillPoints = (int) NBTUtils.getFloatOrAddKey(tool, "skill_points");
         for (SkillButton button : this.skillButtons) {
-            SkillDataNode node = button.getDataNode();
-            button.active = !button.isComplete && node.canLevel(toolData);
-            if (node.isComplete()) {
-                button.setComplete();
+            if (skillPoints > 0) {
+                SkillDataNode node = button.getDataNode();
+                button.active = !button.isComplete && node.canLevel(toolData);
+                if (node.isComplete()) {
+                    button.setComplete();
+                }
+            } else {
+                button.active = false;
             }
         }
-    }
 
+        this.healButton.active = skillPoints > 0;
+    }
 }
