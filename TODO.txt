@@ -1,10 +1,21 @@
 -------------------- 1.0 --------------------
+
+- Ore Generation
+- Crafting Recipes
+- Skill Points
+    - Add Them
+    - Upgrades Cost Them
+    - Can spend to fully repair tool
+- Add Other Tools
+    - Axe
+    - Shovel
+    - Hoe
+- UI
+    - Scrolling
+-------------------- 1.1 --------------------
 - Create Following Attributes
     - General
-        - Durability (Gross)
-        - Auto Repair
-        - Silk Touch
-        - Fortune
+        - Better Auto Repair
         - Smelt (Maybe enable smelting and fortune)
         - Multi Type Switcher (Scroll between silk, fortune, ...)
         - Torch Placer
@@ -20,3 +31,8 @@
     - Shovel / Pick
         - 3x3 Mining
         - Vein Mining
+
+- Add Other Tools
+    - Sword
+    - Bow
+    - Armor
