@@ -42,17 +42,23 @@ public class UpgradeScreen extends Screen {
 
         int y = Y_PADDING;
 
+        // add skill tree items
         for (List<SkillDataNode> tier : tiers) {
             this.addButtonsFromTier(tier, y);
             y += (Y_PADDING + Y_SIZE);
         }
 
         this.updateButtons();
+
+
     }
 
     @Override
     public void render(PoseStack poseStack, int mouseX, int mouseY, float particleTicks) {
         this.renderBackground(poseStack);
+
+        drawString(poseStack, font, "Skill Points: " + (int) NBTUtils.getFloatOrAddKey(tool, "skill_points"), 5, 5, 16777215);
+
         super.render(poseStack, mouseX, mouseY, particleTicks);
     }
 
