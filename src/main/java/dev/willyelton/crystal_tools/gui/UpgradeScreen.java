@@ -53,7 +53,8 @@ public class UpgradeScreen extends Screen {
         // add button to spend skill points to heal tool
         addRenderableWidget(new Button(5, 15, 30, Y_SIZE, new TextComponent("Heal"), (button) -> {
             PacketHandler.sendToServer(new ToolHealPacket());
-
+            // also do client side to update ui, seems to work, might want to test more
+            NBTUtils.addValueToTag(tool, "skill_points", -1);
         }, (button, poseStack, mouseX, mouseY) -> {
             Component text = new TextComponent("Uses a skill point to fully repair this tool");
             UpgradeScreen.this.renderTooltip(poseStack, UpgradeScreen.this.minecraft.font.split(text, Math.max(UpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
