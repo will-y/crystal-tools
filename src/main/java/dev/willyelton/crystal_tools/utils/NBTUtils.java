@@ -18,11 +18,15 @@ public class NBTUtils {
     }
 
     public static float getFloatOrAddKey(ItemStack itemStack, String key) {
+        return getFloatOrAddKey(itemStack, key, 0);
+    }
+
+    public static float getFloatOrAddKey(ItemStack itemStack, String key, float defaultValue) {
         CompoundTag tag = getTag(itemStack);
         if (tag.contains(key)) {
             return tag.getFloat(key);
         } else {
-            tag.putFloat(key, 0);
+            tag.putFloat(key, defaultValue);
             return 0;
         }
     }

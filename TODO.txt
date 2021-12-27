@@ -1,9 +1,7 @@
 -------------------- 1.0 --------------------
-
 - Ore Generation
 - Crafting Recipes
 - Skill Points
-    - Add Them
     - Upgrades Cost Them
     - Can spend to fully repair tool
 - Add Other Tools
@@ -12,6 +10,7 @@
     - Hoe
 - UI
     - Scrolling
+
 -------------------- 1.1 --------------------
 - Create Following Attributes
     - General

@@ -2,9 +2,10 @@ package dev.willyelton.crystal_tools.tool;
 
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -25,6 +26,8 @@ import java.util.List;
 // For now just focus on things that mine (not sword)
 public class LevelableTool extends Item {
     private static final int AUTO_REPAIR_COUNTER = 50;
+    private static final int BASE_EXPERIENCE_CAP = 50;
+    private static final float EXPERIENCE_CAP_MULTIPLIER = 1.25F;
 
     // Just used for default values, just at netherite for now
     private static Tier tier = Tiers.NETHERITE;
@@ -72,7 +75,26 @@ public class LevelableTool extends Item {
             });
         }
 
-        NBTUtils.addValueToTag(tool, "experience", 1);
+        int newExperience = (int) NBTUtils.addValueToTag(tool, "experience", 1);
+        int experienceCap = (int) NBTUtils.getFloatOrAddKey(tool, "experience_cap", BASE_EXPERIENCE_CAP);
+
+        if (experienceCap == 0) {
+            // fist time
+            NBTUtils.setValue(tool, "experience_cap", BASE_EXPERIENCE_CAP);
+            experienceCap = BASE_EXPERIENCE_CAP;
+        }
+
+        if (newExperience >= experienceCap) {
+            // level up
+            NBTUtils.addValueToTag(tool, "skill_points", 1);
+            // copied from LivingEntity item breaking sound
+            // play level up sound
+            level.playLocalSound(blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.PLAYER_LEVELUP, SoundSource.NEUTRAL, 0.8F, 0.8F + level.random.nextFloat() * 0.4F, false);
+            // TODO: Add chat message thing
+
+            NBTUtils.setValue(tool, "experience", 0);
+            NBTUtils.setValue(tool, "experience_cap", experienceCap * EXPERIENCE_CAP_MULTIPLIER);
+        }
 
         return true;
     }
@@ -83,8 +105,13 @@ public class LevelableTool extends Item {
     }
 
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
-        if (itemStack.hasTag() && itemStack.getTag().contains("experience")) {
-            components.add(new TextComponent("Exp: " + itemStack.getTag().getInt("experience")));
+        int newExperience = (int) NBTUtils.getFloatOrAddKey(itemStack, "experience");
+        int experienceCap = (int) NBTUtils.getFloatOrAddKey(itemStack, "experience_cap", BASE_EXPERIENCE_CAP);
+
+        components.add(new TextComponent(String.format("%d/%d XP To Next Level", newExperience, experienceCap)));
+        int skillPoints = (int) NBTUtils.getFloatOrAddKey(itemStack, "skill_points");
+        if (skillPoints > 0) {
+            components.add(new TextComponent(String.format("%d Unspent Skill Points", skillPoints)));
         }
     }
 
