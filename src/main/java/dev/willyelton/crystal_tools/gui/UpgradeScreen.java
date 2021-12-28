@@ -29,6 +29,9 @@ public class UpgradeScreen extends Screen {
     private static final int X_SIZE = 100;
     private static final int Y_SIZE = 20;
 
+    private int xOffset = 0;
+    private int yOffset = 0;
+
     public UpgradeScreen(ItemStack itemStack) {
         super(new TextComponent("Test Title"));
         tool = itemStack;
@@ -126,5 +129,18 @@ public class UpgradeScreen extends Screen {
         }
 
         this.healButton.active = skillPoints > 0;
+    }
+
+    // Scrolling
+    @Override
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+        this.xOffset += dragX;
+        this.yOffset += dragY;
+
+        for (SkillButton skillButton : this.skillButtons) {
+            skillButton.xOffset = this.xOffset;
+            skillButton.yOffset = this.yOffset;
+        }
+        return false;
     }
 }

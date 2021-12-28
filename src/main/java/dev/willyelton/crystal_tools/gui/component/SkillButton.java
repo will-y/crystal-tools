@@ -18,16 +18,16 @@ public class SkillButton extends Button {
     // used when it is completed, should also set not active but render differently
     public boolean isComplete = false;
     SkillDataNode dataNode;
+    public int xOffset = 0;
+    public int yOffset = 0;
 
     public SkillButton(int x, int y, int width, int height, Component name, OnPress onPress, OnTooltip onTooltip, SkillData data, SkillDataNode node) {
         super(x, y, width, height, name, onPress, onTooltip);
         this.dataNode = node;
     }
 
-    // TODO: implement this and make own textures
     @Override
-    // don't know what these parameters do but don't think I need them
-    public void renderButton(PoseStack poseStack, int p_93677_, int p_93678_, float p_93679_) {
+    public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
         Minecraft minecraft = Minecraft.getInstance();
         Font font = minecraft.font;
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
@@ -39,14 +39,14 @@ public class SkillButton extends Button {
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
         // first half of button
-        this.blit(poseStack, this.x, this.y, 0, i * 20, this.width / 2, this.height);
+        this.blit(poseStack, this.x + xOffset, this.y + yOffset, 0, i * 20, this.width / 2, this.height);
         // second half of button
-        this.blit(poseStack, this.x + this.width / 2, this.y, 200 - this.width / 2, i * 20, this.width / 2, this.height);
+        this.blit(poseStack, this.x + this.width / 2 + xOffset, this.y + yOffset, 200 - this.width / 2, i * 20, this.width / 2, this.height);
         // pretty sure does nothing
-        this.renderBg(poseStack, minecraft, p_93677_, p_93678_);
+        this.renderBg(poseStack, minecraft, mouseX, mouseY);
         // might need to change based off of how text looks on colors I pick
         int j = getFGColor();
-        drawCenteredString(poseStack, font, this.getMessage(), this.x + this.width / 2, this.y + (this.height - 8) / 2, j | Mth.ceil(this.alpha * 255.0F) << 24);
+        drawCenteredString(poseStack, font, this.getMessage(), this.x + this.width / 2 + this.xOffset, this.y + (this.height - 8) / 2 + this.yOffset, j | Mth.ceil(this.alpha * 255.0F) << 24);
     }
 
     public int getTextureY(boolean hovered) {
