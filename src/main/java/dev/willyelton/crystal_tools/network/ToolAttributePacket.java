@@ -54,7 +54,9 @@ public class ToolAttributePacket {
                 }
 
                 // update the skill points array
-                NBTUtils.addValueToArray(heldTool, "points", msg.id, 1);
+                if (msg.id != -1) {
+                    NBTUtils.addValueToArray(heldTool, "points", msg.id, 1);
+                }
             }
         }
     }

@@ -92,12 +92,18 @@ public class UpgradeScreen extends Screen {
 
     private void addButtonFromNode(SkillDataNode node, int x, int y) {
         this.addSkillButton(new SkillButton(x, y, X_SIZE, Y_SIZE, new TextComponent(node.getName()), (button) -> {
-            PacketHandler.sendToServer(new ToolAttributePacket(node.getKey(), node.getValue(), node.getId()));
-            node.addPoint();
-            if (node.isComplete()) {
-                ((SkillButton) button).setComplete();
+            int skillPoints = (int) NBTUtils.getFloatOrAddKey(tool, "skill_points");
+
+            if (skillPoints > 0) {
+                NBTUtils.addValueToTag(tool, "skill_points", -1);
+                PacketHandler.sendToServer(new ToolAttributePacket("skill_points", -1, -1));
+                PacketHandler.sendToServer(new ToolAttributePacket(node.getKey(), node.getValue(), node.getId()));
+                node.addPoint();
+                if (node.isComplete()) {
+                    ((SkillButton) button).setComplete();
+                }
+                this.updateButtons();
             }
-            this.updateButtons();
         }, (button, poseStack, mouseX, mouseY) -> {
             Component text = new TextComponent(node.getDescription());
             UpgradeScreen.this.renderTooltip(poseStack, UpgradeScreen.this.minecraft.font.split(text, Math.max(UpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
@@ -112,14 +118,10 @@ public class UpgradeScreen extends Screen {
     private void updateButtons() {
         int skillPoints = (int) NBTUtils.getFloatOrAddKey(tool, "skill_points");
         for (SkillButton button : this.skillButtons) {
-            if (skillPoints > 0) {
-                SkillDataNode node = button.getDataNode();
-                button.active = !button.isComplete && node.canLevel(toolData);
-                if (node.isComplete()) {
-                    button.setComplete();
-                }
-            } else {
-                button.active = false;
+            SkillDataNode node = button.getDataNode();
+            button.active = !button.isComplete && node.canLevel(toolData) && skillPoints > 0;
+            if (node.isComplete()) {
+                button.setComplete();
             }
         }
 
