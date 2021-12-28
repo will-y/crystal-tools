@@ -1,18 +1,17 @@
--------------------- 1.0 --------------------
+-------------------- 0.1 --------------------
 - Ore Generation
 - Crafting Recipes
-- Skill Points
-    - Upgrades Cost Them
-    - Can spend to fully repair tool
+- UI
+    - Scrolling
+
+-------------------- 1.0 --------------------
 - Add Other Tools
     - Axe
     - Shovel
     - Hoe
-- UI
-    - Scrolling
 
 -------------------- 1.1 --------------------
-- Create Following Attributes
+- Create Attributes
     - General
         - Better Auto Repair
         - Smelt (Maybe enable smelting and fortune)
@@ -20,18 +19,32 @@
         - Torch Placer
     - Axe
         - Tree Chopper
-    - Sword
-        - Fire
-        - Lifesteal
-        - Attack Speed
-        - Looting
     - Hoe
         - Area of Effect
     - Shovel / Pick
         - 3x3 Mining
         - Vein Mining
 
+-------------------- 1.2 --------------------
 - Add Other Tools
     - Sword
     - Bow
     - Armor
+- Create Attributes
+    - Sword
+        - Fire
+        - Lifesteal
+        - Attack Speed
+        - Looting
+    - Bow
+        - Draw Speed
+        - Arrow Speed
+        - Damage
+        - Flame
+        - Infinity
+    - Armor
+        - Thorns
+        - All Prot Types
+        - Speed
+        - Jump
+        - Add vanilla enchantments
