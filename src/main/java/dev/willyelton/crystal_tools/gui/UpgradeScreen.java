@@ -1,6 +1,8 @@
 package dev.willyelton.crystal_tools.gui;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
+import com.mojang.math.Matrix4f;
 import dev.willyelton.crystal_tools.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.network.ToolAttributePacket;
@@ -10,6 +12,7 @@ import dev.willyelton.crystal_tools.tool.skills.SkillDataNode;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -70,10 +73,13 @@ public class UpgradeScreen extends Screen {
 
     @Override
     public void render(PoseStack poseStack, int mouseX, int mouseY, float particleTicks) {
-        this.renderBackground(poseStack);
-        drawString(poseStack, font, "Skill Points: " + (int) NBTUtils.getFloatOrAddKey(tool, "skill_points"), 5, 5, 16777215);
+//        this.renderBackground(poseStack);
+//        drawString(poseStack, font, "Skill Points: " + (int) NBTUtils.getFloatOrAddKey(tool, "skill_points"), 5, 5, 16777215);
+//        fill(poseStack, 0, 0, 100, 100, -16777216);
+        vLine(poseStack, 40, 10, 1000, -16777216);
 
-        super.render(poseStack, mouseX, mouseY, particleTicks);
+//        super.render(poseStack, mouseX, mouseY, particleTicks);
+        drawLine(poseStack, 100, 100, 300, 300, -16777216, mouseX, mouseY);
     }
 
     @Override
@@ -141,6 +147,50 @@ public class UpgradeScreen extends Screen {
             skillButton.xOffset = this.xOffset;
             skillButton.yOffset = this.yOffset;
         }
+
         return false;
+    }
+
+    private static void drawLine(PoseStack poseStack, int minX, int minY, int maxX, int maxY, int color, int mouseX, int mouseY) {
+        Matrix4f pMatrix = poseStack.last().pose();
+
+//        if (minX < maxX) {
+//            int i = minX;
+//            minX = maxX;
+//            maxX = i;
+//        }
+//
+//        if (minY < maxY) {
+//            int j = minY;
+//            minY = maxY;
+//            maxY = j;
+//        }
+
+        float alpha = (float)(color >> 24 & 255) / 255.0F;
+        float red = (float)(color >> 16 & 255) / 255.0F;
+        float green = (float)(color >> 8 & 255) / 255.0F;
+        float blue = (float)(color & 255) / 255.0F;
+
+        BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
+        RenderSystem.enableBlend();
+        RenderSystem.disableTexture();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+        bufferbuilder.vertex(pMatrix, (float)maxX, (float)maxY, 0.0F).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.vertex(pMatrix, (float)minX, (float)minY, 0.0F).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.vertex(pMatrix, (float)minX - 1, (float)minY + 1, 0.0F).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.vertex(pMatrix, (float)maxX - 1, (float)maxY + 1, 0.0F).color(red, green, blue, alpha).endVertex();
+
+        bufferbuilder.end();
+        BufferUploader.end(bufferbuilder);
+        RenderSystem.enableTexture();
+        RenderSystem.disableBlend();
+    }
+
+    @Override
+    public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
+        System.out.printf("(%f, %f)\n", pMouseX, pMouseY);
+        return super.mouseClicked(pMouseX, pMouseY, pButton);
     }
 }
