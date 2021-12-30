@@ -210,12 +210,6 @@ public class UpgradeScreen extends Screen {
         RenderSystem.disableBlend();
     }
 
-    @Override
-    public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
-        System.out.printf("(%f, %f)\n", pMouseX, pMouseY);
-        return super.mouseClicked(pMouseX, pMouseY, pButton);
-    }
-
     private int[] getButtonBottomCenter(SkillButton button) {
         int x = button.x + button.xOffset + button.getWidth() / 2;
         int y = button.y + button.yOffset + button.getHeight();

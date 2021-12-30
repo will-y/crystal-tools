@@ -117,12 +117,6 @@ public class LevelableTool extends Item {
         }
     }
 
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand interactionHand) {
-        System.out.println(player.getMainHandItem().getTag());
-        return super.use(level, player, interactionHand);
-    }
-
     // Just don't ever add the enchantment effect
     @Override
     public boolean isFoil(ItemStack itemStack) {
