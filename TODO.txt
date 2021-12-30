@@ -1,7 +1,5 @@
 -------------------- 0.1 --------------------
-- Ore Generation
 - Crafting Recipes
-- Crystal Block
 
 -------------------- 1.0 --------------------
 - Add Other Tools
