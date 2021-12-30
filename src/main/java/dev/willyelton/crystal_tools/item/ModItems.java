@@ -13,6 +13,7 @@ public class ModItems {
 
     // Items
     public static final RegistryObject<Item> CRYSTAL = ITEMS.register("crystal", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> NETHERITE_STICK = ITEMS.register("netherite_stick", () -> new Item(new Item.Properties().fireResistant()));
 
     public static void initItems() {
         ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
