@@ -107,8 +107,8 @@ public class UpgradeScreen extends Screen {
             int skillPoints = (int) NBTUtils.getFloatOrAddKey(tool, "skill_points");
 
             if (skillPoints > 0) {
-                NBTUtils.addValueToTag(tool, "skill_points", 1);
-                PacketHandler.sendToServer(new ToolAttributePacket("skill_points", 1, -1));
+                NBTUtils.addValueToTag(tool, "skill_points", -1);
+                PacketHandler.sendToServer(new ToolAttributePacket("skill_points", -1, -1));
                 PacketHandler.sendToServer(new ToolAttributePacket(node.getKey(), node.getValue(), node.getId()));
                 node.addPoint();
                 if (node.isComplete()) {
