@@ -2,6 +2,7 @@
   "item.crystal_tools.crystal": "Crystal",
   "item.crystal_tools.crystal_pickaxe": "Crystal Pickaxe",
   "block.crystal_tools.crystal_ore": "Crystal Ore",
+  "block.crystal_tools.crystal_deepslate_ore": "Deepslate Crystal Ore",
   "key.crystal_tools.upgrade_menu": "Open Upgrade Menu",
   "key.crystal_tools.category": "Crystal Tools"
 }

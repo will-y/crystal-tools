@@ -1,6 +1,7 @@
 {
     "replace": false,
     "values": [
-        "crystal_tools:crystal_ore"
+        "crystal_tools:crystal_ore",
+        "crystal_tools:crystal_deepslate_ore"
     ]
 }
