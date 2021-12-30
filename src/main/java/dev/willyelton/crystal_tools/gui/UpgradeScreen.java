@@ -48,7 +48,6 @@ public class UpgradeScreen extends Screen {
         toolData = SkillData.fromResourceLocation(new ResourceLocation("crystal_tools", "skill_trees/pickaxe.json"), points);
     }
 
-    // FOR SOME REASON NEED TO ADD COMPONENTS HERE????
     protected void init() {
         List<List<SkillDataNode>> tiers = toolData.getAllNodesByTier();
 

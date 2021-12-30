@@ -141,8 +141,6 @@ public class LevelableTool extends Item {
         }
     }
 
-    // TODO: Override all of the Item methods that use maxDamage :(
-
     // Changing these two to what they should be @minecraft
     public int getBarWidth(ItemStack itemStack) {
         return Math.round(13.0F - (float) itemStack.getDamageValue() * 13.0F / (float) itemStack.getMaxDamage());
