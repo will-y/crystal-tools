@@ -1,6 +1,7 @@
 -------------------- 0.1 --------------------
 - Ore Generation
 - Crafting Recipes
+- Crystal Block
 
 -------------------- 1.0 --------------------
 - Add Other Tools
@@ -46,3 +47,8 @@
         - Speed
         - Jump
         - Add vanilla enchantments
+
+----------- At Some Point ------------------
+- Dependency Lines
+- Fix Lines
+- Textures
