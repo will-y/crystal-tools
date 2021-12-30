@@ -13,9 +13,9 @@ public class SkillDataNode {
     private int points;
     private final List<SkillDataRequirement> requirements;
     private final String key;
-    private final int value;
+    private final float value;
 
-    public SkillDataNode(int id, String name, String description, String type, int points, String key, int value, List<SkillDataRequirement> requirements) {
+    public SkillDataNode(int id, String name, String description, String type, int points, String key, float value, List<SkillDataRequirement> requirements) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -58,7 +58,7 @@ public class SkillDataNode {
         return this.key;
     }
 
-    public int getValue() {
+    public float getValue() {
         return this.value;
     }
 

@@ -47,7 +47,7 @@ public class SkillDataDeserializer implements JsonDeserializer<SkillData> {
                         nodeObject.get("type").getAsString(),
                         0,
                         nodeObject.get("key").getAsString(),
-                        nodeObject.get("value").getAsInt(),
+                        nodeObject.get("value").getAsFloat(),
                         requirementsList));
             }));
 
