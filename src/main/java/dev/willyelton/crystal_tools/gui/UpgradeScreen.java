@@ -172,8 +172,10 @@ public class UpgradeScreen extends Screen {
         this.yOffset += dragY;
 
         for (SkillButton skillButton : this.skillButtons.values()) {
-            skillButton.xOffset = this.xOffset;
-            skillButton.yOffset = this.yOffset;
+//            skillButton.xOffset = this.xOffset;
+//            skillButton.yOffset = this.yOffset;
+            skillButton.x += dragX;
+            skillButton.y += dragY;
         }
 
         return false;
