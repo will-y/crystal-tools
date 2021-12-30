@@ -1,5 +1,7 @@
-package dev.willyelton.crystal_tools.tool.skills;
+package dev.willyelton.crystal_tools.tool.skill.requirement;
 
+import dev.willyelton.crystal_tools.tool.skill.SkillData;
+import dev.willyelton.crystal_tools.tool.skill.SkillDataNode;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
 
 import java.util.List;
@@ -28,5 +30,15 @@ public class NodeSkillDataRequirement extends SkillDataRequirement {
             }
         }
         return true;
+    }
+
+    @Override
+    public int[] getRequiredNodes() {
+        return requiredNodes;
+    }
+
+    @Override
+    public RequirementType getRequirementType() {
+        return inverse ? RequirementType.NODE_NOT : RequirementType.NODE_AND;
     }
 }

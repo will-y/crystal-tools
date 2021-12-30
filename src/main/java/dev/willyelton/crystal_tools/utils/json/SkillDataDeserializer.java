@@ -1,7 +1,10 @@
 package dev.willyelton.crystal_tools.utils.json;
 
 import com.google.gson.*;
-import dev.willyelton.crystal_tools.tool.skills.*;
+import dev.willyelton.crystal_tools.tool.skill.*;
+import dev.willyelton.crystal_tools.tool.skill.requirement.NodeOrSkillDataRequirement;
+import dev.willyelton.crystal_tools.tool.skill.requirement.NodeSkillDataRequirement;
+import dev.willyelton.crystal_tools.tool.skill.requirement.SkillDataRequirement;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

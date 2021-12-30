@@ -7,8 +7,11 @@ import dev.willyelton.crystal_tools.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.network.ToolAttributePacket;
 import dev.willyelton.crystal_tools.network.ToolHealPacket;
-import dev.willyelton.crystal_tools.tool.skills.SkillData;
-import dev.willyelton.crystal_tools.tool.skills.SkillDataNode;
+import dev.willyelton.crystal_tools.tool.skill.SkillData;
+import dev.willyelton.crystal_tools.tool.skill.SkillDataNode;
+import dev.willyelton.crystal_tools.tool.skill.requirement.RequirementType;
+import dev.willyelton.crystal_tools.tool.skill.requirement.SkillDataRequirement;
+import dev.willyelton.crystal_tools.utils.Colors;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -18,14 +21,14 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 // TODO: Scrolling?
 public class UpgradeScreen extends Screen {
     private final ItemStack tool;
     private final SkillData toolData;
-    private final List<SkillButton> skillButtons = new ArrayList<>();
+    private final HashMap<Integer, SkillButton> skillButtons = new HashMap<>();
     private Button healButton;
 
     private static final int Y_PADDING = 20;
@@ -73,13 +76,14 @@ public class UpgradeScreen extends Screen {
 
     @Override
     public void render(PoseStack poseStack, int mouseX, int mouseY, float particleTicks) {
-//        this.renderBackground(poseStack);
-//        drawString(poseStack, font, "Skill Points: " + (int) NBTUtils.getFloatOrAddKey(tool, "skill_points"), 5, 5, 16777215);
-//        fill(poseStack, 0, 0, 100, 100, -16777216);
-        vLine(poseStack, 40, 10, 1000, -16777216);
+        this.renderBackground(poseStack);
+        drawString(poseStack, font, "Skill Points: " + (int) NBTUtils.getFloatOrAddKey(tool, "skill_points"), 5, 5, Colors.TEXT_LIGHT);
+//        fill(poseStack, 0, 0, 100, 100, Colors.fromRGB(0, 0, 255));
+//        vLine(poseStack, 40, 10, 1000, -16777216);
 
-//        super.render(poseStack, mouseX, mouseY, particleTicks);
-        drawLine(poseStack, 100, 100, 300, 300, -16777216, mouseX, mouseY);
+        super.render(poseStack, mouseX, mouseY, particleTicks);
+//        drawDependencyLines(poseStack);
+//        drawLine(poseStack, 100, 100, 300, 300, -16777216);
     }
 
     @Override
@@ -120,13 +124,13 @@ public class UpgradeScreen extends Screen {
     }
 
     private void addSkillButton(SkillButton button) {
-        this.skillButtons.add(button);
+        this.skillButtons.put(button.getDataNode().getId(), button);
         this.addRenderableWidget(button);
     }
 
     private void updateButtons() {
         int skillPoints = (int) NBTUtils.getFloatOrAddKey(tool, "skill_points");
-        for (SkillButton button : this.skillButtons) {
+        for (SkillButton button : this.skillButtons.values()) {
             SkillDataNode node = button.getDataNode();
             button.active = !button.isComplete && node.canLevel(toolData) && skillPoints > 0;
             if (node.isComplete()) {
@@ -137,13 +141,38 @@ public class UpgradeScreen extends Screen {
         this.healButton.active = skillPoints > 0;
     }
 
+    private void drawDependencyLines(PoseStack poseStack) {
+        for (SkillButton button : skillButtons.values()) {
+            SkillDataNode node = button.getDataNode();
+            for (SkillDataRequirement requirement : node.getRequirements()) {
+                RequirementType type = requirement.getRequirementType();
+                int[] nodes = requirement.getRequiredNodes();
+
+                for (int i = 0; i < nodes.length; i++) {
+                    int color = Colors.BLACK;
+                    switch (type) {
+                        case NODE_OR -> {
+                        }
+                        case NODE_AND -> {
+                        }
+                        case NODE_NOT -> {
+                            // no line for now
+                        }
+                    }
+
+                    drawLine(poseStack, getButtonBottomCenter(this.skillButtons.get(nodes[i])), getButtonTopCenter(button), color);
+                }
+            }
+        }
+    }
+
     // Scrolling
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
         this.xOffset += dragX;
         this.yOffset += dragY;
 
-        for (SkillButton skillButton : this.skillButtons) {
+        for (SkillButton skillButton : this.skillButtons.values()) {
             skillButton.xOffset = this.xOffset;
             skillButton.yOffset = this.yOffset;
         }
@@ -151,20 +180,12 @@ public class UpgradeScreen extends Screen {
         return false;
     }
 
-    private static void drawLine(PoseStack poseStack, int minX, int minY, int maxX, int maxY, int color, int mouseX, int mouseY) {
-        Matrix4f pMatrix = poseStack.last().pose();
+    private static void drawLine(PoseStack poseStack, int[] point1, int[] point2, int color) {
+        drawLine(poseStack, point1[0], point1[1], point2[0], point2[1], color);
+    }
 
-//        if (minX < maxX) {
-//            int i = minX;
-//            minX = maxX;
-//            maxX = i;
-//        }
-//
-//        if (minY < maxY) {
-//            int j = minY;
-//            minY = maxY;
-//            maxY = j;
-//        }
+    private static void drawLine(PoseStack poseStack, int minX, int minY, int maxX, int maxY, int color) {
+        Matrix4f pMatrix = poseStack.last().pose();
 
         float alpha = (float)(color >> 24 & 255) / 255.0F;
         float red = (float)(color >> 16 & 255) / 255.0F;
@@ -192,5 +213,19 @@ public class UpgradeScreen extends Screen {
     public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
         System.out.printf("(%f, %f)\n", pMouseX, pMouseY);
         return super.mouseClicked(pMouseX, pMouseY, pButton);
+    }
+
+    private int[] getButtonBottomCenter(SkillButton button) {
+        int x = button.x + button.xOffset + button.getWidth() / 2;
+        int y = button.y + button.yOffset + button.getHeight();
+
+        return new int[] {x, y};
+    }
+
+    private int[] getButtonTopCenter(SkillButton button) {
+        int x = button.x + button.xOffset + button.getWidth() / 2;
+        int y = button.y + button.yOffset;
+
+        return new int[] {x, y};
     }
 }

@@ -2,7 +2,7 @@ package dev.willyelton.crystal_tools;
 
 import dev.willyelton.crystal_tools.block.ModBlocks;
 import dev.willyelton.crystal_tools.item.ModItems;
-import dev.willyelton.crystal_tools.keybindings.KeyBindings;
+import dev.willyelton.crystal_tools.keybinding.KeyBindings;
 import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.tool.ModTools;
 import net.minecraft.world.level.block.Block;

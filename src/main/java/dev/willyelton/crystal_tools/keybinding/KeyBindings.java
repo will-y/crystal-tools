@@ -1,4 +1,4 @@
-package dev.willyelton.crystal_tools.keybindings;
+package dev.willyelton.crystal_tools.keybinding;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import net.minecraft.client.KeyMapping;
