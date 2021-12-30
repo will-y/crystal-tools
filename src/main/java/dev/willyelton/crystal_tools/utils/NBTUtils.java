@@ -2,6 +2,10 @@ package dev.willyelton.crystal_tools.utils;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+
+import java.util.Map;
 
 public class NBTUtils {
 
@@ -86,6 +90,13 @@ public class NBTUtils {
         } else {
             return defaultValue;
         }
+    }
+
+    // TODO change this to only remove specific enchantments, or look on how to change level (look at anvil code)
+    public static void removeEnchantments(ItemStack itemStack) {
+        CompoundTag tag = getTag(itemStack);
+
+        tag.remove("Enchantments");
     }
 
 }
