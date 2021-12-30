@@ -20,22 +20,37 @@ import net.minecraftforge.event.world.BiomeLoadingEvent;
 // https://wiki.mcjty.eu/modding/index.php?title=Tutorial_1.18_Episode_5#Ore_Generation
 
 public class ModOres {
-    private static final int VEIN_SIZE = 4;
-    private static final int AMOUNT_PER_CHUNK = 2;
+    private static final int VEIN_SIZE = 5;
+    private static final int AMOUNT_PER_CHUNK = 1;
     private static final int MAX_HEIGHT = 10;
     private static final int MIN_HEIGHT = 0;
 
-    public static PlacedFeature OVERWORLD_OREGEN;
+    private static final int DEEPSLATE_AMOUNT_PER_CHUNK = 1;
+    private static final int DEEPSLATE_ABOUT_BOTTOM = 20;
+
+//    public static PlacedFeature OVERWORLD_OREGEN;
+    public static PlacedFeature DEEPSLATE_OREGEN;
 
     public static void registerConfiguredFeatures() {
-        OreConfiguration overworldConfig = new OreConfiguration(OreFeatures.STONE_ORE_REPLACEABLES,
-                ModBlocks.CRYSTAL_ORE.get().defaultBlockState(), VEIN_SIZE);
+        // Stone Overworld - for now doesn't spawn there
+//        OreConfiguration overworldConfig = new OreConfiguration(OreFeatures.STONE_ORE_REPLACEABLES,
+//                ModBlocks.CRYSTAL_ORE.get().defaultBlockState(), VEIN_SIZE);
+//
+//        OVERWORLD_OREGEN = registerPlacedFeature("overworld_crystal_ore", Feature.ORE.configured(overworldConfig),
+//                CountPlacement.of(AMOUNT_PER_CHUNK),
+//                InSquarePlacement.spread(),
+//                BiomeFilter.biome(),
+//                HeightRangePlacement.uniform(VerticalAnchor.absolute(MIN_HEIGHT), VerticalAnchor.absolute(MAX_HEIGHT)));
 
-        OVERWORLD_OREGEN = registerPlacedFeature("overworld_crystal_ore", Feature.ORE.configured(overworldConfig),
-                CountPlacement.of(AMOUNT_PER_CHUNK),
+        // Deepslate Overworld
+        OreConfiguration deepslateConfig = new OreConfiguration(OreFeatures.DEEPSLATE_ORE_REPLACEABLES,
+                ModBlocks.CRYSTAL_DEEPSLATE_ORE.get().defaultBlockState(), VEIN_SIZE);
+
+        DEEPSLATE_OREGEN = registerPlacedFeature("crystal_deepslate_ore", Feature.ORE.configured(deepslateConfig),
+                CountPlacement.of(DEEPSLATE_AMOUNT_PER_CHUNK),
                 InSquarePlacement.spread(),
                 BiomeFilter.biome(),
-                HeightRangePlacement.uniform(VerticalAnchor.absolute(MIN_HEIGHT), VerticalAnchor.absolute(MAX_HEIGHT)));
+                HeightRangePlacement.uniform(VerticalAnchor.bottom(), VerticalAnchor.aboveBottom(DEEPSLATE_ABOUT_BOTTOM)));
     }
 
     private static <C extends FeatureConfiguration, F extends Feature<C>> PlacedFeature registerPlacedFeature(String registryName,
@@ -48,7 +63,8 @@ public class ModOres {
     public static void onBiomeLoadingEvent(BiomeLoadingEvent event) {
         // for now only overworld generation
         if (event.getCategory() != Biome.BiomeCategory.NETHER && event.getCategory() != Biome.BiomeCategory.THEEND) {
-            event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, OVERWORLD_OREGEN);
+//            event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, OVERWORLD_OREGEN);
+            event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, DEEPSLATE_OREGEN);
         }
     }
 }
