@@ -159,8 +159,7 @@ public class LevelableTool extends Item {
     @Override
     public int getMaxDamage(ItemStack itemStack) {
         int bonusDurability = (int) NBTUtils.getFloatOrAddKey(itemStack, "durability_bonus");
-        return 10;
-//        return tier.getUses() + bonusDurability;
+        return tier.getUses() + bonusDurability;
     }
 
     public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<T> onBroken) {
