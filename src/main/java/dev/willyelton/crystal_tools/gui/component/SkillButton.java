@@ -77,4 +77,14 @@ public class SkillButton extends Button {
         return this.dataNode;
     }
 
+    @Override
+    protected boolean clicked(double pMouseX, double pMouseY) {
+        return this.active && this.visible && pMouseX >= (double) (this.x + xOffset) && pMouseY >= (double) (this.y + yOffset) && pMouseX < (double)(this.x + this.width + xOffset) && pMouseY < (double)(this.y + this.height + yOffset);
+    }
+
+    @Override
+    public boolean isMouseOver(double pMouseX, double pMouseY) {
+        return this.active && this.visible && pMouseX >= (double) (this.x + xOffset) && pMouseY >= (double) (this.y + yOffset) && pMouseX < (double)(this.x + this.width + xOffset) && pMouseY < (double)(this.y + this.height + yOffset);
+    }
+
 }
