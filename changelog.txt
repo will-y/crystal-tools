@@ -5,6 +5,7 @@
 ### Fixes
 - Fixed tools only having 10 durability (oops)
 - Fixed skill tree Buttons getting stuck on the top of the screen when dragging
+- Fixed skill descriptions not showing up when you hover over them
 
 ----------------------- 0.0.2 Changes -----------------------
 - Tools can now be repaired at anvil with a crystal item
