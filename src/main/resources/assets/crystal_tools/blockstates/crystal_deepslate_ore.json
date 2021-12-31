@@ -1,5 +1,5 @@
 {
   "variants": {
-    "": { "model": "crystal_tools:block/crystal_ore" }
+    "": { "model": "crystal_tools:block/crystal_deepslate_ore" }
   }
 } 
