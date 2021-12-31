@@ -1,12 +1,10 @@
 -------------------- 0.1.0 --------------------
-
--------------------- 0.2.0 --------------------
 - Add Other Tools
     - Axe
     - Shovel
     - Hoe
 
--------------------- 0. --------------------
+-------------------- 0.2.0 --------------------
 - Create Attributes
     - General
         - Better Auto Repair
@@ -51,5 +49,4 @@
 - Textures
 - Config Options
 - Fix enchantment hack for fortune
-- Tools don't break
-- Tools can be repaired by crystals at anvil
+- Broken tooltip
