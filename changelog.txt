@@ -1,2 +1,3 @@
 ----------------------- 0.0.2 Changes -----------------------
 - Tools can now be repaired at anvil with a crystal item
+- Tools no longer break

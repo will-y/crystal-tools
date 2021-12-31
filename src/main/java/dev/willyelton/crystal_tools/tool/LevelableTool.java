@@ -24,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.function.Consumer;
 
 // For now just focus on things that mine (not sword)
 public class LevelableTool extends Item {
@@ -50,7 +51,6 @@ public class LevelableTool extends Item {
 
     @Override
     public boolean isValidRepairItem(@NotNull ItemStack tool, @NotNull ItemStack repairItem) {
-        // TODO: make this only a crystal item
         return repairItem.is(ModItems.CRYSTAL.get());
     }
 
@@ -58,6 +58,11 @@ public class LevelableTool extends Item {
     @Override
     public float getDestroySpeed(ItemStack tool, BlockState blockState) {
         float bonus = NBTUtils.getFloatOrAddKey(tool, "speed_bonus");
+        int durability = this.getMaxDamage(tool) - (int) NBTUtils.getFloatOrAddKey(tool, "Damage");
+        if (durability <= 1) {
+            // broken
+            return 0.1F;
+        }
         return (this.blocks.contains(blockState.getBlock()) ? tier.getSpeed() : 1.0F) + bonus;
     }
 
@@ -151,7 +156,17 @@ public class LevelableTool extends Item {
     @Override
     public int getMaxDamage(ItemStack itemStack) {
         int bonusDurability = (int) NBTUtils.getFloatOrAddKey(itemStack, "durability_bonus");
+        return 10;
+//        return tier.getUses() + bonusDurability;
+    }
 
-        return tier.getUses() + bonusDurability;
+    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<T> onBroken) {
+        int durability = this.getMaxDamage(stack) - (int) NBTUtils.getFloatOrAddKey(stack, "Damage");
+
+        if (durability - amount <= 0) {
+            return 0;
+        } else {
+            return amount;
+        }
     }
 }
