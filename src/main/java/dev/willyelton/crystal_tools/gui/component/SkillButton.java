@@ -54,6 +54,10 @@ public class SkillButton extends Button {
         // might need to change based off of how text looks on colors I pick
         int j = getFGColor();
         drawCenteredString(poseStack, font, this.getMessage(), this.x + this.width / 2 + this.xOffset, this.y + (this.height - 8) / 2 + this.yOffset, j | Mth.ceil(this.alpha * 255.0F) << 24);
+
+        if (this.isHoveredOrFocused()) {
+            this.renderToolTip(poseStack, mouseX, mouseY);
+        }
     }
 
     public int getTextureY(boolean hovered) {

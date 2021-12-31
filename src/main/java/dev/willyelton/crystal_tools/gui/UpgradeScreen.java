@@ -7,6 +7,7 @@ import dev.willyelton.crystal_tools.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.network.ToolAttributePacket;
 import dev.willyelton.crystal_tools.network.ToolHealPacket;
+import dev.willyelton.crystal_tools.tool.LevelableTool;
 import dev.willyelton.crystal_tools.tool.skill.SkillData;
 import dev.willyelton.crystal_tools.tool.skill.SkillDataNode;
 import dev.willyelton.crystal_tools.tool.skill.requirement.RequirementType;
@@ -20,11 +21,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import org.lwjgl.system.CallbackI;
 
 import java.util.HashMap;
 import java.util.List;
 
-// TODO: Scrolling?
 public class UpgradeScreen extends Screen {
     private final ItemStack tool;
     private final SkillData toolData;
@@ -45,7 +46,13 @@ public class UpgradeScreen extends Screen {
         int[] points = NBTUtils.getIntArray(tool, "points");
 
         // TODO get the type from the item and the int[] from nbt of item
-        toolData = SkillData.fromResourceLocation(new ResourceLocation("crystal_tools", "skill_trees/pickaxe.json"), points);
+        if (tool.getItem() instanceof LevelableTool) {
+            String toolType = ((LevelableTool) tool.getItem()).getToolType();
+            toolData = SkillData.fromResourceLocation(new ResourceLocation("crystal_tools", String.format("skill_trees/%s.json", toolType)), points);
+        } else {
+            toolData = null;
+        }
+
     }
 
     protected void init() {
@@ -117,6 +124,7 @@ public class UpgradeScreen extends Screen {
                 this.updateButtons();
             }
         }, (button, poseStack, mouseX, mouseY) -> {
+            System.out.println("This is being called");
             Component text = new TextComponent(node.getDescription());
             UpgradeScreen.this.renderTooltip(poseStack, UpgradeScreen.this.minecraft.font.split(text, Math.max(UpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
         }, this.toolData, node));
