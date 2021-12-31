@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.tool;
 
+import dev.willyelton.crystal_tools.item.ModItems;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -50,7 +51,7 @@ public class LevelableTool extends Item {
     @Override
     public boolean isValidRepairItem(@NotNull ItemStack tool, @NotNull ItemStack repairItem) {
         // TODO: make this only a crystal item
-        return tier.getRepairIngredient().test(repairItem);
+        return repairItem.is(ModItems.CRYSTAL.get());
     }
 
     // From DiggerItem.java

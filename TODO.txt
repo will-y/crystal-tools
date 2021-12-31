@@ -6,7 +6,7 @@
     - Shovel
     - Hoe
 
---------------------  --------------------
+-------------------- 0. --------------------
 - Create Attributes
     - General
         - Better Auto Repair
@@ -51,3 +51,5 @@
 - Textures
 - Config Options
 - Fix enchantment hack for fortune
+- Tools don't break
+- Tools can be repaired by crystals at anvil
