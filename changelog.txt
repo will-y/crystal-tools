@@ -1,6 +1,8 @@
 ----------------------- 0.1.0 Changes -----------------------
 ### Additions
 - Added the crystal axe
+- Added the crystal hoe
+- Added the crystal shovel
 
 ### Fixes
 - Fixed tools only having 10 durability (oops)

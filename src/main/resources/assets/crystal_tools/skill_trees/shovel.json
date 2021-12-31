@@ -1,0 +1,207 @@
+{
+  "tiers": [
+    [
+      {
+        "id": 0,
+        "name": "Mining Speed I",
+        "description": "Increases Shovel's Mining Speed",
+        "type": "normal",
+        "requirements": [],
+        "key": "speed_bonus",
+        "value": 0.25
+      },
+      {
+        "id": 1,
+        "name": "Durability I",
+        "description": "Increases Shovel's Durability",
+        "type": "normal",
+        "requirements": [],
+        "key": "durability_bonus",
+        "value": 200
+      }
+    ],
+    [
+      {
+        "id": 2,
+        "name": "Mining Speed II",
+        "description": "Increases Shovel's Mining Speed",
+        "type": "normal",
+        "requirements": [
+          {"node":  0}
+        ],
+        "key": "speed_bonus",
+        "value": 0.25
+      },
+      {
+        "id": 3,
+        "name": "Durability II",
+        "description": "Increases Shovel's Durability",
+        "type": "normal",
+        "requirements": [
+          {"node":  1}
+        ],
+        "key": "durability_bonus",
+        "value": 200
+      }
+    ],
+    [
+      {
+        "id": 4,
+        "name": "Mining Speed III",
+        "description": "Increases Shovel's Mining Speed",
+        "type": "normal",
+        "requirements": [
+          {"node":  2}
+        ],
+        "key": "speed_bonus",
+        "value": 0.25
+      },
+      {
+        "id": 5,
+        "name": "Durability III",
+        "description": "Increases Shovel's Durability",
+        "type": "normal",
+        "requirements": [
+          {"node":  3}
+        ],
+        "key": "durability_bonus",
+        "value": 200
+      }
+    ],
+    [
+      {
+        "id": 6,
+        "name": "Silk Touch",
+        "description": "Gives Silk Touch To The Shovel",
+        "type": "normal",
+        "requirements": [
+          {"not_node":  7},
+          {"node": [4, 5]}
+        ],
+        "key": "silk_touch_bonus",
+        "value": 1
+      },
+      {
+        "id": 7,
+        "name": "Fortune I",
+        "description": "Gives Fortune I To The Shovel",
+        "type": "normal",
+        "requirements": [
+          {"not_node":  6},
+          {"node":  [4, 5]}
+        ],
+        "key": "fortune_bonus",
+        "value": 1
+      },
+      {
+        "id": 8,
+        "name": "Fortune II",
+        "description": "Gives Fortune II To The Shovel",
+        "type": "normal",
+        "requirements": [
+          {"not_node":  6},
+          {"node":  7}
+        ],
+        "key": "fortune_bonus",
+        "value": 2
+      },
+      {
+        "id": 9,
+        "name": "Fortune III",
+        "description": "Gives Fortune III To The Shovel",
+        "type": "normal",
+        "requirements": [
+          {"not_node":  6},
+          {"node":  8}
+        ],
+        "key": "fortune_bonus",
+        "value": 3
+      }
+    ],
+    [
+      {
+        "id": 10,
+        "name": "Mining Speed IV",
+        "description": "Increases Shovel's Mining Speed",
+        "type": "normal",
+        "requirements": [
+          {"or_node":  [6, 7]}
+        ],
+        "key": "speed_bonus",
+        "value": 0.25
+      },
+      {
+        "id": 11,
+        "name": "Durability IV",
+        "description": "Increases Shovel's Durability",
+        "type": "normal",
+        "requirements": [
+          {"or_node":  [6, 7]}
+        ],
+        "key": "durability_bonus",
+        "value": 200
+      }
+    ],
+    [
+      {
+        "id": 12,
+        "name": "Mining Speed V",
+        "description": "Increases Shovel's Mining Speed",
+        "type": "normal",
+        "requirements": [
+          {"node": 10}
+        ],
+        "key": "speed_bonus",
+        "value": 0.25
+      },
+      {
+        "id": 13,
+        "name": "Durability V",
+        "description": "Increases Shovel's Durability",
+        "type": "normal",
+        "requirements": [
+          {"node": 11}
+        ],
+        "key": "durability_bonus",
+        "value": 200
+      }
+    ],
+    [
+      {
+        "id": 14,
+        "name": "Auto Repair",
+        "description": "Automatically Repairs Your Tool Over Time!",
+        "type": "normal",
+        "requirements": [
+          {"node": [12, 13]}
+        ],
+        "key": "auto_repair",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id":  15,
+        "name": "Infinite Speed",
+        "description": "Add As Many Points To Speed Here As You Want",
+        "type": "infinite",
+        "requirements": [
+          {"node":  14}
+        ],
+        "key": "speed_bonus",
+        "value": 0.1
+      },
+      {
+        "id": 16,
+        "name": "Infinite Durability",
+        "description": "Add As Many Points To Durability Here As You Want",
+        "type": "infinite",
+        "requirements": [
+          {"node":  14}
+        ],
+        "key": "durability_bonus",
+        "value": 50
+      }
+    ]
+  ]
+}

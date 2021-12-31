@@ -46,7 +46,7 @@
 ----------- At Some Point ------------------
 - Dependency Lines
 - Fix Lines
-- Textures
 - Config Options
 - Fix enchantment hack for fortune
 - Broken tooltip
+- Hoe Levels Up From Hoeing
