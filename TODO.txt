@@ -1,15 +1,9 @@
 -------------------- 0.1.0 --------------------
 
 -------------------- 0.2.0 --------------------
-- Add Other Tools
-    - Axe
-    - Shovel
-    - Hoe
-
--------------------- 0. --------------------
 - Create Attributes
     - General
-        - Better Auto Repair
+        - Better Auto Repair (in hand repair)
         - Smelt (Maybe enable smelting and fortune)
         - Multi Type Switcher (Scroll between silk, fortune, ...)
         - Torch Placer
@@ -48,8 +42,7 @@
 ----------- At Some Point ------------------
 - Dependency Lines
 - Fix Lines
-- Textures
 - Config Options
 - Fix enchantment hack for fortune
-- Tools don't break
-- Tools can be repaired by crystals at anvil
+- Broken tooltip
+- Hoe Levels Up From Hoeing

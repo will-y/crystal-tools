@@ -26,6 +26,14 @@ public class SkillButton extends Button {
     }
 
     @Override
+    public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
+        if (this.visible) {
+            this.isHovered = pMouseX >= this.x + xOffset && pMouseY >= this.y + yOffset && pMouseX < this.x + xOffset + this.width && pMouseY < this.y + yOffset + this.height;
+            this.renderButton(pPoseStack, pMouseX, pMouseY, pPartialTick);
+        }
+    }
+
+    @Override
     public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
         Minecraft minecraft = Minecraft.getInstance();
         Font font = minecraft.font;
@@ -46,6 +54,10 @@ public class SkillButton extends Button {
         // might need to change based off of how text looks on colors I pick
         int j = getFGColor();
         drawCenteredString(poseStack, font, this.getMessage(), this.x + this.width / 2 + this.xOffset, this.y + (this.height - 8) / 2 + this.yOffset, j | Mth.ceil(this.alpha * 255.0F) << 24);
+
+        if (this.isHoveredOrFocused()) {
+            this.renderToolTip(poseStack, mouseX, mouseY);
+        }
     }
 
     public int getTextureY(boolean hovered) {
@@ -67,6 +79,16 @@ public class SkillButton extends Button {
 
     public SkillDataNode getDataNode() {
         return this.dataNode;
+    }
+
+    @Override
+    protected boolean clicked(double pMouseX, double pMouseY) {
+        return this.active && this.visible && pMouseX >= (double) (this.x + xOffset) && pMouseY >= (double) (this.y + yOffset) && pMouseX < (double)(this.x + this.width + xOffset) && pMouseY < (double)(this.y + this.height + yOffset);
+    }
+
+    @Override
+    public boolean isMouseOver(double pMouseX, double pMouseY) {
+        return this.active && this.visible && pMouseX >= (double) (this.x + xOffset) && pMouseY >= (double) (this.y + yOffset) && pMouseX < (double)(this.x + this.width + xOffset) && pMouseY < (double)(this.y + this.height + yOffset);
     }
 
 }

@@ -38,9 +38,12 @@ public class LevelableTool extends Item {
     // Blocks that can be mined
     private Tag<Block> blocks;
 
-    public LevelableTool(Properties properties, Tag<Block> mineableBlocks) {
+    private String toolType;
+
+    public LevelableTool(Properties properties, Tag<Block> mineableBlocks, String toolType) {
         super(properties.defaultDurability(tier.getUses()));
         this.blocks = mineableBlocks;
+        this.toolType = toolType;
     }
 
     // From TierdItem.java
@@ -156,8 +159,7 @@ public class LevelableTool extends Item {
     @Override
     public int getMaxDamage(ItemStack itemStack) {
         int bonusDurability = (int) NBTUtils.getFloatOrAddKey(itemStack, "durability_bonus");
-        return 10;
-//        return tier.getUses() + bonusDurability;
+        return tier.getUses() + bonusDurability;
     }
 
     public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<T> onBroken) {
@@ -168,5 +170,9 @@ public class LevelableTool extends Item {
         } else {
             return amount;
         }
+    }
+
+    public String getToolType() {
+        return toolType;
     }
 }
