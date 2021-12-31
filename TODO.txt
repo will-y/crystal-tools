@@ -1,13 +1,9 @@
 -------------------- 0.1.0 --------------------
-- Add Other Tools
-    - Axe
-    - Shovel
-    - Hoe
 
 -------------------- 0.2.0 --------------------
 - Create Attributes
     - General
-        - Better Auto Repair
+        - Better Auto Repair (in hand repair)
         - Smelt (Maybe enable smelting and fortune)
         - Multi Type Switcher (Scroll between silk, fortune, ...)
         - Torch Placer

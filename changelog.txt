@@ -2,6 +2,7 @@
 ### Additions
 - Added the crystal axe
 - Added the crystal hoe
+    - Currently doesn't level up from tilling dirt, just breaking blocks
 - Added the crystal shovel
 
 ### Fixes
