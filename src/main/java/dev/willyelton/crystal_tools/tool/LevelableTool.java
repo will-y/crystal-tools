@@ -29,12 +29,12 @@ public class LevelableTool extends Item {
     private static final float EXPERIENCE_CAP_MULTIPLIER = 1.25F;
 
     // Just used for default values, just at netherite for now
-    private static Tier tier = Tiers.NETHERITE;
+    private static final Tier tier = Tiers.NETHERITE;
 
     // Blocks that can be mined
     private Tag<Block> blocks;
 
-    private String toolType;
+    private final String toolType;
 
     public LevelableTool(Properties properties, Tag<Block> mineableBlocks, String toolType) {
         super(properties.defaultDurability(tier.getUses()));
@@ -118,6 +118,12 @@ public class LevelableTool extends Item {
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
         int newExperience = (int) NBTUtils.getFloatOrAddKey(itemStack, "experience");
         int experienceCap = (int) NBTUtils.getFloatOrAddKey(itemStack, "experience_cap", BASE_EXPERIENCE_CAP);
+
+        int durability = this.getMaxDamage(itemStack) - (int) NBTUtils.getFloatOrAddKey(itemStack, "Damage");
+
+        if (durability <= 1) {
+            components.add(new TextComponent("\u00A7c\u00A7l" + "Broken"));
+        }
 
         components.add(new TextComponent(String.format("%d/%d XP To Next Level", newExperience, experienceCap)));
         int skillPoints = (int) NBTUtils.getFloatOrAddKey(itemStack, "skill_points");

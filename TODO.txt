@@ -45,3 +45,4 @@
 - Config Options
 - Fix enchantment hack for fortune
 - Broken tooltip
+- Hold shift for upgrades
