@@ -2,10 +2,12 @@
 ### Additions
 - Hoes now get exp when used
 - Shovels now get exp when used to make paths
+- Axes now get exp when striping logs, unwaxing copper ...
 
 ### Fixes
 - Fixed Hoes not being able to hoe
 - Fixed Shovel not being able to make paths
+- Fixed Axe not being able to strip logs
 
 ----------------------- 0.1.0 Changes -----------------------
 ### Additions
