@@ -16,7 +16,7 @@ public class ModTools {
     public static final RegistryObject<Item> CRYSTAL_PICKAXE = TOOLS.register("crystal_pickaxe", () -> new LevelableTool(new Item.Properties().fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB), BlockTags.MINEABLE_WITH_PICKAXE, "pickaxe"));
     public static final RegistryObject<Item> CRYSTAL_AXE = TOOLS.register("crystal_axe", () -> new LevelableTool(new Item.Properties().fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB), BlockTags.MINEABLE_WITH_AXE, "axe"));
     public static final RegistryObject<Item> CRYSTAL_SHOVEL = TOOLS.register("crystal_shovel", () -> new LevelableTool(new Item.Properties().fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB), BlockTags.MINEABLE_WITH_SHOVEL, "shovel"));
-    public static final RegistryObject<Item> CRYSTAL_HOE = TOOLS.register("crystal_hoe", () -> new LevelableTool(new Item.Properties().fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB), BlockTags.MINEABLE_WITH_HOE, "hoe"));
+    public static final RegistryObject<Item> CRYSTAL_HOE = TOOLS.register("crystal_hoe", HoeLevelableTool::new);
 
 
     public static void initTools() {

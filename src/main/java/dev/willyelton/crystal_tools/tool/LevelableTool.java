@@ -86,6 +86,12 @@ public class LevelableTool extends Item {
             });
         }
 
+        addExp(tool, level, blockPos);
+
+        return true;
+    }
+
+    public void addExp(ItemStack tool, Level level, BlockPos blockPos) {
         int newExperience = (int) NBTUtils.addValueToTag(tool, "experience", 1);
         int experienceCap = (int) NBTUtils.getFloatOrAddKey(tool, "experience_cap", BASE_EXPERIENCE_CAP);
 
@@ -106,8 +112,6 @@ public class LevelableTool extends Item {
             NBTUtils.setValue(tool, "experience", 0);
             NBTUtils.setValue(tool, "experience_cap", experienceCap * EXPERIENCE_CAP_MULTIPLIER);
         }
-
-        return true;
     }
 
     @Override
