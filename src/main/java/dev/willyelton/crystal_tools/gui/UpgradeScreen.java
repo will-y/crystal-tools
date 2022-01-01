@@ -124,7 +124,6 @@ public class UpgradeScreen extends Screen {
                 this.updateButtons();
             }
         }, (button, poseStack, mouseX, mouseY) -> {
-            System.out.println("This is being called");
             Component text = new TextComponent(node.getDescription());
             UpgradeScreen.this.renderTooltip(poseStack, UpgradeScreen.this.minecraft.font.split(text, Math.max(UpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
         }, this.toolData, node));
