@@ -1,8 +1,11 @@
 ----------------------- 0.1.1 Changes -----------------------
 ### Additions
+- Hoes now get exp when used
+- Shovels now get exp when used to make paths
 
 ### Fixes
 - Fixed Hoes not being able to hoe
+- Fixed Shovel not being able to make paths
 
 ----------------------- 0.1.0 Changes -----------------------
 ### Additions
