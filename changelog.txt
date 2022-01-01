@@ -1,5 +1,9 @@
 ----------------------- 0.1.1 Changes -----------------------
 ### Additions
+- Added a broken tooltip when a tool is broken
+
+----------------------- 0.1.1 Changes -----------------------
+### Additions
 - Hoes now get exp when used
 - Shovels now get exp when used to make paths
 - Axes now get exp when striping logs, unwaxing copper ...
