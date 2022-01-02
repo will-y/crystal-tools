@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.tool;
 
 import dev.willyelton.crystal_tools.item.ModItems;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -116,6 +117,7 @@ public class LevelableTool extends Item {
     }
 
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
+        Screen.hasShiftDown();
         int newExperience = (int) NBTUtils.getFloatOrAddKey(itemStack, "experience");
         int experienceCap = (int) NBTUtils.getFloatOrAddKey(itemStack, "experience_cap", BASE_EXPERIENCE_CAP);
 

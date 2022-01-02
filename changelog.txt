@@ -1,4 +1,4 @@
------------------------ 0.1.1 Changes -----------------------
+----------------------- 0.1.2 Changes -----------------------
 ### Additions
 - Added a broken tooltip when a tool is broken
 
