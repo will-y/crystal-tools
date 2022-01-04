@@ -3,6 +3,9 @@
 - Added a broken tooltip when a tool is broken
 - Holding `Shift` on a tooltip now shows the skills it has
 
+### Changes
+- Updated to Forge 1.18.1-39.0.10
+
 ----------------------- 0.1.1 Changes -----------------------
 ### Additions
 - Hoes now get exp when used
