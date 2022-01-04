@@ -44,4 +44,3 @@
 - Fix Lines
 - Config Options
 - Fix enchantment hack for fortune
-- Show infinite node progress in shift tooltip and on hover in menu
