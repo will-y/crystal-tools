@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.tool;
 import dev.willyelton.crystal_tools.item.ModItems;
 import dev.willyelton.crystal_tools.tool.skill.SkillData;
 import dev.willyelton.crystal_tools.tool.skill.SkillDataNode;
+import dev.willyelton.crystal_tools.tool.skill.SkillNodeType;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -145,6 +146,8 @@ public class LevelableTool extends Item {
                 if (dataNode.isComplete()) {
                     // TODO: Infinite Nodes
                     components.add(new TextComponent("    " + dataNode.getName()));
+                } else if (dataNode.getType().equals(SkillNodeType.INFINITE) && dataNode.getPoints() > 0) {
+                    components.add(new TextComponent("    " + dataNode.getName() + " (" + dataNode.getPoints() + " points)"));
                 }
             }
         }
