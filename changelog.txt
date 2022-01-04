@@ -2,6 +2,8 @@
 ### Additions
 - Added a broken tooltip when a tool is broken
 - Holding `Shift` on a tooltip now shows the skills it has
+    - Includes the points in infinite skills
+- Infinite skill nodes now show the amount of points put in them
 
 ### Changes
 - Updated to Forge 1.18.1-39.0.10

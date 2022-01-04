@@ -144,7 +144,6 @@ public class LevelableTool extends Item {
             SkillData toolData = SkillData.fromResourceLocation(new ResourceLocation("crystal_tools", String.format("skill_trees/%s.json", toolType)), points);
             for (SkillDataNode dataNode : toolData.getAllNodes()) {
                 if (dataNode.isComplete()) {
-                    // TODO: Infinite Nodes
                     components.add(new TextComponent("    " + dataNode.getName()));
                 } else if (dataNode.getType().equals(SkillNodeType.INFINITE) && dataNode.getPoints() > 0) {
                     components.add(new TextComponent("    " + dataNode.getName() + " (" + dataNode.getPoints() + " points)"));
