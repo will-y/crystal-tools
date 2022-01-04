@@ -1,11 +1,14 @@
 package dev.willyelton.crystal_tools.tool;
 
 import dev.willyelton.crystal_tools.item.ModItems;
+import dev.willyelton.crystal_tools.tool.skill.SkillData;
+import dev.willyelton.crystal_tools.tool.skill.SkillDataNode;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.Tag;
@@ -117,7 +120,6 @@ public class LevelableTool extends Item {
     }
 
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
-        Screen.hasShiftDown();
         int newExperience = (int) NBTUtils.getFloatOrAddKey(itemStack, "experience");
         int experienceCap = (int) NBTUtils.getFloatOrAddKey(itemStack, "experience_cap", BASE_EXPERIENCE_CAP);
 
@@ -131,6 +133,20 @@ public class LevelableTool extends Item {
         int skillPoints = (int) NBTUtils.getFloatOrAddKey(itemStack, "skill_points");
         if (skillPoints > 0) {
             components.add(new TextComponent(String.format("%d Unspent Skill Points", skillPoints)));
+        }
+
+        if (!Screen.hasShiftDown()) {
+            components.add(new TextComponent("<Hold Shift For Skills>"));
+        } else {
+            components.add(new TextComponent("Skills:"));
+            int[] points = NBTUtils.getIntArray(itemStack, "points");
+            SkillData toolData = SkillData.fromResourceLocation(new ResourceLocation("crystal_tools", String.format("skill_trees/%s.json", toolType)), points);
+            for (SkillDataNode dataNode : toolData.getAllNodes()) {
+                if (dataNode.isComplete()) {
+                    // TODO: Infinite Nodes
+                    components.add(new TextComponent("    " + dataNode.getName()));
+                }
+            }
         }
     }
 

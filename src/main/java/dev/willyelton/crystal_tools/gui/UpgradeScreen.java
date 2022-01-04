@@ -44,8 +44,6 @@ public class UpgradeScreen extends Screen {
         tool = itemStack;
 
         int[] points = NBTUtils.getIntArray(tool, "points");
-
-        // TODO get the type from the item and the int[] from nbt of item
         if (tool.getItem() instanceof LevelableTool) {
             String toolType = ((LevelableTool) tool.getItem()).getToolType();
             toolData = SkillData.fromResourceLocation(new ResourceLocation("crystal_tools", String.format("skill_trees/%s.json", toolType)), points);
