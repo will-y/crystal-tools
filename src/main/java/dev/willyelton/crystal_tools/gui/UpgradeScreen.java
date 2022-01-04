@@ -10,6 +10,7 @@ import dev.willyelton.crystal_tools.network.ToolHealPacket;
 import dev.willyelton.crystal_tools.tool.LevelableTool;
 import dev.willyelton.crystal_tools.tool.skill.SkillData;
 import dev.willyelton.crystal_tools.tool.skill.SkillDataNode;
+import dev.willyelton.crystal_tools.tool.skill.SkillNodeType;
 import dev.willyelton.crystal_tools.tool.skill.requirement.RequirementType;
 import dev.willyelton.crystal_tools.tool.skill.requirement.SkillDataRequirement;
 import dev.willyelton.crystal_tools.utils.Colors;
@@ -122,8 +123,15 @@ public class UpgradeScreen extends Screen {
                 this.updateButtons();
             }
         }, (button, poseStack, mouseX, mouseY) -> {
-            Component text = new TextComponent(node.getDescription());
-            UpgradeScreen.this.renderTooltip(poseStack, UpgradeScreen.this.minecraft.font.split(text, Math.max(UpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
+            String text;
+            if (node.getType().equals(SkillNodeType.INFINITE) && node.getPoints() > 0) {
+                text = node.getDescription() + "\n" + node.getPoints() + " Points";
+            } else {
+                text = node.getDescription();
+            }
+
+            Component textComponent = new TextComponent(text);
+            UpgradeScreen.this.renderTooltip(poseStack, UpgradeScreen.this.minecraft.font.split(textComponent, Math.max(UpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
         }, this.toolData, node));
     }
 
