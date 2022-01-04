@@ -44,7 +44,7 @@ public class SkillDataDeserializer implements JsonDeserializer<SkillData> {
                 tierList.add(new SkillDataNode(nodeObject.get("id").getAsInt(),
                         nodeObject.get("name").getAsString(),
                         nodeObject.get("description").getAsString(),
-                        nodeObject.get("type").getAsString(),
+                        SkillNodeType.fromString(nodeObject.get("type").getAsString()),
                         0,
                         nodeObject.get("key").getAsString(),
                         nodeObject.get("value").getAsFloat(),

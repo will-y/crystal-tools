@@ -8,14 +8,13 @@ public class SkillDataNode {
     private final int id;
     private final String name;
     private final String description;
-    // Maybe make this and enum
-    private final String type;
+    private final SkillNodeType type;
     private int points;
     private final List<SkillDataRequirement> requirements;
     private final String key;
     private final float value;
 
-    public SkillDataNode(int id, String name, String description, String type, int points, String key, float value, List<SkillDataRequirement> requirements) {
+    public SkillDataNode(int id, String name, String description, SkillNodeType type, int points, String key, float value, List<SkillDataRequirement> requirements) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -38,7 +37,7 @@ public class SkillDataNode {
         return description;
     }
 
-    public String getType() {
+    public SkillNodeType getType() {
         return type;
     }
 
@@ -85,6 +84,6 @@ public class SkillDataNode {
     }
 
     public boolean isComplete() {
-        return this.points == 1 && this.type.equals("normal");
+        return this.points == 1 && this.type.equals(SkillNodeType.NORMAL);
     }
 }
