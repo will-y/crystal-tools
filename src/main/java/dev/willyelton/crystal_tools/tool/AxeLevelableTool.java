@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.tool;
 
 import dev.willyelton.crystal_tools.item.CreativeTabs;
+import dev.willyelton.crystal_tools.keybinding.KeyBindings;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -9,16 +10,23 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
 public class AxeLevelableTool extends LevelableTool {
+    public static final int MAX_RECURSIVE_DEPTH = 10;
+
+
     public AxeLevelableTool() {
         super(new Item.Properties().fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB), BlockTags.MINEABLE_WITH_AXE, "axe");
     }
@@ -77,5 +85,46 @@ public class AxeLevelableTool extends LevelableTool {
     @Override
     public boolean canPerformAction(ItemStack stack, net.minecraftforge.common.ToolAction toolAction) {
         return net.minecraftforge.common.ToolActions.DEFAULT_AXE_ACTIONS.contains(toolAction);
+    }
+
+    @Override
+    public boolean mineBlock(@NotNull ItemStack tool, Level level, @NotNull BlockState blockState, @NotNull BlockPos blockPos, @NotNull LivingEntity entity) {
+        if (!level.isClientSide && blockState.getDestroySpeed(level, blockPos) != 0.0F) {
+            tool.hurtAndBreak(1, entity, (player) -> {
+                player.broadcastBreakEvent(EquipmentSlot.MAINHAND);
+            });
+        }
+
+        if (KeyBindings.veinMine.isDown() && blockState.is(BlockTags.MINEABLE_WITH_AXE)) {
+            Block minedBlock = blockState.getBlock();
+            recursiveBreakHelper(tool, level, blockPos, entity, minedBlock, 0);
+        }
+
+        addExp(tool, level, blockPos);
+
+        return true;
+    }
+
+    private void recursiveBreakHelper(ItemStack tool, Level level, BlockPos blockPos, LivingEntity entity, Block block, int depth) {
+
+        if (depth > 10) {
+            return;
+        }
+
+        BlockState state = level.getBlockState(blockPos);
+        if (state.is(block)) {
+            level.destroyBlock(blockPos, true, entity);
+            tool.hurtAndBreak(1, entity, (player) -> {
+                player.broadcastBreakEvent(EquipmentSlot.MAINHAND);
+            });
+        } else {
+            return;
+        }
+
+        recursiveBreakHelper(tool, level, blockPos.above(), entity, block, depth + 1);
+        recursiveBreakHelper(tool, level, blockPos.north(), entity, block, depth + 1);
+        recursiveBreakHelper(tool, level, blockPos.south(), entity, block, depth + 1);
+        recursiveBreakHelper(tool, level, blockPos.east(), entity, block, depth + 1);
+        recursiveBreakHelper(tool, level, blockPos.west(), entity, block, depth + 1);
     }
 }
