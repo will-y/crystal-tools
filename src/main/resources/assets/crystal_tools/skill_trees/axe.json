@@ -70,6 +70,17 @@
     ],
     [
       {
+        "id": 19,
+        "name": "Leaf Miner",
+        "description": "Axe now efficiently mines leaves and other similar blocks.",
+        "type": "normal",
+        "requirements": [
+          {"node": [4, 5]}
+        ],
+        "key": "leaf_mine",
+        "value": 1
+      },
+      {
         "id": 6,
         "name": "Silk Touch",
         "description": "Gives Silk Touch To The Axe",
@@ -125,7 +136,7 @@
         "description": "Increases Axe's Mining Speed",
         "type": "normal",
         "requirements": [
-          {"or_node":  [6, 7]}
+          {"or_node":  [6, 7, 19]}
         ],
         "key": "speed_bonus",
         "value": 0.25
@@ -136,7 +147,7 @@
         "description": "Increases Axe's Durability",
         "type": "normal",
         "requirements": [
-          {"or_node":  [6, 7]}
+          {"or_node":  [6, 7, 19]}
         ],
         "key": "durability_bonus",
         "value": 200

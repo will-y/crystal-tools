@@ -1,4 +1,6 @@
 ----------------------- 0.2.0 Changes -----------------------
+### Additions
+- Added tree chopper upgrade to the axe
 
 ----------------------- 0.1.2 Changes -----------------------
 ### Additions

@@ -127,4 +127,9 @@ public class AxeLevelableTool extends LevelableTool {
         recursiveBreakHelper(tool, level, blockPos.east(), entity, block, depth + 1);
         recursiveBreakHelper(tool, level, blockPos.west(), entity, block, depth + 1);
     }
+
+    @Override
+    public boolean correctTool(ItemStack tool, BlockState blockState) {
+        return super.correctTool(tool, blockState) || (NBTUtils.getFloatOrAddKey(tool, "leaf_mine") > 0 && BlockTags.MINEABLE_WITH_HOE.contains(blockState.getBlock()));
+    }
 }

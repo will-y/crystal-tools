@@ -34,10 +34,10 @@ public class LevelableTool extends Item {
     private static final float EXPERIENCE_CAP_MULTIPLIER = 1.25F;
 
     // Just used for default values, just at netherite for now
-    private static final Tier tier = Tiers.NETHERITE;
+    protected static final Tier tier = Tiers.NETHERITE;
 
-    // Blocks that can be mined
-    private Tag<Block> blocks;
+    // Blocks that can be mined by default
+    protected final Tag<Block> blocks;
 
     private final String toolType;
 
@@ -67,7 +67,11 @@ public class LevelableTool extends Item {
             // broken
             return 0.1F;
         }
-        return (this.blocks.contains(blockState.getBlock()) ? tier.getSpeed() : 1.0F) + bonus;
+        return (correctTool(tool, blockState) ? tier.getSpeed() : 1.0F) + bonus;
+    }
+
+    public boolean correctTool(ItemStack tool, BlockState blockState) {
+        return this.blocks.contains(blockState.getBlock());
     }
 
     // Idk if these parameters are right, just guessing
