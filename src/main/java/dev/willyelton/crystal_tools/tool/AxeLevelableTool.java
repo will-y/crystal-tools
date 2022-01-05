@@ -95,7 +95,7 @@ public class AxeLevelableTool extends LevelableTool {
             });
         }
 
-        if (KeyBindings.veinMine.isDown() && blockState.is(BlockTags.MINEABLE_WITH_AXE)) {
+        if (NBTUtils.getFloatOrAddKey(tool, "tree_chop") > 0 && KeyBindings.veinMine.isDown() && blockState.is(BlockTags.MINEABLE_WITH_AXE)) {
             Block minedBlock = blockState.getBlock();
             recursiveBreakHelper(tool, level, blockPos, entity, minedBlock, 0);
         }

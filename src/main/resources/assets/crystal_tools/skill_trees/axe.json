@@ -145,6 +145,32 @@
     [
       {
         "id": 12,
+        "name": "Tree Chopper",
+        "description": "Hold the vein miner key to chop an entire tree!",
+        "type": "normal",
+        "requirements": [
+          {"node": 10},
+          {"node": 11}
+        ],
+        "key": "tree_chop",
+        "value": 1
+      },
+      {
+        "id": 13,
+        "name": "Tree Stripper",
+        "description": "Hold the vein miner key to strip an entire tree!!",
+        "type": "normal",
+        "requirements": [
+          {"node": 10},
+          {"node": 11}
+        ],
+        "key": "tree_strip",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 14,
         "name": "Mining Speed V",
         "description": "Increases Axe's Mining Speed",
         "type": "normal",
@@ -155,7 +181,7 @@
         "value": 0.25
       },
       {
-        "id": 13,
+        "id": 15,
         "name": "Durability V",
         "description": "Increases Axe's Durability",
         "type": "normal",
@@ -168,12 +194,12 @@
     ],
     [
       {
-        "id": 14,
+        "id": 16,
         "name": "Auto Repair",
         "description": "Automatically Repairs Your Tool Over Time!",
         "type": "normal",
         "requirements": [
-          {"node": [12, 13]}
+          {"node": [14, 15]}
         ],
         "key": "auto_repair",
         "value": 1
@@ -181,23 +207,23 @@
     ],
     [
       {
-        "id":  15,
+        "id":  17,
         "name": "Infinite Speed",
         "description": "Add As Many Points To Speed Here As You Want",
         "type": "infinite",
         "requirements": [
-          {"node":  14}
+          {"node":  16}
         ],
         "key": "speed_bonus",
         "value": 0.1
       },
       {
-        "id": 16,
+        "id": 18,
         "name": "Infinite Durability",
         "description": "Add As Many Points To Durability Here As You Want",
         "type": "infinite",
         "requirements": [
-          {"node":  14}
+          {"node":  16}
         ],
         "key": "durability_bonus",
         "value": 50
