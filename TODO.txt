@@ -8,7 +8,6 @@
         - Multi Type Switcher (Scroll between silk, fortune, ...)
         - Torch Placer
     - Axe
-        - Tree Chopper
     - Hoe
         - Area of Effect
     - Shovel / Pick
