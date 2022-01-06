@@ -1,6 +1,6 @@
 ----------------------- 0.2.0 Changes -----------------------
 ### Additions
-- Added a vein miner keybind (`\`` by default)
+- Added a vein miner keybind (`` ` `` by default)
 - Added tree chopper upgrade to the axe
 - Added leaf miner upgrade to the axe
 - Added tree stripper upgrade to the axe
