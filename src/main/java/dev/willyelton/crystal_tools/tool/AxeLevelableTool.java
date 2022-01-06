@@ -9,6 +9,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -37,9 +38,9 @@ public class AxeLevelableTool extends LevelableTool {
         BlockPos blockpos = pContext.getClickedPos();
         Player player = pContext.getPlayer();
         BlockState blockstate = level.getBlockState(blockpos);
-        ItemStack axe = pContext.getItemInHand();
+        ItemStack itemStack = pContext.getItemInHand();
 
-        int durability = this.getMaxDamage(axe) - (int) NBTUtils.getFloatOrAddKey(axe, "Damage");
+        int durability = this.getMaxDamage(itemStack) - (int) NBTUtils.getFloatOrAddKey(itemStack, "Damage");
 
         if (durability <= 1) {
             return InteractionResult.PASS;
@@ -47,7 +48,6 @@ public class AxeLevelableTool extends LevelableTool {
         Optional<BlockState> optional = Optional.ofNullable(blockstate.getToolModifiedState(level, blockpos, player, pContext.getItemInHand(), net.minecraftforge.common.ToolActions.AXE_STRIP));
         Optional<BlockState> optional1 = Optional.ofNullable(blockstate.getToolModifiedState(level, blockpos, player, pContext.getItemInHand(), net.minecraftforge.common.ToolActions.AXE_SCRAPE));
         Optional<BlockState> optional2 = Optional.ofNullable(blockstate.getToolModifiedState(level, blockpos, player, pContext.getItemInHand(), net.minecraftforge.common.ToolActions.AXE_WAX_OFF));
-        ItemStack itemstack = pContext.getItemInHand();
         Optional<BlockState> optional3 = Optional.empty();
         if (optional.isPresent()) {
             level.playSound(player, blockpos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -64,21 +64,46 @@ public class AxeLevelableTool extends LevelableTool {
 
         if (optional3.isPresent()) {
             if (player instanceof ServerPlayer) {
-                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer)player, blockpos, itemstack);
+                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer)player, blockpos, itemStack);
             }
 
             level.setBlock(blockpos, optional3.get(), 11);
+
             if (player != null) {
-                itemstack.hurtAndBreak(1, player, (p_150686_) -> {
+                itemStack.hurtAndBreak(1, player, (p_150686_) -> {
                     p_150686_.broadcastBreakEvent(pContext.getHand());
                 });
             }
 
-            addExp(axe, level, blockpos);
+            addExp(itemStack, level, blockpos);
+
+            if (NBTUtils.getFloatOrAddKey(itemStack, "tree_strip") > 0 && KeyBindings.veinMine.isDown()) {
+                stripHelper(level, itemStack, player, blockpos.above(), pContext.getHand());
+            }
 
             return InteractionResult.sidedSuccess(level.isClientSide);
         } else {
             return InteractionResult.PASS;
+        }
+    }
+
+    // TODO: Deal with breaking in middle of vein stripping
+    private void stripHelper(Level level, ItemStack itemStack, Player player, BlockPos blockPos, InteractionHand slot) {
+        BlockState blockState = level.getBlockState(blockPos);
+        Optional<BlockState> optional = Optional.ofNullable(blockState.getToolModifiedState(level, blockPos, player, itemStack, net.minecraftforge.common.ToolActions.AXE_STRIP));
+
+        if (optional.isPresent()) {
+            level.setBlock(blockPos, optional.get(), 11);
+
+            if (player != null) {
+                itemStack.hurtAndBreak(1, player, (p_150686_) -> {
+                    p_150686_.broadcastBreakEvent(slot);
+                });
+            }
+
+            addExp(itemStack, level, blockPos);
+
+            stripHelper(level, itemStack, player, blockPos.above(), slot);
         }
     }
 

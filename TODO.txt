@@ -43,3 +43,5 @@
 - Fix Lines
 - Config Options
 - Fix enchantment hack for fortune
+- See what happens when tool runs out of durability while vein mining
+

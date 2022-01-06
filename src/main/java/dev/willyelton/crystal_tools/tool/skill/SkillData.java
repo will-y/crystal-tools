@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -53,8 +54,8 @@ public class SkillData {
     public void applyPoints(int[] points) {
         List<SkillDataNode> nodes = getAllNodes();
 
-        for (int i = 0; i < nodes.size(); i++) {
-            nodes.get(i).setPoints(points[i]);
+        for (SkillDataNode node : nodes) {
+            node.setPoints(points[node.getId()]);
         }
     }
 
@@ -69,5 +70,4 @@ public class SkillData {
 
         return flatNodes;
     }
-
 }
