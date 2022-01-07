@@ -6,6 +6,7 @@
         - Better Auto Repair (in hand repair)
         - Smelt (Maybe enable smelting and fortune)
         - Multi Type Switcher (Scroll between silk, fortune, ...)
+            - Change enchantments (gross)
         - Torch Placer
     - Axe
     - Hoe

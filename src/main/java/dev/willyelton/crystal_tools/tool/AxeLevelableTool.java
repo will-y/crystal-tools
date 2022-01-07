@@ -78,7 +78,7 @@ public class AxeLevelableTool extends LevelableTool {
             addExp(itemStack, level, blockpos);
 
             if (NBTUtils.getFloatOrAddKey(itemStack, "tree_strip") > 0 && KeyBindings.veinMine.isDown()) {
-                stripHelper(level, itemStack, player, blockpos.above(), pContext.getHand());
+                stripHelper(level, itemStack, player, blockpos.above(), pContext.getHand(), 0);
             }
 
             return InteractionResult.sidedSuccess(level.isClientSide);
@@ -88,7 +88,11 @@ public class AxeLevelableTool extends LevelableTool {
     }
 
     // TODO: Deal with breaking in middle of vein stripping
-    private void stripHelper(Level level, ItemStack itemStack, Player player, BlockPos blockPos, InteractionHand slot) {
+    private void stripHelper(Level level, ItemStack itemStack, Player player, BlockPos blockPos, InteractionHand slot, int depth) {
+        if (depth > MAX_RECURSIVE_DEPTH) {
+            return;
+        }
+
         BlockState blockState = level.getBlockState(blockPos);
         Optional<BlockState> optional = Optional.ofNullable(blockState.getToolModifiedState(level, blockPos, player, itemStack, net.minecraftforge.common.ToolActions.AXE_STRIP));
 
@@ -103,7 +107,7 @@ public class AxeLevelableTool extends LevelableTool {
 
             addExp(itemStack, level, blockPos);
 
-            stripHelper(level, itemStack, player, blockPos.above(), slot);
+            stripHelper(level, itemStack, player, blockPos.above(), slot, depth + 1);
         }
     }
 
@@ -132,7 +136,7 @@ public class AxeLevelableTool extends LevelableTool {
 
     private void recursiveBreakHelper(ItemStack tool, Level level, BlockPos blockPos, LivingEntity entity, Block block, int depth) {
 
-        if (depth > 10) {
+        if (depth > MAX_RECURSIVE_DEPTH) {
             return;
         }
 
