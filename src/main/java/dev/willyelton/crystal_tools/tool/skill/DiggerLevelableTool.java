@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -31,6 +32,7 @@ public class DiggerLevelableTool extends LevelableTool {
         }
 
         if (NBTUtils.getFloatOrAddKey(tool, "3x3") > 0) {
+            // TODO: make this actually what I want not this
             Direction direction = Direction.fromYRot(entity.getYRot());
             if (entity.getXRot() < -45.0F) {
                 direction = Direction.UP;
