@@ -84,6 +84,20 @@ public class SkillDataNode {
     }
 
     public boolean isComplete() {
-        return this.points == 1 && this.type.equals(SkillNodeType.NORMAL);
+        return this.points >= 1 && this.type.equals(SkillNodeType.NORMAL);
+    }
+
+    @Override
+    public String toString() {
+        return "SkillDataNode{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", type=" + type +
+                ", points=" + points +
+                ", requirements=" + requirements +
+                ", key='" + key + '\'' +
+                ", value=" + value +
+                '}';
     }
 }
