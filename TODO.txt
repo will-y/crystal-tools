@@ -3,15 +3,11 @@
 -------------------- 0.2.0 --------------------
 - Create Attributes
     - General
-        - Better Auto Repair (in hand repair)
         - Smelt (Maybe enable smelting and fortune)
-        - Multi Type Switcher (Scroll between silk, fortune, ...)
-            - Change enchantments (gross)
         - Torch Placer
-    - Axe
     - Hoe
         - Area of Effect
-    - Shovel / Pick
+    - Pick
         - Vein Mining
 
 -------------------- 0.3.0 --------------------
@@ -45,4 +41,9 @@
 - Fix enchantment hack for fortune
 - See what happens when tool runs out of durability while vein mining
 - Fix 3x3 mining
+- Better Auto Repair (in hand repair)
+- Multi Type Switcher (Scroll between silk, fortune, ...)
+    - Change enchantments (gross)
+- Make tree stripper not just go up
+- Make tree mining do other angles
 
