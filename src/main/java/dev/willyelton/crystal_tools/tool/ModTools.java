@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.tool;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.item.CreativeTabs;
+import dev.willyelton.crystal_tools.tool.skill.DiggerLevelableTool;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -13,7 +14,7 @@ public class ModTools {
 
     private static final DeferredRegister<Item> TOOLS = DeferredRegister.create(ForgeRegistries.ITEMS, CrystalTools.MODID);
 
-    public static final RegistryObject<Item> CRYSTAL_PICKAXE = TOOLS.register("crystal_pickaxe", () -> new LevelableTool(new Item.Properties().fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB), BlockTags.MINEABLE_WITH_PICKAXE, "pickaxe"));
+    public static final RegistryObject<Item> CRYSTAL_PICKAXE = TOOLS.register("crystal_pickaxe", () -> new DiggerLevelableTool(new Item.Properties().fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB), BlockTags.MINEABLE_WITH_PICKAXE, "pickaxe"));
     public static final RegistryObject<Item> CRYSTAL_AXE = TOOLS.register("crystal_axe", AxeLevelableTool::new);
     public static final RegistryObject<Item> CRYSTAL_SHOVEL = TOOLS.register("crystal_shovel", ShovelLevelableTool::new);
     public static final RegistryObject<Item> CRYSTAL_HOE = TOOLS.register("crystal_hoe", HoeLevelableTool::new);

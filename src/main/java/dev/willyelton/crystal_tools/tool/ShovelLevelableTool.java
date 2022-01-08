@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.tool;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import dev.willyelton.crystal_tools.item.CreativeTabs;
+import dev.willyelton.crystal_tools.tool.skill.DiggerLevelableTool;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -22,7 +23,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Map;
 
-public class ShovelLevelableTool extends LevelableTool {
+public class ShovelLevelableTool extends DiggerLevelableTool {
     // Just from ShovelItem
     protected static final Map<Block, BlockState> FLATTENABLES = Maps.newHashMap((new ImmutableMap.Builder()).put(Blocks.GRASS_BLOCK, Blocks.DIRT_PATH.defaultBlockState()).put(Blocks.DIRT, Blocks.DIRT_PATH.defaultBlockState()).put(Blocks.PODZOL, Blocks.DIRT_PATH.defaultBlockState()).put(Blocks.COARSE_DIRT, Blocks.DIRT_PATH.defaultBlockState()).put(Blocks.MYCELIUM, Blocks.DIRT_PATH.defaultBlockState()).put(Blocks.ROOTED_DIRT, Blocks.DIRT_PATH.defaultBlockState()).build());
 
