@@ -4,6 +4,7 @@
 - Added tree chopper upgrade to the axe
 - Added leaf miner upgrade to the axe
 - Added tree stripper upgrade to the axe
+- Added 3x3 mining to the pickaxe and shovel
 
 ----------------------- 0.1.2 Changes -----------------------
 ### Additions

@@ -177,6 +177,19 @@
         ],
         "key": "auto_repair",
         "value": 1
+      },
+      {
+        "id": 17,
+        "name": "3x3 Mining",
+        "description": "Mines in a 3x3 area.",
+        "type": "normal",
+        "requirements":[
+          {
+            "node": [12, 13]
+          }
+        ],
+        "key": "3x3",
+        "value": 1
       }
     ],
     [
@@ -186,7 +199,7 @@
         "description": "Add As Many Points To Speed Here As You Want",
         "type": "infinite",
         "requirements": [
-          {"node":  14}
+          {"or_node":  [14, 17]}
         ],
         "key": "speed_bonus",
         "value": 0.1
@@ -197,7 +210,7 @@
         "description": "Add As Many Points To Durability Here As You Want",
         "type": "infinite",
         "requirements": [
-          {"node":  14}
+          {"or_node":  [14, 17]}
         ],
         "key": "durability_bonus",
         "value": 50
