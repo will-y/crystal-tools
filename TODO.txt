@@ -43,5 +43,4 @@
 - Multi Type Switcher (Scroll between silk, fortune, ...)
     - Change enchantments (gross)
 - Make tree stripper not just go up
-- Make tree mining do other angles
 

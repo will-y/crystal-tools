@@ -22,6 +22,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class AxeLevelableTool extends LevelableTool {
@@ -150,11 +152,24 @@ public class AxeLevelableTool extends LevelableTool {
             return;
         }
 
+        List<BlockPos> positionsToLook = List.of(blockPos.north(), blockPos.south(), blockPos.east(), blockPos.west(),
+                blockPos.north().east(), blockPos.north().west(), blockPos.south().east(), blockPos.south().west());
+
+        for (BlockPos pos : positionsToLook) {
+            recursiveBreakHelper(tool, level, pos, entity, block, depth + 1);
+        }
+
+        for (BlockPos pos : positionsToLook) {
+            recursiveBreakHelper(tool, level, pos.above(), entity, block, depth + 1);
+        }
+
         recursiveBreakHelper(tool, level, blockPos.above(), entity, block, depth + 1);
-        recursiveBreakHelper(tool, level, blockPos.north(), entity, block, depth + 1);
-        recursiveBreakHelper(tool, level, blockPos.south(), entity, block, depth + 1);
-        recursiveBreakHelper(tool, level, blockPos.east(), entity, block, depth + 1);
-        recursiveBreakHelper(tool, level, blockPos.west(), entity, block, depth + 1);
+//        recursiveBreakHelper(tool, level, blockPos.north(), entity, block, depth + 1);
+//        recursiveBreakHelper(tool, level, blockPos.south(), entity, block, depth + 1);
+//        recursiveBreakHelper(tool, level, blockPos.east(), entity, block, depth + 1);
+//        recursiveBreakHelper(tool, level, blockPos.west(), entity, block, depth + 1);
+
+        // also need 4 other directions and eight above
     }
 
     @Override
