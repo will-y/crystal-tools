@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.tool.skill;
 
 import dev.willyelton.crystal_tools.tool.LevelableTool;
+import dev.willyelton.crystal_tools.utils.LevelUtilities;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -91,7 +92,8 @@ public class DiggerLevelableTool extends LevelableTool {
     private void breakBlock(ItemStack tool, Level level, BlockPos blockPos, LivingEntity entity) {
         BlockState blockState = level.getBlockState(blockPos);
         if (isCorrectToolForDrops(tool, blockState)) {
-            level.destroyBlock(blockPos, true, entity);
+            LevelUtilities.destroyBlock(level, blockPos, true, entity, 512, tool);
+//            level.destroyBlock(blockPos, true, entity);
             if (!level.isClientSide && blockState.getDestroySpeed(level, blockPos) != 0.0F) {
                 tool.hurtAndBreak(1, entity, (player) -> {
                     player.broadcastBreakEvent(EquipmentSlot.MAINHAND);
