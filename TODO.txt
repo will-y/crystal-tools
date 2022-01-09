@@ -42,5 +42,4 @@
 - Better Auto Repair (in hand repair)
 - Multi Type Switcher (Scroll between silk, fortune, ...)
     - Change enchantments (gross)
-- Make tree stripper not just go up
 
