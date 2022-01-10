@@ -5,6 +5,9 @@
 - Added leaf miner upgrade to the axe
 - Added tree stripper upgrade to the axe
 - Added 3x3 mining to the pickaxe and shovel
+- Added vein mining to pickaxe
+  - Only works on ores
+  - Fortune and silk touch effects are applied to all broken ores
 
 ----------------------- 0.1.2 Changes -----------------------
 ### Additions

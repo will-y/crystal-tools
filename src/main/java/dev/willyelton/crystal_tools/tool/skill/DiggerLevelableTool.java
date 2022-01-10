@@ -1,10 +1,12 @@
 package dev.willyelton.crystal_tools.tool.skill;
 
+import dev.willyelton.crystal_tools.keybinding.KeyBindings;
 import dev.willyelton.crystal_tools.tool.LevelableTool;
 import dev.willyelton.crystal_tools.utils.LevelUtilities;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,6 +15,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -20,6 +23,8 @@ import org.jetbrains.annotations.NotNull;
  * Handles the 3x3 mining
  */
 public class DiggerLevelableTool extends LevelableTool {
+    private static int MAX_VEIN_MINER_DEPTH = 4;
+
     public DiggerLevelableTool(Properties properties, Tag<Block> mineableBlocks, String toolType) {
         super(properties, mineableBlocks, toolType);
     }
@@ -43,11 +48,34 @@ public class DiggerLevelableTool extends LevelableTool {
             blockBreakerHelper(tool, level, blockPos, entity, direction);
         }
 
+        // use for vein mining
+        // Tags.Blocks.ORES;
 
+        if (NBTUtils.getFloatOrAddKey(tool, "vein_miner") > 0 && KeyBindings.veinMine.isDown() && blockState.is(Tags.Blocks.ORES)) {
+            this.veinMinerHelper(tool, level, blockState.getBlock(), blockPos, entity, 0);
+        }
 
         addExp(tool, level, blockPos);
 
         return true;
+    }
+
+    private void veinMinerHelper(ItemStack tool, Level level, Block block, BlockPos blockPos, LivingEntity entity, int depth) {
+        if (depth >= MAX_VEIN_MINER_DEPTH || !level.getBlockState(blockPos).is(block)) {
+            return;
+        }
+
+        breakBlock(tool, level, blockPos, entity);
+
+        for (int x = -1; x < 2; x++) {
+            for (int y = -1; y < 2; y++) {
+                for (int z = -1; z < 2; z++) {
+                    if (x != 0 && y != 0 && z != 0) {
+                        veinMinerHelper(tool, level, block, blockPos.offset(x, y, z), entity, depth + 1);
+                    }
+                }
+            }
+        }
     }
 
     // just going to hard code it for now
