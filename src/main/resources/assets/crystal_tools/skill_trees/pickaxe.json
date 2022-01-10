@@ -185,10 +185,25 @@
         "type": "normal",
         "requirements":[
           {
-            "node": [12, 13]
+            "node": [12, 13],
+            "not_node": 18
           }
         ],
         "key": "3x3",
+        "value": 1
+      },
+      {
+        "id": 18,
+        "name": "Vein Mining",
+        "description": "Mines all ores in a vein when pressing the vein mining key.",
+        "type": "normal",
+        "requirements":[
+          {
+            "node": [12, 13],
+            "not_node": 17
+          }
+        ],
+        "key": "vein_miner",
         "value": 1
       }
     ],
