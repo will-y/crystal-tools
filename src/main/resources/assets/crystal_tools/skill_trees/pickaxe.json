@@ -214,7 +214,7 @@
         "description": "Add As Many Points To Speed Here As You Want",
         "type": "infinite",
         "requirements": [
-          {"node":  14}
+          {"or_node":  [14, 17, 18]}
         ],
         "key": "speed_bonus",
         "value": 0.1
@@ -225,7 +225,7 @@
         "description": "Add As Many Points To Durability Here As You Want",
         "type": "infinite",
         "requirements": [
-          {"node":  14}
+          {"or_node":  [14, 17, 18]}
         ],
         "key": "durability_bonus",
         "value": 50
