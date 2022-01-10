@@ -83,36 +83,12 @@
       },
       {
         "id": 7,
-        "name": "Fortune I",
-        "description": "Gives Fortune I To The Hoe",
-        "type": "normal",
-        "requirements": [
-          {"not_node":  6},
-          {"node":  [4, 5]}
-        ],
-        "key": "fortune_bonus",
-        "value": 1
-      },
-      {
-        "id": 8,
-        "name": "Fortune II",
-        "description": "Gives Fortune II To The Hoe",
-        "type": "normal",
-        "requirements": [
-          {"not_node":  6},
-          {"node":  7}
-        ],
-        "key": "fortune_bonus",
-        "value": 2
-      },
-      {
-        "id": 9,
         "name": "Fortune III",
         "description": "Gives Fortune III To The Hoe",
         "type": "normal",
         "requirements": [
           {"not_node":  6},
-          {"node":  8}
+          {"node":  [4, 5]}
         ],
         "key": "fortune_bonus",
         "value": 3

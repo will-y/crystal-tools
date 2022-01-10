@@ -9,6 +9,9 @@
   - Only works on ores
   - Fortune and silk touch effects are applied to all broken ores
 
+### Changes
+- Removed the Fortune I and II nodes from all tools
+
 ----------------------- 0.1.2 Changes -----------------------
 ### Additions
 - Added a broken tooltip when a tool is broken
