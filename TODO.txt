@@ -1,12 +1,7 @@
 -------------------- 0.2.0 --------------------
 - Create Attributes
     - General
-        - Smelt (Maybe enable smelting and fortune)
         - Torch Placer
-    - Hoe
-        - Area of Effect
-    - Pick
-        - Vein Mining
 
 -------------------- 0.3.0 --------------------
 - Add Other Tools
@@ -45,4 +40,5 @@
 - Make all items come to you when vein mining
 - Make ores drop exp when broken when auto smelting
 - Test interaction between silk and fortune with auto smelt
+- Auto smelt things in 3x3 and vein mining
 
