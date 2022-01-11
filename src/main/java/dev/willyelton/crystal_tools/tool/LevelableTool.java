@@ -90,13 +90,17 @@ public class LevelableTool extends Item {
         return true;
     }
 
+
     @Override
     public boolean mineBlock(@NotNull ItemStack tool, Level level, @NotNull BlockState blockState, @NotNull BlockPos blockPos, @NotNull LivingEntity entity) {
         if (!level.isClientSide && blockState.getDestroySpeed(level, blockPos) != 0.0F) {
             tool.hurtAndBreak(1, entity, (player) -> {
                 player.broadcastBreakEvent(EquipmentSlot.MAINHAND);
             });
-            dropSmeltedItem(tool, level, blockState, blockPos, entity);
+
+            if (NBTUtils.getFloatOrAddKey(tool, "auto_smelt") > 0) {
+                dropSmeltedItem(tool, level, blockState, blockPos, entity);
+            }
         }
 
         addExp(tool, level, blockPos);
