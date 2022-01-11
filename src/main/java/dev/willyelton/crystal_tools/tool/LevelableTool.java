@@ -108,8 +108,8 @@ public class LevelableTool extends Item {
         return true;
     }
 
-    private void dropSmeltedItem(ItemStack tool, Level level, BlockState blockState, BlockPos pos, LivingEntity entity) {
-        Block.getDrops(blockState, (ServerLevel) level, pos, null).forEach((itemStack -> {
+    protected void dropSmeltedItem(ItemStack tool, Level level, BlockState blockState, BlockPos pos, LivingEntity entity) {
+        Block.getDrops(blockState, (ServerLevel) level, pos, null, entity, tool).forEach((itemStack -> {
             Container container = new SimpleContainer(itemStack);
 
             Optional<SmeltingRecipe> recipeOptional = level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, container, level);
