@@ -166,6 +166,19 @@
         ],
         "key": "3x3",
         "value": 1
+      },
+      {
+        "id": 18,
+        "name": "Auto Smelting",
+        "description": "Automatically smelts the blocks that you mine.",
+        "type": "normal",
+        "requirements":[
+          {
+            "node": [12, 13]
+          }
+        ],
+        "key": "auto_smelt",
+        "value": 1
       }
     ],
     [

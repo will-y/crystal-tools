@@ -189,8 +189,7 @@
         "type": "normal",
         "requirements":[
           {
-            "node": [12, 13],
-            "not_node": 17
+            "node": [12, 13]
           }
         ],
         "key": "auto_smelt",

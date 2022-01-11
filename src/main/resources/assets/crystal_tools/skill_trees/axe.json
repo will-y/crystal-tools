@@ -190,6 +190,19 @@
         ],
         "key": "auto_repair",
         "value": 1
+      },
+      {
+        "id": 19,
+        "name": "Auto Smelting",
+        "description": "Automatically smelts the blocks that you mine.",
+        "type": "normal",
+        "requirements":[
+          {
+            "node": [14, 15]
+          }
+        ],
+        "key": "auto_smelt",
+        "value": 1
       }
     ],
     [
