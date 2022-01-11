@@ -8,6 +8,7 @@
 - Added vein mining to pickaxe
   - Only works on ores
   - Fortune and silk touch effects are applied to all broken ores
+- Added auto smelting upgrade
 
 ### Changes
 - Removed the Fortune I and II nodes from all tools

@@ -10,21 +10,28 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.Mth;
+import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootContext;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 // For now just focus on things that mine (not sword)
@@ -89,11 +96,38 @@ public class LevelableTool extends Item {
             tool.hurtAndBreak(1, entity, (player) -> {
                 player.broadcastBreakEvent(EquipmentSlot.MAINHAND);
             });
+            dropSmeltedItem(tool, level, blockState, blockPos, entity);
         }
 
         addExp(tool, level, blockPos);
 
         return true;
+    }
+
+    private void dropSmeltedItem(ItemStack tool, Level level, BlockState blockState, BlockPos pos, LivingEntity entity) {
+        Block.getDrops(blockState, (ServerLevel) level, pos, null).forEach((itemStack -> {
+            Container container = new SimpleContainer(itemStack);
+
+            Optional<SmeltingRecipe> recipeOptional = level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, container, level);
+
+            if (recipeOptional.isPresent()) {
+                SmeltingRecipe recipe = recipeOptional.get();
+                ItemStack result = recipe.getResultItem();
+
+                System.out.println(result);
+
+                level.destroyBlock(pos, false, entity);
+                Block.popResource(level, pos, result);
+            }
+        }));
+
+
+        List<SmeltingRecipe> recipes = level.getRecipeManager().getAllRecipesFor(RecipeType.SMELTING);
+
+        for (SmeltingRecipe recipe : recipes) {
+            // Maybe?
+            recipe.getIngredients().get(0).test(blockState.getBlock().asItem().getDefaultInstance());
+        }
     }
 
     public void addExp(ItemStack tool, Level level, BlockPos blockPos) {

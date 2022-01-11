@@ -31,11 +31,11 @@ public class DiggerLevelableTool extends LevelableTool {
 
     @Override
     public boolean mineBlock(@NotNull ItemStack tool, Level level, @NotNull BlockState blockState, @NotNull BlockPos blockPos, @NotNull LivingEntity entity) {
-        if (!level.isClientSide && blockState.getDestroySpeed(level, blockPos) != 0.0F) {
-            tool.hurtAndBreak(1, entity, (player) -> {
-                player.broadcastBreakEvent(EquipmentSlot.MAINHAND);
-            });
-        }
+//        if (!level.isClientSide && blockState.getDestroySpeed(level, blockPos) != 0.0F) {
+//            tool.hurtAndBreak(1, entity, (player) -> {
+//                player.broadcastBreakEvent(EquipmentSlot.MAINHAND);
+//            });
+//        }
 
         if (NBTUtils.getFloatOrAddKey(tool, "3x3") > 0) {
             // TODO: make this actually what I want not this
@@ -55,8 +55,9 @@ public class DiggerLevelableTool extends LevelableTool {
             this.veinMinerHelper(tool, level, blockState.getBlock(), blockPos, entity, 0);
         }
 
-        addExp(tool, level, blockPos);
+//        addExp(tool, level, blockPos);
 
+        super.mineBlock(tool, level, blockState, blockPos, entity);
         return true;
     }
 
@@ -70,7 +71,7 @@ public class DiggerLevelableTool extends LevelableTool {
         for (int x = -1; x < 2; x++) {
             for (int y = -1; y < 2; y++) {
                 for (int z = -1; z < 2; z++) {
-                    if (x != 0 && y != 0 && z != 0) {
+                    if (x != 0 || y != 0 || z != 0) {
                         veinMinerHelper(tool, level, block, blockPos.offset(x, y, z), entity, depth + 1);
                     }
                 }

@@ -132,18 +132,20 @@ public class AxeLevelableTool extends LevelableTool {
 
     @Override
     public boolean mineBlock(@NotNull ItemStack tool, Level level, @NotNull BlockState blockState, @NotNull BlockPos blockPos, @NotNull LivingEntity entity) {
-        if (!level.isClientSide && blockState.getDestroySpeed(level, blockPos) != 0.0F) {
-            tool.hurtAndBreak(1, entity, (player) -> {
-                player.broadcastBreakEvent(EquipmentSlot.MAINHAND);
-            });
-        }
+//        if (!level.isClientSide && blockState.getDestroySpeed(level, blockPos) != 0.0F) {
+//            tool.hurtAndBreak(1, entity, (player) -> {
+//                player.broadcastBreakEvent(EquipmentSlot.MAINHAND);
+//            });
+//        }
 
         if (NBTUtils.getFloatOrAddKey(tool, "tree_chop") > 0 && KeyBindings.veinMine.isDown() && blockState.is(BlockTags.MINEABLE_WITH_AXE)) {
             Block minedBlock = blockState.getBlock();
             recursiveBreakHelper(tool, level, blockPos, entity, minedBlock, 0);
         }
 
-        addExp(tool, level, blockPos);
+//        addExp(tool, level, blockPos);
+
+        super.mineBlock(tool, level, blockState, blockPos, entity);
 
         return true;
     }
