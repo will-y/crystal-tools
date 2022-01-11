@@ -118,8 +118,6 @@ public class LevelableTool extends Item {
                 SmeltingRecipe recipe = recipeOptional.get();
                 ItemStack result = recipe.getResultItem();
 
-                System.out.println(result);
-
                 level.destroyBlock(pos, false, entity);
                 Block.popResource(level, pos, result);
             }
