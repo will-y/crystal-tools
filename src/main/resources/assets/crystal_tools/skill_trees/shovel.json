@@ -162,6 +162,9 @@
         "requirements":[
           {
             "node": [12, 13]
+          },
+          {
+            "not_node": 18
           }
         ],
         "key": "3x3",
@@ -174,7 +177,8 @@
         "type": "normal",
         "requirements":[
           {
-            "node": [12, 13]
+            "node": [12, 13],
+            "not_node": 17
           }
         ],
         "key": "auto_smelt",

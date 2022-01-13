@@ -162,7 +162,7 @@
         "requirements":[
           {
             "node": [12, 13],
-            "not_node": 18
+            "not_node": [18, 19]
           }
         ],
         "key": "3x3",
@@ -176,7 +176,7 @@
         "requirements":[
           {
             "node": [12, 13],
-            "not_node": 17
+            "not_node": [17, 19]
           }
         ],
         "key": "vein_miner",
@@ -189,7 +189,8 @@
         "type": "normal",
         "requirements":[
           {
-            "node": [12, 13]
+            "node": [12, 13],
+            "not_node": [17, 18]
           }
         ],
         "key": "auto_smelt",
