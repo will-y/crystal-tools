@@ -39,6 +39,5 @@
     - Change enchantments (gross)
 - Make all items come to you when vein mining
 - Make ores drop exp when broken when auto smelting
-- Test interaction between silk and fortune with auto smelt
 - Auto smelt things in 3x3 and vein mining
 
