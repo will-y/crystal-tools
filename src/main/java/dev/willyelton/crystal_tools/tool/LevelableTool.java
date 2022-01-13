@@ -37,8 +37,8 @@ import java.util.function.Consumer;
 // For now just focus on things that mine (not sword)
 public class LevelableTool extends Item {
     private static final int AUTO_REPAIR_COUNTER = 50;
-    private static final int BASE_EXPERIENCE_CAP = 1;
-    private static final float EXPERIENCE_CAP_MULTIPLIER = 1F;
+    private static final int BASE_EXPERIENCE_CAP = 50;
+    private static final float EXPERIENCE_CAP_MULTIPLIER = 1.25F;
 
     // Just used for default values, just at netherite for now
     protected static final Tier tier = Tiers.NETHERITE;
