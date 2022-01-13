@@ -4,6 +4,7 @@ import dev.willyelton.crystal_tools.item.ModItems;
 import dev.willyelton.crystal_tools.tool.skill.SkillData;
 import dev.willyelton.crystal_tools.tool.skill.SkillDataNode;
 import dev.willyelton.crystal_tools.tool.skill.SkillNodeType;
+import dev.willyelton.crystal_tools.utils.LevelUtilities;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -26,7 +27,6 @@ import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.LootContext;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -37,8 +37,8 @@ import java.util.function.Consumer;
 // For now just focus on things that mine (not sword)
 public class LevelableTool extends Item {
     private static final int AUTO_REPAIR_COUNTER = 50;
-    private static final int BASE_EXPERIENCE_CAP = 50;
-    private static final float EXPERIENCE_CAP_MULTIPLIER = 1.25F;
+    private static final int BASE_EXPERIENCE_CAP = 1;
+    private static final float EXPERIENCE_CAP_MULTIPLIER = 1F;
 
     // Just used for default values, just at netherite for now
     protected static final Tier tier = Tiers.NETHERITE;
@@ -109,26 +109,28 @@ public class LevelableTool extends Item {
     }
 
     protected void dropSmeltedItem(ItemStack tool, Level level, BlockState blockState, BlockPos pos, LivingEntity entity) {
-        Block.getDrops(blockState, (ServerLevel) level, pos, null, entity, tool).forEach((itemStack -> {
-            Container container = new SimpleContainer(itemStack);
+        if (!level.isClientSide) {
+            Block.getDrops(blockState, (ServerLevel) level, pos, null, entity, tool).forEach((itemStack -> {
+//                System.out.println("Item in: " + itemStack);
+                Container container = new SimpleContainer(itemStack);
+                int count = itemStack.getCount();
 
-            Optional<SmeltingRecipe> recipeOptional = level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, container, level);
+                Optional<SmeltingRecipe> recipeOptional = level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, container, level);
 
-            if (recipeOptional.isPresent()) {
-                SmeltingRecipe recipe = recipeOptional.get();
-                ItemStack result = recipe.getResultItem();
+                if (recipeOptional.isPresent()) {
+                    SmeltingRecipe recipe = recipeOptional.get();
+                    ItemStack result = recipe.getResultItem();
+                    result.setCount(count);
 
-                level.destroyBlock(pos, false, entity);
-                Block.popResource(level, pos, result);
-            }
-        }));
+                    LevelUtilities.destroyBlock(level, pos, result.is(Items.AIR), entity, 512, tool);
+//                    level.destroyBlock(pos, false, entity);
+                    if (!result.is(Items.AIR)) {
+//                        System.out.println("dropping: " + result);
+                        Block.popResource(level, pos, result);
+                    }
 
-
-        List<SmeltingRecipe> recipes = level.getRecipeManager().getAllRecipesFor(RecipeType.SMELTING);
-
-        for (SmeltingRecipe recipe : recipes) {
-            // Maybe?
-            recipe.getIngredients().get(0).test(blockState.getBlock().asItem().getDefaultInstance());
+                }
+            }));
         }
     }
 

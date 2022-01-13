@@ -57,8 +57,7 @@ public class DiggerLevelableTool extends LevelableTool {
 
 //        addExp(tool, level, blockPos);
 
-        super.mineBlock(tool, level, blockState, blockPos, entity);
-        return true;
+        return super.mineBlock(tool, level, blockState, blockPos, entity);
     }
 
     private void veinMinerHelper(ItemStack tool, Level level, Block block, BlockPos blockPos, LivingEntity entity, int depth) {
@@ -121,7 +120,11 @@ public class DiggerLevelableTool extends LevelableTool {
     private void breakBlock(ItemStack tool, Level level, BlockPos blockPos, LivingEntity entity) {
         BlockState blockState = level.getBlockState(blockPos);
         if (isCorrectToolForDrops(tool, blockState)) {
-            LevelUtilities.destroyBlock(level, blockPos, true, entity, 512, tool);
+            if (NBTUtils.getFloatOrAddKey(tool, "auto_smelt") > 0) {
+                dropSmeltedItem(tool, level, blockState, blockPos, entity);
+            } else {
+                LevelUtilities.destroyBlock(level, blockPos, true, entity, 512, tool);
+            }
 //            level.destroyBlock(blockPos, true, entity);
             if (!level.isClientSide && blockState.getDestroySpeed(level, blockPos) != 0.0F) {
                 tool.hurtAndBreak(1, entity, (player) -> {
