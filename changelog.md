@@ -9,7 +9,7 @@
   - Only works on ores
   - Fortune and silk touch effects are applied to all broken ores
 - Added auto smelting upgrade
-  - Right now it doesn't work with vein mining or 3x3 mining (I can figure out why). Will be fixed later.
+  - Right now it doesn't work with vein mining or 3x3 mining (I can't figure out why). Will be fixed later.
 - Added torch placer upgrade onto pickaxe
   - Right-Click to place a torch, costs 10 durability
 
