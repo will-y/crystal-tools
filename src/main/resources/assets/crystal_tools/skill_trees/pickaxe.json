@@ -199,6 +199,21 @@
     ],
     [
       {
+        "id": 20,
+        "name": "Torch",
+        "description": "Right-Click to place a torch. Uses 10 durability.",
+        "type": "normal",
+        "requirements": [
+          {
+            "or_node": [14, 17, 18, 19]
+          }
+        ],
+        "key": "torch",
+        "value": 1
+      }
+    ],
+    [
+      {
         "id":  15,
         "name": "Infinite Speed",
         "description": "Add As Many Points To Speed Here As You Want",
