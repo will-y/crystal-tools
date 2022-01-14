@@ -21,9 +21,16 @@ public class PickaxeLevelableTool extends LevelableTool {
         Direction direction = context.getClickedFace();
         position = position.relative(direction);
 
-        BlockState torchBlockState = Blocks.WALL_TORCH.defaultBlockState().setValue(WallTorchBlock.FACING, direction);
+        if (direction.equals(Direction.UP)) {
+            BlockState blockState = Blocks.TORCH.defaultBlockState();
+            level.setBlock(position, blockState, 0);
+        } else if (!direction.equals(Direction.DOWN)) {
+            BlockState torchBlockState = Blocks.WALL_TORCH.defaultBlockState().setValue(WallTorchBlock.FACING, direction);
 
-        level.setBlock(position, torchBlockState, 0);
+            level.setBlock(position, torchBlockState, 0);
+        }
+
+
 
         return InteractionResult.FAIL;
     }
