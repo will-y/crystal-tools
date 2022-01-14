@@ -15,7 +15,7 @@
 
 ### Changes
 - Removed the Fortune I and II nodes from all tools
-- Updated to Forge 1.18.1-39.0.17
+- Updated to Forge 1.18.1-39.0.19
 
 ----------------------- 0.1.2 Changes -----------------------
 ### Additions
