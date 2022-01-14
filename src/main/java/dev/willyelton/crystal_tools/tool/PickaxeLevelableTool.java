@@ -24,6 +24,7 @@ public class PickaxeLevelableTool extends LevelableTool {
         if (NBTUtils.getFloatOrAddKey(tool, "torch") > 0) {
             Level level = context.getLevel();
             BlockPos position = context.getClickedPos();
+            BlockState state = level.getBlockState(position);
             Direction direction = context.getClickedFace();
             position = position.relative(direction);
 
@@ -37,7 +38,7 @@ public class PickaxeLevelableTool extends LevelableTool {
                 torchBlockState = Blocks.WALL_TORCH.defaultBlockState().setValue(WallTorchBlock.FACING, direction);
             }
 
-            if (level.getBlockState(position).is(Blocks.AIR)) {
+            if (level.getBlockState(position).is(Blocks.AIR) && state.isFaceSturdy(level, position, direction)) {
                 level.setBlock(position, torchBlockState, 0);
             } else {
                 return InteractionResult.FAIL;
