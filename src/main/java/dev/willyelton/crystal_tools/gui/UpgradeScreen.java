@@ -22,7 +22,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import org.lwjgl.system.CallbackI;
 
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +45,7 @@ public class UpgradeScreen extends Screen {
 
         int[] points = NBTUtils.getIntArray(tool, "points");
         if (tool.getItem() instanceof LevelableTool) {
-            String toolType = ((LevelableTool) tool.getItem()).getToolType();
+            String toolType = ((LevelableTool) tool.getItem()).getItemType();
             toolData = SkillData.fromResourceLocation(new ResourceLocation("crystal_tools", String.format("skill_trees/%s.json", toolType)), points);
         } else {
             toolData = null;

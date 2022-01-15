@@ -35,34 +35,14 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 // For now just focus on things that mine (not sword)
-public class LevelableTool extends Item {
-    private static final int AUTO_REPAIR_COUNTER = 50;
-    private static final int BASE_EXPERIENCE_CAP = 50;
-    private static final float EXPERIENCE_CAP_MULTIPLIER = 1.25F;
-
-    // Just used for default values, just at netherite for now
-    protected static final Tier tier = Tiers.NETHERITE;
+public class LevelableTool extends LevelableItem {
 
     // Blocks that can be mined by default
     protected final Tag<Block> blocks;
 
-    private final String toolType;
-
-    public LevelableTool(Properties properties, Tag<Block> mineableBlocks, String toolType) {
-        super(properties.defaultDurability(tier.getUses()));
+    public LevelableTool(Item.Properties properties, Tag<Block> mineableBlocks, String itemType) {
+        super(properties, itemType);
         this.blocks = mineableBlocks;
-        this.toolType = toolType;
-    }
-
-    // From TierdItem.java
-    @Override
-    public int getEnchantmentValue() {
-        return tier.getEnchantmentValue();
-    }
-
-    @Override
-    public boolean isValidRepairItem(@NotNull ItemStack tool, @NotNull ItemStack repairItem) {
-        return repairItem.is(ModItems.CRYSTAL.get());
     }
 
     // From DiggerItem.java
@@ -134,113 +114,8 @@ public class LevelableTool extends Item {
         }
     }
 
-    public void addExp(ItemStack tool, Level level, BlockPos blockPos) {
-        int newExperience = (int) NBTUtils.addValueToTag(tool, "experience", 1);
-        int experienceCap = (int) NBTUtils.getFloatOrAddKey(tool, "experience_cap", BASE_EXPERIENCE_CAP);
-
-        if (experienceCap == 0) {
-            // fist time
-            NBTUtils.setValue(tool, "experience_cap", BASE_EXPERIENCE_CAP);
-            experienceCap = BASE_EXPERIENCE_CAP;
-        }
-
-        if (newExperience >= experienceCap) {
-            // level up
-            NBTUtils.addValueToTag(tool, "skill_points", 1);
-            // copied from LivingEntity item breaking sound
-            // play level up sound
-            level.playLocalSound(blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.PLAYER_LEVELUP, SoundSource.NEUTRAL, 0.8F, 0.8F + level.random.nextFloat() * 0.4F, false);
-            // TODO: Add chat message thing
-
-            NBTUtils.setValue(tool, "experience", 0);
-            NBTUtils.setValue(tool, "experience_cap", experienceCap * EXPERIENCE_CAP_MULTIPLIER);
-        }
-    }
-
     @Override
     public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
         return correctTool(stack, state) && net.minecraftforge.common.TierSortingRegistry.isCorrectTierForDrops(tier, state);
-    }
-
-    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
-        int newExperience = (int) NBTUtils.getFloatOrAddKey(itemStack, "experience");
-        int experienceCap = (int) NBTUtils.getFloatOrAddKey(itemStack, "experience_cap", BASE_EXPERIENCE_CAP);
-
-        int durability = this.getMaxDamage(itemStack) - (int) NBTUtils.getFloatOrAddKey(itemStack, "Damage");
-
-        if (durability <= 1) {
-            components.add(new TextComponent("\u00A7c\u00A7l" + "Broken"));
-        }
-
-        components.add(new TextComponent(String.format("%d/%d XP To Next Level", newExperience, experienceCap)));
-        int skillPoints = (int) NBTUtils.getFloatOrAddKey(itemStack, "skill_points");
-        if (skillPoints > 0) {
-            components.add(new TextComponent(String.format("%d Unspent Skill Points", skillPoints)));
-        }
-
-        if (!Screen.hasShiftDown()) {
-            components.add(new TextComponent("<Hold Shift For Skills>"));
-        } else {
-            components.add(new TextComponent("Skills:"));
-            int[] points = NBTUtils.getIntArray(itemStack, "points");
-            SkillData toolData = SkillData.fromResourceLocation(new ResourceLocation("crystal_tools", String.format("skill_trees/%s.json", toolType)), points);
-            for (SkillDataNode dataNode : toolData.getAllNodes()) {
-                if (dataNode.isComplete()) {
-                    components.add(new TextComponent("    " + dataNode.getName()));
-                } else if (dataNode.getType().equals(SkillNodeType.INFINITE) && dataNode.getPoints() > 0) {
-                    components.add(new TextComponent("    " + dataNode.getName() + " (" + dataNode.getPoints() + " points)"));
-                }
-            }
-        }
-    }
-
-    // Just don't ever add the enchantment effect
-    @Override
-    public boolean isFoil(ItemStack itemStack) {
-        return false;
-    }
-
-    // I think the int and boolean parameters are right
-    @Override
-    public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand) {
-        if (!inHand) {
-            if (NBTUtils.getBoolean(itemStack, "auto_repair", false)) {
-                if (NBTUtils.addValueToTag(itemStack, "auto_repair_counter", 1) > AUTO_REPAIR_COUNTER) {
-                    NBTUtils.setValue(itemStack, "auto_repair_counter", 0);
-                    int repairAmount = Math.min((int) NBTUtils.getFloatOrAddKey(itemStack, "auto_repair_amount"), itemStack.getDamageValue());
-                    itemStack.setDamageValue(itemStack.getDamageValue() - repairAmount);
-                }
-            }
-        }
-    }
-
-    // Changing these two to what they should be @minecraft
-    public int getBarWidth(ItemStack itemStack) {
-        return Math.round(13.0F - (float) itemStack.getDamageValue() * 13.0F / (float) itemStack.getMaxDamage());
-    }
-
-    public int getBarColor(ItemStack itemStack) {
-        float f = Math.max(0.0F, ((float)itemStack.getMaxDamage() - (float)itemStack.getDamageValue()) / (float) itemStack.getMaxDamage());
-        return Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
-    }
-
-    @Override
-    public int getMaxDamage(ItemStack itemStack) {
-        int bonusDurability = (int) NBTUtils.getFloatOrAddKey(itemStack, "durability_bonus");
-        return tier.getUses() + bonusDurability;
-    }
-
-    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<T> onBroken) {
-        int durability = this.getMaxDamage(stack) - (int) NBTUtils.getFloatOrAddKey(stack, "Damage");
-
-        if (durability - amount <= 0) {
-            return 0;
-        } else {
-            return amount;
-        }
-    }
-
-    public String getToolType() {
-        return toolType;
     }
 }
