@@ -60,6 +60,10 @@ public class SwordLevelableTool extends LevelableTool {
             p_43296_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
         });
 
+        if (NBTUtils.getFloatOrAddKey(tool, "fire") > 0) {
+            target.setSecondsOnFire(5);
+        }
+
 
         addExp(tool, target.getLevel(), attacker.getOnPos(), (int) getAttackDamage(tool));
         return true;

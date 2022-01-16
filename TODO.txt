@@ -4,7 +4,8 @@
     - Armor
 - Create Attributes
     - Sword
-        - Fire
+        - Knockback
+        - Sweeping Edge
         - Lifesteal
         - Looting
     - Bow

@@ -59,4 +59,5 @@ There will be upgrades that are common to most tools, and tools will each get un
 ### Sword
 - Attack Damage
 - Attack Speed
+- Fire Aspect
 

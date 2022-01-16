@@ -58,10 +58,23 @@
         "description": "Increases Sword's Durability",
         "type": "normal",
         "requirements": [
-          {"node": 3}
+          {"node": 2}
         ],
         "key": "durability_bonus",
         "value": 200
+      }
+    ],
+    [
+      {
+        "id": 6,
+        "name": "Fire Aspect",
+        "description": "Sets anything you hit on fire",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [3, 4, 5]}
+        ],
+        "key": "fire",
+        "value": 1
       }
     ]
   ]

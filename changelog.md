@@ -4,6 +4,7 @@
 - Added the following attributes for it
   - Attack Damage
   - Attack Speed
+  - Fire Aspect
 
 ### Changes
 Updated to Forge 1.18.1-39.0.36
