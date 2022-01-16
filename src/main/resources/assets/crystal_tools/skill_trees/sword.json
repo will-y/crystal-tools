@@ -75,6 +75,28 @@
         ],
         "key": "fire",
         "value": 1
+      },
+      {
+        "id": 7,
+        "name": "Knockback Resistance I",
+        "description": "Adds Knockback Resistance when holding the sword",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [3, 4, 5]}
+        ],
+        "key": "knockback_resistance",
+        "value": 0.25
+      },
+      {
+        "id": 8,
+        "name": "Knockback I",
+        "description": "Adds Knockback to the Sword",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [3, 4, 5]}
+        ],
+        "key": "knockback",
+        "value": 1
       }
     ]
   ]

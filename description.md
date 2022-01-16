@@ -60,4 +60,7 @@ There will be upgrades that are common to most tools, and tools will each get un
 - Attack Damage
 - Attack Speed
 - Fire Aspect
+- Knockback
+- Knockback Resistance
+  - You take less knockback when holding the sword
 
