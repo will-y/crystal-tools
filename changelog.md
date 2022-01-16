@@ -1,3 +1,7 @@
+----------------------- 0.3.0 Changes -----------------------
+### Changes
+Updated to Forge 1.18.1-39.0.36
+
 ----------------------- 0.2.0 Changes -----------------------
 ### Additions
 - Added a vein miner keybind (`` ` `` by default)
