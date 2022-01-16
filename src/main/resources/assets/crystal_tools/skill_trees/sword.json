@@ -28,6 +28,41 @@
         "key": "durability_bonus",
         "value": 200
       }
+    ],
+    [
+      {
+        "id": 3,
+        "name": "Attack Damage II",
+        "description": "Increases Sword's Attack Damage",
+        "type": "normal",
+        "requirements": [
+          {"node": 0}
+        ],
+        "key": "damage_bonus",
+        "value": 1
+      },
+      {
+        "id": 4,
+        "name": "Attack Speed II",
+        "description": "Increases Sword's Attack Speed",
+        "type": "normal",
+        "requirements": [
+          {"node": 1}
+        ],
+        "key": "attack_speed_bonus",
+        "value": 1
+      },
+      {
+        "id": 5,
+        "name": "Durability II",
+        "description": "Increases Sword's Durability",
+        "type": "normal",
+        "requirements": [
+          {"node": 3}
+        ],
+        "key": "durability_bonus",
+        "value": 200
+      }
     ]
   ]
 }

@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.tool;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import dev.willyelton.crystal_tools.item.CreativeTabs;
+import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -29,11 +30,11 @@ public class SwordLevelableTool extends LevelableTool {
 
 
     public float getAttackDamage(ItemStack stack) {
-        return BASE_ATTACK_DAMAGE;
+        return BASE_ATTACK_DAMAGE + NBTUtils.getFloatOrAddKey(stack, "damage_bonus");
     }
 
     public float getAttackSpeed(ItemStack stack) {
-        return BASE_ATTACK_SPEED;
+        return BASE_ATTACK_SPEED + NBTUtils.getFloatOrAddKey(stack, "attack_speed_bonus");
     }
 
     public boolean canAttackBlock(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer) {
