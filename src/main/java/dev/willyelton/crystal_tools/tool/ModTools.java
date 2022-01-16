@@ -18,6 +18,7 @@ public class ModTools {
     public static final RegistryObject<Item> CRYSTAL_AXE = TOOLS.register("crystal_axe", AxeLevelableTool::new);
     public static final RegistryObject<Item> CRYSTAL_SHOVEL = TOOLS.register("crystal_shovel", ShovelLevelableTool::new);
     public static final RegistryObject<Item> CRYSTAL_HOE = TOOLS.register("crystal_hoe", HoeLevelableTool::new);
+    public static final RegistryObject<Item> CRYSTAL_SWORD =  TOOLS.register("crystal_sword", SwordLevelableTool::new);
 
 
     public static void initTools() {

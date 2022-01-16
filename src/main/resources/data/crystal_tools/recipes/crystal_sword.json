@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "X",
+    "X",
+    "S"
+  ],
+  "key":
+  {
+    "X": {
+      "item": "crystal_tools:crystal"
+    },
+    "S": {
+      "item": "crystal_tools:netherite_stick"
+    }
+  },
+  "result":
+  {
+    "item": "crystal_tools:crystal_sword",
+    "count": 1
+  }
+}
