@@ -63,4 +63,6 @@ There will be upgrades that are common to most tools, and tools will each get un
 - Knockback
 - Knockback Resistance
   - You take less knockback when holding the sword
+- Lifesteal
+  - You heal each time you hit an enemy
 

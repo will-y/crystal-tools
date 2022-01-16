@@ -8,6 +8,8 @@
   - Knockback
   - Knockback Resistance
     - You get knocked back less when holding the sword
+  - Lifesteal
+    - You heal when you hit enemies
 
 ### Changes
 Updated to Forge 1.18.1-39.0.36

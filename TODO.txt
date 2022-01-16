@@ -4,9 +4,7 @@
     - Armor
 - Create Attributes
     - Sword
-        - Knockback
         - Sweeping Edge
-        - Lifesteal
         - Looting
     - Bow
         - Draw Speed

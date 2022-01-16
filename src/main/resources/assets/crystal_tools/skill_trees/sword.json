@@ -98,6 +98,30 @@
         "key": "knockback",
         "value": 1
       }
+    ],
+    [
+      {
+        "id": 9,
+        "name": "Auto Repair",
+        "description": "Automatically Repairs Your Tool Over Time!",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [6, 7, 8]}
+        ],
+        "key": "auto_repair",
+        "value": 1
+      },
+      {
+        "id": 10,
+        "name": "Lifesteal I",
+        "description": "You gain 1 heart back on each attack",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [6, 7, 8]}
+        ],
+        "key": "lifesteal",
+        "value": 2
+      }
     ]
   ]
 }

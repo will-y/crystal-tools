@@ -74,6 +74,11 @@ public class SwordLevelableTool extends LevelableTool {
             target.setSecondsOnFire(5);
         }
 
+        int heal = (int) NBTUtils.getFloatOrAddKey(tool, "lifesteal");
+
+        if (heal > 0) {
+            attacker.heal(heal);
+        }
 
         addExp(tool, target.getLevel(), attacker.getOnPos(), (int) getAttackDamage(tool));
         return true;
