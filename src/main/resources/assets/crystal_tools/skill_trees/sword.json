@@ -1,5 +1,33 @@
 {
   "tiers": [
-
+    [
+      {
+        "id": 0,
+        "name": "Attack Damage I",
+        "description": "Increases Sword's Attack Damage",
+        "type": "normal",
+        "requirements": [],
+        "key": "damage_bonus",
+        "value": 1
+      },
+      {
+        "id": 1,
+        "name": "Attack Speed I",
+        "description": "Increases Sword's Attack Speed",
+        "type": "normal",
+        "requirements": [],
+        "key": "attack_speed_bonus",
+        "value": 1
+      },
+      {
+        "id": 2,
+        "name": "Durability I",
+        "description": "Increases Sword's Durability",
+        "type": "normal",
+        "requirements": [],
+        "key": "durability_bonus",
+        "value": 200
+      }
+    ]
   ]
 }
