@@ -25,13 +25,13 @@ public class SwordLevelableTool extends LevelableTool {
         // Need an empty block tag
         super(new Item.Properties().fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB), BlockTags.CARPETS, "sword");
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", (double)this.getDamage(), AttributeModifier.Operation.ADDITION));
+//        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", (double)this.getAttackDamage(), AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", (double)this.getAttackSpeed(), AttributeModifier.Operation.ADDITION));
         this.defaultModifiers = builder.build();
     }
 
 
-    public float getDamage() {
+    public float getAttackDamage(ItemStack stack) {
         return tier.getAttackDamageBonus();
     }
 
@@ -56,12 +56,14 @@ public class SwordLevelableTool extends LevelableTool {
         return pBlock.is(Blocks.COBWEB);
     }
 
+    @Override
     public boolean hurtEnemy(ItemStack tool, LivingEntity target, LivingEntity attacker) {
         tool.hurtAndBreak(1, attacker, (p_43296_) -> {
             p_43296_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
         });
 
-        addExp(tool, target.getLevel(), attacker.getOnPos());
+
+        addExp(tool, target.getLevel(), attacker.getOnPos(), (int) getAttackDamage(tool));
         return true;
     }
 
