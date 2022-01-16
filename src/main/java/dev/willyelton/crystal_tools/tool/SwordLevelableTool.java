@@ -19,24 +19,21 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 
 public class SwordLevelableTool extends LevelableTool {
-    private final Multimap<Attribute, AttributeModifier> defaultModifiers;
+    private static final float BASE_ATTACK_DAMAGE = tier.getAttackDamageBonus() + 3;
+    private static final float BASE_ATTACK_SPEED = -2.4f;
 
     public SwordLevelableTool() {
         // Need an empty block tag
         super(new Item.Properties().fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB), BlockTags.CARPETS, "sword");
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-//        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", (double)this.getAttackDamage(), AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", (double)this.getAttackSpeed(), AttributeModifier.Operation.ADDITION));
-        this.defaultModifiers = builder.build();
     }
 
 
     public float getAttackDamage(ItemStack stack) {
-        return tier.getAttackDamageBonus();
+        return BASE_ATTACK_DAMAGE;
     }
 
-    public float getAttackSpeed() {
-        return 1;
+    public float getAttackSpeed(ItemStack stack) {
+        return BASE_ATTACK_SPEED;
     }
 
     public boolean canAttackBlock(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer) {
@@ -74,8 +71,14 @@ public class SwordLevelableTool extends LevelableTool {
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-
-        return slot == EquipmentSlot.MAINHAND ? this.defaultModifiers : super.getAttributeModifiers(slot, stack);
+        if (slot == EquipmentSlot.MAINHAND) {
+            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+            builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", this.getAttackDamage(stack), AttributeModifier.Operation.ADDITION));
+            builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", this.getAttackSpeed(stack), AttributeModifier.Operation.ADDITION));
+            return builder.build();
+        } else {
+            return super.getAttributeModifiers(slot, stack);
+        }
     }
 
     @Override
