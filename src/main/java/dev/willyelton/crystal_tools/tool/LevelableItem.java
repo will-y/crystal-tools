@@ -50,7 +50,11 @@ public class LevelableItem extends Item {
     }
 
     public void addExp(ItemStack tool, Level level, BlockPos blockPos) {
-        int newExperience = (int) NBTUtils.addValueToTag(tool, "experience", 1);
+        addExp(tool, level, blockPos, 1);
+    }
+
+    public void addExp(ItemStack tool, Level level, BlockPos blockPos, int amount) {
+        int newExperience = (int) NBTUtils.addValueToTag(tool, "experience", amount);
         int experienceCap = (int) NBTUtils.getFloatOrAddKey(tool, "experience_cap", BASE_EXPERIENCE_CAP);
 
         if (experienceCap == 0) {
@@ -67,10 +71,12 @@ public class LevelableItem extends Item {
             level.playLocalSound(blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.PLAYER_LEVELUP, SoundSource.NEUTRAL, 0.8F, 0.8F + level.random.nextFloat() * 0.4F, false);
             // TODO: Add chat message thing
 
-            NBTUtils.setValue(tool, "experience", 0);
+            NBTUtils.setValue(tool, "experience", Math.max(0, newExperience - experienceCap));
             NBTUtils.setValue(tool, "experience_cap", experienceCap * EXPERIENCE_CAP_MULTIPLIER);
         }
     }
+
+
 
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
         int newExperience = (int) NBTUtils.getFloatOrAddKey(itemStack, "experience");
