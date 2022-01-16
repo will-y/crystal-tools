@@ -56,3 +56,7 @@ There will be upgrades that are common to most tools, and tools will each get un
 - Leaf Miner
   - Allows axe to mine leaves efficiently.
 
+### Sword
+- Attack Damage
+- Attack Speed
+

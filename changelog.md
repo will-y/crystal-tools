@@ -1,4 +1,10 @@
 ----------------------- 0.3.0 Changes -----------------------
+### Additions
+- Added the crystal Sword
+- Added the following attributes for it
+  - Attack Damage
+  - Attack Speed
+
 ### Changes
 Updated to Forge 1.18.1-39.0.36
 
