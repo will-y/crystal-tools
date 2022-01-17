@@ -14,7 +14,7 @@
   - `add_points <points>` will add `<points>` number of points to any tool you are holding in your hand.
 
 ### Changes
-Updated to Forge 1.18.1-39.0.36
+Updated to Forge 1.18.1-39.0.40
 
 ----------------------- 0.2.0 Changes -----------------------
 ### Additions
