@@ -85,7 +85,7 @@
           {"or_node": [3, 4, 5]}
         ],
         "key": "knockback_resistance",
-        "value": 0.25
+        "value": 0.1
       },
       {
         "id": 8,
@@ -144,10 +144,11 @@
         "description": "Adds Knockback Resistance when holding the sword",
         "type": "normal",
         "requirements": [
-          {"or_node": [9, 10, 11]}
+          {"or_node": [9, 10, 11]},
+          {"node": 7}
         ],
         "key": "knockback_resistance",
-        "value": 0.5
+        "value": 0.1
       },
       {
         "id": 13,
@@ -166,7 +167,8 @@
         "description": "Adds Knockback to the Sword",
         "type": "normal",
         "requirements": [
-          {"or_node": [9, 10, 11]}
+          {"or_node": [9, 10, 11]},
+          {"node": 8}
         ],
         "key": "knockback",
         "value": 2
