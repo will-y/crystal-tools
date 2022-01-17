@@ -233,6 +233,79 @@
         "key": "auto_repair",
         "value": 1
       }
+    ],
+    [
+      {
+        "id": 20,
+        "name": "Attack Damage V",
+        "description": "Increases Sword's Attack Damage",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [18, 19]},
+          {"node": 15}
+        ],
+        "key": "damage_bonus",
+        "value": 1
+      },
+      {
+        "id": 21,
+        "name": "Attack Speed V",
+        "description": "Increases Sword's Attack Speed",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [18, 19]},
+          {"node": 16}
+        ],
+        "key": "attack_speed_bonus",
+        "value": 1
+      },
+      {
+        "id": 22,
+        "name": "Durability V",
+        "description": "Increases Sword's Durability",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [18, 19]},
+          {"node": 17}
+        ],
+        "key": "durability_bonus",
+        "value": 200
+      }
+    ],
+    [
+      {
+        "id": 23,
+        "name": "Infinite Damage",
+        "description": "Add As Many Points To Attack Damage Here As You Want",
+        "type": "infinite",
+        "requirements": [
+          {"node": 20}
+        ],
+        "key": "damage_bonus",
+        "value": 0.25
+      },
+      {
+        "id": 24,
+        "name": "Infinite Speed",
+        "description": "Add As Many Points To Attack Speed Here As You Want",
+        "type": "infinite",
+        "requirements": [
+          {"node": 21}
+        ],
+        "key": "attack_speed_bonus",
+        "value": 0.25
+      },
+      {
+        "id": 25,
+        "name": "Infinite Durability",
+        "description": "Add As Many Points To Durability Here As You Want",
+        "type": "infinite",
+        "requirements": [
+          {"node": 22}
+        ],
+        "key": "durability_bonus",
+        "value": 50
+      }
     ]
   ]
 }
