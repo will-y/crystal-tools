@@ -78,7 +78,7 @@
       },
       {
         "id": 7,
-        "name": "Knockback Resistance I",
+        "name": "Knockback Res I",
         "description": "Adds Knockback Resistance when holding the sword",
         "type": "normal",
         "requirements": [
@@ -106,7 +106,8 @@
         "description": "Increases Sword's Attack Damage",
         "type": "normal",
         "requirements": [
-          {"or_node": [6, 7, 8]}
+          {"or_node": [6, 7, 8]},
+          {"node": 3}
         ],
         "key": "damage_bonus",
         "value": 1
@@ -117,7 +118,8 @@
         "description": "Increases Sword's Attack Speed",
         "type": "normal",
         "requirements": [
-          {"or_node": [6, 7, 8]}
+          {"or_node": [6, 7, 8]},
+          {"node": 4}
         ],
         "key": "attack_speed_bonus",
         "value": 1
@@ -128,7 +130,8 @@
         "description": "Increases Sword's Durability",
         "type": "normal",
         "requirements": [
-          {"or_node": [6, 7, 8]}
+          {"or_node": [6, 7, 8]},
+          {"node": 5}
         ],
         "key": "durability_bonus",
         "value": 200
@@ -137,7 +140,7 @@
     [
       {
         "id": 12,
-        "name": "Knockback Resistance II",
+        "name": "Knockback Res II",
         "description": "Adds Knockback Resistance when holding the sword",
         "type": "normal",
         "requirements": [
@@ -155,7 +158,7 @@
           {"or_node": [9, 10, 11]}
         ],
         "key": "lifesteal",
-        "value": 2
+        "value": 1
       },
       {
         "id": 14,
@@ -176,7 +179,8 @@
         "description": "Increases Sword's Attack Damage",
         "type": "normal",
         "requirements": [
-          {"or_node": [12, 13, 14]}
+          {"or_node": [12, 13, 14]},
+          {"node": 9}
         ],
         "key": "damage_bonus",
         "value": 1
@@ -187,7 +191,8 @@
         "description": "Increases Sword's Attack Speed",
         "type": "normal",
         "requirements": [
-          {"or_node": [12, 13, 14]}
+          {"or_node": [12, 13, 14]},
+          {"node": 10}
         ],
         "key": "attack_speed_bonus",
         "value": 1
@@ -198,7 +203,8 @@
         "description": "Increases Sword's Durability",
         "type": "normal",
         "requirements": [
-          {"or_node": [12, 13, 14]}
+          {"or_node": [12, 13, 14]},
+          {"node": 11}
         ],
         "key": "durability_bonus",
         "value": 200
