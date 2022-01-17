@@ -102,25 +102,130 @@
     [
       {
         "id": 9,
-        "name": "Auto Repair",
-        "description": "Automatically Repairs Your Tool Over Time!",
+        "name": "Attack Damage III",
+        "description": "Increases Sword's Attack Damage",
         "type": "normal",
         "requirements": [
           {"or_node": [6, 7, 8]}
         ],
-        "key": "auto_repair",
+        "key": "damage_bonus",
         "value": 1
       },
       {
         "id": 10,
-        "name": "Lifesteal I",
-        "description": "You gain 1 heart back on each attack",
+        "name": "Attack Speed III",
+        "description": "Increases Sword's Attack Speed",
         "type": "normal",
         "requirements": [
           {"or_node": [6, 7, 8]}
         ],
+        "key": "attack_speed_bonus",
+        "value": 1
+      },
+      {
+        "id": 11,
+        "name": "Durability III",
+        "description": "Increases Sword's Durability",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [6, 7, 8]}
+        ],
+        "key": "durability_bonus",
+        "value": 200
+      }
+    ],
+    [
+      {
+        "id": 12,
+        "name": "Knockback Resistance II",
+        "description": "Adds Knockback Resistance when holding the sword",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [9, 10, 11]}
+        ],
+        "key": "knockback_resistance",
+        "value": 0.5
+      },
+      {
+        "id": 13,
+        "name": "Lifesteal I",
+        "description": "You gain 1 heart back on each attack",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [9, 10, 11]}
+        ],
         "key": "lifesteal",
         "value": 2
+      },
+      {
+        "id": 14,
+        "name": "Knockback II",
+        "description": "Adds Knockback to the Sword",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [9, 10, 11]}
+        ],
+        "key": "knockback",
+        "value": 2
+      }
+    ],
+    [
+      {
+        "id": 15,
+        "name": "Attack Damage IV",
+        "description": "Increases Sword's Attack Damage",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [12, 13, 14]}
+        ],
+        "key": "damage_bonus",
+        "value": 1
+      },
+      {
+        "id": 16,
+        "name": "Attack Speed IV",
+        "description": "Increases Sword's Attack Speed",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [12, 13, 14]}
+        ],
+        "key": "attack_speed_bonus",
+        "value": 1
+      },
+      {
+        "id": 17,
+        "name": "Durability IV",
+        "description": "Increases Sword's Durability",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [12, 13, 14]}
+        ],
+        "key": "durability_bonus",
+        "value": 200
+      }
+    ],
+    [
+      {
+        "id": 18,
+        "name": "Looting III",
+        "description": "Gives this sword Looting III",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [15, 16, 17]}
+        ],
+        "key": "looting_bonus",
+        "value": 3
+      },
+      {
+        "id": 19,
+        "name": "Auto Repair",
+        "description": "Automatically Repairs Your Tool Over Time!",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [15, 16, 17]}
+        ],
+        "key": "auto_repair",
+        "value": 1
       }
     ]
   ]

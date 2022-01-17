@@ -50,6 +50,8 @@ public class ToolAttributePacket {
                 } else if (msg.key.equals("auto_repair")) {
                     NBTUtils.setValue(heldTool, msg.key, true);
                     NBTUtils.addValueToTag(heldTool, "auto_repair_amount", 1);
+                } else if(msg.key.equals("looting_bonus")) {
+                    heldTool.enchant(Enchantments.MOB_LOOTING, (int) msg.value);
                 } else {
                     NBTUtils.addValueToTag(heldTool, msg.key, msg.value);
                 }
