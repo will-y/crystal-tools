@@ -10,6 +10,8 @@
     - You get knocked back less when holding the sword
   - Lifesteal
     - You heal when you hit enemies
+- Added a command to add skillpoints to a tool (cheat mode only)
+  - `add_points <points>` will add `<points>` number of points to any tool you are holding in your hand.
 
 ### Changes
 Updated to Forge 1.18.1-39.0.36

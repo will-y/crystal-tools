@@ -9,7 +9,6 @@ import dev.willyelton.crystal_tools.tool.LevelableItem;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.commands.arguments.MessageArgument;
 import net.minecraft.world.entity.Entity;
 
 public class AddPointsCommand {
@@ -33,7 +32,7 @@ public class AddPointsCommand {
                 }
             });
         }
-        System.out.println("Command Triggered");
+
         return 1;
     }
 }
