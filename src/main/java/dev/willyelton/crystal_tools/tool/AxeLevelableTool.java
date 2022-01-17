@@ -30,7 +30,7 @@ public class AxeLevelableTool extends LevelableTool {
 
 
     public AxeLevelableTool() {
-        super(new Item.Properties().fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB), BlockTags.MINEABLE_WITH_AXE, "axe");
+        super(new Item.Properties(), BlockTags.MINEABLE_WITH_AXE, "axe");
     }
 
     @Override

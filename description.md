@@ -25,6 +25,8 @@ The following tools are implemented:
 - Crystal Axe
 - Crystal Shovel
 - Crystal Hoe
+- Crystal Sword
+- Crystal Bow
 
 ## Upgrades
 There will be upgrades that are common to most tools, and tools will each get unique upgrades as well. Below is a list of all currently implemented upgrades.
@@ -65,4 +67,6 @@ There will be upgrades that are common to most tools, and tools will each get un
   - You take less knockback when holding the sword
 - Lifesteal
   - You heal each time you hit an enemy
+
+### Bow
 

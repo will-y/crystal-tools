@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.tool;
 
+import dev.willyelton.crystal_tools.item.CreativeTabs;
 import dev.willyelton.crystal_tools.item.ModItems;
 import dev.willyelton.crystal_tools.tool.skill.SkillData;
 import dev.willyelton.crystal_tools.tool.skill.SkillDataNode;
@@ -34,7 +35,7 @@ public class LevelableItem extends Item {
     protected final String itemType;
 
     public LevelableItem(Properties properties, String itemType) {
-        super(properties.defaultDurability(tier.getUses()));
+        super(properties.defaultDurability(tier.getUses()).fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB));
         this.itemType = itemType;
     }
 

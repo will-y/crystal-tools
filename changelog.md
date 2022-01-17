@@ -1,3 +1,7 @@
+----------------------- 0.4.0 Changes -----------------------
+### Additions
+- Added the crystal Bow
+
 ----------------------- 0.3.0 Changes -----------------------
 ### Additions
 - Added the crystal Sword
