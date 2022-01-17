@@ -10,6 +10,7 @@
     - You get knocked back less when holding the sword
   - Lifesteal
     - You heal when you hit enemies
+  - Looting
 - Added a command to add skillpoints to a tool (cheat mode only)
   - `add_points <points>` will add `<points>` number of points to any tool you are holding in your hand.
 

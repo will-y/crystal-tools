@@ -1,11 +1,8 @@
--------------------- 0.3.0 --------------------
+-------------------- 0.4.0 --------------------
 - Add Other Tools
     - Bow
     - Armor
 - Create Attributes
-    - Sword
-        - Sweeping Edge
-        - Looting
     - Bow
         - Draw Speed
         - Arrow Speed

@@ -65,4 +65,5 @@ There will be upgrades that are common to most tools, and tools will each get un
   - You take less knockback when holding the sword
 - Lifesteal
   - You heal each time you hit an enemy
+- Looting
 
