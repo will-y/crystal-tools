@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools;
 
 import dev.willyelton.crystal_tools.block.ModBlocks;
+import dev.willyelton.crystal_tools.command.RegisterCommandEvent;
 import dev.willyelton.crystal_tools.item.ModItems;
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
 import dev.willyelton.crystal_tools.network.PacketHandler;
@@ -44,6 +45,8 @@ public class CrystalTools {
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+
+        MinecraftForge.EVENT_BUS.register(RegisterCommandEvent.class);
 
         // Register Blocks
         ModBlocks.initBlocks();
