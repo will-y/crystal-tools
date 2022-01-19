@@ -96,8 +96,8 @@ public class BowLevelableTool extends LevelableItem {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
         boolean flag = !getProjectile(itemstack, pPlayer).isEmpty();
 
-        InteractionResultHolder<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemstack, pLevel, pPlayer, pHand, flag);
-        if (ret != null) return ret;
+//        InteractionResultHolder<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemstack, pLevel, pPlayer, pHand, flag);
+//        if (ret != null) return ret;
 
         if (!pPlayer.getAbilities().instabuild && !flag) {
             return InteractionResultHolder.fail(itemstack);
@@ -123,7 +123,7 @@ public class BowLevelableTool extends LevelableItem {
     }
 
     public ItemStack getProjectile(ItemStack pShootable, Player player) {
-        if (!(pShootable.getItem() instanceof ProjectileWeaponItem)) {
+        if (!(pShootable.getItem() instanceof BowLevelableTool)) {
             return ItemStack.EMPTY;
         } else {
             Predicate<ItemStack> predicate = getAllSupportedProjectiles();
