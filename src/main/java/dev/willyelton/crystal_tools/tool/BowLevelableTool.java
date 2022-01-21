@@ -66,7 +66,7 @@ public class BowLevelableTool extends LevelableItem {
                             abstractarrow.setKnockback(k);
                         }
 
-                        if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FLAMING_ARROWS, pStack) > 0) {
+                        if (NBTUtils.getFloatOrAddKey(pStack, "flame") > 0) {
                             abstractarrow.setSecondsOnFire(100);
                         }
 
