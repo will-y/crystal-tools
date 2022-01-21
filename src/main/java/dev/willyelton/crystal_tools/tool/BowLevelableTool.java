@@ -60,7 +60,8 @@ public class BowLevelableTool extends LevelableItem {
                             abstractarrow.setBaseDamage(abstractarrow.getBaseDamage() + (double)j + 0.5D);
                         }
 
-                        int k = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.PUNCH_ARROWS, pStack);
+//                        int k = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.PUNCH_ARROWS, pStack);
+                        int k = (int) NBTUtils.getFloatOrAddKey(pStack, "arrow_knockback");
                         if (k > 0) {
                             abstractarrow.setKnockback(k);
                         }
