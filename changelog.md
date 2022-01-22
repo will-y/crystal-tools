@@ -2,6 +2,9 @@
 ### Additions
 - Added the crystal Bow
 
+### Changes
+- Updated to Forge 1.18.1-39.0.57
+
 ----------------------- 0.3.0 Changes -----------------------
 ### Additions
 - Added the crystal Sword

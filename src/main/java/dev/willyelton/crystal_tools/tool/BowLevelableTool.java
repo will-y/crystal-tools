@@ -50,7 +50,8 @@ public class BowLevelableTool extends LevelableItem {
                         ArrowItem arrowitem = (ArrowItem)(itemstack.getItem() instanceof ArrowItem ? itemstack.getItem() : Items.ARROW);
                         AbstractArrow abstractarrow = arrowitem.createArrow(pLevel, itemstack, player);
                         abstractarrow = customArrow(abstractarrow);
-                        abstractarrow.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, f * 3.0F + NBTUtils.getFloatOrAddKey(pStack, "arrow_speed_bonus") / 2.0F, 1.0F);
+                        //TODO: TOO Random
+                        abstractarrow.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, f * 3.0F + NBTUtils.getFloatOrAddKey(pStack, "arrow_speed_bonus") / 4.0F, 0.0F);
                         if (f == 1.0F) {
                             abstractarrow.setCritArrow(true);
                         }
