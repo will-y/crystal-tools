@@ -1,6 +1,13 @@
 ----------------------- 0.4.0 Changes -----------------------
 ### Additions
 - Added the crystal Bow
+- Added the following attributes for it
+  - Arrow Damage
+  - Arrow Speed
+  - Flame
+  - Infinity
+  - Arrow Speed
+  - Arrow Knockback
 
 ### Changes
 - Updated to Forge 1.18.1-39.0.57
