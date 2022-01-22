@@ -30,8 +30,15 @@ public class BowLevelableTool extends LevelableItem {
     @Override
     public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pEntityLiving, int pTimeLeft) {
         if (pEntityLiving instanceof Player player) {
-            boolean flag = player.getAbilities().instabuild || EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY_ARROWS, pStack) > 0;
-            ItemStack itemstack = getProjectile(pStack, player);
+            boolean flag = player.getAbilities().instabuild;
+
+            ItemStack itemstack;
+
+            if (NBTUtils.getFloatOrAddKey(pStack, "infinity") > 0) {
+                itemstack = new ItemStack(Items.ARROW);
+            } else {
+                itemstack = getProjectile(pStack, player);
+            }
 
             int i = this.getUseDuration(pStack) - pTimeLeft;
             i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(pStack, pLevel, player, i, !itemstack.isEmpty() || flag);
@@ -43,7 +50,6 @@ public class BowLevelableTool extends LevelableItem {
                 }
 
                 float f = getPowerForTime(i);
-                System.out.println("Power: " + f);
                 if (!((double)f < 0.1D)) {
                     boolean flag1 = player.getAbilities().instabuild || (itemstack.getItem() instanceof ArrowItem && ((ArrowItem)itemstack.getItem()).isInfinite(itemstack, pStack, player));
                     if (!pLevel.isClientSide) {
@@ -75,7 +81,7 @@ public class BowLevelableTool extends LevelableItem {
                         pStack.hurtAndBreak(1, player, (p_40665_) -> {
                             p_40665_.broadcastBreakEvent(player.getUsedItemHand());
                         });
-                        if (flag1 || player.getAbilities().instabuild && (itemstack.is(Items.SPECTRAL_ARROW) || itemstack.is(Items.TIPPED_ARROW))) {
+                        if (flag1 || player.getAbilities().instabuild && (itemstack.is(Items.SPECTRAL_ARROW) || itemstack.is(Items.TIPPED_ARROW)) || NBTUtils.getFloatOrAddKey(pStack, "infinity") > 0) {
                             abstractarrow.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                         }
 
@@ -99,7 +105,7 @@ public class BowLevelableTool extends LevelableItem {
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
-        boolean flag = !getProjectile(itemstack, pPlayer).isEmpty();
+        boolean flag = !getProjectile(itemstack, pPlayer).isEmpty() || NBTUtils.getFloatOrAddKey(itemstack, "infinity") > 0;
 
 //        InteractionResultHolder<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemstack, pLevel, pPlayer, pHand, flag);
 //        if (ret != null) return ret;
