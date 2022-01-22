@@ -10,8 +10,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 
 import java.util.function.Predicate;
@@ -20,9 +18,6 @@ import static net.minecraft.world.item.BowItem.getPowerForTime;
 import static net.minecraft.world.item.ProjectileWeaponItem.ARROW_ONLY;
 
 public class BowLevelableTool extends LevelableItem {
-    public static final int BASE_DRAW_DURATION = 20;
-    public static final int BASE_RANGE = 15;
-
     public BowLevelableTool() {
         super(new Properties(), "bow");
     }
