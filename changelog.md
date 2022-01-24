@@ -10,7 +10,7 @@
   - Arrow Knockback
 
 ### Changes
-- Updated to Forge 1.18.1-39.0.57
+- Updated to Forge 1.18.1-39.0.59
 
 ----------------------- 0.3.0 Changes -----------------------
 ### Additions
