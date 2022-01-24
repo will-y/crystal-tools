@@ -114,8 +114,10 @@ public class BowLevelableTool extends LevelableItem {
     }
 
     // TODO: Change this by level
+    // Doesn't work, try something else later
     @Override
-    public int getUseDuration(ItemStack pStack) {
+    public int getUseDuration(ItemStack stack) {
+//        return Math.max(72000 - (int) (5000 * NBTUtils.getFloatOrAddKey(stack, "draw_speed")), 20000);
         return 72000;
     }
 

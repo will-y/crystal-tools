@@ -6,7 +6,6 @@
   - Arrow Speed
   - Flame
   - Infinity
-  - Arrow Speed
   - Arrow Knockback
 
 ### Changes
