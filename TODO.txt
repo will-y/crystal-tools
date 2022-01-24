@@ -1,14 +1,9 @@
 -------------------- 0.4.0 --------------------
-- Add Other Tools
-    - Bow
+- Add
     - Armor
 - Create Attributes
     - Bow
         - Draw Speed
-        - Arrow Speed
-        - Damage
-        - Flame
-        - Infinity
     - Armor
         - Thorns
         - All Prot Types
@@ -29,4 +24,5 @@
 - Make all items come to you when vein mining
 - Make ores drop exp when broken when auto smelting
 - Auto smelt things in 3x3 and vein mining
+- Actually Play Level Up Sound
 
