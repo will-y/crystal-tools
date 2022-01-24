@@ -7,6 +7,8 @@
   - Flame
   - Infinity
   - Arrow Knockback
+- I planned to add draw speed as well, but that is not working right now, will be added later
+- Texture to come soon
 
 ### Changes
 - Updated to Forge 1.18.1-39.0.59
