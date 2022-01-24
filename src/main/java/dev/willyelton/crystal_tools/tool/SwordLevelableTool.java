@@ -27,7 +27,7 @@ public class SwordLevelableTool extends LevelableTool {
 
     public SwordLevelableTool() {
         // Need an empty block tag
-        super(new Item.Properties().fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB), BlockTags.CARPETS, "sword");
+        super(new Item.Properties(), BlockTags.CARPETS, "sword");
     }
 
 

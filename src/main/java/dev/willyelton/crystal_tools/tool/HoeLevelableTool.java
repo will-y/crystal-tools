@@ -35,7 +35,7 @@ public class HoeLevelableTool extends LevelableTool {
     }, changeIntoStateAndDropItem(Blocks.DIRT.defaultBlockState(), Items.HANGING_ROOTS))));
 
     public HoeLevelableTool() {
-        super(new Item.Properties().fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB), BlockTags.MINEABLE_WITH_HOE, "hoe");
+        super(new Item.Properties(), BlockTags.MINEABLE_WITH_HOE, "hoe");
     }
 
     // also just took this from HoeItem

@@ -14,11 +14,12 @@ public class ModTools {
 
     private static final DeferredRegister<Item> TOOLS = DeferredRegister.create(ForgeRegistries.ITEMS, CrystalTools.MODID);
 
-    public static final RegistryObject<Item> CRYSTAL_PICKAXE = TOOLS.register("crystal_pickaxe", () -> new PickaxeLevelableTool(new Item.Properties().fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB), "pickaxe"));
+    public static final RegistryObject<Item> CRYSTAL_PICKAXE = TOOLS.register("crystal_pickaxe", PickaxeLevelableTool::new);
     public static final RegistryObject<Item> CRYSTAL_AXE = TOOLS.register("crystal_axe", AxeLevelableTool::new);
     public static final RegistryObject<Item> CRYSTAL_SHOVEL = TOOLS.register("crystal_shovel", ShovelLevelableTool::new);
     public static final RegistryObject<Item> CRYSTAL_HOE = TOOLS.register("crystal_hoe", HoeLevelableTool::new);
     public static final RegistryObject<Item> CRYSTAL_SWORD =  TOOLS.register("crystal_sword", SwordLevelableTool::new);
+    public static final RegistryObject<Item> CRYSTAL_BOW = TOOLS.register("crystal_bow", BowLevelableTool::new);
 
 
     public static void initTools() {

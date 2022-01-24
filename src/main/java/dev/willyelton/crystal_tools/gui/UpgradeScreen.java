@@ -7,6 +7,7 @@ import dev.willyelton.crystal_tools.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.network.ToolAttributePacket;
 import dev.willyelton.crystal_tools.network.ToolHealPacket;
+import dev.willyelton.crystal_tools.tool.LevelableItem;
 import dev.willyelton.crystal_tools.tool.LevelableTool;
 import dev.willyelton.crystal_tools.tool.skill.SkillData;
 import dev.willyelton.crystal_tools.tool.skill.SkillDataNode;
@@ -44,8 +45,8 @@ public class UpgradeScreen extends Screen {
         tool = itemStack;
 
         int[] points = NBTUtils.getIntArray(tool, "points");
-        if (tool.getItem() instanceof LevelableTool) {
-            String toolType = ((LevelableTool) tool.getItem()).getItemType();
+        if (tool.getItem() instanceof LevelableItem) {
+            String toolType = ((LevelableItem) tool.getItem()).getItemType();
             toolData = SkillData.fromResourceLocation(new ResourceLocation("crystal_tools", String.format("skill_trees/%s.json", toolType)), points);
         } else {
             toolData = null;

@@ -6,6 +6,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -14,8 +15,8 @@ import net.minecraft.world.level.block.WallTorchBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class PickaxeLevelableTool extends LevelableTool {
-    public PickaxeLevelableTool(Properties properties, String toolType) {
-        super(properties, BlockTags.MINEABLE_WITH_PICKAXE, toolType);
+    public PickaxeLevelableTool() {
+        super(new Item.Properties(), BlockTags.MINEABLE_WITH_PICKAXE, "pickaxe");
     }
 
     public InteractionResult useOn(UseOnContext context) {

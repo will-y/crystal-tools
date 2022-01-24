@@ -28,7 +28,7 @@ public class ShovelLevelableTool extends DiggerLevelableTool {
     protected static final Map<Block, BlockState> FLATTENABLES = Maps.newHashMap((new ImmutableMap.Builder()).put(Blocks.GRASS_BLOCK, Blocks.DIRT_PATH.defaultBlockState()).put(Blocks.DIRT, Blocks.DIRT_PATH.defaultBlockState()).put(Blocks.PODZOL, Blocks.DIRT_PATH.defaultBlockState()).put(Blocks.COARSE_DIRT, Blocks.DIRT_PATH.defaultBlockState()).put(Blocks.MYCELIUM, Blocks.DIRT_PATH.defaultBlockState()).put(Blocks.ROOTED_DIRT, Blocks.DIRT_PATH.defaultBlockState()).build());
 
     public ShovelLevelableTool() {
-        super(new Item.Properties().fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB), BlockTags.MINEABLE_WITH_SHOVEL, "shovel");
+        super(new Item.Properties(), BlockTags.MINEABLE_WITH_SHOVEL, "shovel");
     }
 
     // just from ShovelItem
