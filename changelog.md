@@ -2,11 +2,11 @@
 ### Additions
 - Added the crystal Bow
 - Added the following attributes for it
-  - Arrow Damage
-  - Arrow Speed
-  - Flame
-  - Infinity
-  - Arrow Knockback
+	- Arrow Damage
+	- Arrow Speed
+	- Flame
+	- Infinity
+	- Arrow Knockback
 - I planned to add draw speed as well, but that is not working right now, will be added later
 - Texture to come soon
 
@@ -17,17 +17,17 @@
 ### Additions
 - Added the crystal Sword
 - Added the following attributes for it
-  - Attack Damage
-  - Attack Speed
-  - Fire Aspect
-  - Knockback
-  - Knockback Resistance
-    - You get knocked back less when holding the sword
-  - Lifesteal
-    - You heal when you hit enemies
-  - Looting
+	- Attack Damage
+	- Attack Speed
+	- Fire Aspect
+	- Knockback
+	- Knockback Resistance
+		- You get knocked back less when holding the sword
+	- Lifesteal
+		- You heal when you hit enemies
+	- Looting
 - Added a command to add skillpoints to a tool (cheat mode only)
-  - `add_points <points>` will add `<points>` number of points to any tool you are holding in your hand.
+	- `add_points <points>` will add `<points>` number of points to any tool you are holding in your hand.
 
 ### Changes
 Updated to Forge 1.18.1-39.0.40
@@ -40,12 +40,12 @@ Updated to Forge 1.18.1-39.0.40
 - Added tree stripper upgrade to the axe
 - Added 3x3 mining to the pickaxe and shovel
 - Added vein mining to pickaxe
-  - Only works on ores
-  - Fortune and silk touch effects are applied to all broken ores
+	- Only works on ores
+	- Fortune and silk touch effects are applied to all broken ores
 - Added auto smelting upgrade
-  - Right now it doesn't work with vein mining or 3x3 mining (I can't figure out why). Will be fixed later.
+	- Right now it doesn't work with vein mining or 3x3 mining (I can't figure out why). Will be fixed later.
 - Added torch placer upgrade onto pickaxe
-  - Right-Click to place a torch, costs 10 durability
+	- Right-Click to place a torch, costs 10 durability
 
 ### Changes
 - Removed the Fortune I and II nodes from all tools
@@ -55,7 +55,7 @@ Updated to Forge 1.18.1-39.0.40
 ### Additions
 - Added a broken tooltip when a tool is broken
 - Holding `Shift` on a tooltip now shows the skills it has
-    - Includes the points in infinite skills
+	- Includes the points in infinite skills
 - Infinite skill nodes now show the amount of points put in them
 
 ### Changes
@@ -76,7 +76,7 @@ Updated to Forge 1.18.1-39.0.40
 ### Additions
 - Added the crystal axe
 - Added the crystal hoe
-    - Currently doesn't level up from tilling dirt, just breaking blocks
+	- Currently doesn't level up from tilling dirt, just breaking blocks
 - Added the crystal shovel
 
 ### Fixes
