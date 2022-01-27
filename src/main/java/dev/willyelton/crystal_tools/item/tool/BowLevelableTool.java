@@ -1,26 +1,33 @@
 package dev.willyelton.crystal_tools.item.tool;
 
+import dev.willyelton.crystal_tools.CreativeTabs;
 import dev.willyelton.crystal_tools.item.LevelableItem;
+import dev.willyelton.crystal_tools.item.ModItems;
+import dev.willyelton.crystal_tools.utils.LevelUtilities;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
 
 import static net.minecraft.world.item.BowItem.getPowerForTime;
 import static net.minecraft.world.item.ProjectileWeaponItem.ARROW_ONLY;
 
-public class BowLevelableTool extends LevelableItem {
+// TODO extend BowItem
+public class BowLevelableTool extends Item implements LevelableItem {
     public BowLevelableTool() {
-        super(new Properties(), "bow");
+        super(new Properties().defaultDurability(tier.getUses()).fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB));
     }
 
     @Override
@@ -154,5 +161,48 @@ public class BowLevelableTool extends LevelableItem {
 
     public Predicate<ItemStack> getAllSupportedProjectiles() {
         return ARROW_ONLY;
+    }
+
+    @Override
+    public String getItemType() {
+        return "bow";
+    }
+
+    @Override
+    public int getMaxDamage(ItemStack stack) {
+        int bonusDurability = (int) NBTUtils.getFloatOrAddKey(stack, "durability_bonus");
+        return tier.getUses() + bonusDurability;
+    }
+
+    @Override
+    public boolean isFoil(ItemStack stack) {
+        return false;
+    }
+
+    // Changing these two to what they should be @minecraft
+    @Override
+    public int getBarWidth(ItemStack itemStack) {
+        return Math.round(13.0F - (float) itemStack.getDamageValue() * 13.0F / (float) itemStack.getMaxDamage());
+    }
+
+    @Override
+    public int getBarColor(ItemStack itemStack) {
+        float f = Math.max(0.0F, ((float)itemStack.getMaxDamage() - (float)itemStack.getDamageValue()) / (float) itemStack.getMaxDamage());
+        return Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
+    }
+
+    @Override
+    public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand) {
+        LevelUtilities.inventoryTick(itemStack, level, entity, inventorySlot, inHand);
+    }
+
+    @Override
+    public boolean isValidRepairItem(@NotNull ItemStack tool, @NotNull ItemStack repairItem) {
+        return repairItem.is(ModItems.CRYSTAL.get());
+    }
+
+    @Override
+    public int getEnchantmentValue() {
+        return tier.getEnchantmentValue();
     }
 }
