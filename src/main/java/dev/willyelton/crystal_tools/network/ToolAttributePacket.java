@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.network;
 
+import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.network.FriendlyByteBuf;
@@ -45,7 +46,8 @@ public class ToolAttributePacket {
                 Enchantment enchantment = enchantmentFromString(msg.key);
 
                 if (enchantment != null) {
-                    heldTool.enchant(enchantment, (int) msg.value);
+//                    heldTool.enchant(enchantment, (int) msg.value);
+                    EnchantmentUtils.addEnchantment(heldTool, enchantment, (int) msg.value);
                 } else if (msg.key.equals("auto_repair")) {
                     NBTUtils.setValue(heldTool, msg.key, true);
                     NBTUtils.addValueToTag(heldTool, "auto_repair_amount", 1);

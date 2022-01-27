@@ -4,6 +4,12 @@
 - Added crystal chestplate
 - Added crystal leggings
 - Added crystal boots
+- Added the following attributes
+  - General Armor:
+  - Helmet:
+  - Chestplate:
+  - Leggings:
+  - Boots:
 
 ----------------------- 0.4.1 Changes -----------------------
 ### Changes

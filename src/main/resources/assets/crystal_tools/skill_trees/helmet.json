@@ -29,13 +29,26 @@
         "value": 1
       },
       {
-        "id": 2,
+        "id": 3,
         "name": "Projectile Protection I",
         "description": "Gives the helmet Projectile Protection I.",
         "type": "normal",
         "requirements": [],
         "key": "projectile_protection_bonus",
         "value": 1
+      }
+    ],
+    [
+      {
+        "id": 5,
+        "name": "Protection II",
+        "description": "Gives the helmet Protection II.",
+        "type": "normal",
+        "requirements": [
+          {"node": 0}
+        ],
+        "key": "protection_bonus",
+        "value": 2
       }
     ]
   ]
