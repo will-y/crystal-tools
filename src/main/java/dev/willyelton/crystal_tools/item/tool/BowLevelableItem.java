@@ -25,8 +25,8 @@ import static net.minecraft.world.item.BowItem.getPowerForTime;
 import static net.minecraft.world.item.ProjectileWeaponItem.ARROW_ONLY;
 
 // TODO extend BowItem
-public class BowLevelableTool extends Item implements LevelableItem {
-    public BowLevelableTool() {
+public class BowLevelableItem extends Item implements LevelableItem {
+    public BowLevelableItem() {
         super(new Properties().defaultDurability(tier.getUses()).fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB));
     }
 
@@ -139,7 +139,7 @@ public class BowLevelableTool extends Item implements LevelableItem {
     }
 
     public ItemStack getProjectile(ItemStack pShootable, Player player) {
-        if (!(pShootable.getItem() instanceof BowLevelableTool)) {
+        if (!(pShootable.getItem() instanceof BowLevelableItem)) {
             return ItemStack.EMPTY;
         } else {
             Predicate<ItemStack> predicate = getAllSupportedProjectiles();
