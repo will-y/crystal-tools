@@ -6,6 +6,7 @@
         - Speed
         - Jump
         - Add vanilla enchantments
+        - Health
 
 ----------- At Some Point ------------------
 - Dependency Lines
@@ -23,4 +24,4 @@
 - Actually Play Level Up Sound
 - Bow Draw Speed
 - Bow zoom
-- Bow, sword, armor don't work when broken
+- Make Bow, sword, armor not work when broken
