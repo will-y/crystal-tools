@@ -21,11 +21,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
 
-import static net.minecraft.world.item.BowItem.getPowerForTime;
-import static net.minecraft.world.item.ProjectileWeaponItem.ARROW_ONLY;
-
 // TODO extend BowItem
-public class BowLevelableItem extends Item implements LevelableItem {
+public class BowLevelableItem extends BowItem implements LevelableItem {
     public BowLevelableItem() {
         super(new Properties().defaultDurability(tier.getUses()).fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB));
     }
@@ -157,10 +154,6 @@ public class BowLevelableItem extends Item implements LevelableItem {
                 return player.getAbilities().instabuild ? new ItemStack(Items.ARROW) : ItemStack.EMPTY;
             }
         }
-    }
-
-    public Predicate<ItemStack> getAllSupportedProjectiles() {
-        return ARROW_ONLY;
     }
 
     @Override
