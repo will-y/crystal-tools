@@ -5,12 +5,14 @@
 - Added crystal leggings
 - Added crystal boots
 - Added the following attributes:
-  - General Armor:
-    - Protection
-    - Fire Protection
-    - Blast Protection
-    - Projectile Protection
-    - Thorns
+  - All Armor:
+      - Protection
+      - Fire Protection
+      - Blast Protection
+      - Projectile Protection
+      - Thorns
+      - Armor value bonus
+      - Toughness bonus
   - Helmet:
     - Aqua Affinity
     - Respiration

@@ -40,15 +40,72 @@
     ],
     [
       {
-        "id": 5,
-        "name": "Protection II",
-        "description": "Gives the helmet Protection II.",
+        "id": 4,
+        "name": "Protection I",
+        "description": "Gives the helmet Protection I.",
         "type": "normal",
         "requirements": [
           {"node": 0}
         ],
         "key": "protection_bonus",
         "value": 2
+      },
+      {
+        "id": 5,
+        "name": "Fire Protection I",
+        "description": "Gives the helmet Fire Protection I.",
+        "type": "normal",
+        "requirements": [
+          {"node": 1}
+        ],
+        "key": "fire_protection_bonus",
+        "value": 2
+      },
+      {
+        "id": 6,
+        "name": "Blast Protection I",
+        "description": "Gives the helmet Blast Protection I.",
+        "type": "normal",
+        "requirements": [
+          {"node": 2}
+        ],
+        "key": "blast_protection_bonus",
+        "value": 2
+      },
+      {
+        "id": 7,
+        "name": "Projectile Protection I",
+        "description": "Gives the helmet Projectile Protection II.",
+        "type": "normal",
+        "requirements": [
+          {"node": 3}
+        ],
+        "key": "projectile_protection_bonus",
+        "value": 2
+      }
+    ],
+    [
+      {
+        "id": 8,
+        "name": "Base Armor I",
+        "description": "Gives the helmet more base armor.",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [4, 5, 6, 7]}
+        ],
+        "key": "armor_bonus",
+        "value": 1
+      },
+      {
+        "id": 9,
+        "name": "Toughness I",
+        "description": "Gives the helmet more armor toughness.",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [4, 5, 6, 7]}
+        ],
+        "key": "toughness_bonus",
+        "value": 0.5
       }
     ]
   ]

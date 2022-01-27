@@ -57,11 +57,11 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Wearable
 
     // Attributes
     public int getDefense(ItemStack stack) {
-        return this.getDefense();
+        return this.getDefense() + (int) NBTUtils.getFloatOrAddKey(stack, "armor_bonus");
     }
 
     public float getToughness(ItemStack stack) {
-        return this.getToughness();
+        return this.getToughness() + NBTUtils.getFloatOrAddKey(stack, "toughness_bonus");
     }
 
     public float getKnockbackResistance(ItemStack stack) {
