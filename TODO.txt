@@ -3,10 +3,17 @@
     - Armor
         - Thorns
         - All Prot Types
-        - Speed
-        - Jump
-        - Add vanilla enchantments
+    - Helmet
+        - Night Vision
+        - Respiration
+        _ Aqua Affinity
+    - Chestplate
         - Health
+    - Leggings
+        - Speed
+    - Boots
+        - Feather Falling
+        - Jump boost
 
 ----------- At Some Point ------------------
 - Dependency Lines

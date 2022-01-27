@@ -29,7 +29,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Consumer;
 
-// TODO extend ArmorItem
 public class LevelableArmor extends ArmorItem implements LevelableItem, Wearable {
     protected final String itemType;
 

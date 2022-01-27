@@ -1,5 +1,42 @@
 {
   "tiers": [
-
+    [
+      {
+        "id": 0,
+        "name": "Protection I",
+        "description": "Gives the helmet Protection I.",
+        "type": "normal",
+        "requirements": [],
+        "key": "protection_bonus",
+        "value": 1
+      },
+      {
+        "id": 1,
+        "name": "Fire Protection I",
+        "description": "Gives the helmet Fire Protection I.",
+        "type": "normal",
+        "requirements": [],
+        "key": "fire_protection_bonus",
+        "value": 1
+      },
+      {
+        "id": 2,
+        "name": "Blast Protection I",
+        "description": "Gives the helmet Blast Protection I.",
+        "type": "normal",
+        "requirements": [],
+        "key": "blast_protection_bonus",
+        "value": 1
+      },
+      {
+        "id": 2,
+        "name": "Projectile Protection I",
+        "description": "Gives the helmet Projectile Protection I.",
+        "type": "normal",
+        "requirements": [],
+        "key": "projectile_protection_bonus",
+        "value": 1
+      }
+    ]
   ]
 }

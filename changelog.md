@@ -1,4 +1,4 @@
------------------------ 0.4.0 Changes -----------------------
+----------------------- 0.5.0 Changes -----------------------
 ### Additions
 - Added crystal helmet
 - Added crystal chestplate
