@@ -4,12 +4,20 @@
 - Added crystal chestplate
 - Added crystal leggings
 - Added crystal boots
-- Added the following attributes
+- Added the following attributes:
   - General Armor:
+    - Protection
+    - Fire Protection
+    - Blast Protection
+    - Projectile Protection
+    - Thorns
   - Helmet:
+    - Aqua Affinity
+    - Respiration
   - Chestplate:
   - Leggings:
   - Boots:
+    - Feather Falling
 
 ----------------------- 0.4.1 Changes -----------------------
 ### Changes

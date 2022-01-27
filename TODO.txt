@@ -1,18 +1,12 @@
 -------------------- 0.5.0 --------------------
 - Create Attributes
-    - Armor
-        - Thorns
-        - All Prot Types
     - Helmet
         - Night Vision
-        - Respiration
-        _ Aqua Affinity
     - Chestplate
         - Health
     - Leggings
         - Speed
     - Boots
-        - Feather Falling
         - Jump boost
 
 ----------- At Some Point ------------------
