@@ -1,4 +1,4 @@
-package dev.willyelton.crystal_tools.item;
+package dev.willyelton.crystal_tools;
 
 import dev.willyelton.crystal_tools.item.tool.ModTools;
 import net.minecraft.world.item.CreativeModeTab;

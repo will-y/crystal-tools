@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.block;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.item.CreativeTabs;
+import dev.willyelton.crystal_tools.CreativeTabs;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;

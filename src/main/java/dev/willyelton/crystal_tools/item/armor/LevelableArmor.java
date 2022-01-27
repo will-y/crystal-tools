@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.item.armor;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import dev.willyelton.crystal_tools.CreativeTabs;
 import dev.willyelton.crystal_tools.item.LevelableItem;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.stats.Stats;
@@ -28,13 +29,18 @@ public class LevelableArmor extends LevelableItem implements Wearable {
     protected final float knockbackResistance;
     protected final ArmorMaterial material;
 
-    public LevelableArmor(Properties properties, String itemType, EquipmentSlot slot) {
-        super(properties, itemType);
+    public LevelableArmor(String itemType, EquipmentSlot slot) {
+        super(new Properties().fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB), itemType);
         this.material = ArmorMaterials.NETHERITE;
         this.slot = slot;
         this.defense = material.getDefenseForSlot(slot);
         this.toughness = material.getToughness();
         this.knockbackResistance = material.getKnockbackResistance();
+    }
+
+    @Override
+    public EquipmentSlot getEquipmentSlot(ItemStack stack) {
+        return this.slot;
     }
 
     // Functions from ArmorItem

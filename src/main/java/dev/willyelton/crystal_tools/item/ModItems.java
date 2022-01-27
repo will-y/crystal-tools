@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.item;
 
+import dev.willyelton.crystal_tools.CreativeTabs;
 import dev.willyelton.crystal_tools.CrystalTools;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;

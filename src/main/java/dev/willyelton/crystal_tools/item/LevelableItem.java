@@ -1,7 +1,6 @@
 package dev.willyelton.crystal_tools.item;
 
-import dev.willyelton.crystal_tools.item.CreativeTabs;
-import dev.willyelton.crystal_tools.item.ModItems;
+import dev.willyelton.crystal_tools.CreativeTabs;
 import dev.willyelton.crystal_tools.item.skill.SkillData;
 import dev.willyelton.crystal_tools.item.skill.SkillDataNode;
 import dev.willyelton.crystal_tools.item.skill.SkillNodeType;
