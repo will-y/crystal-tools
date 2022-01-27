@@ -43,31 +43,6 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Wearable
         return this.slot;
     }
 
-    // Functions from ArmorItem
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        ItemStack itemstack = player.getItemInHand(hand);
-        EquipmentSlot equipmentslot = Mob.getEquipmentSlotForItem(itemstack);
-        ItemStack itemstack1 = player.getItemBySlot(equipmentslot);
-        if (itemstack1.isEmpty()) {
-            player.setItemSlot(equipmentslot, itemstack.copy());
-            if (!level.isClientSide()) {
-                player.awardStat(Stats.ITEM_USED.get(this));
-            }
-
-            itemstack.setCount(0);
-            return InteractionResultHolder.sidedSuccess(itemstack, level.isClientSide());
-        } else {
-            return InteractionResultHolder.fail(itemstack);
-        }
-    }
-
-    @Override
-    @Nullable
-    public SoundEvent getEquipSound() {
-        return this.material.getEquipSound();
-    }
-
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
         if (slot == this.slot) {
