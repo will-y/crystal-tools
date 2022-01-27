@@ -8,6 +8,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -92,5 +93,11 @@ public class LevelableArmor extends LevelableItem implements Wearable {
 
     public float getKnockbackResistance(ItemStack stack) {
         return this.knockbackResistance;
+    }
+
+    @Override
+    public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
+        System.out.println("Here");
+        return "crystal_tools:models/armor/netherite";
     }
 }

@@ -76,8 +76,7 @@ public class LevelableItem extends Item {
         }
     }
 
-
-
+    @Override
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
         int newExperience = (int) NBTUtils.getFloatOrAddKey(itemStack, "experience");
         int experienceCap = (int) NBTUtils.getFloatOrAddKey(itemStack, "experience_cap", BASE_EXPERIENCE_CAP);
@@ -131,10 +130,12 @@ public class LevelableItem extends Item {
     }
 
     // Changing these two to what they should be @minecraft
+    @Override
     public int getBarWidth(ItemStack itemStack) {
         return Math.round(13.0F - (float) itemStack.getDamageValue() * 13.0F / (float) itemStack.getMaxDamage());
     }
 
+    @Override
     public int getBarColor(ItemStack itemStack) {
         float f = Math.max(0.0F, ((float)itemStack.getMaxDamage() - (float)itemStack.getDamageValue()) / (float) itemStack.getMaxDamage());
         return Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
@@ -146,6 +147,7 @@ public class LevelableItem extends Item {
         return tier.getUses() + bonusDurability;
     }
 
+    @Override
     public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<T> onBroken) {
         int durability = this.getMaxDamage(stack) - (int) NBTUtils.getFloatOrAddKey(stack, "Damage");
 
