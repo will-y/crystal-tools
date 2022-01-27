@@ -5,6 +5,7 @@ import dev.willyelton.crystal_tools.item.LevelableItem;
 import dev.willyelton.crystal_tools.item.ModItems;
 import dev.willyelton.crystal_tools.utils.LevelUtilities;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -19,6 +20,8 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
+import java.util.List;
 import java.util.function.Predicate;
 
 // TODO extend BowItem
@@ -197,5 +200,10 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     @Override
     public int getEnchantmentValue() {
         return tier.getEnchantmentValue();
+    }
+
+    @Override
+    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
+        LevelUtilities.appendHoverText(itemStack, level, components, flag, this);
     }
 }

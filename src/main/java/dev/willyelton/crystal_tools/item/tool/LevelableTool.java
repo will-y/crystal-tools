@@ -6,6 +6,7 @@ import dev.willyelton.crystal_tools.item.ModItems;
 import dev.willyelton.crystal_tools.utils.LevelUtilities;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.Mth;
@@ -22,6 +23,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Optional;
 
 // For now just focus on things that mine (not sword)
@@ -152,5 +155,10 @@ public class LevelableTool extends Item implements LevelableItem {
     @Override
     public int getEnchantmentValue() {
         return tier.getEnchantmentValue();
+    }
+
+    @Override
+    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
+        LevelUtilities.appendHoverText(itemStack, level, components, flag, this);
     }
 }
