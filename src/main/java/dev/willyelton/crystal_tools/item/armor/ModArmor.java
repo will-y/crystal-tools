@@ -21,5 +21,4 @@ public class ModArmor {
     public static void initArmor() {
         ARMOR.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
-
 }
