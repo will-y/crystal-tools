@@ -5,6 +5,10 @@
 - Added crystal leggings
 - Added crystal boots
 
+----------------------- 0.4.1 Changes -----------------------
+### Changes
+- Changed the crystal bow texture to a custom one
+
 ----------------------- 0.4.0 Changes -----------------------
 ### Additions
 - Added the crystal Bow
