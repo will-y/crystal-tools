@@ -30,21 +30,11 @@ import java.util.List;
 import java.util.function.Consumer;
 
 // TODO extend ArmorItem
-public class LevelableArmor extends Item implements LevelableItem, Wearable {
-    protected final EquipmentSlot slot;
-    private final int defense;
-    private final float toughness;
-    protected final float knockbackResistance;
-    protected final ArmorMaterial material;
+public class LevelableArmor extends ArmorItem implements LevelableItem, Wearable {
     protected final String itemType;
 
     public LevelableArmor(String itemType, EquipmentSlot slot) {
-        super(new Properties().fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB).defaultDurability(tier.getUses()));
-        this.material = ArmorMaterials.NETHERITE;
-        this.slot = slot;
-        this.defense = material.getDefenseForSlot(slot);
-        this.toughness = material.getToughness();
-        this.knockbackResistance = material.getKnockbackResistance();
+        super(ArmorMaterials.NETHERITE, slot, new Properties().fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB).defaultDurability(tier.getUses()));
         this.itemType = itemType;
     }
 
@@ -93,11 +83,11 @@ public class LevelableArmor extends Item implements LevelableItem, Wearable {
 
     // Attributes
     public int getDefense(ItemStack stack) {
-        return this.defense;
+        return this.getDefense();
     }
 
     public float getToughness(ItemStack stack) {
-        return this.toughness;
+        return this.getToughness();
     }
 
     public float getKnockbackResistance(ItemStack stack) {
@@ -106,8 +96,7 @@ public class LevelableArmor extends Item implements LevelableItem, Wearable {
 
     @Override
     public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-        System.out.println("Here");
-        return "crystal_tools:models/armor/netherite";
+        return String.format("crystal_tools:textures/models/armor/%s_layer_%d%s.png", "crystal", (slot == EquipmentSlot.LEGS ? 2 : 1), type == null ? "" : String.format("_%s", type));
     }
 
     @Override
