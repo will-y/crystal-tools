@@ -41,8 +41,8 @@
     [
       {
         "id": 4,
-        "name": "Protection I",
-        "description": "Gives the helmet Protection I.",
+        "name": "Protection II",
+        "description": "Gives the helmet Protection II.",
         "type": "normal",
         "requirements": [
           {"node": 0}
@@ -52,8 +52,8 @@
       },
       {
         "id": 5,
-        "name": "Fire Protection I",
-        "description": "Gives the helmet Fire Protection I.",
+        "name": "Fire Protection II",
+        "description": "Gives the helmet Fire Protection II.",
         "type": "normal",
         "requirements": [
           {"node": 1}
@@ -63,8 +63,8 @@
       },
       {
         "id": 6,
-        "name": "Blast Protection I",
-        "description": "Gives the helmet Blast Protection I.",
+        "name": "Blast Protection II",
+        "description": "Gives the helmet Blast Protection II.",
         "type": "normal",
         "requirements": [
           {"node": 2}
@@ -74,7 +74,7 @@
       },
       {
         "id": 7,
-        "name": "Projectile Protection I",
+        "name": "Projectile Protection II",
         "description": "Gives the helmet Projectile Protection II.",
         "type": "normal",
         "requirements": [
@@ -105,7 +105,203 @@
           {"or_node": [4, 5, 6, 7]}
         ],
         "key": "toughness_bonus",
+        "value": 0.25
+      },
+      {
+        "id": 10,
+        "name": "Aqua Affinity",
+        "description": "Gives the helmet aqua affinity.",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [4, 5, 6, 7]}
+        ],
+        "key": "aqua_affinity_bonus",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 11,
+        "name": "Protection III",
+        "description": "Gives the helmet Protection III.",
+        "type": "normal",
+        "requirements": [
+          {"node": 4},
+          {"or_node": [8, 9, 10]}
+        ],
+        "key": "protection_bonus",
+        "value": 2
+      },
+      {
+        "id": 12,
+        "name": "Fire Protection III",
+        "description": "Gives the helmet Fire Protection III.",
+        "type": "normal",
+        "requirements": [
+          {"node": 5},
+          {"or_node": [8, 9, 10]}
+        ],
+        "key": "fire_protection_bonus",
+        "value": 2
+      },
+      {
+        "id": 13,
+        "name": "Blast Protection III",
+        "description": "Gives the helmet Blast Protection III.",
+        "type": "normal",
+        "requirements": [
+          {"node": 6},
+          {"or_node": [8, 9, 10]}
+        ],
+        "key": "blast_protection_bonus",
+        "value": 2
+      },
+      {
+        "id": 14,
+        "name": "Projectile Protection III",
+        "description": "Gives the helmet Projectile Protection III.",
+        "type": "normal",
+        "requirements": [
+          {"node": 7},
+          {"or_node": [8, 9, 10]}
+        ],
+        "key": "projectile_protection_bonus",
+        "value": 2
+      }
+    ],
+    [
+      {
+        "id": 15,
+        "name": "Base Armor II",
+        "description": "Gives the helmet more base armor.",
+        "type": "normal",
+        "requirements": [
+          {"node": 8},
+          {"or_node": [11, 12, 13, 14]}
+        ],
+        "key": "armor_bonus",
+        "value": 1
+      },
+      {
+        "id": 16,
+        "name": "Toughness II",
+        "description": "Gives the helmet more armor toughness.",
+        "type": "normal",
+        "requirements": [
+          {"node": 8},
+          {"or_node": [11, 12, 13, 14]}
+        ],
+        "key": "toughness_bonus",
+        "value": 0.25
+      },
+      {
+        "id": 17,
+        "name": "Respiration",
+        "description": "Gives the helmet Respiration III.",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [11, 12, 13, 14]}
+        ],
+        "key": "respiration_bonus",
+        "value": 3
+      },
+      {
+        "id": 18,
+        "name": "Auto Repair",
+        "description": "Automatically Repairs Your Tool Over Time!",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [11, 12, 13, 14]}
+        ],
+        "key": "auto_repair",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 19,
+        "name": "Protection IV",
+        "description": "Gives the helmet Protection IV.",
+        "type": "normal",
+        "requirements": [
+          {"node": 11},
+          {"or_node": [15, 16, 17, 18]}
+        ],
+        "key": "protection_bonus",
+        "value": 2
+      },
+      {
+        "id": 20,
+        "name": "Fire Protection IV",
+        "description": "Gives the helmet Fire Protection IV.",
+        "type": "normal",
+        "requirements": [
+          {"node": 12},
+          {"or_node": [15, 16, 17, 18]}
+        ],
+        "key": "fire_protection_bonus",
+        "value": 2
+      },
+      {
+        "id": 21,
+        "name": "Blast Protection IV",
+        "description": "Gives the helmet Blast Protection IV.",
+        "type": "normal",
+        "requirements": [
+          {"node": 13},
+          {"or_node": [15, 16, 17, 18]}
+        ],
+        "key": "blast_protection_bonus",
+        "value": 2
+      },
+      {
+        "id": 22,
+        "name": "Projectile Protection IV",
+        "description": "Gives the helmet Projectile Protection IV.",
+        "type": "normal",
+        "requirements": [
+          {"node": 14},
+          {"or_node": [15, 16, 17, 18]}
+        ],
+        "key": "projectile_protection_bonus",
+        "value": 2
+      }
+    ],
+    [
+      {
+        "id": 23,
+        "name": "Base Armor II",
+        "description": "Gives the helmet more base armor.",
+        "type": "normal",
+        "requirements": [
+          {"node": 15},
+          {"or_node": [19, 20, 21, 22]}
+        ],
+        "key": "armor_bonus",
+        "value": 1
+      },
+      {
+        "id": 24,
+        "name": "Toughness II",
+        "description": "Gives the helmet more armor toughness.",
+        "type": "normal",
+        "requirements": [
+          {"node": 16},
+          {"or_node": [19, 20, 21, 22]}
+        ],
+        "key": "toughness_bonus",
         "value": 0.5
+      },
+      {
+        "id": 25,
+        "name": "Night Vision",
+        "description": "Gives you night vision while wearing the helmet..",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [19, 20, 21, 22]}
+        ],
+        "key": "night_vision",
+        "value": 1
       }
     ]
   ]
