@@ -1,10 +1,9 @@
 package dev.willyelton.crystal_tools.model;
 
 
-import dev.willyelton.crystal_tools.tool.ModTools;
+import dev.willyelton.crystal_tools.item.tool.ModTools;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;

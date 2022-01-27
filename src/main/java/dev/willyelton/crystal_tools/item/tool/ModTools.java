@@ -1,9 +1,6 @@
-package dev.willyelton.crystal_tools.tool;
+package dev.willyelton.crystal_tools.item.tool;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.item.CreativeTabs;
-import dev.willyelton.crystal_tools.tool.skill.DiggerLevelableTool;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;

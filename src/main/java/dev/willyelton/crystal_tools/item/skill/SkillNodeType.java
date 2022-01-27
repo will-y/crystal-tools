@@ -1,4 +1,4 @@
-package dev.willyelton.crystal_tools.tool.skill;
+package dev.willyelton.crystal_tools.item.skill;
 
 public enum SkillNodeType {
     NORMAL,

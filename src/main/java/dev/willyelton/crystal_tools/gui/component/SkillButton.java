@@ -2,8 +2,8 @@ package dev.willyelton.crystal_tools.gui.component;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.willyelton.crystal_tools.tool.skill.SkillData;
-import dev.willyelton.crystal_tools.tool.skill.SkillDataNode;
+import dev.willyelton.crystal_tools.item.skill.SkillData;
+import dev.willyelton.crystal_tools.item.skill.SkillDataNode;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.Button;

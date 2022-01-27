@@ -1,10 +1,10 @@
-package dev.willyelton.crystal_tools.tool;
+package dev.willyelton.crystal_tools.item;
 
 import dev.willyelton.crystal_tools.item.CreativeTabs;
 import dev.willyelton.crystal_tools.item.ModItems;
-import dev.willyelton.crystal_tools.tool.skill.SkillData;
-import dev.willyelton.crystal_tools.tool.skill.SkillDataNode;
-import dev.willyelton.crystal_tools.tool.skill.SkillNodeType;
+import dev.willyelton.crystal_tools.item.skill.SkillData;
+import dev.willyelton.crystal_tools.item.skill.SkillDataNode;
+import dev.willyelton.crystal_tools.item.skill.SkillNodeType;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;

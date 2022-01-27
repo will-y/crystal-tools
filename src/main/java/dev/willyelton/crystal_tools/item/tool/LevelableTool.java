@@ -1,24 +1,13 @@
-package dev.willyelton.crystal_tools.tool;
+package dev.willyelton.crystal_tools.item.tool;
 
-import dev.willyelton.crystal_tools.item.ModItems;
-import dev.willyelton.crystal_tools.tool.skill.SkillData;
-import dev.willyelton.crystal_tools.tool.skill.SkillDataNode;
-import dev.willyelton.crystal_tools.tool.skill.SkillNodeType;
+import dev.willyelton.crystal_tools.item.LevelableItem;
 import dev.willyelton.crystal_tools.utils.LevelUtilities;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.Tag;
-import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
@@ -29,10 +18,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
-import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 // For now just focus on things that mine (not sword)
 public class LevelableTool extends LevelableItem {

@@ -1,5 +1,6 @@
-package dev.willyelton.crystal_tools.tool;
+package dev.willyelton.crystal_tools.item.tool;
 
+import dev.willyelton.crystal_tools.item.LevelableItem;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;

@@ -5,7 +5,7 @@ import dev.willyelton.crystal_tools.command.RegisterCommandEvent;
 import dev.willyelton.crystal_tools.item.ModItems;
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
 import dev.willyelton.crystal_tools.network.PacketHandler;
-import dev.willyelton.crystal_tools.tool.ModTools;
+import dev.willyelton.crystal_tools.item.tool.ModTools;
 import dev.willyelton.crystal_tools.world.ModOres;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.MinecraftForge;

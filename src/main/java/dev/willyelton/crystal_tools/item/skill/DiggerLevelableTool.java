@@ -1,12 +1,11 @@
-package dev.willyelton.crystal_tools.tool.skill;
+package dev.willyelton.crystal_tools.item.skill;
 
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
-import dev.willyelton.crystal_tools.tool.LevelableTool;
+import dev.willyelton.crystal_tools.item.tool.LevelableTool;
 import dev.willyelton.crystal_tools.utils.LevelUtilities;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -14,7 +13,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 

@@ -1,6 +1,6 @@
-package dev.willyelton.crystal_tools.tool.skill;
+package dev.willyelton.crystal_tools.item.skill;
 
-import dev.willyelton.crystal_tools.tool.skill.requirement.SkillDataRequirement;
+import dev.willyelton.crystal_tools.item.skill.requirement.SkillDataRequirement;
 
 import java.util.List;
 

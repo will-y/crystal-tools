@@ -1,4 +1,4 @@
-package dev.willyelton.crystal_tools.tool.skill.requirement;
+package dev.willyelton.crystal_tools.item.skill.requirement;
 
 public enum RequirementType {
     NODE_OR,

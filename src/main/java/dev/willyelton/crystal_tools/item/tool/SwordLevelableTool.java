@@ -1,8 +1,7 @@
-package dev.willyelton.crystal_tools.tool;
+package dev.willyelton.crystal_tools.item.tool;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import dev.willyelton.crystal_tools.item.CreativeTabs;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;

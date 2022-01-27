@@ -24,4 +24,3 @@
 - Auto smelt things in 3x3 and vein mining
 - Actually Play Level Up Sound
 - Bow Draw Speed
-

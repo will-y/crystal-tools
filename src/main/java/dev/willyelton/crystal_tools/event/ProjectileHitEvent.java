@@ -1,9 +1,8 @@
 package dev.willyelton.crystal_tools.event;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.tool.LevelableItem;
-import dev.willyelton.crystal_tools.tool.ModTools;
-import net.minecraft.client.Minecraft;
+import dev.willyelton.crystal_tools.item.LevelableItem;
+import dev.willyelton.crystal_tools.item.tool.ModTools;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;

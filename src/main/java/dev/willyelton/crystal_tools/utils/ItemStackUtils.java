@@ -1,9 +1,6 @@
 package dev.willyelton.crystal_tools.utils;
 
-import dev.willyelton.crystal_tools.gui.ModGUIs;
-import dev.willyelton.crystal_tools.gui.UpgradeScreen;
-import dev.willyelton.crystal_tools.tool.LevelableItem;
-import dev.willyelton.crystal_tools.tool.LevelableTool;
+import dev.willyelton.crystal_tools.item.LevelableItem;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 

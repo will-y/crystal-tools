@@ -1,4 +1,4 @@
-package dev.willyelton.crystal_tools.tool;
+package dev.willyelton.crystal_tools.item.tool;
 
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.BlockPos;
