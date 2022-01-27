@@ -1,6 +1,4 @@
 -------------------- 0.5.0 --------------------
-- Add
-    - Armor
 - Create Attributes
     - Armor
         - Thorns

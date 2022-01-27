@@ -1,5 +1,12 @@
 ----------------------- 0.4.0 Changes -----------------------
 ### Additions
+- Added crystal helmet
+- Added crystal chestplate
+- Added crystal leggings
+- Added crystal boots
+
+----------------------- 0.4.0 Changes -----------------------
+### Additions
 - Added the crystal Bow
 - Added the following attributes for it
 	- Arrow Damage
