@@ -29,7 +29,6 @@ public class SwordLevelableTool extends LevelableTool {
         super(new Item.Properties(), BlockTags.CARPETS, "sword");
     }
 
-
     public float getAttackDamage(ItemStack stack) {
         return BASE_ATTACK_DAMAGE + NBTUtils.getFloatOrAddKey(stack, "damage_bonus");
     }
@@ -82,11 +81,6 @@ public class SwordLevelableTool extends LevelableTool {
         addExp(tool, target.getLevel(), attacker.getOnPos(), (int) getAttackDamage(tool));
         return true;
     }
-
-//    @Override
-//    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot pEquipmentSlot) {
-//        return pEquipmentSlot == EquipmentSlot.MAINHAND ? this.defaultModifiers : super.getDefaultAttributeModifiers(pEquipmentSlot);
-//    }
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
