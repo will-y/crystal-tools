@@ -20,6 +20,7 @@
   - Chestplate:
     - Health Bonus
   - Leggings:
+    - Speed Bonus
   - Boots:
     - Feather Falling
 
