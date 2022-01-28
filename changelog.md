@@ -23,6 +23,9 @@
   - Boots:
     - Feather Falling
 
+### Changes
+- Updated to Forge 1.18.1-39.0.63
+
 ----------------------- 0.4.1 Changes -----------------------
 ### Changes
 - Changed the crystal bow texture to a custom one
