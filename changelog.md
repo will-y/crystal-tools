@@ -18,6 +18,7 @@
     - Respiration
     - Night Vision
   - Chestplate:
+    - Health Bonus
   - Leggings:
   - Boots:
     - Feather Falling
