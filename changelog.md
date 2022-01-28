@@ -16,6 +16,7 @@
   - Helmet:
     - Aqua Affinity
     - Respiration
+    - Night Vision
   - Chestplate:
   - Leggings:
   - Boots:

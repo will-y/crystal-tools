@@ -208,7 +208,7 @@
       {
         "id": 18,
         "name": "Auto Repair",
-        "description": "Automatically Repairs Your Tool Over Time!",
+        "description": "Automatically Repairs Your Helmet Over Time!",
         "type": "normal",
         "requirements": [
           {"or_node": [11, 12, 13, 14]}
@@ -295,7 +295,7 @@
       {
         "id": 25,
         "name": "Night Vision",
-        "description": "Gives you night vision while wearing the helmet..",
+        "description": "Gives you night vision while wearing the helmet.",
         "type": "normal",
         "requirements": [
           {"or_node": [19, 20, 21, 22]}

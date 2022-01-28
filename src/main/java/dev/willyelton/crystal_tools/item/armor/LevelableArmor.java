@@ -48,6 +48,11 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Wearable
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
             builder.put(Attributes.ARMOR, new AttributeModifier(uuid, "Armor modifier", this.getDefense(stack), AttributeModifier.Operation.ADDITION));
             builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uuid, "Armor toughness", this.getToughness(stack), AttributeModifier.Operation.ADDITION));
+            int health = (int) NBTUtils.getFloatOrAddKey(stack, "health_bonus");
+
+            if (health > 0) {
+                builder.put(Attributes.MAX_HEALTH, new AttributeModifier(uuid, "Health modifier", health, AttributeModifier.Operation.ADDITION));
+            }
 //            builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier("Weapon modifier", this.getKnockbackResistance(stack), AttributeModifier.Operation.ADDITION));
             return builder.build();
         } else {
