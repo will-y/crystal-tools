@@ -13,6 +13,8 @@ import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,10 +29,12 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 public class LevelableArmor extends ArmorItem implements LevelableItem, Wearable {
     protected final String itemType;
+    private static final UUID[] ARMOR_MODIFIER_UUID_PER_SLOT = new UUID[]{UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"), UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"), UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"), UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150")};
 
     public LevelableArmor(String itemType, EquipmentSlot slot) {
         super(ArmorMaterials.NETHERITE, slot, new Properties().fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB).defaultDurability(tier.getUses()));
@@ -38,17 +42,13 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Wearable
     }
 
     @Override
-    public EquipmentSlot getEquipmentSlot(ItemStack stack) {
-        return this.slot;
-    }
-
-    @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
         if (slot == this.slot) {
+            UUID uuid = ARMOR_MODIFIER_UUID_PER_SLOT[slot.getIndex()];
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-            builder.put(Attributes.ARMOR, new AttributeModifier("Armor", this.getDefense(stack), AttributeModifier.Operation.ADDITION));
-            builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier("Armor", this.getToughness(stack), AttributeModifier.Operation.ADDITION));
-            builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier("Weapon modifier", this.getKnockbackResistance(stack), AttributeModifier.Operation.ADDITION));
+            builder.put(Attributes.ARMOR, new AttributeModifier(uuid, "Armor modifier", this.getDefense(stack), AttributeModifier.Operation.ADDITION));
+            builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uuid, "Armor toughness", this.getToughness(stack), AttributeModifier.Operation.ADDITION));
+//            builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier("Weapon modifier", this.getKnockbackResistance(stack), AttributeModifier.Operation.ADDITION));
             return builder.build();
         } else {
             return super.getAttributeModifiers(slot, stack);
@@ -119,7 +119,7 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Wearable
 
     @Override
     public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand) {
-        LevelUtilities.inventoryTick(itemStack, level, entity, inventorySlot, inHand);
+//        LevelUtilities.inventoryTick(itemStack, level, entity, inventorySlot, inHand);
     }
 
     @Override
@@ -130,5 +130,19 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Wearable
     @Override
     public int getEnchantmentValue() {
         return tier.getEnchantmentValue();
+    }
+
+    @Override
+    public void onArmorTick(ItemStack stack, Level world, Player player) {
+        if (NBTUtils.getFloatOrAddKey(stack, "night_vision") > 0) {
+            player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 100, 0, true, false));
+        }
+    }
+
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
+        ItemStack itemstack = pPlayer.getItemInHand(pHand);
+        System.out.println(itemstack.getTag());
+        return super.use(pLevel, pPlayer, pHand);
     }
 }

@@ -31,7 +31,7 @@ public class NBTUtils {
             return tag.getFloat(key);
         } else {
             tag.putFloat(key, defaultValue);
-            return 0;
+            return defaultValue;
         }
     }
 
