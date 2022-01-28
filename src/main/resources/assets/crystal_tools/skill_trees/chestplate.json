@@ -4,7 +4,7 @@
       {
         "id": 0,
         "name": "Protection I",
-        "description": "Gives the helmet Protection I.",
+        "description": "Gives the chestplate Protection I.",
         "type": "normal",
         "requirements": [],
         "key": "protection_bonus",
@@ -13,7 +13,7 @@
       {
         "id": 1,
         "name": "Fire Protection I",
-        "description": "Gives the helmet Fire Protection I.",
+        "description": "Gives the chestplate Fire Protection I.",
         "type": "normal",
         "requirements": [],
         "key": "fire_protection_bonus",
@@ -22,7 +22,7 @@
       {
         "id": 2,
         "name": "Blast Protection I",
-        "description": "Gives the helmet Blast Protection I.",
+        "description": "Gives the chestplate Blast Protection I.",
         "type": "normal",
         "requirements": [],
         "key": "blast_protection_bonus",
@@ -31,7 +31,7 @@
       {
         "id": 3,
         "name": "Projectile Protection I",
-        "description": "Gives the helmet Projectile Protection I.",
+        "description": "Gives the chestplate Projectile Protection I.",
         "type": "normal",
         "requirements": [],
         "key": "projectile_protection_bonus",
@@ -42,7 +42,7 @@
       {
         "id": 4,
         "name": "Protection II",
-        "description": "Gives the helmet Protection II.",
+        "description": "Gives the chestplate Protection II.",
         "type": "normal",
         "requirements": [
           {"node": 0}
@@ -53,7 +53,7 @@
       {
         "id": 5,
         "name": "Fire Protection II",
-        "description": "Gives the helmet Fire Protection II.",
+        "description": "Gives the chestplate Fire Protection II.",
         "type": "normal",
         "requirements": [
           {"node": 1}
@@ -64,7 +64,7 @@
       {
         "id": 6,
         "name": "Blast Protection II",
-        "description": "Gives the helmet Blast Protection II.",
+        "description": "Gives the chestplate Blast Protection II.",
         "type": "normal",
         "requirements": [
           {"node": 2}
@@ -75,7 +75,7 @@
       {
         "id": 7,
         "name": "Projectile Protection II",
-        "description": "Gives the helmet Projectile Protection II.",
+        "description": "Gives the chestplate Projectile Protection II.",
         "type": "normal",
         "requirements": [
           {"node": 3}
@@ -88,7 +88,7 @@
       {
         "id": 8,
         "name": "Base Armor I",
-        "description": "Gives the helmet more base armor.",
+        "description": "Gives the chestplate more base armor.",
         "type": "normal",
         "requirements": [
           {"or_node": [4, 5, 6, 7]}
@@ -99,7 +99,7 @@
       {
         "id": 9,
         "name": "Toughness I",
-        "description": "Gives the helmet more armor toughness.",
+        "description": "Gives the chestplate more armor toughness.",
         "type": "normal",
         "requirements": [
           {"or_node": [4, 5, 6, 7]}
@@ -123,7 +123,7 @@
       {
         "id": 11,
         "name": "Protection III",
-        "description": "Gives the helmet Protection III.",
+        "description": "Gives the chestplate Protection III.",
         "type": "normal",
         "requirements": [
           {"node": 4},
@@ -135,7 +135,7 @@
       {
         "id": 12,
         "name": "Fire Protection III",
-        "description": "Gives the helmet Fire Protection III.",
+        "description": "Gives the chestplate Fire Protection III.",
         "type": "normal",
         "requirements": [
           {"node": 5},
@@ -147,7 +147,7 @@
       {
         "id": 13,
         "name": "Blast Protection III",
-        "description": "Gives the helmet Blast Protection III.",
+        "description": "Gives the chestplate Blast Protection III.",
         "type": "normal",
         "requirements": [
           {"node": 6},
@@ -159,7 +159,7 @@
       {
         "id": 14,
         "name": "Projectile Protection III",
-        "description": "Gives the helmet Projectile Protection III.",
+        "description": "Gives the chestplate Projectile Protection III.",
         "type": "normal",
         "requirements": [
           {"node": 7},
@@ -173,7 +173,7 @@
       {
         "id": 15,
         "name": "Base Armor II",
-        "description": "Gives the helmet more base armor.",
+        "description": "Gives the chestplate more base armor.",
         "type": "normal",
         "requirements": [
           {"node": 8},
@@ -185,7 +185,7 @@
       {
         "id": 16,
         "name": "Toughness II",
-        "description": "Gives the helmet more armor toughness.",
+        "description": "Gives the chestplate more armor toughness.",
         "type": "normal",
         "requirements": [
           {"node": 8},
@@ -222,7 +222,7 @@
       {
         "id": 19,
         "name": "Protection IV",
-        "description": "Gives the helmet Protection IV.",
+        "description": "Gives the chestplate Protection IV.",
         "type": "normal",
         "requirements": [
           {"node": 11},
@@ -234,7 +234,7 @@
       {
         "id": 20,
         "name": "Fire Protection IV",
-        "description": "Gives the helmet Fire Protection IV.",
+        "description": "Gives the chestplate Fire Protection IV.",
         "type": "normal",
         "requirements": [
           {"node": 12},
@@ -246,7 +246,7 @@
       {
         "id": 21,
         "name": "Blast Protection IV",
-        "description": "Gives the helmet Blast Protection IV.",
+        "description": "Gives the chestplate Blast Protection IV.",
         "type": "normal",
         "requirements": [
           {"node": 13},
@@ -258,7 +258,7 @@
       {
         "id": 22,
         "name": "Projectile Protection IV",
-        "description": "Gives the helmet Projectile Protection IV.",
+        "description": "Gives the chestplate Projectile Protection IV.",
         "type": "normal",
         "requirements": [
           {"node": 14},
@@ -272,7 +272,7 @@
       {
         "id": 23,
         "name": "Base Armor II",
-        "description": "Gives the helmet more base armor.",
+        "description": "Gives the chestplate more base armor.",
         "type": "normal",
         "requirements": [
           {"node": 15},
@@ -284,7 +284,7 @@
       {
         "id": 24,
         "name": "Toughness II",
-        "description": "Gives the helmet more armor toughness.",
+        "description": "Gives the chestplate more armor toughness.",
         "type": "normal",
         "requirements": [
           {"node": 16},
