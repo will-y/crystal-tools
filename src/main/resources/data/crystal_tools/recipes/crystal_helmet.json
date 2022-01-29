@@ -2,13 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "pattern":
   [
-    "XXX",
+    "XNX",
     "X X"
   ],
   "key":
   {
     "X": {
       "item": "crystal_tools:crystal"
+    },
+    "N": {
+      "item": "minecraft:netherite_ingot"
     }
   },
   "result":

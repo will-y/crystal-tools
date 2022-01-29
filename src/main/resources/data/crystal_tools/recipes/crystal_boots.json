@@ -3,12 +3,15 @@
   "pattern":
   [
     "X X",
-    "X X"
+    "XNX"
   ],
   "key":
   {
     "X": {
       "item": "crystal_tools:crystal"
+    },
+    "N": {
+      "item": "minecraft:netherite_ingot"
     }
   },
   "result":
