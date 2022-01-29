@@ -12,7 +12,7 @@ public interface LevelableItem {
     int AUTO_REPAIR_COUNTER = 50;
     // Moved to config
 //    int BASE_EXPERIENCE_CAP = 50;
-    float EXPERIENCE_CAP_MULTIPLIER = 1.25F;
+//    float EXPERIENCE_CAP_MULTIPLIER = 1.25F;
 
     // Just used for default values, just at netherite for now
     Tier tier = Tiers.NETHERITE;
@@ -49,7 +49,7 @@ public interface LevelableItem {
             // TODO: Add chat message thing
 
             NBTUtils.setValue(tool, "experience", Math.max(0, newExperience - experienceCap));
-            NBTUtils.setValue(tool, "experience_cap", experienceCap * EXPERIENCE_CAP_MULTIPLIER);
+            NBTUtils.setValue(tool, "experience_cap", (float) (experienceCap * CrystalToolsConfig.EXPERIENCE_MULTIPLIER.get()));
         }
     }
 

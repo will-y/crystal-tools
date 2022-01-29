@@ -7,6 +7,7 @@ public class CrystalToolsConfig {
 
     // Config things
     public static ForgeConfigSpec.IntValue BASE_EXPERIENCE_CAP;
+    public static ForgeConfigSpec.DoubleValue EXPERIENCE_MULTIPLIER;
 
     static {
         ForgeConfigSpec.Builder configBuilder = new ForgeConfigSpec.Builder();
@@ -17,5 +18,8 @@ public class CrystalToolsConfig {
     private static void setupConfig(ForgeConfigSpec.Builder builder) {
         BASE_EXPERIENCE_CAP = builder.comment("Starting EXP Value for Tools and Armor")
                 .defineInRange("base_experience_cap", 50, 1, 10000);
+
+        EXPERIENCE_MULTIPLIER = builder.comment("Multiplier for the EXP to the next level")
+                .defineInRange("experience_multiplier", 1.25D, 1D, 100D);
     }
 }
