@@ -1,3 +1,8 @@
+----------------------- 0.5.1 Changes -----------------------
+### Additions
+- Added the following config options:
+  - `base_experience_cap`: Controls how much experience you need for one level of a tool
+
 ----------------------- 0.5.0 Changes -----------------------
 ### Additions
 - Added crystal helmet

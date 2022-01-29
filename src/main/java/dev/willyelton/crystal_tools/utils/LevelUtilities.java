@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.utils;
 
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.item.LevelableItem;
 import dev.willyelton.crystal_tools.item.skill.SkillData;
 import dev.willyelton.crystal_tools.item.skill.SkillDataNode;
@@ -53,7 +54,7 @@ public class LevelUtilities {
     // I hate this but needed because armor needs to actually be an ArmorItem
     public static void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag, LevelableItem item) {
         int newExperience = (int) NBTUtils.getFloatOrAddKey(itemStack, "experience");
-        int experienceCap = (int) NBTUtils.getFloatOrAddKey(itemStack, "experience_cap", LevelableItem.BASE_EXPERIENCE_CAP);
+        int experienceCap = (int) NBTUtils.getFloatOrAddKey(itemStack, "experience_cap", CrystalToolsConfig.BASE_EXPERIENCE_CAP.get());
 
         int durability = item.getMaxDamage(itemStack) - (int) NBTUtils.getFloatOrAddKey(itemStack, "Damage");
 

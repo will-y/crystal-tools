@@ -1,32 +1,17 @@
 package dev.willyelton.crystal_tools.item;
 
-import dev.willyelton.crystal_tools.CreativeTabs;
-import dev.willyelton.crystal_tools.item.skill.SkillData;
-import dev.willyelton.crystal_tools.item.skill.SkillDataNode;
-import dev.willyelton.crystal_tools.item.skill.SkillNodeType;
-import dev.willyelton.crystal_tools.utils.LevelUtilities;
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.function.Consumer;
 
 public interface LevelableItem {
     int AUTO_REPAIR_COUNTER = 50;
-    int BASE_EXPERIENCE_CAP = 50;
+    // Moved to config
+//    int BASE_EXPERIENCE_CAP = 50;
     float EXPERIENCE_CAP_MULTIPLIER = 1.25F;
 
     // Just used for default values, just at netherite for now
@@ -47,12 +32,12 @@ public interface LevelableItem {
 
     default void addExp(ItemStack tool, Level level, BlockPos blockPos, int amount) {
         int newExperience = (int) NBTUtils.addValueToTag(tool, "experience", amount);
-        int experienceCap = (int) NBTUtils.getFloatOrAddKey(tool, "experience_cap", BASE_EXPERIENCE_CAP);
+        int experienceCap = (int) NBTUtils.getFloatOrAddKey(tool, "experience_cap", CrystalToolsConfig.BASE_EXPERIENCE_CAP.get());
 
         if (experienceCap == 0) {
             // fist time
-            NBTUtils.setValue(tool, "experience_cap", BASE_EXPERIENCE_CAP);
-            experienceCap = BASE_EXPERIENCE_CAP;
+            NBTUtils.setValue(tool, "experience_cap", CrystalToolsConfig.BASE_EXPERIENCE_CAP.get());
+            experienceCap = CrystalToolsConfig.BASE_EXPERIENCE_CAP.get();
         }
 
         if (newExperience >= experienceCap) {
