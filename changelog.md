@@ -1,3 +1,7 @@
+----------------------- 0.5.2 Changes -----------------------
+### Fixes
+- Leveling up a tool now correctly plays the experience level up sound
+
 ----------------------- 0.5.1 Changes -----------------------
 ### Additions
 - Added the following config options:

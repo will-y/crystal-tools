@@ -45,7 +45,7 @@ public interface LevelableItem {
             NBTUtils.addValueToTag(tool, "skill_points", 1);
             // copied from LivingEntity item breaking sound
             // play level up sound
-            level.playLocalSound(blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.PLAYER_LEVELUP, SoundSource.NEUTRAL, 0.8F, 0.8F + level.random.nextFloat() * 0.4F, false);
+            level.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.PLAYER_LEVELUP, SoundSource.NEUTRAL, 0.8F, 1.0F);
             // TODO: Add chat message thing
 
             NBTUtils.setValue(tool, "experience", Math.max(0, newExperience - experienceCap));
