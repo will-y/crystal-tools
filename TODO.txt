@@ -1,14 +1,16 @@
------------ At Some Point ------------------
-- Dependency Lines
-- Fix Lines
-- See what happens when tool runs out of durability while vein mining
-- Fix 3x3 mining
-- Better Auto Repair (in hand repair)
+------------------ 0.6.0 ------------------
+(Tool Fixes and QOL)
 - Multi Type Switcher (Scroll between silk, fortune, ...)
     - Change enchantments (gross)
 - Make all items come to you when vein mining
 - Make ores drop exp when broken when auto smelting
 - Auto smelt things in 3x3 and vein mining
+- Dependency Lines
+- Fix Lines
+
+----------- At Some Point ------------------
+- See what happens when tool runs out of durability while vein mining
+- Better Auto Repair (in hand repair)
 - Actually Play Level Up Sound
 - Bow Draw Speed
 - Bow zoom
