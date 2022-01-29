@@ -4,6 +4,8 @@
   - `base_experience_cap`: Controls how much experience you need for one level of a tool
   - `experience_multiplier`: Controls how much experience required changes per level
   - `armor_experience_boost`: Controls how much more experience armor gets when you take damage
+  - `bow_experience_boost`: Controls how much more experience bows get when you deal damage
+  - `sword_experience_boost`: Controls how much more experience swords get when you deal damage
 
 ----------------------- 0.5.0 Changes -----------------------
 ### Additions

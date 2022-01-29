@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.event;
 
 import dev.willyelton.crystal_tools.CrystalTools;
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.item.LevelableItem;
 import dev.willyelton.crystal_tools.item.tool.ModTools;
 import net.minecraft.util.Mth;
@@ -30,7 +31,7 @@ public class ProjectileHitEvent {
                         int damage = Mth.ceil(Mth.clamp((double) f * arrow.getBaseDamage(), 0.0D, 2.147483647E9D));
 
                         LevelableItem item = (LevelableItem) ModTools.CRYSTAL_BOW.get();
-                        item.addExp(heldItem, player.getLevel(), player.getOnPos(), damage);
+                        item.addExp(heldItem, player.getLevel(), player.getOnPos(), damage * CrystalToolsConfig.BOW_EXPERIENCE_BOOST.get());
                     }
                 }
             }

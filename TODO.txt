@@ -1,8 +1,6 @@
 ----------- At Some Point ------------------
 - Dependency Lines
 - Fix Lines
-- Config Options
-- Fix enchantment hack for fortune
 - See what happens when tool runs out of durability while vein mining
 - Fix 3x3 mining
 - Better Auto Repair (in hand repair)

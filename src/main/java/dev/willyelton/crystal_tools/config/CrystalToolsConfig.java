@@ -9,6 +9,8 @@ public class CrystalToolsConfig {
     public static ForgeConfigSpec.IntValue BASE_EXPERIENCE_CAP;
     public static ForgeConfigSpec.DoubleValue EXPERIENCE_MULTIPLIER;
     public static ForgeConfigSpec.IntValue ARMOR_EXPERIENCE_BOOST;
+    public static ForgeConfigSpec.IntValue BOW_EXPERIENCE_BOOST;
+    public static ForgeConfigSpec.IntValue SWORD_EXPERIENCE_BOOST;
 
     static {
         ForgeConfigSpec.Builder configBuilder = new ForgeConfigSpec.Builder();
@@ -25,5 +27,11 @@ public class CrystalToolsConfig {
 
         ARMOR_EXPERIENCE_BOOST = builder.comment("Multiplies how much experience Armor gets. (EXP_GAINED = DAMAGE_TAKEN * ARMOR_EXPERIENCE_BOOST)")
                 .defineInRange("armor_experience_boost", 2, 1, 10000);
+
+        BOW_EXPERIENCE_BOOST = builder.comment("Multiplies how much experience Bows get. (EXP_GAINED = DAMAGE_DONE * BOW_EXPERIENCE_BOOST)")
+                .defineInRange("bow_experience_boost", 1, 1, 10000);
+
+        SWORD_EXPERIENCE_BOOST = builder.comment("Multiplies how much experience Swords get. (EXP_GAINED = DAMAGE_DONE * SWORD_EXPERIENCE_BOOST")
+                .defineInRange("sword_experience_boost", 1, 1, 10000);
     }
 }

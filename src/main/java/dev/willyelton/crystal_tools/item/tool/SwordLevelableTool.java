@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.item.tool;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
@@ -78,7 +79,7 @@ public class SwordLevelableTool extends LevelableTool {
             attacker.heal(heal);
         }
 
-        addExp(tool, target.getLevel(), attacker.getOnPos(), (int) getAttackDamage(tool));
+        addExp(tool, target.getLevel(), attacker.getOnPos(), (int) (getAttackDamage(tool) * CrystalToolsConfig.SWORD_EXPERIENCE_BOOST.get()));
         return true;
     }
 

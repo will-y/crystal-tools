@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.event;
 
 import dev.willyelton.crystal_tools.CrystalTools;
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.item.armor.LevelableArmor;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -19,7 +20,7 @@ public class LivingHurtEvent {
 
             for (ItemStack armor : player.getArmorSlots()) {
                 if (armor.getItem() instanceof LevelableArmor item) {
-                    item.addExp(armor, player.getLevel(), player.getOnPos(), (int) damageAmount * 2);
+                    item.addExp(armor, player.getLevel(), player.getOnPos(), (int) damageAmount * CrystalToolsConfig.ARMOR_EXPERIENCE_BOOST.get());
                 }
             }
         }
