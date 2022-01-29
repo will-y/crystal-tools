@@ -130,7 +130,7 @@
           {"or_node": [8, 9, 10]}
         ],
         "key": "protection_bonus",
-        "value": 2
+        "value": 3
       },
       {
         "id": 12,
@@ -142,7 +142,7 @@
           {"or_node": [8, 9, 10]}
         ],
         "key": "fire_protection_bonus",
-        "value": 2
+        "value": 3
       },
       {
         "id": 13,
@@ -154,7 +154,7 @@
           {"or_node": [8, 9, 10]}
         ],
         "key": "blast_protection_bonus",
-        "value": 2
+        "value": 3
       },
       {
         "id": 14,
@@ -166,7 +166,7 @@
           {"or_node": [8, 9, 10]}
         ],
         "key": "projectile_protection_bonus",
-        "value": 2
+        "value": 3
       }
     ],
     [
@@ -229,7 +229,7 @@
           {"or_node": [15, 16, 17, 18]}
         ],
         "key": "protection_bonus",
-        "value": 2
+        "value": 4
       },
       {
         "id": 20,
@@ -241,7 +241,7 @@
           {"or_node": [15, 16, 17, 18]}
         ],
         "key": "fire_protection_bonus",
-        "value": 2
+        "value": 4
       },
       {
         "id": 21,
@@ -253,7 +253,7 @@
           {"or_node": [15, 16, 17, 18]}
         ],
         "key": "blast_protection_bonus",
-        "value": 2
+        "value": 4
       },
       {
         "id": 22,
@@ -265,7 +265,7 @@
           {"or_node": [15, 16, 17, 18]}
         ],
         "key": "projectile_protection_bonus",
-        "value": 2
+        "value": 4
       }
     ],
     [
