@@ -79,7 +79,7 @@ public class SwordLevelableTool extends LevelableTool {
             attacker.heal(heal);
         }
 
-        addExp(tool, target.getLevel(), attacker.getOnPos(), (int) (getAttackDamage(tool) * CrystalToolsConfig.SWORD_EXPERIENCE_BOOST.get()));
+        addExp(tool, target.getLevel(), attacker.getOnPos(), attacker, (int) (getAttackDamage(tool) * CrystalToolsConfig.SWORD_EXPERIENCE_BOOST.get()));
         return true;
     }
 

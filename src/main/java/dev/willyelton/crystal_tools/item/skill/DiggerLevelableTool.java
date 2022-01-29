@@ -129,7 +129,7 @@ public class DiggerLevelableTool extends LevelableTool {
                     player.broadcastBreakEvent(EquipmentSlot.MAINHAND);
                 });
             }
-            addExp(tool, level, blockPos);
+            addExp(tool, level, blockPos, entity);
         }
     }
 }

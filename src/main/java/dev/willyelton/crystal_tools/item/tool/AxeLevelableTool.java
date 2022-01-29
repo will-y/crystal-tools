@@ -75,7 +75,7 @@ public class AxeLevelableTool extends LevelableTool {
                 });
             }
 
-            addExp(itemStack, level, blockpos);
+            addExp(itemStack, level, blockpos, player);
 
             if (NBTUtils.getFloatOrAddKey(itemStack, "tree_strip") > 0 && KeyBindings.veinMine.isDown()) {
                 stripHelper(level, itemStack, player, blockpos.above(), pContext.getHand(), 0);
@@ -105,7 +105,7 @@ public class AxeLevelableTool extends LevelableTool {
                 });
             }
 
-            addExp(itemStack, level, blockPos);
+            addExp(itemStack, level, blockPos, player);
 
             List<BlockPos> positionsToLook = List.of(blockPos.north(), blockPos.south(), blockPos.east(), blockPos.west(),
                     blockPos.north().east(), blockPos.north().west(), blockPos.south().east(), blockPos.south().west());

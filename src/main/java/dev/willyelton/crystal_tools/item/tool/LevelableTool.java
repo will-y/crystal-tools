@@ -78,7 +78,7 @@ public class LevelableTool extends Item implements LevelableItem {
             }
         }
 
-        addExp(tool, level, blockPos);
+        addExp(tool, level, blockPos, entity);
 
         return true;
     }

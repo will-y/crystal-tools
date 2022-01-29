@@ -71,7 +71,7 @@ public class ShovelLevelableTool extends DiggerLevelableTool {
                     }
                 }
 
-                addExp(shovel, level, blockpos);
+                addExp(shovel, level, blockpos, pContext.getPlayer());
 
                 return InteractionResult.sidedSuccess(level.isClientSide);
             } else {

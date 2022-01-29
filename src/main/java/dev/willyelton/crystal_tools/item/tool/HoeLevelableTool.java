@@ -72,7 +72,7 @@ public class HoeLevelableTool extends LevelableTool {
                         }
                     }
 
-                    addExp(hoe, level, blockpos);
+                    addExp(hoe, level, blockpos, context.getPlayer());
 
                     return InteractionResult.sidedSuccess(level.isClientSide);
                 } else {

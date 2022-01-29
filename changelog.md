@@ -1,6 +1,10 @@
 ----------------------- 0.5.2 Changes -----------------------
+### Additions
+- Added a chat message when your tools level up
+
 ### Fixes
 - Leveling up a tool now correctly plays the experience level up sound
+- Crystal Bows now zoom in like normal bows
 
 ----------------------- 0.5.1 Changes -----------------------
 ### Additions
