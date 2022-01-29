@@ -87,6 +87,8 @@ public class ToolAttributePacket {
             case "blast_protection_bonus" -> Enchantments.BLAST_PROTECTION;
             case "projectile_protection_bonus" -> Enchantments.PROJECTILE_PROTECTION;
             case "feather_falling_bonus" -> Enchantments.FALL_PROTECTION;
+            case "soul_speed_bonus" -> Enchantments.SOUL_SPEED;
+            case "frost_walker_bonus" -> Enchantments.FROST_WALKER;
             case "aqua_affinity_bonus" -> Enchantments.AQUA_AFFINITY;
             case "respiration_bonus" -> Enchantments.RESPIRATION;
             case "thorns_bonus" -> Enchantments.THORNS;

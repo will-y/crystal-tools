@@ -23,6 +23,9 @@
     - Speed Bonus
   - Boots:
     - Feather Falling
+    - Depth Strider
+    - Soul Speed
+    - Frost Walker
 
 ### Changes
 - Updated to Forge 1.18.1-39.0.63
