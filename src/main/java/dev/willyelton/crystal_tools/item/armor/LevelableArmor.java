@@ -53,6 +53,12 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Wearable
             if (health > 0) {
                 builder.put(Attributes.MAX_HEALTH, new AttributeModifier(uuid, "Health modifier", health, AttributeModifier.Operation.ADDITION));
             }
+
+            float speedBonus = NBTUtils.getFloatOrAddKey(stack, "speed_bonus") / 5;
+
+            if (speedBonus > 0) {
+                builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid, "Speed modifer", speedBonus, AttributeModifier.Operation.MULTIPLY_BASE));
+            }
 //            builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier("Weapon modifier", this.getKnockbackResistance(stack), AttributeModifier.Operation.ADDITION));
             return builder.build();
         } else {
@@ -142,12 +148,5 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Wearable
         if (NBTUtils.getFloatOrAddKey(stack, "night_vision") > 0) {
             player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 100, 0, true, false));
         }
-    }
-
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
-        ItemStack itemstack = pPlayer.getItemInHand(pHand);
-        System.out.println(itemstack.getTag());
-        return super.use(pLevel, pPlayer, pHand);
     }
 }
