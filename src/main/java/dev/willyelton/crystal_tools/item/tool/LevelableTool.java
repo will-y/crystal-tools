@@ -44,8 +44,7 @@ public class LevelableTool extends Item implements LevelableItem {
     @Override
     public float getDestroySpeed(ItemStack tool, BlockState blockState) {
         float bonus = NBTUtils.getFloatOrAddKey(tool, "speed_bonus");
-        int durability = this.getMaxDamage(tool) - (int) NBTUtils.getFloatOrAddKey(tool, "Damage");
-        if (durability <= 1) {
+        if (LevelUtilities.isBroken(tool)) {
             // broken
             return 0.1F;
         }

@@ -95,4 +95,9 @@ public class LevelUtilities {
             }
         }
     }
+
+    public static boolean isBroken(ItemStack stack) {
+        int durability = stack.getItem().getMaxDamage(stack) - (int) NBTUtils.getFloatOrAddKey(stack, "Damage");
+        return durability <= 1;
+    }
 }

@@ -46,20 +46,22 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Wearable
         if (slot == this.slot) {
             UUID uuid = ARMOR_MODIFIER_UUID_PER_SLOT[slot.getIndex()];
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-            builder.put(Attributes.ARMOR, new AttributeModifier(uuid, "Armor modifier", this.getDefense(stack), AttributeModifier.Operation.ADDITION));
-            builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uuid, "Armor toughness", this.getToughness(stack), AttributeModifier.Operation.ADDITION));
-            int health = (int) NBTUtils.getFloatOrAddKey(stack, "health_bonus");
+            if (!LevelUtilities.isBroken(stack)) {
+                builder.put(Attributes.ARMOR, new AttributeModifier(uuid, "Armor modifier", this.getDefense(stack), AttributeModifier.Operation.ADDITION));
+                builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uuid, "Armor toughness", this.getToughness(stack), AttributeModifier.Operation.ADDITION));
+                int health = (int) NBTUtils.getFloatOrAddKey(stack, "health_bonus");
 
-            if (health > 0) {
-                builder.put(Attributes.MAX_HEALTH, new AttributeModifier(uuid, "Health modifier", health, AttributeModifier.Operation.ADDITION));
+                if (health > 0) {
+                    builder.put(Attributes.MAX_HEALTH, new AttributeModifier(uuid, "Health modifier", health, AttributeModifier.Operation.ADDITION));
+                }
+
+                float speedBonus = NBTUtils.getFloatOrAddKey(stack, "speed_bonus") / 5;
+
+                if (speedBonus > 0) {
+                    builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid, "Speed modifier", speedBonus, AttributeModifier.Operation.MULTIPLY_BASE));
+                }
             }
 
-            float speedBonus = NBTUtils.getFloatOrAddKey(stack, "speed_bonus") / 5;
-
-            if (speedBonus > 0) {
-                builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid, "Speed modifier", speedBonus, AttributeModifier.Operation.MULTIPLY_BASE));
-            }
-//            builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier("Weapon modifier", this.getKnockbackResistance(stack), AttributeModifier.Operation.ADDITION));
             return builder.build();
         } else {
             return super.getAttributeModifiers(slot, stack);
@@ -130,7 +132,7 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Wearable
 
     @Override
     public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand) {
-//        LevelUtilities.inventoryTick(itemStack, level, entity, inventorySlot, inHand);
+        LevelUtilities.inventoryTick(itemStack, level, entity, inventorySlot, inHand);
     }
 
     @Override
@@ -145,7 +147,7 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Wearable
 
     @Override
     public void onArmorTick(ItemStack stack, Level world, Player player) {
-        if (NBTUtils.getFloatOrAddKey(stack, "night_vision") > 0) {
+        if (!LevelUtilities.isBroken(stack) && NBTUtils.getFloatOrAddKey(stack, "night_vision") > 0) {
             player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 400, 0, false, false));
         }
     }

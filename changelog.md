@@ -5,6 +5,8 @@
 ### Fixes
 - Leveling up a tool now correctly plays the experience level up sound
 - Crystal Bows now zoom in like normal bows
+- Fixed armor not auto repairing
+- Armor no longer provides bonuses when broken (other than enchantments)
 
 ----------------------- 0.5.1 Changes -----------------------
 ### Additions
