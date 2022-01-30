@@ -12,6 +12,5 @@
 - See what happens when tool runs out of durability while vein mining
 - Better Auto Repair (in hand repair)
 - Bow Draw Speed
-- Make Bow, sword, armor not work when broken
 - Boots immune to fall damage
 - Armor cool potion effects?

@@ -26,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 // For now just focus on things that mine (not sword)
 public class LevelableTool extends Item implements LevelableItem {
@@ -122,6 +123,7 @@ public class LevelableTool extends Item implements LevelableItem {
     public int getMaxDamage(ItemStack stack) {
         int bonusDurability = (int) NBTUtils.getFloatOrAddKey(stack, "durability_bonus");
         return tier.getUses() + bonusDurability;
+//        return 5;
     }
 
     @Override
@@ -159,5 +161,16 @@ public class LevelableTool extends Item implements LevelableItem {
     @Override
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
         LevelUtilities.appendHoverText(itemStack, level, components, flag, this);
+    }
+
+    @Override
+    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<T> onBroken) {
+        int durability = this.getMaxDamage(stack) - (int) NBTUtils.getFloatOrAddKey(stack, "Damage");
+
+        if (durability - amount <= 0) {
+            return 0;
+        } else {
+            return amount;
+        }
     }
 }

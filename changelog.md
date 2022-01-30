@@ -7,6 +7,9 @@
 - Crystal Bows now zoom in like normal bows
 - Fixed armor not auto repairing
 - Armor no longer provides bonuses when broken (other than enchantments)
+- Bow no longer works when broken
+- Sword no longer works when broken
+- Fixed an error where tools and bows could break
 
 ----------------------- 0.5.1 Changes -----------------------
 ### Additions

@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 // TODO extend BowItem
@@ -113,7 +114,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
 //        InteractionResultHolder<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemstack, pLevel, pPlayer, pHand, flag);
 //        if (ret != null) return ret;
 
-        if (!pPlayer.getAbilities().instabuild && !flag) {
+        if (LevelUtilities.isBroken(itemstack) || (!pPlayer.getAbilities().instabuild && !flag)) {
             return InteractionResultHolder.fail(itemstack);
         } else {
             pPlayer.startUsingItem(pHand);
@@ -205,5 +206,16 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     @Override
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
         LevelUtilities.appendHoverText(itemStack, level, components, flag, this);
+    }
+
+    @Override
+    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<T> onBroken) {
+        int durability = this.getMaxDamage(stack) - (int) NBTUtils.getFloatOrAddKey(stack, "Damage");
+
+        if (durability - amount <= 0) {
+            return 0;
+        } else {
+            return amount;
+        }
     }
 }
