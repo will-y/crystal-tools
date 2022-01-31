@@ -5,6 +5,9 @@
 ### Fixes
 - Fixed two upgrades in the axe having the same id and messing up the skill tree
 
+### Changes
+- Update to Forge 1.18.1-39.0.64
+
 ----------------------- 0.5.2 Changes -----------------------
 ### Additions
 - Added a chat message when your tools level up
