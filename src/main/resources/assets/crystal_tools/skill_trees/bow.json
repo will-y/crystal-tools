@@ -96,7 +96,7 @@
         "type": "normal",
         "requirements": [
           {"node": 3},
-          {"or_node": [6, 7, 8]}
+          {"or_node": [6, 8]}
         ],
         "key": "arrow_damage",
         "value": 1
@@ -108,7 +108,7 @@
         "type": "normal",
         "requirements": [
           {"node": 4},
-          {"or_node": [6, 7, 8]}
+          {"or_node": [6, 8]}
         ],
         "key": "arrow_speed_bonus",
         "value": 1
@@ -120,7 +120,7 @@
         "type": "normal",
         "requirements":[
           {"node": 5},
-          {"or_node": [6, 7, 8]}
+          {"or_node": [6, 8]}
         ],
         "key": "durability_bonus",
         "value": 200
@@ -159,7 +159,7 @@
         "type": "normal",
         "requirements": [
           {"node": 9},
-          {"or_node": [12, 13, 14]}
+          {"or_node": [12, 14]}
         ],
         "key": "arrow_damage",
         "value": 1
@@ -171,7 +171,7 @@
         "type": "normal",
         "requirements": [
           {"node": 10},
-          {"or_node": [12, 13, 14]}
+          {"or_node": [12, 14]}
         ],
         "key": "arrow_speed_bonus",
         "value": 1
@@ -183,7 +183,7 @@
         "type": "normal",
         "requirements":[
           {"node": 11},
-          {"or_node": [12, 13, 14]}
+          {"or_node": [12, 14]}
         ],
         "key": "durability_bonus",
         "value": 200
@@ -222,7 +222,7 @@
         "type": "normal",
         "requirements": [
           {"node": 15},
-          {"or_node": [18, 19, 20]}
+          {"or_node": [18, 20]}
         ],
         "key": "arrow_damage",
         "value": 1
@@ -234,7 +234,7 @@
         "type": "normal",
         "requirements": [
           {"node": 16},
-          {"or_node": [18, 19, 20]}
+          {"or_node": [18, 20]}
         ],
         "key": "arrow_speed_bonus",
         "value": 1
@@ -246,7 +246,7 @@
         "type": "normal",
         "requirements":[
           {"node": 17},
-          {"or_node": [18, 19, 20]}
+          {"or_node": [18, 20]}
         ],
         "key": "durability_bonus",
         "value": 200

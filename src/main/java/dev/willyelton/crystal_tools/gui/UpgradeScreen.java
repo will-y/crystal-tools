@@ -87,9 +87,8 @@ public class UpgradeScreen extends Screen {
 //        vLine(poseStack, 40, 10, 1000, -16777216);
 
         super.render(poseStack, mouseX, mouseY, particleTicks);
-//        drawDependencyLines(poseStack);
-//        drawLine(poseStack, 100, 100, 300, 300, -16777216);
-        drawLine(poseStack, new int[] {100, 100}, new int[] {mouseX, mouseY}, Colors.fromRGB(255, 0, 0));
+        drawDependencyLines(poseStack);
+//        drawLine(poseStack, new int[] {100, 100}, new int[] {mouseX, mouseY}, Colors.fromRGB(255, 0, 0));
     }
 
     @Override
@@ -162,7 +161,7 @@ public class UpgradeScreen extends Screen {
                 int[] nodes = requirement.getRequiredNodes();
 
                 for (int i = 0; i < nodes.length; i++) {
-                    int color = Colors.BLACK;
+                    int color = Colors.fromRGB(0, 255, 0);
                     switch (type) {
                         case NODE_OR -> {
                         }
@@ -172,8 +171,10 @@ public class UpgradeScreen extends Screen {
                             // no line for now
                         }
                     }
-
-                    drawLine(poseStack, getButtonBottomCenter(this.skillButtons.get(nodes[i])), getButtonTopCenter(button), color);
+                    // so doesn't crash with dependency that doesn't exist
+                    if (this.skillButtons.containsKey(nodes[i])) {
+                        drawLine(poseStack, getButtonBottomCenter(this.skillButtons.get(nodes[i])), getButtonTopCenter(button), color);
+                    }
                 }
             }
         }
