@@ -82,12 +82,13 @@ public class UpgradeScreen extends Screen {
     @Override
     public void render(PoseStack poseStack, int mouseX, int mouseY, float particleTicks) {
         this.renderBackground(poseStack);
+        drawDependencyLines(poseStack);
         drawString(poseStack, font, "Skill Points: " + (int) NBTUtils.getFloatOrAddKey(tool, "skill_points"), 5, 5, Colors.TEXT_LIGHT);
 //        fill(poseStack, 0, 0, 100, 100, Colors.fromRGB(0, 0, 255));
 //        vLine(poseStack, 40, 10, 1000, -16777216);
 
         super.render(poseStack, mouseX, mouseY, particleTicks);
-        drawDependencyLines(poseStack);
+
 //        drawLine(poseStack, new int[] {100, 100}, new int[] {mouseX, mouseY}, Colors.fromRGB(255, 0, 0));
     }
 
@@ -160,20 +161,31 @@ public class UpgradeScreen extends Screen {
                 RequirementType type = requirement.getRequirementType();
                 int[] nodes = requirement.getRequiredNodes();
 
-                for (int i = 0; i < nodes.length; i++) {
+                for (int j : nodes) {
                     int color = Colors.fromRGB(0, 255, 0);
                     switch (type) {
                         case NODE_OR -> {
+                            if (requirement.canLevel(toolData)) {
+                                color = Colors.fromRGB(0, 255, 100, 100);
+                            } else {
+                                color = Colors.fromRGB(255, 0, 100, 100);
+                            }
                         }
                         case NODE_AND -> {
+                            if (requirement.canLevel(toolData)) {
+                                color = Colors.fromRGB(0, 255, 0);
+                            } else {
+                                color = Colors.fromRGB(255, 0, 0);
+                            }
                         }
                         case NODE_NOT -> {
                             // no line for now
+                            continue;
                         }
                     }
                     // so doesn't crash with dependency that doesn't exist
-                    if (this.skillButtons.containsKey(nodes[i])) {
-                        drawLine(poseStack, getButtonBottomCenter(this.skillButtons.get(nodes[i])), getButtonTopCenter(button), color);
+                    if (this.skillButtons.containsKey(j)) {
+                        drawLine(poseStack, getButtonBottomCenter(this.skillButtons.get(j)), getButtonTopCenter(button), color);
                     }
                 }
             }
