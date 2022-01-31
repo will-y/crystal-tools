@@ -50,7 +50,7 @@ public class DiggerLevelableTool extends LevelableTool {
         // Tags.Blocks.ORES;
 
         if (NBTUtils.getFloatOrAddKey(tool, "vein_miner") > 0 && KeyBindings.veinMine.isDown() && blockState.is(Tags.Blocks.ORES)) {
-            this.veinMinerHelper(tool, level, blockState.getBlock(), blockPos, entity, 0);
+            this.veinMinerHelper(tool, level, blockState.getBlock(), blockPos, entity,0);
         }
 
 //        addExp(tool, level, blockPos);

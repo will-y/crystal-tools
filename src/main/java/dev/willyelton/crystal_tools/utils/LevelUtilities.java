@@ -7,6 +7,7 @@ import dev.willyelton.crystal_tools.item.skill.SkillDataNode;
 import dev.willyelton.crystal_tools.item.skill.SkillNodeType;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.PacketEncoder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -39,7 +40,11 @@ public class LevelUtilities {
             if (pDropBlock) {
                 BlockEntity blockentity = blockstate.hasBlockEntity() ? level.getBlockEntity(pPos) : null;
                 // Change to tool
-                Block.dropResources(blockstate, level, pPos, blockentity, pEntity, tool);
+                if (pEntity != null) {
+                    Block.dropResources(blockstate, level, pEntity.getOnPos().above(), blockentity, pEntity, tool);
+                } else {
+                    Block.dropResources(blockstate, level, pPos, blockentity, pEntity, tool);
+                }
             }
 
             boolean flag = level.setBlock(pPos, fluidstate.createLegacyBlock(), 3, pRecursionLeft);
