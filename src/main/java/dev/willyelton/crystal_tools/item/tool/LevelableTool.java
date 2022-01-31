@@ -14,6 +14,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -94,6 +95,7 @@ public class LevelableTool extends Item implements LevelableItem {
 
                 if (recipeOptional.isPresent()) {
                     SmeltingRecipe recipe = recipeOptional.get();
+                    ExperienceOrb.award((ServerLevel) level, entity.position(), (int) Math.ceil(recipe.getExperience()));
                     ItemStack result = recipe.getResultItem();
                     result.setCount(count);
 

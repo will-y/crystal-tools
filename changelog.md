@@ -1,6 +1,7 @@
 ----------------------- 0.6.0 Changes -----------------------
 ### Additions
 - Added lines to show dependencies in the skill trees
+- Auto-smelt now drops exp
 
 ### Fixes
 - Fixed two upgrades in the axe having the same id and messing up the skill tree
