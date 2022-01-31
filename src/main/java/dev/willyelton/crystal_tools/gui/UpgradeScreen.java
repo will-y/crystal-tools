@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.gui;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Matrix4f;
@@ -88,6 +89,7 @@ public class UpgradeScreen extends Screen {
         super.render(poseStack, mouseX, mouseY, particleTicks);
 //        drawDependencyLines(poseStack);
 //        drawLine(poseStack, 100, 100, 300, 300, -16777216);
+        drawLine(poseStack, new int[] {100, 100}, new int[] {mouseX, mouseY}, Colors.fromRGB(255, 0, 0));
     }
 
     @Override
@@ -206,18 +208,19 @@ public class UpgradeScreen extends Screen {
         BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
         RenderSystem.enableBlend();
         RenderSystem.disableTexture();
-        RenderSystem.defaultBlendFunc();
+        RenderSystem.disableDepthTest();
+        RenderSystem.blendFunc(770, 771);
+        RenderSystem.lineWidth(4);
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
-        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-        bufferbuilder.vertex(pMatrix, (float)maxX, (float)maxY, 0.0F).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.begin(VertexFormat.Mode.DEBUG_LINES, DefaultVertexFormat.POSITION_COLOR);
         bufferbuilder.vertex(pMatrix, (float)minX, (float)minY, 0.0F).color(red, green, blue, alpha).endVertex();
-        bufferbuilder.vertex(pMatrix, (float)minX - 1, (float)minY + 1, 0.0F).color(red, green, blue, alpha).endVertex();
-        bufferbuilder.vertex(pMatrix, (float)maxX - 1, (float)maxY + 1, 0.0F).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.vertex(pMatrix, (float)maxX, (float)maxY, 0.0F).color(red, green, blue, alpha).endVertex();
 
         bufferbuilder.end();
         BufferUploader.end(bufferbuilder);
         RenderSystem.enableTexture();
         RenderSystem.disableBlend();
+        RenderSystem.enableDepthTest();
     }
 
     private int[] getButtonBottomCenter(SkillButton button) {

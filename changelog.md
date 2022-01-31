@@ -1,3 +1,5 @@
+----------------------- 0.6.0 Changes -----------------------
+
 ----------------------- 0.5.2 Changes -----------------------
 ### Additions
 - Added a chat message when your tools level up
