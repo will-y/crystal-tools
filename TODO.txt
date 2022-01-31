@@ -5,8 +5,6 @@
 - Make all items come to you when vein mining
 - Make ores drop exp when broken when auto smelting
 - Auto smelt things in 3x3 and vein mining
-- Dependency Lines
-- Fix Lines
 
 ----------- At Some Point ------------------
 - See what happens when tool runs out of durability while vein mining
