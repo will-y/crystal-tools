@@ -4,9 +4,10 @@
 
 ### Fixes
 - Fixed two upgrades in the axe having the same id and messing up the skill tree
+- Fixed Pickaxe not being able to 3x3 mine and vein mine
 
 ### Changes
-- Update to Forge 1.18.1-39.0.64
+- Updated to Forge 1.18.1-39.0.64
 
 ----------------------- 0.5.2 Changes -----------------------
 ### Additions

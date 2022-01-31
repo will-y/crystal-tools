@@ -2,7 +2,6 @@ package dev.willyelton.crystal_tools.item.tool;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import dev.willyelton.crystal_tools.item.skill.DiggerLevelableTool;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.WallTorchBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class PickaxeLevelableTool extends LevelableTool {
+public class PickaxeLevelableTool extends DiggerLevelableTool {
     public PickaxeLevelableTool() {
         super(new Item.Properties(), BlockTags.MINEABLE_WITH_PICKAXE, "pickaxe");
     }

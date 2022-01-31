@@ -1,4 +1,4 @@
-package dev.willyelton.crystal_tools.item.skill;
+package dev.willyelton.crystal_tools.item.tool;
 
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
 import dev.willyelton.crystal_tools.item.tool.LevelableTool;
