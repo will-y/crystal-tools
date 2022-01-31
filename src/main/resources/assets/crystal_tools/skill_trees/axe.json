@@ -192,7 +192,7 @@
         "value": 1
       },
       {
-        "id": 19,
+        "id": 20,
         "name": "Auto Smelting",
         "description": "Automatically smelts the blocks that you mine.",
         "type": "normal",
@@ -215,7 +215,7 @@
         "description": "Add As Many Points To Speed Here As You Want",
         "type": "infinite",
         "requirements": [
-          {"node":  16}
+          {"node":  [16, 20]}
         ],
         "key": "speed_bonus",
         "value": 0.1
@@ -226,7 +226,7 @@
         "description": "Add As Many Points To Durability Here As You Want",
         "type": "infinite",
         "requirements": [
-          {"node":  16}
+          {"node":  [16, 20]}
         ],
         "key": "durability_bonus",
         "value": 50

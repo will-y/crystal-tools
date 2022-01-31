@@ -1,4 +1,8 @@
 ----------------------- 0.6.0 Changes -----------------------
+### Additions
+
+### Fixes
+- Fixed two upgrades in the axe having the same id and messing up the skill tree
 
 ----------------------- 0.5.2 Changes -----------------------
 ### Additions
