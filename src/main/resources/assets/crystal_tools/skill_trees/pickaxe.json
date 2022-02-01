@@ -75,7 +75,10 @@
         "description": "Gives Silk Touch To The Pickaxe",
         "type": "normal",
         "requirements": [
-          {"not_node":  7},
+          {
+            "not_node":  7,
+            "unless": 21
+          },
           {"node": [4, 5]}
         ],
         "key": "silk_touch_bonus",
@@ -87,7 +90,10 @@
         "description": "Gives Fortune III To The Pickaxe",
         "type": "normal",
         "requirements": [
-          {"not_node":  6},
+          {
+            "not_node":  6,
+            "unless": 21
+          },
           {"node":  [4, 5]}
         ],
         "key": "fortune_bonus",

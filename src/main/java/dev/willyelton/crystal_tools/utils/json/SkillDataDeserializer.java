@@ -35,7 +35,9 @@ public class SkillDataDeserializer implements JsonDeserializer<SkillData> {
                     } else if (requirementObject.keySet().contains("not_node")) {
                         jsonElement = requirementObject.get("not_node");
                         int[] ids = this.getNodesFromJson(jsonElement);
-                        requirementsList.add(new NodeSkillDataRequirement(ids, true));
+                        JsonElement unlessElement = requirementObject.get("unless");
+                        int[] unless = this.getNodesFromJson(unlessElement);
+                        requirementsList.add(new NodeSkillDataRequirement(ids, true, unless));
                     } else if (requirementObject.keySet().contains("or_node")) {
                         jsonElement = requirementObject.get("or_node");
                         int[] ids = this.getNodesFromJson(jsonElement);
@@ -61,14 +63,18 @@ public class SkillDataDeserializer implements JsonDeserializer<SkillData> {
     }
 
     private int[] getNodesFromJson(JsonElement jsonElement) {
-        int[] ids;
-        if (jsonElement.isJsonPrimitive()) {
-            ids = new int[] {jsonElement.getAsInt()};
-        } else if (jsonElement.isJsonArray()) {
-            List<Integer> idsList = new ArrayList<>();
-            jsonElement.getAsJsonArray().forEach(id -> idsList.add(id.getAsInt()));
-            ids = idsList.stream().mapToInt(Integer::intValue).toArray();
-        } else {
+        int[] ids = null;
+        if (jsonElement != null) {
+            if (jsonElement.isJsonPrimitive()) {
+                ids = new int[] {jsonElement.getAsInt()};
+            } else if (jsonElement.isJsonArray()) {
+                List<Integer> idsList = new ArrayList<>();
+                jsonElement.getAsJsonArray().forEach(id -> idsList.add(id.getAsInt()));
+                ids = idsList.stream().mapToInt(Integer::intValue).toArray();
+            }
+        }
+
+        if (ids == null) {
             ids = new int[] {};
         }
 

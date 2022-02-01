@@ -9,27 +9,38 @@ import java.util.List;
 public class NodeSkillDataRequirement extends SkillDataRequirement {
     int[] requiredNodes;
     boolean inverse;
+    int[] unless;
 
     public NodeSkillDataRequirement(int[] requiredNodes) {
         this(requiredNodes, false);
     }
 
     public NodeSkillDataRequirement(int[] requiredNodes, boolean inverse) {
+        this(requiredNodes, inverse, new int[] {});
+    }
+
+    public NodeSkillDataRequirement(int[] requiredNodes, boolean inverse, int[] unless) {
         this.requiredNodes = requiredNodes;
         this.inverse = inverse;
+        this.unless = unless;
     }
 
     @Override
     public boolean canLevel(SkillData data) {
+        boolean toReturn = true;
         List<SkillDataNode> nodes = data.getAllNodes();
         for (SkillDataNode node : nodes) {
             if (ArrayUtils.arrayContains(requiredNodes, node.getId())) {
                 if ((!inverse && node.getPoints() == 0) || (inverse && node.getPoints() > 0)) {
-                    return false;
+                    toReturn = false;
                 }
             }
+
+            if (inverse && ArrayUtils.arrayContains(unless, node.getId()) & node.getPoints() > 0) {
+                return true;
+            }
         }
-        return true;
+        return toReturn;
     }
 
     @Override
