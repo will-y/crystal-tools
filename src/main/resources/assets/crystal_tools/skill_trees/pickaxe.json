@@ -210,6 +210,19 @@
         ],
         "key": "torch",
         "value": 1
+      },
+      {
+        "id": 21,
+        "name": "Mine Mode",
+        "description": "Press mode_switch key to change the mining mode between unlocked modes (Silk Touch or Fortune). Press shift + mode_switch to change the breaking mode (3x3 or 1x1)",
+        "type": "normal",
+        "requirements": [
+          {
+            "or_node": [14, 17, 18, 19]
+          }
+        ],
+        "key": "mine_mode",
+        "value": 1
       }
     ],
     [

@@ -19,11 +19,13 @@ public class EnchantmentUtils {
         enchantments.put(enchantment, level);
 
         EnchantmentHelper.setEnchantments(enchantments, stack);
+    }
 
-//        for (Enchantment enchantmentIn : enchantments.keySet()) {
-//            if (enchantmentIn.equals(enchantment)) {
-//                enchantments.put(enchantment, level);
-//            }
-//        }
+    public static void removeEnchantment(ItemStack stack, Enchantment enchantment) {
+        Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(stack);
+
+        enchantments.remove(enchantment);
+
+        EnchantmentHelper.setEnchantments(enchantments, stack);
     }
 }

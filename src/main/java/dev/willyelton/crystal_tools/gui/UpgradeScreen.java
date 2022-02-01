@@ -41,7 +41,7 @@ public class UpgradeScreen extends Screen {
     private int yOffset = 0;
 
     public UpgradeScreen(ItemStack itemStack) {
-        super(new TextComponent("Test Title"));
+        super(new TextComponent("Upgrade Tool"));
         tool = itemStack;
 
         int[] points = NBTUtils.getIntArray(tool, "points");

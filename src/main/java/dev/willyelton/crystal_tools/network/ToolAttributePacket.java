@@ -46,28 +46,15 @@ public class ToolAttributePacket {
                 Enchantment enchantment = enchantmentFromString(msg.key);
 
                 if (enchantment != null) {
-//                    heldTool.enchant(enchantment, (int) msg.value);
                     EnchantmentUtils.addEnchantment(heldTool, enchantment, (int) msg.value);
+                    // also add it like normal
+                    NBTUtils.setValue(heldTool, msg.key, msg.value);
                 } else if (msg.key.equals("auto_repair")) {
                     NBTUtils.setValue(heldTool, msg.key, true);
                     NBTUtils.addValueToTag(heldTool, "auto_repair_amount", 1);
                 } else {
                     NBTUtils.addValueToTag(heldTool, msg.key, msg.value);
                 }
-
-//                if (msg.key.equals("silk_touch_bonus")) {
-//                    heldTool.enchant(Enchantments.SILK_TOUCH, 1);
-//                } else if (msg.key.equals("fortune_bonus")) {
-//                    NBTUtils.removeEnchantments(heldTool);
-//                    heldTool.enchant(Enchantments.BLOCK_FORTUNE, (int) msg.value);
-//                } else if (msg.key.equals("auto_repair")) {
-//                    NBTUtils.setValue(heldTool, msg.key, true);
-//                    NBTUtils.addValueToTag(heldTool, "auto_repair_amount", 1);
-//                } else if(msg.key.equals("looting_bonus")) {
-//                    heldTool.enchant(Enchantments.MOB_LOOTING, (int) msg.value);
-//                } else {
-//                    NBTUtils.addValueToTag(heldTool, msg.key, msg.value);
-//                }
 
                 // update the skill points array
                 if (msg.id != -1) {
