@@ -2,6 +2,7 @@
 ### Additions
 - Added lines to show dependencies in the skill trees
 - Auto-smelt now drops exp
+- Added a Mode Switch keybinding
 
 ### Fixes
 - Fixed two upgrades in the axe having the same id and messing up the skill tree

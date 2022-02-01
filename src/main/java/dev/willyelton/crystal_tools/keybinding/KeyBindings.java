@@ -8,10 +8,12 @@ import org.lwjgl.glfw.GLFW;
 public class KeyBindings {
     public static KeyMapping upgradeMenu;
     public static KeyMapping veinMine;
+    public static KeyMapping modeSwitch;
 
     public static void init() {
         upgradeMenu = createBinding("upgrade_menu", GLFW.GLFW_KEY_K);
         veinMine = createBinding("vein_mine", GLFW.GLFW_KEY_GRAVE_ACCENT);
+        modeSwitch = createBinding("mode_switch", GLFW.GLFW_KEY_M);
     }
 
     private static KeyMapping createBinding(String name, int key) {

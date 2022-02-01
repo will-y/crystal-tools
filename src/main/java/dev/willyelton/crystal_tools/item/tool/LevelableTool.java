@@ -87,8 +87,8 @@ public class LevelableTool extends Item implements LevelableItem {
     protected void dropSmeltedItem(ItemStack tool, Level level, BlockState blockState, BlockPos pos, LivingEntity entity) {
         if (!level.isClientSide) {
             Block.getDrops(blockState, (ServerLevel) level, pos, null, entity, tool).forEach((itemStack -> {
-                System.out.println("----------------------------------");
-                System.out.println("Item in: " + itemStack);
+//                System.out.println("----------------------------------");
+//                System.out.println("Item in: " + itemStack);
                 Container container = new SimpleContainer(itemStack);
                 int count = itemStack.getCount();
 
@@ -101,7 +101,7 @@ public class LevelableTool extends Item implements LevelableItem {
                     result.setCount(count * result.getCount());
 
                     if (!result.is(Items.AIR)) {
-                        System.out.println("dropping: " + result);
+//                        System.out.println("dropping: " + result);
                         Block.popResource(level, pos, result);
                     }
                     LevelUtilities.destroyBlock(level, pos, result.is(Items.AIR), entity, 512, tool);
