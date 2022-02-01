@@ -67,7 +67,7 @@ public class SkillDataDeserializer implements JsonDeserializer<SkillData> {
         } else if (jsonElement.isJsonArray()) {
             List<Integer> idsList = new ArrayList<>();
             jsonElement.getAsJsonArray().forEach(id -> idsList.add(id.getAsInt()));
-            ids= idsList.stream().mapToInt(Integer::intValue).toArray();
+            ids = idsList.stream().mapToInt(Integer::intValue).toArray();
         } else {
             ids = new int[] {};
         }

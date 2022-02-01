@@ -161,9 +161,9 @@
         "type": "normal",
         "requirements":[
           {
-            "node": [12, 13],
-            "not_node": [18, 19]
-          }
+            "node": [12, 13]
+          },
+          {"not_node": [18, 19]}
         ],
         "key": "3x3",
         "value": 1
@@ -175,9 +175,9 @@
         "type": "normal",
         "requirements":[
           {
-            "node": [12, 13],
-            "not_node": [17, 19]
-          }
+            "node": [12, 13]
+          },
+          {"not_node": [17, 19]}
         ],
         "key": "vein_miner",
         "value": 1
@@ -189,9 +189,9 @@
         "type": "normal",
         "requirements":[
           {
-            "node": [12, 13],
-            "not_node": [17, 18]
-          }
+            "node": [12, 13]
+          },
+          {"not_node": [17, 18]}
         ],
         "key": "auto_smelt",
         "value": 1

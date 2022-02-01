@@ -6,6 +6,7 @@
 ### Fixes
 - Fixed two upgrades in the axe having the same id and messing up the skill tree
 - Fixed Pickaxe not being able to 3x3 mine and vein mine
+- Fixed being able to level auto-smelt and multimine even when it doesn't work
 
 ### Changes
 - Updated to Forge 1.18.1-39.0.64

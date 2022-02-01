@@ -2,7 +2,6 @@
 (Tool Fixes and QOL)
 - Multi Type Switcher (Scroll between silk, fortune, ...)
     - Change enchantments (gross)
-- Auto smelt things in 3x3 and vein mining
 
 ----------- At Some Point ------------------
 - See what happens when tool runs out of durability while vein mining
@@ -10,3 +9,4 @@
 - Bow Draw Speed
 - Boots immune to fall damage
 - Armor cool potion effects?
+- Auto smelt things in 3x3 and vein mining (Still no clue)
