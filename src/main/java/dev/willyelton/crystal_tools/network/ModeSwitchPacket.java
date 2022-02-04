@@ -42,11 +42,11 @@ public class ModeSwitchPacket {
                     // 3x3 or 1x1 mode
                 } else {
                     // silk touch or fortune
-                    if (EnchantmentUtils.hasEnchantment(tool, Enchantments.SILK_TOUCH)) {
+                    if (EnchantmentUtils.hasEnchantment(tool, Enchantments.SILK_TOUCH) && NBTUtils.getFloatOrAddKey(tool, "fortune_bonus") > 0) {
                         EnchantmentUtils.removeEnchantment(tool, Enchantments.SILK_TOUCH);
                         EnchantmentUtils.addEnchantment(tool, Enchantments.BLOCK_FORTUNE, 3);
                         playerEntity.displayClientMessage(new TextComponent("Mode: Fortune"), true);
-                    } else if (EnchantmentUtils.hasEnchantment(tool, Enchantments.BLOCK_FORTUNE)) {
+                    } else if (EnchantmentUtils.hasEnchantment(tool, Enchantments.BLOCK_FORTUNE) && NBTUtils.getFloatOrAddKey(tool, "silk_touch_bonus") > 0) {
                         EnchantmentUtils.removeEnchantment(tool, Enchantments.BLOCK_FORTUNE);
                         EnchantmentUtils.addEnchantment(tool, Enchantments.SILK_TOUCH, 1);
                         playerEntity.displayClientMessage(new TextComponent("Mode: Silk Touch"), true);
