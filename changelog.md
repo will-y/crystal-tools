@@ -11,7 +11,7 @@
 - Fixed being able to level auto-smelt and multimine even when it doesn't work
 
 ### Changes
-- Updated to Forge 1.18.1-39.0.64
+- Updated to Forge 1.18.1-39.0.66
 - Blocks dropped by vein miner, tree miner, and 3x3 mining now drop their resources on the player
 
 ----------------------- 0.5.2 Changes -----------------------
