@@ -19,7 +19,7 @@ The ore generates very rarely, currently only about one vein per chunk.
 ## Tools
 Tools gain experience by using them. You can see how much exp you need to get to the next level by looking at the tooltip. You can open the skill tree by pressing `k` by default. Skill points can be using to get a new skill or to fully repair your tool.
 
-The following tools are implemented:
+The following tools/armor pieces are implemented:
 
 - Crystal Pickaxe
 - Crystal Axe
@@ -27,6 +27,10 @@ The following tools are implemented:
 - Crystal Hoe
 - Crystal Sword
 - Crystal Bow
+- Crystal Helmet
+- Crystal Chestplate
+- Crystal Leggings
+- Crystal Boots
 
 ## Upgrades
 There will be upgrades that are common to most tools, and tools will each get unique upgrades as well. Below is a list of all currently implemented upgrades.
@@ -40,8 +44,10 @@ There will be upgrades that are common to most tools, and tools will each get un
 - Silk Touch
 - Fortune
 - Auto Smelting
-	- This currently doesn't work with 3x3 mining or vein mining, you can only have this or one of those.
+    - This currently doesn't work with 3x3 mining or vein mining, you can only have this or one of those.
 - 3x3 Mining
+- Mode Switch
+  - Allows you to upgrade both Fortune and Silk Touch on your tool, and switch between them. (`m` by default)
 
 ### Pickaxe
 - Vein Mining
@@ -75,3 +81,29 @@ There will be upgrades that are common to most tools, and tools will each get un
 - Flame
 - Infinity
 - Arrow Knockback
+
+### All Armor
+- Protection
+- Fire Protection
+- Blast Protection
+- Projectile Protection
+- Thorns
+- Armor Value Bonus
+- Toughness Bonus
+
+### Helmet
+- Aqua Affinity
+- Respiration
+- Night Vision
+
+### Chestplate
+- Health Bonus
+
+### Leggings
+- Speed Bonus
+
+### Boots
+- Feather Falling
+- Depth Strider
+- Soul Speed
+- Frost Walker
