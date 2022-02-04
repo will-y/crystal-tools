@@ -5,6 +5,7 @@ import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -44,9 +45,11 @@ public class ModeSwitchPacket {
                     if (EnchantmentUtils.hasEnchantment(tool, Enchantments.SILK_TOUCH)) {
                         EnchantmentUtils.removeEnchantment(tool, Enchantments.SILK_TOUCH);
                         EnchantmentUtils.addEnchantment(tool, Enchantments.BLOCK_FORTUNE, 3);
+                        playerEntity.displayClientMessage(new TextComponent("Mode: Fortune"), true);
                     } else if (EnchantmentUtils.hasEnchantment(tool, Enchantments.BLOCK_FORTUNE)) {
                         EnchantmentUtils.removeEnchantment(tool, Enchantments.BLOCK_FORTUNE);
                         EnchantmentUtils.addEnchantment(tool, Enchantments.SILK_TOUCH, 1);
+                        playerEntity.displayClientMessage(new TextComponent("Mode: Silk Touch"), true);
                     }
                 }
             }
