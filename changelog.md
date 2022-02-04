@@ -3,6 +3,7 @@
 - Added lines to show dependencies in the skill trees
 - Auto-smelt now drops exp
 - Added a Mode Switch keybinding
+  - Switches between Silk Touch and Fortune if you have both upgrades and the mode switch upgrade
 
 ### Fixes
 - Fixed two upgrades in the axe having the same id and messing up the skill tree

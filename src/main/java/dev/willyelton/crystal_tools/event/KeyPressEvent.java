@@ -50,7 +50,7 @@ public class KeyPressEvent {
      * Handles changing the mining mode (silk touch or fortune)
      */
     public static void handleModeSwitch(ItemStack levelableTool) {
-        PacketHandler.sendToServer(new ModeSwitchPacket());
+        PacketHandler.sendToServer(new ModeSwitchPacket(Screen.hasShiftDown()));
     }
 
     /**

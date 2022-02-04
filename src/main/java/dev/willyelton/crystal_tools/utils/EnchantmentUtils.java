@@ -28,4 +28,8 @@ public class EnchantmentUtils {
 
         EnchantmentHelper.setEnchantments(enchantments, stack);
     }
+
+    public static boolean hasEnchantment(ItemStack stack, Enchantment enchantment) {
+        return EnchantmentHelper.getEnchantments(stack).containsKey(enchantment);
+    }
 }

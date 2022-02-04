@@ -46,7 +46,18 @@ public class ToolAttributePacket {
                 Enchantment enchantment = enchantmentFromString(msg.key);
 
                 if (enchantment != null) {
-                    EnchantmentUtils.addEnchantment(heldTool, enchantment, (int) msg.value);
+                    // Special cases for silk touch and fortune because mode switch upgrade
+                    if (enchantment.equals(Enchantments.SILK_TOUCH)) {
+                        if (NBTUtils.getFloatOrAddKey(heldTool, "fortune_bonus") == 0) {
+                            EnchantmentUtils.addEnchantment(heldTool, enchantment, (int) msg.value);
+                        }
+                    } else if (enchantment.equals(Enchantments.BLOCK_FORTUNE)) {
+                        if (NBTUtils.getFloatOrAddKey(heldTool, "silk_touch_bonus") == 0) {
+                            EnchantmentUtils.addEnchantment(heldTool, enchantment, (int) msg.value);
+                        }
+                    } else {
+                        EnchantmentUtils.addEnchantment(heldTool, enchantment, (int) msg.value);
+                    }
                     // also add it like normal
                     NBTUtils.setValue(heldTool, msg.key, msg.value);
                 } else if (msg.key.equals("auto_repair")) {
