@@ -14,6 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseFireBlock;
 import net.minecraft.world.level.block.Block;
@@ -71,6 +72,14 @@ public class LevelUtilities {
         int skillPoints = (int) NBTUtils.getFloatOrAddKey(itemStack, "skill_points");
         if (skillPoints > 0) {
             components.add(new TextComponent(String.format("%d Unspent Skill Points", skillPoints)));
+        }
+
+        if (NBTUtils.getFloatOrAddKey(itemStack, "mine_mode") > 0
+                && NBTUtils.getFloatOrAddKey(itemStack, "silk_touch_bonus") > 0
+                && NBTUtils.getFloatOrAddKey(itemStack, "fortune_bonus") > 0) {
+            // Only show mode if it has both enchantments
+            String mode = EnchantmentUtils.hasEnchantment(itemStack, Enchantments.SILK_TOUCH) ? "Silk Touch" : "Fortune";
+            components.add(new TextComponent("\u00A79" + "Mode: " + mode));
         }
 
         if (!Screen.hasShiftDown()) {
