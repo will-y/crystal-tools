@@ -91,12 +91,4 @@ public class NBTUtils {
             return defaultValue;
         }
     }
-
-    // TODO change this to only remove specific enchantments, or look on how to change level (look at anvil code)
-    public static void removeEnchantments(ItemStack itemStack) {
-        CompoundTag tag = getTag(itemStack);
-
-        tag.remove("Enchantments");
-    }
-
 }

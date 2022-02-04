@@ -1,8 +1,11 @@
------------ At Some Point ------------------
+------------------ 1.0.0 ------------------
 - See what happens when tool runs out of durability while vein mining
+
+------------------ At Some Point ------------------
+
 - Better Auto Repair (in hand repair)
 - Bow Draw Speed
 - Boots immune to fall damage
 - Armor cool potion effects?
 - Auto smelt things in 3x3 and vein mining (Still no clue)
-- Add 3x3 vs 1x1 to mode switch
+

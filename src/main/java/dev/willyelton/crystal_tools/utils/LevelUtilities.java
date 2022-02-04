@@ -79,7 +79,12 @@ public class LevelUtilities {
                 && NBTUtils.getFloatOrAddKey(itemStack, "fortune_bonus") > 0) {
             // Only show mode if it has both enchantments
             String mode = EnchantmentUtils.hasEnchantment(itemStack, Enchantments.SILK_TOUCH) ? "Silk Touch" : "Fortune";
-            components.add(new TextComponent("\u00A79" + "Mode: " + mode));
+            components.add(new TextComponent("\u00A79" + "Mine Mode: " + mode));
+        }
+
+        if (NBTUtils.getFloatOrAddKey(itemStack, "mine_mode") > 0 && NBTUtils.getFloatOrAddKey(itemStack, "3x3") > 0) {
+            String mode = NBTUtils.getBoolean(itemStack, "disable_3x3") ? "1x1" : "3x3";
+            components.add(new TextComponent("\u00A79" + "Break Mode: " + mode));
         }
 
         if (!Screen.hasShiftDown()) {

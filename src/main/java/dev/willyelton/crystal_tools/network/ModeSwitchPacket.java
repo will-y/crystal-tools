@@ -40,16 +40,19 @@ public class ModeSwitchPacket {
             if (NBTUtils.getFloatOrAddKey(tool, "mine_mode") > 0) {
                 if (msg.hasShiftDown) {
                     // 3x3 or 1x1 mode
+                    boolean disable3x3 = NBTUtils.getBoolean(tool, "disable_3x3");
+                    NBTUtils.setValue(tool, "disable_3x3", !disable3x3);
+                    playerEntity.displayClientMessage(new TextComponent("Break Mode: " + (!disable3x3 ? "1x1" : "3x3")), true);
                 } else {
                     // silk touch or fortune
                     if (EnchantmentUtils.hasEnchantment(tool, Enchantments.SILK_TOUCH) && NBTUtils.getFloatOrAddKey(tool, "fortune_bonus") > 0) {
                         EnchantmentUtils.removeEnchantment(tool, Enchantments.SILK_TOUCH);
                         EnchantmentUtils.addEnchantment(tool, Enchantments.BLOCK_FORTUNE, 3);
-                        playerEntity.displayClientMessage(new TextComponent("Mode: Fortune"), true);
+                        playerEntity.displayClientMessage(new TextComponent("Mine Mode: Fortune"), true);
                     } else if (EnchantmentUtils.hasEnchantment(tool, Enchantments.BLOCK_FORTUNE) && NBTUtils.getFloatOrAddKey(tool, "silk_touch_bonus") > 0) {
                         EnchantmentUtils.removeEnchantment(tool, Enchantments.BLOCK_FORTUNE);
                         EnchantmentUtils.addEnchantment(tool, Enchantments.SILK_TOUCH, 1);
-                        playerEntity.displayClientMessage(new TextComponent("Mode: Silk Touch"), true);
+                        playerEntity.displayClientMessage(new TextComponent("Mine Mode: Silk Touch"), true);
                     }
                 }
             }

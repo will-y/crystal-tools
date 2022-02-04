@@ -32,11 +32,7 @@ public class KeyPressEvent {
         }
 
         if (KeyBindings.modeSwitch.consumeClick()) {
-            if (Screen.hasShiftDown()) {
-                handleBreakModeSwitch(levelableTool);
-            } else {
-                handleModeSwitch(levelableTool);
-            }
+            handleModeSwitch();
         }
     }
 
@@ -49,14 +45,7 @@ public class KeyPressEvent {
     /**
      * Handles changing the mining mode (silk touch or fortune)
      */
-    public static void handleModeSwitch(ItemStack levelableTool) {
+    public static void handleModeSwitch() {
         PacketHandler.sendToServer(new ModeSwitchPacket(Screen.hasShiftDown()));
-    }
-
-    /**
-     * Handles changing the breaking mode (3x3 vs 1x1)
-     */
-    public static void handleBreakModeSwitch(ItemStack levelableTool) {
-
     }
 }

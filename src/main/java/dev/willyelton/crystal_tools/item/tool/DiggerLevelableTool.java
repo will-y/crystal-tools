@@ -35,7 +35,7 @@ public class DiggerLevelableTool extends LevelableTool {
 //            });
 //        }
 
-        if (NBTUtils.getFloatOrAddKey(tool, "3x3") > 0) {
+        if (NBTUtils.getFloatOrAddKey(tool, "3x3") > 0 && !NBTUtils.getBoolean(tool, "disable_3x3")) {
             // TODO: make this actually what I want not this
             Direction direction = Direction.fromYRot(entity.getYRot());
             if (entity.getXRot() < -45.0F) {

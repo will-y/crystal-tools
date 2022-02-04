@@ -1,3 +1,8 @@
+----------------------- 1.0.0 Changes -----------------------
+### Additions
+- Added ability to disable 3x3 mining
+  - Hold shift and press mode switch key (`m` by default)
+
 ----------------------- 0.6.0 Changes -----------------------
 ### Additions
 - Added lines to show dependencies in the skill trees
