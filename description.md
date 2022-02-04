@@ -8,6 +8,7 @@ You can also suggest features or ask questions there.
 
 ## Blocks
 Currently, there are three blocks added to the game
+
 - Crystal Ore
 - Deepslate Crystal Ore
 - Crystal Block
