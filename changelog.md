@@ -3,6 +3,7 @@
 - Added lines to show dependencies in the skill trees
 - Auto-smelt now drops exp
 - Added a Mode Switch keybinding
+- Added a Mode Switch Upgrade to the Pickaxe
   - Switches between Silk Touch and Fortune if you have both upgrades and the mode switch upgrade
 
 ### Fixes

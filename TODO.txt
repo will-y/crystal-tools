@@ -1,8 +1,3 @@
------------------- 0.6.0 ------------------
-(Tool Fixes and QOL)
-- Multi Type Switcher (Scroll between silk, fortune, ...)
-    - Change enchantments (gross)
-
 ----------- At Some Point ------------------
 - See what happens when tool runs out of durability while vein mining
 - Better Auto Repair (in hand repair)
@@ -10,3 +5,4 @@
 - Boots immune to fall damage
 - Armor cool potion effects?
 - Auto smelt things in 3x3 and vein mining (Still no clue)
+- Add 3x3 vs 1x1 to mode switch

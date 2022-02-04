@@ -22,8 +22,6 @@ public class PickaxeLevelableTool extends DiggerLevelableTool {
     public InteractionResult useOn(UseOnContext context) {
         ItemStack tool = context.getItemInHand();
 
-        System.out.println(tool.getTag());
-
         if (NBTUtils.getFloatOrAddKey(tool, "torch") > 0) {
             Level level = context.getLevel();
             BlockPos position = context.getClickedPos();
