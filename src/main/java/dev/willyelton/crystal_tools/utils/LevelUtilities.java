@@ -87,6 +87,10 @@ public class LevelUtilities {
             components.add(new TextComponent("\u00A79" + "Break Mode: " + mode));
         }
 
+        if (NBTUtils.getFloatOrAddKey(itemStack, "mine_mode") > 0 && NBTUtils.getFloatOrAddKey(itemStack, "auto_smelt") > 0 && NBTUtils.getBoolean(itemStack, "disable_auto_smelt")) {
+            components.add(new TextComponent("\u00A79" + "Auto Smelt Disabled"));
+        }
+
         if (!Screen.hasShiftDown()) {
             components.add(new TextComponent("<Hold Shift For Skills>"));
         } else {

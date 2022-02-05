@@ -1,7 +1,12 @@
 ----------------------- 1.0.0 Changes -----------------------
 ### Additions
-- Added ability to disable 3x3 mining
+- Added ability to disable 3x3 mining (requires `Mode Switch`)
   - Hold shift and press mode switch key (`m` by default)
+- Added ability to disable auto smelting (requires `Mode Switch`)
+  - Hold control and press mode switch key (`m` by default)
+
+### Changes
+- Changed the upgrade screen to a pause screen (in single player)
 
 ----------------------- 0.6.0 Changes -----------------------
 ### Additions

@@ -81,7 +81,7 @@ public class UpgradeScreen extends Screen {
 
     @Override
     public void render(PoseStack poseStack, int mouseX, int mouseY, float particleTicks) {
-        this.renderBackground(poseStack);
+        this.renderBlockBackground(0, "dirt");
         drawDependencyLines(poseStack);
         drawString(poseStack, font, "Skill Points: " + (int) NBTUtils.getFloatOrAddKey(tool, "skill_points"), 5, 5, Colors.TEXT_LIGHT);
 //        fill(poseStack, 0, 0, 100, 100, Colors.fromRGB(0, 0, 255));
@@ -94,7 +94,7 @@ public class UpgradeScreen extends Screen {
 
     @Override
     public boolean isPauseScreen() {
-        return false;
+        return true;
     }
 
     private void addButtonsFromTier(List<SkillDataNode> nodes, int y) {
@@ -248,5 +248,23 @@ public class UpgradeScreen extends Screen {
         int y = button.y + button.yOffset;
 
         return new int[] {x, y};
+    }
+
+    public void renderBlockBackground(int pVOffset, String block) {
+        ResourceLocation blockResource = new ResourceLocation("textures/block/" + block + ".png");
+
+        Tesselator tesselator = Tesselator.getInstance();
+        BufferBuilder bufferbuilder = tesselator.getBuilder();
+        RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
+        RenderSystem.setShaderTexture(0, blockResource);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        float f = 32.0F;
+        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
+        bufferbuilder.vertex(0.0D, (double)this.height, 0.0D).uv(0.0F, (float)this.height / 32.0F + (float)pVOffset).color(64, 64, 64, 255).endVertex();
+        bufferbuilder.vertex((double)this.width, (double)this.height, 0.0D).uv((float)this.width / 32.0F, (float)this.height / 32.0F + (float)pVOffset).color(64, 64, 64, 255).endVertex();
+        bufferbuilder.vertex((double)this.width, 0.0D, 0.0D).uv((float)this.width / 32.0F, (float)pVOffset).color(64, 64, 64, 255).endVertex();
+        bufferbuilder.vertex(0.0D, 0.0D, 0.0D).uv(0.0F, (float)pVOffset).color(64, 64, 64, 255).endVertex();
+        tesselator.end();
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.ScreenEvent.BackgroundDrawnEvent(this, new PoseStack()));
     }
 }

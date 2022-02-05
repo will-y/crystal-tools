@@ -1,8 +1,6 @@
 ------------------ 1.0.0 ------------------
-- See what happens when tool runs out of durability while vein mining
 
 ------------------ At Some Point ------------------
-
 - Better Auto Repair (in hand repair)
 - Bow Draw Speed
 - Boots immune to fall damage

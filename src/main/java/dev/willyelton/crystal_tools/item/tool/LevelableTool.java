@@ -74,7 +74,7 @@ public class LevelableTool extends Item implements LevelableItem {
                 player.broadcastBreakEvent(EquipmentSlot.MAINHAND);
             });
 
-            if (NBTUtils.getFloatOrAddKey(tool, "auto_smelt") > 0) {
+            if (NBTUtils.getFloatOrAddKey(tool, "auto_smelt") > 0 &&!NBTUtils.getBoolean(tool, "disable_auto_smelt")) {
                 dropSmeltedItem(tool, level, blockState, blockPos, entity);
             }
         }

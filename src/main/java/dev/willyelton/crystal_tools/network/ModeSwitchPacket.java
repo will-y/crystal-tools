@@ -15,17 +15,20 @@ import java.util.function.Supplier;
 
 public class ModeSwitchPacket {
     private final boolean hasShiftDown;
+    private final boolean hasCtrlDown;
 
-    public ModeSwitchPacket(boolean hasShiftDown) {
+    public ModeSwitchPacket(boolean hasShiftDown, boolean hasCtrlDown) {
         this.hasShiftDown = hasShiftDown;
+        this.hasCtrlDown = hasCtrlDown;
     }
 
     public static void encode(ModeSwitchPacket msg, FriendlyByteBuf buffer) {
         buffer.writeBoolean(msg.hasShiftDown);
+        buffer.writeBoolean(msg.hasCtrlDown);
     }
 
     public static ModeSwitchPacket decode(FriendlyByteBuf buffer) {
-        return new ModeSwitchPacket(buffer.readBoolean());
+        return new ModeSwitchPacket(buffer.readBoolean(), buffer.readBoolean());
     }
 
     public static class Handler {
@@ -38,11 +41,21 @@ public class ModeSwitchPacket {
 
             // check for upgrade
             if (NBTUtils.getFloatOrAddKey(tool, "mine_mode") > 0) {
-                if (msg.hasShiftDown) {
+                if (msg.hasShiftDown && !msg.hasCtrlDown) {
                     // 3x3 or 1x1 mode
-                    boolean disable3x3 = NBTUtils.getBoolean(tool, "disable_3x3");
-                    NBTUtils.setValue(tool, "disable_3x3", !disable3x3);
-                    playerEntity.displayClientMessage(new TextComponent("Break Mode: " + (!disable3x3 ? "1x1" : "3x3")), true);
+                    if (NBTUtils.getFloatOrAddKey(tool, "3x3") > 0) {
+                        boolean disable3x3 = NBTUtils.getBoolean(tool, "disable_3x3");
+                        NBTUtils.setValue(tool, "disable_3x3", !disable3x3);
+                        playerEntity.displayClientMessage(new TextComponent("Break Mode: " + (!disable3x3 ? "1x1" : "3x3")), true);
+                    }
+                } else if (msg.hasCtrlDown && !msg.hasShiftDown){
+                    // Auto smelt on/off
+                    if (NBTUtils.getFloatOrAddKey(tool, "auto_smelt") > 0) {
+                        boolean disableAutoSmelt = NBTUtils.getBoolean(tool, "disable_auto_smelt");
+                        NBTUtils.setValue(tool, "disable_auto_smelt", !disableAutoSmelt);
+                        playerEntity.displayClientMessage(new TextComponent("Auto Smelt " + (!disableAutoSmelt ? "Disabled" : "Enabled")), true);
+                    }
+
                 } else {
                     // silk touch or fortune
                     if (EnchantmentUtils.hasEnchantment(tool, Enchantments.SILK_TOUCH) && NBTUtils.getFloatOrAddKey(tool, "fortune_bonus") > 0) {
