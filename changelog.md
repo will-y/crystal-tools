@@ -9,6 +9,7 @@
 
 ### Changes
 - Changed the upgrade screen to a pause screen (in single player)
+- Changed Protection to Prot in the skill trees so it fits on the buttons
 
 ----------------------- 0.6.0 Changes -----------------------
 ### Additions

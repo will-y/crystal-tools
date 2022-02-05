@@ -3,84 +3,84 @@
     [
       {
         "id": 0,
-        "name": "Protection I",
-        "description": "Gives the helmet Protection I.",
+        "name": "Prot I",
+        "description": "Gives the helmet Prot I.",
         "type": "normal",
         "requirements": [],
-        "key": "protection_bonus",
+        "key": "Prot_bonus",
         "value": 1
       },
       {
         "id": 1,
-        "name": "Fire Protection I",
-        "description": "Gives the helmet Fire Protection I.",
+        "name": "Fire Prot I",
+        "description": "Gives the helmet Fire Prot I.",
         "type": "normal",
         "requirements": [],
-        "key": "fire_protection_bonus",
+        "key": "fire_Prot_bonus",
         "value": 1
       },
       {
         "id": 2,
-        "name": "Blast Protection I",
-        "description": "Gives the helmet Blast Protection I.",
+        "name": "Blast Prot I",
+        "description": "Gives the helmet Blast Prot I.",
         "type": "normal",
         "requirements": [],
-        "key": "blast_protection_bonus",
+        "key": "blast_Prot_bonus",
         "value": 1
       },
       {
         "id": 3,
-        "name": "Projectile Protection I",
-        "description": "Gives the helmet Projectile Protection I.",
+        "name": "Projectile Prot I",
+        "description": "Gives the helmet Projectile Prot I.",
         "type": "normal",
         "requirements": [],
-        "key": "projectile_protection_bonus",
+        "key": "projectile_Prot_bonus",
         "value": 1
       }
     ],
     [
       {
         "id": 4,
-        "name": "Protection II",
-        "description": "Gives the helmet Protection II.",
+        "name": "Prot II",
+        "description": "Gives the helmet Prot II.",
         "type": "normal",
         "requirements": [
           {"node": 0}
         ],
-        "key": "protection_bonus",
+        "key": "Prot_bonus",
         "value": 2
       },
       {
         "id": 5,
-        "name": "Fire Protection II",
-        "description": "Gives the helmet Fire Protection II.",
+        "name": "Fire Prot II",
+        "description": "Gives the helmet Fire Prot II.",
         "type": "normal",
         "requirements": [
           {"node": 1}
         ],
-        "key": "fire_protection_bonus",
+        "key": "fire_Prot_bonus",
         "value": 2
       },
       {
         "id": 6,
-        "name": "Blast Protection II",
-        "description": "Gives the helmet Blast Protection II.",
+        "name": "Blast Prot II",
+        "description": "Gives the helmet Blast Prot II.",
         "type": "normal",
         "requirements": [
           {"node": 2}
         ],
-        "key": "blast_protection_bonus",
+        "key": "blast_Prot_bonus",
         "value": 2
       },
       {
         "id": 7,
-        "name": "Projectile Protection II",
-        "description": "Gives the helmet Projectile Protection II.",
+        "name": "Projectile Prot II",
+        "description": "Gives the helmet Projectile Prot II.",
         "type": "normal",
         "requirements": [
           {"node": 3}
         ],
-        "key": "projectile_protection_bonus",
+        "key": "projectile_Prot_bonus",
         "value": 2
       }
     ],
@@ -122,50 +122,50 @@
     [
       {
         "id": 11,
-        "name": "Protection III",
-        "description": "Gives the helmet Protection III.",
+        "name": "Prot III",
+        "description": "Gives the helmet Prot III.",
         "type": "normal",
         "requirements": [
           {"node": 4},
           {"or_node": [8, 9, 10]}
         ],
-        "key": "protection_bonus",
+        "key": "Prot_bonus",
         "value": 3
       },
       {
         "id": 12,
-        "name": "Fire Protection III",
-        "description": "Gives the helmet Fire Protection III.",
+        "name": "Fire Prot III",
+        "description": "Gives the helmet Fire Prot III.",
         "type": "normal",
         "requirements": [
           {"node": 5},
           {"or_node": [8, 9, 10]}
         ],
-        "key": "fire_protection_bonus",
+        "key": "fire_Prot_bonus",
         "value": 3
       },
       {
         "id": 13,
-        "name": "Blast Protection III",
-        "description": "Gives the helmet Blast Protection III.",
+        "name": "Blast Prot III",
+        "description": "Gives the helmet Blast Prot III.",
         "type": "normal",
         "requirements": [
           {"node": 6},
           {"or_node": [8, 9, 10]}
         ],
-        "key": "blast_protection_bonus",
+        "key": "blast_Prot_bonus",
         "value": 3
       },
       {
         "id": 14,
-        "name": "Projectile Protection III",
-        "description": "Gives the helmet Projectile Protection III.",
+        "name": "Projectile Prot III",
+        "description": "Gives the helmet Projectile Prot III.",
         "type": "normal",
         "requirements": [
           {"node": 7},
           {"or_node": [8, 9, 10]}
         ],
-        "key": "projectile_protection_bonus",
+        "key": "projectile_Prot_bonus",
         "value": 3
       }
     ],
@@ -220,50 +220,50 @@
     [
       {
         "id": 19,
-        "name": "Protection IV",
-        "description": "Gives the helmet Protection IV.",
+        "name": "Prot IV",
+        "description": "Gives the helmet Prot IV.",
         "type": "normal",
         "requirements": [
           {"node": 11},
           {"or_node": [15, 16, 17, 18]}
         ],
-        "key": "protection_bonus",
+        "key": "Prot_bonus",
         "value": 4
       },
       {
         "id": 20,
-        "name": "Fire Protection IV",
-        "description": "Gives the helmet Fire Protection IV.",
+        "name": "Fire Prot IV",
+        "description": "Gives the helmet Fire Prot IV.",
         "type": "normal",
         "requirements": [
           {"node": 12},
           {"or_node": [15, 16, 17, 18]}
         ],
-        "key": "fire_protection_bonus",
+        "key": "fire_Prot_bonus",
         "value": 4
       },
       {
         "id": 21,
-        "name": "Blast Protection IV",
-        "description": "Gives the helmet Blast Protection IV.",
+        "name": "Blast Prot IV",
+        "description": "Gives the helmet Blast Prot IV.",
         "type": "normal",
         "requirements": [
           {"node": 13},
           {"or_node": [15, 16, 17, 18]}
         ],
-        "key": "blast_protection_bonus",
+        "key": "blast_Prot_bonus",
         "value": 4
       },
       {
         "id": 22,
-        "name": "Projectile Protection IV",
-        "description": "Gives the helmet Projectile Protection IV.",
+        "name": "Projectile Prot IV",
+        "description": "Gives the helmet Projectile Prot IV.",
         "type": "normal",
         "requirements": [
           {"node": 14},
           {"or_node": [15, 16, 17, 18]}
         ],
-        "key": "projectile_protection_bonus",
+        "key": "projectile_Prot_bonus",
         "value": 4
       }
     ],
