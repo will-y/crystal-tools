@@ -11,6 +11,7 @@ public class CrystalToolsConfig {
     public static ForgeConfigSpec.DoubleValue ARMOR_EXPERIENCE_BOOST;
     public static ForgeConfigSpec.DoubleValue BOW_EXPERIENCE_BOOST;
     public static ForgeConfigSpec.DoubleValue SWORD_EXPERIENCE_BOOST;
+    public static ForgeConfigSpec.ConfigValue<String> UPGRADE_SCREEN_BACKGROUND;
 
     static {
         ForgeConfigSpec.Builder configBuilder = new ForgeConfigSpec.Builder();
@@ -33,5 +34,8 @@ public class CrystalToolsConfig {
 
         SWORD_EXPERIENCE_BOOST = builder.comment("Multiplies how much experience Swords get. (EXP_GAINED = DAMAGE_DONE * SWORD_EXPERIENCE_BOOST")
                 .defineInRange("sword_experience_boost", 1D, 0.1D, 10000D);
+
+        UPGRADE_SCREEN_BACKGROUND = builder.comment("The block texture to use for the background of the upgrade screen. Must be a vanilla block name.")
+                .define("upgrade_screen_background", "cracked_deepslate_tiles");
     }
 }

@@ -5,6 +5,7 @@
 - Added ability to disable auto smelting (requires `Mode Switch`)
   - Hold control and press mode switch key (`m` by default)
 - Added background to the upgrade screen
+- Added config option to change background block for upgrade screen: `upgrade_screen_background`
 
 ### Changes
 - Changed the upgrade screen to a pause screen (in single player)
