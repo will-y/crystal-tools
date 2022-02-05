@@ -4,6 +4,7 @@
   - Hold shift and press mode switch key (`m` by default)
 - Added ability to disable auto smelting (requires `Mode Switch`)
   - Hold control and press mode switch key (`m` by default)
+- Added background to the upgrade screen
 
 ### Changes
 - Changed the upgrade screen to a pause screen (in single player)

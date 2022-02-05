@@ -252,7 +252,7 @@ public class UpgradeScreen extends Screen {
 
     public void renderBlockBackground(int pVOffset, String block) {
         ResourceLocation blockResource = new ResourceLocation("textures/block/" + block + ".png");
-
+        // just vanilla stuff from renderDirtBackground()
         Tesselator tesselator = Tesselator.getInstance();
         BufferBuilder bufferbuilder = tesselator.getBuilder();
         RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
