@@ -79,7 +79,7 @@
             "not_node":  7,
             "unless": 21
           },
-          {"node": [4, 5]}
+          {"or_node": [4, 5]}
         ],
         "key": "silk_touch_bonus",
         "value": 1
@@ -94,7 +94,7 @@
             "not_node":  6,
             "unless": 21
           },
-          {"node":  [4, 5]}
+          {"or_node":  [4, 5]}
         ],
         "key": "fortune_bonus",
         "value": 3
@@ -155,7 +155,7 @@
         "description": "Automatically Repairs Your Tool Over Time!",
         "type": "normal",
         "requirements": [
-          {"node": [12, 13]}
+          {"or_node": [12, 13]}
         ],
         "key": "auto_repair",
         "value": 1
@@ -167,7 +167,7 @@
         "type": "normal",
         "requirements":[
           {
-            "node": [12, 13]
+            "or_node": [12, 13]
           },
           {"not_node": [18, 19]}
         ],
@@ -181,7 +181,7 @@
         "type": "normal",
         "requirements":[
           {
-            "node": [12, 13]
+            "or_node": [12, 13]
           },
           {"not_node": [17, 19]}
         ],
@@ -195,7 +195,7 @@
         "type": "normal",
         "requirements":[
           {
-            "node": [12, 13]
+            "or_node": [12, 13]
           },
           {"not_node": [17, 18]}
         ],
@@ -238,7 +238,8 @@
         "description": "Add As Many Points To Speed Here As You Want",
         "type": "infinite",
         "requirements": [
-          {"or_node":  [14, 17, 18]}
+          {"or_node":  [20, 21]},
+          {"node": 12}
         ],
         "key": "speed_bonus",
         "value": 0.1
@@ -249,7 +250,8 @@
         "description": "Add As Many Points To Durability Here As You Want",
         "type": "infinite",
         "requirements": [
-          {"or_node":  [14, 17, 18]}
+          {"or_node":  [20, 21]},
+          {"node": 13}
         ],
         "key": "durability_bonus",
         "value": 50
