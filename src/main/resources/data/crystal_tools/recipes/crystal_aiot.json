@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "crystal_tools:crystal_axe"
+    },
+    {
+      "item": "crystal_tools:crystal_pickaxe"
+    },
+    {
+      "item": "crystal_tools:crystal_shovel"
+    },
+    {
+      "item": "crystal_tools:crystal_hoe"
+    },
+    {
+      "item": "crystal_tools:crystal_sword"
+    },
+    {
+      "item": "minecraft:slime_block"
+    }
+  ],
+  "result":
+  {
+    "item": "crystal_tools:crystal_aiot",
+    "count": 1
+  }
+}
