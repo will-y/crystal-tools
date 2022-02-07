@@ -7,6 +7,7 @@
 - Changed Pickaxe skill tree to use or requirements instead of and requirements to match later tools
 - Changed Axe skill tree to use or requirements instead of and requirements to match later tools
 - Changed Hoe skill tree to use or requirements instead of and requirements to match later tools
+- Changed Shovel skill tree to use or requirements instead of and requirements to match later tools
 
 
 ----------------------- 1.0.0 Changes -----------------------

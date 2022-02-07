@@ -76,7 +76,7 @@
         "type": "normal",
         "requirements": [
           {"not_node":  7},
-          {"node": [4, 5]}
+          {"or_node": [4, 5]}
         ],
         "key": "silk_touch_bonus",
         "value": 1
@@ -88,7 +88,7 @@
         "type": "normal",
         "requirements": [
           {"not_node":  6},
-          {"node":  [4, 5]}
+          {"or_node":  [4, 5]}
         ],
         "key": "fortune_bonus",
         "value": 3
@@ -101,7 +101,8 @@
         "description": "Increases Shovel's Mining Speed",
         "type": "normal",
         "requirements": [
-          {"or_node":  [6, 7]}
+          {"or_node":  [6, 7]},
+          {"node": 4}
         ],
         "key": "speed_bonus",
         "value": 0.25
@@ -112,7 +113,8 @@
         "description": "Increases Shovel's Durability",
         "type": "normal",
         "requirements": [
-          {"or_node":  [6, 7]}
+          {"or_node":  [6, 7]},
+          {"node": 5}
         ],
         "key": "durability_bonus",
         "value": 200
@@ -149,7 +151,7 @@
         "description": "Automatically Repairs Your Tool Over Time!",
         "type": "normal",
         "requirements": [
-          {"node": [12, 13]}
+          {"or_node": [12, 13]}
         ],
         "key": "auto_repair",
         "value": 1
@@ -161,7 +163,7 @@
         "type": "normal",
         "requirements":[
           {
-            "node": [12, 13]
+            "or_node": [12, 13]
           },
           {
             "not_node": 18
@@ -177,7 +179,7 @@
         "type": "normal",
         "requirements":[
           {
-            "node": [12, 13],
+            "or_node": [12, 13],
             "not_node": 17
           }
         ],
@@ -192,7 +194,8 @@
         "description": "Add As Many Points To Speed Here As You Want",
         "type": "infinite",
         "requirements": [
-          {"or_node":  [14, 17]}
+          {"or_node":  [14, 17, 18]},
+          {"node": 12}
         ],
         "key": "speed_bonus",
         "value": 0.1
@@ -203,7 +206,8 @@
         "description": "Add As Many Points To Durability Here As You Want",
         "type": "infinite",
         "requirements": [
-          {"or_node":  [14, 17]}
+          {"or_node":  [14, 17, 18]},
+          {"node": 13}
         ],
         "key": "durability_bonus",
         "value": 50
