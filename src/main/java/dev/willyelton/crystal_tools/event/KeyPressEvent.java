@@ -46,6 +46,6 @@ public class KeyPressEvent {
      * Handles changing the mining mode (silk touch or fortune)
      */
     public static void handleModeSwitch() {
-        PacketHandler.sendToServer(new ModeSwitchPacket(Screen.hasShiftDown(), Screen.hasControlDown()));
+        PacketHandler.sendToServer(new ModeSwitchPacket(Screen.hasShiftDown(), Screen.hasControlDown(), Screen.hasAltDown()));
     }
 }

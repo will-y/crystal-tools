@@ -10,6 +10,8 @@ import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -22,6 +24,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -29,6 +32,8 @@ import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.WallTorchBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
+import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -101,12 +106,20 @@ public class AIOLevelableTool extends DiggerLevelableTool {
             case TORCH -> {
                 return useOnTorch(context);
             }
-            case NONE -> {
-                return InteractionResult.PASS;
-            }
         }
 
         return InteractionResult.PASS;
+    }
+
+    @Override
+    public boolean canPerformAction(ItemStack stack, net.minecraftforge.common.ToolAction toolAction) {
+        return true;
+    }
+
+    @Override
+    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
+        super.appendHoverText(itemStack, level, components, flag);
+        components.add(new TextComponent("Mode: " + NBTUtils.getString(itemStack, "use_mode")));
     }
 
     public InteractionResult useOnAxe(UseOnContext pContext) {
