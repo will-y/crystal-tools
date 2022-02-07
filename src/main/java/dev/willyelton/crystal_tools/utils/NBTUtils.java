@@ -45,6 +45,11 @@ public class NBTUtils {
         tag.putBoolean(key, value);
     }
 
+    public static void setValue(ItemStack itemStack, String key, String value) {
+        CompoundTag tag = getTag(itemStack);
+        tag.putString(key, value);
+    }
+
     public static void addValueToArray(ItemStack itemStack, String arrayKey, int index, int value) {
         CompoundTag tag = getTag(itemStack);
         int[] points = getIntArray(itemStack, arrayKey);
@@ -89,6 +94,16 @@ public class NBTUtils {
             return tag.getBoolean(key);
         } else {
             return defaultValue;
+        }
+    }
+
+    public static String getString(ItemStack itemStack, String key) {
+        CompoundTag tag = getTag(itemStack);
+
+        if (tag.contains(key)) {
+            return tag.getString(key);
+        } else {
+            return "";
         }
     }
 }

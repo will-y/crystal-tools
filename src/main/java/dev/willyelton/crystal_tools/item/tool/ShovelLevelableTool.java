@@ -29,7 +29,7 @@ public class ShovelLevelableTool extends DiggerLevelableTool {
         super(new Item.Properties(), BlockTags.MINEABLE_WITH_SHOVEL, "shovel");
     }
 
-    // just from ShovelItem
+    @Override
     public InteractionResult useOn(UseOnContext pContext) {
         ItemStack shovel = pContext.getItemInHand();
         Level level = pContext.getLevel();
