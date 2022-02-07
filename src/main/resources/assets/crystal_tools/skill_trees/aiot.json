@@ -12,6 +12,24 @@
       },
       {
         "id": 1,
+        "name": "Attack Damage I",
+        "description": "Increases AIOT's Attack Damage",
+        "type": "normal",
+        "requirements": [],
+        "key": "damage_bonus",
+        "value": 1
+      },
+      {
+        "id": 2,
+        "name": "Attack Speed I",
+        "description": "Increases AIOT's Attack Speed",
+        "type": "normal",
+        "requirements": [],
+        "key": "attack_speed_bonus",
+        "value": 1
+      },
+      {
+        "id": 3,
         "name": "Durability I",
         "description": "Increases AIOT's Durability",
         "type": "normal",
@@ -22,47 +40,45 @@
     ],
     [
       {
-        "id": 2,
+        "id": 4,
         "name": "Mining Speed II",
         "description": "Increases AIOT's Mining Speed",
         "type": "normal",
         "requirements": [
-          {"node":  0}
-        ],
-        "key": "speed_bonus",
-        "value": 0.25
-      },
-      {
-        "id": 3,
-        "name": "Durability II",
-        "description": "Increases AIOT's Durability",
-        "type": "normal",
-        "requirements": [
-          {"node":  1}
-        ],
-        "key": "durability_bonus",
-        "value": 200
-      }
-    ],
-    [
-      {
-        "id": 4,
-        "name": "Mining Speed III",
-        "description": "Increases AIOT's Mining Speed",
-        "type": "normal",
-        "requirements": [
-          {"node":  2}
+          {"node": 0}
         ],
         "key": "speed_bonus",
         "value": 0.25
       },
       {
         "id": 5,
-        "name": "Durability III",
+        "name": "Attack Damage II",
+        "description": "Increases AIOT's Attack Damage",
+        "type": "normal",
+        "requirements": [
+          {"node": 1}
+        ],
+        "key": "damage_bonus",
+        "value": 1
+      },
+      {
+        "id": 6,
+        "name": "Attack Speed II",
+        "description": "Increases AIOT's Attack Speed",
+        "type": "normal",
+        "requirements": [
+          {"node": 2}
+        ],
+        "key": "attack_speed_bonus",
+        "value": 1
+      },
+      {
+        "id": 7,
+        "name": "Durability II",
         "description": "Increases AIOT's Durability",
         "type": "normal",
         "requirements": [
-          {"node":  3}
+          {"node": 3}
         ],
         "key": "durability_bonus",
         "value": 200
@@ -70,31 +86,31 @@
     ],
     [
       {
-        "id": 6,
+        "id": 8,
         "name": "Silk Touch",
         "description": "Gives Silk Touch To The AIOT",
         "type": "normal",
         "requirements": [
           {
-            "not_node":  7,
+            "not_node":  9,
             "unless": 21
           },
-          {"node": [4, 5]}
+          {"or_node": [4, 5, 6, 7]}
         ],
         "key": "silk_touch_bonus",
         "value": 1
       },
       {
-        "id": 7,
+        "id": 9,
         "name": "Fortune III",
         "description": "Gives Fortune III To The AIOT",
         "type": "normal",
         "requirements": [
           {
-            "not_node":  6,
+            "not_node":  8,
             "unless": 21
           },
-          {"node":  [4, 5]}
+          {"or_node":  [4, 5, 6, 7]}
         ],
         "key": "fortune_bonus",
         "value": 3
@@ -103,46 +119,83 @@
     [
       {
         "id": 10,
-        "name": "Mining Speed IV",
-        "description": "Increases AIOT's Mining Speed",
+        "name": "Fire Aspect",
+        "description": "Sets anything you hit on fire",
         "type": "normal",
         "requirements": [
-          {"or_node":  [6, 7]}
+          {"or_node": [8, 9]}
         ],
-        "key": "speed_bonus",
-        "value": 0.25
+        "key": "fire",
+        "value": 1
       },
       {
         "id": 11,
-        "name": "Durability IV",
-        "description": "Increases AIOT's Durability",
+        "name": "Knockback Res I",
+        "description": "Adds Knockback Resistance when holding the AIOT",
         "type": "normal",
         "requirements": [
-          {"or_node":  [6, 7]}
+          {"or_node": [8, 9]}
         ],
-        "key": "durability_bonus",
-        "value": 200
+        "key": "knockback_resistance",
+        "value": 0.1
+      },
+      {
+        "id": 12,
+        "name": "Knockback I",
+        "description": "Adds Knockback to the AIOT",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [8, 9]}
+        ],
+        "key": "knockback",
+        "value": 1
       }
     ],
     [
       {
-        "id": 12,
-        "name": "Mining Speed V",
+        "id": 13,
+        "name": "Mining Speed III",
         "description": "Increases AIOT's Mining Speed",
         "type": "normal",
         "requirements": [
-          {"node": 10}
+          {"node": 4},
+          {"or_node": [10, 11, 12]}
         ],
         "key": "speed_bonus",
         "value": 0.25
       },
       {
-        "id": 13,
-        "name": "Durability V",
+        "id": 14,
+        "name": "Attack Damage III",
+        "description": "Increases AIOT's Attack Damage",
+        "type": "normal",
+        "requirements": [
+          {"node": 5},
+          {"or_node": [10, 11, 12]}
+        ],
+        "key": "damage_bonus",
+        "value": 1
+      },
+      {
+        "id": 15,
+        "name": "Attack Speed III",
+        "description": "Increases AIOT's Attack Speed",
+        "type": "normal",
+        "requirements": [
+          {"node": 6},
+          {"or_node": [10, 11, 12]}
+        ],
+        "key": "attack_speed_bonus",
+        "value": 1
+      },
+      {
+        "id": 16,
+        "name": "Durability III",
         "description": "Increases AIOT's Durability",
         "type": "normal",
         "requirements": [
-          {"node": 11}
+          {"node": 7},
+          {"or_node": [10, 11, 12]}
         ],
         "key": "durability_bonus",
         "value": 200
@@ -150,54 +203,48 @@
     ],
     [
       {
-        "id": 14,
+        "id": 17,
         "name": "Auto Repair",
         "description": "Automatically Repairs Your Tool Over Time!",
         "type": "normal",
         "requirements": [
-          {"node": [12, 13]}
+          {"or_node": [13, 14, 15, 16]}
         ],
         "key": "auto_repair",
         "value": 1
       },
       {
-        "id": 17,
+        "id": 18,
         "name": "3x3 Mining",
         "description": "Mines in a 3x3 area.",
         "type": "normal",
         "requirements":[
-          {
-            "node": [12, 13]
-          },
-          {"not_node": [18, 19]}
+          {"or_node": [13, 14, 15, 16]},
+          {"not_node": 20}
         ],
         "key": "3x3",
         "value": 1
       },
       {
-        "id": 18,
+        "id": 19,
         "name": "Vein Mining",
         "description": "Mines all ores in a vein when pressing the vein mining key.",
         "type": "normal",
         "requirements":[
-          {
-            "node": [12, 13]
-          },
-          {"not_node": [17, 19]}
+          {"or_node": [13, 14, 15, 16]},
+          {"not_node": 20}
         ],
         "key": "vein_miner",
         "value": 1
       },
       {
-        "id": 19,
+        "id": 20,
         "name": "Auto Smelting",
         "description": "Automatically smelts the blocks that you mine.",
         "type": "normal",
         "requirements":[
-          {
-            "node": [12, 13]
-          },
-          {"not_node": [17, 18]}
+          {"or_node": [13, 14, 15, 16]},
+          {"not_node": [18, 19]}
         ],
         "key": "auto_smelt",
         "value": 1
@@ -205,51 +252,221 @@
     ],
     [
       {
-        "id": 20,
+        "id": 21,
+        "name": "Knockback Res II",
+        "description": "Adds Knockback Resistance when holding the AIOT",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [17, 18, 19, 20]},
+          {"node": 11}
+        ],
+        "key": "knockback_resistance",
+        "value": 0.1
+      },
+      {
+        "id": 22,
+        "name": "Lifesteal I",
+        "description": "You gain 1 heart back on each attack",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [17, 18, 19, 20]}
+        ],
+        "key": "lifesteal",
+        "value": 1
+      },
+      {
+        "id": 23,
+        "name": "Knockback II",
+        "description": "Adds Knockback to the AIOT",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [17, 18, 19, 20]},
+          {"node": 12}
+        ],
+        "key": "knockback",
+        "value": 2
+      }
+    ],
+    [
+      {
+        "id": 24,
+        "name": "Mining Speed IV",
+        "description": "Increases AIOT's Mining Speed",
+        "type": "normal",
+        "requirements": [
+          {"node": 13},
+          {"or_node": [21, 22, 23]}
+        ],
+        "key": "speed_bonus",
+        "value": 0.25
+      },
+      {
+        "id": 25,
+        "name": "Attack Damage IV",
+        "description": "Increases AIOT's Attack Damage",
+        "type": "normal",
+        "requirements": [
+          {"node": 14},
+          {"or_node": [21, 22, 23]}
+        ],
+        "key": "damage_bonus",
+        "value": 1
+      },
+      {
+        "id": 26,
+        "name": "Attack Speed IV",
+        "description": "Increases AIOT's Attack Speed",
+        "type": "normal",
+        "requirements": [
+          {"node": 15},
+          {"or_node": [21, 22, 23]}
+        ],
+        "key": "attack_speed_bonus",
+        "value": 1
+      },
+      {
+        "id": 27,
+        "name": "Durability IV",
+        "description": "Increases AIOT's Durability",
+        "type": "normal",
+        "requirements": [
+          {"node": 16},
+          {"or_node": [21, 22, 23]}
+        ],
+        "key": "durability_bonus",
+        "value": 200
+      }
+    ],
+    [
+      {
+        "id": 28,
         "name": "Torch",
         "description": "Right-Click to place a torch. Uses 10 durability.",
         "type": "normal",
         "requirements": [
           {
-            "or_node": [14, 17, 18, 19]
+            "or_node": [24, 25, 26, 27]
           }
         ],
         "key": "torch",
         "value": 1
       },
       {
-        "id": 21,
+        "id": 29,
         "name": "Mine Mode",
         "description": "Press mode_switch key to change the mining mode between unlocked modes (Silk Touch or Fortune). Press shift + mode_switch to change the breaking mode (3x3 or 1x1)",
         "type": "normal",
         "requirements": [
           {
-            "or_node": [14, 17, 18, 19]
+            "or_node": [24, 25, 26, 27]
           }
         ],
         "key": "mine_mode",
         "value": 1
+      },
+      {
+        "id": 30,
+        "name": "Looting III",
+        "description": "Gives this AIOT Looting III",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [24, 25, 26, 27]}
+        ],
+        "key": "looting_bonus",
+        "value": 3
       }
     ],
     [
       {
-        "id":  15,
+        "id": 31,
+        "name": "Mining Speed V",
+        "description": "Increases AIOT's Mining Speed",
+        "type": "normal",
+        "requirements": [
+          {"node": 24},
+          {"or_node": [28, 29, 30]}
+        ],
+        "key": "speed_bonus",
+        "value": 0.25
+      },
+      {
+        "id": 32,
+        "name": "Attack Damage V",
+        "description": "Increases AIOT's Attack Damage",
+        "type": "normal",
+        "requirements": [
+          {"node": 25},
+          {"or_node": [28, 29, 30]}
+        ],
+        "key": "damage_bonus",
+        "value": 1
+      },
+      {
+        "id": 33,
+        "name": "Attack Speed V",
+        "description": "Increases AIOT's Attack Speed",
+        "type": "normal",
+        "requirements": [
+          {"node": 26},
+          {"or_node": [28, 29, 30]}
+        ],
+        "key": "attack_speed_bonus",
+        "value": 1
+      },
+      {
+        "id": 34,
+        "name": "Durability V",
+        "description": "Increases AIOT's Durability",
+        "type": "normal",
+        "requirements": [
+          {"node": 27},
+          {"or_node": [28, 29, 30]}
+        ],
+        "key": "durability_bonus",
+        "value": 200
+      }
+    ],
+    [
+      {
+        "id":  35,
         "name": "Infinite Speed",
         "description": "Add As Many Points To Speed Here As You Want",
         "type": "infinite",
         "requirements": [
-          {"or_node":  [14, 17, 18]}
+          {"node": 31}
         ],
         "key": "speed_bonus",
         "value": 0.1
       },
       {
-        "id": 16,
+        "id": 36,
+        "name": "Infinite Damage",
+        "description": "Add As Many Points To Attack Damage Here As You Want",
+        "type": "infinite",
+        "requirements": [
+          {"node": 32}
+        ],
+        "key": "damage_bonus",
+        "value": 0.25
+      },
+      {
+        "id": 37,
+        "name": "Infinite ATK. Speed",
+        "description": "Add As Many Points To Attack Speed Here As You Want",
+        "type": "infinite",
+        "requirements": [
+          {"node": 33}
+        ],
+        "key": "attack_speed_bonus",
+        "value": 0.25
+      },
+      {
+        "id": 38,
         "name": "Infinite Durability",
         "description": "Add As Many Points To Durability Here As You Want",
         "type": "infinite",
         "requirements": [
-          {"or_node":  [14, 17, 18]}
+          {"node": 34}
         ],
         "key": "durability_bonus",
         "value": 50
