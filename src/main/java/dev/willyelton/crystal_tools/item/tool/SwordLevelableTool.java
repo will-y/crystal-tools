@@ -31,19 +31,19 @@ public class SwordLevelableTool extends LevelableTool {
         super(new Item.Properties(), BlockTags.CARPETS, "sword");
     }
 
-    public float getAttackDamage(ItemStack stack) {
+    public static float getAttackDamage(ItemStack stack) {
         return BASE_ATTACK_DAMAGE + NBTUtils.getFloatOrAddKey(stack, "damage_bonus");
     }
 
-    public float getAttackSpeed(ItemStack stack) {
+    public static float getAttackSpeed(ItemStack stack) {
         return BASE_ATTACK_SPEED + NBTUtils.getFloatOrAddKey(stack, "attack_speed_bonus");
     }
 
-    public float getAttackKnockback(ItemStack stack) {
+    public static float getAttackKnockback(ItemStack stack) {
         return BASE_ATTACK_KNOCKBACK + NBTUtils.getFloatOrAddKey(stack, "knockback");
     }
 
-    public float getKnockbackResistance(ItemStack stack) {
+    public static float getKnockbackResistance(ItemStack stack) {
         return BASE_KNOCKBACK_RESISTANCE + NBTUtils.getFloatOrAddKey(stack, "knockback_resistance");
     }
 
@@ -91,10 +91,10 @@ public class SwordLevelableTool extends LevelableTool {
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
         if (slot == EquipmentSlot.MAINHAND && !LevelUtilities.isBroken(stack)) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-            builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", this.getAttackDamage(stack), AttributeModifier.Operation.ADDITION));
-            builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", this.getAttackSpeed(stack), AttributeModifier.Operation.ADDITION));
-            builder.put(Attributes.ATTACK_KNOCKBACK, new AttributeModifier("Weapon modifier", this.getAttackKnockback(stack), AttributeModifier.Operation.ADDITION));
-            builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier("Weapon modifier", this.getKnockbackResistance(stack), AttributeModifier.Operation.ADDITION));
+            builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", getAttackDamage(stack), AttributeModifier.Operation.ADDITION));
+            builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", getAttackSpeed(stack), AttributeModifier.Operation.ADDITION));
+            builder.put(Attributes.ATTACK_KNOCKBACK, new AttributeModifier("Weapon modifier", getAttackKnockback(stack), AttributeModifier.Operation.ADDITION));
+            builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier("Weapon modifier", getKnockbackResistance(stack), AttributeModifier.Operation.ADDITION));
             return builder.build();
         } else {
             return super.getAttributeModifiers(slot, stack);

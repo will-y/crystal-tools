@@ -66,7 +66,6 @@ public class LevelableTool extends Item implements LevelableItem {
         return true;
     }
 
-
     @Override
     public boolean mineBlock(@NotNull ItemStack tool, Level level, @NotNull BlockState blockState, @NotNull BlockPos blockPos, @NotNull LivingEntity entity) {
         if (!level.isClientSide && blockState.getDestroySpeed(level, blockPos) != 0.0F) {

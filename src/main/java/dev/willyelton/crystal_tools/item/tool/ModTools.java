@@ -17,7 +17,7 @@ public class ModTools {
     public static final RegistryObject<Item> CRYSTAL_HOE = TOOLS.register("crystal_hoe", HoeLevelableTool::new);
     public static final RegistryObject<Item> CRYSTAL_SWORD =  TOOLS.register("crystal_sword", SwordLevelableTool::new);
     public static final RegistryObject<Item> CRYSTAL_BOW = TOOLS.register("crystal_bow", BowLevelableItem::new);
-
+    public static final RegistryObject<Item> CRYSTAL_AIOT = TOOLS.register("crystal_aiot", AIOLevelableTool::new);
 
     public static void initTools() {
         TOOLS.register(FMLJavaModLoadingContext.get().getModEventBus());

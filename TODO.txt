@@ -1,3 +1,6 @@
+----------------------- 1.1.0 -----------------------
+- Add recipe for AIOT
+
 ------------------ At Some Point ------------------
 - Bow Draw Speed
 - Boots immune to fall damage

@@ -29,12 +29,6 @@ public class DiggerLevelableTool extends LevelableTool {
 
     @Override
     public boolean mineBlock(@NotNull ItemStack tool, Level level, @NotNull BlockState blockState, @NotNull BlockPos blockPos, @NotNull LivingEntity entity) {
-//        if (!level.isClientSide && blockState.getDestroySpeed(level, blockPos) != 0.0F) {
-//            tool.hurtAndBreak(1, entity, (player) -> {
-//                player.broadcastBreakEvent(EquipmentSlot.MAINHAND);
-//            });
-//        }
-
         if (NBTUtils.getFloatOrAddKey(tool, "3x3") > 0 && !NBTUtils.getBoolean(tool, "disable_3x3")) {
             // TODO: make this actually what I want not this
             Direction direction = Direction.fromYRot(entity.getYRot());

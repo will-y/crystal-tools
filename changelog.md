@@ -1,3 +1,8 @@
+----------------------- 1.1.0 Changes -----------------------
+### Additions
+- Added the AIOT
+  - Can mine any block
+
 ----------------------- 1.0.0 Changes -----------------------
 ### Additions
 - Added ability to disable 3x3 mining (requires `Mode Switch`)
