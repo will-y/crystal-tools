@@ -75,7 +75,7 @@
         "description": "Axe now efficiently mines leaves and other similar blocks.",
         "type": "normal",
         "requirements": [
-          {"node": [4, 5]}
+          {"or_node": [4, 5]}
         ],
         "key": "leaf_mine",
         "value": 1
@@ -87,7 +87,7 @@
         "type": "normal",
         "requirements": [
           {"not_node":  7},
-          {"node": [4, 5]}
+          {"or_node": [4, 5]}
         ],
         "key": "silk_touch_bonus",
         "value": 1
@@ -99,7 +99,7 @@
         "type": "normal",
         "requirements": [
           {"not_node":  6},
-          {"node":  [4, 5]}
+          {"or_node":  [4, 5]}
         ],
         "key": "fortune_bonus",
         "value": 3
@@ -136,8 +136,7 @@
         "description": "Hold the vein miner key to chop an entire tree!",
         "type": "normal",
         "requirements": [
-          {"node": 10},
-          {"node": 11}
+          {"or_node": [10, 11]}
         ],
         "key": "tree_chop",
         "value": 1
@@ -145,11 +144,10 @@
       {
         "id": 13,
         "name": "Tree Stripper",
-        "description": "Hold the vein miner key to strip an entire tree!!",
+        "description": "Hold the vein miner key to strip an entire tree!",
         "type": "normal",
         "requirements": [
-          {"node": 10},
-          {"node": 11}
+          {"or_node": [10, 11]}
         ],
         "key": "tree_strip",
         "value": 1
@@ -162,7 +160,8 @@
         "description": "Increases Axe's Mining Speed",
         "type": "normal",
         "requirements": [
-          {"node": 10}
+          {"node": 10},
+          {"or_node": [12, 13]}
         ],
         "key": "speed_bonus",
         "value": 0.25
@@ -173,7 +172,8 @@
         "description": "Increases Axe's Durability",
         "type": "normal",
         "requirements": [
-          {"node": 11}
+          {"node": 11},
+          {"or_node": [12, 13]}
         ],
         "key": "durability_bonus",
         "value": 200
@@ -186,7 +186,7 @@
         "description": "Automatically Repairs Your Tool Over Time!",
         "type": "normal",
         "requirements": [
-          {"node": [14, 15]}
+          {"or_node": [14, 15]}
         ],
         "key": "auto_repair",
         "value": 1
@@ -198,7 +198,7 @@
         "type": "normal",
         "requirements":[
           {
-            "node": [14, 15]
+            "or_node": [14, 15]
           },
           {
             "not_node": 12
@@ -215,7 +215,8 @@
         "description": "Add As Many Points To Speed Here As You Want",
         "type": "infinite",
         "requirements": [
-          {"node":  [16, 20]}
+          {"or_node":  [16, 20]},
+          {"node": 14}
         ],
         "key": "speed_bonus",
         "value": 0.1
@@ -226,7 +227,8 @@
         "description": "Add As Many Points To Durability Here As You Want",
         "type": "infinite",
         "requirements": [
-          {"node":  [16, 20]}
+          {"or_node":  [16, 20]},
+          {"node": 15}
         ],
         "key": "durability_bonus",
         "value": 50
