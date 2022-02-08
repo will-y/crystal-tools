@@ -9,6 +9,7 @@
 - Changed Axe skill tree to use or requirements instead of and requirements to match later tools
 - Changed Hoe skill tree to use or requirements instead of and requirements to match later tools
 - Changed Shovel skill tree to use or requirements instead of and requirements to match later tools
+- Added what key you need to press to change different modes to tooltip
 
 ----------------------- 1.0.0 Changes -----------------------
 ### Additions

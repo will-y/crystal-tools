@@ -5,6 +5,7 @@ import dev.willyelton.crystal_tools.item.LevelableItem;
 import dev.willyelton.crystal_tools.item.skill.SkillData;
 import dev.willyelton.crystal_tools.item.skill.SkillDataNode;
 import dev.willyelton.crystal_tools.item.skill.SkillNodeType;
+import dev.willyelton.crystal_tools.keybinding.KeyBindings;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -41,32 +42,35 @@ public class ToolUtils {
                 && NBTUtils.getFloatOrAddKey(itemStack, "fortune_bonus") > 0) {
             // Only show mode if it has both enchantments
             String mode = EnchantmentUtils.hasEnchantment(itemStack, Enchantments.SILK_TOUCH) ? "Silk Touch" : "Fortune";
-            components.add(new TextComponent("\u00A79" + "Mine Mode: " + mode));
+            String changeKey = KeyBindings.modeSwitch == null ? "" : " (" + KeyBindings.modeSwitch.getKey().getDisplayName().getString() + " to change)";
+            components.add(new TextComponent("\u00A79" + "Mine Mode: " + mode + changeKey));
         }
 
         if (NBTUtils.getFloatOrAddKey(itemStack, "mine_mode") > 0 && NBTUtils.getFloatOrAddKey(itemStack, "3x3") > 0) {
             String mode = NBTUtils.getBoolean(itemStack, "disable_3x3") ? "1x1" : "3x3";
-            components.add(new TextComponent("\u00A79" + "Break Mode: " + mode));
+            String changeKey = KeyBindings.modeSwitch == null ? "" : " (Shift + " + KeyBindings.modeSwitch.getKey().getDisplayName().getString() + " to change)";
+            components.add(new TextComponent("\u00A79" + "Break Mode: " + mode + changeKey));
         }
 
         if (NBTUtils.getFloatOrAddKey(itemStack, "mine_mode") > 0 && NBTUtils.getFloatOrAddKey(itemStack, "auto_smelt") > 0 && NBTUtils.getBoolean(itemStack, "disable_auto_smelt")) {
-            components.add(new TextComponent("\u00A79" + "Auto Smelt Disabled"));
+            String changeKey = KeyBindings.modeSwitch == null ? "" : " (Ctrl + " + KeyBindings.modeSwitch.getKey().getDisplayName().getString() + " to change)";
+            components.add(new TextComponent("\u00A79" + "Auto Smelt Disabled" + changeKey));
         }
 
-        if (!Screen.hasShiftDown()) {
-            components.add(new TextComponent("<Hold Shift For Skills>"));
-        } else {
-            components.add(new TextComponent("Skills:"));
-            int[] points = NBTUtils.getIntArray(itemStack, "points");
-            SkillData toolData = SkillData.fromResourceLocation(new ResourceLocation("crystal_tools", String.format("skill_trees/%s.json", item.getItemType())), points);
-            for (SkillDataNode dataNode : toolData.getAllNodes()) {
-                if (dataNode.isComplete()) {
-                    components.add(new TextComponent("    " + dataNode.getName()));
-                } else if (dataNode.getType().equals(SkillNodeType.INFINITE) && dataNode.getPoints() > 0) {
-                    components.add(new TextComponent("    " + dataNode.getName() + " (" + dataNode.getPoints() + " points)"));
-                }
-            }
-        }
+//        if (!Screen.hasShiftDown()) {
+//            components.add(new TextComponent("<Hold Shift For Skills>"));
+//        } else {
+//            components.add(new TextComponent("Skills:"));
+//            int[] points = NBTUtils.getIntArray(itemStack, "points");
+//            SkillData toolData = SkillData.fromResourceLocation(new ResourceLocation("crystal_tools", String.format("skill_trees/%s.json", item.getItemType())), points);
+//            for (SkillDataNode dataNode : toolData.getAllNodes()) {
+//                if (dataNode.isComplete()) {
+//                    components.add(new TextComponent("    " + dataNode.getName()));
+//                } else if (dataNode.getType().equals(SkillNodeType.INFINITE) && dataNode.getPoints() > 0) {
+//                    components.add(new TextComponent("    " + dataNode.getName() + " (" + dataNode.getPoints() + " points)"));
+//                }
+//            }
+//        }
     }
 
     public static void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand) {

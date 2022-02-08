@@ -3,8 +3,10 @@ package dev.willyelton.crystal_tools.item.tool;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.mojang.datafixers.util.Pair;
+import dev.willyelton.crystal_tools.keybinding.KeyBindings;
 import dev.willyelton.crystal_tools.utils.LevelUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
+import dev.willyelton.crystal_tools.utils.StringUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -119,7 +121,11 @@ public class AIOLevelableTool extends DiggerLevelableTool {
     @Override
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
         super.appendHoverText(itemStack, level, components, flag);
-        components.add(new TextComponent("\u00A79" + "Mode: " + NBTUtils.getString(itemStack, "use_mode").toLowerCase(Locale.ROOT)));
+        String toolTip = "\u00A79" + "Mode: " + StringUtils.capitalize(NBTUtils.getString(itemStack, "use_mode").toLowerCase(Locale.ROOT));
+        if (KeyBindings.modeSwitch != null) {
+            toolTip = toolTip + " (alt + " + KeyBindings.modeSwitch.getKey().getDisplayName().getString() + " to change)";
+        }
+        components.add(new TextComponent(toolTip));
     }
 
     public InteractionResult useOnAxe(UseOnContext pContext) {
