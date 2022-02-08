@@ -1,8 +1,6 @@
 # Crystal Tools
-This mod adds a new class of tools to Minecraft called crystal tools. They are meant to be a post-netherite tool that can keep getting better as you use it.  
-**Warning: Updating to 0.2.0 could change some upgrades on Axes only. Future updates should no longer change existing tools after this update.**
+This mod adds a new class of tools to Minecraft called crystal tools. They are meant to be a post-netherite tool that can keep getting better as you use it.
 
-This is an early beta version of the mod. More features to come soon.
 Please report any bugs you find in the Issues tab or in the comments.
 You can also suggest features or ask questions there.
 
@@ -27,6 +25,7 @@ The following tools/armor pieces are implemented:
 - Crystal Shovel
 - Crystal Hoe
 - Crystal Sword
+- Crystal AIOT (All In One Tool)
 - Crystal Bow
 - Crystal Helmet
 - Crystal Chestplate
@@ -59,11 +58,11 @@ There will be upgrades that are common to most tools, and tools will each get un
 
 ### Axe
 - Tree Chopper
-	- Will chop an entire tree if you hold the vein miner key
+    - Will chop an entire tree if you hold the vein miner key
 - Tree Stripper
-	- Strips an entire tree when you hold the vein miner key
+    - Strips an entire tree when you hold the vein miner key
 - Leaf Miner
-	- Allows axe to mine leaves efficiently.
+    - Allows axe to mine leaves efficiently.
 
 ### Sword
 - Attack Damage
@@ -108,3 +107,46 @@ There will be upgrades that are common to most tools, and tools will each get un
 - Depth Strider
 - Soul Speed
 - Frost Walker
+
+## Crafting Recipes
+### Tools
+#### Pickaxe
+![Pickaxe Crafting](/img/crafting/pickaxe.png)
+
+#### Axe
+![Axe Crafting](/img/crafting/axe.png)
+
+#### Shovel
+![Shovel Crafting](/img/crafting/shovel.png)
+
+#### Hoe
+![Hoe Crafting](/img/crafting/hoe.png)
+
+#### Sword
+![Sword Crafting](/img/crafting/sword.png)
+
+#### AIOT
+![AIOT Crafting](/img/crafting/aiot.png)
+
+### Armor
+#### Helmet
+![Helmet Crafting](/img/crafting/helmet.png)
+
+#### Chestplate
+![Chestplate Crafting](/img/crafting/chestplate.png)
+
+#### Leggings
+![Leggings Crafting](/img/crafting/leggings.png)
+
+#### Boots
+![Boots Crafting](/img/crafting/boots.png)
+
+### Misc
+#### Netherite Stick
+![Netherite Stick Crafting](/img/crafting/netherite_stick.png)
+
+#### Crystal Block
+![Crystal Block Crafting](/img/crafting/block.png)
+
+### Crystal
+![Crystal Crafting](/img/crafting/crystal.png)
