@@ -1,6 +1,8 @@
 # Crystal Tools
 This mod adds a new class of tools to Minecraft called crystal tools. They are meant to be a post-netherite tool that can keep getting better as you use it.
 
+You can download the mod on [Curse Forge](https://www.curseforge.com/minecraft/mc-mods/upgradable-crystal-tools) or from [releases](https://github.com/will-y/crystal-tools/releases).
+
 Please report any bugs you find in the Issues tab or in the comments.
 You can also suggest features or ask questions there.
 
@@ -148,5 +150,16 @@ There will be upgrades that are common to most tools, and tools will each get un
 #### Crystal Block
 ![Crystal Block Crafting](/img/crafting/block.png)
 
-### Crystal
+#### Crystal
 ![Crystal Crafting](/img/crafting/crystal.png)
+
+## Config
+The following config options are available. The default values are in parentheses.
+You can change these values in `config/crystal_tools/toml`.
+
+`base_experience_cap` (50): Starting EXP requirements for Tools and Armor. Range: 1 - 10000.  
+`experience_multiplier` (1.25): Multiplier for max experience to the next level. Range: 1.0 - 100.0.  
+`armor_experience_boost` (2.0): Multiplies how much experience Armor gets, experience is calculated by `EXP_GAINED` = DAMAGE_TAKEN * ARMOR_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.  
+`bow_experience_boost` (1.0): Multiplies how much experience Bows get, experience is calculated by `EXP_GAINED` = UNMITIGATED_DAMAGE_DONE * BOW_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.  
+`sword_experience_boost` (1.0): Multiplies how much experience Swords get, experience is calculated by EXP_GAINED = UNMITIGATED_DAMAGE_DONE * SWORD_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.  
+`upgrade_screen_background` ("cracked_deepslate_tiles"): Determines the block texture to use for the background of the upgrade screen. Must be a vanilla block's resource location. [Here](https://minecraft.fandom.com/wiki/Java_Edition_data_values#Blocks) is a list of options from the wiki.
