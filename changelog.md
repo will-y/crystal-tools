@@ -2,6 +2,7 @@
 ### Additions
 - Added the AIOT
   - Can mine any block
+  - Switch between use-modes (hoe, shovel, axe, and torch placer) with `alt` + `m`
 
 ### Changes
 - Changed Pickaxe skill tree to use or requirements instead of and requirements to match later tools

@@ -1,5 +1,4 @@
 ----------------------- 1.1.0 -----------------------
-- Mode switch for hoe, shovel, axe right click things
 
 ------------------ At Some Point ------------------
 - Bow Draw Speed
