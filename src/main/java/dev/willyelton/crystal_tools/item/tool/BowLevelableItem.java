@@ -3,8 +3,9 @@ package dev.willyelton.crystal_tools.item.tool;
 import dev.willyelton.crystal_tools.CreativeTabs;
 import dev.willyelton.crystal_tools.item.LevelableItem;
 import dev.willyelton.crystal_tools.item.ModItems;
-import dev.willyelton.crystal_tools.utils.LevelUtilities;
+import dev.willyelton.crystal_tools.utils.LevelUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
+import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -114,7 +115,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
 //        InteractionResultHolder<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemstack, pLevel, pPlayer, pHand, flag);
 //        if (ret != null) return ret;
 
-        if (LevelUtilities.isBroken(itemstack) || (!pPlayer.getAbilities().instabuild && !flag)) {
+        if (ToolUtils.isBroken(itemstack) || (!pPlayer.getAbilities().instabuild && !flag)) {
             return InteractionResultHolder.fail(itemstack);
         } else {
             pPlayer.startUsingItem(pHand);
@@ -190,7 +191,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
 
     @Override
     public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand) {
-        LevelUtilities.inventoryTick(itemStack, level, entity, inventorySlot, inHand);
+        ToolUtils.inventoryTick(itemStack, level, entity, inventorySlot, inHand);
     }
 
     @Override
@@ -205,7 +206,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
 
     @Override
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
-        LevelUtilities.appendHoverText(itemStack, level, components, flag, this);
+        ToolUtils.appendHoverText(itemStack, level, components, flag, this);
     }
 
     @Override

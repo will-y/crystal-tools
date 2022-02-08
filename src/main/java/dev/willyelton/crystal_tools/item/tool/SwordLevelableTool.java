@@ -3,8 +3,9 @@ package dev.willyelton.crystal_tools.item.tool;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.utils.LevelUtilities;
+import dev.willyelton.crystal_tools.utils.LevelUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
+import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -52,7 +53,7 @@ public class SwordLevelableTool extends LevelableTool {
     }
 
     public float getDestroySpeed(ItemStack pStack, BlockState pState) {
-        if (pState.is(Blocks.COBWEB) && !LevelUtilities.isBroken(pStack)) {
+        if (pState.is(Blocks.COBWEB) && !ToolUtils.isBroken(pStack)) {
             return 15.0F;
         } else {
             Material material = pState.getMaterial();
@@ -70,7 +71,7 @@ public class SwordLevelableTool extends LevelableTool {
             p_43296_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
         });
 
-        if (!LevelUtilities.isBroken(tool)) {
+        if (!ToolUtils.isBroken(tool)) {
             if (NBTUtils.getFloatOrAddKey(tool, "fire") > 0) {
                 target.setSecondsOnFire(5);
             }
@@ -89,7 +90,7 @@ public class SwordLevelableTool extends LevelableTool {
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-        if (slot == EquipmentSlot.MAINHAND && !LevelUtilities.isBroken(stack)) {
+        if (slot == EquipmentSlot.MAINHAND && !ToolUtils.isBroken(stack)) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
             builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", getAttackDamage(stack), AttributeModifier.Operation.ADDITION));
             builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", getAttackSpeed(stack), AttributeModifier.Operation.ADDITION));

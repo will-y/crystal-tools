@@ -5,20 +5,16 @@ import com.google.common.collect.Multimap;
 import dev.willyelton.crystal_tools.CreativeTabs;
 import dev.willyelton.crystal_tools.item.LevelableItem;
 import dev.willyelton.crystal_tools.item.ModItems;
-import dev.willyelton.crystal_tools.utils.LevelUtilities;
+import dev.willyelton.crystal_tools.utils.LevelUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
+import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -46,7 +42,7 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Wearable
         if (slot == this.slot) {
             UUID uuid = ARMOR_MODIFIER_UUID_PER_SLOT[slot.getIndex()];
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-            if (!LevelUtilities.isBroken(stack)) {
+            if (!ToolUtils.isBroken(stack)) {
                 builder.put(Attributes.ARMOR, new AttributeModifier(uuid, "Armor modifier", this.getDefense(stack), AttributeModifier.Operation.ADDITION));
                 builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uuid, "Armor toughness", this.getToughness(stack), AttributeModifier.Operation.ADDITION));
                 int health = (int) NBTUtils.getFloatOrAddKey(stack, "health_bonus");
@@ -93,7 +89,7 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Wearable
 
     @Override
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
-        LevelUtilities.appendHoverText(itemStack, level, components, flag, this);
+        ToolUtils.appendHoverText(itemStack, level, components, flag, this);
     }
 
     @Override
@@ -132,7 +128,7 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Wearable
 
     @Override
     public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand) {
-        LevelUtilities.inventoryTick(itemStack, level, entity, inventorySlot, inHand);
+        ToolUtils.inventoryTick(itemStack, level, entity, inventorySlot, inHand);
     }
 
     @Override
@@ -147,7 +143,7 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Wearable
 
     @Override
     public void onArmorTick(ItemStack stack, Level world, Player player) {
-        if (!LevelUtilities.isBroken(stack) && NBTUtils.getFloatOrAddKey(stack, "night_vision") > 0) {
+        if (!ToolUtils.isBroken(stack) && NBTUtils.getFloatOrAddKey(stack, "night_vision") > 0) {
             player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 400, 0, false, false));
         }
     }

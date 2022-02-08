@@ -3,8 +3,9 @@ package dev.willyelton.crystal_tools.item.tool;
 import dev.willyelton.crystal_tools.CreativeTabs;
 import dev.willyelton.crystal_tools.item.LevelableItem;
 import dev.willyelton.crystal_tools.item.ModItems;
-import dev.willyelton.crystal_tools.utils.LevelUtilities;
+import dev.willyelton.crystal_tools.utils.LevelUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
+import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -46,7 +47,7 @@ public class LevelableTool extends Item implements LevelableItem {
     @Override
     public float getDestroySpeed(ItemStack tool, BlockState blockState) {
         float bonus = NBTUtils.getFloatOrAddKey(tool, "speed_bonus");
-        if (LevelUtilities.isBroken(tool)) {
+        if (ToolUtils.isBroken(tool)) {
             // broken
             return 0.1F;
         }
@@ -103,7 +104,7 @@ public class LevelableTool extends Item implements LevelableItem {
 //                        System.out.println("dropping: " + result);
                         Block.popResource(level, pos, result);
                     }
-                    LevelUtilities.destroyBlock(level, pos, result.is(Items.AIR), entity, 512, tool);
+                    LevelUtils.destroyBlock(level, pos, result.is(Items.AIR), entity, 512, tool);
 
                 }
             }));
@@ -146,7 +147,7 @@ public class LevelableTool extends Item implements LevelableItem {
 
     @Override
     public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand) {
-        LevelUtilities.inventoryTick(itemStack, level, entity, inventorySlot, inHand);
+        ToolUtils.inventoryTick(itemStack, level, entity, inventorySlot, inHand);
     }
 
     @Override
@@ -161,7 +162,7 @@ public class LevelableTool extends Item implements LevelableItem {
 
     @Override
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
-        LevelUtilities.appendHoverText(itemStack, level, components, flag, this);
+        ToolUtils.appendHoverText(itemStack, level, components, flag, this);
     }
 
     @Override

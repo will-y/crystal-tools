@@ -1,8 +1,7 @@
 package dev.willyelton.crystal_tools.item.tool;
 
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
-import dev.willyelton.crystal_tools.item.tool.LevelableTool;
-import dev.willyelton.crystal_tools.utils.LevelUtilities;
+import dev.willyelton.crystal_tools.utils.LevelUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -115,7 +114,7 @@ public class DiggerLevelableTool extends LevelableTool {
             if (NBTUtils.getFloatOrAddKey(tool, "auto_smelt") > 0) {
                 dropSmeltedItem(tool, level, blockState, blockPos, entity);
             } else {
-                LevelUtilities.destroyBlock(level, blockPos, true, entity, 512, tool);
+                LevelUtils.destroyBlock(level, blockPos, true, entity, 512, tool);
             }
 //            level.destroyBlock(blockPos, true, entity);
             if (!level.isClientSide && blockState.getDestroySpeed(level, blockPos) != 0.0F) {
