@@ -3,6 +3,7 @@
 - Added the AIOT
   - Can mine any block
   - Switch between use-modes (hoe, shovel, axe, and torch placer) with `alt` + `m`
+  - Craft with all the tools in a crafting table + a slime block
 
 ### Changes
 - Changed Pickaxe skill tree to use or requirements instead of and requirements to match later tools
