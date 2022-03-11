@@ -1,6 +1,7 @@
 ----------------------- 1.1.1 Changes -----------------------
 ### Changes
 - Updated to Minecraft 1.18.2 (Forge 40.0.12)
+- WILL NOT WORK FOR 1.18.1!
 
 ----------------------- 1.1.0 Changes -----------------------
 ### Additions
