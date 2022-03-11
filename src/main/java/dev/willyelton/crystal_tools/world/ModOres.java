@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.world;
 
 import dev.willyelton.crystal_tools.block.ModBlocks;
+import net.minecraft.core.Holder;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
@@ -29,7 +30,9 @@ public class ModOres {
     private static final int DEEPSLATE_ABOUT_BOTTOM = 20;
 
 //    public static PlacedFeature OVERWORLD_OREGEN;
-    public static PlacedFeature DEEPSLATE_OREGEN;
+//    public static PlacedFeature DEEPSLATE_OREGEN;
+
+    public static Holder<PlacedFeature> DEEPSLATE_OREGEN;
 
     public static void registerConfiguredFeatures() {
         // Stone Overworld - for now doesn't spawn there
@@ -46,18 +49,15 @@ public class ModOres {
         OreConfiguration deepslateConfig = new OreConfiguration(OreFeatures.DEEPSLATE_ORE_REPLACEABLES,
                 ModBlocks.CRYSTAL_DEEPSLATE_ORE.get().defaultBlockState(), VEIN_SIZE);
 
-        DEEPSLATE_OREGEN = registerPlacedFeature("crystal_deepslate_ore", Feature.ORE.configured(deepslateConfig),
+        DEEPSLATE_OREGEN = registerPlacedFeature("crystal_deepslate_ore", new ConfiguredFeature<>(Feature.ORE, deepslateConfig),
                 CountPlacement.of(DEEPSLATE_AMOUNT_PER_CHUNK),
                 InSquarePlacement.spread(),
                 BiomeFilter.biome(),
                 HeightRangePlacement.uniform(VerticalAnchor.bottom(), VerticalAnchor.aboveBottom(DEEPSLATE_ABOUT_BOTTOM)));
     }
 
-    private static <C extends FeatureConfiguration, F extends Feature<C>> PlacedFeature registerPlacedFeature(String registryName,
-                                                                                                              ConfiguredFeature<C, F> feature, PlacementModifier... placementModifiers) {
-        PlacedFeature placed = BuiltinRegistries.register(BuiltinRegistries.CONFIGURED_FEATURE, new ResourceLocation(registryName), feature)
-                .placed(placementModifiers);
-        return PlacementUtils.register(registryName, placed);
+    private static <C extends FeatureConfiguration, F extends Feature<C>> Holder<PlacedFeature> registerPlacedFeature(String registryName, ConfiguredFeature<C, F> feature, PlacementModifier... placementModifiers) {
+        return PlacementUtils.register(registryName, Holder.direct(feature), placementModifiers);
     }
 
     public static void onBiomeLoadingEvent(BiomeLoadingEvent event) {

@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -34,10 +35,10 @@ import java.util.function.Consumer;
 public class LevelableTool extends Item implements LevelableItem {
 
     // Blocks that can be mined by default
-    protected final Tag<Block> blocks;
+    protected final TagKey<Block> blocks;
     protected final String itemType;
 
-    public LevelableTool(Item.Properties properties, Tag<Block> mineableBlocks, String itemType) {
+    public LevelableTool(Item.Properties properties, TagKey<Block> mineableBlocks, String itemType) {
         super(properties.defaultDurability(tier.getUses()).fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB));
         this.blocks = mineableBlocks;
         this.itemType = itemType;
@@ -55,7 +56,7 @@ public class LevelableTool extends Item implements LevelableItem {
     }
 
     public boolean correctTool(ItemStack tool, BlockState blockState) {
-        return this.blocks.contains(blockState.getBlock());
+        return blockState.is(this.blocks);
     }
 
     // Idk if these parameters are right, just guessing

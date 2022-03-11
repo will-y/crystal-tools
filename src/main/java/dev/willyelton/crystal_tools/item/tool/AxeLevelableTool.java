@@ -187,6 +187,6 @@ public class AxeLevelableTool extends LevelableTool {
 
     @Override
     public boolean correctTool(ItemStack tool, BlockState blockState) {
-        return super.correctTool(tool, blockState) || (NBTUtils.getFloatOrAddKey(tool, "leaf_mine") > 0 && BlockTags.MINEABLE_WITH_HOE.contains(blockState.getBlock()));
+        return super.correctTool(tool, blockState) || (NBTUtils.getFloatOrAddKey(tool, "leaf_mine") > 0 && blockState.is(BlockTags.MINEABLE_WITH_HOE));
     }
 }

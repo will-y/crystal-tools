@@ -6,6 +6,7 @@ import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -22,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 public class DiggerLevelableTool extends LevelableTool {
     private static int MAX_VEIN_MINER_DEPTH = 4;
 
-    public DiggerLevelableTool(Properties properties, Tag<Block> mineableBlocks, String toolType) {
+    public DiggerLevelableTool(Properties properties, TagKey<Block> mineableBlocks, String toolType) {
         super(properties, mineableBlocks, toolType);
     }
 

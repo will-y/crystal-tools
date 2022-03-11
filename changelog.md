@@ -1,3 +1,7 @@
+----------------------- 1.1.1 Changes -----------------------
+### Changes
+- Updated to Minecraft 1.18.2 (Forge 40.0.12)
+
 ----------------------- 1.1.0 Changes -----------------------
 ### Additions
 - Added the AIOT
