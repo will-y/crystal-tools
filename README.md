@@ -157,9 +157,18 @@ There will be upgrades that are common to most tools, and tools will each get un
 The following config options are available. The default values are in parentheses.
 You can change these values in `config/crystal_tools/toml`.
 
+### General
+
 - `base_experience_cap` (50): Starting EXP requirements for Tools and Armor. Range: 1 - 10000.  
 - `experience_multiplier` (1.25): Multiplier for max experience to the next level. Range: 1.0 - 100.0.  
 - `armor_experience_boost` (2.0): Multiplies how much experience Armor gets, experience is calculated by `EXP_GAINED` = DAMAGE_TAKEN * ARMOR_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.  
 - `bow_experience_boost` (1.0): Multiplies how much experience Bows get, experience is calculated by `EXP_GAINED` = UNMITIGATED_DAMAGE_DONE * BOW_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.  
 - `sword_experience_boost` (1.0): Multiplies how much experience Swords get, experience is calculated by EXP_GAINED = UNMITIGATED_DAMAGE_DONE * SWORD_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.  
 - `upgrade_screen_background` ("cracked_deepslate_tiles"): Determines the block texture to use for the background of the upgrade screen. Must be a vanilla block's resource location. [Here](https://minecraft.fandom.com/wiki/Java_Edition_data_values#Blocks) is a list of options from the wiki.
+
+### Ore Generation
+- `deepslate_ore_generate` (true): Controls if crystal deepslate ore should generate. Values: true, false.
+- `deepslate_ore_vein_size` (5): The vein size for crystal deepslate ore. Range: 1 - 20.
+- `deepslate_ore_per_chunk` (1): The number of veins that generate per chunk on average. Range: 1 - 100.
+- `deepslate_ore_y_min` (0): The minimum value that deepslate crystal ore can generate. This is given as a height from the bottom of the world. Range: 0 - 64.
+- `deepslate_ore_y_max`: (20): The maximum value that deepslate crystal ore can generate. This is given as a height from the bottom of the world. Range: 0 - 64.

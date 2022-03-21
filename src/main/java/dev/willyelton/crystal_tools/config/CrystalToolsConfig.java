@@ -46,6 +46,7 @@ public class CrystalToolsConfig {
         UPGRADE_SCREEN_BACKGROUND = builder.comment("The block texture to use for the background of the upgrade screen. Must be a vanilla block name.")
                 .define("upgrade_screen_background", "cracked_deepslate_tiles");
 
+        // OREGEN
         GENERATE_DEEPSLATE_ORE = builder.comment("Whether or not to generate deepslate crystal ore")
                 .define("deepslate_ore_generate", true);
 
