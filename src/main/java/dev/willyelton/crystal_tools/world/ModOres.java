@@ -16,6 +16,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfigur
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
+import org.lwjgl.system.CallbackI;
 
 
 // TY Mcjty
@@ -26,12 +27,6 @@ public class ModOres {
     private static final int AMOUNT_PER_CHUNK = 1;
     private static final int MAX_HEIGHT = 10;
     private static final int MIN_HEIGHT = 0;
-
-//    private static final int DEEPSLATE_AMOUNT_PER_CHUNK = 1;
-    private static final int DEEPSLATE_ABOVE_BOTTOM = 20;
-
-//    public static PlacedFeature OVERWORLD_OREGEN;
-//    public static PlacedFeature DEEPSLATE_OREGEN;
 
     public static Holder<PlacedFeature> DEEPSLATE_OREGEN;
 
@@ -54,7 +49,7 @@ public class ModOres {
                 CountPlacement.of(CrystalToolsConfig.DEEPSLATE_PER_CHUNK.get()),
                 InSquarePlacement.spread(),
                 BiomeFilter.biome(),
-                HeightRangePlacement.uniform(VerticalAnchor.bottom(), VerticalAnchor.aboveBottom(DEEPSLATE_ABOVE_BOTTOM)));
+                HeightRangePlacement.uniform(VerticalAnchor.aboveBottom(CrystalToolsConfig.DEEPSLATE_BOTTOM.get()), VerticalAnchor.aboveBottom(CrystalToolsConfig.DEEPSLATE_TOP.get())));
     }
 
     private static <C extends FeatureConfiguration, F extends Feature<C>> Holder<PlacedFeature> registerPlacedFeature(String registryName, ConfiguredFeature<C, F> feature, PlacementModifier... placementModifiers) {
@@ -65,7 +60,9 @@ public class ModOres {
         // for now only overworld generation
         if (event.getCategory() != Biome.BiomeCategory.NETHER && event.getCategory() != Biome.BiomeCategory.THEEND) {
 //            event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, OVERWORLD_OREGEN);
-            event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, DEEPSLATE_OREGEN);
+            if (CrystalToolsConfig.GENERATE_DEEPSLATE_ORE.get()) {
+                event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, DEEPSLATE_OREGEN);
+            }
         }
     }
 }

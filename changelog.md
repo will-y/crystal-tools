@@ -1,7 +1,11 @@
 ----------------------- 1.1.2 Changes -----------------------
 ### Additions
 - Added the following config options:
-	- 
+    - `deepslate_ore_generate`: Controls if deepslate crystal ore is generated in the world
+    - `deepslate_ore_vein_size`: Controls the vein size of deepslate crystal ore
+    - `deepslate_ore_per_chunk`: Controls the number of veins of deepslate crystal ore that generate per chunk
+    - `deepslate_ore_y_min`: Controls the minimum y that deepslate crystal ore can generate
+    - 'deepslate_ore_y_max': Controls the maximum y that deepslate crystak ore can generate
 
 ----------------------- 1.1.1 Changes -----------------------
 ### Changes
