@@ -13,6 +13,10 @@ public class CrystalToolsConfig {
     public static ForgeConfigSpec.DoubleValue SWORD_EXPERIENCE_BOOST;
     public static ForgeConfigSpec.ConfigValue<String> UPGRADE_SCREEN_BACKGROUND;
 
+    // Oregen
+    public static ForgeConfigSpec.IntValue DEEPSLATE_VEIN_SIZE;
+    public static ForgeConfigSpec.IntValue DEEPSLATE_PER_CHUNK;
+
     static {
         ForgeConfigSpec.Builder configBuilder = new ForgeConfigSpec.Builder();
         setupConfig(configBuilder);
@@ -37,5 +41,11 @@ public class CrystalToolsConfig {
 
         UPGRADE_SCREEN_BACKGROUND = builder.comment("The block texture to use for the background of the upgrade screen. Must be a vanilla block name.")
                 .define("upgrade_screen_background", "cracked_deepslate_tiles");
+
+        DEEPSLATE_VEIN_SIZE = builder.comment("The vein size for deepslate crystal ore.")
+                .defineInRange("deepslate_vein_size", 5, 1, 20);
+
+        DEEPSLATE_PER_CHUNK = builder.comment("The amount of veins per chunk for deepslate crystal ore.")
+                .defineInRange("deepslate_ore_per_chunk", 1, 1, 100);
     }
 }

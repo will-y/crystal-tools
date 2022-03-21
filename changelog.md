@@ -1,3 +1,8 @@
+----------------------- 1.1.2 Changes -----------------------
+### Additions
+- Added the following config options:
+	- 
+
 ----------------------- 1.1.1 Changes -----------------------
 ### Changes
 - Updated to Minecraft 1.18.2 (Forge 40.0.12)

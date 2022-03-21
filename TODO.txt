@@ -5,3 +5,4 @@
 - Boots immune to fall damage
 - Armor cool potion effects?
 - Auto smelt things in 3x3 and vein mining (Still no clue)
+- Configs for ore spawning
