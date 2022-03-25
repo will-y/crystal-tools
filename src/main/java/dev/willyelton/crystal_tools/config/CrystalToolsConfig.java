@@ -14,6 +14,13 @@ public class CrystalToolsConfig {
     public static ForgeConfigSpec.ConfigValue<String> UPGRADE_SCREEN_BACKGROUND;
 
     // Oregen
+    // Stone
+    public static ForgeConfigSpec.BooleanValue GENERATE_STONE_ORE;
+    public static ForgeConfigSpec.IntValue STONE_VEIN_SIZE;
+    public static ForgeConfigSpec.IntValue STONE_PER_CHUNK;
+    public static ForgeConfigSpec.IntValue STONE_BOTTOM;
+    public static ForgeConfigSpec.IntValue STONE_TOP;
+
     // Deepslate
     public static ForgeConfigSpec.BooleanValue GENERATE_DEEPSLATE_ORE;
     public static ForgeConfigSpec.IntValue DEEPSLATE_VEIN_SIZE;
@@ -47,6 +54,23 @@ public class CrystalToolsConfig {
                 .define("upgrade_screen_background", "cracked_deepslate_tiles");
 
         // OREGEN
+        // Stone
+        GENERATE_STONE_ORE = builder.comment("Whether or not to generate crystal ore")
+                .define("stone_ore_generate", false);
+
+        STONE_VEIN_SIZE = builder.comment("The vein size for crystal ore.")
+                .defineInRange("stone_ore_vein_size", 5, 1, 20);
+
+        STONE_PER_CHUNK = builder.comment("The amount of veins per chunk for crystal ore.")
+                .defineInRange("stone_ore_per_chunk", 1, 1, 100);
+
+        STONE_BOTTOM = builder.comment("The lowest height that crystal ore can generate (given as a height from the bottom of the world).")
+                .defineInRange("stone_ore_y_min", 64, 64, 256);
+
+        STONE_TOP = builder.comment("The highest height that crystal ore can generate (given as a height from the bottom of the world).")
+                .defineInRange("stone_ore_y_max", 84, 64, 256);
+
+        // Deepslate
         GENERATE_DEEPSLATE_ORE = builder.comment("Whether or not to generate deepslate crystal ore")
                 .define("deepslate_ore_generate", true);
 

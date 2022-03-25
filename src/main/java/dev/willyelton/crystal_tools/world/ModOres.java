@@ -23,23 +23,19 @@ import org.lwjgl.system.CallbackI;
 // https://wiki.mcjty.eu/modding/index.php?title=Tutorial_1.18_Episode_5#Ore_Generation
 
 public class ModOres {
-    private static final int VEIN_SIZE = 5;
-    private static final int AMOUNT_PER_CHUNK = 1;
-    private static final int MAX_HEIGHT = 10;
-    private static final int MIN_HEIGHT = 0;
-
+    public static Holder<PlacedFeature> OVERWORLD_OREGEN;
     public static Holder<PlacedFeature> DEEPSLATE_OREGEN;
 
     public static void registerConfiguredFeatures() {
         // Stone Overworld - for now doesn't spawn there
-//        OreConfiguration overworldConfig = new OreConfiguration(OreFeatures.STONE_ORE_REPLACEABLES,
-//                ModBlocks.CRYSTAL_ORE.get().defaultBlockState(), VEIN_SIZE);
-//
-//        OVERWORLD_OREGEN = registerPlacedFeature("overworld_crystal_ore", Feature.ORE.configured(overworldConfig),
-//                CountPlacement.of(AMOUNT_PER_CHUNK),
-//                InSquarePlacement.spread(),
-//                BiomeFilter.biome(),
-//                HeightRangePlacement.uniform(VerticalAnchor.absolute(MIN_HEIGHT), VerticalAnchor.absolute(MAX_HEIGHT)));
+        OreConfiguration overworldConfig = new OreConfiguration(OreFeatures.STONE_ORE_REPLACEABLES,
+                ModBlocks.CRYSTAL_ORE.get().defaultBlockState(), CrystalToolsConfig.STONE_VEIN_SIZE.get());
+
+        DEEPSLATE_OREGEN = registerPlacedFeature("crystal_deepslate_ore", new ConfiguredFeature<>(Feature.ORE, overworldConfig),
+                CountPlacement.of(CrystalToolsConfig.STONE_PER_CHUNK.get()),
+                InSquarePlacement.spread(),
+                BiomeFilter.biome(),
+                HeightRangePlacement.uniform(VerticalAnchor.aboveBottom(CrystalToolsConfig.STONE_BOTTOM.get()), VerticalAnchor.aboveBottom(CrystalToolsConfig.STONE_TOP.get())));
 
         // Deepslate Overworld
         OreConfiguration deepslateConfig = new OreConfiguration(OreFeatures.DEEPSLATE_ORE_REPLACEABLES,
@@ -62,6 +58,9 @@ public class ModOres {
 //            event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, OVERWORLD_OREGEN);
             if (CrystalToolsConfig.GENERATE_DEEPSLATE_ORE.get()) {
                 event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, DEEPSLATE_OREGEN);
+            }
+            if (CrystalToolsConfig.GENERATE_STONE_ORE.get()) {
+                event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, OVERWORLD_OREGEN);
             }
         }
     }
