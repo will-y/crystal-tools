@@ -1,6 +1,6 @@
 ----------------------- 1.1.2 Changes -----------------------
 ### Changes
-- Updated to Forge 1.18.240.0.19
+- Updated to Forge 1.18.2-40.0.31
 
 ### Additions
 - Added the following config options:
