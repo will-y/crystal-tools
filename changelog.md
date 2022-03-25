@@ -9,6 +9,11 @@
     - `deepslate_ore_per_chunk`: Controls the number of veins of deepslate crystal ore that generate per chunk
     - `deepslate_ore_y_min`: Controls the minimum y that deepslate crystal ore can generate
     - `deepslate_ore_y_max`: Controls the maximum y that deepslate crystal ore can generate
+    - `stone_ore_generate`: Controls if crystal ore is generated in the world
+    - `stone_ore_vein_size`: Controls the vein size of crystal ore
+    - `stone_ore_per_chunk`: Controls the number of veins of crystal ore that generate per chunk
+    - `stone_ore_y_min`: Controls the minimum y that crystal ore can generate
+    - `stone_ore_y_max`: Controls the maximum y that crystal ore can generate
 
 ----------------------- 1.1.1 Changes -----------------------
 ### Changes
