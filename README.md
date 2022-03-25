@@ -167,6 +167,14 @@ You can change these values in `config/crystal_tools/toml`.
 - `upgrade_screen_background` ("cracked_deepslate_tiles"): Determines the block texture to use for the background of the upgrade screen. Must be a vanilla block's resource location. [Here](https://minecraft.fandom.com/wiki/Java_Edition_data_values#Blocks) is a list of options from the wiki.
 
 ### Ore Generation
+#### Stone
+- `stone_ore_generate` (false): Controls if crystal ore should generate. Values: true, false.
+- `stone_ore_vein_size` (5): The vein size for crystal ore. Range: 1 - 20.
+- `stone_ore_per_chunk` (1): The number of veins that generate per chunk on average. Range: 1 - 100.
+- `stone_ore_y_min` (64): The minimum value that deepslate crystal ore can generate. This is given as a height from the bottom of the world. Range: 64 - 256.
+- `stone_ore_y_max`: (84): The maximum value that deepslate crystal ore can generate. This is given as a height from the bottom of the world. Range: 64 - 256.
+
+#### Deepslate
 - `deepslate_ore_generate` (true): Controls if crystal deepslate ore should generate. Values: true, false.
 - `deepslate_ore_vein_size` (5): The vein size for crystal deepslate ore. Range: 1 - 20.
 - `deepslate_ore_per_chunk` (1): The number of veins that generate per chunk on average. Range: 1 - 100.
