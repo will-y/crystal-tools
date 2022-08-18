@@ -29,7 +29,7 @@ public class SwordLevelableTool extends LevelableTool {
 
     public SwordLevelableTool() {
         // Need an empty block tag
-        super(new Item.Properties(), BlockTags.CARPETS, "sword");
+        super(new Item.Properties(), BlockTags.WOOL_CARPETS, "sword");
     }
 
     public static float getAttackDamage(ItemStack stack) {

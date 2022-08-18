@@ -62,7 +62,7 @@ public class CrystalTools {
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
-        KeyBindings.init();
+
     }
 
     private void init(final FMLCommonSetupEvent event) {
@@ -72,6 +72,7 @@ public class CrystalTools {
 
     private void setup() {
         IEventBus bus = MinecraftForge.EVENT_BUS;
-        bus.addListener(ModOres::onBiomeLoadingEvent);
+        // TODO: Reimplement ore gen
+//        bus.addListener(ModOres::onBiomeLoadingEvent);
     }
 }

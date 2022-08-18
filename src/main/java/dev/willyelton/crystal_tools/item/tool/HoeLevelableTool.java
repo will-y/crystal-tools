@@ -52,8 +52,8 @@ public class HoeLevelableTool extends LevelableTool {
         }
 
         Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> pair = TILLABLES.get(level.getBlockState(blockpos).getBlock());
-        int hook = net.minecraftforge.event.ForgeEventFactory.onHoeUse(context);
-        if (hook != 0) return hook > 0 ? InteractionResult.SUCCESS : InteractionResult.FAIL;
+//        int hook = net.minecraftforge.event.ForgeEventFactory.onHoeUse(context);
+//        if (hook != 0) return hook > 0 ? InteractionResult.SUCCESS : InteractionResult.FAIL;
         if (context.getClickedFace() != Direction.DOWN && level.isEmptyBlock(blockpos.above())) {
             if (pair == null) {
                 return InteractionResult.PASS;

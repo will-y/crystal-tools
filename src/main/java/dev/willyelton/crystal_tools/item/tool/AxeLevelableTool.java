@@ -45,9 +45,9 @@ public class AxeLevelableTool extends LevelableTool {
         if (durability <= 1) {
             return InteractionResult.PASS;
         }
-        Optional<BlockState> optional = Optional.ofNullable(blockstate.getToolModifiedState(level, blockpos, player, pContext.getItemInHand(), net.minecraftforge.common.ToolActions.AXE_STRIP));
-        Optional<BlockState> optional1 = Optional.ofNullable(blockstate.getToolModifiedState(level, blockpos, player, pContext.getItemInHand(), net.minecraftforge.common.ToolActions.AXE_SCRAPE));
-        Optional<BlockState> optional2 = Optional.ofNullable(blockstate.getToolModifiedState(level, blockpos, player, pContext.getItemInHand(), net.minecraftforge.common.ToolActions.AXE_WAX_OFF));
+        Optional<BlockState> optional = Optional.ofNullable(blockstate.getToolModifiedState(pContext, net.minecraftforge.common.ToolActions.AXE_STRIP, false));
+        Optional<BlockState> optional1 = Optional.ofNullable(blockstate.getToolModifiedState(pContext, net.minecraftforge.common.ToolActions.AXE_SCRAPE, false));
+        Optional<BlockState> optional2 = Optional.ofNullable(blockstate.getToolModifiedState(pContext, net.minecraftforge.common.ToolActions.AXE_WAX_OFF, false));
         Optional<BlockState> optional3 = Optional.empty();
         if (optional.isPresent()) {
             level.playSound(player, blockpos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -78,7 +78,7 @@ public class AxeLevelableTool extends LevelableTool {
             addExp(itemStack, level, blockpos, player);
 
             if (NBTUtils.getFloatOrAddKey(itemStack, "tree_strip") > 0 && KeyBindings.veinMine.isDown()) {
-                stripHelper(level, itemStack, player, blockpos.above(), pContext.getHand(), 0);
+                stripHelper(pContext, level, itemStack, player, blockpos.above(), pContext.getHand(), 0);
             }
 
             return InteractionResult.sidedSuccess(level.isClientSide);
@@ -88,13 +88,13 @@ public class AxeLevelableTool extends LevelableTool {
     }
 
     // TODO: Deal with breaking in middle of vein stripping
-    private void stripHelper(Level level, ItemStack itemStack, Player player, BlockPos blockPos, InteractionHand slot, int depth) {
+    private void stripHelper(UseOnContext context, Level level, ItemStack itemStack, Player player, BlockPos blockPos, InteractionHand slot, int depth) {
         if (depth > MAX_RECURSIVE_DEPTH) {
             return;
         }
 
         BlockState blockState = level.getBlockState(blockPos);
-        Optional<BlockState> optional = Optional.ofNullable(blockState.getToolModifiedState(level, blockPos, player, itemStack, net.minecraftforge.common.ToolActions.AXE_STRIP));
+        Optional<BlockState> optional = Optional.ofNullable(blockState.getToolModifiedState(context, net.minecraftforge.common.ToolActions.AXE_STRIP, false));
 
         if (optional.isPresent()) {
             level.setBlock(blockPos, optional.get(), 11);
@@ -111,14 +111,14 @@ public class AxeLevelableTool extends LevelableTool {
                     blockPos.north().east(), blockPos.north().west(), blockPos.south().east(), blockPos.south().west());
 
             for (BlockPos pos : positionsToLook) {
-                stripHelper(level, itemStack, player, pos, slot, depth + 1);
+                stripHelper(context, level, itemStack, player, pos, slot, depth + 1);
             }
 
             for (BlockPos pos : positionsToLook) {
-                stripHelper(level, itemStack, player, pos.above(), slot, depth + 1);
+                stripHelper(context, level, itemStack, player, pos.above(), slot, depth + 1);
             }
 
-            stripHelper(level, itemStack, player, blockPos.above(), slot, depth + 1);
+            stripHelper(context, level, itemStack, player, blockPos.above(), slot, depth + 1);
 
 //            stripHelper(level, itemStack, player, blockPos.above(), slot, depth + 1);
         }

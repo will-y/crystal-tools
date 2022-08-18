@@ -1,19 +1,8 @@
 package dev.willyelton.crystal_tools.utils;
 
-import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.item.LevelableItem;
-import dev.willyelton.crystal_tools.item.skill.SkillData;
-import dev.willyelton.crystal_tools.item.skill.SkillDataNode;
-import dev.willyelton.crystal_tools.item.skill.SkillNodeType;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseFireBlock;
 import net.minecraft.world.level.block.Block;
@@ -23,7 +12,6 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
 
 import javax.annotation.Nullable;
-import java.util.List;
 
 public class LevelUtils {
     // I stole this from Level.java because it is bad and I need to make it better

@@ -15,6 +15,6 @@ public class Items extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        withExistingParent(ModBlocks.CRYSTAL_ORE_ITEM.get().getRegistryName().getPath(), new ResourceLocation(CrystalTools.MODID, "block/crystal_ore"));
+//        withExistingParent(ModBlocks.CRYSTAL_ORE_ITEM.get().getRegistryName().getPath(), new ResourceLocation(CrystalTools.MODID, "block/crystal_ore"));
     }
 }

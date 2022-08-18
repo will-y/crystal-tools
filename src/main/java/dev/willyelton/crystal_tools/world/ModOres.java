@@ -3,10 +3,8 @@ package dev.willyelton.crystal_tools.world;
 import dev.willyelton.crystal_tools.block.ModBlocks;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import net.minecraft.core.Holder;
-import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
@@ -15,8 +13,7 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.placement.*;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
-import org.lwjgl.system.CallbackI;
+import net.minecraftforge.event.level.LevelEvent;
 
 
 // TY Mcjty
@@ -52,16 +49,17 @@ public class ModOres {
         return PlacementUtils.register(registryName, Holder.direct(feature), placementModifiers);
     }
 
-    public static void onBiomeLoadingEvent(BiomeLoadingEvent event) {
-        // for now only overworld generation
-        if (event.getCategory() != Biome.BiomeCategory.NETHER && event.getCategory() != Biome.BiomeCategory.THEEND) {
-//            event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, OVERWORLD_OREGEN);
-            if (CrystalToolsConfig.GENERATE_DEEPSLATE_ORE.get()) {
-                event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, DEEPSLATE_OREGEN);
-            }
-            if (CrystalToolsConfig.GENERATE_STONE_ORE.get()) {
-                event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, OVERWORLD_OREGEN);
-            }
-        }
-    }
+    // TODO: Reimplement Ore Gen
+//    public static void onBiomeLoadingEvent(LevelEvent event) {
+//        // for now only overworld generation
+//        if (event.getCategory() != Biome.BiomeCategory.NETHER && event.getCategory() != Biome.BiomeCategory.THEEND) {
+////            event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, OVERWORLD_OREGEN);
+//            if (CrystalToolsConfig.GENERATE_DEEPSLATE_ORE.get()) {
+//                event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, DEEPSLATE_OREGEN);
+//            }
+//            if (CrystalToolsConfig.GENERATE_STONE_ORE.get()) {
+//                event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, OVERWORLD_OREGEN);
+//            }
+//        }
+//    }
 }

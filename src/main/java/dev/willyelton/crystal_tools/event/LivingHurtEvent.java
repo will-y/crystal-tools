@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.Mod;
 public class LivingHurtEvent {
     @SubscribeEvent
     public static void handleLivingHurtEvent(net.minecraftforge.event.entity.living.LivingHurtEvent event) {
-        LivingEntity entity = event.getEntityLiving();
+        LivingEntity entity = event.getEntity();
 
         if (entity instanceof Player player) {
             float damageAmount = event.getAmount();

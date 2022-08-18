@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.mojang.datafixers.util.Pair;
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
-import dev.willyelton.crystal_tools.utils.LevelUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.StringUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
@@ -12,7 +11,6 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -125,7 +123,7 @@ public class AIOLevelableTool extends DiggerLevelableTool {
         if (KeyBindings.modeSwitch != null) {
             toolTip = toolTip + " (alt + " + KeyBindings.modeSwitch.getKey().getDisplayName().getString() + " to change)";
         }
-        components.add(new TextComponent(toolTip));
+        components.add(Component.literal(toolTip));
     }
 
     public InteractionResult useOnAxe(UseOnContext pContext) {
@@ -140,9 +138,9 @@ public class AIOLevelableTool extends DiggerLevelableTool {
         if (durability <= 1) {
             return InteractionResult.PASS;
         }
-        Optional<BlockState> optional = Optional.ofNullable(blockstate.getToolModifiedState(level, blockpos, player, pContext.getItemInHand(), net.minecraftforge.common.ToolActions.AXE_STRIP));
-        Optional<BlockState> optional1 = Optional.ofNullable(blockstate.getToolModifiedState(level, blockpos, player, pContext.getItemInHand(), net.minecraftforge.common.ToolActions.AXE_SCRAPE));
-        Optional<BlockState> optional2 = Optional.ofNullable(blockstate.getToolModifiedState(level, blockpos, player, pContext.getItemInHand(), net.minecraftforge.common.ToolActions.AXE_WAX_OFF));
+        Optional<BlockState> optional = Optional.ofNullable(blockstate.getToolModifiedState(pContext, net.minecraftforge.common.ToolActions.AXE_STRIP, false));
+        Optional<BlockState> optional1 = Optional.ofNullable(blockstate.getToolModifiedState(pContext, net.minecraftforge.common.ToolActions.AXE_SCRAPE, false));
+        Optional<BlockState> optional2 = Optional.ofNullable(blockstate.getToolModifiedState(pContext, net.minecraftforge.common.ToolActions.AXE_WAX_OFF, false));
         Optional<BlockState> optional3 = Optional.empty();
         if (optional.isPresent()) {
             level.playSound(player, blockpos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -178,6 +176,7 @@ public class AIOLevelableTool extends DiggerLevelableTool {
         }
     }
 
+    // TODO: Abstract
     public InteractionResult useOnShovel(UseOnContext pContext) {
         ItemStack shovel = pContext.getItemInHand();
         Level level = pContext.getLevel();
@@ -194,7 +193,7 @@ public class AIOLevelableTool extends DiggerLevelableTool {
             return InteractionResult.PASS;
         } else {
             Player player = pContext.getPlayer();
-            BlockState blockstate1 = blockstate.getToolModifiedState(level, blockpos, player, pContext.getItemInHand(), net.minecraftforge.common.ToolActions.SHOVEL_FLATTEN);
+            BlockState blockstate1 = blockstate.getToolModifiedState(pContext, net.minecraftforge.common.ToolActions.SHOVEL_FLATTEN, false);
             BlockState blockstate2 = null;
             if (blockstate1 != null && level.isEmptyBlock(blockpos.above())) {
                 level.playSound(player, blockpos, SoundEvents.SHOVEL_FLATTEN, SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -274,9 +273,11 @@ public class AIOLevelableTool extends DiggerLevelableTool {
             return InteractionResult.PASS;
         }
 
+        // TODO: Some better forge way to do this
         Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> pair = HoeLevelableTool.TILLABLES.get(level.getBlockState(blockpos).getBlock());
-        int hook = net.minecraftforge.event.ForgeEventFactory.onHoeUse(context);
-        if (hook != 0) return hook > 0 ? InteractionResult.SUCCESS : InteractionResult.FAIL;
+//        int hook = net.minecraftforge.event.ForgeEventFactory.onHoeUse(context);
+//        if (hook != 0) return hook > 0 ? InteractionResult.SUCCESS : InteractionResult.FAIL;
+        // TODO: Abstract this
         if (context.getClickedFace() != Direction.DOWN && level.isEmptyBlock(blockpos.above())) {
             if (pair == null) {
                 return InteractionResult.PASS;

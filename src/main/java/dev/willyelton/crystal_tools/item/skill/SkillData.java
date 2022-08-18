@@ -26,15 +26,18 @@ public class SkillData {
         Gson gson = gsonBuilder.create();
 
         try {
-            InputStream in = Minecraft.getInstance().getResourceManager().getResource(resourceLocation).getInputStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            if (Minecraft.getInstance().getResourceManager().getResource(resourceLocation).isPresent()) {
+                InputStream in = Minecraft.getInstance().getResourceManager().getResource(resourceLocation).get().open();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
-            SkillData result = gson.fromJson(reader, SkillData.class);
+                SkillData result = gson.fromJson(reader, SkillData.class);
 
-            result.applyPoints(skills);
+                result.applyPoints(skills);
 
-            return result;
-
+                return result;
+            } else {
+                return null;
+            }
         } catch (IOException e) {
             e.printStackTrace();
             return null;
