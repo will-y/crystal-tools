@@ -1,6 +1,5 @@
 package dev.willyelton.crystal_tools.gui;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Matrix4f;
@@ -21,7 +20,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
@@ -42,7 +41,7 @@ public class UpgradeScreen extends Screen {
     private int yOffset = 0;
 
     public UpgradeScreen(ItemStack itemStack) {
-        super(new TextComponent("Upgrade Tool"));
+        super(Component.literal("Upgrade Tool"));
         tool = itemStack;
 
         int[] points = NBTUtils.getIntArray(tool, "points");
@@ -67,13 +66,13 @@ public class UpgradeScreen extends Screen {
         }
 
         // add button to spend skill points to heal tool
-        healButton = addRenderableWidget(new Button(5, 15, 30, Y_SIZE, new TextComponent("Heal"), (button) -> {
+        healButton = addRenderableWidget(new Button(5, 15, 30, Y_SIZE, Component.literal("Heal"), (button) -> {
             PacketHandler.sendToServer(new ToolHealPacket());
             // also do client side to update ui, seems to work, might want to test more
             NBTUtils.addValueToTag(tool, "skill_points", -1);
             this.updateButtons();
         }, (button, poseStack, mouseX, mouseY) -> {
-            Component text = new TextComponent("Uses a skill point to fully repair this tool");
+            Component text = Component.literal("Uses a skill point to fully repair this tool");
             UpgradeScreen.this.renderTooltip(poseStack, UpgradeScreen.this.minecraft.font.split(text, Math.max(UpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
         }));
 
@@ -111,7 +110,7 @@ public class UpgradeScreen extends Screen {
     }
 
     private void addButtonFromNode(SkillDataNode node, int x, int y) {
-        this.addSkillButton(new SkillButton(x, y, X_SIZE, Y_SIZE, new TextComponent(node.getName()), (button) -> {
+        this.addSkillButton(new SkillButton(x, y, X_SIZE, Y_SIZE, Component.literal(node.getName()), (button) -> {
             int skillPoints = (int) NBTUtils.getFloatOrAddKey(tool, "skill_points");
 
             if (skillPoints > 0) {
@@ -132,7 +131,7 @@ public class UpgradeScreen extends Screen {
                 text = node.getDescription();
             }
 
-            Component textComponent = new TextComponent(text);
+            Component textComponent = Component.literal(text);
             UpgradeScreen.this.renderTooltip(poseStack, UpgradeScreen.this.minecraft.font.split(textComponent, Math.max(UpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
         }, this.toolData, node));
     }

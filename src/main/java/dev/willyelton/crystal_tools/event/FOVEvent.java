@@ -5,17 +5,17 @@ import dev.willyelton.crystal_tools.item.tool.ModTools;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.FOVModifierEvent;
+import net.minecraftforge.client.event.ComputeFovModifierEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = CrystalTools.MODID, value = Dist.CLIENT)
 public class FOVEvent {
     @SubscribeEvent
-    public static void handleFOVEvent(FOVModifierEvent event) {
-        Player player = event.getEntity();
+    public static void handleFOVEvent(ComputeFovModifierEvent event) {
+        Player player = event.getPlayer();
         ItemStack itemStack = player.getUseItem();
-        float f = event.getFov();
+        float f = event.getFovModifier();
 
         if (player.isUsingItem()) {
             if (itemStack.is(ModTools.CRYSTAL_BOW.get())) {
@@ -29,7 +29,7 @@ public class FOVEvent {
 
                 f *= 1.0F - f1 * 0.15F;
 
-                event.setNewfov(f);
+                event.setNewFovModifier(f);
             }
         }
     }
