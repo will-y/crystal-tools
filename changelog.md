@@ -1,3 +1,12 @@
+----------------------- 1.1.3 Changes -----------------------
+
+NOTICE: This will probably be the last 1.18 version
+### Changes
+- Updated to Forge 1.18.2-40.1.0
+
+### Fixes
+- Fixes the missing text for the Mode Switch Keybind
+
 ----------------------- 1.1.2 Changes -----------------------
 ### Changes
 - Updated to Forge 1.18.2-40.0.31
