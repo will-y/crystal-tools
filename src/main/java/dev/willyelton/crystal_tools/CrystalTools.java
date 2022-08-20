@@ -73,8 +73,6 @@ public class CrystalTools {
     }
 
     private void setup() {
-        IEventBus bus = MinecraftForge.EVENT_BUS;
-        // TODO: Reimplement ore gen
-//        bus.addListener(ModOres::onBiomeLoadingEvent);
+
     }
 }
