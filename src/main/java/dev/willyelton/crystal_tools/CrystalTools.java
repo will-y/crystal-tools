@@ -21,7 +21,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod("crystal_tools")
+@Mod(CrystalTools.MODID)
 public class CrystalTools {
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
@@ -57,6 +57,9 @@ public class CrystalTools {
         // Register Items
         ModArmor.initArmor();
 
+        // Register Ores (Placed Features)
+        ModOres.initOres();
+
         // Register Message Handlers
         PacketHandler.register();
     }
@@ -67,7 +70,6 @@ public class CrystalTools {
 
     private void init(final FMLCommonSetupEvent event) {
         // some preinit code
-        event.enqueueWork(ModOres::registerConfiguredFeatures);
     }
 
     private void setup() {

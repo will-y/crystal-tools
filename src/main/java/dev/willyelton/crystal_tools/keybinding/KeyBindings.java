@@ -8,7 +8,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.lwjgl.glfw.GLFW;
 
-@Mod.EventBusSubscriber(modid=CrystalTools.MODID, bus=Mod.EventBusSubscriber.Bus.FORGE, value= Dist.CLIENT)
+@Mod.EventBusSubscriber(modid=CrystalTools.MODID, bus=Mod.EventBusSubscriber.Bus.MOD, value= Dist.CLIENT)
 public class KeyBindings {
     public static KeyMapping upgradeMenu;
     public static KeyMapping veinMine;
@@ -22,6 +22,7 @@ public class KeyBindings {
 
     @SubscribeEvent
     public static void registerKeys(RegisterKeyMappingsEvent e) {
+        System.out.println("REGISTERING KEYS--------------------------");
         upgradeMenu = createBinding("upgrade_menu", GLFW.GLFW_KEY_K, e);
         veinMine = createBinding("vein_mine", GLFW.GLFW_KEY_GRAVE_ACCENT, e);
         modeSwitch = createBinding("mode_switch", GLFW.GLFW_KEY_M, e);

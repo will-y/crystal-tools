@@ -1,65 +1,55 @@
 package dev.willyelton.crystal_tools.world;
 
+import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.block.ModBlocks;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.placement.*;
-import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
+import org.jetbrains.annotations.NotNull;
 
-
-// TY Mcjty
-// https://wiki.mcjty.eu/modding/index.php?title=Tutorial_1.18_Episode_5#Ore_Generation
+import java.util.List;
 
 public class ModOres {
-    public static Holder<PlacedFeature> OVERWORLD_OREGEN;
-    public static Holder<PlacedFeature> DEEPSLATE_OREGEN;
 
-    public static void registerConfiguredFeatures() {
-        // Stone Overworld - for now doesn't spawn there
-        OreConfiguration overworldConfig = new OreConfiguration(OreFeatures.STONE_ORE_REPLACEABLES,
-                ModBlocks.CRYSTAL_ORE.get().defaultBlockState(), CrystalToolsConfig.STONE_VEIN_SIZE.get());
+    private static final DeferredRegister<PlacedFeature> PLACED_FEATURES = DeferredRegister.create(Registry.PLACED_FEATURE_REGISTRY, CrystalTools.MODID);
 
-        DEEPSLATE_OREGEN = registerPlacedFeature("crystal_deepslate_ore", new ConfiguredFeature<>(Feature.ORE, overworldConfig),
+    public static final RegistryObject<PlacedFeature> ORE_DEEPSLATE_OVERWORLD = PLACED_FEATURES.register("crystal_deepslate_ore", ModOres::createOverworldDeepslateOregen);
+//    public static final RegistryObject<PlacedFeature> ORE_OVERWORLD = PLACED_FEATURES.register("crystal_ore", ModOres::createOverworldOregen);
+
+    public static void initOres() {
+        PLACED_FEATURES.register(FMLJavaModLoadingContext.get().getModEventBus());
+    }
+
+    @NotNull
+    public static PlacedFeature createOverworldDeepslateOregen() {
+        OreConfiguration config = new OreConfiguration(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, ModBlocks.CRYSTAL_DEEPSLATE_ORE.get().defaultBlockState(), 5);
+        return createPlacedFeature(new ConfiguredFeature<>(Feature.ORE, config),
+                CountPlacement.of(2),
+                InSquarePlacement.spread(),
+                HeightRangePlacement.uniform(VerticalAnchor.aboveBottom(0), VerticalAnchor.aboveBottom(20)));
+    }
+
+    @NotNull
+    public static PlacedFeature createOverworldOregen() {
+        OreConfiguration config = new OreConfiguration(OreFeatures.STONE_ORE_REPLACEABLES, ModBlocks.CRYSTAL_ORE.get().defaultBlockState(), CrystalToolsConfig.STONE_VEIN_SIZE.get());
+        return createPlacedFeature(new ConfiguredFeature<>(Feature.ORE, config),
                 CountPlacement.of(CrystalToolsConfig.STONE_PER_CHUNK.get()),
                 InSquarePlacement.spread(),
-                BiomeFilter.biome(),
                 HeightRangePlacement.uniform(VerticalAnchor.aboveBottom(CrystalToolsConfig.STONE_BOTTOM.get()), VerticalAnchor.aboveBottom(CrystalToolsConfig.STONE_TOP.get())));
-
-        // Deepslate Overworld
-        OreConfiguration deepslateConfig = new OreConfiguration(OreFeatures.DEEPSLATE_ORE_REPLACEABLES,
-                ModBlocks.CRYSTAL_DEEPSLATE_ORE.get().defaultBlockState(), CrystalToolsConfig.DEEPSLATE_VEIN_SIZE.get());
-
-        DEEPSLATE_OREGEN = registerPlacedFeature("crystal_deepslate_ore", new ConfiguredFeature<>(Feature.ORE, deepslateConfig),
-                CountPlacement.of(CrystalToolsConfig.DEEPSLATE_PER_CHUNK.get()),
-                InSquarePlacement.spread(),
-                BiomeFilter.biome(),
-                HeightRangePlacement.uniform(VerticalAnchor.aboveBottom(CrystalToolsConfig.DEEPSLATE_BOTTOM.get()), VerticalAnchor.aboveBottom(CrystalToolsConfig.DEEPSLATE_TOP.get())));
     }
 
-    private static <C extends FeatureConfiguration, F extends Feature<C>> Holder<PlacedFeature> registerPlacedFeature(String registryName, ConfiguredFeature<C, F> feature, PlacementModifier... placementModifiers) {
-        return PlacementUtils.register(registryName, Holder.direct(feature), placementModifiers);
+    private static <C extends FeatureConfiguration, F extends Feature<C>> PlacedFeature createPlacedFeature(ConfiguredFeature<C, F> feature, PlacementModifier... placementModifiers) {
+        return new PlacedFeature(Holder.hackyErase(Holder.direct(feature)), List.copyOf(List.of(placementModifiers)));
     }
-
-    // TODO: Reimplement Ore Gen
-//    public static void onBiomeLoadingEvent(LevelEvent event) {
-//        // for now only overworld generation
-//        if (event.getCategory() != Biome.BiomeCategory.NETHER && event.getCategory() != Biome.BiomeCategory.THEEND) {
-////            event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, OVERWORLD_OREGEN);
-//            if (CrystalToolsConfig.GENERATE_DEEPSLATE_ORE.get()) {
-//                event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, DEEPSLATE_OREGEN);
-//            }
-//            if (CrystalToolsConfig.GENERATE_STONE_ORE.get()) {
-//                event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, OVERWORLD_OREGEN);
-//            }
-//        }
-//    }
 }
