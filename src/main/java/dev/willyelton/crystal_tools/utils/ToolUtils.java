@@ -83,4 +83,6 @@ public class ToolUtils {
         int durability = stack.getItem().getMaxDamage(stack) - (int) NBTUtils.getFloatOrAddKey(stack, "Damage");
         return durability <= 1;
     }
+
+
 }
