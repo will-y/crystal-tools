@@ -165,44 +165,39 @@ public class ToolUseUtils {
 
     public static InteractionResult useOnHoe(UseOnContext context, LevelableTool tool) {
         ItemStack hoe = context.getItemInHand();
-        Level level = context.getLevel();
-        BlockPos blockpos = context.getClickedPos();
-
         int durability = tool.getMaxDamage(hoe) - (int) NBTUtils.getFloatOrAddKey(hoe, "Damage");
 
         if (durability <= 1) {
             return InteractionResult.PASS;
         }
 
+        Level level = context.getLevel();
+        BlockPos blockpos = context.getClickedPos();
         BlockState toolModifiedState = level.getBlockState(blockpos).getToolModifiedState(context, net.minecraftforge.common.ToolActions.HOE_TILL, false);
         Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> pair = toolModifiedState == null ? null : Pair.of(ctx -> true, changeIntoState(toolModifiedState));
-        if (context.getClickedFace() != Direction.DOWN && level.isEmptyBlock(blockpos.above())) {
-            if (pair == null) {
-                return InteractionResult.PASS;
-            } else {
-                Predicate<UseOnContext> predicate = pair.getFirst();
-                Consumer<UseOnContext> consumer = pair.getSecond();
-                if (predicate.test(context)) {
-                    Player player = context.getPlayer();
-                    level.playSound(player, blockpos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
-                    if (!level.isClientSide) {
-                        consumer.accept(context);
-                        if (player != null) {
-                            context.getItemInHand().hurtAndBreak(1, player, (p_150845_) -> {
-                                p_150845_.broadcastBreakEvent(context.getHand());
-                            });
-                        }
+        if (pair == null) {
+            return InteractionResult.PASS;
+        } else {
+            Predicate<UseOnContext> predicate = pair.getFirst();
+            Consumer<UseOnContext> consumer = pair.getSecond();
+            if (predicate.test(context)) {
+                Player player = context.getPlayer();
+                level.playSound(player, blockpos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+                if (!level.isClientSide) {
+                    consumer.accept(context);
+                    if (player != null) {
+                        context.getItemInHand().hurtAndBreak(1, player, (p_150845_) -> {
+                            p_150845_.broadcastBreakEvent(context.getHand());
+                        });
                     }
-
-                    tool.addExp(hoe, level, blockpos, context.getPlayer());
-
-                    return InteractionResult.sidedSuccess(level.isClientSide);
-                } else {
-                    return InteractionResult.PASS;
                 }
+
+                tool.addExp(hoe, level, blockpos, player);
+
+                return InteractionResult.sidedSuccess(level.isClientSide);
+            } else {
+                return InteractionResult.PASS;
             }
         }
-
-        return InteractionResult.PASS;
     }
 }

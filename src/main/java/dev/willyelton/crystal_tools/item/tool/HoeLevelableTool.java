@@ -4,7 +4,9 @@ import dev.willyelton.crystal_tools.utils.ToolUseUtils;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraftforge.common.ToolActions;
 import org.jetbrains.annotations.NotNull;
 
 public class HoeLevelableTool extends LevelableTool {
@@ -15,5 +17,10 @@ public class HoeLevelableTool extends LevelableTool {
     @Override
     public @NotNull InteractionResult useOn(@NotNull UseOnContext context) {
         return ToolUseUtils.useOnHoe(context, this);
+    }
+
+    @Override
+    public boolean canPerformAction(ItemStack stack, net.minecraftforge.common.ToolAction toolAction) {
+        return ToolActions.DEFAULT_HOE_ACTIONS.contains(toolAction);
     }
 }
