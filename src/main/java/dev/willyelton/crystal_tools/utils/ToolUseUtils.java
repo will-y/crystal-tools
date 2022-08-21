@@ -1,7 +1,6 @@
 package dev.willyelton.crystal_tools.utils;
 
 import com.mojang.datafixers.util.Pair;
-import dev.willyelton.crystal_tools.item.tool.HoeLevelableTool;
 import dev.willyelton.crystal_tools.item.tool.LevelableTool;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -23,6 +22,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+
+import static net.minecraft.world.item.HoeItem.changeIntoState;
 
 public class ToolUseUtils {
     public static InteractionResult useOnAxe(UseOnContext pContext, LevelableTool tool) {
@@ -173,11 +174,8 @@ public class ToolUseUtils {
             return InteractionResult.PASS;
         }
 
-        // TODO: Some better forge way to do this
-        Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> pair = HoeLevelableTool.TILLABLES.get(level.getBlockState(blockpos).getBlock());
-//        int hook = net.minecraftforge.event.ForgeEventFactory.onHoeUse(context);
-//        if (hook != 0) return hook > 0 ? InteractionResult.SUCCESS : InteractionResult.FAIL;
-        // TODO: Abstract this
+        BlockState toolModifiedState = level.getBlockState(blockpos).getToolModifiedState(context, net.minecraftforge.common.ToolActions.HOE_TILL, false);
+        Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> pair = toolModifiedState == null ? null : Pair.of(ctx -> true, changeIntoState(toolModifiedState));
         if (context.getClickedFace() != Direction.DOWN && level.isEmptyBlock(blockpos.above())) {
             if (pair == null) {
                 return InteractionResult.PASS;
