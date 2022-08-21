@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.item.tool;
 
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
+import dev.willyelton.crystal_tools.utils.ToolUseUtils;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
@@ -33,58 +34,21 @@ public class AxeLevelableTool extends LevelableTool {
     }
 
     @Override
-    public InteractionResult useOn(UseOnContext pContext) {
-        Level level = pContext.getLevel();
-        BlockPos blockpos = pContext.getClickedPos();
-        Player player = pContext.getPlayer();
-        BlockState blockstate = level.getBlockState(blockpos);
-        ItemStack itemStack = pContext.getItemInHand();
+    public @NotNull InteractionResult useOn(@NotNull UseOnContext pContext) {
+        InteractionResult result = ToolUseUtils.useOnAxe(pContext, this);
 
-        int durability = this.getMaxDamage(itemStack) - (int) NBTUtils.getFloatOrAddKey(itemStack, "Damage");
-
-        if (durability <= 1) {
-            return InteractionResult.PASS;
-        }
-        Optional<BlockState> optional = Optional.ofNullable(blockstate.getToolModifiedState(pContext, net.minecraftforge.common.ToolActions.AXE_STRIP, false));
-        Optional<BlockState> optional1 = Optional.ofNullable(blockstate.getToolModifiedState(pContext, net.minecraftforge.common.ToolActions.AXE_SCRAPE, false));
-        Optional<BlockState> optional2 = Optional.ofNullable(blockstate.getToolModifiedState(pContext, net.minecraftforge.common.ToolActions.AXE_WAX_OFF, false));
-        Optional<BlockState> optional3 = Optional.empty();
-        if (optional.isPresent()) {
-            level.playSound(player, blockpos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
-            optional3 = optional;
-        } else if (optional1.isPresent()) {
-            level.playSound(player, blockpos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0F, 1.0F);
-            level.levelEvent(player, 3005, blockpos, 0);
-            optional3 = optional1;
-        } else if (optional2.isPresent()) {
-            level.playSound(player, blockpos, SoundEvents.AXE_WAX_OFF, SoundSource.BLOCKS, 1.0F, 1.0F);
-            level.levelEvent(player, 3004, blockpos, 0);
-            optional3 = optional2;
-        }
-
-        if (optional3.isPresent()) {
-            if (player instanceof ServerPlayer) {
-                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer)player, blockpos, itemStack);
-            }
-
-            level.setBlock(blockpos, optional3.get(), 11);
-
-            if (player != null) {
-                itemStack.hurtAndBreak(1, player, (p_150686_) -> {
-                    p_150686_.broadcastBreakEvent(pContext.getHand());
-                });
-            }
-
-            addExp(itemStack, level, blockpos, player);
+        if (result == InteractionResult.SUCCESS || result == InteractionResult.sidedSuccess(pContext.getLevel().isClientSide)) {
+            ItemStack itemStack = pContext.getItemInHand();
+            Level level = pContext.getLevel();
+            Player player = pContext.getPlayer();
+            BlockPos blockPos = pContext.getClickedPos();
 
             if (NBTUtils.getFloatOrAddKey(itemStack, "tree_strip") > 0 && KeyBindings.veinMine.isDown()) {
-                stripHelper(pContext, level, itemStack, player, blockpos.above(), pContext.getHand(), 0);
+                stripHelper(pContext, level, itemStack, player, blockPos.above(), pContext.getHand(), 0);
             }
-
-            return InteractionResult.sidedSuccess(level.isClientSide);
-        } else {
-            return InteractionResult.PASS;
         }
+
+        return result;
     }
 
     // TODO: Deal with breaking in middle of vein stripping
@@ -119,8 +83,6 @@ public class AxeLevelableTool extends LevelableTool {
             }
 
             stripHelper(context, level, itemStack, player, blockPos.above(), slot, depth + 1);
-
-//            stripHelper(level, itemStack, player, blockPos.above(), slot, depth + 1);
         }
     }
 
@@ -177,12 +139,6 @@ public class AxeLevelableTool extends LevelableTool {
         }
 
         recursiveBreakHelper(tool, level, blockPos.above(), entity, block, depth + 1);
-//        recursiveBreakHelper(tool, level, blockPos.north(), entity, block, depth + 1);
-//        recursiveBreakHelper(tool, level, blockPos.south(), entity, block, depth + 1);
-//        recursiveBreakHelper(tool, level, blockPos.east(), entity, block, depth + 1);
-//        recursiveBreakHelper(tool, level, blockPos.west(), entity, block, depth + 1);
-
-        // also need 4 other directions and eight above
     }
 
     @Override
