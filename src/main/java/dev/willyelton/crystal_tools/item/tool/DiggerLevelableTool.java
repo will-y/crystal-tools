@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
  * Handles the 3x3 mining
  */
 public class DiggerLevelableTool extends LevelableTool {
-    private static int MAX_VEIN_MINER_DEPTH = 4;
+    private static final int MAX_VEIN_MINER_DEPTH = 4;
 
     public DiggerLevelableTool(Properties properties, TagKey<Block> mineableBlocks, String toolType) {
         super(properties, mineableBlocks, toolType);

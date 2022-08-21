@@ -51,9 +51,10 @@ public class AxeLevelableTool extends LevelableTool {
         return result;
     }
 
-    // TODO: Deal with breaking in middle of vein stripping
     private void stripHelper(UseOnContext context, Level level, ItemStack itemStack, Player player, BlockPos blockPos, InteractionHand slot, int depth) {
-        if (depth > MAX_RECURSIVE_DEPTH) {
+        int durability = this.getMaxDamage(itemStack) - (int) NBTUtils.getFloatOrAddKey(itemStack, "Damage");
+
+        if (depth > MAX_RECURSIVE_DEPTH || durability <= 1) {
             return;
         }
 

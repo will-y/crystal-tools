@@ -24,7 +24,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import static net.minecraft.world.item.HoeItem.changeIntoState;
-
+// TODO make common method, they are all similar
 public class ToolUseUtils {
     public static InteractionResult useOnAxe(UseOnContext pContext, LevelableTool tool) {
         Level level = pContext.getLevel();
