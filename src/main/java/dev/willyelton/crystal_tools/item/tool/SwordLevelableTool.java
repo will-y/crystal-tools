@@ -3,7 +3,6 @@ package dev.willyelton.crystal_tools.item.tool;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.utils.LevelUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
@@ -20,6 +19,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
+import org.jetbrains.annotations.NotNull;
 
 public class SwordLevelableTool extends LevelableTool {
     private static final float BASE_ATTACK_DAMAGE = tier.getAttackDamageBonus() + 3;
@@ -48,11 +48,11 @@ public class SwordLevelableTool extends LevelableTool {
         return BASE_KNOCKBACK_RESISTANCE + NBTUtils.getFloatOrAddKey(stack, "knockback_resistance");
     }
 
-    public boolean canAttackBlock(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer) {
+    public boolean canAttackBlock(@NotNull BlockState pState, @NotNull Level pLevel, @NotNull BlockPos pPos, Player pPlayer) {
         return !pPlayer.isCreative();
     }
 
-    public float getDestroySpeed(ItemStack pStack, BlockState pState) {
+    public float getDestroySpeed(@NotNull ItemStack pStack, @NotNull BlockState pState) {
         if (pState.is(Blocks.COBWEB) && !ToolUtils.isBroken(pStack)) {
             return 15.0F;
         } else {
@@ -66,10 +66,8 @@ public class SwordLevelableTool extends LevelableTool {
     }
 
     @Override
-    public boolean hurtEnemy(ItemStack tool, LivingEntity target, LivingEntity attacker) {
-        tool.hurtAndBreak(1, attacker, (p_43296_) -> {
-            p_43296_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
-        });
+    public boolean hurtEnemy(ItemStack tool, @NotNull LivingEntity target, @NotNull LivingEntity attacker) {
+        tool.hurtAndBreak(1, attacker, (p_43296_) -> p_43296_.broadcastBreakEvent(EquipmentSlot.MAINHAND));
 
         if (!ToolUtils.isBroken(tool)) {
             if (NBTUtils.getFloatOrAddKey(tool, "fire") > 0) {

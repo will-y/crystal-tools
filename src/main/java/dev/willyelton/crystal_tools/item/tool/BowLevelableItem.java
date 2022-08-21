@@ -3,7 +3,6 @@ package dev.willyelton.crystal_tools.item.tool;
 import dev.willyelton.crystal_tools.CreativeTabs;
 import dev.willyelton.crystal_tools.item.LevelableItem;
 import dev.willyelton.crystal_tools.item.ModItems;
-import dev.willyelton.crystal_tools.utils.LevelUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.network.chat.Component;
@@ -32,7 +31,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     }
 
     @Override
-    public void releaseUsing(ItemStack pStack, Level pLevel, LivingEntity pEntityLiving, int pTimeLeft) {
+    public void releaseUsing(@NotNull ItemStack pStack, @NotNull Level pLevel, @NotNull LivingEntity pEntityLiving, int pTimeLeft) {
         if (pEntityLiving instanceof Player player) {
             boolean flag = player.getAbilities().instabuild;
 
@@ -66,13 +65,11 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
                             abstractarrow.setCritArrow(true);
                         }
 
-//                        int j = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS, pStack);
                         float j = NBTUtils.getFloatOrAddKey(pStack, "arrow_damage");
                         if (j > 0) {
                             abstractarrow.setBaseDamage(abstractarrow.getBaseDamage() + (double)j + 0.5D);
                         }
 
-//                        int k = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.PUNCH_ARROWS, pStack);
                         int k = (int) NBTUtils.getFloatOrAddKey(pStack, "arrow_knockback");
                         if (k > 0) {
                             abstractarrow.setKnockback(k);
@@ -82,9 +79,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
                             abstractarrow.setSecondsOnFire(100);
                         }
 
-                        pStack.hurtAndBreak(1, player, (p_40665_) -> {
-                            p_40665_.broadcastBreakEvent(player.getUsedItemHand());
-                        });
+                        pStack.hurtAndBreak(1, player, (p_40665_) -> p_40665_.broadcastBreakEvent(player.getUsedItemHand()));
                         if (flag1 || player.getAbilities().instabuild && (itemstack.is(Items.SPECTRAL_ARROW) || itemstack.is(Items.TIPPED_ARROW)) || NBTUtils.getFloatOrAddKey(pStack, "infinity") > 0) {
                             abstractarrow.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                         }
@@ -92,7 +87,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
                         pLevel.addFreshEntity(abstractarrow);
                     }
 
-                    pLevel.playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+                    pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + f * 0.5F);
                     if (!flag1 && !player.getAbilities().instabuild) {
                         itemstack.shrink(1);
                         if (itemstack.isEmpty()) {
@@ -107,12 +102,9 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pHand) {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
         boolean flag = !getProjectile(itemstack, pPlayer).isEmpty() || NBTUtils.getFloatOrAddKey(itemstack, "infinity") > 0;
-
-//        InteractionResultHolder<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemstack, pLevel, pPlayer, pHand, flag);
-//        if (ret != null) return ret;
 
         if (ToolUtils.isBroken(itemstack) || (!pPlayer.getAbilities().instabuild && !flag)) {
             return InteractionResultHolder.fail(itemstack);
@@ -125,17 +117,17 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     // TODO: Change this by level
     // Doesn't work, try something else later
     @Override
-    public int getUseDuration(ItemStack stack) {
+    public int getUseDuration(@NotNull ItemStack stack) {
 //        return Math.max(72000 - (int) (5000 * NBTUtils.getFloatOrAddKey(stack, "draw_speed")), 20000);
         return 72000;
     }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack pStack) {
+    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack pStack) {
         return UseAnim.BOW;
     }
 
-    public AbstractArrow customArrow(AbstractArrow arrow) {
+    public @NotNull AbstractArrow customArrow(@NotNull AbstractArrow arrow) {
         return arrow;
     }
 
@@ -172,7 +164,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     }
 
     @Override
-    public boolean isFoil(ItemStack stack) {
+    public boolean isFoil(@NotNull ItemStack stack) {
         return false;
     }
 
@@ -189,7 +181,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     }
 
     @Override
-    public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand) {
+    public void inventoryTick(@NotNull ItemStack itemStack, @NotNull Level level, @NotNull Entity entity, int inventorySlot, boolean inHand) {
         ToolUtils.inventoryTick(itemStack, level, entity, inventorySlot, inHand);
     }
 
@@ -204,7 +196,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
+    public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
         ToolUtils.appendHoverText(itemStack, level, components, flag, this);
     }
 

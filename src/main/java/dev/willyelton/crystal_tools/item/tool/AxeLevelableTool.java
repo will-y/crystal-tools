@@ -3,11 +3,7 @@ package dev.willyelton.crystal_tools.item.tool;
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUseUtils;
-import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -65,9 +61,7 @@ public class AxeLevelableTool extends LevelableTool {
             level.setBlock(blockPos, optional.get(), 11);
 
             if (player != null) {
-                itemStack.hurtAndBreak(1, player, (p_150686_) -> {
-                    p_150686_.broadcastBreakEvent(slot);
-                });
+                itemStack.hurtAndBreak(1, player, (p_150686_) -> p_150686_.broadcastBreakEvent(slot));
             }
 
             addExp(itemStack, level, blockPos, player);
@@ -94,18 +88,11 @@ public class AxeLevelableTool extends LevelableTool {
 
     @Override
     public boolean mineBlock(@NotNull ItemStack tool, Level level, @NotNull BlockState blockState, @NotNull BlockPos blockPos, @NotNull LivingEntity entity) {
-//        if (!level.isClientSide && blockState.getDestroySpeed(level, blockPos) != 0.0F) {
-//            tool.hurtAndBreak(1, entity, (player) -> {
-//                player.broadcastBreakEvent(EquipmentSlot.MAINHAND);
-//            });
-//        }
 
         if (NBTUtils.getFloatOrAddKey(tool, "tree_chop") > 0 && KeyBindings.veinMine.isDown() && blockState.is(BlockTags.MINEABLE_WITH_AXE)) {
             Block minedBlock = blockState.getBlock();
             recursiveBreakHelper(tool, level, blockPos, entity, minedBlock, 0);
         }
-
-//        addExp(tool, level, blockPos);
 
         super.mineBlock(tool, level, blockState, blockPos, entity);
 
@@ -121,9 +108,7 @@ public class AxeLevelableTool extends LevelableTool {
         BlockState state = level.getBlockState(blockPos);
         if (state.is(block)) {
             level.destroyBlock(blockPos, true, entity);
-            tool.hurtAndBreak(1, entity, (player) -> {
-                player.broadcastBreakEvent(EquipmentSlot.MAINHAND);
-            });
+            tool.hurtAndBreak(1, entity, (player) -> player.broadcastBreakEvent(EquipmentSlot.MAINHAND));
         } else {
             return;
         }

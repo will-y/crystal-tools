@@ -5,7 +5,6 @@ import com.google.common.collect.Multimap;
 import dev.willyelton.crystal_tools.CreativeTabs;
 import dev.willyelton.crystal_tools.item.LevelableItem;
 import dev.willyelton.crystal_tools.item.ModItems;
-import dev.willyelton.crystal_tools.utils.LevelUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.network.chat.Component;
@@ -88,7 +87,7 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Wearable
     }
 
     @Override
-    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
+    public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
         ToolUtils.appendHoverText(itemStack, level, components, flag, this);
     }
 
@@ -110,7 +109,7 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Wearable
     }
 
     @Override
-    public boolean isFoil(ItemStack stack) {
+    public boolean isFoil(@NotNull ItemStack stack) {
         return false;
     }
 
@@ -127,7 +126,7 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Wearable
     }
 
     @Override
-    public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand) {
+    public void inventoryTick(@NotNull ItemStack itemStack, @NotNull Level level, @NotNull Entity entity, int inventorySlot, boolean inHand) {
         ToolUtils.inventoryTick(itemStack, level, entity, inventorySlot, inHand);
     }
 

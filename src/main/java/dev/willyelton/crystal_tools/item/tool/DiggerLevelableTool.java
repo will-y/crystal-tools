@@ -39,14 +39,9 @@ public class DiggerLevelableTool extends LevelableTool {
             blockBreakerHelper(tool, level, blockPos, entity, direction);
         }
 
-        // use for vein mining
-        // Tags.Blocks.ORES;
-
         if (NBTUtils.getFloatOrAddKey(tool, "vein_miner") > 0 && KeyBindings.veinMine.isDown() && blockState.is(Tags.Blocks.ORES)) {
             this.veinMinerHelper(tool, level, blockState.getBlock(), blockPos, entity,0);
         }
-
-//        addExp(tool, level, blockPos);
 
         return super.mineBlock(tool, level, blockState, blockPos, entity);
     }
@@ -116,11 +111,8 @@ public class DiggerLevelableTool extends LevelableTool {
             } else {
                 LevelUtils.destroyBlock(level, blockPos, true, entity, 512, tool);
             }
-//            level.destroyBlock(blockPos, true, entity);
             if (!level.isClientSide && blockState.getDestroySpeed(level, blockPos) != 0.0F) {
-                tool.hurtAndBreak(1, entity, (player) -> {
-                    player.broadcastBreakEvent(EquipmentSlot.MAINHAND);
-                });
+                tool.hurtAndBreak(1, entity, (player) -> player.broadcastBreakEvent(EquipmentSlot.MAINHAND));
             }
             addExp(tool, level, blockPos, entity);
         }

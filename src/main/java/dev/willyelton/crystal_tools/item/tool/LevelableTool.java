@@ -45,7 +45,7 @@ public class LevelableTool extends Item implements LevelableItem {
 
     // From DiggerItem.java
     @Override
-    public float getDestroySpeed(ItemStack tool, BlockState blockState) {
+    public float getDestroySpeed(@NotNull ItemStack tool, @NotNull BlockState blockState) {
         float bonus = NBTUtils.getFloatOrAddKey(tool, "speed_bonus");
         if (ToolUtils.isBroken(tool)) {
             // broken
@@ -61,18 +61,14 @@ public class LevelableTool extends Item implements LevelableItem {
     // Idk if these parameters are right, just guessing
     @Override
     public boolean hurtEnemy(ItemStack tool, @NotNull LivingEntity target, @NotNull LivingEntity attacker) {
-        tool.hurtAndBreak(2, attacker, (player) -> {
-            player.broadcastBreakEvent(EquipmentSlot.MAINHAND);
-        });
+        tool.hurtAndBreak(2, attacker, (player) -> player.broadcastBreakEvent(EquipmentSlot.MAINHAND));
         return true;
     }
 
     @Override
     public boolean mineBlock(@NotNull ItemStack tool, Level level, @NotNull BlockState blockState, @NotNull BlockPos blockPos, @NotNull LivingEntity entity) {
         if (!level.isClientSide && blockState.getDestroySpeed(level, blockPos) != 0.0F) {
-            tool.hurtAndBreak(1, entity, (player) -> {
-                player.broadcastBreakEvent(EquipmentSlot.MAINHAND);
-            });
+            tool.hurtAndBreak(1, entity, (player) -> player.broadcastBreakEvent(EquipmentSlot.MAINHAND));
 
             if (NBTUtils.getFloatOrAddKey(tool, "auto_smelt") > 0 &&!NBTUtils.getBoolean(tool, "disable_auto_smelt")) {
                 dropSmeltedItem(tool, level, blockState, blockPos, entity);
@@ -87,8 +83,6 @@ public class LevelableTool extends Item implements LevelableItem {
     protected void dropSmeltedItem(ItemStack tool, Level level, BlockState blockState, BlockPos pos, LivingEntity entity) {
         if (!level.isClientSide) {
             Block.getDrops(blockState, (ServerLevel) level, pos, null, entity, tool).forEach((itemStack -> {
-//                System.out.println("----------------------------------");
-//                System.out.println("Item in: " + itemStack);
                 Container container = new SimpleContainer(itemStack);
                 int count = itemStack.getCount();
 
@@ -129,7 +123,7 @@ public class LevelableTool extends Item implements LevelableItem {
     }
 
     @Override
-    public boolean isFoil(ItemStack stack) {
+    public boolean isFoil(@NotNull ItemStack stack) {
         return false;
     }
 
@@ -146,7 +140,7 @@ public class LevelableTool extends Item implements LevelableItem {
     }
 
     @Override
-    public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand) {
+    public void inventoryTick(@NotNull ItemStack itemStack, @NotNull Level level, @NotNull Entity entity, int inventorySlot, boolean inHand) {
         ToolUtils.inventoryTick(itemStack, level, entity, inventorySlot, inHand);
     }
 
@@ -156,12 +150,12 @@ public class LevelableTool extends Item implements LevelableItem {
     }
 
     @Override
-    public int getEnchantmentValue() {
+    public int getEnchantmentValue(ItemStack stack) {
         return tier.getEnchantmentValue();
     }
 
     @Override
-    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
+    public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
         ToolUtils.appendHoverText(itemStack, level, components, flag, this);
     }
 

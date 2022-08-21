@@ -9,13 +9,11 @@ import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.lwjgl.system.CallbackI;
 
 @Mod.EventBusSubscriber(modid = CrystalTools.MODID, value = Dist.CLIENT)
 public class KeyPressEvent {

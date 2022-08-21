@@ -38,7 +38,7 @@ public class AIOLevelableTool extends DiggerLevelableTool {
 
     // From Sword
     @Override
-    public boolean hurtEnemy(ItemStack tool, LivingEntity target, LivingEntity attacker) {
+    public boolean hurtEnemy(ItemStack tool, @NotNull LivingEntity target, @NotNull LivingEntity attacker) {
         tool.hurtAndBreak(1, attacker, (p_43296_) -> {
             p_43296_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
         });
@@ -105,7 +105,7 @@ public class AIOLevelableTool extends DiggerLevelableTool {
     }
 
     @Override
-    public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
+    public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
         super.appendHoverText(itemStack, level, components, flag);
         String toolTip = "\u00A79" + "Mode: " + StringUtils.capitalize(NBTUtils.getString(itemStack, "use_mode").toLowerCase(Locale.ROOT));
         if (KeyBindings.modeSwitch != null) {

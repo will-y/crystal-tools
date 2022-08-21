@@ -5,7 +5,6 @@ import dev.willyelton.crystal_tools.command.RegisterCommandEvent;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.item.ModItems;
 import dev.willyelton.crystal_tools.item.armor.ModArmor;
-import dev.willyelton.crystal_tools.keybinding.KeyBindings;
 import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.item.tool.ModTools;
 import dev.willyelton.crystal_tools.world.ModOres;
