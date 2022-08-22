@@ -1,6 +1,7 @@
 ----------------------- 1.1.3-RELEASE Changes -----------------------
 ### Fixes
 - Hoe now works again
+- Axe now stops stripping logs if it runs out of durability while vein stripping
 
 ----------------------- 1.1.3-BETA Changes -----------------------
 
