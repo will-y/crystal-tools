@@ -33,6 +33,7 @@ The following tools/armor pieces are implemented:
 - Crystal Chestplate
 - Crystal Leggings
 - Crystal Boots
+- Crystal Elytra
 
 ## Upgrades
 There will be upgrades that are common to most tools, and tools will each get unique upgrades as well. Below is a list of all currently implemented upgrades.
@@ -110,6 +111,9 @@ There will be upgrades that are common to most tools, and tools will each get un
 - Soul Speed
 - Frost Walker
 
+### Elytra
+- Durability + Unbreaking
+
 ## Crafting Recipes
 ### Tools
 #### Pickaxe
@@ -142,6 +146,9 @@ There will be upgrades that are common to most tools, and tools will each get un
 
 #### Boots
 ![Boots Crafting](/img/crafting/boots.png)
+
+#### Elytra
+![Elytra Crafting](/img/crafting/elytra.png)
 
 ### Misc
 #### Netherite Stick
