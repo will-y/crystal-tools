@@ -29,7 +29,8 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
 
     @Override
     public int getMaxDamage(ItemStack stack) {
-        return super.getMaxDamage(stack);
+        int bonusDurability = (int) NBTUtils.getFloatOrAddKey(stack, "durability_bonus");
+        return tier.getUses() + bonusDurability;
     }
 
     @Override
@@ -48,7 +49,11 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
             int nextFlightTick = flightTicks + 1;
             if (nextFlightTick % 10 == 0) {
                 if (nextFlightTick % 20 == 0) {
-                    stack.hurtAndBreak(1, entity, e -> e.broadcastBreakEvent(net.minecraft.world.entity.EquipmentSlot.CHEST));
+                    float unbreakingLevel = NBTUtils.getFloatOrAddKey(stack, "durability_bonus") / 200 + 1;
+                    if (1 / unbreakingLevel > Math.random()) {
+                        stack.hurtAndBreak(1, entity, e -> e.broadcastBreakEvent(net.minecraft.world.entity.EquipmentSlot.CHEST));
+                    }
+
                     this.addExp(stack, entity.getLevel(), entity.getOnPos(), entity);
                 }
                 entity.gameEvent(net.minecraft.world.level.gameevent.GameEvent.ELYTRA_GLIDE);

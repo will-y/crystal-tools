@@ -119,7 +119,6 @@ public class LevelableTool extends Item implements LevelableItem {
     public int getMaxDamage(ItemStack stack) {
         int bonusDurability = (int) NBTUtils.getFloatOrAddKey(stack, "durability_bonus");
         return tier.getUses() + bonusDurability;
-//        return 5;
     }
 
     @Override
