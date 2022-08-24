@@ -27,12 +27,24 @@ public class CrystalElytraRecipe extends CustomRecipe {
 
     @Override
     public boolean matches(@NotNull CraftingContainer container, @NotNull Level level) {
-        List<ItemStack> items = this.getItems(container);
+        boolean foundElytra = false;
+        boolean foundChestplate = false;
 
-        ItemStack elytraItem = items.get(0);
-        ItemStack crystalChestPlateItem = items.get(1);
+        for (int i = 0; i < container.getContainerSize(); i++) {
+            ItemStack itemStack = container.getItem(i);
 
-        return !elytraItem.isEmpty() && !crystalChestPlateItem.isEmpty();
+            if (itemStack.is(ModArmor.CRYSTAL_CHESTPLATE.get())) {
+                if (foundChestplate)
+                    return false;
+                foundChestplate = true;
+            } else if (itemStack.is(Items.ELYTRA)) {
+                if (foundElytra)
+                    return false;
+                foundElytra = true;
+            }
+        }
+
+        return foundChestplate && foundElytra;
     }
 
     @Override
