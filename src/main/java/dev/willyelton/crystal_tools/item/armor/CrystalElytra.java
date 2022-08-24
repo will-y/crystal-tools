@@ -1,12 +1,21 @@
 package dev.willyelton.crystal_tools.item.armor;
 
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
 import dev.willyelton.crystal_tools.CreativeTabs;
 import dev.willyelton.crystal_tools.item.LevelableItem;
+import dev.willyelton.crystal_tools.item.ModItems;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.ElytraItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -19,7 +28,7 @@ import java.util.function.Consumer;
 
 public class CrystalElytra extends ElytraItem implements LevelableItem {
     public CrystalElytra(Properties pProperties) {
-        super(pProperties.tab(CreativeTabs.CRYSTAL_TOOLS_TAB));
+        super(pProperties.fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB));
     }
 
     @Override
@@ -36,6 +45,11 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
     @Override
     public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
         ToolUtils.appendHoverText(itemStack, level, components, flag, this);
+    }
+
+    @Override
+    public boolean isValidRepairItem(@NotNull ItemStack tool, @NotNull ItemStack repairItem) {
+        return repairItem.is(ModItems.CRYSTAL.get());
     }
 
     @Override
@@ -71,5 +85,57 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
         } else {
             return amount;
         }
+    }
+
+
+    // Armor things
+    @Override
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
+        if (slot == EquipmentSlot.CHEST) {
+            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+            if (!ToolUtils.isBroken(stack)) {
+                builder.put(Attributes.ARMOR, new AttributeModifier("Armor modifier", this.getDefense(stack), AttributeModifier.Operation.ADDITION));
+                builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier("Armor toughness", this.getToughness(stack), AttributeModifier.Operation.ADDITION));
+                int health = (int) NBTUtils.getFloatOrAddKey(stack, "health_bonus");
+
+                if (health > 0) {
+                    builder.put(Attributes.MAX_HEALTH, new AttributeModifier("Health modifier", health, AttributeModifier.Operation.ADDITION));
+                }
+
+                float speedBonus = NBTUtils.getFloatOrAddKey(stack, "speed_bonus") / 5;
+
+                if (speedBonus > 0) {
+                    builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier("Speed modifier", speedBonus, AttributeModifier.Operation.MULTIPLY_BASE));
+                }
+            }
+
+            return builder.build();
+        } else {
+            return super.getAttributeModifiers(slot, stack);
+        }
+    }
+
+    public int getDefense(ItemStack stack) {
+        return ArmorMaterials.NETHERITE.getDefenseForSlot(EquipmentSlot.CHEST) + (int) NBTUtils.getFloatOrAddKey(stack, "armor_bonus");
+    }
+
+    public float getToughness(ItemStack stack) {
+        return ArmorMaterials.NETHERITE.getToughness() + NBTUtils.getFloatOrAddKey(stack, "toughness_bonus");
+    }
+
+    @Override
+    public int getBarWidth(ItemStack itemStack) {
+        return Math.round(13.0F - (float) itemStack.getDamageValue() * 13.0F / (float) itemStack.getMaxDamage());
+    }
+
+    @Override
+    public int getBarColor(ItemStack itemStack) {
+        float f = Math.max(0.0F, ((float)itemStack.getMaxDamage() - (float)itemStack.getDamageValue()) / (float) itemStack.getMaxDamage());
+        return Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
+    }
+
+    @Override
+    public void inventoryTick(@NotNull ItemStack itemStack, @NotNull Level level, @NotNull Entity entity, int inventorySlot, boolean inHand) {
+        ToolUtils.inventoryTick(itemStack, level, entity, inventorySlot, inHand);
     }
 }
