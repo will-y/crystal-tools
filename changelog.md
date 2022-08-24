@@ -4,6 +4,9 @@
     - It is armored and can be leveled like other crystal tools/armor
 - New config option: `MAX_EXP` - Determines the max amount of xp that can be required for the next level
 
+### Changes
+- Made spacing work better on the skill trees when there were more than 4 in a tier
+
 ----------------------- 1.1.3-RELEASE Changes -----------------------
 ### Fixes
 - Hoe now works again
