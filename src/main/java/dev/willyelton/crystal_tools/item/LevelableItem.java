@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.item;
 
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
+import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -25,12 +26,6 @@ public interface LevelableItem {
         int newExperience = (int) NBTUtils.addValueToTag(tool, "experience", amount);
         int experienceCap = (int) NBTUtils.getFloatOrAddKey(tool, "experience_cap", CrystalToolsConfig.BASE_EXPERIENCE_CAP.get());
 
-        if (experienceCap == 0) {
-            // fist time
-            NBTUtils.setValue(tool, "experience_cap", CrystalToolsConfig.BASE_EXPERIENCE_CAP.get());
-            experienceCap = CrystalToolsConfig.BASE_EXPERIENCE_CAP.get();
-        }
-
         if (newExperience >= experienceCap) {
             // level up
             NBTUtils.addValueToTag(tool, "skill_points", 1);
@@ -42,7 +37,8 @@ public interface LevelableItem {
                 }
             }
             NBTUtils.setValue(tool, "experience", Math.max(0, newExperience - experienceCap));
-            NBTUtils.setValue(tool, "experience_cap", (float) (experienceCap * CrystalToolsConfig.EXPERIENCE_MULTIPLIER.get()));
+//            NBTUtils.setValue(tool, "experience_cap", (float) (experienceCap * CrystalToolsConfig.EXPERIENCE_MULTIPLIER.get()));
+            ToolUtils.increaseExpCap(tool);
         }
     }
 

@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.crafting;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.item.armor.ModArmor;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
+import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
@@ -63,7 +64,7 @@ public class CrystalElytraRecipe extends CustomRecipe {
         NBTUtils.setValue(stack, "skill_points", totalPoints);
 
         // Set exp cap
-        NBTUtils.setValue(stack, "experience_cap", (float) (CrystalToolsConfig.BASE_EXPERIENCE_CAP.get() * Math.pow(CrystalToolsConfig.EXPERIENCE_MULTIPLIER.get(), totalPoints)));
+        ToolUtils.increaseExpCap(stack, totalPoints);
 
         // Set exp
         NBTUtils.setValue(stack, "experience", NBTUtils.getFloatOrAddKey(crystalChestPlateItem, "experience"));

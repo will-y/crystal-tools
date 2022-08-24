@@ -84,5 +84,15 @@ public class ToolUtils {
         return durability <= 1;
     }
 
+    public static void increaseExpCap(ItemStack stack) {
+        ToolUtils.increaseExpCap(stack, 1);
+    }
 
+    public static void increaseExpCap(ItemStack stack, int levelIncrease) {
+        int experienceCap = (int) NBTUtils.getFloatOrAddKey(stack, "experience_cap", CrystalToolsConfig.BASE_EXPERIENCE_CAP.get());
+
+        float newCap = Math.min((float) (experienceCap * Math.pow(CrystalToolsConfig.EXPERIENCE_MULTIPLIER.get(), levelIncrease)), CrystalToolsConfig.MAX_EXP.get());
+
+        NBTUtils.setValue(stack, "experience_cap", newCap);
+    }
 }
