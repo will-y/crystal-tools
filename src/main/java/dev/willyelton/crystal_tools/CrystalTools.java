@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools;
 import dev.willyelton.crystal_tools.block.ModBlocks;
 import dev.willyelton.crystal_tools.command.RegisterCommandEvent;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
+import dev.willyelton.crystal_tools.crafting.ModRecipes;
 import dev.willyelton.crystal_tools.item.ModItems;
 import dev.willyelton.crystal_tools.item.armor.ModArmor;
 import dev.willyelton.crystal_tools.network.PacketHandler;
@@ -58,6 +59,9 @@ public class CrystalTools {
 
         // Register Ores (Placed Features)
         ModOres.initOres();
+
+        // Register Custom Recipes
+        ModRecipes.initRecipes();
 
         // Register Message Handlers
         PacketHandler.register();
