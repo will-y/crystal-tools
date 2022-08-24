@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "item/elytra"
+        "layer0": "crystal_tools:items/crystal_elytra"
     }
 }
