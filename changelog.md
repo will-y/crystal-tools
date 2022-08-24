@@ -1,3 +1,9 @@
+----------------------- 1.1.4-RELEASE Changes -----------------------
+### Additions
+- Adds the Crystal Elytra
+    - It is armored and can be leveled like other crystal tools/armor
+- New config option: `MAX_EXP` - Determines the max amount of xp that can be required for the next level
+
 ----------------------- 1.1.3-RELEASE Changes -----------------------
 ### Fixes
 - Hoe now works again
