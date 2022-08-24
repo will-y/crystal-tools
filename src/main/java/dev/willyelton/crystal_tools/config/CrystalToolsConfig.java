@@ -7,6 +7,7 @@ public class CrystalToolsConfig {
 
     // Config things
     public static ForgeConfigSpec.IntValue BASE_EXPERIENCE_CAP;
+    public static ForgeConfigSpec.IntValue MAX_EXP;
     public static ForgeConfigSpec.DoubleValue EXPERIENCE_MULTIPLIER;
     public static ForgeConfigSpec.DoubleValue ARMOR_EXPERIENCE_BOOST;
     public static ForgeConfigSpec.DoubleValue BOW_EXPERIENCE_BOOST;
@@ -38,8 +39,11 @@ public class CrystalToolsConfig {
         BASE_EXPERIENCE_CAP = builder.comment("Starting EXP Value for Tools and Armor")
                 .defineInRange("base_experience_cap", 50, 1, 10000);
 
+        MAX_EXP = builder.comment("Max exp that can be required to get to the next level")
+                .defineInRange("max_exp", 1000, 1, 100000);
+
         EXPERIENCE_MULTIPLIER = builder.comment("Multiplier for the experience to the next level")
-                .defineInRange("experience_multiplier", 1.25D, 1D, 100D);
+                .defineInRange("experience_multiplier", 1.05D, 1D, 5);
 
         ARMOR_EXPERIENCE_BOOST = builder.comment("Multiplies how much experience Armor gets. (EXP_GAINED = DAMAGE_TAKEN * ARMOR_EXPERIENCE_BOOST)")
                 .defineInRange("armor_experience_boost", 2D, 0.1D, 10000D);
