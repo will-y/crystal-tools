@@ -33,7 +33,7 @@ import java.util.function.Consumer;
 // For now just focus on things that mine (not sword)
 public class LevelableTool extends Item implements LevelableItem {
 
-    // Blocks that can be mined by default
+    // Blocks that can be mined by default, null for none
     protected final TagKey<Block> blocks;
     protected final String itemType;
 
@@ -55,10 +55,9 @@ public class LevelableTool extends Item implements LevelableItem {
     }
 
     public boolean correctTool(ItemStack tool, BlockState blockState) {
-        return blockState.is(this.blocks);
+        return this.blocks != null && blockState.is(this.blocks);
     }
 
-    // Idk if these parameters are right, just guessing
     @Override
     public boolean hurtEnemy(ItemStack tool, @NotNull LivingEntity target, @NotNull LivingEntity attacker) {
         tool.hurtAndBreak(2, attacker, (player) -> player.broadcastBreakEvent(EquipmentSlot.MAINHAND));
