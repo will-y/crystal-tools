@@ -1,0 +1,15 @@
+{
+  "tiers": [
+    [
+      {
+        "id": 0,
+        "name": "Durability I",
+        "description": "Increases uses of the rocket",
+        "type": "normal",
+        "requirements": [],
+        "key": "durability_bonus",
+        "value": 25
+      }
+    ]
+  ]
+}

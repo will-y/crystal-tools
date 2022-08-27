@@ -31,6 +31,7 @@ public class CrystalRocket extends LevelableTool {
                 pPlayer.awardStat(Stats.ITEM_USED.get(this));
             }
 
+            addExp(itemstack, pLevel, pPlayer.getOnPos(), pPlayer, 5);
             itemstack.hurtAndBreak(1, pPlayer, (player) -> player.broadcastBreakEvent(EquipmentSlot.MAINHAND));
 
             return InteractionResultHolder.sidedSuccess(itemstack, pLevel.isClientSide());
