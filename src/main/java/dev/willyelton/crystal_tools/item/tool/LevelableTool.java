@@ -36,11 +36,17 @@ public class LevelableTool extends Item implements LevelableItem {
     // Blocks that can be mined by default, null for none
     protected final TagKey<Block> blocks;
     protected final String itemType;
+    protected final int initialDurability;
 
     public LevelableTool(Item.Properties properties, TagKey<Block> mineableBlocks, String itemType) {
-        super(properties.defaultDurability(tier.getUses()).fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB));
+        this(properties, mineableBlocks, itemType, tier.getUses());
+    }
+
+    public LevelableTool(Item.Properties properties, TagKey<Block> mineableBlocks, String itemType, int durability) {
+        super(properties.defaultDurability(durability).fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB));
         this.blocks = mineableBlocks;
         this.itemType = itemType;
+        this.initialDurability = durability;
     }
 
     // From DiggerItem.java
@@ -117,7 +123,7 @@ public class LevelableTool extends Item implements LevelableItem {
     @Override
     public int getMaxDamage(ItemStack stack) {
         int bonusDurability = (int) NBTUtils.getFloatOrAddKey(stack, "durability_bonus");
-        return tier.getUses() + bonusDurability;
+        return this.initialDurability + bonusDurability;
     }
 
     @Override
