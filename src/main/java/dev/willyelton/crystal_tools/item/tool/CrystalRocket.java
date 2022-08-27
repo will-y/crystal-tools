@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.item.tool;
 
+import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -17,8 +18,12 @@ public class CrystalRocket extends LevelableTool {
     }
 
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pHand) {
+        ItemStack itemstack = pPlayer.getItemInHand(pHand);
+        if (ToolUtils.isBroken(itemstack)) {
+            return InteractionResultHolder.pass(itemstack);
+        }
         if (pPlayer.isFallFlying()) {
-            ItemStack itemstack = pPlayer.getItemInHand(pHand);
+
             if (!pLevel.isClientSide) {
                 FireworkRocketEntity fireworkrocketentity = new FireworkRocketEntity(pLevel, itemstack, pPlayer);
                 pLevel.addFreshEntity(fireworkrocketentity);
@@ -28,7 +33,7 @@ public class CrystalRocket extends LevelableTool {
 
             itemstack.hurtAndBreak(1, pPlayer, (player) -> player.broadcastBreakEvent(EquipmentSlot.MAINHAND));
 
-            return InteractionResultHolder.sidedSuccess(pPlayer.getItemInHand(pHand), pLevel.isClientSide());
+            return InteractionResultHolder.sidedSuccess(itemstack, pLevel.isClientSide());
         } else {
             return InteractionResultHolder.pass(pPlayer.getItemInHand(pHand));
         }
