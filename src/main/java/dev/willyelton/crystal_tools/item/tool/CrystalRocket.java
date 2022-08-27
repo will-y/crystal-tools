@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.item.tool;
 
+import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
@@ -25,6 +26,8 @@ public class CrystalRocket extends LevelableTool {
         if (pPlayer.isFallFlying()) {
 
             if (!pLevel.isClientSide) {
+                int flightTime = (int) NBTUtils.getFloatOrAddKey(itemstack, "flight_bonus", 1);
+                itemstack.getOrCreateTagElement("Fireworks").putByte("Flight", Byte.parseByte(String.valueOf(flightTime)));
                 FireworkRocketEntity fireworkrocketentity = new FireworkRocketEntity(pLevel, itemstack, pPlayer);
                 pLevel.addFreshEntity(fireworkrocketentity);
 

@@ -9,6 +9,15 @@
         "requirements": [],
         "key": "durability_bonus",
         "value": 25
+      },
+      {
+        "id": 1,
+        "name": "FlightTime I",
+        "description": "Increases flight time (equal to firework duration 2)",
+        "type": "normal",
+        "requirements": [],
+        "key": "flight_bonus",
+        "value": 2
       }
     ]
   ]
