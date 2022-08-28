@@ -7,6 +7,8 @@ import dev.willyelton.crystal_tools.item.skill.SkillNodeType;
 import dev.willyelton.crystal_tools.item.skill.requirement.NodeOrSkillDataRequirement;
 import dev.willyelton.crystal_tools.item.skill.requirement.NodeSkillDataRequirement;
 import dev.willyelton.crystal_tools.item.skill.requirement.SkillDataRequirement;
+import dev.willyelton.crystal_tools.item.skill.requirement.SkillItemRequirement;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -42,6 +44,10 @@ public class SkillDataDeserializer implements JsonDeserializer<SkillData> {
                         jsonElement = requirementObject.get("or_node");
                         int[] ids = this.getNodesFromJson(jsonElement);
                         requirementsList.add(new NodeOrSkillDataRequirement(ids));
+                    } else if (requirementObject.keySet().contains("item")) {
+                        jsonElement = requirementObject.get("item");
+                        String[] items = this.getItemsFromJson(jsonElement);
+                        requirementsList.add(new SkillItemRequirement(items));
                     }
                 });
 
@@ -79,5 +85,27 @@ public class SkillDataDeserializer implements JsonDeserializer<SkillData> {
         }
 
         return ids;
+    }
+
+    private String[] getItemsFromJson(JsonElement jsonElement) {
+        String[] items = null;
+
+        if (jsonElement != null) {
+            if (jsonElement.isJsonPrimitive()) {
+                items = new String[] {jsonElement.getAsString()};
+            } else if (jsonElement.isJsonArray()) {
+                List<String> itemList = new ArrayList<>();
+                jsonElement.getAsJsonArray().forEach(item -> {
+                    itemList.add(item.getAsString());
+                });
+                items = itemList.toArray(String[]::new);
+            }
+        }
+
+        if(items == null) {
+            items = new String[] {};
+        }
+
+        return items;
     }
 }

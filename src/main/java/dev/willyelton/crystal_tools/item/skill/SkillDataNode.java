@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.item.skill;
 
 import dev.willyelton.crystal_tools.item.skill.requirement.SkillDataRequirement;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
 
@@ -73,9 +74,9 @@ public class SkillDataNode {
     /**
      * Returns true if all of this node's requirements are met, and it can be leveled
      */
-    public boolean canLevel(SkillData data) {
+    public boolean canLevel(SkillData data, Player player) {
         for (SkillDataRequirement requirement : this.requirements) {
-            if (!requirement.canLevel(data)) {
+            if (!requirement.canLevel(data, player)) {
                 return false;
             }
         }

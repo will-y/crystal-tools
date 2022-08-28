@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Matrix4f;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.gui.component.SkillButton;
+import dev.willyelton.crystal_tools.item.skill.requirement.SkillDataNodeRequirement;
 import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.network.ToolAttributePacket;
 import dev.willyelton.crystal_tools.network.ToolHealPacket;
@@ -20,8 +21,8 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.HashMap;
@@ -29,6 +30,7 @@ import java.util.List;
 
 public class UpgradeScreen extends Screen {
     private final ItemStack tool;
+    private final Player player;
     private final SkillData toolData;
     private final HashMap<Integer, SkillButton> skillButtons = new HashMap<>();
     private Button healButton;
@@ -41,10 +43,10 @@ public class UpgradeScreen extends Screen {
     private int xOffset = 0;
     private int yOffset = 0;
 
-    public UpgradeScreen(ItemStack itemStack) {
+    public UpgradeScreen(ItemStack itemStack, Player player) {
         super(Component.literal("Upgrade Tool"));
         tool = itemStack;
-
+        this.player = player;
         int[] points = NBTUtils.getIntArray(tool, "points");
         if (tool.getItem() instanceof LevelableItem) {
             String toolType = ((LevelableItem) tool.getItem()).getItemType();
@@ -52,7 +54,6 @@ public class UpgradeScreen extends Screen {
         } else {
             toolData = null;
         }
-
     }
 
     protected void init() {
@@ -146,7 +147,7 @@ public class UpgradeScreen extends Screen {
         int skillPoints = (int) NBTUtils.getFloatOrAddKey(tool, "skill_points");
         for (SkillButton button : this.skillButtons.values()) {
             SkillDataNode node = button.getDataNode();
-            button.active = !button.isComplete && node.canLevel(toolData) && skillPoints > 0;
+            button.active = !button.isComplete && node.canLevel(toolData, this.player) && skillPoints > 0;
             if (node.isComplete()) {
                 button.setComplete();
             }
@@ -159,34 +160,36 @@ public class UpgradeScreen extends Screen {
         for (SkillButton button : skillButtons.values()) {
             SkillDataNode node = button.getDataNode();
             for (SkillDataRequirement requirement : node.getRequirements()) {
-                RequirementType type = requirement.getRequirementType();
-                int[] nodes = requirement.getRequiredNodes();
+                if (requirement instanceof SkillDataNodeRequirement nodeRequirement) {
+                    RequirementType type = requirement.getRequirementType();
+                    int[] nodes = nodeRequirement.getRequiredNodes();
 
-                for (int j : nodes) {
-                    int color = Colors.fromRGB(0, 255, 0);
-                    switch (type) {
-                        case NODE_OR -> {
-                            if (requirement.canLevel(toolData)) {
-                                color = Colors.fromRGB(0, 255, 100, 100);
-                            } else {
-                                color = Colors.fromRGB(255, 0, 100, 100);
+                    for (int j : nodes) {
+                        int color = Colors.fromRGB(0, 255, 0);
+                        switch (type) {
+                            case NODE_OR -> {
+                                if (requirement.canLevel(toolData, this.player)) {
+                                    color = Colors.fromRGB(0, 255, 100, 100);
+                                } else {
+                                    color = Colors.fromRGB(255, 0, 100, 100);
+                                }
+                            }
+                            case NODE_AND -> {
+                                if (requirement.canLevel(toolData, this.player)) {
+                                    color = Colors.fromRGB(0, 255, 0);
+                                } else {
+                                    color = Colors.fromRGB(255, 0, 0);
+                                }
+                            }
+                            case NODE_NOT -> {
+                                // no line for now
+                                continue;
                             }
                         }
-                        case NODE_AND -> {
-                            if (requirement.canLevel(toolData)) {
-                                color = Colors.fromRGB(0, 255, 0);
-                            } else {
-                                color = Colors.fromRGB(255, 0, 0);
-                            }
+                        // so doesn't crash with dependency that doesn't exist
+                        if (this.skillButtons.containsKey(j)) {
+                            drawLine(poseStack, getButtonBottomCenter(this.skillButtons.get(j)), getButtonTopCenter(button), color);
                         }
-                        case NODE_NOT -> {
-                            // no line for now
-                            continue;
-                        }
-                    }
-                    // so doesn't crash with dependency that doesn't exist
-                    if (this.skillButtons.containsKey(j)) {
-                        drawLine(poseStack, getButtonBottomCenter(this.skillButtons.get(j)), getButtonTopCenter(button), color);
                     }
                 }
             }

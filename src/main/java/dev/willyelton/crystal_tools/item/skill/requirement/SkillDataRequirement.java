@@ -1,11 +1,10 @@
 package dev.willyelton.crystal_tools.item.skill.requirement;
 
 import dev.willyelton.crystal_tools.item.skill.SkillData;
+import net.minecraft.world.entity.player.Player;
 
-public abstract class SkillDataRequirement {
-    public abstract boolean canLevel(SkillData data);
+public interface SkillDataRequirement {
+    boolean canLevel(SkillData data, Player player);
 
-    public abstract int[] getRequiredNodes();
-
-    public abstract RequirementType getRequirementType();
+    RequirementType getRequirementType();
 }

@@ -9,6 +9,7 @@ import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TickEvent;
@@ -26,7 +27,7 @@ public class KeyPressEvent {
         ItemStack levelableTool = ItemStackUtils.getHeldLevelableTool(mc.player);
 
         if (KeyBindings.upgradeMenu.consumeClick()) {
-            handleUpgradeMenu(levelableTool);
+            handleUpgradeMenu(levelableTool, mc.player);
         }
 
         if (KeyBindings.modeSwitch.consumeClick()) {
@@ -34,9 +35,9 @@ public class KeyPressEvent {
         }
     }
 
-    public static void handleUpgradeMenu(ItemStack levelableTool) {
+    public static void handleUpgradeMenu(ItemStack levelableTool, Player player) {
         if (!levelableTool.isEmpty()) {
-            ModGUIs.openScreen(new UpgradeScreen(levelableTool));
+            ModGUIs.openScreen(new UpgradeScreen(levelableTool, player));
         }
     }
 

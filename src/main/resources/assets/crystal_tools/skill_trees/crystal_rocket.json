@@ -15,7 +15,11 @@
         "name": "FlightTime I",
         "description": "Increases flight time (equal to firework duration 2)",
         "type": "normal",
-        "requirements": [],
+        "requirements": [
+          {
+            "item": ["minecraft:gunpowder"]
+          }
+        ],
         "key": "flight_bonus",
         "value": 2
       }
