@@ -40,4 +40,8 @@ public class SkillItemRequirement implements SkillDataRequirement {
     public RequirementType getRequirementType() {
         return RequirementType.ITEM;
     }
+
+    public List<Item> getItems() {
+        return this.items;
+    }
 }

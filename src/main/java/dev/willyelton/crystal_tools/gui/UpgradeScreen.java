@@ -6,7 +6,9 @@ import com.mojang.math.Matrix4f;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.item.skill.requirement.SkillDataNodeRequirement;
+import dev.willyelton.crystal_tools.item.skill.requirement.SkillItemRequirement;
 import dev.willyelton.crystal_tools.network.PacketHandler;
+import dev.willyelton.crystal_tools.network.RemoveItemPacket;
 import dev.willyelton.crystal_tools.network.ToolAttributePacket;
 import dev.willyelton.crystal_tools.network.ToolHealPacket;
 import dev.willyelton.crystal_tools.item.LevelableItem;
@@ -21,6 +23,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -124,6 +127,18 @@ public class UpgradeScreen extends Screen {
                     ((SkillButton) button).setComplete();
                 }
                 this.updateButtons();
+            }
+
+            List<SkillDataRequirement> requirements = node.getRequirements();
+
+            for (SkillDataRequirement requirement : requirements) {
+                if (requirement.getRequirementType() == RequirementType.ITEM) {
+                    SkillItemRequirement itemRequirement = (SkillItemRequirement) (requirement);
+
+                    itemRequirement.getItems().forEach(item -> {
+                        PacketHandler.sendToServer(new RemoveItemPacket(new ItemStack(item)));
+                    });
+                }
             }
         }, (button, poseStack, mouseX, mouseY) -> {
             String text;
