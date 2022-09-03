@@ -4,26 +4,47 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.willyelton.crystal_tools.item.skill.SkillData;
 import dev.willyelton.crystal_tools.item.skill.SkillDataNode;
+import dev.willyelton.crystal_tools.item.skill.requirement.RequirementType;
+import dev.willyelton.crystal_tools.item.skill.requirement.SkillDataRequirement;
+import dev.willyelton.crystal_tools.item.skill.requirement.SkillItemRequirement;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class SkillButton extends Button {
     public static final ResourceLocation SKILL_BUTTON_LOCATION = new ResourceLocation("crystal_tools", "textures/gui/skill_button.png");
     // used when it is completed, should also set not active but render differently
     public boolean isComplete = false;
-    SkillDataNode dataNode;
+    private final SkillDataNode dataNode;
     public int xOffset = 0;
     public int yOffset = 0;
+    private final Player player;
+    private final Collection<ItemStack> items;
+    private final ItemRenderer itemRenderer;
 
-    public SkillButton(int x, int y, int width, int height, Component name, OnPress onPress, OnTooltip onTooltip, SkillData data, SkillDataNode node) {
+    public SkillButton(int x, int y, int width, int height, Component name, OnPress onPress, OnTooltip onTooltip, SkillData data, SkillDataNode node, Player player) {
         super(x, y, width, height, name, onPress, onTooltip);
         this.dataNode = node;
+        this.player = player;
+        this.items = node.getRequirements().stream()
+                .filter(requirement -> requirement.getRequirementType() == RequirementType.ITEM)
+                .map(skillDataRequirement -> ((SkillItemRequirement) skillDataRequirement).getItems())
+                .flatMap(Collection::stream).map(Item::getDefaultInstance)
+                .collect(Collectors.toList());
+
+        this.itemRenderer = Minecraft.getInstance().getItemRenderer();
     }
 
     @Override
@@ -31,6 +52,7 @@ public class SkillButton extends Button {
         if (this.visible) {
             this.isHovered = pMouseX >= this.x + xOffset && pMouseY >= this.y + yOffset && pMouseX < this.x + xOffset + this.width && pMouseY < this.y + yOffset + this.height;
             this.renderButton(pPoseStack, pMouseX, pMouseY, pPartialTick);
+            this.renderItems();
         }
     }
 
@@ -90,6 +112,16 @@ public class SkillButton extends Button {
     @Override
     public boolean isMouseOver(double pMouseX, double pMouseY) {
         return this.active && this.visible && pMouseX >= (double) (this.x + xOffset) && pMouseY >= (double) (this.y + yOffset) && pMouseX < (double)(this.x + this.width + xOffset) && pMouseY < (double)(this.y + this.height + yOffset);
+    }
+
+    private void renderItem(ItemStack itemStack, int x, int y) {
+        this.itemRenderer.renderGuiItem(itemStack, x, y);
+    }
+
+    private void renderItems() {
+        for (ItemStack stack : this.items) {
+            this.renderItem(stack, this.x, this.y);
+        }
     }
 
 }

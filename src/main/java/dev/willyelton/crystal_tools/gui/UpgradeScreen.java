@@ -150,7 +150,7 @@ public class UpgradeScreen extends Screen {
 
             Component textComponent = Component.literal(text);
             UpgradeScreen.this.renderTooltip(poseStack, UpgradeScreen.this.minecraft.font.split(textComponent, Math.max(UpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
-        }, this.toolData, node));
+        }, this.toolData, node, this.player));
     }
 
     private void addSkillButton(SkillButton button) {
