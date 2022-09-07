@@ -20,11 +20,14 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class SkillButton extends Button {
     public static final ResourceLocation SKILL_BUTTON_LOCATION = new ResourceLocation("crystal_tools", "textures/gui/skill_button.png");
+    private static final int ITEM_WIDTH = 16;
     // used when it is completed, should also set not active but render differently
     public boolean isComplete = false;
     private final SkillDataNode dataNode;
@@ -33,6 +36,8 @@ public class SkillButton extends Button {
     private final Player player;
     private final Collection<ItemStack> items;
     private final ItemRenderer itemRenderer;
+
+    private final List<int[]> itemPositions;
 
     public SkillButton(int x, int y, int width, int height, Component name, OnPress onPress, OnTooltip onTooltip, SkillData data, SkillDataNode node, Player player) {
         super(x, y, width, height, name, onPress, onTooltip);
@@ -45,6 +50,13 @@ public class SkillButton extends Button {
                 .collect(Collectors.toList());
 
         this.itemRenderer = Minecraft.getInstance().getItemRenderer();
+
+        this.itemPositions = new ArrayList<>();
+
+        itemPositions.add(new int[] {-ITEM_WIDTH / 2, -ITEM_WIDTH / 2});
+        itemPositions.add(new int[] {width - ITEM_WIDTH / 2, -ITEM_WIDTH / 2});
+        itemPositions.add(new int[] {width - ITEM_WIDTH  / 2, height - ITEM_WIDTH / 2});
+        itemPositions.add(new int[] {-ITEM_WIDTH / 2, height - ITEM_WIDTH / 2});
     }
 
     @Override
@@ -119,8 +131,11 @@ public class SkillButton extends Button {
     }
 
     private void renderItems() {
+        int i = 0;
         for (ItemStack stack : this.items) {
-            this.renderItem(stack, this.x, this.y);
+            this.renderItem(stack, this.x + this.itemPositions.get(i)[0], this.y + this.itemPositions.get(i)[1]);
+            i++;
+            if (i > 3) break;
         }
     }
 

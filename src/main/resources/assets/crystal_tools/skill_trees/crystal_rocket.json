@@ -17,7 +17,7 @@
         "type": "normal",
         "requirements": [
           {
-            "item": ["minecraft:gunpowder"]
+            "item": ["minecraft:gunpowder", "minecraft:shears", "minecraft:diamond", "minecraft:cobblestone"]
           }
         ],
         "key": "flight_bonus",
