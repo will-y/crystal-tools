@@ -29,6 +29,9 @@ public class CrystalToolsConfig {
     public static ForgeConfigSpec.IntValue DEEPSLATE_BOTTOM;
     public static ForgeConfigSpec.IntValue DEEPSLATE_TOP;
 
+    // Misc
+    public static ForgeConfigSpec.BooleanValue ENABLE_ITEM_REQUIREMENTS;
+
     static {
         ForgeConfigSpec.Builder configBuilder = new ForgeConfigSpec.Builder();
         setupConfig(configBuilder);
@@ -36,6 +39,7 @@ public class CrystalToolsConfig {
     }
 
     private static void setupConfig(ForgeConfigSpec.Builder builder) {
+        // EXP
         BASE_EXPERIENCE_CAP = builder.comment("Starting EXP Value for Tools and Armor")
                 .defineInRange("base_experience_cap", 50, 1, 10000);
 
@@ -90,5 +94,8 @@ public class CrystalToolsConfig {
         DEEPSLATE_TOP = builder.comment("The highest height that deepslate crystal ore can generate (given as a height from the bottom of the world).")
                 .defineInRange("deepslate_ore_y_max", 20, 0, 64);
 
+        // MISC
+        ENABLE_ITEM_REQUIREMENTS = builder.comment("Enables or disables item requirements for certain upgrades")
+                .define("enable_item_requirements", true);
     }
 }

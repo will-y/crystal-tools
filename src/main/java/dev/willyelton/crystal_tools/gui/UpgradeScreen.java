@@ -132,7 +132,7 @@ public class UpgradeScreen extends Screen {
             List<SkillDataRequirement> requirements = node.getRequirements();
 
             for (SkillDataRequirement requirement : requirements) {
-                if (requirement.getRequirementType() == RequirementType.ITEM) {
+                if (CrystalToolsConfig.ENABLE_ITEM_REQUIREMENTS.get() && requirement.getRequirementType() == RequirementType.ITEM) {
                     SkillItemRequirement itemRequirement = (SkillItemRequirement) (requirement);
 
                     itemRequirement.getItems().forEach(item -> {

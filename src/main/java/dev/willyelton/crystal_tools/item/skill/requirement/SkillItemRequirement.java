@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.item.skill.requirement;
 
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.item.skill.SkillData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -25,6 +26,9 @@ public class SkillItemRequirement implements SkillDataRequirement {
 
     @Override
     public boolean canLevel(SkillData data, Player player) {
+        // If config is disabled, always allow
+        if (!CrystalToolsConfig.ENABLE_ITEM_REQUIREMENTS.get()) return true;
+
         for (Item item : items) {
             if (!hasItem(player, item)) {
                 return false;

@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.gui.component;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Pair;
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.item.skill.SkillData;
 import dev.willyelton.crystal_tools.item.skill.SkillDataNode;
 import dev.willyelton.crystal_tools.item.skill.requirement.RequirementType;
@@ -67,7 +68,7 @@ public class SkillButton extends Button {
         if (this.visible) {
             this.isHovered = pMouseX >= this.x + xOffset && pMouseY >= this.y + yOffset && pMouseX < this.x + xOffset + this.width && pMouseY < this.y + yOffset + this.height;
             this.renderButton(pPoseStack, pMouseX, pMouseY, pPartialTick);
-            if (!this.isComplete)
+            if (CrystalToolsConfig.ENABLE_ITEM_REQUIREMENTS.get() && !this.isComplete)
                 this.renderItems(pPoseStack);
         }
     }
