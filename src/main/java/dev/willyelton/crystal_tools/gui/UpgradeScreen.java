@@ -18,6 +18,7 @@ import dev.willyelton.crystal_tools.item.skill.SkillNodeType;
 import dev.willyelton.crystal_tools.item.skill.requirement.RequirementType;
 import dev.willyelton.crystal_tools.item.skill.requirement.SkillDataRequirement;
 import dev.willyelton.crystal_tools.utils.Colors;
+import dev.willyelton.crystal_tools.utils.InventoryUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -27,6 +28,7 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.List;
@@ -85,21 +87,17 @@ public class UpgradeScreen extends Screen {
     }
 
     @Override
-    public void render(PoseStack poseStack, int mouseX, int mouseY, float particleTicks) {
+    public void render(@NotNull PoseStack poseStack, int mouseX, int mouseY, float particleTicks) {
         this.renderBlockBackground(0, CrystalToolsConfig.UPGRADE_SCREEN_BACKGROUND.get());
         drawDependencyLines(poseStack);
         drawString(poseStack, font, "Skill Points: " + (int) NBTUtils.getFloatOrAddKey(tool, "skill_points"), 5, 5, Colors.TEXT_LIGHT);
-//        fill(poseStack, 0, 0, 100, 100, Colors.fromRGB(0, 0, 255));
-//        vLine(poseStack, 40, 10, 1000, -16777216);
 
         super.render(poseStack, mouseX, mouseY, particleTicks);
-
-//        drawLine(poseStack, new int[] {100, 100}, new int[] {mouseX, mouseY}, Colors.fromRGB(255, 0, 0));
     }
 
     @Override
     public boolean isPauseScreen() {
-        return true;
+        return false;
     }
 
     private void addButtonsFromTier(List<SkillDataNode> nodes, int y) {
@@ -126,7 +124,6 @@ public class UpgradeScreen extends Screen {
                 if (node.isComplete()) {
                     ((SkillButton) button).setComplete();
                 }
-                this.updateButtons();
             }
 
             List<SkillDataRequirement> requirements = node.getRequirements();
@@ -134,12 +131,14 @@ public class UpgradeScreen extends Screen {
             for (SkillDataRequirement requirement : requirements) {
                 if (CrystalToolsConfig.ENABLE_ITEM_REQUIREMENTS.get() && requirement.getRequirementType() == RequirementType.ITEM) {
                     SkillItemRequirement itemRequirement = (SkillItemRequirement) (requirement);
-
                     itemRequirement.getItems().forEach(item -> {
-                        PacketHandler.sendToServer(new RemoveItemPacket(new ItemStack(item)));
+                        PacketHandler.sendToServer(new RemoveItemPacket(item.getDefaultInstance()));
+                        InventoryUtils.removeItemFromInventory(this.player.getInventory(), item.getDefaultInstance());
                     });
                 }
             }
+
+            this.updateButtons();
         }, (button, poseStack, mouseX, mouseY) -> {
             String text;
             if (node.getType().equals(SkillNodeType.INFINITE) && node.getPoints() > 0) {
@@ -276,7 +275,6 @@ public class UpgradeScreen extends Screen {
         RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
         RenderSystem.setShaderTexture(0, blockResource);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        float f = 32.0F;
         bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
         bufferbuilder.vertex(0.0D, (double)this.height, 0.0D).uv(0.0F, (float)this.height / 32.0F + (float)pVOffset).color(64, 64, 64, 255).endVertex();
         bufferbuilder.vertex((double)this.width, (double)this.height, 0.0D).uv((float)this.width / 32.0F, (float)this.height / 32.0F + (float)pVOffset).color(64, 64, 64, 255).endVertex();
