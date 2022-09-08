@@ -2,11 +2,13 @@ package dev.willyelton.crystal_tools.gui.component;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.datafixers.util.Pair;
 import dev.willyelton.crystal_tools.item.skill.SkillData;
 import dev.willyelton.crystal_tools.item.skill.SkillDataNode;
 import dev.willyelton.crystal_tools.item.skill.requirement.RequirementType;
 import dev.willyelton.crystal_tools.item.skill.requirement.SkillDataRequirement;
 import dev.willyelton.crystal_tools.item.skill.requirement.SkillItemRequirement;
+import dev.willyelton.crystal_tools.utils.Colors;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.Button;
@@ -34,7 +36,8 @@ public class SkillButton extends Button {
     public int xOffset = 0;
     public int yOffset = 0;
     private final Player player;
-    private final Collection<ItemStack> items;
+    private final SkillData data;
+    private final List<SkillItemRequirement> items;
     private final ItemRenderer itemRenderer;
 
     private final List<int[]> itemPositions;
@@ -42,11 +45,11 @@ public class SkillButton extends Button {
     public SkillButton(int x, int y, int width, int height, Component name, OnPress onPress, OnTooltip onTooltip, SkillData data, SkillDataNode node, Player player) {
         super(x, y, width, height, name, onPress, onTooltip);
         this.dataNode = node;
+        this.data = data;
         this.player = player;
         this.items = node.getRequirements().stream()
                 .filter(requirement -> requirement.getRequirementType() == RequirementType.ITEM)
-                .map(skillDataRequirement -> ((SkillItemRequirement) skillDataRequirement).getItems())
-                .flatMap(Collection::stream).map(Item::getDefaultInstance)
+                .map(skillDataRequirement -> (SkillItemRequirement) skillDataRequirement)
                 .collect(Collectors.toList());
 
         this.itemRenderer = Minecraft.getInstance().getItemRenderer();
@@ -64,7 +67,7 @@ public class SkillButton extends Button {
         if (this.visible) {
             this.isHovered = pMouseX >= this.x + xOffset && pMouseY >= this.y + yOffset && pMouseX < this.x + xOffset + this.width && pMouseY < this.y + yOffset + this.height;
             this.renderButton(pPoseStack, pMouseX, pMouseY, pPartialTick);
-            this.renderItems();
+            this.renderItems(pPoseStack);
         }
     }
 
@@ -126,17 +129,26 @@ public class SkillButton extends Button {
         return this.active && this.visible && pMouseX >= (double) (this.x + xOffset) && pMouseY >= (double) (this.y + yOffset) && pMouseX < (double)(this.x + this.width + xOffset) && pMouseY < (double)(this.y + this.height + yOffset);
     }
 
-    private void renderItem(ItemStack itemStack, int x, int y) {
+    private void renderItem(PoseStack poseStack, ItemStack itemStack, int x, int y, boolean canLevel) {
         this.itemRenderer.renderGuiItem(itemStack, x, y);
+        int color;
+        if (canLevel) {
+            color = Colors.fromRGB(0, 255, 0, 50);
+        } else {
+            color = Colors.fromRGB(255, 0, 0, 50);
+        }
+        fill(poseStack, x, y, x + 16, y + 16, color);
+
     }
 
-    private void renderItems() {
+    private void renderItems(PoseStack poseStack) {
         int i = 0;
-        for (ItemStack stack : this.items) {
-            this.renderItem(stack, this.x + this.itemPositions.get(i)[0], this.y + this.itemPositions.get(i)[1]);
-            i++;
-            if (i > 3) break;
+        for (SkillItemRequirement req : this.items) {
+            for (Item item : req.getItems()) {
+                this.renderItem(poseStack, item.getDefaultInstance(), this.x + this.itemPositions.get(i)[0], this.y + this.itemPositions.get(i)[1], req.hasItem(this.player, item));
+                i++;
+                if (i > 3) break;
+            }
         }
     }
-
 }

@@ -25,15 +25,19 @@ public class SkillItemRequirement implements SkillDataRequirement {
 
     @Override
     public boolean canLevel(SkillData data, Player player) {
-        Inventory inventory = player.getInventory();
         for (Item item : items) {
-            ItemStack searchItem = new ItemStack(item);
-            if (!inventory.contains(searchItem)) {
+            if (!hasItem(player, item)) {
                 return false;
             }
         }
 
         return true;
+    }
+
+    public boolean hasItem(Player player, Item item) {
+        Inventory inventory = player.getInventory();
+
+        return inventory.contains(item.getDefaultInstance());
     }
 
     @Override
