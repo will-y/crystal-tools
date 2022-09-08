@@ -67,7 +67,8 @@ public class SkillButton extends Button {
         if (this.visible) {
             this.isHovered = pMouseX >= this.x + xOffset && pMouseY >= this.y + yOffset && pMouseX < this.x + xOffset + this.width && pMouseY < this.y + yOffset + this.height;
             this.renderButton(pPoseStack, pMouseX, pMouseY, pPartialTick);
-            this.renderItems(pPoseStack);
+            if (!this.isComplete)
+                this.renderItems(pPoseStack);
         }
     }
 
