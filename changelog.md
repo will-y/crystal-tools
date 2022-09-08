@@ -8,6 +8,8 @@
     - `Flight Duration`: Increases the amount of time that the boost lasts
 - Adds a new type of requirement:
   - `Item Requirement`: Skill nodes can require items to be upgraded. The items needed are shown in the corners of the node
+- Adds a new Hoe Upgrade:
+  - `Shears`: The hoe can now be used to shear sheep (and other entities)
 - New config option: `MAX_EXP` - Determines the max amount of xp that can be required for the next level
 
 ### Changes

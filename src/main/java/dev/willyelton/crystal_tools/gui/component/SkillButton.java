@@ -138,7 +138,7 @@ public class SkillButton extends Button {
         } else {
             color = Colors.fromRGB(255, 0, 0, 50);
         }
-        fill(poseStack, x, y, x + 16, y + 16, color);
+//        fill(poseStack, x, y, x + 16, y + 16, color);
 
     }
 

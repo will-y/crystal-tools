@@ -161,12 +161,28 @@
         "name": "Auto Smelting",
         "description": "Automatically smelts the blocks that you mine.",
         "type": "normal",
-        "requirements":[
+        "requirements": [
           {
             "or_node": [12, 13]
           }
         ],
         "key": "auto_smelt",
+        "value": 1
+      },
+      {
+        "id": 18,
+        "name": "Shears",
+        "description": "Can now be used to shear sheep!",
+        "type": "normal",
+        "requirements": [
+          {
+            "or_node": [12, 13]
+          },
+          {
+            "item": ["minecraft:shears"]
+          }
+        ],
+        "key": "shear",
         "value": 1
       }
     ],
