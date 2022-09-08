@@ -2,6 +2,12 @@
 ### Additions
 - Adds the Crystal Elytra
     - It is armored and can be leveled like other crystal tools/armor
+- Adds the Crystal Rocket
+  - It is a firework rocket that is only used for flying, cannot break, and can be upgraded!
+  - New Upgrades:
+    - `Flight Duration`: Increases the amount of time that the boost lasts
+- Adds a new type of requirement:
+  - `Item Requirement`: Skill nodes can require items to be upgraded. The items needed are shown in the corners of the node
 - New config option: `MAX_EXP` - Determines the max amount of xp that can be required for the next level
 
 ### Changes
