@@ -23,6 +23,52 @@
         "key": "flight_bonus",
         "value": 2
       }
+    ],
+    [
+      {
+        "id": 2,
+        "name": "Durability II",
+        "description": "Increases uses of the rocket",
+        "type": "normal",
+        "requirements": [
+          {
+            "node": [0]
+          }
+        ],
+        "key": "durability_bonus",
+        "value": 25
+      },
+      {
+        "id": 3,
+        "name": "Flight Duration II",
+        "description": "Increases flight time (equal to firework duration 3)",
+        "type": "normal",
+        "requirements": [
+          {
+            "item": ["minecraft:gunpowder"]
+          },
+          {
+            "node": [1]
+          }
+        ],
+        "key": "flight_bonus",
+        "value": 2
+      }
+    ],
+    [
+      {
+        "id": 4,
+        "name": "Infinite Durability",
+        "description": "Put as many points into durability as you want!",
+        "type": "infinite",
+        "requirements": [
+          {
+            "node": [2]
+          }
+        ],
+        "key": "durability_bonus",
+        "value": 10
+      }
     ]
   ]
 }
