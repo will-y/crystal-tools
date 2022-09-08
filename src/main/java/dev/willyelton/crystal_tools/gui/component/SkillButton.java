@@ -138,15 +138,14 @@ public class SkillButton extends Button {
         } else {
             color = Colors.fromRGB(255, 0, 0, 50);
         }
-//        fill(poseStack, x, y, x + 16, y + 16, color);
-
+        fill(poseStack, x, y, x + 16, y + 16, color);
     }
 
     private void renderItems(PoseStack poseStack) {
         int i = 0;
         for (SkillItemRequirement req : this.items) {
             for (Item item : req.getItems()) {
-                this.renderItem(poseStack, item.getDefaultInstance(), this.x + this.itemPositions.get(i)[0], this.y + this.itemPositions.get(i)[1], req.hasItem(this.player, item));
+                this.renderItem(poseStack, item.getDefaultInstance(), this.x + this.xOffset + this.itemPositions.get(i)[0], this.y + this.yOffset + this.itemPositions.get(i)[1], req.hasItem(this.player, item));
                 i++;
                 if (i > 3) break;
             }
