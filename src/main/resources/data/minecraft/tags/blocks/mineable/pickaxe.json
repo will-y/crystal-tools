@@ -3,6 +3,7 @@
     "values": [
         "crystal_tools:crystal_ore",
         "crystal_tools:crystal_deepslate_ore",
-        "crystal_tools:crystal_block"
+        "crystal_tools:crystal_block",
+        "crystal_tools:crystal_furnace"
     ]
 }
