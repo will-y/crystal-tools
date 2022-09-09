@@ -34,6 +34,7 @@ The following tools/armor pieces are implemented:
 - Crystal Leggings
 - Crystal Boots
 - Crystal Elytra
+- Crystal Rocket
 
 ## Upgrades
 There will be upgrades that are common to most tools, and tools will each get unique upgrades as well. Below is a list of all currently implemented upgrades.
@@ -114,6 +115,9 @@ There will be upgrades that are common to most tools, and tools will each get un
 ### Elytra
 - Durability + Unbreaking
 
+### Rocket
+- Flight Duration
+
 ## Crafting Recipes
 ### Tools
 #### Pickaxe
@@ -150,6 +154,9 @@ There will be upgrades that are common to most tools, and tools will each get un
 #### Elytra
 ![Elytra Crafting](/img/crafting/elytra.png)
 
+#### Rocket
+![Rocket Crafting](/img/crafting/rocket.png)
+
 ### Misc
 #### Netherite Stick
 ![Netherite Stick Crafting](/img/crafting/netherite_stick.png)
@@ -173,6 +180,7 @@ You can change these values in `config/crystal_tools/toml`.
 - `bow_experience_boost` (1.0): Multiplies how much experience Bows get, experience is calculated by `EXP_GAINED` = UNMITIGATED_DAMAGE_DONE * BOW_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.  
 - `sword_experience_boost` (1.0): Multiplies how much experience Swords get, experience is calculated by EXP_GAINED = UNMITIGATED_DAMAGE_DONE * SWORD_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.  
 - `upgrade_screen_background` ("cracked_deepslate_tiles"): Determines the block texture to use for the background of the upgrade screen. Must be a vanilla block's resource location. [Here](https://minecraft.fandom.com/wiki/Java_Edition_data_values#Blocks) is a list of options from the wiki.
+- `enable_item_requirements` (true): Set to false to disable certain nodes from requiring items to upgrade.
 
 ### Ore Generation
 #### Stone
