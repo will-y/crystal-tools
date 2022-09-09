@@ -182,6 +182,7 @@ You can change these values in `config/crystal_tools/toml`.
 - `upgrade_screen_background` ("cracked_deepslate_tiles"): Determines the block texture to use for the background of the upgrade screen. Must be a vanilla block's resource location. [Here](https://minecraft.fandom.com/wiki/Java_Edition_data_values#Blocks) is a list of options from the wiki.
 - `enable_item_requirements` (true): Set to false to disable certain nodes from requiring items to upgrade.
 - `background-opacity` (1.0): Controls the background opacity of the skill tree screen. Range: 0 - 1.0.
+- `pause-screen` (true): Controls if the skill tree screen pauses the game or not in single-player.
 
 ### Ore Generation
 #### Stone

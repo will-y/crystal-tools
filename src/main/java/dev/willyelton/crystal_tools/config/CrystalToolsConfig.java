@@ -31,8 +31,8 @@ public class CrystalToolsConfig {
 
     // Misc
     public static ForgeConfigSpec.BooleanValue ENABLE_ITEM_REQUIREMENTS;
-
     public static ForgeConfigSpec.DoubleValue BACKGROUND_OPACITY;
+    public static ForgeConfigSpec.BooleanValue PAUSE_SCREEN;
 
     static {
         ForgeConfigSpec.Builder configBuilder = new ForgeConfigSpec.Builder();
@@ -102,5 +102,8 @@ public class CrystalToolsConfig {
 
         BACKGROUND_OPACITY = builder.comment("Controls the opacity of the skill tree background")
                 .defineInRange("background_opacity", 1.0, 0, 1.0);
+
+        PAUSE_SCREEN = builder.comment("If it is true then the skill tree screen pauses the game (in single-player), if false then it doesn't")
+                .define("pause_screen", true);
     }
 }
