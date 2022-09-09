@@ -32,6 +32,8 @@ public class CrystalToolsConfig {
     // Misc
     public static ForgeConfigSpec.BooleanValue ENABLE_ITEM_REQUIREMENTS;
 
+    public static ForgeConfigSpec.DoubleValue BACKGROUND_OPACITY;
+
     static {
         ForgeConfigSpec.Builder configBuilder = new ForgeConfigSpec.Builder();
         setupConfig(configBuilder);
@@ -97,5 +99,8 @@ public class CrystalToolsConfig {
         // MISC
         ENABLE_ITEM_REQUIREMENTS = builder.comment("Enables or disables item requirements for certain upgrades")
                 .define("enable_item_requirements", true);
+
+        BACKGROUND_OPACITY = builder.comment("Controls the opacity of the skill tree background")
+                .defineInRange("background_opacity", 1.0, 0, 1.0);
     }
 }

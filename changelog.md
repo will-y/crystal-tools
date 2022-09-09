@@ -12,6 +12,7 @@
   - `Shears`: The hoe can now be used to shear sheep (and other entities)
 - New config option: `MAX_EXP` - Determines the max amount of xp that can be required for the next level
 - New config option: `ENABLE_ITEM_REQUIREMENTS` - If false, items will not be required for any upgrades
+- New config option: `BACKGROUND_OPACITY` - Controls the opacity of the background of the skill tree screen, set to 0 to turn off the background
 
 ### Changes
 - Made spacing work better on the skill trees when there were more than 4 in a tier
