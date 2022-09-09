@@ -1,14 +1,13 @@
 package dev.willyelton.crystal_tools.utils.json;
 
 import com.google.gson.*;
-import dev.willyelton.crystal_tools.item.skill.SkillData;
-import dev.willyelton.crystal_tools.item.skill.SkillDataNode;
-import dev.willyelton.crystal_tools.item.skill.SkillNodeType;
-import dev.willyelton.crystal_tools.item.skill.requirement.NodeOrSkillDataRequirement;
-import dev.willyelton.crystal_tools.item.skill.requirement.NodeSkillDataRequirement;
-import dev.willyelton.crystal_tools.item.skill.requirement.SkillDataRequirement;
-import dev.willyelton.crystal_tools.item.skill.requirement.SkillItemRequirement;
-import org.apache.commons.lang3.ArrayUtils;
+import dev.willyelton.crystal_tools.levelable.skill.SkillData;
+import dev.willyelton.crystal_tools.levelable.skill.SkillDataNode;
+import dev.willyelton.crystal_tools.levelable.skill.SkillNodeType;
+import dev.willyelton.crystal_tools.levelable.skill.requirement.NodeOrSkillDataRequirement;
+import dev.willyelton.crystal_tools.levelable.skill.requirement.NodeSkillDataRequirement;
+import dev.willyelton.crystal_tools.levelable.skill.requirement.SkillDataRequirement;
+import dev.willyelton.crystal_tools.levelable.skill.requirement.SkillItemRequirement;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

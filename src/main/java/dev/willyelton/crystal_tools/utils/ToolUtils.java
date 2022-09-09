@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.utils;
 
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.item.LevelableItem;
+import dev.willyelton.crystal_tools.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;

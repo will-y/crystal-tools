@@ -1,13 +1,13 @@
 package dev.willyelton.crystal_tools;
 
-import dev.willyelton.crystal_tools.block.ModBlocks;
+import dev.willyelton.crystal_tools.levelable.block.ModBlocks;
 import dev.willyelton.crystal_tools.command.RegisterCommandEvent;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.crafting.ModRecipes;
-import dev.willyelton.crystal_tools.item.ModItems;
-import dev.willyelton.crystal_tools.item.armor.ModArmor;
+import dev.willyelton.crystal_tools.levelable.ModItems;
+import dev.willyelton.crystal_tools.levelable.armor.ModArmor;
 import dev.willyelton.crystal_tools.network.PacketHandler;
-import dev.willyelton.crystal_tools.item.tool.ModTools;
+import dev.willyelton.crystal_tools.levelable.tool.ModTools;
 import dev.willyelton.crystal_tools.world.ModOres;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;

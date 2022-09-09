@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.world;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.block.ModBlocks;
+import dev.willyelton.crystal_tools.levelable.block.ModBlocks;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;

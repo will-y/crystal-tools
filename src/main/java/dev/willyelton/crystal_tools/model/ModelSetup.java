@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.model;
 
 
-import dev.willyelton.crystal_tools.item.tool.ModTools;
+import dev.willyelton.crystal_tools.levelable.tool.ModTools;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.entity.ArmorStandRenderer;

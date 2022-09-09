@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.network;
 
-import dev.willyelton.crystal_tools.item.tool.ModTools;
-import dev.willyelton.crystal_tools.item.tool.UseMode;
+import dev.willyelton.crystal_tools.levelable.tool.ModTools;
+import dev.willyelton.crystal_tools.levelable.tool.UseMode;
 import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;

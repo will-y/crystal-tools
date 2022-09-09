@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools;
 
-import dev.willyelton.crystal_tools.item.tool.ModTools;
+import dev.willyelton.crystal_tools.levelable.tool.ModTools;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;

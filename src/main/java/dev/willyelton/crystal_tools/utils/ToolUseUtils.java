@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.utils;
 
 import com.mojang.datafixers.util.Pair;
-import dev.willyelton.crystal_tools.item.tool.LevelableTool;
+import dev.willyelton.crystal_tools.levelable.tool.LevelableTool;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

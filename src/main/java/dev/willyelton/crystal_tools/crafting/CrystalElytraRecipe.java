@@ -1,7 +1,6 @@
 package dev.willyelton.crystal_tools.crafting;
 
-import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.item.armor.ModArmor;
+import dev.willyelton.crystal_tools.levelable.armor.ModArmor;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.resources.ResourceLocation;

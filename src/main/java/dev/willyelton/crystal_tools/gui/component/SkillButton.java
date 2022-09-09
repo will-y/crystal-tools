@@ -2,13 +2,11 @@ package dev.willyelton.crystal_tools.gui.component;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.datafixers.util.Pair;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.item.skill.SkillData;
-import dev.willyelton.crystal_tools.item.skill.SkillDataNode;
-import dev.willyelton.crystal_tools.item.skill.requirement.RequirementType;
-import dev.willyelton.crystal_tools.item.skill.requirement.SkillDataRequirement;
-import dev.willyelton.crystal_tools.item.skill.requirement.SkillItemRequirement;
+import dev.willyelton.crystal_tools.levelable.skill.SkillData;
+import dev.willyelton.crystal_tools.levelable.skill.SkillDataNode;
+import dev.willyelton.crystal_tools.levelable.skill.requirement.RequirementType;
+import dev.willyelton.crystal_tools.levelable.skill.requirement.SkillItemRequirement;
 import dev.willyelton.crystal_tools.utils.Colors;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -24,7 +22,6 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
