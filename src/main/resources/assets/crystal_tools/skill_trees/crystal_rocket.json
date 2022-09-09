@@ -68,6 +68,19 @@
         ],
         "key": "durability_bonus",
         "value": 10
+      },
+      {
+        "id": 5,
+        "name": "Auto Repair",
+        "description": "Automatically repairs your rocket over time!",
+        "type": "normal",
+        "requirements": [
+          {
+            "or_node": [2, 3]
+          }
+        ],
+        "key": "auto_repair",
+        "value": 1
       }
     ]
   ]

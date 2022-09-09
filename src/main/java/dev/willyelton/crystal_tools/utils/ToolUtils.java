@@ -68,9 +68,13 @@ public class ToolUtils {
     }
 
     public static void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand) {
+        inventoryTick(itemStack, level, entity, inventorySlot, inHand, 1);
+    }
+
+    public static void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand, float modifier) {
         if (!inHand) {
             if (NBTUtils.getBoolean(itemStack, "auto_repair", false)) {
-                if (NBTUtils.addValueToTag(itemStack, "auto_repair_counter", 1) > LevelableItem.AUTO_REPAIR_COUNTER) {
+                if (NBTUtils.addValueToTag(itemStack, "auto_repair_counter", 1) > LevelableItem.AUTO_REPAIR_COUNTER * modifier) {
                     NBTUtils.setValue(itemStack, "auto_repair_counter", 0);
                     int repairAmount = Math.min((int) NBTUtils.getFloatOrAddKey(itemStack, "auto_repair_amount"), itemStack.getDamageValue());
                     itemStack.setDamageValue(itemStack.getDamageValue() - repairAmount);

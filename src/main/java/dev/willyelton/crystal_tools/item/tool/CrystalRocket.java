@@ -5,6 +5,7 @@ import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FireworkRocketEntity;
@@ -41,5 +42,10 @@ public class CrystalRocket extends LevelableTool {
         } else {
             return InteractionResultHolder.pass(pPlayer.getItemInHand(pHand));
         }
+    }
+
+    @Override
+    public void inventoryTick(@NotNull ItemStack itemStack, @NotNull Level level, @NotNull Entity entity, int inventorySlot, boolean inHand) {
+        ToolUtils.inventoryTick(itemStack, level, entity, inventorySlot, inHand, 10);
     }
 }
