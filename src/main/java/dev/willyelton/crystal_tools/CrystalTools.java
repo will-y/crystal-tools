@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools;
 
+import dev.willyelton.crystal_tools.gui.ModGUIs;
 import dev.willyelton.crystal_tools.levelable.block.ModBlocks;
 import dev.willyelton.crystal_tools.command.RegisterCommandEvent;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
@@ -68,7 +69,7 @@ public class CrystalTools {
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
-
+        ModGUIs.initScreens(event);
     }
 
     private void init(final FMLCommonSetupEvent event) {

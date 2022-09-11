@@ -1,5 +1,7 @@
 package dev.willyelton.crystal_tools.levelable.block.entity;
 
+import dev.willyelton.crystal_tools.levelable.block.ModBlocks;
+import dev.willyelton.crystal_tools.levelable.block.container.CrystalFurnaceContainer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -11,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class CrystalFurnaceBlockEntity extends AbstractFurnaceBlockEntity {
     public CrystalFurnaceBlockEntity(BlockPos pPos, BlockState pBlockState) {
-        super(null, pPos, pBlockState, RecipeType.SMELTING);
+        super(ModBlocks.CRYSTAL_FURNACE_BLOCK_ENTITY.get(), pPos, pBlockState, RecipeType.SMELTING);
     }
 
     @Override
@@ -20,7 +22,7 @@ public class CrystalFurnaceBlockEntity extends AbstractFurnaceBlockEntity {
     }
 
     @Override
-    protected AbstractContainerMenu createMenu(int pContainerId, @NotNull Inventory pInventory) {
-        return null;
+    protected @NotNull AbstractContainerMenu createMenu(int pContainerId, @NotNull Inventory pInventory) {
+        return new CrystalFurnaceContainer(pContainerId, pInventory);
     }
 }
