@@ -23,6 +23,6 @@ public class CrystalFurnaceBlockEntity extends AbstractFurnaceBlockEntity {
 
     @Override
     protected @NotNull AbstractContainerMenu createMenu(int pContainerId, @NotNull Inventory pInventory) {
-        return new CrystalFurnaceContainer(pContainerId, pInventory);
+        return new CrystalFurnaceContainer(pContainerId, pInventory, this, this.dataAccess);
     }
 }
