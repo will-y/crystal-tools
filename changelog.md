@@ -1,3 +1,7 @@
+----------------------- 1.1.4 Changes -----------------------
+### Fixes
+- Fixes AIOT breaking bedrock when the 3x3 mining upgrade is unlocked
+
 ----------------------- 1.1.3 Changes -----------------------
 
 NOTICE: This will probably be the last 1.18 version
