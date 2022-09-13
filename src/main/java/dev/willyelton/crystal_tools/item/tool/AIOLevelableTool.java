@@ -33,7 +33,7 @@ public class AIOLevelableTool extends DiggerLevelableTool {
 
     @Override
     public boolean correctTool(ItemStack tool, BlockState blockState) {
-        return true;
+        return blockState.getDestroySpeed(null, null) != -1;
     }
 
     // From Sword
