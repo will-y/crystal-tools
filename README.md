@@ -33,6 +33,8 @@ The following tools/armor pieces are implemented:
 - Crystal Chestplate
 - Crystal Leggings
 - Crystal Boots
+- Crystal Elytra
+- Crystal Rocket
 
 ## Upgrades
 There will be upgrades that are common to most tools, and tools will each get unique upgrades as well. Below is a list of all currently implemented upgrades.
@@ -110,6 +112,12 @@ There will be upgrades that are common to most tools, and tools will each get un
 - Soul Speed
 - Frost Walker
 
+### Elytra
+- Durability + Unbreaking
+
+### Rocket
+- Flight Duration
+
 ## Crafting Recipes
 ### Tools
 #### Pickaxe
@@ -130,6 +138,9 @@ There will be upgrades that are common to most tools, and tools will each get un
 #### AIOT
 ![AIOT Crafting](/img/crafting/aiot.png)
 
+#### Rocket
+![Rocket Crafting](/img/crafting/rocket.png)
+
 ### Armor
 #### Helmet
 ![Helmet Crafting](/img/crafting/helmet.png)
@@ -142,6 +153,9 @@ There will be upgrades that are common to most tools, and tools will each get un
 
 #### Boots
 ![Boots Crafting](/img/crafting/boots.png)
+
+#### Elytra
+![Elytra Crafting](/img/crafting/elytra.png)
 
 ### Misc
 #### Netherite Stick
@@ -159,7 +173,8 @@ You can change these values in `config/crystal_tools/toml`.
 
 ### General
 
-- `base_experience_cap` (50): Starting EXP requirements for Tools and Armor. Range: 1 - 10000.  
+- `base_experience_cap` (50): Starting EXP requirements for Tools and Armor. Range: 1 - 10000.
+- `max_exp` (1000): The maximum amount of exp that can be required for the next level. Range 1 - 100000.
 - `experience_multiplier` (1.25): Multiplier for max experience to the next level. Range: 1.0 - 100.0.  
 - `armor_experience_boost` (2.0): Multiplies how much experience Armor gets, experience is calculated by `EXP_GAINED` = DAMAGE_TAKEN * ARMOR_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.  
 - `bow_experience_boost` (1.0): Multiplies how much experience Bows get, experience is calculated by `EXP_GAINED` = UNMITIGATED_DAMAGE_DONE * BOW_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.  
