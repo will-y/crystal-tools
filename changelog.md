@@ -1,6 +1,6 @@
 ----------------------- 1.2.0 Changes -----------------------
 ### Overall
-- Backports the elyta and the rocket to 1.19
+- Backports the elyta and the rocket to 1.18
   - Do not expect everything in 1.19 to be ported back, but some things will be
   
 ### Additions
