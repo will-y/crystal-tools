@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "CCC",
+    "CRC",
+    "CCC"
+  ],
+  "key":
+  {
+    "C": {
+      "item": "crystal_tools:crystal"
+    },
+    "R": {
+      "item": "minecraft:firework_rocket"
+    }
+  },
+  "result":
+  {
+    "item": "crystal_tools:crystal_rocket",
+    "count": 1
+  }
+}

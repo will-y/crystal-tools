@@ -1,0 +1,80 @@
+{
+  "tiers": [
+    [
+      {
+        "id": 0,
+        "name": "Durability I",
+        "description": "Increases uses of the rocket",
+        "type": "normal",
+        "requirements": [],
+        "key": "durability_bonus",
+        "value": 25
+      },
+      {
+        "id": 1,
+        "name": "Flight Duration I",
+        "description": "Increases flight time (equal to firework duration 2)",
+        "type": "normal",
+        "requirements": [],
+        "key": "flight_bonus",
+        "value": 2
+      }
+    ],
+    [
+      {
+        "id": 2,
+        "name": "Durability II",
+        "description": "Increases uses of the rocket",
+        "type": "normal",
+        "requirements": [
+          {
+            "node": [0]
+          }
+        ],
+        "key": "durability_bonus",
+        "value": 25
+      },
+      {
+        "id": 3,
+        "name": "Flight Duration II",
+        "description": "Increases flight time (equal to firework duration 3)",
+        "type": "normal",
+        "requirements": [
+          {
+            "node": [1]
+          }
+        ],
+        "key": "flight_bonus",
+        "value": 2
+      }
+    ],
+    [
+      {
+        "id": 4,
+        "name": "Infinite Durability",
+        "description": "Put as many points into durability as you want!",
+        "type": "infinite",
+        "requirements": [
+          {
+            "node": [2]
+          }
+        ],
+        "key": "durability_bonus",
+        "value": 10
+      },
+      {
+        "id": 5,
+        "name": "Auto Repair",
+        "description": "Automatically repairs your rocket over time!",
+        "type": "normal",
+        "requirements": [
+          {
+            "or_node": [2, 3]
+          }
+        ],
+        "key": "auto_repair",
+        "value": 1
+      }
+    ]
+  ]
+}

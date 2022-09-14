@@ -18,6 +18,8 @@ public class ModArmor {
     public static final RegistryObject<Item> CRYSTAL_LEGGINGS = ARMOR.register("crystal_leggings", () -> new LevelableArmor("leggings", EquipmentSlot.LEGS));
     public static final RegistryObject<Item> CRYSTAL_BOOTS = ARMOR.register("crystal_boots", () -> new LevelableArmor("boots", EquipmentSlot.FEET));
 
+    public static final RegistryObject<Item> CRYSTAL_ELYTRA = ARMOR.register("crystal_elytra", () -> new CrystalElytra(new Item.Properties().durability(1000)));
+
     public static void initArmor() {
         ARMOR.register(FMLJavaModLoadingContext.get().getModEventBus());
     }

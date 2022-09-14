@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools;
 import dev.willyelton.crystal_tools.block.ModBlocks;
 import dev.willyelton.crystal_tools.command.RegisterCommandEvent;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
+import dev.willyelton.crystal_tools.crafting.ModRecipes;
 import dev.willyelton.crystal_tools.item.ModItems;
 import dev.willyelton.crystal_tools.item.armor.ModArmor;
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
@@ -66,6 +67,8 @@ public class CrystalTools {
 
         // Register Items
         ModArmor.initArmor();
+
+        ModRecipes.initRecipes();
 
         // Register Message Handlers
         PacketHandler.register();

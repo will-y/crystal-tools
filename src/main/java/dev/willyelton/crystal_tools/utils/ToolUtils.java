@@ -56,27 +56,16 @@ public class ToolUtils {
             String changeKey = KeyBindings.modeSwitch == null ? "" : " (Ctrl + " + KeyBindings.modeSwitch.getKey().getDisplayName().getString() + " to change)";
             components.add(new TextComponent("\u00A79" + "Auto Smelt Disabled" + changeKey));
         }
-
-//        if (!Screen.hasShiftDown()) {
-//            components.add(new TextComponent("<Hold Shift For Skills>"));
-//        } else {
-//            components.add(new TextComponent("Skills:"));
-//            int[] points = NBTUtils.getIntArray(itemStack, "points");
-//            SkillData toolData = SkillData.fromResourceLocation(new ResourceLocation("crystal_tools", String.format("skill_trees/%s.json", item.getItemType())), points);
-//            for (SkillDataNode dataNode : toolData.getAllNodes()) {
-//                if (dataNode.isComplete()) {
-//                    components.add(new TextComponent("    " + dataNode.getName()));
-//                } else if (dataNode.getType().equals(SkillNodeType.INFINITE) && dataNode.getPoints() > 0) {
-//                    components.add(new TextComponent("    " + dataNode.getName() + " (" + dataNode.getPoints() + " points)"));
-//                }
-//            }
-//        }
     }
 
     public static void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand) {
+        inventoryTick(itemStack, level, entity, inventorySlot, inHand, 1);
+    }
+
+    public static void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand, float modifier) {
         if (!inHand) {
             if (NBTUtils.getBoolean(itemStack, "auto_repair", false)) {
-                if (NBTUtils.addValueToTag(itemStack, "auto_repair_counter", 1) > LevelableItem.AUTO_REPAIR_COUNTER) {
+                if (NBTUtils.addValueToTag(itemStack, "auto_repair_counter", 1) > LevelableItem.AUTO_REPAIR_COUNTER * modifier) {
                     NBTUtils.setValue(itemStack, "auto_repair_counter", 0);
                     int repairAmount = Math.min((int) NBTUtils.getFloatOrAddKey(itemStack, "auto_repair_amount"), itemStack.getDamageValue());
                     itemStack.setDamageValue(itemStack.getDamageValue() - repairAmount);
@@ -88,5 +77,17 @@ public class ToolUtils {
     public static boolean isBroken(ItemStack stack) {
         int durability = stack.getItem().getMaxDamage(stack) - (int) NBTUtils.getFloatOrAddKey(stack, "Damage");
         return durability <= 1;
+    }
+
+    public static void increaseExpCap(ItemStack stack) {
+        ToolUtils.increaseExpCap(stack, 1);
+    }
+
+    public static void increaseExpCap(ItemStack stack, int levelIncrease) {
+        int experienceCap = (int) NBTUtils.getFloatOrAddKey(stack, "experience_cap", CrystalToolsConfig.BASE_EXPERIENCE_CAP.get());
+
+        float newCap = Math.min((float) (experienceCap * Math.pow(CrystalToolsConfig.EXPERIENCE_MULTIPLIER.get(), levelIncrease)), CrystalToolsConfig.MAX_EXP.get());
+
+        NBTUtils.setValue(stack, "experience_cap", newCap);
     }
 }
