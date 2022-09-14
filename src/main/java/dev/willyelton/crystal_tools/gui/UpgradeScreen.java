@@ -37,6 +37,7 @@ public class UpgradeScreen extends Screen {
     private static final int Y_PADDING = 20;
     private static final int X_SIZE = 100;
     private static final int Y_SIZE = 20;
+    private static final int MIN_X_PADDING = 5;
 
     private int xOffset = 0;
     private int yOffset = 0;
@@ -100,7 +101,7 @@ public class UpgradeScreen extends Screen {
 
     private void addButtonsFromTier(List<SkillDataNode> nodes, int y) {
         int size = nodes.size();
-        int paddingX = (this.width - size * X_SIZE) / (size + 1);
+        int paddingX = Math.max((this.width - size * X_SIZE) / (size + 1), MIN_X_PADDING);
 
         int x = paddingX;
 

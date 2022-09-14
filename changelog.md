@@ -1,3 +1,21 @@
+----------------------- 1.2.0 Changes -----------------------
+### Overall
+- Backports the elyta and the rocket to 1.19
+  - Do not expect everything in 1.19 to be ported back, but some things will be
+  
+### Additions
+- Adds the Crystal Elytra
+    - It is armored and can be leveled like other crystal tools/armor
+- Adds the Crystal Rocket
+    - It is a firework rocket that is only used for flying, cannot break, and can be upgraded!
+    - New Upgrades:
+        - `Flight Duration`: Increases the amount of time that the boost lasts
+- New config option: `MAX_EXP` - Determines the max amount of xp that can be required for the next level
+
+### Changes
+- Made spacing work better on the skill trees when there were more than 4 in a tier
+- Updated to Forge 1.18.2-40.1.80
+
 ----------------------- 1.1.4 Changes -----------------------
 ### Fixes
 - Fixes AIOT breaking bedrock when the 3x3 mining upgrade is unlocked
