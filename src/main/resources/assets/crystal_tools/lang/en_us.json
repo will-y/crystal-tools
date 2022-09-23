@@ -23,5 +23,5 @@
   "key.crystal_tools.mode_switch": "Mode Switch",
   "key.crystal_tools.category": "Crystal Tools",
   "itemGroup.crystal_tools": "Crystal Tools",
-  "container.crystal_furnace": "Crystal Furnace"
+  "container.crystal_tools.crystal_furnace": "Crystal Furnace"
 }

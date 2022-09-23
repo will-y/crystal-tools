@@ -1,13 +1,19 @@
 package dev.willyelton.crystal_tools.levelable.block.entity;
 
 import dev.willyelton.crystal_tools.levelable.block.ModBlocks;
+import dev.willyelton.crystal_tools.levelable.block.container.CrystalFurnaceContainer;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -28,14 +34,14 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyContainer {
+public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyContainer, MenuProvider {
     private final int[] INPUT_SLOTS = new int[] {0, 1, 2, 3, 4};
     private final int[] OUTPUT_SLOTS = new int[] {5, 6, 7, 8, 9};
     private final int[] FUEL_SLOTS = new int[] {10, 11, 12, 13, 14};
 
     private final int SIZE = 15;
 
-    private final List<ItemStack> items;
+    private NonNullList<ItemStack> items;
 
     LazyOptional<? extends net.minecraftforge.items.IItemHandler>[] invHandlers = SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
@@ -111,7 +117,12 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
 
     @Override
     public boolean isEmpty() {
-        return false;
+        for(ItemStack itemstack : this.items) {
+            if (!itemstack.isEmpty()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -149,6 +160,32 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     @Override
     public void clearContent() {
         this.items.clear();
+    }
+
+    @Override
+    public @NotNull Component getDisplayName() {
+        return Component.translatable("container.crystal_tools.crystal_furnace");
+    }
+
+    @org.jetbrains.annotations.Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int pContainerId, @NotNull Inventory pPlayerInventory, @NotNull Player pPlayer) {
+        return new CrystalFurnaceContainer(pContainerId, pPlayerInventory);
+    }
+
+    @Override
+    public void load(@NotNull CompoundTag nbt) {
+        super.load(nbt);
+        this.items = NonNullList.withSize(this.getMaxStackSize(), ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(nbt, this.items);
+    }
+
+
+    @Override
+    protected void saveAdditional(@NotNull CompoundTag nbt) {
+        super.saveAdditional(nbt);
+
+        ContainerHelper.saveAllItems(nbt, this.items);
     }
 }
 
