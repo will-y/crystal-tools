@@ -1,16 +1,11 @@
 package dev.willyelton.crystal_tools.levelable.block;
 
-import dev.willyelton.crystal_tools.levelable.block.container.CrystalFurnaceContainer;
 import dev.willyelton.crystal_tools.levelable.block.entity.CrystalFurnaceBlockEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -54,19 +49,8 @@ public class CrystalFurnaceBlock extends BaseEntityBlock {
 
     protected void openContainer(Level level, @NotNull BlockPos pos, @NotNull Player player) {
         BlockEntity be = level.getBlockEntity(pos);
-        if (be instanceof CrystalFurnaceBlockEntity) {
-            MenuProvider containerProvider = new MenuProvider() {
-                @Override
-                public @NotNull Component getDisplayName() {
-                    return Component.literal("Crystal Furnace");
-                }
-
-                @Override
-                public AbstractContainerMenu createMenu(int windowId, @NotNull Inventory playerInventory, @NotNull Player playerEntity) {
-                    return new CrystalFurnaceContainer(windowId, playerInventory);
-                }
-            };
-            NetworkHooks.openScreen((ServerPlayer) player, containerProvider, be.getBlockPos());
+        if (be instanceof CrystalFurnaceBlockEntity crystalFurnaceBlockEntity) {
+            NetworkHooks.openScreen((ServerPlayer) player, crystalFurnaceBlockEntity, be.getBlockPos());
         } else {
             throw new IllegalStateException("Our named container provider is missing!");
         }
