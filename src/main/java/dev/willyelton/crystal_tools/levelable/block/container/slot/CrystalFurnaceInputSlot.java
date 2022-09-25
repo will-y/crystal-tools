@@ -6,20 +6,23 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public class CrystalFurnaceFuelSlot extends Slot {
+import java.util.Arrays;
+
+public class CrystalFurnaceInputSlot extends Slot {
     private final CrystalFurnaceBlockEntity crystalFurnaceBlockEntity;
 
-    public CrystalFurnaceFuelSlot(CrystalFurnaceBlockEntity crystalFurnaceBlockEntity, int pSlot, int pX, int pY) {
+    public CrystalFurnaceInputSlot(CrystalFurnaceBlockEntity crystalFurnaceBlockEntity, int pSlot, int pX, int pY) {
         super(crystalFurnaceBlockEntity, pSlot, pX, pY);
         this.crystalFurnaceBlockEntity = crystalFurnaceBlockEntity;
     }
 
-    public boolean mayPlace(@NotNull ItemStack pStack) {
-        return this.crystalFurnaceBlockEntity.isFuel(pStack);
+    @Override
+    public boolean mayPlace(@NotNull ItemStack stack) {
+        return crystalFurnaceBlockEntity.hasRecipe(stack);
     }
 
     @Override
     public boolean isActive() {
-        return ArrayUtils.arrayContains(crystalFurnaceBlockEntity.getActiveFuelSlots(), this.index);
+        return ArrayUtils.arrayContains(crystalFurnaceBlockEntity.getActiveInputSlots(), this.index);
     }
 }

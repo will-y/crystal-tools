@@ -4,9 +4,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.willyelton.crystal_tools.levelable.block.container.CrystalFurnaceContainer;
 import dev.willyelton.crystal_tools.levelable.block.container.slot.CrystalFurnaceFuelSlot;
+import dev.willyelton.crystal_tools.levelable.block.container.slot.CrystalFurnaceInputSlot;
+import dev.willyelton.crystal_tools.levelable.block.container.slot.CrystalFurnaceOutputSlot;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.gui.screens.inventory.AbstractFurnaceScreen;
-import net.minecraft.client.gui.screens.recipebook.SmeltingRecipeBookComponent;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -46,8 +46,18 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
 
     private void renderSlots(PoseStack poseStack) {
         for (Slot slot: this.slots) {
-            if (slot instanceof CrystalFurnaceFuelSlot fuelSlot) {
+            if (slot.isActive()) {
                 this.blit(poseStack, slot.x - 1 + this.leftPos, slot.y -1 + this.topPos, 176, 27, 18, 18);
+                if (slot instanceof CrystalFurnaceOutputSlot) {
+                    // Draw arrow
+                    this.blit(poseStack, slot.x + 3 + this.leftPos, slot.y + 18 + this.topPos, 188, 13, 11, 14);
+                } else if (slot instanceof CrystalFurnaceInputSlot) {
+                    // Draw fire below
+                    this.blit(poseStack, slot.x + 1 + this.leftPos, slot.y + 18 + this.topPos, 189, 0, 14, 13);
+                } else if (slot instanceof  CrystalFurnaceFuelSlot && slot.index != 10) {
+                    // Draw fuel arrow thing
+                    this.blit(poseStack, slot.x + 4 + this.leftPos, slot.y + 19 + this.topPos, 176, 45, 8, 4);
+                }
             }
         }
     }

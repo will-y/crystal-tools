@@ -10,14 +10,16 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.item.AirItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -28,6 +30,8 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.Optional;
 
 public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyContainer, MenuProvider {
     private final int[] INPUT_SLOTS = new int[] {0, 1, 2, 3, 4};
@@ -40,7 +44,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
 
     LazyOptional<? extends net.minecraftforge.items.IItemHandler>[] invHandlers = SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
-    private final RecipeType<SmeltingRecipe> recipeType = RecipeType.SMELTING;
+    private final RecipeType<? extends AbstractCookingRecipe> recipeType = RecipeType.SMELTING;
 
     // Furnace related fields
     private int litTime;
@@ -49,7 +53,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     private int cookingTotalTime;
 
     // Crystal furnace fields
-    private int numSlots;
+    private int numSlots = 5;
     private int numFuelSlots = 3;
 
     public CrystalFurnaceBlockEntity(BlockPos pPos, BlockState pBlockState) {
@@ -241,12 +245,34 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         return this.INPUT_SLOTS;
     }
 
+    public int[] getActiveInputSlots() {
+        return Arrays.copyOfRange(INPUT_SLOTS, 0, this.numSlots);
+    }
+
     public int[] getOutputSLots() {
         return this.OUTPUT_SLOTS;
     }
 
+    public int[] getActiveOutputSlots() {
+        return Arrays.copyOfRange(OUTPUT_SLOTS, 0, this.numSlots);
+    }
+
     public int[] getFuelSlots() {
         return this.FUEL_SLOTS;
+    }
+
+    public int[] getActiveFuelSlots() {
+        return Arrays.copyOfRange(FUEL_SLOTS, 0, this.numFuelSlots);
+    }
+
+    public boolean hasRecipe(ItemStack stack) {
+        return getRecipe(stack).isPresent();
+    }
+
+    protected Optional<AbstractCookingRecipe> getRecipe(ItemStack item) {
+        return (item.getItem() instanceof AirItem)
+                ? Optional.empty()
+                : this.level.getRecipeManager().getRecipeFor((RecipeType<AbstractCookingRecipe>) recipeType, new SimpleContainer(item), this.level);
     }
 }
 
