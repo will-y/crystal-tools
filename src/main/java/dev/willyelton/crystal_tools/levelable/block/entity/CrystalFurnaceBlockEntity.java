@@ -14,36 +14,43 @@ import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import org.jetbrains.annotations.NotNull;
-import org.lwjgl.system.windows.INPUT;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyContainer, MenuProvider {
     private final int[] INPUT_SLOTS = new int[] {0, 1, 2, 3, 4};
     private final int[] OUTPUT_SLOTS = new int[] {5, 6, 7, 8, 9};
-    private final int[] FUEL_SLOTS = new int[] {10, 11, 12, 13, 14};
+    private final int[] FUEL_SLOTS = new int[] {10, 11, 12};
 
-    private final int SIZE = 15;
+    public static final int SIZE = 13;
 
     private NonNullList<ItemStack> items;
 
     LazyOptional<? extends net.minecraftforge.items.IItemHandler>[] invHandlers = SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
+
+    private final RecipeType<SmeltingRecipe> recipeType = RecipeType.SMELTING;
+
+    // Furnace related fields
+    private int litTime;
+    private int litDuration;
+    private int[] cookingProgress;
+    private int cookingTotalTime;
+
+    // Crystal furnace fields
+    private int numSlots;
+    private int numFuelSlots = 3;
 
     public CrystalFurnaceBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModBlocks.CRYSTAL_FURNACE_BLOCK_ENTITY.get(), pPos, pBlockState);
@@ -170,7 +177,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     @org.jetbrains.annotations.Nullable
     @Override
     public AbstractContainerMenu createMenu(int pContainerId, @NotNull Inventory pPlayerInventory, @NotNull Player pPlayer) {
-        return new CrystalFurnaceContainer(pContainerId, pPlayer.getLevel(), this.getBlockPos(), pPlayerInventory);
+        return new CrystalFurnaceContainer(pContainerId, pPlayer.getLevel(), this.getBlockPos(), pPlayerInventory, this.dataAccess);
     }
 
     @Override
@@ -186,6 +193,60 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         super.saveAdditional(nbt);
 
         ContainerHelper.saveAllItems(nbt, this.items);
+    }
+
+    protected final ContainerData dataAccess = new ContainerData() {
+        public int get(int dataIndex) {
+            return switch (dataIndex) {
+                case 0 -> CrystalFurnaceBlockEntity.this.litTime;
+                case 1 -> CrystalFurnaceBlockEntity.this.litDuration;
+                case 2 -> CrystalFurnaceBlockEntity.this.cookingTotalTime;
+                case 3 -> CrystalFurnaceBlockEntity.this.numSlots;
+                case 4 -> CrystalFurnaceBlockEntity.this.numFuelSlots;
+                case 5 -> CrystalFurnaceBlockEntity.this.cookingProgress[0];
+                case 6 -> CrystalFurnaceBlockEntity.this.cookingProgress[1];
+                case 7 -> CrystalFurnaceBlockEntity.this.cookingProgress[2];
+                case 8 -> CrystalFurnaceBlockEntity.this.cookingProgress[3];
+                case 9 -> CrystalFurnaceBlockEntity.this.cookingProgress[4];
+                default -> 0;
+            };
+        }
+
+        public void set(int dataIndex, int value) {
+            switch (dataIndex) {
+                case 0 -> CrystalFurnaceBlockEntity.this.litTime = value;
+                case 1 -> CrystalFurnaceBlockEntity.this.litDuration = value;
+                case 2 -> CrystalFurnaceBlockEntity.this.cookingTotalTime = value;
+                case 3 -> CrystalFurnaceBlockEntity.this.numSlots = value;
+                case 4 -> CrystalFurnaceBlockEntity.this.numFuelSlots = value;
+                case 5 -> CrystalFurnaceBlockEntity.this.cookingProgress[0] = value;
+                case 6 -> CrystalFurnaceBlockEntity.this.cookingProgress[1] = value;
+                case 7 -> CrystalFurnaceBlockEntity.this.cookingProgress[2] = value;
+                case 8 -> CrystalFurnaceBlockEntity.this.cookingProgress[3] = value;
+                case 9 -> CrystalFurnaceBlockEntity.this.cookingProgress[4] = value;
+            }
+
+        }
+
+        public int getCount() {
+            return 10;
+        }
+    };
+
+    public boolean isFuel(ItemStack stack) {
+        return net.minecraftforge.common.ForgeHooks.getBurnTime(stack, this.recipeType) > 0;
+    }
+
+    public int[] getInputSlots() {
+        return this.INPUT_SLOTS;
+    }
+
+    public int[] getOutputSLots() {
+        return this.OUTPUT_SLOTS;
+    }
+
+    public int[] getFuelSlots() {
+        return this.FUEL_SLOTS;
     }
 }
 

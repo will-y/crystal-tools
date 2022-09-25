@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.levelable.block.container;
 
 import dev.willyelton.crystal_tools.levelable.block.ModBlocks;
+import dev.willyelton.crystal_tools.levelable.block.container.slot.CrystalFurnaceFuelSlot;
 import dev.willyelton.crystal_tools.levelable.block.entity.CrystalFurnaceBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
@@ -16,11 +17,21 @@ import org.jetbrains.annotations.NotNull;
 public class CrystalFurnaceContainer extends AbstractContainerMenu {
     private final CrystalFurnaceBlockEntity te;
     private final InvWrapper playerInventory;
+    private final ContainerData data;
+    private final int fuelSlotsX = 21;
+    private final int[] fuelSlotsPos = new int[] {69, 44, 19};
 
-    public CrystalFurnaceContainer(int pContainerId, Level level, BlockPos pos, Inventory playerInventory) {
+    public CrystalFurnaceContainer(int pContainerId, Level level, BlockPos pos, Inventory playerInventory, ContainerData data) {
         super(ModBlocks.CRYSTAL_FURNACE_CONTAINER.get(), pContainerId);
         te = (CrystalFurnaceBlockEntity) level.getBlockEntity(pos);
         this.playerInventory = new InvWrapper(playerInventory);
+        this.data = data;
+
+        int numSlots = this.data.get(3);
+        int numFuelSlots = this.data.get(4);
+
+        this.addFurnaceSlots(5);
+        this.addFuelSlots(3);
 
         this.layoutPlayerInventorySlots(8, 109);
     }
@@ -60,5 +71,22 @@ public class CrystalFurnaceContainer extends AbstractContainerMenu {
         // Hotbar
         topRow += 58;
         addSlotRange(playerInventory, 0, leftCol, topRow, 9, 18);
+    }
+
+    private void addFurnaceSlots(int numSlots) {
+        int[] inputSlots = te.getInputSlots();
+        int[] outputSlots = te.getOutputSLots();
+
+        for (int i = 0; i < numSlots; i++) {
+            this.addSlot(new CrystalFurnaceFuelSlot(te, inputSlots[i], 0, 0));
+            this.addSlot(new CrystalFurnaceFuelSlot(te, outputSlots[i], 0, 0));
+        }
+    }
+
+    private void addFuelSlots(int numSlots) {
+        int[] slots = te.getFuelSlots();
+        for (int i = 0; i < numSlots; i++) {
+            this.addSlot(new CrystalFurnaceFuelSlot(te, slots[i], this.fuelSlotsX, this.fuelSlotsPos[i]));
+        }
     }
 }

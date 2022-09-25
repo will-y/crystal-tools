@@ -8,6 +8,7 @@ import net.minecraft.Util;
 import net.minecraft.util.datafix.fixes.References;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -41,7 +42,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> CRYSTAL_FURNACE = BLOCKS.register("crystal_furnace", () -> new CrystalFurnaceBlock(BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F)));
     public static final RegistryObject<BlockEntityType<CrystalFurnaceBlockEntity>> CRYSTAL_FURNACE_BLOCK_ENTITY = BLOCK_ENTITIES.register("crystal_furnace", () -> BlockEntityType.Builder.of(CrystalFurnaceBlockEntity::new, CRYSTAL_FURNACE.get()).build(null));
     public static final RegistryObject<MenuType<CrystalFurnaceContainer>> CRYSTAL_FURNACE_CONTAINER = CONTAINERS.register("crystal_furnace",
-            () -> IForgeMenuType.create((windowId, inv, data) -> new CrystalFurnaceContainer(windowId, inv.player.level, data.readBlockPos(), inv)));
+            () -> IForgeMenuType.create((windowId, inv, data) -> new CrystalFurnaceContainer(windowId, inv.player.level, data.readBlockPos(), inv, new SimpleContainerData(CrystalFurnaceBlockEntity.SIZE))));
 
     // Block Items
     public static final RegistryObject<Item> CRYSTAL_ORE_ITEM = ITEMS.register("crystal_ore", () -> new BlockItem(CRYSTAL_ORE.get(), new Item.Properties().tab(CreativeTabs.CRYSTAL_TOOLS_TAB)));
