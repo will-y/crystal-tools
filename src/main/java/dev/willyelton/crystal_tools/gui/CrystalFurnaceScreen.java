@@ -16,8 +16,26 @@ import org.jetbrains.annotations.NotNull;
 
 public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnaceContainer> {
     private static final ResourceLocation TEXTURE = new ResourceLocation("crystal_tools:textures/gui/crystal_furnace.png");
-    private static final int ARROW_HEIGHT = 14;
+    private static final int SLOT_TEXTURE_X = 176;
+    private static final int SLOT_TEXTURE_Y = 27;
+    private static final int SLOT_TEXTURE_SIZE = 18;
+
+    private static final int ARROW_TEXTURE_X = 188;
+    private static final int ARROW_TEXTURE_ON_X = 176;
+    private static final int ARROW_TEXTURE_Y = 13;
     private static final int ARROW_WIDTH = 12;
+    private static final int ARROW_HEIGHT = 14;
+
+    private static final int FIRE_TEXTURE_X = 189;
+    private static final int FIRE_TEXTURE_ON_X = 176;
+    private static final int FIRE_TEXTURE_Y = 0;
+    private static final int FIRE_TEXTURE_WIDTH = 14;
+    private static final int FIRE_TEXTURE_HEIGHT = 13;
+
+    private static final int FUEL_ARROW_TEXTURE_X = 176;
+    private static final int FUEL_ARROW_TEXTURE_Y = 45;
+    private static final int FUEL_ARROW_TEXTURE_WIDTH = 8;
+    private static final int FUEL_ARROW_TEXTURE_HEIGHT = 4;
 
     private final NonNullList<Slot> slots;
 
@@ -49,26 +67,26 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
     private void renderSlots(PoseStack poseStack) {
         for (Slot slot: this.slots) {
             if (slot.isActive()) {
-                this.blit(poseStack, slot.x - 1 + this.leftPos, slot.y -1 + this.topPos, 176, 27, 18, 18);
+                this.blit(poseStack, slot.x - 1 + this.leftPos, slot.y -1 + this.topPos, SLOT_TEXTURE_X, SLOT_TEXTURE_Y, SLOT_TEXTURE_SIZE, SLOT_TEXTURE_SIZE);
                 if (slot instanceof CrystalFurnaceOutputSlot) {
                     // Draw arrow
-                    this.blit(poseStack, slot.x + 3 + this.leftPos, slot.y + 18 + this.topPos, 188, 13, 11, 14);
+                    this.blit(poseStack, slot.x + 3 + this.leftPos, slot.y + 18 + this.topPos, ARROW_TEXTURE_X, ARROW_TEXTURE_Y, ARROW_WIDTH, ARROW_HEIGHT);
                     // Draw arrow progress
                     float progress = this.menu.getBurnProgress(slot.index - 5);
                     int height = (int) (progress * ARROW_HEIGHT);
-                    this.blit(poseStack, slot.x + 3 + this.leftPos, slot.y + 18 + this.topPos + ARROW_HEIGHT - height, 176, 13 + ARROW_HEIGHT - height, ARROW_WIDTH, height);
+                    this.blit(poseStack, slot.x + 3 + this.leftPos, slot.y + SLOT_TEXTURE_SIZE + this.topPos + ARROW_HEIGHT - height, ARROW_TEXTURE_ON_X, ARROW_TEXTURE_Y + ARROW_HEIGHT - height, ARROW_WIDTH, height);
                 } else if (slot instanceof CrystalFurnaceInputSlot) {
                     // Draw fire below
-                    this.blit(poseStack, slot.x + 1 + this.leftPos, slot.y + 18 + this.topPos, 189, 0, 14, 13);
+                    this.blit(poseStack, slot.x + 1 + this.leftPos, slot.y + SLOT_TEXTURE_SIZE + this.topPos, FIRE_TEXTURE_X, FIRE_TEXTURE_Y, FIRE_TEXTURE_WIDTH, FIRE_TEXTURE_HEIGHT);
                     // Draw lit progress
                     if (this.menu.isLit()) {
                         float litProgress = this.menu.getLitProgress();
                         int height = (int) (litProgress * 13);
-                        this.blit(poseStack, slot.x + 2 + this.leftPos, slot.y + 18 + this.topPos + 13 - height, 176, 13 - height, 14, height);
+                        this.blit(poseStack, slot.x + 2 + this.leftPos, slot.y + SLOT_TEXTURE_SIZE + this.topPos + FIRE_TEXTURE_HEIGHT - height, FIRE_TEXTURE_ON_X, FIRE_TEXTURE_Y + FIRE_TEXTURE_HEIGHT - height, FIRE_TEXTURE_WIDTH, height);
                     }
                 } else if (slot instanceof  CrystalFurnaceFuelSlot && slot.index != 10) {
                     // Draw fuel arrow thing
-                    this.blit(poseStack, slot.x + 4 + this.leftPos, slot.y + 19 + this.topPos, 176, 45, 8, 4);
+                    this.blit(poseStack, slot.x + 4 + this.leftPos, slot.y + 19 + this.topPos, FUEL_ARROW_TEXTURE_X, FUEL_ARROW_TEXTURE_Y, FUEL_ARROW_TEXTURE_WIDTH, FUEL_ARROW_TEXTURE_HEIGHT);
                 }
             }
         }
