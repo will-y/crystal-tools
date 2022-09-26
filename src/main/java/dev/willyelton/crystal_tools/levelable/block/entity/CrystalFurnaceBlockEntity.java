@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.levelable.block.entity;
 
+import dev.willyelton.crystal_tools.levelable.block.CrystalFurnaceBlock;
 import dev.willyelton.crystal_tools.levelable.block.ModBlocks;
 import dev.willyelton.crystal_tools.levelable.block.container.CrystalFurnaceContainer;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
@@ -8,20 +9,25 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.ContainerHelper;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.WorldlyContainer;
+import net.minecraft.util.Mth;
+import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.AirItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -47,10 +53,10 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     private final RecipeType<? extends AbstractCookingRecipe> recipeType = RecipeType.SMELTING;
 
     // Furnace related fields
-    private int litTime;
-    private int litDuration;
-    private int[] cookingProgress;
-    private int cookingTotalTime;
+    private int litTime = 0;
+    private int litDuration = 0;
+    private final int[] cookingProgress = new int[4];
+    private final int[] cookingTotalTime = new int[4];
 
     // Crystal furnace fields
     private int numSlots = 5;
@@ -153,9 +159,20 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
 
     @Override
     public void setItem(int slot, @NotNull ItemStack stack) {
+        ItemStack current = this.items.get(slot);
         this.items.set(slot, stack);
         if (stack.getCount() > this.getMaxStackSize()) {
             stack.setCount(this.getMaxStackSize());
+        }
+
+        if (ArrayUtils.arrayContains(this.INPUT_SLOTS, slot) && !(!stack.isEmpty() && stack.sameItem(current) && ItemStack.tagMatches(stack, current))) {
+            int index = ArrayUtils.indexOf(this.INPUT_SLOTS, slot);
+            AbstractCookingRecipe recipe = this.getRecipe(stack).orElse(null);
+            if (recipe != null) {
+                this.cookingTotalTime[index] = getTotalCookTime(recipe, index);
+                this.cookingProgress[index] = 0;
+                this.setChanged();
+            }
         }
     }
 
@@ -204,14 +221,17 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
             return switch (dataIndex) {
                 case 0 -> CrystalFurnaceBlockEntity.this.litTime;
                 case 1 -> CrystalFurnaceBlockEntity.this.litDuration;
-                case 2 -> CrystalFurnaceBlockEntity.this.cookingTotalTime;
-                case 3 -> CrystalFurnaceBlockEntity.this.numSlots;
-                case 4 -> CrystalFurnaceBlockEntity.this.numFuelSlots;
-                case 5 -> CrystalFurnaceBlockEntity.this.cookingProgress[0];
-                case 6 -> CrystalFurnaceBlockEntity.this.cookingProgress[1];
-                case 7 -> CrystalFurnaceBlockEntity.this.cookingProgress[2];
-                case 8 -> CrystalFurnaceBlockEntity.this.cookingProgress[3];
-                case 9 -> CrystalFurnaceBlockEntity.this.cookingProgress[4];
+                case 2 -> CrystalFurnaceBlockEntity.this.numSlots;
+                case 3 -> CrystalFurnaceBlockEntity.this.numFuelSlots;
+                case 4 -> CrystalFurnaceBlockEntity.this.cookingProgress[0];
+                case 5 -> CrystalFurnaceBlockEntity.this.cookingProgress[1];
+                case 6 -> CrystalFurnaceBlockEntity.this.cookingProgress[2];
+                case 7 -> CrystalFurnaceBlockEntity.this.cookingProgress[3];
+                case 8 -> CrystalFurnaceBlockEntity.this.cookingProgress[4];
+                case 9 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[0];
+                case 10 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[1];
+                case 11 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[2];
+                case 12 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[3];
                 default -> 0;
             };
         }
@@ -220,20 +240,23 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
             switch (dataIndex) {
                 case 0 -> CrystalFurnaceBlockEntity.this.litTime = value;
                 case 1 -> CrystalFurnaceBlockEntity.this.litDuration = value;
-                case 2 -> CrystalFurnaceBlockEntity.this.cookingTotalTime = value;
-                case 3 -> CrystalFurnaceBlockEntity.this.numSlots = value;
-                case 4 -> CrystalFurnaceBlockEntity.this.numFuelSlots = value;
-                case 5 -> CrystalFurnaceBlockEntity.this.cookingProgress[0] = value;
-                case 6 -> CrystalFurnaceBlockEntity.this.cookingProgress[1] = value;
-                case 7 -> CrystalFurnaceBlockEntity.this.cookingProgress[2] = value;
-                case 8 -> CrystalFurnaceBlockEntity.this.cookingProgress[3] = value;
-                case 9 -> CrystalFurnaceBlockEntity.this.cookingProgress[4] = value;
+                case 2 -> CrystalFurnaceBlockEntity.this.numSlots = value;
+                case 3 -> CrystalFurnaceBlockEntity.this.numFuelSlots = value;
+                case 4 -> CrystalFurnaceBlockEntity.this.cookingProgress[0] = value;
+                case 5 -> CrystalFurnaceBlockEntity.this.cookingProgress[1] = value;
+                case 6 -> CrystalFurnaceBlockEntity.this.cookingProgress[2] = value;
+                case 7 -> CrystalFurnaceBlockEntity.this.cookingProgress[3] = value;
+                case 8 -> CrystalFurnaceBlockEntity.this.cookingProgress[4] = value;
+                case 9 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[0] = value;
+                case 10 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[1] = value;
+                case 11 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[2] = value;
+                case 12 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[3] = value;
             }
 
         }
 
         public int getCount() {
-            return 10;
+            return 13;
         }
     };
 
@@ -273,6 +296,134 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         return (item.getItem() instanceof AirItem)
                 ? Optional.empty()
                 : this.level.getRecipeManager().getRecipeFor((RecipeType<AbstractCookingRecipe>) recipeType, new SimpleContainer(item), this.level);
+    }
+
+    public void serverTick(Level level, BlockPos pos, BlockState state) {
+        // flag
+        boolean isLit = this.isLit();
+
+        // flag 1
+        boolean needChange = false;
+
+        if (isLit) {
+            this.litTime--;
+        }
+
+        ItemStack fuelItemStack = this.items.get(FUEL_SLOTS[0]);
+        // flag 3
+        boolean hasFuel = !fuelItemStack.isEmpty();
+
+        // TODO for all inputs
+        int slotIndex = 0;
+        int slot = INPUT_SLOTS[slotIndex];
+        // Flag 2
+        boolean hasItemToSmelt = !items.get(slot).isEmpty();
+
+        if (isLit || hasFuel && hasItemToSmelt) {
+            Optional<AbstractCookingRecipe> recipe = this.getRecipe(this.getItem(slot));
+
+            if (!isLit && this.canBurn(recipe.orElse(null), slot)) {
+                this.litTime = this.getBurnDuration(fuelItemStack);
+                this.litDuration = this.litTime;
+
+                if (this.isLit()) {
+                    needChange = true;
+                    if (fuelItemStack.hasCraftingRemainingItem()) {
+                        items.set(this.FUEL_SLOTS[0], fuelItemStack.getCraftingRemainingItem());
+                    } else {
+                        fuelItemStack.shrink(1);
+                        if (fuelItemStack.isEmpty()) {
+                            this.items.set(this.FUEL_SLOTS[0], fuelItemStack.getCraftingRemainingItem());
+                        }
+                    }
+                    // Here is where I need to re-balance the fuel slots
+                }
+            }
+
+            if (this.isLit() && this.canBurn(recipe.orElse(null), slot)) {
+                this.cookingProgress[slotIndex]++;
+                System.out.println(this.cookingProgress[slotIndex] + "/" + this.cookingTotalTime[slotIndex]);
+                if (this.cookingProgress[slotIndex] == this.cookingTotalTime[slotIndex]) {
+                    this.cookingProgress[slotIndex] = 0;
+                    this.cookingTotalTime[slotIndex] = this.getTotalCookTime(recipe.orElse(null), slot);
+                    if (this.burn(recipe.orElse(null), slot)) {
+                        // Rebalance here
+                    }
+
+                    needChange = true;
+                }
+            } else {
+                this.cookingProgress[slotIndex] = 0;
+            }
+        } else if (!this.isLit() && this.cookingProgress[slotIndex] > 0) {
+            this.cookingProgress[slotIndex] = Mth.clamp(this.cookingProgress[slotIndex] - 2, 0, this.cookingTotalTime[slotIndex]);
+        }
+
+        if (isLit != this.isLit()) {
+            needChange = true;
+            state = state.setValue(CrystalFurnaceBlock.LIT, this.isLit());
+            level.setBlock(pos, state, 3);
+        }
+
+        if (needChange) {
+            setChanged(level, pos, state);
+        }
+    }
+
+    private boolean isLit() {
+        return this.litTime > 0;
+    }
+
+    private boolean canBurn(Recipe<?> recipe, int slot) {
+        int outputSlot = slot + 5;
+        if (!this.getItem(slot).isEmpty() && recipe != null) {
+            ItemStack recipeOutput = recipe.getResultItem();
+            if (!recipeOutput.isEmpty()) {
+                ItemStack output = this.getItem(outputSlot);
+                if (output.isEmpty()) return true;
+                else if (!output.sameItem(recipeOutput)) return false;
+                else return output.getCount() + recipeOutput.getCount() <= output.getMaxStackSize();
+            }
+        }
+        return false;
+    }
+
+    private boolean burn(Recipe<?> recipe, int slot) {
+        if (recipe != null && this.canBurn(recipe, slot)) {
+            ItemStack input = this.items.get(slot);
+            ItemStack output = this.items.get(slot + 5);
+            ItemStack recipeOutput = recipe.getResultItem();
+            if (output.isEmpty()) {
+                this.items.set(slot + 5, recipeOutput.copy());
+            } else if (output.is(recipeOutput.getItem())) {
+                output.grow(recipeOutput.getCount());
+            }
+
+            if (input.is(Blocks.WET_SPONGE.asItem()) && !this.items.get(slot).isEmpty() && this.items.get(slot).is(Items.BUCKET)) {
+                this.items.set(slot + 5, new ItemStack(Items.WATER_BUCKET));
+            }
+
+            input.shrink(1);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private int getBurnDuration(ItemStack stack) {
+        if (stack.isEmpty()) {
+            return 0;
+        } else {
+            return ForgeHooks.getBurnTime(stack, this.recipeType);
+        }
+    }
+
+    private int getTotalCookTime(AbstractCookingRecipe recipe, int slot) {
+        if (!this.getItem(slot).isEmpty() && recipe != null) {
+            return recipe.getCookingTime();
+        }
+
+        return 0;
     }
 }
 
