@@ -15,4 +15,8 @@ public class ItemStackUtils {
         return ItemStack.EMPTY;
     }
 
+    public static boolean sameItem(ItemStack itemStack1, ItemStack itemStack2) {
+        return itemStack1.is(itemStack2.getItem());
+    }
+
 }

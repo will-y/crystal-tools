@@ -4,6 +4,7 @@ import dev.willyelton.crystal_tools.levelable.block.CrystalFurnaceBlock;
 import dev.willyelton.crystal_tools.levelable.block.ModBlocks;
 import dev.willyelton.crystal_tools.levelable.block.container.CrystalFurnaceContainer;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
+import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -337,12 +338,12 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
                         }
                     }
                     // Here is where I need to re-balance the fuel slots
+                    this.balanceFuel();
                 }
             }
 
             if (this.isLit() && this.canBurn(recipe.orElse(null), slot)) {
                 this.cookingProgress[slotIndex]++;
-                System.out.println(this.cookingProgress[slotIndex] + "/" + this.cookingTotalTime[slotIndex]);
                 if (this.cookingProgress[slotIndex] == this.cookingTotalTime[slotIndex]) {
                     this.cookingProgress[slotIndex] = 0;
                     this.cookingTotalTime[slotIndex] = this.getTotalCookTime(recipe.orElse(null), slot);
@@ -424,6 +425,34 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         }
 
         return 0;
+    }
+
+    private void balanceFuel() {
+        ItemStack fuel1 = this.items.get(FUEL_SLOTS[0]);
+        ItemStack fuel2 = this.items.get(FUEL_SLOTS[1]);
+        ItemStack fuel3 = this.items.get(FUEL_SLOTS[2]);
+
+        // 2 -> 1
+        combineStacks(fuel1, fuel2);
+        combineStacks(fuel1, fuel3);
+        combineStacks(fuel2, fuel3);
+
+//        this.items.set(FUEL_SLOTS[0], fuel1);
+//        this.items.set(FUEL_SLOTS[1], fuel2);
+//        this.items.set(FUEL_SLOTS[2], fuel3);
+    }
+
+    private void combineStacks(ItemStack stackInto, ItemStack stackFrom) {
+        if (ItemStackUtils.sameItem(stackInto, stackFrom) && stackInto.getCount() < stackInto.getMaxStackSize()) {
+            int totalCount = stackInto.getCount() + stackFrom.getCount();
+            if (totalCount < stackInto.getMaxStackSize()) {
+                stackInto.setCount(totalCount);
+                stackFrom.setCount(0);
+            } else {
+                stackInto.setCount(stackInto.getMaxStackSize());
+                stackFrom.setCount(totalCount - stackInto.getMaxStackSize());
+            }
+        }
     }
 }
 
