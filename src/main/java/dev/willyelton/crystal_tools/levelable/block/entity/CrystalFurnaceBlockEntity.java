@@ -175,6 +175,13 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
                 this.setChanged();
             }
         }
+
+        if (ArrayUtils.arrayContains(this.FUEL_SLOTS, slot)) {
+            AbstractCookingRecipe recipe = this.getRecipe(stack).orElse(null);
+            if (recipe != null) {
+                this.balanceFuel();
+            }
+        }
     }
 
     @Override
