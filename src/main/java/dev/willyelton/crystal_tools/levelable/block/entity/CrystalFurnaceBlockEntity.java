@@ -5,6 +5,7 @@ import dev.willyelton.crystal_tools.levelable.block.ModBlocks;
 import dev.willyelton.crystal_tools.levelable.block.container.CrystalFurnaceContainer;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
+import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -54,8 +55,8 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     // Furnace related fields
     private int litTime = 0;
     private int litDuration = 0;
-    private final int[] cookingProgress = new int[5];
-    private final int[] cookingTotalTime = new int[5];
+    private int[] cookingProgress = new int[5];
+    private int[] cookingTotalTime = new int[5];
 
     // Crystal furnace fields
     private int numSlots = 5;
@@ -207,16 +208,23 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     @Override
     public void load(@NotNull CompoundTag nbt) {
         super.load(nbt);
-        this.items = NonNullList.withSize(this.getMaxStackSize(), ItemStack.EMPTY);
+        this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
         ContainerHelper.loadAllItems(nbt, this.items);
+        this.litTime = nbt.getInt("LitTime");
+        this.litDuration = nbt.getInt("LitDuration");
+        this.cookingProgress = NBTUtils.getIntArray(nbt, "CookingProgress", 5);
+        this.cookingTotalTime = NBTUtils.getIntArray(nbt, "CookingTotalTime", 5);
     }
 
 
     @Override
     protected void saveAdditional(@NotNull CompoundTag nbt) {
         super.saveAdditional(nbt);
-
         ContainerHelper.saveAllItems(nbt, this.items);
+        nbt.putInt("LitTime", this.litTime);
+        nbt.putInt("LitDuration", this.litDuration);
+        nbt.putIntArray("CookingProgress", this.cookingProgress);
+        nbt.putIntArray("CookingTotalTime", this.cookingTotalTime);
     }
 
     protected final ContainerData dataAccess = new ContainerData() {

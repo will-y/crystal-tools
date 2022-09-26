@@ -58,18 +58,27 @@ public class NBTUtils {
         tag.putIntArray(arrayKey, points);
     }
 
-    public static int[] getIntArray(ItemStack itemStack, String arrayKey) {
-        CompoundTag tag = getTag(itemStack);
-        int[] points;
+    public static int[] getIntArray(CompoundTag tag, String arrayKey, int size) {
+        int[] array;
 
         if (tag.contains(arrayKey)) {
-            points = tag.getIntArray(arrayKey);
+            array = tag.getIntArray(arrayKey);
+            if (array.length == 0) {
+                array = new int[size];
+            }
         } else {
-            // 100 should be enough right?
-            points = new int[100];
+            array = new int[size];
         }
 
-        return points;
+        return array;
+    }
+
+    public static int[] getIntArray(ItemStack itemStack, String arrayKey) {
+        if (itemStack.getTag() == null) {
+            return new int[0];
+        }
+
+        return getIntArray(itemStack.getTag(), arrayKey, 100);
     }
 
     public static CompoundTag getTag(ItemStack itemStack) {
