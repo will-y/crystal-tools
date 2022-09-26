@@ -327,49 +327,50 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         boolean hasFuel = !fuelItemStack.isEmpty();
 
         // TODO for all inputs
-        int slotIndex = 0;
-        int slot = INPUT_SLOTS[slotIndex];
-        // Flag 2
-        boolean hasItemToSmelt = !items.get(slot).isEmpty();
+        for (int slotIndex = 0; slotIndex < 5; slotIndex++) {
+            int slot = INPUT_SLOTS[slotIndex];
+            // Flag 2
+            boolean hasItemToSmelt = !items.get(slot).isEmpty();
 
-        if (this.isLit() || hasFuel && hasItemToSmelt) {
-            Optional<AbstractCookingRecipe> recipe = this.getRecipe(this.getItem(slot));
+            if (this.isLit() || hasFuel && hasItemToSmelt) {
+                Optional<AbstractCookingRecipe> recipe = this.getRecipe(this.getItem(slot));
 
-            if (!this.isLit() && this.canBurn(recipe.orElse(null), slot)) {
-                this.litTime = this.getBurnDuration(fuelItemStack);
-                this.litDuration = this.litTime;
+                if (!this.isLit() && this.canBurn(recipe.orElse(null), slot)) {
+                    this.litTime = this.getBurnDuration(fuelItemStack);
+                    this.litDuration = this.litTime;
 
-                if (this.isLit()) {
-                    needChange = true;
-                    if (fuelItemStack.hasCraftingRemainingItem()) {
-                        items.set(FUEL_SLOTS[0], fuelItemStack.getCraftingRemainingItem());
-                    } else {
-                        fuelItemStack.shrink(1);
-                        if (fuelItemStack.isEmpty()) {
-                            this.items.set(FUEL_SLOTS[0], fuelItemStack.getCraftingRemainingItem());
+                    if (this.isLit()) {
+                        needChange = true;
+                        if (fuelItemStack.hasCraftingRemainingItem()) {
+                            items.set(FUEL_SLOTS[0], fuelItemStack.getCraftingRemainingItem());
+                        } else {
+                            fuelItemStack.shrink(1);
+                            if (fuelItemStack.isEmpty()) {
+                                this.items.set(FUEL_SLOTS[0], fuelItemStack.getCraftingRemainingItem());
+                            }
                         }
+                        // Here is where I need to re-balance the fuel slots
+                        this.balanceFuel();
                     }
-                    // Here is where I need to re-balance the fuel slots
-                    this.balanceFuel();
                 }
-            }
 
-            if (this.isLit() && this.canBurn(recipe.orElse(null), slot)) {
-                this.cookingProgress[slotIndex]++;
-                if (this.cookingProgress[slotIndex] == this.cookingTotalTime[slotIndex]) {
+                if (this.isLit() && this.canBurn(recipe.orElse(null), slot)) {
+                    this.cookingProgress[slotIndex]++;
+                    if (this.cookingProgress[slotIndex] == this.cookingTotalTime[slotIndex]) {
+                        this.cookingProgress[slotIndex] = 0;
+                        this.cookingTotalTime[slotIndex] = this.getTotalCookTime(recipe.orElse(null), slot);
+                        if (this.burn(recipe.orElse(null), slot)) {
+                            // Rebalance here
+                        }
+
+                        needChange = true;
+                    }
+                } else {
                     this.cookingProgress[slotIndex] = 0;
-                    this.cookingTotalTime[slotIndex] = this.getTotalCookTime(recipe.orElse(null), slot);
-                    if (this.burn(recipe.orElse(null), slot)) {
-                        // Rebalance here
-                    }
-
-                    needChange = true;
                 }
-            } else {
-                this.cookingProgress[slotIndex] = 0;
+            } else if (this.cookingProgress[slotIndex] > 0) {
+                this.cookingProgress[slotIndex] = Mth.clamp(this.cookingProgress[slotIndex] - 2, 0, this.cookingTotalTime[slotIndex]);
             }
-        } else if (this.cookingProgress[slotIndex] > 0) {
-            this.cookingProgress[slotIndex] = Mth.clamp(this.cookingProgress[slotIndex] - 2, 0, this.cookingTotalTime[slotIndex]);
         }
 
         if (isLit != this.isLit()) {
