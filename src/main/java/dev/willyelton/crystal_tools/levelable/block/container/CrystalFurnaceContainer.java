@@ -5,6 +5,7 @@ import dev.willyelton.crystal_tools.levelable.block.container.slot.CrystalFurnac
 import dev.willyelton.crystal_tools.levelable.block.container.slot.CrystalFurnaceInputSlot;
 import dev.willyelton.crystal_tools.levelable.block.container.slot.CrystalFurnaceOutputSlot;
 import dev.willyelton.crystal_tools.levelable.block.entity.CrystalFurnaceBlockEntity;
+import dev.willyelton.crystal_tools.utils.ArrayUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -112,9 +113,10 @@ public class CrystalFurnaceContainer extends AbstractContainerMenu {
         return this.data.get(0) > 0;
     }
 
-    public int getBurnProgress() {
-        int i = this.data.get(2);
-        int j = this.data.get(3);
-        return j != 0 && i != 0 ? i / j : 0;
+    public float getBurnProgress(int slot) {
+        int index = ArrayUtils.indexOf(CrystalFurnaceBlockEntity.INPUT_SLOTS, slot);
+        int i = this.data.get(index + 4);
+        int j = this.data.get(index + 9);
+        return j != 0 && i != 0 ? i / (float) j : 0;
     }
 }

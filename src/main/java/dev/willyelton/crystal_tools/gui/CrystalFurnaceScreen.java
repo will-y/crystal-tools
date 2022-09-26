@@ -16,6 +16,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnaceContainer> {
     private static final ResourceLocation TEXTURE = new ResourceLocation("crystal_tools:textures/gui/crystal_furnace.png");
+    private static final int ARROW_HEIGHT = 14;
+    private static final int ARROW_WIDTH = 12;
 
     private final NonNullList<Slot> slots;
 
@@ -52,6 +54,9 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
                     // Draw arrow
                     this.blit(poseStack, slot.x + 3 + this.leftPos, slot.y + 18 + this.topPos, 188, 13, 11, 14);
                     // Draw arrow progress
+                    float progress = this.menu.getBurnProgress(slot.index - 5);
+                    int height = (int) (progress * ARROW_HEIGHT);
+                    this.blit(poseStack, slot.x + 3 + this.leftPos, slot.y + 18 + this.topPos + ARROW_HEIGHT - height, 176, 13 + ARROW_HEIGHT - height, ARROW_WIDTH, height);
                 } else if (slot instanceof CrystalFurnaceInputSlot) {
                     // Draw fire below
                     this.blit(poseStack, slot.x + 1 + this.leftPos, slot.y + 18 + this.topPos, 189, 0, 14, 13);
