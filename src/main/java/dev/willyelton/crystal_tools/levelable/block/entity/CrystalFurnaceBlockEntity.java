@@ -17,12 +17,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.AirItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -124,7 +122,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     }
 
     @Override
-    public boolean canTakeItemThroughFace(int pIndex, ItemStack pStack, Direction pDirection) {
+    public boolean canTakeItemThroughFace(int pIndex, @NotNull ItemStack pStack, @NotNull Direction pDirection) {
         return pDirection != Direction.DOWN || pIndex != 1;
     }
 
@@ -166,8 +164,8 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
             stack.setCount(this.getMaxStackSize());
         }
 
-        if (ArrayUtils.arrayContains(this.INPUT_SLOTS, slot) && !(!stack.isEmpty() && stack.sameItem(current) && ItemStack.tagMatches(stack, current))) {
-            int index = ArrayUtils.indexOf(this.INPUT_SLOTS, slot);
+        if (ArrayUtils.arrayContains(INPUT_SLOTS, slot) && !(!stack.isEmpty() && stack.sameItem(current) && ItemStack.tagMatches(stack, current))) {
+            int index = ArrayUtils.indexOf(INPUT_SLOTS, slot);
             AbstractCookingRecipe recipe = this.getRecipe(stack).orElse(null);
             if (recipe != null) {
                 this.cookingTotalTime[index] = getTotalCookTime(recipe, index);
@@ -176,11 +174,8 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
             }
         }
 
-        if (ArrayUtils.arrayContains(this.FUEL_SLOTS, slot)) {
-            AbstractCookingRecipe recipe = this.getRecipe(stack).orElse(null);
-            if (recipe != null) {
-                this.balanceFuel();
-            }
+        if (ArrayUtils.arrayContains(FUEL_SLOTS, slot)) {
+            this.getRecipe(stack).ifPresent(recipe -> this.balanceFuel());
         }
     }
 
@@ -275,7 +270,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     }
 
     public int[] getInputSlots() {
-        return this.INPUT_SLOTS;
+        return INPUT_SLOTS;
     }
 
     public int[] getActiveInputSlots() {
@@ -283,7 +278,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     }
 
     public int[] getOutputSLots() {
-        return this.OUTPUT_SLOTS;
+        return OUTPUT_SLOTS;
     }
 
     public int[] getActiveOutputSlots() {
@@ -291,7 +286,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     }
 
     public int[] getFuelSlots() {
-        return this.FUEL_SLOTS;
+        return FUEL_SLOTS;
     }
 
     public int[] getActiveFuelSlots() {
@@ -339,11 +334,11 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
                 if (this.isLit()) {
                     needChange = true;
                     if (fuelItemStack.hasCraftingRemainingItem()) {
-                        items.set(this.FUEL_SLOTS[0], fuelItemStack.getCraftingRemainingItem());
+                        items.set(FUEL_SLOTS[0], fuelItemStack.getCraftingRemainingItem());
                     } else {
                         fuelItemStack.shrink(1);
                         if (fuelItemStack.isEmpty()) {
-                            this.items.set(this.FUEL_SLOTS[0], fuelItemStack.getCraftingRemainingItem());
+                            this.items.set(FUEL_SLOTS[0], fuelItemStack.getCraftingRemainingItem());
                         }
                     }
                     // Here is where I need to re-balance the fuel slots
