@@ -41,6 +41,7 @@ public class CrystalFurnaceContainer extends AbstractContainerMenu {
         this.addFuelSlots(3, 3);
 
         this.layoutPlayerInventorySlots(8, 109);
+        this.addDataSlots(data);
     }
 
     @Override
@@ -98,5 +99,22 @@ public class CrystalFurnaceContainer extends AbstractContainerMenu {
         for (int i = 0; i < numSlots; i++) {
             this.addSlot(new CrystalFurnaceFuelSlot(te, slots[i], this.fuelSlotsX, this.fuelSlotsPos[i]));
         }
+    }
+
+    public float getLitProgress() {
+        if (this.data.get(1) == 0) return 0;
+
+        return this.data.get(0) / (float) this.data.get(1);
+
+    }
+
+    public boolean isLit() {
+        return this.data.get(0) > 0;
+    }
+
+    public int getBurnProgress() {
+        int i = this.data.get(2);
+        int j = this.data.get(3);
+        return j != 0 && i != 0 ? i / j : 0;
     }
 }

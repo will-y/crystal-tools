@@ -46,7 +46,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     private final int[] FUEL_SLOTS = new int[] {10, 11, 12};
 
     public static final int SIZE = 13;
-
+    public static final int DATA_SIZE = 14;
     private NonNullList<ItemStack> items;
 
     LazyOptional<? extends net.minecraftforge.items.IItemHandler>[] invHandlers = SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
@@ -56,8 +56,8 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     // Furnace related fields
     private int litTime = 0;
     private int litDuration = 0;
-    private final int[] cookingProgress = new int[4];
-    private final int[] cookingTotalTime = new int[4];
+    private final int[] cookingProgress = new int[5];
+    private final int[] cookingTotalTime = new int[5];
 
     // Crystal furnace fields
     private int numSlots = 5;
@@ -240,6 +240,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
                 case 10 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[1];
                 case 11 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[2];
                 case 12 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[3];
+                case 13 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[4];
                 default -> 0;
             };
         }
@@ -259,12 +260,13 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
                 case 10 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[1] = value;
                 case 11 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[2] = value;
                 case 12 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[3] = value;
+                case 13 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[4] = value;
             }
 
         }
 
         public int getCount() {
-            return 13;
+            return DATA_SIZE;
         }
     };
 

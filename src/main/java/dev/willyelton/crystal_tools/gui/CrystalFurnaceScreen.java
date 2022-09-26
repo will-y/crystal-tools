@@ -51,9 +51,16 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
                 if (slot instanceof CrystalFurnaceOutputSlot) {
                     // Draw arrow
                     this.blit(poseStack, slot.x + 3 + this.leftPos, slot.y + 18 + this.topPos, 188, 13, 11, 14);
+                    // Draw arrow progress
                 } else if (slot instanceof CrystalFurnaceInputSlot) {
                     // Draw fire below
                     this.blit(poseStack, slot.x + 1 + this.leftPos, slot.y + 18 + this.topPos, 189, 0, 14, 13);
+                    // Draw lit progress
+                    if (this.menu.isLit()) {
+                        float litProgress = this.menu.getLitProgress();
+                        int height = (int) (litProgress * 13);
+                        this.blit(poseStack, slot.x + 2 + this.leftPos, slot.y + 18 + this.topPos + 13 - height, 176, 13 - height, 14, height);
+                    }
                 } else if (slot instanceof  CrystalFurnaceFuelSlot && slot.index != 10) {
                     // Draw fuel arrow thing
                     this.blit(poseStack, slot.x + 4 + this.leftPos, slot.y + 19 + this.topPos, 176, 45, 8, 4);
