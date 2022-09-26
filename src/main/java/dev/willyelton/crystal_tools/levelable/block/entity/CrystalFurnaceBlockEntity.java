@@ -314,6 +314,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     public void serverTick(Level level, BlockPos pos, BlockState state) {
         // flag
         boolean isLit = this.isLit();
+        boolean needsRebalance = false;
 
         // flag 1
         boolean needChange = false;
@@ -326,7 +327,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         // flag 3
         boolean hasFuel = !fuelItemStack.isEmpty();
 
-        // TODO for all inputs
+        // TODO: Only do this for active slots (can probably just change 5 to numActiveSlots
         for (int slotIndex = 0; slotIndex < 5; slotIndex++) {
             int slot = INPUT_SLOTS[slotIndex];
             // Flag 2
@@ -360,7 +361,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
                         this.cookingProgress[slotIndex] = 0;
                         this.cookingTotalTime[slotIndex] = this.getTotalCookTime(recipe.orElse(null), slot);
                         if (this.burn(recipe.orElse(null), slot)) {
-                            // Rebalance here
+                            needsRebalance = true;
                         }
 
                         needChange = true;
@@ -377,6 +378,11 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
             needChange = true;
             state = state.setValue(CrystalFurnaceBlock.LIT, this.isLit());
             level.setBlock(pos, state, 3);
+        }
+
+        if (needsRebalance) {
+            this.balanceInputs();
+            this.autoOutput();
         }
 
         if (needChange) {
@@ -466,6 +472,14 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
                 stackFrom.setCount(totalCount - stackInto.getMaxStackSize());
             }
         }
+    }
+
+    private void balanceInputs() {
+        // TODO
+    }
+
+    private void autoOutput() {
+        // TODO
     }
 }
 
