@@ -332,10 +332,10 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         // Flag 2
         boolean hasItemToSmelt = !items.get(slot).isEmpty();
 
-        if (isLit || hasFuel && hasItemToSmelt) {
+        if (this.isLit() || hasFuel && hasItemToSmelt) {
             Optional<AbstractCookingRecipe> recipe = this.getRecipe(this.getItem(slot));
 
-            if (!isLit && this.canBurn(recipe.orElse(null), slot)) {
+            if (!this.isLit() && this.canBurn(recipe.orElse(null), slot)) {
                 this.litTime = this.getBurnDuration(fuelItemStack);
                 this.litDuration = this.litTime;
 
@@ -368,7 +368,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
             } else {
                 this.cookingProgress[slotIndex] = 0;
             }
-        } else if (!this.isLit() && this.cookingProgress[slotIndex] > 0) {
+        } else if (this.cookingProgress[slotIndex] > 0) {
             this.cookingProgress[slotIndex] = Mth.clamp(this.cookingProgress[slotIndex] - 2, 0, this.cookingTotalTime[slotIndex]);
         }
 
