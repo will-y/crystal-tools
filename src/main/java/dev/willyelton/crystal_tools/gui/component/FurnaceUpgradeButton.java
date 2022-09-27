@@ -34,9 +34,9 @@ public class FurnaceUpgradeButton extends Button {
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
         // first half of button
-        this.blit(poseStack, this.x, this.y, 0, i * 20, this.width / 2, this.height);
+        this.blit(poseStack, this.x, this.y, 0, i * this.height, this.width / 2, this.height);
         // second half of button
-        this.blit(poseStack, this.x + this.width / 2, this.y, 200 - this.width / 2, i * 20, this.width / 2, this.height);
+        this.blit(poseStack, this.x + this.width / 2, this.y, 200 - this.width / 2, i * this.height, this.width / 2, this.height);
         // pretty sure does nothing
         this.renderBg(poseStack, minecraft, mouseX, mouseY);
         // might need to change based off of how text looks on colors I pick

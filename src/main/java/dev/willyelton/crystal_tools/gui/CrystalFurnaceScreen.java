@@ -38,10 +38,10 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
     private static final int FUEL_ARROW_TEXTURE_WIDTH = 8;
     private static final int FUEL_ARROW_TEXTURE_HEIGHT = 4;
 
-    private static final int UPGRADE_BUTTON_X = 153;
-    private static final int UPGRADE_BUTTON_Y = 5;
-    private static final int UPGRADE_BUTTON_WIDTH = 20;
-    private static final int UPGRADE_BUTTON_HEIGHT = 20;
+    private static final int UPGRADE_BUTTON_X = 155;
+    private static final int UPGRADE_BUTTON_Y = 6;
+    private static final int UPGRADE_BUTTON_WIDTH = 12;
+    private static final int UPGRADE_BUTTON_HEIGHT = 12;
 
     private final NonNullList<Slot> slots;
     private FurnaceUpgradeButton upgradeButton;
@@ -108,6 +108,6 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
                         UPGRADE_BUTTON_WIDTH,
                         UPGRADE_BUTTON_HEIGHT,
                         Component.literal("+"),
-                        pButton -> {}, (pButton, pPoseStack, pMouseX, pMouseY) -> {}, true));
+                        pButton -> {}, (pButton, pPoseStack, pMouseX, pMouseY) -> {}, false));
     }
 }
