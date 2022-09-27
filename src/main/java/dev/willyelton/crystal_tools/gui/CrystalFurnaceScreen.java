@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.willyelton.crystal_tools.gui.component.FurnaceUpgradeButton;
 import dev.willyelton.crystal_tools.levelable.block.container.CrystalFurnaceContainer;
 import dev.willyelton.crystal_tools.levelable.block.container.slot.CrystalFurnaceFuelSlot;
 import dev.willyelton.crystal_tools.levelable.block.container.slot.CrystalFurnaceInputSlot;
@@ -37,7 +38,13 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
     private static final int FUEL_ARROW_TEXTURE_WIDTH = 8;
     private static final int FUEL_ARROW_TEXTURE_HEIGHT = 4;
 
+    private static final int UPGRADE_BUTTON_X = 153;
+    private static final int UPGRADE_BUTTON_Y = 5;
+    private static final int UPGRADE_BUTTON_WIDTH = 20;
+    private static final int UPGRADE_BUTTON_HEIGHT = 20;
+
     private final NonNullList<Slot> slots;
+    private FurnaceUpgradeButton upgradeButton;
 
     public CrystalFurnaceScreen(CrystalFurnaceContainer container, Inventory inventory, Component name) {
         super(container, inventory, name);
@@ -90,5 +97,17 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
                 }
             }
         }
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        this.upgradeButton = this.addRenderableWidget(
+                new FurnaceUpgradeButton(UPGRADE_BUTTON_X + this.leftPos,
+                        UPGRADE_BUTTON_Y + this.topPos,
+                        UPGRADE_BUTTON_WIDTH,
+                        UPGRADE_BUTTON_HEIGHT,
+                        Component.literal("+"),
+                        pButton -> {}, (pButton, pPoseStack, pMouseX, pMouseY) -> {}, true));
     }
 }
