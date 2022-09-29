@@ -11,6 +11,10 @@ public class NBTUtils {
 
     public static float addValueToTag(ItemStack itemStack, String key, float value) {
         CompoundTag tag = getTag(itemStack);
+        return addValueToTag(tag, key, value);
+    }
+
+    public static float addValueToTag(CompoundTag tag, String key, float value) {
         if (tag.contains(key)) {
             float original = tag.getFloat(key);
             tag.putFloat(key, original + value);
@@ -27,6 +31,14 @@ public class NBTUtils {
 
     public static float getFloatOrAddKey(ItemStack itemStack, String key, float defaultValue) {
         CompoundTag tag = getTag(itemStack);
+        return getFloatOrAddKey(tag, key, defaultValue);
+    }
+
+    public static float getFloatOrAddKey(CompoundTag tag, String key) {
+        return getFloatOrAddKey(tag, key, 0);
+    }
+
+    public static float getFloatOrAddKey(CompoundTag tag, String key, float defaultValue) {
         if (tag.contains(key)) {
             return tag.getFloat(key);
         } else {
