@@ -70,16 +70,24 @@ public class NBTUtils {
         tag.putIntArray(arrayKey, points);
     }
 
+    public static int[] getIntArray(CompoundTag tag, String arrayKey) {
+        return getIntArray(tag, arrayKey, -1);
+    }
+
     public static int[] getIntArray(CompoundTag tag, String arrayKey, int size) {
         int[] array;
 
         if (tag.contains(arrayKey)) {
             array = tag.getIntArray(arrayKey);
-            if (array.length == 0) {
+            if (array.length == 0 && size > 0) {
                 array = new int[size];
             }
         } else {
-            array = new int[size];
+            if (size >= 0) {
+                array = new int[size];
+            } else {
+                array = new int[0];
+            }
         }
 
         return array;

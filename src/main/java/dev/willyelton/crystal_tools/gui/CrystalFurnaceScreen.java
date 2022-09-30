@@ -7,6 +7,7 @@ import dev.willyelton.crystal_tools.levelable.block.container.CrystalFurnaceCont
 import dev.willyelton.crystal_tools.levelable.block.container.slot.CrystalFurnaceFuelSlot;
 import dev.willyelton.crystal_tools.levelable.block.container.slot.CrystalFurnaceInputSlot;
 import dev.willyelton.crystal_tools.levelable.block.container.slot.CrystalFurnaceOutputSlot;
+import dev.willyelton.crystal_tools.levelable.block.entity.CrystalFurnaceBlockEntity;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
@@ -44,11 +45,13 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
     private static final int UPGRADE_BUTTON_HEIGHT = 12;
 
     private final NonNullList<Slot> slots;
+    private final CrystalFurnaceBlockEntity blockEntity;
     private FurnaceUpgradeButton upgradeButton;
 
     public CrystalFurnaceScreen(CrystalFurnaceContainer container, Inventory inventory, Component name) {
         super(container, inventory, name);
         this.slots = container.slots;
+        this.blockEntity = container.getBlockEntity();
 
         this.imageHeight = 191;
         this.inventoryLabelY = this.imageHeight - 94;
@@ -108,6 +111,8 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
                         UPGRADE_BUTTON_WIDTH,
                         UPGRADE_BUTTON_HEIGHT,
                         Component.literal("+"),
-                        pButton -> {}, (pButton, pPoseStack, pMouseX, pMouseY) -> {}, false));
+                        pButton -> {
+                            ModGUIs.openScreen(new FurnaceUpgradeScreen(this.blockEntity, this.menu.getPlayer(), this));
+                        }, (pButton, pPoseStack, pMouseX, pMouseY) -> {}, false));
     }
 }

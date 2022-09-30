@@ -119,4 +119,12 @@ public class CrystalFurnaceContainer extends AbstractContainerMenu {
         int j = this.data.get(index + 9);
         return j != 0 && i != 0 ? i / (float) j : 0;
     }
+
+    public CrystalFurnaceBlockEntity getBlockEntity() {
+        return this.te;
+    }
+
+    public Player getPlayer() {
+        return this.player;
+    }
 }
