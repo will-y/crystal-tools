@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.network;
 import dev.willyelton.crystal_tools.CrystalTools;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
@@ -29,6 +30,7 @@ public class PacketHandler {
         registerMessage(ToolHealPacket.class, ToolHealPacket::encode, ToolHealPacket::decode, ToolHealPacket.Handler::handle);
         registerMessage(ModeSwitchPacket.class, ModeSwitchPacket::encode, ModeSwitchPacket::decode, ModeSwitchPacket.Handler::handle);
         registerMessage(RemoveItemPacket.class, RemoveItemPacket::encode, RemoveItemPacket::decode, RemoveItemPacket.Handler::handle);
+        registerMessage(BlockAttributePacket.class, BlockAttributePacket::encode, BlockAttributePacket::decode, BlockAttributePacket.Handler::handle);
     }
 
     public static void sendToServer(Object msg) {
