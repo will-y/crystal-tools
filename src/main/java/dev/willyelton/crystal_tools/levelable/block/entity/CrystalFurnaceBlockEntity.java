@@ -39,7 +39,7 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Optional;
 
-public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyContainer, MenuProvider, LevelableBlockEntity {
+public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements WorldlyContainer, MenuProvider {
     public static final int[] INPUT_SLOTS = new int[] {0, 1, 2, 3, 4};
     public static final int[] OUTPUT_SLOTS = new int[] {5, 6, 7, 8, 9};
     public static final int[] FUEL_SLOTS = new int[] {10, 11, 12};

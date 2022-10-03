@@ -18,6 +18,7 @@ import dev.willyelton.crystal_tools.levelable.skill.requirement.SkillDataRequire
 import dev.willyelton.crystal_tools.utils.Colors;
 import dev.willyelton.crystal_tools.utils.InventoryUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.nbt.CompoundTag;
@@ -32,7 +33,7 @@ import java.util.List;
 
 public abstract class BaseUpgradeScreen extends Screen {
     final CompoundTag tag;
-    private final Player player;
+    final Player player;
     protected SkillData data;
     private final HashMap<Integer, SkillButton> skillButtons = new HashMap<>();
 
@@ -99,31 +100,7 @@ public abstract class BaseUpgradeScreen extends Screen {
 
     private void addButtonFromNode(SkillDataNode node, int x, int y) {
         this.addSkillButton(new SkillButton(x, y, X_SIZE, Y_SIZE, Component.literal(node.getName()), (button) -> {
-            int skillPoints = (int) NBTUtils.getFloatOrAddKey(tag, "skill_points");
-
-            if (skillPoints > 0) {
-                NBTUtils.addValueToTag(tag, "skill_points", -1);
-                PacketHandler.sendToServer(new ToolAttributePacket("skill_points", -1, -1));
-                PacketHandler.sendToServer(new ToolAttributePacket(node.getKey(), node.getValue(), node.getId()));
-                node.addPoint();
-                if (node.isComplete()) {
-                    ((SkillButton) button).setComplete();
-                }
-            }
-
-            List<SkillDataRequirement> requirements = node.getRequirements();
-
-            for (SkillDataRequirement requirement : requirements) {
-                if (CrystalToolsConfig.ENABLE_ITEM_REQUIREMENTS.get() && requirement.getRequirementType() == RequirementType.ITEM) {
-                    SkillItemRequirement itemRequirement = (SkillItemRequirement) (requirement);
-                    itemRequirement.getItems().forEach(item -> {
-                        PacketHandler.sendToServer(new RemoveItemPacket(item.getDefaultInstance()));
-                        InventoryUtils.removeItemFromInventory(this.player.getInventory(), item.getDefaultInstance());
-                    });
-                }
-            }
-
-            this.updateButtons();
+            this.onSkillButtonPress(node, button);
         }, (button, poseStack, mouseX, mouseY) -> {
             String text;
             if (node.getType().equals(SkillNodeType.INFINITE) && node.getPoints() > 0) {
@@ -135,6 +112,22 @@ public abstract class BaseUpgradeScreen extends Screen {
             Component textComponent = Component.literal(text);
             BaseUpgradeScreen.this.renderTooltip(poseStack, BaseUpgradeScreen.this.minecraft.font.split(textComponent, Math.max(BaseUpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
         }, this.data, node, this.player));
+    }
+
+    protected void onSkillButtonPress(SkillDataNode node, Button button) {
+        List<SkillDataRequirement> requirements = node.getRequirements();
+
+        for (SkillDataRequirement requirement : requirements) {
+            if (CrystalToolsConfig.ENABLE_ITEM_REQUIREMENTS.get() && requirement.getRequirementType() == RequirementType.ITEM) {
+                SkillItemRequirement itemRequirement = (SkillItemRequirement) (requirement);
+                itemRequirement.getItems().forEach(item -> {
+                    PacketHandler.sendToServer(new RemoveItemPacket(item.getDefaultInstance()));
+                    InventoryUtils.removeItemFromInventory(this.player.getInventory(), item.getDefaultInstance());
+                });
+            }
+        }
+
+        this.updateButtons();
     }
 
     private void addSkillButton(SkillButton button) {

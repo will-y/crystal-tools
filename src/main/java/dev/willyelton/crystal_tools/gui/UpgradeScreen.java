@@ -1,6 +1,9 @@
 package dev.willyelton.crystal_tools.gui;
 
+import dev.willyelton.crystal_tools.gui.component.SkillButton;
+import dev.willyelton.crystal_tools.levelable.skill.SkillDataNode;
 import dev.willyelton.crystal_tools.network.PacketHandler;
+import dev.willyelton.crystal_tools.network.ToolAttributePacket;
 import dev.willyelton.crystal_tools.network.ToolHealPacket;
 import dev.willyelton.crystal_tools.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.levelable.skill.SkillData;
@@ -54,5 +57,22 @@ public class UpgradeScreen extends BaseUpgradeScreen {
         super.updateButtons();
         int skillPoints = (int) NBTUtils.getFloatOrAddKey(tag, "skill_points");
         this.healButton.active = skillPoints > 0;
+    }
+
+    @Override
+    protected void onSkillButtonPress(SkillDataNode node, Button button) {
+        int skillPoints = (int) NBTUtils.getFloatOrAddKey(tag, "skill_points");
+
+        if (skillPoints > 0) {
+            NBTUtils.addValueToTag(tag, "skill_points", -1);
+            PacketHandler.sendToServer(new ToolAttributePacket("skill_points", -1, -1));
+            PacketHandler.sendToServer(new ToolAttributePacket(node.getKey(), node.getValue(), node.getId()));
+            node.addPoint();
+            if (node.isComplete()) {
+                ((SkillButton) button).setComplete();
+            }
+        }
+
+        super.onSkillButtonPress(node, button);
     }
 }

@@ -63,8 +63,11 @@ public class NBTUtils {
     }
 
     public static void addValueToArray(ItemStack itemStack, String arrayKey, int index, int value) {
-        CompoundTag tag = getTag(itemStack);
-        int[] points = getIntArray(itemStack, arrayKey);
+        addValueToArray(itemStack.getTag(), arrayKey, index, value);
+    }
+
+    public static void addValueToArray(CompoundTag tag, String arrayKey, int index, int value) {
+        int[] points = getIntArray(tag, arrayKey);
 
         points[index] += value;
         tag.putIntArray(arrayKey, points);
