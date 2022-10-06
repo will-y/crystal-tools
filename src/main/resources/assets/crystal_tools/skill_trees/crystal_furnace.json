@@ -1,5 +1,19 @@
 {
   "tiers": [
+    [
+      {
+        "id": 0,
+        "name": "Furnace Speed I",
+        "description": "Increases smelting speed",
+        "type": "normal",
+        "requirements": [],
+        "key": "speed_bonus",
+        "value": 1
+      },
+      {
+        "id": 1,
 
+      }
+    ]
   ]
 }
