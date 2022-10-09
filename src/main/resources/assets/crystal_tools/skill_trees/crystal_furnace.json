@@ -12,7 +12,12 @@
       },
       {
         "id": 1,
-
+        "name": "Fuel Efficiency I",
+        "description": "Increases time that fuel burns",
+        "type": "normal",
+        "requirements": [],
+        "key": "fuel_bonus",
+        "value": 1
       }
     ]
   ]

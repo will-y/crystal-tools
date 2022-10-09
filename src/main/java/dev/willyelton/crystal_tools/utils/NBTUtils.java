@@ -74,7 +74,7 @@ public class NBTUtils {
     }
 
     public static int[] getIntArray(CompoundTag tag, String arrayKey) {
-        return getIntArray(tag, arrayKey, -1);
+        return getIntArray(tag, arrayKey, 100);
     }
 
     public static int[] getIntArray(CompoundTag tag, String arrayKey, int size) {
