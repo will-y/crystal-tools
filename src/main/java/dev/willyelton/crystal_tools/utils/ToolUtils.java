@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.utils;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
@@ -88,15 +89,23 @@ public class ToolUtils {
         return durability <= 1;
     }
 
-    public static void increaseExpCap(ItemStack stack) {
-        ToolUtils.increaseExpCap(stack, 1);
+    public static void increaseExpCap(CompoundTag tag) {
+        increaseExpCap(tag, 1);
     }
 
-    public static void increaseExpCap(ItemStack stack, int levelIncrease) {
-        int experienceCap = (int) NBTUtils.getFloatOrAddKey(stack, "experience_cap", CrystalToolsConfig.BASE_EXPERIENCE_CAP.get());
+    public static void increaseExpCap(CompoundTag tag, int levelIncrease) {
+        int experienceCap = (int) NBTUtils.getFloatOrAddKey(tag, "experience_cap", CrystalToolsConfig.BASE_EXPERIENCE_CAP.get());
 
         float newCap = Math.min((float) (experienceCap * Math.pow(CrystalToolsConfig.EXPERIENCE_MULTIPLIER.get(), levelIncrease)), CrystalToolsConfig.MAX_EXP.get());
 
-        NBTUtils.setValue(stack, "experience_cap", newCap);
+        NBTUtils.setValue(tag, "experience_cap", newCap);
+    }
+
+    public static void increaseExpCap(ItemStack stack) {
+        increaseExpCap(stack, 1);
+    }
+
+    public static void increaseExpCap(ItemStack stack, int levelIncrease) {
+        increaseExpCap(stack.getTag(), levelIncrease);
     }
 }

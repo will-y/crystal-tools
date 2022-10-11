@@ -47,9 +47,13 @@ public class NBTUtils {
         }
     }
 
+    public static void setValue(CompoundTag tag, String key, float value) {
+        tag.putFloat(key, value);
+    }
+
     public static void setValue(ItemStack itemStack, String key, float value) {
         CompoundTag tag = getTag(itemStack);
-        tag.putFloat(key, value);
+        setValue(tag, key, value);
     }
 
     public static void setValue(ItemStack itemStack, String key, boolean value) {
