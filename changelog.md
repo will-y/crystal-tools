@@ -1,3 +1,7 @@
+----------------------- 1.2.2-RELEASE Changes -----------------------
+### Fixes
+- Fixes a fully upgraded crystal elytra causing infinite health and freezing the game
+
 ----------------------- 1.2.1-RELEASE Changes -----------------------
 ### Fixes
 - Fixes AIOT breaking bedrock when the 3x3 mining upgrade is unlocked
