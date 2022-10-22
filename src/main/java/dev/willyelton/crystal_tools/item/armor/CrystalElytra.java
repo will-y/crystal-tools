@@ -25,9 +25,12 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 public class CrystalElytra extends ElytraItem implements LevelableItem {
+    private static final UUID ELYTRA_UUID = UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D");
+
     public CrystalElytra(Properties pProperties) {
         super(pProperties.fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB));
     }
@@ -95,18 +98,18 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
         if (slot == EquipmentSlot.CHEST) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
             if (!ToolUtils.isBroken(stack)) {
-                builder.put(Attributes.ARMOR, new AttributeModifier("Armor modifier", this.getDefense(stack), AttributeModifier.Operation.ADDITION));
+                builder.put(Attributes.ARMOR, new AttributeModifier(ELYTRA_UUID, "Armor modifier", this.getDefense(stack), AttributeModifier.Operation.ADDITION));
                 builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier("Armor toughness", this.getToughness(stack), AttributeModifier.Operation.ADDITION));
                 int health = (int) NBTUtils.getFloatOrAddKey(stack, "health_bonus");
 
                 if (health > 0) {
-                    builder.put(Attributes.MAX_HEALTH, new AttributeModifier("Health modifier", health, AttributeModifier.Operation.ADDITION));
+                    builder.put(Attributes.MAX_HEALTH, new AttributeModifier(ELYTRA_UUID, "Health modifier", health, AttributeModifier.Operation.ADDITION));
                 }
 
                 float speedBonus = NBTUtils.getFloatOrAddKey(stack, "speed_bonus") / 5;
 
                 if (speedBonus > 0) {
-                    builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier("Speed modifier", speedBonus, AttributeModifier.Operation.MULTIPLY_BASE));
+                    builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(ELYTRA_UUID, "Speed modifier", speedBonus, AttributeModifier.Operation.MULTIPLY_BASE));
                 }
             }
 

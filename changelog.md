@@ -1,3 +1,7 @@
+----------------------- 1.2.1 Changes -----------------------
+### Fixes
+- Fixes a fully upgraded crystal elytra causing infinite health and freezing the game
+
 ----------------------- 1.2.0 Changes -----------------------
 ### Overall
 - Backports the elyta and the rocket to 1.18
