@@ -9,6 +9,7 @@ import dev.willyelton.crystal_tools.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -17,12 +18,13 @@ import net.minecraft.world.item.ItemStack;
 public class UpgradeScreen extends BaseUpgradeScreen {
     private Button healButton;
     private final ItemStack stack;
+    final CompoundTag tag;
 
     public UpgradeScreen(ItemStack itemStack, Player player) {
-        super(itemStack.getTag(), player, Component.literal("Upgrade Screen"));
+        super(player, Component.literal("Upgrade Screen"));
         this.stack = itemStack;
         this.data = getSkillData();
-
+        this.tag = itemStack.getTag();
     }
 
     protected SkillData getSkillData() {
@@ -50,6 +52,11 @@ public class UpgradeScreen extends BaseUpgradeScreen {
             Component text = Component.literal("Uses a skill point to fully repair this tool");
             UpgradeScreen.this.renderTooltip(poseStack, UpgradeScreen.this.minecraft.font.split(text, Math.max(UpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
         }));
+    }
+
+    @Override
+    protected int getSkillPoints() {
+        return (int) NBTUtils.getFloatOrAddKey(tag, "skill_points");
     }
 
     @Override

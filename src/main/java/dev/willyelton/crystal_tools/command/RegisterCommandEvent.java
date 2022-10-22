@@ -11,5 +11,6 @@ public class RegisterCommandEvent {
         CommandDispatcher<CommandSourceStack> commandDispatcher = event.getDispatcher();
 
         AddPointsCommand.register(commandDispatcher);
+        AddPointsBlockCommand.register(commandDispatcher);
     }
 }

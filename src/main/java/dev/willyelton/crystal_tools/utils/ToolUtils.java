@@ -89,14 +89,10 @@ public class ToolUtils {
         return durability <= 1;
     }
 
-    public static void increaseExpCap(CompoundTag tag) {
-        increaseExpCap(tag, 1);
-    }
-
     public static void increaseExpCap(CompoundTag tag, int levelIncrease) {
         int experienceCap = (int) NBTUtils.getFloatOrAddKey(tag, "experience_cap", CrystalToolsConfig.BASE_EXPERIENCE_CAP.get());
 
-        float newCap = Math.min((float) (experienceCap * Math.pow(CrystalToolsConfig.EXPERIENCE_MULTIPLIER.get(), levelIncrease)), CrystalToolsConfig.MAX_EXP.get());
+        int newCap = getNewCap(experienceCap, levelIncrease);
 
         NBTUtils.setValue(tag, "experience_cap", newCap);
     }
@@ -107,5 +103,10 @@ public class ToolUtils {
 
     public static void increaseExpCap(ItemStack stack, int levelIncrease) {
         increaseExpCap(stack.getTag(), levelIncrease);
+    }
+
+    public static int getNewCap(int currentCap, int levelIncrease) {
+        return (int) Math.min((float) (currentCap * Math.pow(CrystalToolsConfig.EXPERIENCE_MULTIPLIER.get(), levelIncrease)), CrystalToolsConfig.MAX_EXP.get());
+
     }
 }

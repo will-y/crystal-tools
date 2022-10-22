@@ -32,7 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public abstract class BaseUpgradeScreen extends Screen {
-    final CompoundTag tag;
     final Player player;
     protected SkillData data;
     private final HashMap<Integer, SkillButton> skillButtons = new HashMap<>();
@@ -45,9 +44,8 @@ public abstract class BaseUpgradeScreen extends Screen {
     private int xOffset = 0;
     private int yOffset = 0;
 
-    public BaseUpgradeScreen(CompoundTag tag, Player player, Component title) {
+    public BaseUpgradeScreen(Player player, Component title) {
         super(title);
-        this.tag = tag;
         this.player = player;
     }
 
@@ -76,10 +74,12 @@ public abstract class BaseUpgradeScreen extends Screen {
     public void render(@NotNull PoseStack poseStack, int mouseX, int mouseY, float particleTicks) {
         this.renderBlockBackground(0, CrystalToolsConfig.UPGRADE_SCREEN_BACKGROUND.get());
         drawDependencyLines(poseStack);
-        drawString(poseStack, font, "Skill Points: " + (int) NBTUtils.getFloatOrAddKey(tag, "skill_points"), 5, 5, Colors.TEXT_LIGHT);
+        drawString(poseStack, font, "Skill Points: " + this.getSkillPoints(), 5, 5, Colors.TEXT_LIGHT);
 
         super.render(poseStack, mouseX, mouseY, particleTicks);
     }
+
+    protected abstract int getSkillPoints();
 
     @Override
     public boolean isPauseScreen() {
@@ -136,7 +136,7 @@ public abstract class BaseUpgradeScreen extends Screen {
     }
 
     void updateButtons() {
-        int skillPoints = (int) NBTUtils.getFloatOrAddKey(tag, "skill_points");
+        int skillPoints = this.getSkillPoints();
         for (SkillButton button : this.skillButtons.values()) {
             SkillDataNode node = button.getDataNode();
             button.active = !button.isComplete && node.canLevel(data, this.player) && skillPoints > 0;
