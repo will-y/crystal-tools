@@ -50,6 +50,8 @@ public class PickaxeLevelableTool extends DiggerLevelableTool {
                     player.broadcastBreakEvent(EquipmentSlot.MAINHAND);
                 });
             }
+        } else {
+            return super.useOn(context);
         }
 
         return InteractionResult.FAIL;
