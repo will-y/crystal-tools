@@ -1,4 +1,8 @@
------------------------ 1.1.4-RELEASE Changes -----------------------
+----------------------- 1.2.1-RELEASE Changes -----------------------
+### Fixes
+- Fixes AIOT breaking bedrock when the 3x3 mining upgrade is unlocked
+
+----------------------- 1.2.0 RELEASE Changes -----------------------
 ### Additions
 - Adds the Crystal Elytra
     - It is armored and can be leveled like other crystal tools/armor
