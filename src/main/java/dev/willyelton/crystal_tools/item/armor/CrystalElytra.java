@@ -99,7 +99,7 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
             if (!ToolUtils.isBroken(stack)) {
                 builder.put(Attributes.ARMOR, new AttributeModifier(ELYTRA_UUID, "Armor modifier", this.getDefense(stack), AttributeModifier.Operation.ADDITION));
-                builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier("Armor toughness", this.getToughness(stack), AttributeModifier.Operation.ADDITION));
+                builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(ELYTRA_UUID, "Armor toughness", this.getToughness(stack), AttributeModifier.Operation.ADDITION));
                 int health = (int) NBTUtils.getFloatOrAddKey(stack, "health_bonus");
 
                 if (health > 0) {

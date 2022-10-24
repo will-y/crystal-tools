@@ -1,3 +1,7 @@
+----------------------- 1.2.2 Changes -----------------------
+### Fixes
+- Pickaxe can now place blocks and use items in the offhand
+
 ----------------------- 1.2.1 Changes -----------------------
 ### Fixes
 - Fixes a fully upgraded crystal elytra causing infinite health and freezing the game
