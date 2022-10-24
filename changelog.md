@@ -1,6 +1,7 @@
 ----------------------- 1.2.3-RELEASE Changes -----------------------
 ### Fixes
 - Actually fixes elytra bug
+- Allows pickaxe to use items and place blocks in the offhand
 
 ----------------------- 1.2.2-RELEASE Changes -----------------------
 ### Fixes

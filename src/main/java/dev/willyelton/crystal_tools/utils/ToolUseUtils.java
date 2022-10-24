@@ -148,7 +148,7 @@ public class ToolUseUtils {
             if (level.getBlockState(position).is(Blocks.AIR) && state.isFaceSturdy(level, position, direction)) {
                 level.setBlock(position, torchBlockState, 0);
             } else {
-                return InteractionResult.FAIL;
+                return InteractionResult.PASS;
             }
 
             if (!level.isClientSide && context.getPlayer() != null) {
@@ -160,7 +160,7 @@ public class ToolUseUtils {
             tool.addExp(itemStack, level, context.getClickedPos(), context.getPlayer());
         }
 
-        return InteractionResult.FAIL;
+        return InteractionResult.PASS;
     }
 
     public static InteractionResult useOnHoe(UseOnContext context, LevelableTool tool) {
