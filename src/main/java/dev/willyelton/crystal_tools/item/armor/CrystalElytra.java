@@ -20,6 +20,7 @@ import net.minecraft.world.item.ElytraItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -73,7 +74,7 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
 
                     this.addExp(stack, entity.getLevel(), entity.getOnPos(), entity);
                 }
-                entity.gameEvent(net.minecraft.world.level.gameevent.GameEvent.ELYTRA_GLIDE);
+                entity.gameEvent(GameEvent.ELYTRA_GLIDE);
             }
         }
         return true;
@@ -98,7 +99,7 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
             if (!ToolUtils.isBroken(stack)) {
                 builder.put(Attributes.ARMOR, new AttributeModifier(ELYTRA_UUID, "Armor modifier", this.getDefense(stack), AttributeModifier.Operation.ADDITION));
-                builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier("Armor toughness", this.getToughness(stack), AttributeModifier.Operation.ADDITION));
+                builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(ELYTRA_UUID, "Armor toughness", this.getToughness(stack), AttributeModifier.Operation.ADDITION));
                 int health = (int) NBTUtils.getFloatOrAddKey(stack, "health_bonus");
 
                 if (health > 0) {
