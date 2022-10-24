@@ -1,3 +1,7 @@
+----------------------- 1.2.3-RELEASE Changes -----------------------
+### Fixes
+- Actually fixes elytra bug
+
 ----------------------- 1.2.2-RELEASE Changes -----------------------
 ### Fixes
 - Fixes a fully upgraded crystal elytra causing infinite health and freezing the game
