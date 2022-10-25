@@ -3,8 +3,10 @@ package dev.willyelton.crystal_tools.item;
 import dev.willyelton.crystal_tools.CreativeTabs;
 import dev.willyelton.crystal_tools.item.tool.LevelableTool;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
+import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
@@ -47,7 +49,7 @@ public class CrystalApple extends LevelableTool {
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand usedHand) {
         ItemStack itemstack = player.getItemInHand(usedHand);
         if (itemstack.getItem() instanceof CrystalApple) {
-            if (player.canEat(itemstack.getFoodProperties(player).canAlwaysEat())) {
+            if (player.canEat(itemstack.getFoodProperties(player).canAlwaysEat()) && !ToolUtils.isBroken(itemstack)) {
                 player.startUsingItem(usedHand);
                 return InteractionResultHolder.pass(itemstack);
             } else {
@@ -70,9 +72,14 @@ public class CrystalApple extends LevelableTool {
     }
 
     @Override
-    public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity livingEntity) {
-        livingEntity.eat(level, stack);
+    public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity player) {
+        player.eat(level, stack);
         stack.grow(1);
+        int nutrition = BASE_NUTRITION + (int) NBTUtils.getFloatOrAddKey(stack, "nutrition_bonus");
+        float saturation = BASE_SATURATION + NBTUtils.getFloatOrAddKey(stack, "saturation_bonus");
+        int effectiveHunger = (int) (nutrition * saturation * 2) + nutrition;
+        this.addExp(stack, level, player.getOnPos(), player, effectiveHunger);
+        stack.hurtAndBreak(1, player, (p) -> p.broadcastBreakEvent(EquipmentSlot.MAINHAND));
         return stack;
     }
 }
