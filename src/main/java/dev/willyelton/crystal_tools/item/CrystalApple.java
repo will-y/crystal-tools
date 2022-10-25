@@ -75,7 +75,10 @@ public class CrystalApple extends LevelableTool {
     @Override
     public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity player) {
         player.eat(level, stack);
-        stack.grow(1);
+
+        if (!(player instanceof Player) || !((Player) player).getAbilities().instabuild) {
+            stack.grow(1);
+        }
         int nutrition = BASE_NUTRITION + (int) NBTUtils.getFloatOrAddKey(stack, "nutrition_bonus");
         float saturation = BASE_SATURATION + NBTUtils.getFloatOrAddKey(stack, "saturation_bonus");
         int effectiveHunger = (int) (nutrition * saturation * 2) + nutrition;
