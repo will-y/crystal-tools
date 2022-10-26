@@ -1,3 +1,16 @@
+----------------------- 1.3.0-RELEASE Changes -----------------------
+### Additions
+- Adds the Crystal Apple
+  - It is a food source with durability that can level up
+  - Has the following upgrades:
+    - Nutrition: Gain more food points back
+    - Saturation: Gain more saturation whenever you eat
+    - Eat Speed: Increases how fast you eat the apple
+    - Durability: Gain more durability
+    - Auto Repair: Repairs the apple over time
+    - Always Eat: You can eat the apple even when full
+    - Effects: You can get many positive effects that apply to the player when you eat the apple
+
 ----------------------- 1.2.3-RELEASE Changes -----------------------
 ### Fixes
 - Actually fixes elytra bug

@@ -6,6 +6,8 @@ import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -34,13 +36,24 @@ public class CrystalApple extends LevelableTool {
         int nutrition = BASE_NUTRITION + (int) NBTUtils.getFloatOrAddKey(stack, "nutrition_bonus");
         float saturation = BASE_SATURATION + NBTUtils.getFloatOrAddKey(stack, "saturation_bonus");
         boolean alwaysEat = NBTUtils.getBoolean(stack, "always_eat");
-        // TODO: Effects
 
         FoodProperties.Builder builder = new FoodProperties.Builder();
 
         builder.nutrition(nutrition).saturationMod(saturation);
 
         if (alwaysEat) builder.alwaysEat();
+
+        if (stack.getTag() != null) {
+            for (int i = 1; i < 34; i++) {
+                if (stack.getTag().contains("effect_" + i)) {
+                    MobEffect effect = MobEffect.byId(i);
+                    if (effect != null) {
+                        MobEffectInstance instance = new MobEffectInstance(effect, (int) NBTUtils.getFloatOrAddKey(stack, "effect_" + i) * 20, 1, false, false);
+                        builder.effect(() -> instance, 1);
+                    }
+                }
+            }
+        }
 
         return builder.build();
     }
