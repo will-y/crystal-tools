@@ -9,10 +9,17 @@ public class CrystalToolsConfig {
     public static ForgeConfigSpec.IntValue BASE_EXPERIENCE_CAP;
     public static ForgeConfigSpec.IntValue MAX_EXP;
     public static ForgeConfigSpec.DoubleValue EXPERIENCE_MULTIPLIER;
+
+    // Exp Boosts
     public static ForgeConfigSpec.DoubleValue ARMOR_EXPERIENCE_BOOST;
     public static ForgeConfigSpec.DoubleValue BOW_EXPERIENCE_BOOST;
     public static ForgeConfigSpec.DoubleValue SWORD_EXPERIENCE_BOOST;
+
+    // Repair
     public static ForgeConfigSpec.IntValue TOOL_REPAIR_COOLDOWN;
+    public static ForgeConfigSpec.DoubleValue ROCKET_REPAIR_MODIFIER;
+    public static ForgeConfigSpec.DoubleValue APPLE_REPAIR_MODIFIER;
+
     public static ForgeConfigSpec.ConfigValue<String> UPGRADE_SCREEN_BACKGROUND;
 
     // Oregen
@@ -63,6 +70,12 @@ public class CrystalToolsConfig {
 
         TOOL_REPAIR_COOLDOWN = builder.comment("Determines the cooldown between tool auto repairs")
                 .defineInRange("tool_repair_cooldown", 50, 1, 10000);
+
+        ROCKET_REPAIR_MODIFIER = builder.comment("Increases the repair cooldown for the rocket")
+                .defineInRange("rocket_repair_modifier", 10D, 1D, 10000D);
+
+        APPLE_REPAIR_MODIFIER = builder.comment("Increases the repair cooldown for the apple")
+                .defineInRange("apple_repair_modifier", 10D, 1D, 10000D);
 
         UPGRADE_SCREEN_BACKGROUND = builder.comment("The block texture to use for the background of the upgrade screen. Must be a vanilla block name.")
                 .define("upgrade_screen_background", "cracked_deepslate_tiles");

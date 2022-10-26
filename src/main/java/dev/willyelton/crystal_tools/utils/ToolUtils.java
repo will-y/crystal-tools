@@ -71,7 +71,7 @@ public class ToolUtils {
         inventoryTick(itemStack, level, entity, inventorySlot, inHand, 1);
     }
 
-    public static void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand, float modifier) {
+    public static void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand, double modifier) {
         if (!inHand) {
             if (NBTUtils.getBoolean(itemStack, "auto_repair", false)) {
                 if (NBTUtils.addValueToTag(itemStack, "auto_repair_counter", 1) > CrystalToolsConfig.TOOL_REPAIR_COOLDOWN.get() * modifier) {

@@ -12,6 +12,8 @@
     - Effects: You can get many positive effects that apply to the player when you eat the apple
 - Adds new config options:
   - `TOOL_REPAIR_COOLDOWN`: Determines the amount of time between automatic tool repairs
+  - `ROCKET_REPAIR_MODIFIER`: Increases the repair cooldown of the rocket specifically because it has a low durability
+  - `APPLE_REPAIR_MODIFIER`: Increases the repair cooldown of the apple specifically because it has a low durability
 
 ----------------------- 1.2.3-RELEASE Changes -----------------------
 ### Fixes
