@@ -13,7 +13,6 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 
 public interface LevelableItem {
-    int AUTO_REPAIR_COUNTER = 50;
 
     // Just used for default values, just at netherite for now
     Tier tier = Tiers.NETHERITE;
