@@ -15,6 +15,9 @@
   - `ROCKET_REPAIR_MODIFIER`: Increases the repair cooldown of the rocket specifically because it has a low durability
   - `APPLE_REPAIR_MODIFIER`: Increases the repair cooldown of the apple specifically because it has a low durability
 
+### Changes
+- Updates to Forge 1.19.2-43.1.47
+
 ----------------------- 1.2.3-RELEASE Changes -----------------------
 ### Fixes
 - Actually fixes elytra bug
