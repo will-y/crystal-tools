@@ -43,6 +43,25 @@ public class CrystalToolsConfig {
     public static ForgeConfigSpec.BooleanValue PAUSE_SCREEN;
     public static ForgeConfigSpec.BooleanValue REQUIRE_CRYSTAL_FOR_RESET;
 
+    // Disable Tools
+    public static ForgeConfigSpec.BooleanValue DISABLE_PICKAXE;
+    public static ForgeConfigSpec.BooleanValue DISABLE_SHOVEL;
+    public static ForgeConfigSpec.BooleanValue DISABLE_AXE;
+    public static ForgeConfigSpec.BooleanValue DISABLE_SWORD;
+    public static ForgeConfigSpec.BooleanValue DISABLE_HOE;
+    public static ForgeConfigSpec.BooleanValue DISABLE_AIOT;
+    public static ForgeConfigSpec.BooleanValue DISABLE_BOW;
+    public static ForgeConfigSpec.BooleanValue DISABLE_ROCKET;
+
+    // Disable Armor
+    public static ForgeConfigSpec.BooleanValue DISABLE_ELYTRA;
+    public static ForgeConfigSpec.BooleanValue DISABLE_HELMET;
+    public static ForgeConfigSpec.BooleanValue DISABLE_CHESTPLATE;
+    public static ForgeConfigSpec.BooleanValue DISABLE_LEGGINGS;
+    public static ForgeConfigSpec.BooleanValue DISABLE_BOOTS;
+
+
+
     static {
         ForgeConfigSpec.Builder configBuilder = new ForgeConfigSpec.Builder();
         setupConfig(configBuilder);
@@ -126,5 +145,22 @@ public class CrystalToolsConfig {
 
         REQUIRE_CRYSTAL_FOR_RESET = builder.comment("Require a crystal item in your inventory for resetting skill points")
                 .define("require_crystal_for_reset", true);
+
+        // Disable Tools
+        DISABLE_PICKAXE = builder.comment("Disables Crystal Pickaxe").define("disable_pickaxe", false);
+        DISABLE_SHOVEL = builder.comment("Disables Crystal Shovel").define("disable_shovel", false);
+        DISABLE_AXE = builder.comment("Disables Crystal Axe").define("disable_axe", false);
+        DISABLE_SWORD = builder.comment("Disables Crystal Sword").define("disable_sword", false);
+        DISABLE_HOE = builder.comment("Disables Crystal Hoe").define("disable_hoe", false);
+        DISABLE_AIOT = builder.comment("Disables Crystal AIOT").define("disable_aiot", false);
+        DISABLE_BOW = builder.comment("Disables Crystal Bow").define("disable_bow", false);
+        DISABLE_ROCKET = builder.comment("Disables Crystal Rocket").define("disable_rocket", false);
+
+        // Disables Armor
+        DISABLE_ELYTRA = builder.comment("Disables Crystal Elytra").define("disable_elytra", false);
+        DISABLE_HELMET = builder.comment("Disables Crystal Helmet").define("disable_helmet", false);
+        DISABLE_CHESTPLATE = builder.comment("Disables Crystal Chestplate").define("disable_chestplate", false);
+        DISABLE_LEGGINGS = builder.comment("Disables Crystal Leggings").define("disable_leggings", false);
+        DISABLE_BOOTS = builder.comment("Disables Crystal Boots").define("disable_boots", false);
     }
 }
