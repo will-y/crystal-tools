@@ -20,6 +20,10 @@ import java.util.List;
 public class ToolUtils {
     // I hate this but needed because armor needs to actually be an ArmorItem
     public static void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag, LevelableItem item) {
+        if (item.isDisabled()) {
+            components.add(Component.literal("\u00A7c\u00A7l" + "Disabled"));
+            return;
+        }
         int newExperience = (int) NBTUtils.getFloatOrAddKey(itemStack, "experience");
         int experienceCap = (int) NBTUtils.getFloatOrAddKey(itemStack, "experience_cap", CrystalToolsConfig.BASE_EXPERIENCE_CAP.get());
 

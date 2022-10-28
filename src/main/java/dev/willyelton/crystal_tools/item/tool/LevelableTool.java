@@ -179,6 +179,4 @@ public abstract class LevelableTool extends Item implements LevelableItem {
             return amount;
         }
     }
-
-    public abstract boolean isDisabled();
 }

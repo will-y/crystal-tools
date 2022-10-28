@@ -48,4 +48,6 @@ public interface LevelableItem {
     String getItemType();
 
     int getMaxDamage(ItemStack itemStack);
+
+    boolean isDisabled();
 }
