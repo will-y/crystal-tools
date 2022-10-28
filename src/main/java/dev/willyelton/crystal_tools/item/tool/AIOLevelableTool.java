@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.item.tool;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.StringUtils;
@@ -128,5 +129,10 @@ public class AIOLevelableTool extends DiggerLevelableTool {
 
     public InteractionResult useOnHoe(UseOnContext context) {
         return ToolUseUtils.useOnHoe(context, this);
+    }
+
+    @Override
+    public boolean isDisabled() {
+        return CrystalToolsConfig.DISABLE_AIOT.get();
     }
 }

@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.item.tool;
 
 import dev.willyelton.crystal_tools.CreativeTabs;
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.item.LevelableItem;
 import dev.willyelton.crystal_tools.item.ModItems;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
@@ -209,5 +210,9 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
         } else {
             return amount;
         }
+    }
+
+    public boolean isDisabled() {
+        return CrystalToolsConfig.DISABLE_BOW.get();
     }
 }

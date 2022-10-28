@@ -60,6 +60,9 @@ public class CrystalToolsConfig {
     public static ForgeConfigSpec.BooleanValue DISABLE_LEGGINGS;
     public static ForgeConfigSpec.BooleanValue DISABLE_BOOTS;
 
+    // Disable Other
+    public static ForgeConfigSpec.BooleanValue DISABLE_APPLE;
+
 
 
     static {
@@ -156,11 +159,14 @@ public class CrystalToolsConfig {
         DISABLE_BOW = builder.comment("Disables Crystal Bow").define("disable_bow", false);
         DISABLE_ROCKET = builder.comment("Disables Crystal Rocket").define("disable_rocket", false);
 
-        // Disables Armor
+        // Disable Armor
         DISABLE_ELYTRA = builder.comment("Disables Crystal Elytra").define("disable_elytra", false);
         DISABLE_HELMET = builder.comment("Disables Crystal Helmet").define("disable_helmet", false);
         DISABLE_CHESTPLATE = builder.comment("Disables Crystal Chestplate").define("disable_chestplate", false);
         DISABLE_LEGGINGS = builder.comment("Disables Crystal Leggings").define("disable_leggings", false);
         DISABLE_BOOTS = builder.comment("Disables Crystal Boots").define("disable_boots", false);
+
+        // Disable Other
+        DISABLE_APPLE = builder.comment("Disables Crystal Apple").define("disable_apple", false);
     }
 }

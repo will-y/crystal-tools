@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.item.tool;
 
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.ToolUseUtils;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
@@ -22,5 +23,10 @@ public class ShovelLevelableTool extends DiggerLevelableTool {
     @Override
     public boolean canPerformAction(ItemStack stack, net.minecraftforge.common.ToolAction toolAction) {
         return net.minecraftforge.common.ToolActions.DEFAULT_SHOVEL_ACTIONS.contains(toolAction);
+    }
+
+    @Override
+    public boolean isDisabled() {
+        return CrystalToolsConfig.DISABLE_SHOVEL.get();
     }
 }

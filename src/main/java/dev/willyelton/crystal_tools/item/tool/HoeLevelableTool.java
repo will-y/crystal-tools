@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.item.tool;
 
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUseUtils;
 import net.minecraft.core.BlockPos;
@@ -46,5 +47,10 @@ public class HoeLevelableTool extends LevelableTool {
             return net.minecraft.world.InteractionResult.SUCCESS;
         }
         return net.minecraft.world.InteractionResult.PASS;
+    }
+
+    @Override
+    public boolean isDisabled() {
+        return CrystalToolsConfig.DISABLE_HOE.get();
     }
 }

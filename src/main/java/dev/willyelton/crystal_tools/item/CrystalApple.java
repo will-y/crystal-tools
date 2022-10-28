@@ -105,4 +105,9 @@ public class CrystalApple extends LevelableTool {
     public void inventoryTick(@NotNull ItemStack itemStack, @NotNull Level level, @NotNull Entity entity, int inventorySlot, boolean inHand) {
         ToolUtils.inventoryTick(itemStack, level, entity, inventorySlot, inHand, CrystalToolsConfig.APPLE_REPAIR_MODIFIER.get());
     }
+
+    @Override
+    public boolean isDisabled() {
+        return CrystalToolsConfig.DISABLE_APPLE.get();
+    }
 }

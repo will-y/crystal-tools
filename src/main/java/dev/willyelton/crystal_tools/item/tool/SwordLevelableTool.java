@@ -104,4 +104,9 @@ public class SwordLevelableTool extends LevelableTool {
     public boolean canPerformAction(ItemStack stack, net.minecraftforge.common.ToolAction toolAction) {
         return net.minecraftforge.common.ToolActions.DEFAULT_SWORD_ACTIONS.contains(toolAction);
     }
+
+    @Override
+    public boolean isDisabled() {
+        return CrystalToolsConfig.DISABLE_SWORD.get();
+    }
 }

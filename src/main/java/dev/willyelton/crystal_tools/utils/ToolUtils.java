@@ -2,10 +2,12 @@ package dev.willyelton.crystal_tools.utils;
 
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.item.LevelableItem;
+import dev.willyelton.crystal_tools.item.tool.LevelableTool;
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -118,7 +120,16 @@ public class ToolUtils {
             stack.getTag().putInt("Damage", damage);
             stack.getTag().putInt("RepairCost", repairCost);
             NBTUtils.setValue(stack, "skill_points", (float) skillPoints);
-            System.out.println("[" + Thread.currentThread().getName() + "], adding skill points: " + skillPoints);
         }
+    }
+
+    public static boolean isDisabled(ItemStack stack) {
+        Item item = stack.getItem();
+
+        if (item instanceof LevelableTool toolItem) {
+
+        }
+
+        return false;
     }
 }
