@@ -10,10 +10,12 @@
     - Auto Repair: Repairs the apple over time
     - Always Eat: You can eat the apple even when full
     - Effects: You can get many positive effects that apply to the player when you eat the apple
+- Adds reset skill points button
 - Adds new config options:
   - `TOOL_REPAIR_COOLDOWN`: Determines the amount of time between automatic tool repairs
   - `ROCKET_REPAIR_MODIFIER`: Increases the repair cooldown of the rocket specifically because it has a low durability
   - `APPLE_REPAIR_MODIFIER`: Increases the repair cooldown of the apple specifically because it has a low durability
+  - `REQUIRE_CRYSTAL_FOR_RESET`: If true, resetting skill points consumes a crystal item in your inventory
 
 ### Changes
 - Updates to Forge 1.19.2-43.1.47

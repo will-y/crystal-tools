@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.utils;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.item.LevelableItem;
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
@@ -11,6 +12,7 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.List;
 
 public class ToolUtils {
@@ -98,5 +100,25 @@ public class ToolUtils {
         float newCap = Math.min((float) (experienceCap * Math.pow(CrystalToolsConfig.EXPERIENCE_MULTIPLIER.get(), levelIncrease)), CrystalToolsConfig.MAX_EXP.get());
 
         NBTUtils.setValue(stack, "experience_cap", newCap);
+    }
+
+    public static void resetPoints(ItemStack stack) {
+        if (stack.hasTag()) {
+            // Things to keep
+            int damage = stack.getTag().getInt("Damage");
+            int repairCost = stack.getTag().getInt("RepairCost");
+            int skillPoints = (int) NBTUtils.getFloatOrAddKey(stack, "skill_points");
+
+            // Total points
+            int[] points = NBTUtils.getIntArray(stack, "points");
+
+            skillPoints += Arrays.stream(points).sum();
+
+            stack.setTag(new CompoundTag());
+            stack.getTag().putInt("Damage", damage);
+            stack.getTag().putInt("RepairCost", repairCost);
+            NBTUtils.setValue(stack, "skill_points", (float) skillPoints);
+            System.out.println("[" + Thread.currentThread().getName() + "], adding skill points: " + skillPoints);
+        }
     }
 }

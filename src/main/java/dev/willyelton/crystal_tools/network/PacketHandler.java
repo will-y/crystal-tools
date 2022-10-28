@@ -29,6 +29,7 @@ public class PacketHandler {
         registerMessage(ToolHealPacket.class, ToolHealPacket::encode, ToolHealPacket::decode, ToolHealPacket.Handler::handle);
         registerMessage(ModeSwitchPacket.class, ModeSwitchPacket::encode, ModeSwitchPacket::decode, ModeSwitchPacket.Handler::handle);
         registerMessage(RemoveItemPacket.class, RemoveItemPacket::encode, RemoveItemPacket::decode, RemoveItemPacket.Handler::handle);
+        registerMessage(ResetSkillsPacket.class, ResetSkillsPacket::encode, ResetSkillsPacket::decode, ResetSkillsPacket::handle);
     }
 
     public static void sendToServer(Object msg) {
