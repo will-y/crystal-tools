@@ -15,11 +15,23 @@
           "condition": "minecraft:survives_explosion"
         },
         {
-          "condition": "minecraft:block_state_property",
-          "block": "crystal_tools:crystal_torch",
-          "properties": {
-            "drop_item": "true"
-          }
+          "condition": "minecraft:alternative",
+          "terms": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "crystal_tools:crystal_torch",
+              "properties": {
+                "drop_item": "true"
+              }
+            },
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "crystal_tools:crystal_wall_torch",
+              "properties": {
+                "drop_item": "true"
+              }
+            }
+          ]
         }
       ]
     }

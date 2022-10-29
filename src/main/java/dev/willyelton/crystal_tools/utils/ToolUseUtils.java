@@ -1,6 +1,9 @@
 package dev.willyelton.crystal_tools.utils;
 
 import com.mojang.datafixers.util.Pair;
+import dev.willyelton.crystal_tools.block.CrystalTorch;
+import dev.willyelton.crystal_tools.block.CrystalWallTorch;
+import dev.willyelton.crystal_tools.block.ModBlocks;
 import dev.willyelton.crystal_tools.item.tool.LevelableTool;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -138,11 +141,11 @@ public class ToolUseUtils {
             BlockState torchBlockState;
 
             if (direction.equals(Direction.UP)) {
-                torchBlockState = Blocks.TORCH.defaultBlockState();
+                torchBlockState = ModBlocks.CRYSTAL_TORCH.get().defaultBlockState().setValue(CrystalTorch.DROP_ITEM, false);
             } else if (direction.equals(Direction.DOWN)) {
                 return InteractionResult.PASS;
             } else {
-                torchBlockState = Blocks.WALL_TORCH.defaultBlockState().setValue(WallTorchBlock.FACING, direction);
+                torchBlockState = ModBlocks.CRYSTAL_WALL_TORCH.get().defaultBlockState().setValue(CrystalWallTorch.FACING, direction).setValue(CrystalTorch.DROP_ITEM, false);
             }
 
             if (level.getBlockState(position).is(Blocks.AIR) && state.isFaceSturdy(level, position, direction)) {
