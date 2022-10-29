@@ -32,6 +32,10 @@ public class AxeLevelableTool extends LevelableTool {
 
     @Override
     public @NotNull InteractionResult useOn(@NotNull UseOnContext pContext) {
+        if (this.isDisabled()) {
+            pContext.getItemInHand().shrink(1);
+            return InteractionResult.FAIL;
+        }
         InteractionResult result = ToolUseUtils.useOnAxe(pContext, this);
 
         if (result == InteractionResult.SUCCESS || result == InteractionResult.sidedSuccess(pContext.getLevel().isClientSide)) {
@@ -95,13 +99,10 @@ public class AxeLevelableTool extends LevelableTool {
             recursiveBreakHelper(tool, level, blockPos, entity, minedBlock, 0);
         }
 
-        super.mineBlock(tool, level, blockState, blockPos, entity);
-
-        return true;
+        return super.mineBlock(tool, level, blockState, blockPos, entity);
     }
 
     private void recursiveBreakHelper(ItemStack tool, Level level, BlockPos blockPos, LivingEntity entity, Block block, int depth) {
-
         if (depth > MAX_RECURSIVE_DEPTH) {
             return;
         }

@@ -14,6 +14,10 @@ public class PickaxeLevelableTool extends DiggerLevelableTool {
     }
 
     public @NotNull InteractionResult useOn(@NotNull UseOnContext context) {
+        if (this.isDisabled()) {
+            context.getItemInHand().shrink(1);
+            return InteractionResult.FAIL;
+        }
         return ToolUseUtils.useOnTorch(context, this);
     }
 

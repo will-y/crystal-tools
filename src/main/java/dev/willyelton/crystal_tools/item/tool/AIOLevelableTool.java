@@ -40,6 +40,11 @@ public class AIOLevelableTool extends DiggerLevelableTool {
     // From Sword
     @Override
     public boolean hurtEnemy(ItemStack tool, @NotNull LivingEntity target, @NotNull LivingEntity attacker) {
+        if (this.isDisabled()) {
+            tool.shrink(1);
+            return false;
+        }
+
         tool.hurtAndBreak(1, attacker, (p_43296_) -> {
             p_43296_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
         });
@@ -79,6 +84,11 @@ public class AIOLevelableTool extends DiggerLevelableTool {
     @Override
     public @NotNull InteractionResult useOn(UseOnContext context) {
         ItemStack stack = context.getItemInHand();
+
+        if (this.isDisabled()) {
+            stack.shrink(1);
+            return InteractionResult.FAIL;
+        }
 
         UseMode mode = UseMode.fromString(NBTUtils.getString(stack, "use_mode"));
 

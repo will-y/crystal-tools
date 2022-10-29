@@ -20,6 +20,10 @@ public class HoeLevelableTool extends LevelableTool {
 
     @Override
     public @NotNull InteractionResult useOn(@NotNull UseOnContext context) {
+        if (this.isDisabled()) {
+            context.getItemInHand().shrink(1);
+            return InteractionResult.FAIL;
+        }
         return ToolUseUtils.useOnHoe(context, this);
     }
 
@@ -30,6 +34,11 @@ public class HoeLevelableTool extends LevelableTool {
 
     @Override
     public net.minecraft.world.@NotNull InteractionResult interactLivingEntity(@NotNull ItemStack stack, net.minecraft.world.entity.player.@NotNull Player playerIn, @NotNull LivingEntity entity, net.minecraft.world.@NotNull InteractionHand hand) {
+        if (this.isDisabled()) {
+            stack.shrink(1);
+            return InteractionResult.FAIL;
+        }
+
         if (NBTUtils.getFloatOrAddKey(stack, "shear") >= 1 && entity instanceof net.minecraftforge.common.IForgeShearable target) {
             if (entity.level.isClientSide) return net.minecraft.world.InteractionResult.SUCCESS;
             BlockPos pos = new BlockPos(entity.getX(), entity.getY(), entity.getZ());
