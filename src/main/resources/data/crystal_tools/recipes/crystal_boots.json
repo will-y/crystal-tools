@@ -1,22 +1,39 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern":
-  [
-    "X X",
-    "XNX"
-  ],
-  "key":
-  {
-    "X": {
-      "item": "crystal_tools:crystal"
-    },
-    "N": {
-      "item": "minecraft:netherite_ingot"
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:not",
+          "value": {
+            "type": "crystal_tools:item_disabled",
+            "item": "crystal_tools:crystal_boots"
+          }
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "pattern":
+        [
+          "X X",
+          "XNX"
+        ],
+        "key":
+        {
+          "X": {
+            "item": "crystal_tools:crystal"
+          },
+          "N": {
+            "item": "minecraft:netherite_ingot"
+          }
+        },
+        "result":
+        {
+          "item": "crystal_tools:crystal_boots",
+          "count": 1
+        }
+      }
     }
-  },
-  "result":
-  {
-    "item": "crystal_tools:crystal_boots",
-    "count": 1
-  }
+  ]
 }
+
