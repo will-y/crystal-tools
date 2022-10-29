@@ -27,6 +27,8 @@ public class CrystalElytraRecipe extends CustomRecipe {
 
     @Override
     public boolean matches(@NotNull CraftingContainer container, @NotNull Level level) {
+        if (CrystalToolsConfig.DISABLE_ELYTRA.get()) return false;
+
         boolean foundElytra = false;
         boolean foundChestplate = false;
 
