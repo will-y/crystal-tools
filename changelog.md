@@ -19,9 +19,12 @@
 - Adds config options to disable each tool and each piece of armor
   - Removes crafting of the tool
   - Will break if used, mined with, or attacked with (or wear if it is armor or elytra)
+- Adds the crystal torch
 
 ### Changes
 - Updates to Forge 1.19.2-43.1.47
+- Tools that can place torches now place crystal torches
+  - These torches do not drop items when broken
 
 ----------------------- 1.2.3-RELEASE Changes -----------------------
 ### Fixes
