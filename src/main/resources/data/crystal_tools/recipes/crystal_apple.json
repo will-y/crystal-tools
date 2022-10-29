@@ -1,0 +1,39 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:not",
+          "value": {
+            "type": "crystal_tools:item_disabled",
+            "item": "crystal_tools:crystal_apple"
+          }
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "pattern":
+        [
+          "CCC",
+          "CRC",
+          "CCC"
+        ],
+        "key":
+        {
+          "C": {
+            "item": "crystal_tools:crystal"
+          },
+          "R": {
+            "item": "minecraft:apple"
+          }
+        },
+        "result":
+        {
+          "item": "crystal_tools:crystal_apple",
+          "count": 1
+        }
+      }
+    }
+  ]
+}
