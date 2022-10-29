@@ -18,7 +18,7 @@
   - `REQUIRE_CRYSTAL_FOR_RESET`: If true, resetting skill points consumes a crystal item in your inventory
 - Adds config options to disable each tool and each piece of armor
   - Removes crafting of the tool
-  - Will break if used to attack or mine (or wear if it is armor)
+  - Will break if used, mined with, or attacked with (or wear if it is armor or elytra)
 
 ### Changes
 - Updates to Forge 1.19.2-43.1.47
