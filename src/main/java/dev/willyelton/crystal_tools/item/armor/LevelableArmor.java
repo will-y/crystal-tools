@@ -143,6 +143,11 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Wearable
 
     @Override
     public void onArmorTick(ItemStack stack, Level world, Player player) {
+        if (this.isDisabled()) {
+            stack.shrink(1);
+            return;
+        }
+
         if (!ToolUtils.isBroken(stack) && NBTUtils.getFloatOrAddKey(stack, "night_vision") > 0) {
             player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 400, 0, false, false));
         }
