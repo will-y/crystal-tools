@@ -16,6 +16,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.ElytraItem;
 import net.minecraft.world.item.ItemStack;
@@ -60,6 +61,13 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
     @Override
     public  EquipmentSlot getEquipmentSlot(ItemStack stack) {
         return EquipmentSlot.CHEST;
+    }
+
+    @Override
+    public void onArmorTick(ItemStack stack, Level world, Player player) {
+        if (this.isDisabled()) {
+            stack.shrink(1);
+        }
     }
 
     @Override
