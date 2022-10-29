@@ -10,6 +10,8 @@ import dev.willyelton.crystal_tools.item.armor.ModArmor;
 import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.item.tool.ModTools;
 import dev.willyelton.crystal_tools.world.ModOres;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -71,7 +73,6 @@ public class CrystalTools {
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
-
     }
 
     private void init(final FMLCommonSetupEvent event) {
