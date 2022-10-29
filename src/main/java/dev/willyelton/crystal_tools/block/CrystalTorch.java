@@ -18,7 +18,7 @@ public class CrystalTorch extends TorchBlock {
     }
 
     public CrystalTorch(BlockBehaviour.Properties properties) {
-        super(properties.noCollission().instabreak().lightLevel((state) -> 14).sound(SoundType.WOOD), ParticleTypes.FLAME);
+        super(properties.noCollission().instabreak().lightLevel((state) -> 14).sound(SoundType.WOOD), ParticleTypes.SOUL_FIRE_FLAME);
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
