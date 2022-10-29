@@ -22,9 +22,15 @@ public class CrystalRocket extends LevelableTool {
 
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pHand) {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
+        if (this.isDisabled()) {
+            itemstack.shrink(1);
+            return InteractionResultHolder.fail(itemstack);
+        }
+
         if (ToolUtils.isBroken(itemstack)) {
             return InteractionResultHolder.pass(itemstack);
         }
+
         if (pPlayer.isFallFlying()) {
 
             if (!pLevel.isClientSide) {

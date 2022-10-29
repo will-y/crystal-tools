@@ -63,6 +63,11 @@ public class CrystalApple extends LevelableTool {
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand usedHand) {
         ItemStack itemstack = player.getItemInHand(usedHand);
+        if (this.isDisabled()) {
+            itemstack.shrink(1);
+            return InteractionResultHolder.fail(itemstack);
+        }
+
         if (itemstack.getItem() instanceof CrystalApple) {
             if (player.canEat(itemstack.getFoodProperties(player).canAlwaysEat()) && !ToolUtils.isBroken(itemstack)) {
                 player.startUsingItem(usedHand);
