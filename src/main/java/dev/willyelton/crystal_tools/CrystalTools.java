@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools;
 import dev.willyelton.crystal_tools.block.ModBlocks;
 import dev.willyelton.crystal_tools.command.RegisterCommandEvent;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
+import dev.willyelton.crystal_tools.crafting.ItemDisabledCondition;
 import dev.willyelton.crystal_tools.crafting.ModRecipes;
 import dev.willyelton.crystal_tools.item.ModItems;
 import dev.willyelton.crystal_tools.item.armor.ModArmor;
@@ -10,6 +11,7 @@ import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.item.tool.ModTools;
 import dev.willyelton.crystal_tools.world.ModOres;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -26,6 +28,7 @@ public class CrystalTools {
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
     public static final String MODID = "crystal_tools";
+    public static final ItemDisabledCondition.Serializer INSTANCE = new ItemDisabledCondition.Serializer();
 
     public CrystalTools() {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -73,6 +76,9 @@ public class CrystalTools {
 
     private void init(final FMLCommonSetupEvent event) {
         // some preinit code
+        event.enqueueWork(() -> {
+            CraftingHelper.register(INSTANCE);
+        });
     }
 
     private void setup() {
