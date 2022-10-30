@@ -58,6 +58,6 @@ public class CrystalRocket extends LevelableTool {
 
     @Override
     public boolean isDisabled() {
-        return CrystalToolsConfig.DISABLE_AIOT.get();
+        return CrystalToolsConfig.DISABLE_ROCKET.get();
     }
 }

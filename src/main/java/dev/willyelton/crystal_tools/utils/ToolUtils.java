@@ -126,14 +126,4 @@ public class ToolUtils {
             NBTUtils.setValue(stack, "skill_points", (float) skillPoints);
         }
     }
-
-    public static boolean isDisabled(ItemStack stack) {
-        Item item = stack.getItem();
-
-        if (item instanceof LevelableTool toolItem) {
-
-        }
-
-        return false;
-    }
 }
