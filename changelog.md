@@ -25,6 +25,11 @@
 - Updates to Forge 1.19.2-43.1.47
 - Tools that can place torches now place crystal torches
   - These torches do not drop items when broken
+- Crafting a Crystal AIOT now gives you the skill points from the tools used to make it
+
+### Fixes
+- Fixes other items being able to be added in to the crystal elytra recipe
+
 
 ----------------------- 1.2.3-RELEASE Changes -----------------------
 ### Fixes
