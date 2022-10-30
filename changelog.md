@@ -19,7 +19,7 @@
     - `APPLE_EXPERIENCE_BOOST`: Increases the amount of experience apples get when used
 - Adds config options to disable each tool and each piece of armor
 	- Removes crafting of the tool
-	- Will break if used, mined with, or attacked with (or wear if it is armor or elytra)
+	- Will break if used, mined with, or attacked with (or worn if it is armor or elytra)
 - Adds the crystal torch
 
 ### Changes
