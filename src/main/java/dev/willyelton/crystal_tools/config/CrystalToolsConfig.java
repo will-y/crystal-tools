@@ -14,6 +14,8 @@ public class CrystalToolsConfig {
     public static ForgeConfigSpec.DoubleValue ARMOR_EXPERIENCE_BOOST;
     public static ForgeConfigSpec.DoubleValue BOW_EXPERIENCE_BOOST;
     public static ForgeConfigSpec.DoubleValue SWORD_EXPERIENCE_BOOST;
+    public static ForgeConfigSpec.IntValue ROCKET_EXPERIENCE_BOOST;
+    public static ForgeConfigSpec.DoubleValue APPLE_EXPERIENCE_BOOST;
 
     // Repair
     public static ForgeConfigSpec.IntValue TOOL_REPAIR_COOLDOWN;
@@ -90,6 +92,12 @@ public class CrystalToolsConfig {
 
         SWORD_EXPERIENCE_BOOST = builder.comment("Multiplies how much experience Swords get. (EXP_GAINED = DAMAGE_DONE * SWORD_EXPERIENCE_BOOST")
                 .defineInRange("sword_experience_boost", 1D, 0.1D, 10000D);
+
+        ROCKET_EXPERIENCE_BOOST = builder.comment("Determines how much experience rockets get when used")
+                .defineInRange("rocket_experience_boost", 5, 1, 100);
+
+        APPLE_EXPERIENCE_BOOST = builder.comment("Multiplies how much experience Apples get. (EXP_GAINED = EFFECTIVE_HUNGER_RESTORED * APPLE_EXPERIENCE_BOOST")
+                .defineInRange("apple_experience_boost", 1, 0.1D, 1000D);
 
         TOOL_REPAIR_COOLDOWN = builder.comment("Determines the cooldown between tool auto repairs")
                 .defineInRange("tool_repair_cooldown", 50, 1, 10000);

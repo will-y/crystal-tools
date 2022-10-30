@@ -101,7 +101,7 @@ public class CrystalApple extends LevelableTool {
         int nutrition = BASE_NUTRITION + (int) NBTUtils.getFloatOrAddKey(stack, "nutrition_bonus");
         float saturation = BASE_SATURATION + NBTUtils.getFloatOrAddKey(stack, "saturation_bonus");
         int effectiveHunger = (int) (nutrition * saturation * 2) + nutrition;
-        this.addExp(stack, level, player.getOnPos(), player, effectiveHunger);
+        this.addExp(stack, level, player.getOnPos(), player, (int) (effectiveHunger * CrystalToolsConfig.APPLE_EXPERIENCE_BOOST.get()));
         stack.hurtAndBreak(1, player, (p) -> p.broadcastBreakEvent(EquipmentSlot.MAINHAND));
         return stack;
     }

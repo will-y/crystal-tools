@@ -32,7 +32,6 @@ public class CrystalRocket extends LevelableTool {
         }
 
         if (pPlayer.isFallFlying()) {
-
             if (!pLevel.isClientSide) {
                 int flightTime = (int) NBTUtils.getFloatOrAddKey(itemstack, "flight_bonus", 1);
                 itemstack.getOrCreateTagElement("Fireworks").putByte("Flight", Byte.parseByte(String.valueOf(flightTime)));
@@ -42,7 +41,7 @@ public class CrystalRocket extends LevelableTool {
                 pPlayer.awardStat(Stats.ITEM_USED.get(this));
             }
 
-            addExp(itemstack, pLevel, pPlayer.getOnPos(), pPlayer, 5);
+            addExp(itemstack, pLevel, pPlayer.getOnPos(), pPlayer, CrystalToolsConfig.ROCKET_EXPERIENCE_BOOST.get());
             itemstack.hurtAndBreak(1, pPlayer, (player) -> player.broadcastBreakEvent(EquipmentSlot.MAINHAND));
 
             return InteractionResultHolder.sidedSuccess(itemstack, pLevel.isClientSide());
