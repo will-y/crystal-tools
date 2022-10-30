@@ -7,7 +7,16 @@ public class ArrayUtils {
                 return true;
             }
         }
-
         return false;
+    }
+
+    public static <T> int indexOf(T[] array, T element) {
+        for (int i = 0; i < array.length; i++) {
+            if (element.equals(array[i])) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 }

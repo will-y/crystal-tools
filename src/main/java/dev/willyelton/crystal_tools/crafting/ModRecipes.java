@@ -10,7 +10,9 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class ModRecipes {
     public static final DeferredRegister<RecipeSerializer<?>> RECIPES = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, CrystalTools.MODID);
+
     public static final RegistryObject<SimpleRecipeSerializer<CrystalElytraRecipe>> CRYSTAL_ELYTRA_RECIPE = RECIPES.register("crystal_elytra_recipe", () -> new SimpleRecipeSerializer<>(CrystalElytraRecipe::new));
+    public static final RegistryObject<SimpleRecipeSerializer<CrystalAIOTRecipe>> CRYSTAL_AIOT_RECIPE = RECIPES.register("crystal_aiot_recipe", () -> new SimpleRecipeSerializer<>(CrystalAIOTRecipe::new));
 
     public static void initRecipes() {
         RECIPES.register(FMLJavaModLoadingContext.get().getModEventBus());
