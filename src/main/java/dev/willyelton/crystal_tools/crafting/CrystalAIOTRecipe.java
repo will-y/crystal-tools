@@ -26,7 +26,7 @@ public class CrystalAIOTRecipe extends CustomRecipe {
             ModTools.CRYSTAL_PICKAXE.get(),
             ModTools.CRYSTAL_SHOVEL.get(),
             ModTools.CRYSTAL_HOE.get(),
-            ModTools.CRYSTAL_SHOVEL.get(),
+            ModTools.CRYSTAL_SWORD.get(),
             Items.SLIME_BLOCK
     };
 
@@ -42,6 +42,7 @@ public class CrystalAIOTRecipe extends CustomRecipe {
 
         for (int i = 0; i < container.getContainerSize(); i++) {
             ItemStack itemStack = container.getItem(i);
+            boolean foundItem = false;
 
             for (int j = 0; j < requiredItems.length; j++) {
                 if (itemStack.is(requiredItems[j])) {
@@ -49,7 +50,12 @@ public class CrystalAIOTRecipe extends CustomRecipe {
                         return false;
                     }
                     itemsFound[j] = true;
+                    foundItem = true;
                 }
+            }
+
+            if (!foundItem && !itemStack.isEmpty()) {
+                return false;
             }
         }
 

@@ -43,6 +43,8 @@ public class CrystalElytraRecipe extends CustomRecipe {
                 if (foundElytra)
                     return false;
                 foundElytra = true;
+            } else if (!itemStack.isEmpty()) {
+                return false;
             }
         }
 
