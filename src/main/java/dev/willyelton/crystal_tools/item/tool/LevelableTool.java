@@ -32,7 +32,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 // For now just focus on things that mine (not sword)
-public class LevelableTool extends Item implements LevelableItem {
+public abstract class LevelableTool extends Item implements LevelableItem {
 
     // Blocks that can be mined by default
     protected final TagKey<Block> blocks;
@@ -68,6 +68,11 @@ public class LevelableTool extends Item implements LevelableItem {
     // Idk if these parameters are right, just guessing
     @Override
     public boolean hurtEnemy(ItemStack tool, @NotNull LivingEntity target, @NotNull LivingEntity attacker) {
+        if (this.isDisabled()) {
+            tool.shrink(1);
+            return false;
+        }
+
         tool.hurtAndBreak(2, attacker, (player) -> {
             player.broadcastBreakEvent(EquipmentSlot.MAINHAND);
         });
@@ -76,6 +81,11 @@ public class LevelableTool extends Item implements LevelableItem {
 
     @Override
     public boolean mineBlock(@NotNull ItemStack tool, Level level, @NotNull BlockState blockState, @NotNull BlockPos blockPos, @NotNull LivingEntity entity) {
+        if (this.isDisabled()) {
+            tool.shrink(1);
+            return false;
+        }
+
         if (!level.isClientSide && blockState.getDestroySpeed(level, blockPos) != 0.0F) {
             tool.hurtAndBreak(1, entity, (player) -> {
                 player.broadcastBreakEvent(EquipmentSlot.MAINHAND);

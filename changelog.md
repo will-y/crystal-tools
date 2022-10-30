@@ -1,3 +1,29 @@
+----------------------- 1.3.0 Changes -----------------------
+### Additions
+- Adds the Crystal Apple
+	- It is a food source with durability that can level up
+	- Has the following upgrades:
+		- Nutrition: Gain more food points back
+		- Saturation: Gain more saturation whenever you eat
+		- Eat Speed: Increases how fast you eat the apple
+		- Durability: Gain more durability
+		- Auto Repair: Repairs the apple over time
+		- Always Eat: You can eat the apple even when full
+		- Effects: You can get many positive effects that apply to the player when you eat the apple
+- Adds reset skill points button
+- Adds new config options:
+	- `TOOL_REPAIR_COOLDOWN`: Determines the amount of time between automatic tool repairs
+	- `ROCKET_REPAIR_MODIFIER`: Increases the repair cooldown of the rocket specifically because it has a low durability
+	- `APPLE_REPAIR_MODIFIER`: Increases the repair cooldown of the apple specifically because it has a low durability
+- Adds config options to disable each tool and each piece of armor
+	- Removes crafting of the tool
+	- Will break if used, mined with, or attacked with (or wear if it is armor or elytra)
+- Adds the crystal torch
+
+### Changes
+- Tools that can place torches now place crystal torches
+	- These torches do not drop items when broken
+
 ----------------------- 1.2.2 Changes -----------------------
 ### Fixes
 - Pickaxe can now place blocks and use items in the offhand

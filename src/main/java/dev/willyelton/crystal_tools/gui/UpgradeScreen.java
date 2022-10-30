@@ -1,12 +1,12 @@
 package dev.willyelton.crystal_tools.gui;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Matrix4f;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.network.PacketHandler;
+import dev.willyelton.crystal_tools.network.ResetSkillsPacket;
 import dev.willyelton.crystal_tools.network.ToolAttributePacket;
 import dev.willyelton.crystal_tools.network.ToolHealPacket;
 import dev.willyelton.crystal_tools.item.LevelableItem;
@@ -17,6 +17,7 @@ import dev.willyelton.crystal_tools.item.skill.requirement.RequirementType;
 import dev.willyelton.crystal_tools.item.skill.requirement.SkillDataRequirement;
 import dev.willyelton.crystal_tools.utils.Colors;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
+import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
@@ -30,9 +31,10 @@ import java.util.List;
 
 public class UpgradeScreen extends Screen {
     private final ItemStack tool;
-    private final SkillData toolData;
+    private SkillData toolData;
     private final HashMap<Integer, SkillButton> skillButtons = new HashMap<>();
     private Button healButton;
+    private Button resetButton;
 
     private static final int Y_PADDING = 20;
     private static final int X_SIZE = 100;
@@ -76,6 +78,28 @@ public class UpgradeScreen extends Screen {
         }, (button, poseStack, mouseX, mouseY) -> {
             Component text = new TextComponent("Uses a skill point to fully repair this tool");
             UpgradeScreen.this.renderTooltip(poseStack, UpgradeScreen.this.minecraft.font.split(text, Math.max(UpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
+        }));
+
+        resetButton = addRenderableWidget(new Button(width - 40 - 5, 15, 40, Y_SIZE, new TextComponent("Reset"), (button) -> {
+            // Server
+            PacketHandler.sendToServer(new ResetSkillsPacket());
+
+            // Client
+            ToolUtils.resetPoints(this.tool);
+
+            int[] points = NBTUtils.getIntArray(tool, "points");
+            if (tool.getItem() instanceof LevelableItem) {
+                String toolType = ((LevelableItem) tool.getItem()).getItemType();
+                toolData = SkillData.fromResourceLocation(new ResourceLocation("crystal_tools", String.format("skill_trees/%s.json", toolType)), points);
+            } else {
+                toolData = null;
+            }
+
+            this.onClose();
+        }, (button, poseStack, mouseX, mouseY) -> {
+            String text = "Reset Skill Points";
+            Component textComponent = new TextComponent(text);
+            UpgradeScreen.this.renderTooltip(poseStack, UpgradeScreen.this.minecraft.font.split(textComponent, Math.max(UpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
         }));
 
         this.updateButtons();

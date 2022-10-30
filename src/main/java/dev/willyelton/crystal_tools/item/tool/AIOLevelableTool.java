@@ -3,11 +3,9 @@ package dev.willyelton.crystal_tools.item.tool;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.mojang.datafixers.util.Pair;
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
-import dev.willyelton.crystal_tools.utils.LevelUtils;
-import dev.willyelton.crystal_tools.utils.NBTUtils;
-import dev.willyelton.crystal_tools.utils.StringUtils;
-import dev.willyelton.crystal_tools.utils.ToolUtils;
+import dev.willyelton.crystal_tools.utils.*;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -53,6 +51,11 @@ public class AIOLevelableTool extends DiggerLevelableTool {
     // From Sword
     @Override
     public boolean hurtEnemy(ItemStack tool, LivingEntity target, LivingEntity attacker) {
+        if (this.isDisabled()) {
+            tool.shrink(1);
+            return false;
+        }
+
         tool.hurtAndBreak(1, attacker, (p_43296_) -> {
             p_43296_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
         });
@@ -92,6 +95,11 @@ public class AIOLevelableTool extends DiggerLevelableTool {
     @Override
     public InteractionResult useOn(UseOnContext context) {
         ItemStack stack = context.getItemInHand();
+
+        if (this.isDisabled()) {
+            stack.shrink(1);
+            return InteractionResult.FAIL;
+        }
 
         UseMode mode = UseMode.fromString(NBTUtils.getString(stack, "use_mode"));
 
@@ -228,39 +236,7 @@ public class AIOLevelableTool extends DiggerLevelableTool {
     }
 
     public InteractionResult useOnTorch(UseOnContext context) {
-        ItemStack tool = context.getItemInHand();
-
-        if (NBTUtils.getFloatOrAddKey(tool, "torch") > 0) {
-            Level level = context.getLevel();
-            BlockPos position = context.getClickedPos();
-            BlockState state = level.getBlockState(position);
-            Direction direction = context.getClickedFace();
-            position = position.relative(direction);
-
-            BlockState torchBlockState;
-
-            if (direction.equals(Direction.UP)) {
-                torchBlockState = Blocks.TORCH.defaultBlockState();
-            } else if (direction.equals(Direction.DOWN)) {
-                return InteractionResult.PASS;
-            } else {
-                torchBlockState = Blocks.WALL_TORCH.defaultBlockState().setValue(WallTorchBlock.FACING, direction);
-            }
-
-            if (level.getBlockState(position).is(Blocks.AIR) && state.isFaceSturdy(level, position, direction)) {
-                level.setBlock(position, torchBlockState, 0);
-            } else {
-                return InteractionResult.FAIL;
-            }
-
-            if (!level.isClientSide && context.getPlayer() != null) {
-                tool.hurtAndBreak(10, context.getPlayer(), (player) -> {
-                    player.broadcastBreakEvent(EquipmentSlot.MAINHAND);
-                });
-            }
-        }
-
-        return InteractionResult.FAIL;
+        return ToolUseUtils.useOnTorch(context, this);
     }
 
     public InteractionResult useOnHoe(UseOnContext context) {
@@ -305,5 +281,10 @@ public class AIOLevelableTool extends DiggerLevelableTool {
         }
 
         return InteractionResult.PASS;
+    }
+
+    @Override
+    public boolean isDisabled() {
+        return CrystalToolsConfig.DISABLE_AIOT.get();
     }
 }

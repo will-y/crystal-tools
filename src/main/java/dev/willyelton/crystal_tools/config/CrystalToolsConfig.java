@@ -9,10 +9,17 @@ public class CrystalToolsConfig {
     public static ForgeConfigSpec.IntValue BASE_EXPERIENCE_CAP;
     public static ForgeConfigSpec.IntValue MAX_EXP;
     public static ForgeConfigSpec.DoubleValue EXPERIENCE_MULTIPLIER;
+
+    // Exp Boost
     public static ForgeConfigSpec.DoubleValue ARMOR_EXPERIENCE_BOOST;
     public static ForgeConfigSpec.DoubleValue BOW_EXPERIENCE_BOOST;
     public static ForgeConfigSpec.DoubleValue SWORD_EXPERIENCE_BOOST;
     public static ForgeConfigSpec.ConfigValue<String> UPGRADE_SCREEN_BACKGROUND;
+
+    // Repair
+    public static ForgeConfigSpec.IntValue TOOL_REPAIR_COOLDOWN;
+    public static ForgeConfigSpec.DoubleValue ROCKET_REPAIR_MODIFIER;
+    public static ForgeConfigSpec.DoubleValue APPLE_REPAIR_MODIFIER;
 
     // Oregen
     // Stone
@@ -28,6 +35,26 @@ public class CrystalToolsConfig {
     public static ForgeConfigSpec.IntValue DEEPSLATE_PER_CHUNK;
     public static ForgeConfigSpec.IntValue DEEPSLATE_BOTTOM;
     public static ForgeConfigSpec.IntValue DEEPSLATE_TOP;
+
+    // Disable Tools
+    public static ForgeConfigSpec.BooleanValue DISABLE_PICKAXE;
+    public static ForgeConfigSpec.BooleanValue DISABLE_SHOVEL;
+    public static ForgeConfigSpec.BooleanValue DISABLE_AXE;
+    public static ForgeConfigSpec.BooleanValue DISABLE_SWORD;
+    public static ForgeConfigSpec.BooleanValue DISABLE_HOE;
+    public static ForgeConfigSpec.BooleanValue DISABLE_AIOT;
+    public static ForgeConfigSpec.BooleanValue DISABLE_BOW;
+    public static ForgeConfigSpec.BooleanValue DISABLE_ROCKET;
+
+    // Disable Armor
+    public static ForgeConfigSpec.BooleanValue DISABLE_ELYTRA;
+    public static ForgeConfigSpec.BooleanValue DISABLE_HELMET;
+    public static ForgeConfigSpec.BooleanValue DISABLE_CHESTPLATE;
+    public static ForgeConfigSpec.BooleanValue DISABLE_LEGGINGS;
+    public static ForgeConfigSpec.BooleanValue DISABLE_BOOTS;
+
+    // Disable Other
+    public static ForgeConfigSpec.BooleanValue DISABLE_APPLE;
 
     static {
         ForgeConfigSpec.Builder configBuilder = new ForgeConfigSpec.Builder();
@@ -53,6 +80,15 @@ public class CrystalToolsConfig {
 
         SWORD_EXPERIENCE_BOOST = builder.comment("Multiplies how much experience Swords get. (EXP_GAINED = DAMAGE_DONE * SWORD_EXPERIENCE_BOOST")
                 .defineInRange("sword_experience_boost", 1D, 0.1D, 10000D);
+
+        TOOL_REPAIR_COOLDOWN = builder.comment("Determines the cooldown between tool auto repairs")
+                .defineInRange("tool_repair_cooldown", 50, 1, 10000);
+
+        ROCKET_REPAIR_MODIFIER = builder.comment("Increases the repair cooldown for the rocket")
+                .defineInRange("rocket_repair_modifier", 10D, 1D, 10000D);
+
+        APPLE_REPAIR_MODIFIER = builder.comment("Increases the repair cooldown for the apple")
+                .defineInRange("apple_repair_modifier", 10D, 1D, 10000D);
 
         UPGRADE_SCREEN_BACKGROUND = builder.comment("The block texture to use for the background of the upgrade screen. Must be a vanilla block name.")
                 .define("upgrade_screen_background", "cracked_deepslate_tiles");
@@ -89,6 +125,26 @@ public class CrystalToolsConfig {
 
         DEEPSLATE_TOP = builder.comment("The highest height that deepslate crystal ore can generate (given as a height from the bottom of the world).")
                 .defineInRange("deepslate_ore_y_max", 20, 0, 64);
+
+        // Disable Tools
+        DISABLE_PICKAXE = builder.comment("Disables Crystal Pickaxe").define("disable_pickaxe", false);
+        DISABLE_SHOVEL = builder.comment("Disables Crystal Shovel").define("disable_shovel", false);
+        DISABLE_AXE = builder.comment("Disables Crystal Axe").define("disable_axe", false);
+        DISABLE_SWORD = builder.comment("Disables Crystal Sword").define("disable_sword", false);
+        DISABLE_HOE = builder.comment("Disables Crystal Hoe").define("disable_hoe", false);
+        DISABLE_AIOT = builder.comment("Disables Crystal AIOT").define("disable_aiot", false);
+        DISABLE_BOW = builder.comment("Disables Crystal Bow").define("disable_bow", false);
+        DISABLE_ROCKET = builder.comment("Disables Crystal Rocket").define("disable_rocket", false);
+
+        // Disable Armor
+        DISABLE_ELYTRA = builder.comment("Disables Crystal Elytra").define("disable_elytra", false);
+        DISABLE_HELMET = builder.comment("Disables Crystal Helmet").define("disable_helmet", false);
+        DISABLE_CHESTPLATE = builder.comment("Disables Crystal Chestplate").define("disable_chestplate", false);
+        DISABLE_LEGGINGS = builder.comment("Disables Crystal Leggings").define("disable_leggings", false);
+        DISABLE_BOOTS = builder.comment("Disables Crystal Boots").define("disable_boots", false);
+
+        // Disable Other
+        DISABLE_APPLE = builder.comment("Disables Crystal Apple").define("disable_apple", false);
 
     }
 }

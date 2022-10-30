@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.item.tool;
 
 import dev.willyelton.crystal_tools.CreativeTabs;
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.item.LevelableItem;
 import dev.willyelton.crystal_tools.item.ModItems;
 import dev.willyelton.crystal_tools.utils.LevelUtils;
@@ -110,6 +111,11 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
+        if (this.isDisabled()) {
+            itemstack.shrink(1);
+            return InteractionResultHolder.fail(itemstack);
+        }
+
         boolean flag = !getProjectile(itemstack, pPlayer).isEmpty() || NBTUtils.getFloatOrAddKey(itemstack, "infinity") > 0;
 
 //        InteractionResultHolder<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemstack, pLevel, pPlayer, pHand, flag);
@@ -218,5 +224,9 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
         } else {
             return amount;
         }
+    }
+
+    public boolean isDisabled() {
+        return CrystalToolsConfig.DISABLE_BOW.get();
     }
 }

@@ -7,6 +7,7 @@ import dev.willyelton.crystal_tools.item.skill.SkillDataNode;
 import dev.willyelton.crystal_tools.item.skill.SkillNodeType;
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -17,11 +18,17 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.List;
 
 public class ToolUtils {
     // I hate this but needed because armor needs to actually be an ArmorItem
     public static void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag, LevelableItem item) {
+        if (item.isDisabled()) {
+            components.add(new TextComponent("\u00A7c\u00A7l" + "Disabled"));
+            return;
+        }
+
         int newExperience = (int) NBTUtils.getFloatOrAddKey(itemStack, "experience");
         int experienceCap = (int) NBTUtils.getFloatOrAddKey(itemStack, "experience_cap", CrystalToolsConfig.BASE_EXPERIENCE_CAP.get());
 
@@ -62,10 +69,10 @@ public class ToolUtils {
         inventoryTick(itemStack, level, entity, inventorySlot, inHand, 1);
     }
 
-    public static void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand, float modifier) {
+    public static void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand, double modifier) {
         if (!inHand) {
             if (NBTUtils.getBoolean(itemStack, "auto_repair", false)) {
-                if (NBTUtils.addValueToTag(itemStack, "auto_repair_counter", 1) > LevelableItem.AUTO_REPAIR_COUNTER * modifier) {
+                if (NBTUtils.addValueToTag(itemStack, "auto_repair_counter", 1) > CrystalToolsConfig.TOOL_REPAIR_COOLDOWN.get() * modifier) {
                     NBTUtils.setValue(itemStack, "auto_repair_counter", 0);
                     int repairAmount = Math.min((int) NBTUtils.getFloatOrAddKey(itemStack, "auto_repair_amount"), itemStack.getDamageValue());
                     itemStack.setDamageValue(itemStack.getDamageValue() - repairAmount);
@@ -89,5 +96,24 @@ public class ToolUtils {
         float newCap = Math.min((float) (experienceCap * Math.pow(CrystalToolsConfig.EXPERIENCE_MULTIPLIER.get(), levelIncrease)), CrystalToolsConfig.MAX_EXP.get());
 
         NBTUtils.setValue(stack, "experience_cap", newCap);
+    }
+
+    public static void resetPoints(ItemStack stack) {
+        if (stack.hasTag()) {
+            // Things to keep
+            int damage = stack.getTag().getInt("Damage");
+            int repairCost = stack.getTag().getInt("RepairCost");
+            int skillPoints = (int) NBTUtils.getFloatOrAddKey(stack, "skill_points");
+
+            // Total points
+            int[] points = NBTUtils.getIntArray(stack, "points");
+
+            skillPoints += Arrays.stream(points).sum();
+
+            stack.setTag(new CompoundTag());
+            stack.getTag().putInt("Damage", damage);
+            stack.getTag().putInt("RepairCost", repairCost);
+            NBTUtils.setValue(stack, "skill_points", (float) skillPoints);
+        }
     }
 }

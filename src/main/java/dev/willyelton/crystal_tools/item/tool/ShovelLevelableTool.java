@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.item.tool;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -31,6 +32,11 @@ public class ShovelLevelableTool extends DiggerLevelableTool {
 
     @Override
     public InteractionResult useOn(UseOnContext pContext) {
+        if (this.isDisabled()) {
+            pContext.getItemInHand().shrink(1);
+            return InteractionResult.FAIL;
+        }
+
         ItemStack shovel = pContext.getItemInHand();
         Level level = pContext.getLevel();
         BlockPos blockpos = pContext.getClickedPos();
@@ -82,5 +88,10 @@ public class ShovelLevelableTool extends DiggerLevelableTool {
     @Override
     public boolean canPerformAction(ItemStack stack, net.minecraftforge.common.ToolAction toolAction) {
         return net.minecraftforge.common.ToolActions.DEFAULT_SHOVEL_ACTIONS.contains(toolAction);
+    }
+
+    @Override
+    public boolean isDisabled() {
+        return CrystalToolsConfig.DISABLE_SHOVEL.get();
     }
 }

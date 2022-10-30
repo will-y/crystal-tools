@@ -15,6 +15,7 @@ public class ModItems {
     // Items
     public static final RegistryObject<Item> CRYSTAL = ITEMS.register("crystal", () -> new Item(new Item.Properties().tab(CreativeTabs.CRYSTAL_TOOLS_TAB)));
     public static final RegistryObject<Item> NETHERITE_STICK = ITEMS.register("netherite_stick", () -> new Item(new Item.Properties().fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB)));
+    public static final RegistryObject<Item> CRYSTAL_APPLE = ITEMS.register("crystal_apple", CrystalApple::new);
 
     public static void initItems() {
         ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());

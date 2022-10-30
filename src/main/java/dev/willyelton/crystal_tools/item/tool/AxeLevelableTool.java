@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.item.tool;
 
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -34,6 +35,10 @@ public class AxeLevelableTool extends LevelableTool {
 
     @Override
     public InteractionResult useOn(UseOnContext pContext) {
+        if (this.isDisabled()) {
+            pContext.getItemInHand().shrink(1);
+            return InteractionResult.FAIL;
+        }
         Level level = pContext.getLevel();
         BlockPos blockpos = pContext.getClickedPos();
         Player player = pContext.getPlayer();
@@ -146,7 +151,7 @@ public class AxeLevelableTool extends LevelableTool {
 
         super.mineBlock(tool, level, blockState, blockPos, entity);
 
-        return true;
+        return super.mineBlock(tool, level, blockState, blockPos, entity);
     }
 
     private void recursiveBreakHelper(ItemStack tool, Level level, BlockPos blockPos, LivingEntity entity, Block block, int depth) {
@@ -188,5 +193,10 @@ public class AxeLevelableTool extends LevelableTool {
     @Override
     public boolean correctTool(ItemStack tool, BlockState blockState) {
         return super.correctTool(tool, blockState) || (NBTUtils.getFloatOrAddKey(tool, "leaf_mine") > 0 && blockState.is(BlockTags.MINEABLE_WITH_HOE));
+    }
+
+    @Override
+    public boolean isDisabled() {
+        return CrystalToolsConfig.DISABLE_AXE.get();
     }
 }

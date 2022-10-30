@@ -67,6 +67,11 @@ public class SwordLevelableTool extends LevelableTool {
 
     @Override
     public boolean hurtEnemy(ItemStack tool, LivingEntity target, LivingEntity attacker) {
+        if (this.isDisabled()) {
+            tool.shrink(1);
+            return false;
+        }
+
         tool.hurtAndBreak(1, attacker, (p_43296_) -> {
             p_43296_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
         });
@@ -105,5 +110,10 @@ public class SwordLevelableTool extends LevelableTool {
     @Override
     public boolean canPerformAction(ItemStack stack, net.minecraftforge.common.ToolAction toolAction) {
         return net.minecraftforge.common.ToolActions.DEFAULT_SWORD_ACTIONS.contains(toolAction);
+    }
+
+    @Override
+    public boolean isDisabled() {
+        return CrystalToolsConfig.DISABLE_SWORD.get();
     }
 }

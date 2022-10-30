@@ -28,6 +28,7 @@ public class PacketHandler {
         registerMessage(ToolAttributePacket.class, ToolAttributePacket::encode, ToolAttributePacket::decode, ToolAttributePacket.Handler::handle);
         registerMessage(ToolHealPacket.class, ToolHealPacket::encode, ToolHealPacket::decode, ToolHealPacket.Handler::handle);
         registerMessage(ModeSwitchPacket.class, ModeSwitchPacket::encode, ModeSwitchPacket::decode, ModeSwitchPacket.Handler::handle);
+        registerMessage(ResetSkillsPacket.class, ResetSkillsPacket::encode, ResetSkillsPacket::decode, ResetSkillsPacket::handle);
     }
 
     public static void sendToServer(Object msg) {

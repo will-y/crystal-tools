@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.item.tool;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.mojang.datafixers.util.Pair;
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -41,6 +42,11 @@ public class HoeLevelableTool extends LevelableTool {
     // don't think I need to change other than give exp
     @Override
     public InteractionResult useOn(UseOnContext context) {
+        if (this.isDisabled()) {
+            context.getItemInHand().shrink(1);
+            return InteractionResult.FAIL;
+        }
+
         ItemStack hoe = context.getItemInHand();
         Level level = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
@@ -82,5 +88,10 @@ public class HoeLevelableTool extends LevelableTool {
         }
 
         return InteractionResult.PASS;
+    }
+
+    @Override
+    public boolean isDisabled() {
+        return CrystalToolsConfig.DISABLE_HOE.get();
     }
 }

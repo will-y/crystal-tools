@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_torch",
+  "textures": {
+    "torch": "crystal_tools:blocks/crystal_torch"
+  }
+}

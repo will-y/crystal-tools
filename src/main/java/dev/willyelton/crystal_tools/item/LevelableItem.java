@@ -14,7 +14,6 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 
 public interface LevelableItem {
-    int AUTO_REPAIR_COUNTER = 50;
     Tier tier = Tiers.NETHERITE;
 
     default void addExp(ItemStack tool, Level level, BlockPos blockPos, LivingEntity player) {
@@ -48,4 +47,6 @@ public interface LevelableItem {
     String getItemType();
 
     int getMaxDamage(ItemStack itemStack);
+
+    boolean isDisabled();
 }
