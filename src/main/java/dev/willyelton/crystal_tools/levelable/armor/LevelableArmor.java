@@ -5,6 +5,7 @@ import com.google.common.collect.Multimap;
 import dev.willyelton.crystal_tools.CreativeTabs;
 import dev.willyelton.crystal_tools.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.levelable.ModItems;
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.network.chat.Component;
@@ -142,8 +143,34 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Wearable
 
     @Override
     public void onArmorTick(ItemStack stack, Level world, Player player) {
+        if (this.isDisabled()) {
+            stack.shrink(1);
+            return;
+        }
+
         if (!ToolUtils.isBroken(stack) && NBTUtils.getFloatOrAddKey(stack, "night_vision") > 0) {
             player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 400, 0, false, false));
+        }
+    }
+
+    @Override
+    public boolean isDisabled() {
+        switch (this.itemType) {
+            case "helmet" -> {
+                return CrystalToolsConfig.DISABLE_HELMET.get();
+            }
+            case "chestplate" -> {
+                return CrystalToolsConfig.DISABLE_CHESTPLATE.get();
+            }
+            case "leggings" -> {
+                return CrystalToolsConfig.DISABLE_LEGGINGS.get();
+            }
+            case "boots" -> {
+                return CrystalToolsConfig.DISABLE_BOOTS.get();
+            }
+            default -> {
+                return false;
+            }
         }
     }
 }

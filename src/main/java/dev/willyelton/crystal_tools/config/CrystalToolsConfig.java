@@ -5,13 +5,23 @@ import net.minecraftforge.common.ForgeConfigSpec;
 public class CrystalToolsConfig {
     public static final ForgeConfigSpec GENERAL_SPEC;
 
-    // Config things
+    // Config things, basic tool things
     public static ForgeConfigSpec.IntValue BASE_EXPERIENCE_CAP;
     public static ForgeConfigSpec.IntValue MAX_EXP;
     public static ForgeConfigSpec.DoubleValue EXPERIENCE_MULTIPLIER;
+
+    // Exp Boosts
     public static ForgeConfigSpec.DoubleValue ARMOR_EXPERIENCE_BOOST;
     public static ForgeConfigSpec.DoubleValue BOW_EXPERIENCE_BOOST;
     public static ForgeConfigSpec.DoubleValue SWORD_EXPERIENCE_BOOST;
+    public static ForgeConfigSpec.IntValue ROCKET_EXPERIENCE_BOOST;
+    public static ForgeConfigSpec.DoubleValue APPLE_EXPERIENCE_BOOST;
+
+    // Repair
+    public static ForgeConfigSpec.IntValue TOOL_REPAIR_COOLDOWN;
+    public static ForgeConfigSpec.DoubleValue ROCKET_REPAIR_MODIFIER;
+    public static ForgeConfigSpec.DoubleValue APPLE_REPAIR_MODIFIER;
+
     public static ForgeConfigSpec.ConfigValue<String> UPGRADE_SCREEN_BACKGROUND;
 
     // Oregen
@@ -33,6 +43,29 @@ public class CrystalToolsConfig {
     public static ForgeConfigSpec.BooleanValue ENABLE_ITEM_REQUIREMENTS;
     public static ForgeConfigSpec.DoubleValue BACKGROUND_OPACITY;
     public static ForgeConfigSpec.BooleanValue PAUSE_SCREEN;
+    public static ForgeConfigSpec.BooleanValue REQUIRE_CRYSTAL_FOR_RESET;
+
+    // Disable Tools
+    public static ForgeConfigSpec.BooleanValue DISABLE_PICKAXE;
+    public static ForgeConfigSpec.BooleanValue DISABLE_SHOVEL;
+    public static ForgeConfigSpec.BooleanValue DISABLE_AXE;
+    public static ForgeConfigSpec.BooleanValue DISABLE_SWORD;
+    public static ForgeConfigSpec.BooleanValue DISABLE_HOE;
+    public static ForgeConfigSpec.BooleanValue DISABLE_AIOT;
+    public static ForgeConfigSpec.BooleanValue DISABLE_BOW;
+    public static ForgeConfigSpec.BooleanValue DISABLE_ROCKET;
+
+    // Disable Armor
+    public static ForgeConfigSpec.BooleanValue DISABLE_ELYTRA;
+    public static ForgeConfigSpec.BooleanValue DISABLE_HELMET;
+    public static ForgeConfigSpec.BooleanValue DISABLE_CHESTPLATE;
+    public static ForgeConfigSpec.BooleanValue DISABLE_LEGGINGS;
+    public static ForgeConfigSpec.BooleanValue DISABLE_BOOTS;
+
+    // Disable Other
+    public static ForgeConfigSpec.BooleanValue DISABLE_APPLE;
+
+
 
     static {
         ForgeConfigSpec.Builder configBuilder = new ForgeConfigSpec.Builder();
@@ -59,6 +92,21 @@ public class CrystalToolsConfig {
 
         SWORD_EXPERIENCE_BOOST = builder.comment("Multiplies how much experience Swords get. (EXP_GAINED = DAMAGE_DONE * SWORD_EXPERIENCE_BOOST")
                 .defineInRange("sword_experience_boost", 1D, 0.1D, 10000D);
+
+        ROCKET_EXPERIENCE_BOOST = builder.comment("Determines how much experience rockets get when used")
+                .defineInRange("rocket_experience_boost", 5, 1, 100);
+
+        APPLE_EXPERIENCE_BOOST = builder.comment("Multiplies how much experience Apples get. (EXP_GAINED = EFFECTIVE_HUNGER_RESTORED * APPLE_EXPERIENCE_BOOST")
+                .defineInRange("apple_experience_boost", 1, 0.1D, 1000D);
+
+        TOOL_REPAIR_COOLDOWN = builder.comment("Determines the cooldown between tool auto repairs")
+                .defineInRange("tool_repair_cooldown", 50, 1, 10000);
+
+        ROCKET_REPAIR_MODIFIER = builder.comment("Increases the repair cooldown for the rocket")
+                .defineInRange("rocket_repair_modifier", 10D, 1D, 10000D);
+
+        APPLE_REPAIR_MODIFIER = builder.comment("Increases the repair cooldown for the apple")
+                .defineInRange("apple_repair_modifier", 10D, 1D, 10000D);
 
         UPGRADE_SCREEN_BACKGROUND = builder.comment("The block texture to use for the background of the upgrade screen. Must be a vanilla block name.")
                 .define("upgrade_screen_background", "cracked_deepslate_tiles");
@@ -105,5 +153,28 @@ public class CrystalToolsConfig {
 
         PAUSE_SCREEN = builder.comment("If it is true then the skill tree screen pauses the game (in single-player), if false then it doesn't")
                 .define("pause_screen", true);
+
+        REQUIRE_CRYSTAL_FOR_RESET = builder.comment("Require a crystal item in your inventory for resetting skill points")
+                .define("require_crystal_for_reset", true);
+
+        // Disable Tools
+        DISABLE_PICKAXE = builder.comment("Disables Crystal Pickaxe").define("disable_pickaxe", false);
+        DISABLE_SHOVEL = builder.comment("Disables Crystal Shovel").define("disable_shovel", false);
+        DISABLE_AXE = builder.comment("Disables Crystal Axe").define("disable_axe", false);
+        DISABLE_SWORD = builder.comment("Disables Crystal Sword").define("disable_sword", false);
+        DISABLE_HOE = builder.comment("Disables Crystal Hoe").define("disable_hoe", false);
+        DISABLE_AIOT = builder.comment("Disables Crystal AIOT").define("disable_aiot", false);
+        DISABLE_BOW = builder.comment("Disables Crystal Bow").define("disable_bow", false);
+        DISABLE_ROCKET = builder.comment("Disables Crystal Rocket").define("disable_rocket", false);
+
+        // Disable Armor
+        DISABLE_ELYTRA = builder.comment("Disables Crystal Elytra").define("disable_elytra", false);
+        DISABLE_HELMET = builder.comment("Disables Crystal Helmet").define("disable_helmet", false);
+        DISABLE_CHESTPLATE = builder.comment("Disables Crystal Chestplate").define("disable_chestplate", false);
+        DISABLE_LEGGINGS = builder.comment("Disables Crystal Leggings").define("disable_leggings", false);
+        DISABLE_BOOTS = builder.comment("Disables Crystal Boots").define("disable_boots", false);
+
+        // Disable Other
+        DISABLE_APPLE = builder.comment("Disables Crystal Apple").define("disable_apple", false);
     }
 }

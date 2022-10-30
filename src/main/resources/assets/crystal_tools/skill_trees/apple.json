@@ -1,0 +1,420 @@
+{
+  "tiers": [
+    [
+      {
+        "id": 0,
+        "name": "Nutrition I",
+        "description": "Increases the number of food points the apple restores",
+        "type": "normal",
+        "requirements": [],
+        "key": "nutrition_bonus",
+        "value": 2
+      },
+      {
+        "id": 1,
+        "name": "Saturation I",
+        "description": "Increases the saturation of the apple",
+        "type": "normal",
+        "requirements": [],
+        "key": "saturation_bonus",
+        "value": 0.4
+      },
+      {
+        "id": 2,
+        "name": "Eat Speed I",
+        "description": "Increases how fast you can eat the apple",
+        "type": "normal",
+        "requirements": [],
+        "key": "eat_speed_bonus",
+        "value": 6
+      },
+      {
+        "id": 3,
+        "name": "Durability I",
+        "description": "Increases the durability of the apple",
+        "type": "normal",
+        "requirements": [],
+        "key": "durability_bonus",
+        "value": 25
+      }
+    ],
+    [
+      {
+        "id": 4,
+        "name": "Nutrition II",
+        "description": "Increases the number of food points the apple restores",
+        "type": "normal",
+        "requirements": [
+          {"node":  0}
+        ],
+        "key": "nutrition_bonus",
+        "value": 2
+      },
+      {
+        "id": 5,
+        "name": "Saturation II",
+        "description": "Increases the saturation of the apple",
+        "type": "normal",
+        "requirements": [
+          {"node": 1}
+        ],
+        "key": "saturation_bonus",
+        "value": 0.4
+      },
+      {
+        "id": 6,
+        "name": "Eat Speed II",
+        "description": "Increases how fast you can eat the apple",
+        "type": "normal",
+        "requirements": [
+          {"node": 2}
+        ],
+        "key": "eat_speed_bonus",
+        "value": 6
+      },
+      {
+        "id": 7,
+        "name": "Durability II",
+        "description": "Increases the durability of the apple",
+        "type": "normal",
+        "requirements": [
+          {"node": 3}
+        ],
+        "key": "durability_bonus",
+        "value": 25
+      }
+    ],
+    [
+      {
+        "id": 8,
+        "name": "Auto Repair",
+        "description": "Automatically repairs your apple over time!",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [4, 5, 6, 7]}
+        ],
+        "key": "auto_repair",
+        "value": 1
+      },
+      {
+        "id": 9,
+        "name": "Always Edible",
+        "description": "You can eat the apple even when you are full!",
+        "type": "normal",
+        "requirements": [
+          {"or_node":  [4, 5, 6, 7]}
+        ],
+        "key": "always_eat",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 10,
+        "name": "Nutrition III",
+        "description": "Increases the number of food points the apple restores",
+        "type": "normal",
+        "requirements": [
+          {"node":  4},
+          {"or_node": [8, 9]}
+        ],
+        "key": "nutrition_bonus",
+        "value": 2
+      },
+      {
+        "id": 11,
+        "name": "Saturation III",
+        "description": "Increases the saturation of the apple",
+        "type": "normal",
+        "requirements": [
+          {"node": 5},
+          {"or_node": [8, 9]}
+        ],
+        "key": "saturation_bonus",
+        "value": 0.4
+      },
+      {
+        "id": 12,
+        "name": "Eat Speed III",
+        "description": "Increases how fast you can eat the apple",
+        "type": "normal",
+        "requirements": [
+          {"node": 6},
+          {"or_node": [8, 9]}
+        ],
+        "key": "eat_speed_bonus",
+        "value": 6
+      },
+      {
+        "id": 13,
+        "name": "Durability III",
+        "description": "Increases the durability of the apple",
+        "type": "normal",
+        "requirements": [
+          {"node": 7},
+          {"or_node": [8, 9]}
+        ],
+        "key": "durability_bonus",
+        "value": 25
+      }
+    ],
+    [
+      {
+        "id": 14,
+        "name": "Nutrition IV",
+        "description": "Increases the number of food points the apple restores",
+        "type": "normal",
+        "requirements": [
+          {"node":  10}
+        ],
+        "key": "nutrition_bonus",
+        "value": 2
+      },
+      {
+        "id": 15,
+        "name": "Saturation IV",
+        "description": "Increases the saturation of the apple",
+        "type": "normal",
+        "requirements": [
+          {"node": 11}
+        ],
+        "key": "saturation_bonus",
+        "value": 0.4
+      },
+      {
+        "id": 16,
+        "name": "Eat Speed IV",
+        "description": "Increases how fast you can eat the apple",
+        "type": "normal",
+        "requirements": [
+          {"node": 12}
+        ],
+        "key": "eat_speed_bonus",
+        "value": 6
+      },
+      {
+        "id": 17,
+        "name": "Durability IV",
+        "description": "Increases the durability of the apple",
+        "type": "normal",
+        "requirements": [
+          {"node": 13}
+        ],
+        "key": "durability_bonus",
+        "value": 25
+      }
+    ],
+    [
+      {
+        "id": 18,
+        "name": "Infinite Nutrition",
+        "description": "Put as many points into nutrition as you want",
+        "type": "infinite",
+        "requirements": [
+          {"node": 14}
+        ],
+        "key": "nutrition_bonus",
+        "value": 1
+      },
+      {
+        "id": 19,
+        "name": "Infinite Saturation",
+        "description": "Put as many points into saturation as you want",
+        "type": "infinite",
+        "requirements": [
+          {"node": 15}
+        ],
+        "key": "saturation_bonus",
+        "value": 0.1
+      },
+      {
+        "id": 20,
+        "name": "Infinite Eat Speed",
+        "description": "Put as many points into eat speed as you want (only up to 7 points will do anything)",
+        "type": "infinite",
+        "requirements": [
+          {"node": 16}
+        ],
+        "key": "eat_speed_bonus",
+        "value": 1
+      },
+      {
+        "id": 21,
+        "name": "Infinite Durability",
+        "description": "Put as many points into durability as you want",
+        "type": "infinite",
+        "requirements": [
+          {"node": 17}
+        ],
+        "key": "durability_bonus",
+        "value": 10
+      }
+    ],
+    [
+      {
+        "id": 22,
+        "name": "Effect: Speed",
+        "description": "Adds the speed effect after you eat the apple. Adding more points increases the duration.",
+        "type": "infinite",
+        "requirements": [
+          {"or_node": [18, 19, 20, 21]},
+          {"item": ["minecraft:nether_wart", "minecraft:sugar", "minecraft:glowstone_dust"]}
+        ],
+        "key": "effect_1",
+        "value": 10
+      },
+      {
+        "id": 23,
+        "name": "Effect: Haste",
+        "description": "Adds the haste effect after you eat the apple. Adding more points increases the duration.",
+        "type": "infinite",
+        "requirements": [
+          {"or_node": [18, 19, 20, 21]},
+          {"item": ["minecraft:nether_wart", "minecraft:gold_ingot", "minecraft:glowstone_dust"]}
+        ],
+        "key": "effect_3",
+        "value": 10
+      },
+      {
+        "id": 24,
+        "name": "Effect: Strength",
+        "description": "Adds the strength effect after you eat the apple. Adding more points increases the duration.",
+        "type": "infinite",
+        "requirements": [
+          {"or_node": [18, 19, 20, 21]},
+          {"item": ["minecraft:nether_wart", "minecraft:blaze_powder", "minecraft:glowstone_dust"]}
+        ],
+        "key": "effect_5",
+        "value": 10
+      }
+    ],
+    [
+      {
+        "id": 25,
+        "name": "Effect: Jump Boost",
+        "description": "Adds the jump boost effect after you eat the apple. Adding more points increases the duration.",
+        "type": "infinite",
+        "requirements": [
+          {"or_node": [18, 19, 20, 21]},
+          {"item": ["minecraft:nether_wart", "minecraft:rabbit_foot", "minecraft:glowstone_dust"]}
+        ],
+        "key": "effect_8",
+        "value": 10
+      },
+      {
+        "id": 26,
+        "name": "Effect: Regeneration",
+        "description": "Adds the regeneration effect after you eat the apple. Adding more points increases the duration.",
+        "type": "infinite",
+        "requirements": [
+          {"or_node": [18, 19, 20, 21]},
+          {"item": ["minecraft:nether_wart", "minecraft:ghast_tear", "minecraft:glowstone_dust"]}
+        ],
+        "key": "effect_10",
+        "value": 2
+      },
+      {
+        "id": 27,
+        "name": "Effect: Resistance",
+        "description": "Adds the resistance effect after you eat the apple. Adding more points increases the duration.",
+        "type": "infinite",
+        "requirements": [
+          {"or_node": [18, 19, 20, 21]},
+          {"item": ["minecraft:nether_wart", "minecraft:iron_ingot", "minecraft:glowstone_dust"]}
+        ],
+        "key": "effect_11",
+        "value": 10
+      }
+    ],
+    [
+      {
+        "id": 28,
+        "name": "Effect: Fire Resistance",
+        "description": "Adds the fire resistance effect after you eat the apple. Adding more points increases the duration.",
+        "type": "infinite",
+        "requirements": [
+          {"or_node": [18, 19, 20, 21]},
+          {"item": ["minecraft:nether_wart", "minecraft:magma_cream"]}
+        ],
+        "key": "effect_12",
+        "value": 10
+      },
+      {
+        "id": 29,
+        "name": "Effect: Water Breathing",
+        "description": "Adds the water breathing effect after you eat the apple. Adding more points increases the duration.",
+        "type": "infinite",
+        "requirements": [
+          {"or_node": [18, 19, 20, 21]},
+          {"item": ["minecraft:nether_wart", "minecraft:pufferfish"]}
+        ],
+        "key": "effect_13",
+        "value": 10
+      },
+      {
+        "id": 30,
+        "name": "Effect: Invisibility",
+        "description": "Adds the invisibility effect after you eat the apple. Adding more points increases the duration.",
+        "type": "infinite",
+        "requirements": [
+          {"or_node": [18, 19, 20, 21]},
+          {"item": ["minecraft:nether_wart", "minecraft:golden_carrot", "minecraft:fermented_spider_eye"]}
+        ],
+        "key": "effect_14",
+        "value": 10
+      }
+    ],
+    [
+      {
+        "id": 31,
+        "name": "Effect: Night Vision",
+        "description": "Adds the night vision effect after you eat the apple. Adding more points increases the duration.",
+        "type": "infinite",
+        "requirements": [
+          {"or_node": [18, 19, 20, 21]},
+          {"item": ["minecraft:nether_wart", "minecraft:golden_carrot"]}
+        ],
+        "key": "effect_16",
+        "value": 10
+      },
+      {
+        "id": 32,
+        "name": "Effect: Absorption",
+        "description": "Adds the absorption effect after you eat the apple. Adding more points increases the duration.",
+        "type": "infinite",
+        "requirements": [
+          {"or_node": [18, 19, 20, 21]},
+          {"item": ["minecraft:nether_wart", "minecraft:glistering_melon_slice", "minecraft:glowstone_dust"]}
+        ],
+        "key": "effect_22",
+        "value": 10
+      },
+      {
+        "id": 33,
+        "name": "Effect: Saturation",
+        "description": "Adds the saturation effect after you eat the apple. Adding more points increases the duration.",
+        "type": "infinite",
+        "requirements": [
+          {"or_node": [18, 19, 20, 21]},
+          {"item": ["minecraft:nether_wart", "minecraft:cooked_beef", "minecraft:glowstone_dust"]}
+        ],
+        "key": "effect_23",
+        "value": 2
+      }
+    ],
+    [
+      {
+        "id": 34,
+        "name": "Effect: Slow Falling",
+        "description": "Adds the slow falling effect after you eat the apple. Adding more points increases the duration.",
+        "type": "infinite",
+        "requirements": [
+          {"or_node": [18, 19, 20, 21]},
+          {"item": ["minecraft:nether_wart", "minecraft:phantom_membrane"]}
+        ],
+        "key": "effect_28",
+        "value": 10
+      }
+    ]
+  ]
+}

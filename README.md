@@ -7,11 +7,12 @@ Please report any bugs you find in the Issues tab or in the comments.
 You can also suggest features or ask questions there.
 
 ## Blocks
-Currently, there are three blocks added to the game
-
 - Crystal Ore
 - Deepslate Crystal Ore
 - Crystal Block
+- Crystal Torch
+  - Acts as a normal torch just with a different texture
+  - These can be placed with an upgrade on some tools
 
 ## World Generation
 Deepslate Crystal Ore Generates Below Y -44 in veins of size 5.
@@ -35,6 +36,7 @@ The following tools/armor pieces are implemented:
 - Crystal Boots
 - Crystal Elytra
 - Crystal Rocket
+- Crystal Apple
 
 ## Upgrades
 There will be upgrades that are common to most tools, and tools will each get unique upgrades as well. Below is a list of all currently implemented upgrades.
@@ -118,6 +120,28 @@ There will be upgrades that are common to most tools, and tools will each get un
 ### Rocket
 - Flight Duration
 
+### Apple
+- Nutrition
+- Saturation
+- Eat Speed
+- Always Eat
+- Effects
+  - When eaten gain positive effects
+  - Possible effects:
+    - Speed
+    - Haste
+    - Strength
+    - Jump Boost
+    - Regeneration
+    - Resistance
+    - Fire Resistance
+    - Water Breathing
+    - Invisibility
+    - Night Vision
+    - Absorption
+    - Saturation
+    - Slow Falling
+
 ## Crafting Recipes
 ### Tools
 #### Pickaxe
@@ -136,6 +160,8 @@ There will be upgrades that are common to most tools, and tools will each get un
 ![Sword Crafting](/img/crafting/sword.png)
 
 #### AIOT
+- Will give you skill points equal to all the points on tools used to craft it (spent or unspent)
+
 ![AIOT Crafting](/img/crafting/aiot.png)
 
 ### Armor
@@ -152,10 +178,15 @@ There will be upgrades that are common to most tools, and tools will each get un
 ![Boots Crafting](/img/crafting/boots.png)
 
 #### Elytra
+- Will give you skill points on the crystal elytra based on points on chestplate (spent or unspent) and one for each level of enchantment on the elytra
+
 ![Elytra Crafting](/img/crafting/elytra.png)
 
 #### Rocket
 ![Rocket Crafting](/img/crafting/rocket.png)
+
+#### Apple
+![Apple Crafting](/img/crafting/apple.png)
 
 ### Misc
 #### Netherite Stick
@@ -176,15 +207,20 @@ You can change these values in `config/crystal_tools/toml`.
 - `base_experience_cap` (50): Starting EXP requirements for Tools and Armor. Range: 1 - 10000.
 - `max_exp` (1000): The maximum amount of exp that can be required for the next level. Range 1 - 100000.
 - `experience_multiplier` (1.25): Multiplier for max experience to the next level. Range: 1.0 - 100.0.  
+
+### Experience Boosts
 - `armor_experience_boost` (2.0): Multiplies how much experience Armor gets, experience is calculated by `EXP_GAINED` = DAMAGE_TAKEN * ARMOR_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.  
 - `bow_experience_boost` (1.0): Multiplies how much experience Bows get, experience is calculated by `EXP_GAINED` = UNMITIGATED_DAMAGE_DONE * BOW_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.  
-- `sword_experience_boost` (1.0): Multiplies how much experience Swords get, experience is calculated by EXP_GAINED = UNMITIGATED_DAMAGE_DONE * SWORD_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.  
-- `upgrade_screen_background` ("cracked_deepslate_tiles"): Determines the block texture to use for the background of the upgrade screen. Must be a vanilla block's resource location. [Here](https://minecraft.fandom.com/wiki/Java_Edition_data_values#Blocks) is a list of options from the wiki.
-- `enable_item_requirements` (true): Set to false to disable certain nodes from requiring items to upgrade.
-- `background-opacity` (1.0): Controls the background opacity of the skill tree screen. Range: 0 - 1.0.
-- `pause-screen` (true): Controls if the skill tree screen pauses the game or not in single-player.
+- `sword_experience_boost` (1.0): Multiplies how much experience Swords get, experience is calculated by EXP_GAINED = UNMITIGATED_DAMAGE_DONE * SWORD_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.
+- `rocket_experience_boost` (5): Determines how much experience Rockets get per use. Range: 1 - 1000.
+- `apple_experience_boost` (1): Multiplies how much experience Apples get, experience is calculated by EXP_GAINED = (SATURATION * 2 + 1) * NUTRITION * APPLE_EXPERIENCE_BOOST. Range: 0.1 - 1000.0.
 
-### Ore Generation
+### Repair
+- `tool_repair_cooldown` (50): Determines the cooldown between durability repairs for tools with the auto repair upgrade in ticks (20 ticks per second). Range: 1 - 10000.
+- `rocket_repair_modifier` (10): Multiplied by TOOL_REPAIR_COOLDOWN to get the cooldown of the auto repair on the rocket. Range: 1 - 10000.
+- `apple_repair_modifier` (10): Multiplied by TOOL_REPAIR_COOLDOWN to get the cooldown of the auto repair on the apple. Range: 1 - 10000.
+
+### Ore Generation (Currently Broken)
 #### Stone
 - `stone_ore_generate` (false): Controls if crystal ore should generate. Values: true, false.
 - `stone_ore_vein_size` (5): The vein size for crystal ore. Range: 1 - 20.
@@ -198,3 +234,25 @@ You can change these values in `config/crystal_tools/toml`.
 - `deepslate_ore_per_chunk` (1): The number of veins that generate per chunk on average. Range: 1 - 100.
 - `deepslate_ore_y_min` (0): The minimum value that deepslate crystal ore can generate. This is given as a height from the bottom of the world. Range: 0 - 64.
 - `deepslate_ore_y_max`: (20): The maximum value that deepslate crystal ore can generate. This is given as a height from the bottom of the world. Range: 0 - 64.
+
+### Misc
+- `upgrade_screen_background` ("cracked_deepslate_tiles"): Determines the block texture to use for the background of the upgrade screen. Must be a vanilla block's resource location. [Here](https://minecraft.fandom.com/wiki/Java_Edition_data_values#Blocks) is a list of options from the wiki.
+- `enable_item_requirements` (true): Set to false to disable certain nodes from requiring items to upgrade.
+- `background-opacity` (1.0): Controls the background opacity of the skill tree screen. Range: 0 - 1.0.
+- `pause-screen` (true): Controls if the skill tree screen pauses the game or not in single-player.
+
+### Disable Tools
+- `disable_pickaxe` (false): Disables the Crystal Pickaxe
+- `disable_shovel` (false): Disables the Crystal Shovel
+- `disable_axe` (false): Disables the Crystal Axe
+- `disable_sword` (false): Disables the Crystal Sword
+- `disable_hoe` (false): Disables the Crystal Hoe
+- `disable_aiot` (false): Disables the Crystal AIOT
+- `disable_bow` (false): Disables the Crystal Bow
+- `disable_rocket` (false): Disables the Crystal Rocket
+- `disable_apple` (false): Disables the Crystal Apple
+- `disable_elytra` (false): Disables the Crystal Elytra
+- `disable_helmet` (false): Disables the Crystal Helmet
+- `disable_chestplate` (false): Disables the Crystal Chestplate
+- `disable_leggings` (false): Disables the Crystal Leggings
+- `disable_boots` (false): Disables the Crystal Boots

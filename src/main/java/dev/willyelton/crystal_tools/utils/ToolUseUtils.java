@@ -1,6 +1,9 @@
 package dev.willyelton.crystal_tools.utils;
 
 import com.mojang.datafixers.util.Pair;
+import dev.willyelton.crystal_tools.levelable.block.CrystalTorch;
+import dev.willyelton.crystal_tools.levelable.block.CrystalWallTorch;
+import dev.willyelton.crystal_tools.levelable.block.ModBlocks;
 import dev.willyelton.crystal_tools.levelable.tool.LevelableTool;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -138,17 +141,17 @@ public class ToolUseUtils {
             BlockState torchBlockState;
 
             if (direction.equals(Direction.UP)) {
-                torchBlockState = Blocks.TORCH.defaultBlockState();
+                torchBlockState = ModBlocks.CRYSTAL_TORCH.get().defaultBlockState().setValue(CrystalTorch.DROP_ITEM, false);
             } else if (direction.equals(Direction.DOWN)) {
                 return InteractionResult.PASS;
             } else {
-                torchBlockState = Blocks.WALL_TORCH.defaultBlockState().setValue(WallTorchBlock.FACING, direction);
+                torchBlockState = ModBlocks.CRYSTAL_WALL_TORCH.get().defaultBlockState().setValue(CrystalWallTorch.FACING, direction).setValue(CrystalTorch.DROP_ITEM, false);
             }
 
             if (level.getBlockState(position).is(Blocks.AIR) && state.isFaceSturdy(level, position, direction)) {
                 level.setBlock(position, torchBlockState, 0);
             } else {
-                return InteractionResult.FAIL;
+                return InteractionResult.PASS;
             }
 
             if (!level.isClientSide && context.getPlayer() != null) {
@@ -160,7 +163,7 @@ public class ToolUseUtils {
             tool.addExp(itemStack, level, context.getClickedPos(), context.getPlayer());
         }
 
-        return InteractionResult.FAIL;
+        return InteractionResult.PASS;
     }
 
     public static InteractionResult useOnHoe(UseOnContext context, LevelableTool tool) {

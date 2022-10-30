@@ -5,6 +5,7 @@ import com.google.common.collect.Multimap;
 import dev.willyelton.crystal_tools.CreativeTabs;
 import dev.willyelton.crystal_tools.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.levelable.ModItems;
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.network.chat.Component;
@@ -15,18 +16,23 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.ElytraItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 public class CrystalElytra extends ElytraItem implements LevelableItem {
+    private static final UUID ELYTRA_UUID = UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D");
+
     public CrystalElytra(Properties pProperties) {
         super(pProperties.fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB));
     }
@@ -58,6 +64,13 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
     }
 
     @Override
+    public void onArmorTick(ItemStack stack, Level world, Player player) {
+        if (this.isDisabled()) {
+            stack.shrink(1);
+        }
+    }
+
+    @Override
     public boolean elytraFlightTick(@NotNull ItemStack stack, net.minecraft.world.entity.LivingEntity entity, int flightTicks) {
         if (!entity.level.isClientSide) {
             int nextFlightTick = flightTicks + 1;
@@ -70,7 +83,7 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
 
                     this.addExp(stack, entity.getLevel(), entity.getOnPos(), entity);
                 }
-                entity.gameEvent(net.minecraft.world.level.gameevent.GameEvent.ELYTRA_GLIDE);
+                entity.gameEvent(GameEvent.ELYTRA_GLIDE);
             }
         }
         return true;
@@ -94,18 +107,18 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
         if (slot == EquipmentSlot.CHEST) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
             if (!ToolUtils.isBroken(stack)) {
-                builder.put(Attributes.ARMOR, new AttributeModifier("Armor modifier", this.getDefense(stack), AttributeModifier.Operation.ADDITION));
-                builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier("Armor toughness", this.getToughness(stack), AttributeModifier.Operation.ADDITION));
+                builder.put(Attributes.ARMOR, new AttributeModifier(ELYTRA_UUID, "Armor modifier", this.getDefense(stack), AttributeModifier.Operation.ADDITION));
+                builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(ELYTRA_UUID, "Armor toughness", this.getToughness(stack), AttributeModifier.Operation.ADDITION));
                 int health = (int) NBTUtils.getFloatOrAddKey(stack, "health_bonus");
 
                 if (health > 0) {
-                    builder.put(Attributes.MAX_HEALTH, new AttributeModifier("Health modifier", health, AttributeModifier.Operation.ADDITION));
+                    builder.put(Attributes.MAX_HEALTH, new AttributeModifier(ELYTRA_UUID, "Health modifier", health, AttributeModifier.Operation.ADDITION));
                 }
 
                 float speedBonus = NBTUtils.getFloatOrAddKey(stack, "speed_bonus") / 5;
 
                 if (speedBonus > 0) {
-                    builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier("Speed modifier", speedBonus, AttributeModifier.Operation.MULTIPLY_BASE));
+                    builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(ELYTRA_UUID, "Speed modifier", speedBonus, AttributeModifier.Operation.MULTIPLY_BASE));
                 }
             }
 
@@ -137,5 +150,10 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
     @Override
     public void inventoryTick(@NotNull ItemStack itemStack, @NotNull Level level, @NotNull Entity entity, int inventorySlot, boolean inHand) {
         ToolUtils.inventoryTick(itemStack, level, entity, inventorySlot, inHand);
+    }
+
+    @Override
+    public boolean isDisabled() {
+        return CrystalToolsConfig.DISABLE_ELYTRA.get();
     }
 }

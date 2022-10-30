@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.levelable.tool;
 
 import dev.willyelton.crystal_tools.CreativeTabs;
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.levelable.ModItems;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
@@ -104,6 +105,10 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pHand) {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
+        if (this.isDisabled()) {
+            itemstack.shrink(1);
+            return InteractionResultHolder.fail(itemstack);
+        }
         boolean flag = !getProjectile(itemstack, pPlayer).isEmpty() || NBTUtils.getFloatOrAddKey(itemstack, "infinity") > 0;
 
         if (ToolUtils.isBroken(itemstack) || (!pPlayer.getAbilities().instabuild && !flag)) {
@@ -115,7 +120,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     }
 
     // TODO: Change this by level
-    // Doesn't work, try something else later
+    // Doesn't work, try something else later (works for apple for some reason)
     @Override
     public int getUseDuration(@NotNull ItemStack stack) {
 //        return Math.max(72000 - (int) (5000 * NBTUtils.getFloatOrAddKey(stack, "draw_speed")), 20000);
@@ -209,5 +214,9 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
         } else {
             return amount;
         }
+    }
+
+    public boolean isDisabled() {
+        return CrystalToolsConfig.DISABLE_BOW.get();
     }
 }

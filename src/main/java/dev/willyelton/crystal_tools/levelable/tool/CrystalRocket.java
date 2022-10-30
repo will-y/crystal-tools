@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.levelable.tool;
 
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.stats.Stats;
@@ -21,11 +22,16 @@ public class CrystalRocket extends LevelableTool {
 
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pHand) {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
+        if (this.isDisabled()) {
+            itemstack.shrink(1);
+            return InteractionResultHolder.fail(itemstack);
+        }
+
         if (ToolUtils.isBroken(itemstack)) {
             return InteractionResultHolder.pass(itemstack);
         }
-        if (pPlayer.isFallFlying()) {
 
+        if (pPlayer.isFallFlying()) {
             if (!pLevel.isClientSide) {
                 int flightTime = (int) NBTUtils.getFloatOrAddKey(itemstack, "flight_bonus", 1);
                 itemstack.getOrCreateTagElement("Fireworks").putByte("Flight", Byte.parseByte(String.valueOf(flightTime)));
@@ -35,7 +41,7 @@ public class CrystalRocket extends LevelableTool {
                 pPlayer.awardStat(Stats.ITEM_USED.get(this));
             }
 
-            addExp(itemstack, pLevel, pPlayer.getOnPos(), pPlayer, 5);
+            addExp(itemstack, pLevel, pPlayer.getOnPos(), pPlayer, CrystalToolsConfig.ROCKET_EXPERIENCE_BOOST.get());
             itemstack.hurtAndBreak(1, pPlayer, (player) -> player.broadcastBreakEvent(EquipmentSlot.MAINHAND));
 
             return InteractionResultHolder.sidedSuccess(itemstack, pLevel.isClientSide());
@@ -46,6 +52,11 @@ public class CrystalRocket extends LevelableTool {
 
     @Override
     public void inventoryTick(@NotNull ItemStack itemStack, @NotNull Level level, @NotNull Entity entity, int inventorySlot, boolean inHand) {
-        ToolUtils.inventoryTick(itemStack, level, entity, inventorySlot, inHand, 10);
+        ToolUtils.inventoryTick(itemStack, level, entity, inventorySlot, inHand, CrystalToolsConfig.ROCKET_REPAIR_MODIFIER.get());
+    }
+
+    @Override
+    public boolean isDisabled() {
+        return CrystalToolsConfig.DISABLE_ROCKET.get();
     }
 }

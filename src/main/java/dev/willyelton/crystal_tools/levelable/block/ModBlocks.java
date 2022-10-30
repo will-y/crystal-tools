@@ -11,6 +11,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.StandingAndWallBlockItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -43,12 +44,16 @@ public class ModBlocks {
     public static final RegistryObject<BlockEntityType<CrystalFurnaceBlockEntity>> CRYSTAL_FURNACE_BLOCK_ENTITY = BLOCK_ENTITIES.register("crystal_furnace", () -> BlockEntityType.Builder.of(CrystalFurnaceBlockEntity::new, CRYSTAL_FURNACE.get()).build(null));
     public static final RegistryObject<MenuType<CrystalFurnaceContainer>> CRYSTAL_FURNACE_CONTAINER = CONTAINERS.register("crystal_furnace",
             () -> IForgeMenuType.create((windowId, inv, data) -> new CrystalFurnaceContainer(windowId, inv.player.level, data.readBlockPos(), inv, new SimpleContainerData(CrystalFurnaceBlockEntity.DATA_SIZE))));
+    public static final RegistryObject<Block> CRYSTAL_TORCH = BLOCKS.register("crystal_torch", CrystalTorch::new);
+    public static final RegistryObject<Block> CRYSTAL_WALL_TORCH = BLOCKS.register("crystal_wall_torch", CrystalWallTorch::new);
+
 
     // Block Items
     public static final RegistryObject<Item> CRYSTAL_ORE_ITEM = ITEMS.register("crystal_ore", () -> new BlockItem(CRYSTAL_ORE.get(), new Item.Properties().tab(CreativeTabs.CRYSTAL_TOOLS_TAB)));
     public static final RegistryObject<Item> CRYSTAL_DEEPSLATE_ORE_ITEM = ITEMS.register("crystal_deepslate_ore", () -> new BlockItem(CRYSTAL_DEEPSLATE_ORE.get(), new Item.Properties().tab(CreativeTabs.CRYSTAL_TOOLS_TAB)));
     public static final RegistryObject<Item> CRYSTAL_BLOCK_ITEM = ITEMS.register("crystal_block", () -> new BlockItem(CRYSTAL_BLOCK.get(), new Item.Properties().tab(CreativeTabs.CRYSTAL_TOOLS_TAB)));
     public static final RegistryObject<Item> CRYSTAL_FURNACE_ITEM = ITEMS.register("crystal_furnace", () -> new BlockItem(CRYSTAL_FURNACE.get(), new Item.Properties().tab(CreativeTabs.CRYSTAL_TOOLS_TAB)));
+    public static final RegistryObject<Item> CRYSTAL_TORCH_ITEM = ITEMS.register("crystal_torch", () -> new StandingAndWallBlockItem(CRYSTAL_TORCH.get(), CRYSTAL_WALL_TORCH.get(), new Item.Properties().tab(CreativeTabs.CRYSTAL_TOOLS_TAB)));
 
     public static void initBlocks() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();

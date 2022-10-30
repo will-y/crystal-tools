@@ -1,0 +1,39 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "crystal_tools:crystal_torch"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        },
+        {
+          "condition": "minecraft:alternative",
+          "terms": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "crystal_tools:crystal_torch",
+              "properties": {
+                "drop_item": "true"
+              }
+            },
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "crystal_tools:crystal_wall_torch",
+              "properties": {
+                "drop_item": "true"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

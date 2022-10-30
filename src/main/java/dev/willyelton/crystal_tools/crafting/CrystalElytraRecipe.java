@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.crafting;
 
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.levelable.armor.ModArmor;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
@@ -26,6 +27,8 @@ public class CrystalElytraRecipe extends CustomRecipe {
 
     @Override
     public boolean matches(@NotNull CraftingContainer container, @NotNull Level level) {
+        if (CrystalToolsConfig.DISABLE_ELYTRA.get()) return false;
+
         boolean foundElytra = false;
         boolean foundChestplate = false;
 
@@ -40,7 +43,9 @@ public class CrystalElytraRecipe extends CustomRecipe {
                 if (foundElytra)
                     return false;
                 foundElytra = true;
-            }
+            } else if (!itemStack.isEmpty()) {
+            return false;
+        }
         }
 
         return foundChestplate && foundElytra;

@@ -36,6 +36,7 @@ public class PacketHandler {
         registerMessage(BlockAttributePacket.class, BlockAttributePacket::encode, BlockAttributePacket::decode, BlockAttributePacket.Handler::handle);
 
         registerMessageToClient(AddSkillPointsToClientPacket.class, AddSkillPointsToClientPacket::encode, AddSkillPointsToClientPacket::decode, AddSkillPointsToClientPacket.Handler::handle);
+        registerMessage(ResetSkillsPacket.class, ResetSkillsPacket::encode, ResetSkillsPacket::decode, ResetSkillsPacket::handle);
     }
 
     public static void sendToServer(Object msg) {

@@ -23,11 +23,13 @@ public class ToolHealPacket {
     public static class Handler {
         public static void handle(final ToolHealPacket msg, Supplier<NetworkEvent.Context> ctx) {
             ServerPlayer playerEntity = ctx.get().getSender();
-            ItemStack heldTool = ItemStackUtils.getHeldLevelableTool(playerEntity);
+            if (playerEntity != null) {
+                ItemStack heldTool = ItemStackUtils.getHeldLevelableTool(playerEntity);
 
-            if (!heldTool.isEmpty()) {
-                heldTool.setDamageValue(0);
-                NBTUtils.addValueToTag(heldTool, "skill_points", -1);
+                if (!heldTool.isEmpty()) {
+                    heldTool.setDamageValue(0);
+                    NBTUtils.addValueToTag(heldTool, "skill_points", -1);
+                }
             }
         }
     }

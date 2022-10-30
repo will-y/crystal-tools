@@ -1,23 +1,40 @@
+
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern":
-  [
-    "XX",
-    "S ",
-    "S "
-  ],
-  "key":
-  {
-    "X": {
-      "item": "crystal_tools:crystal"
-    },
-    "S": {
-      "item": "crystal_tools:netherite_stick"
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:not",
+          "value": {
+            "type": "crystal_tools:item_disabled",
+            "item": "crystal_tools:crystal_hoe"
+          }
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "pattern":
+        [
+          "XX",
+          "S ",
+          "S "
+        ],
+        "key":
+        {
+          "X": {
+            "item": "crystal_tools:crystal"
+          },
+          "S": {
+            "item": "crystal_tools:netherite_stick"
+          }
+        },
+        "result":
+        {
+          "item": "crystal_tools:crystal_hoe",
+          "count": 1
+        }
+      }
     }
-  },
-  "result":
-  {
-    "item": "crystal_tools:crystal_hoe",
-    "count": 1
-  }
+  ]
 }

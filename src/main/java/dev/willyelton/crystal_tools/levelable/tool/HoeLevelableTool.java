@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.levelable.tool;
 
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUseUtils;
 import net.minecraft.core.BlockPos;
@@ -19,6 +20,10 @@ public class HoeLevelableTool extends LevelableTool {
 
     @Override
     public @NotNull InteractionResult useOn(@NotNull UseOnContext context) {
+        if (this.isDisabled()) {
+            context.getItemInHand().shrink(1);
+            return InteractionResult.FAIL;
+        }
         return ToolUseUtils.useOnHoe(context, this);
     }
 
@@ -29,6 +34,11 @@ public class HoeLevelableTool extends LevelableTool {
 
     @Override
     public net.minecraft.world.@NotNull InteractionResult interactLivingEntity(@NotNull ItemStack stack, net.minecraft.world.entity.player.@NotNull Player playerIn, @NotNull LivingEntity entity, net.minecraft.world.@NotNull InteractionHand hand) {
+        if (this.isDisabled()) {
+            stack.shrink(1);
+            return InteractionResult.FAIL;
+        }
+
         if (NBTUtils.getFloatOrAddKey(stack, "shear") >= 1 && entity instanceof net.minecraftforge.common.IForgeShearable target) {
             if (entity.level.isClientSide) return net.minecraft.world.InteractionResult.SUCCESS;
             BlockPos pos = new BlockPos(entity.getX(), entity.getY(), entity.getZ());
@@ -46,5 +56,10 @@ public class HoeLevelableTool extends LevelableTool {
             return net.minecraft.world.InteractionResult.SUCCESS;
         }
         return net.minecraft.world.InteractionResult.PASS;
+    }
+
+    @Override
+    public boolean isDisabled() {
+        return CrystalToolsConfig.DISABLE_HOE.get();
     }
 }

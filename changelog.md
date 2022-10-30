@@ -1,7 +1,51 @@
------------------------ 1.1.5-RELEASE Changes -----------------------
+----------------------- 1.3.0-RELEASE Changes -----------------------
+### Additions
+- Adds the Crystal Apple
+  - It is a food source with durability that can level up
+  - Has the following upgrades:
+    - Nutrition: Gain more food points back
+    - Saturation: Gain more saturation whenever you eat
+    - Eat Speed: Increases how fast you eat the apple
+    - Durability: Gain more durability
+    - Auto Repair: Repairs the apple over time
+    - Always Eat: You can eat the apple even when full
+    - Effects: You can get many positive effects that apply to the player when you eat the apple
+- Adds reset skill points button
+- Adds new config options:
+  - `TOOL_REPAIR_COOLDOWN`: Determines the amount of time between automatic tool repairs
+  - `ROCKET_REPAIR_MODIFIER`: Increases the repair cooldown of the rocket specifically because it has a low durability
+  - `APPLE_REPAIR_MODIFIER`: Increases the repair cooldown of the apple specifically because it has a low durability
+  - `REQUIRE_CRYSTAL_FOR_RESET`: If true, resetting skill points consumes a crystal item in your inventory
+  - `ROCKET_EXPERIENCE_BOOST`: Determines how much experience rockets get when used
+  - `APPLE_EXPERIENCE_BOOST`: Increases the amount of experience apples get when used
+- Adds config options to disable each tool and each piece of armor
+  - Removes crafting of the tool
+  - Will break if used, mined with, or attacked with (or worn if it is armor or elytra)
+- Adds the crystal torch
 
+### Changes
+- Updates to Forge 1.19.2-43.1.47
+- Tools that can place torches now place crystal torches
+  - These torches do not drop items when broken
+- Crafting a Crystal AIOT now gives you the skill points from the tools used to make it
 
------------------------ 1.1.4-RELEASE Changes -----------------------
+### Fixes
+- Fixes other items being able to be added in to the crystal elytra recipe
+
+----------------------- 1.2.3-RELEASE Changes -----------------------
+### Fixes
+- Actually fixes elytra bug
+- Allows pickaxe to use items and place blocks in the offhand
+
+----------------------- 1.2.2-RELEASE Changes -----------------------
+### Fixes
+- Fixes a fully upgraded crystal elytra causing infinite health and freezing the game
+
+----------------------- 1.2.1-RELEASE Changes -----------------------
+### Fixes
+- Fixes AIOT breaking bedrock when the 3x3 mining upgrade is unlocked
+
+----------------------- 1.2.0 RELEASE Changes -----------------------
 ### Additions
 - Adds the Crystal Elytra
     - It is armored and can be leveled like other crystal tools/armor
@@ -16,7 +60,7 @@
 - New config option: `MAX_EXP` - Determines the max amount of xp that can be required for the next level
 - New config option: `ENABLE_ITEM_REQUIREMENTS` - If false, items will not be required for any upgrades
 - New config option: `BACKGROUND_OPACITY` - Controls the opacity of the background of the skill tree screen, set to 0 to turn off the background
-- New config option: `PAUSE_SCREEN` - Controls if the skill tree screen pauses the game or in in single-player
+- New config option: `PAUSE_SCREEN` - Controls if the skill tree screen pauses the game if in single-player
 
 ### Changes
 - Made spacing work better on the skill trees when there were more than 4 in a tier
