@@ -32,7 +32,6 @@
 ### Fixes
 - Fixes other items being able to be added in to the crystal elytra recipe
 
-
 ----------------------- 1.2.3-RELEASE Changes -----------------------
 ### Fixes
 - Actually fixes elytra bug
