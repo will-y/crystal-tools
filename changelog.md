@@ -15,6 +15,8 @@
 	- `TOOL_REPAIR_COOLDOWN`: Determines the amount of time between automatic tool repairs
 	- `ROCKET_REPAIR_MODIFIER`: Increases the repair cooldown of the rocket specifically because it has a low durability
 	- `APPLE_REPAIR_MODIFIER`: Increases the repair cooldown of the apple specifically because it has a low durability
+    - `ROCKET_EXPERIENCE_BOOST`: Determines how much experience rockets get when used
+    - `APPLE_EXPERIENCE_BOOST`: Increases the amount of experience apples get when used
 - Adds config options to disable each tool and each piece of armor
 	- Removes crafting of the tool
 	- Will break if used, mined with, or attacked with (or wear if it is armor or elytra)
