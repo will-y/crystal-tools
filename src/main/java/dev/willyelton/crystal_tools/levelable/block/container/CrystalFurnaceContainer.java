@@ -149,21 +149,4 @@ public class CrystalFurnaceContainer extends AbstractContainerMenu {
     public String getBlockType() {
         return "crystal_furnace";
     }
-
-    public void addSkillPoints(int points) {
-        this.setData(14, this.getSkillPoints() + points);
-        this.access.execute(Level::blockEntityChanged);
-//        this.data.set(14, this.getSkillPoints() + points);
-        System.out.println("[" + Thread.currentThread().getName() + "] Setting skill points, value is now " + this.data.get(14));
-//        this.broadcastChanges();
-    }
-
-    public void addToPoints(int index, int points) {
-
-    }
-
-    public void setData(int pId, int pData) {
-        super.setData(pId, pData);
-        this.broadcastChanges();
-    }
 }

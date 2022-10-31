@@ -69,6 +69,10 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     private int exp = 0;
     private int expCap = 0;
 
+    // Things that can be upgraded
+    private int speedUpgrade = 0;
+    private int fuelEfficiencyUpgrade = 0;
+
     public CrystalFurnaceBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModBlocks.CRYSTAL_FURNACE_BLOCK_ENTITY.get(), pPos, pBlockState);
         items = NonNullList.withSize(SIZE, ItemStack.EMPTY);
@@ -224,10 +228,13 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
 
         // Levelable things
         this.skillPoints = nbt.getInt("SkillPoints");
-        System.out.println("[" + Thread.currentThread().getName() + "] Points on load: " + this.skillPoints);
         this.points = NBTUtils.getIntArray(nbt, "Points", 100);
         this.exp = nbt.getInt("Exp");
         this.expCap = nbt.getInt("ExpCap");
+
+        // Upgrade things
+        this.speedUpgrade = nbt.getInt("SpeedUpgrade");
+        this.fuelEfficiencyUpgrade = nbt.getInt("FuelEfficiencyUpgrade");
     }
 
 
@@ -242,10 +249,13 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
 
         // Levelable things
         nbt.putInt("SkillPoints", this.skillPoints);
-        System.out.println("[" + Thread.currentThread().getName() + "] Points on save: " + this.skillPoints);
         nbt.putIntArray("Points", this.points);
         nbt.putInt("Exp", this.exp);
         nbt.putInt("ExpCap", this.expCap);
+
+        // Upgrade things
+        nbt.putInt("SpeedUpgrade", this.speedUpgrade);
+        nbt.putInt("FuelEfficiencyUpgrade", this.fuelEfficiencyUpgrade);
     }
 
     protected final ContainerData dataAccess = new ContainerData() {
@@ -524,6 +534,8 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
             case "skill_points" -> this.skillPoints += value;
             case "experience" -> this.exp += value;
             case "experience_cap" -> this.expCap += value;
+            case "speed_bonus" -> this.speedUpgrade += value;
+            case "fuel_bonus" -> this.fuelEfficiencyUpgrade += value;
         }
         this.setChanged();
     }

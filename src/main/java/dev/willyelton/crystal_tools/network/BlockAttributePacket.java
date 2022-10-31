@@ -42,9 +42,6 @@ public class BlockAttributePacket {
         public static void handle(final BlockAttributePacket msg, Supplier<NetworkEvent.Context> ctx) {
             ServerPlayer player = ctx.get().getSender();
 
-            Thread thread = Thread.currentThread();
-            // TODO player.containerMenu
-
             if (player != null) {
                 AbstractContainerMenu container = player.containerMenu;
 

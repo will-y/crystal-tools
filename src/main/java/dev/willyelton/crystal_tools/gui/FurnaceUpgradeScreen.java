@@ -54,8 +54,8 @@ public class FurnaceUpgradeScreen extends BaseUpgradeScreen {
         int skillPoints = this.getSkillPoints();
 
         if (skillPoints > 0) {
-            this.container.addSkillPoints(-1);
-            this.container.addToPoints(node.getId(), (int) node.getValue());
+            this.container.getBlockEntity().addSkillPoints(-1);
+            this.container.getBlockEntity().addToPoints(node.getId(), (int) node.getValue());
             PacketHandler.sendToServer(new BlockAttributePacket("skill_points", -1, -1));
             PacketHandler.sendToServer(new BlockAttributePacket(node.getKey(), node.getValue(), node.getId()));
             node.addPoint();
