@@ -17,6 +17,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.AirItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -25,6 +26,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.Capability;
@@ -38,13 +40,13 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Optional;
 
-public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements WorldlyContainer, MenuProvider {
+public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyContainer, MenuProvider {
     public static final int[] INPUT_SLOTS = new int[] {0, 1, 2, 3, 4};
     public static final int[] OUTPUT_SLOTS = new int[] {5, 6, 7, 8, 9};
     public static final int[] FUEL_SLOTS = new int[] {10, 11, 12};
 
     public static final int SIZE = 13;
-    public static final int DATA_SIZE = 14;
+    public static final int DATA_SIZE = 200;
     private NonNullList<ItemStack> items;
 
     LazyOptional<? extends net.minecraftforge.items.IItemHandler>[] invHandlers = SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
@@ -60,6 +62,12 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     // Crystal furnace fields
     private int numSlots = 5;
     private int numFuelSlots = 3;
+
+    // Levelable things
+    private int skillPoints = 0;
+    private int[] points = new int[100];
+    private int exp = 0;
+    private int expCap = 0;
 
     public CrystalFurnaceBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModBlocks.CRYSTAL_FURNACE_BLOCK_ENTITY.get(), pPos, pBlockState);
@@ -201,7 +209,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     @org.jetbrains.annotations.Nullable
     @Override
     public AbstractContainerMenu createMenu(int pContainerId, @NotNull Inventory pPlayerInventory, @NotNull Player pPlayer) {
-        return new CrystalFurnaceContainer(pContainerId, pPlayer.getLevel(), this.getBlockPos(), pPlayerInventory, this.dataAccess);
+        return new CrystalFurnaceContainer(pContainerId, pPlayer.getLevel(), this.getBlockPos(), pPlayerInventory, this.dataAccess, ContainerLevelAccess.create(this.level, this.getBlockPos()));
     }
 
     @Override
@@ -213,6 +221,13 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         this.litDuration = nbt.getInt("LitDuration");
         this.cookingProgress = NBTUtils.getIntArray(nbt, "CookingProgress", 5);
         this.cookingTotalTime = NBTUtils.getIntArray(nbt, "CookingTotalTime", 5);
+
+        // Levelable things
+        this.skillPoints = nbt.getInt("SkillPoints");
+        System.out.println("[" + Thread.currentThread().getName() + "] Points on load: " + this.skillPoints);
+        this.points = NBTUtils.getIntArray(nbt, "Points", 100);
+        this.exp = nbt.getInt("Exp");
+        this.expCap = nbt.getInt("ExpCap");
     }
 
 
@@ -224,6 +239,13 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         nbt.putInt("LitDuration", this.litDuration);
         nbt.putIntArray("CookingProgress", this.cookingProgress);
         nbt.putIntArray("CookingTotalTime", this.cookingTotalTime);
+
+        // Levelable things
+        nbt.putInt("SkillPoints", this.skillPoints);
+        System.out.println("[" + Thread.currentThread().getName() + "] Points on save: " + this.skillPoints);
+        nbt.putIntArray("Points", this.points);
+        nbt.putInt("Exp", this.exp);
+        nbt.putInt("ExpCap", this.expCap);
     }
 
     protected final ContainerData dataAccess = new ContainerData() {
@@ -243,7 +265,10 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
                 case 11 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[2];
                 case 12 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[3];
                 case 13 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[4];
-                default -> 0;
+                case 14 -> CrystalFurnaceBlockEntity.this.skillPoints;
+                case 15 -> CrystalFurnaceBlockEntity.this.exp;
+                case 16 -> CrystalFurnaceBlockEntity.this.expCap;
+                default -> (dataIndex >= 100 && dataIndex < 200) ? CrystalFurnaceBlockEntity.this.points[dataIndex - 100] : 0;
             };
         }
 
@@ -263,8 +288,15 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
                 case 11 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[2] = value;
                 case 12 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[3] = value;
                 case 13 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[4] = value;
+                case 14 -> CrystalFurnaceBlockEntity.this.skillPoints = value;
+                case 15 -> CrystalFurnaceBlockEntity.this.exp = value;
+                case 16 -> CrystalFurnaceBlockEntity.this.expCap = value;
+                default -> {
+                    if (dataIndex >= 100 && dataIndex < 200) {
+                        CrystalFurnaceBlockEntity.this.points[dataIndex - 100] = value;
+                    }
+                }
             }
-
         }
 
         public int getCount() {
@@ -481,9 +513,24 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         // TODO
     }
 
-    @Override
-    public String getBlockType() {
-        return "crystal_furnace";
+    // Levelable things
+    public void addSkillPoints(int points) {
+        this.skillPoints += points;
+        this.setChanged();
+    }
+
+    public void addToData(String key, float value) {
+        switch(key) {
+            case "skill_points" -> this.skillPoints += value;
+            case "experience" -> this.exp += value;
+            case "experience_cap" -> this.expCap += value;
+        }
+        this.setChanged();
+    }
+
+    public void addToPoints(int id, int value) {
+        this.points[id] += value;
+        this.setChanged();
     }
 }
 

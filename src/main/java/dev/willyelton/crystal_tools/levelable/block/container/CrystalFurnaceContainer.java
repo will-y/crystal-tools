@@ -22,18 +22,20 @@ public class CrystalFurnaceContainer extends AbstractContainerMenu {
     private final InvWrapper playerInventory;
     private final Player player;
     private final ContainerData data;
+    private final ContainerLevelAccess access;
     private final int fuelSlotsX = 21;
     private final int[] fuelSlotsPos = new int[] {69, 44, 19};
     private final int inputSlotY = 58;
     private final int outputSlotY = 23;
     private final int[][] slotXValues = new int[][] {new int[] {96, 0, 0, 0, 0}, new int[] {80, 112, 0, 0, 0}, new int[] {74, 96, 118, 0, 0}, new int[] {57, 83, 109, 135, 0}, new int[] {58, 77, 96, 115, 134}};
 
-    public CrystalFurnaceContainer(int pContainerId, Level level, BlockPos pos, Inventory playerInventory, ContainerData data) {
+    public CrystalFurnaceContainer(int pContainerId, Level level, BlockPos pos, Inventory playerInventory, ContainerData data, ContainerLevelAccess access) {
         super(ModBlocks.CRYSTAL_FURNACE_CONTAINER.get(), pContainerId);
         te = (CrystalFurnaceBlockEntity) level.getBlockEntity(pos);
         this.playerInventory = new InvWrapper(playerInventory);
         this.player = playerInventory.player;
         this.data = data;
+        this.access = access;
 
         int numActiveSlots = this.data.get(3);
         int numActiveFuelSlots = this.data.get(4);
@@ -126,5 +128,42 @@ public class CrystalFurnaceContainer extends AbstractContainerMenu {
 
     public Player getPlayer() {
         return this.player;
+    }
+
+    // Levelable things
+
+    public int getSkillPoints() {
+        return this.data.get(14);
+    }
+
+    public int[] getPoints() {
+        int[] result = new int[100];
+
+        for (int i = 0; i < 100; i++) {
+            result[i] = this.data.get(i + 100);
+        }
+
+        return result;
+    }
+
+    public String getBlockType() {
+        return "crystal_furnace";
+    }
+
+    public void addSkillPoints(int points) {
+        this.setData(14, this.getSkillPoints() + points);
+        this.access.execute(Level::blockEntityChanged);
+//        this.data.set(14, this.getSkillPoints() + points);
+        System.out.println("[" + Thread.currentThread().getName() + "] Setting skill points, value is now " + this.data.get(14));
+//        this.broadcastChanges();
+    }
+
+    public void addToPoints(int index, int points) {
+
+    }
+
+    public void setData(int pId, int pData) {
+        super.setData(pId, pData);
+        this.broadcastChanges();
     }
 }

@@ -4,6 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import dev.willyelton.crystal_tools.levelable.block.entity.CrystalFurnaceBlockEntity;
 import dev.willyelton.crystal_tools.levelable.block.entity.LevelableBlockEntity;
 import dev.willyelton.crystal_tools.network.AddSkillPointsToClientPacket;
 import dev.willyelton.crystal_tools.network.PacketHandler;
@@ -35,13 +36,14 @@ public class AddPointsBlockCommand {
 
         BlockEntity blockEntity = level.getBlockEntity(pos);
 
-        if (blockEntity instanceof LevelableBlockEntity levelableBlockEntity) {
-            levelableBlockEntity.addSkillPoints(points);
+        if (blockEntity instanceof CrystalFurnaceBlockEntity crystalFurnaceBlockEntity) {
+            crystalFurnaceBlockEntity.addSkillPoints(points);
+            System.out.println("[" + Thread.currentThread().getName() + "] Adding Points: " + points);
         }
 
-        ServerPlayer player = commandContext.getSource().getPlayer();
-
-        PacketHandler.sendToPlayer(new AddSkillPointsToClientPacket(pos, points), player);
+//        ServerPlayer player = commandContext.getSource().getPlayer();
+//
+//        PacketHandler.sendToPlayer(new AddSkillPointsToClientPacket(pos, points), player);
 
         return 1;
     }

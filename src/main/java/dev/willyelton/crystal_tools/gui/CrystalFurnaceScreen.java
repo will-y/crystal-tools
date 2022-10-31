@@ -94,7 +94,7 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
                         int height = (int) (litProgress * 13);
                         this.blit(poseStack, slot.x + 2 + this.leftPos, slot.y + SLOT_TEXTURE_SIZE + this.topPos + FIRE_TEXTURE_HEIGHT - height, FIRE_TEXTURE_ON_X, FIRE_TEXTURE_Y + FIRE_TEXTURE_HEIGHT - height, FIRE_TEXTURE_WIDTH, height);
                     }
-                } else if (slot instanceof  CrystalFurnaceFuelSlot && slot.index != 10) {
+                } else if (slot instanceof CrystalFurnaceFuelSlot && slot.index != 10) {
                     // Draw fuel arrow thing
                     this.blit(poseStack, slot.x + 4 + this.leftPos, slot.y + 19 + this.topPos, FUEL_ARROW_TEXTURE_X, FUEL_ARROW_TEXTURE_Y, FUEL_ARROW_TEXTURE_WIDTH, FUEL_ARROW_TEXTURE_HEIGHT);
                 }
@@ -112,7 +112,7 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
                         UPGRADE_BUTTON_HEIGHT,
                         Component.literal("+"),
                         pButton -> {
-                            ModGUIs.openScreen(new FurnaceUpgradeScreen(this.blockEntity, this.menu.getPlayer(), this));
+                            ModGUIs.openScreen(new FurnaceUpgradeScreen(this.menu, this.menu.getPlayer(), this));
                         }, (pButton, pPoseStack, pMouseX, pMouseY) -> {}, false));
     }
 }

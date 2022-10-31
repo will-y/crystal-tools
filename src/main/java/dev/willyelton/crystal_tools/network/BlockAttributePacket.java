@@ -1,10 +1,12 @@
 package dev.willyelton.crystal_tools.network;
 
+import dev.willyelton.crystal_tools.levelable.block.container.CrystalFurnaceContainer;
 import dev.willyelton.crystal_tools.levelable.block.entity.CrystalFurnaceBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.network.NetworkEvent;
@@ -16,13 +18,11 @@ public class BlockAttributePacket {
     private final String key;
     private final float value;
     private final int id;
-    private final BlockPos pos;
 
-    public BlockAttributePacket(String key, float value, int id, BlockPos pos) {
+    public BlockAttributePacket(String key, float value, int id) {
         this.key = key;
         this.value = value;
         this.id = id;
-        this.pos = pos;
     }
 
     public static void encode(BlockAttributePacket msg, FriendlyByteBuf buffer) {
@@ -30,13 +30,12 @@ public class BlockAttributePacket {
         buffer.writeCharSequence(msg.key, Charset.defaultCharset());
         buffer.writeFloat(msg.value);
         buffer.writeInt(msg.id);
-        buffer.writeBlockPos(msg.pos);
     }
 
     public static BlockAttributePacket decode(FriendlyByteBuf buffer) {
         int keyLen = buffer.readInt();
         String key = buffer.readCharSequence(keyLen, Charset.defaultCharset()).toString();
-        return new BlockAttributePacket(key, buffer.readFloat(), buffer.readInt(), buffer.readBlockPos());
+        return new BlockAttributePacket(key, buffer.readFloat(), buffer.readInt());
     }
 
     public static class Handler {
@@ -44,19 +43,18 @@ public class BlockAttributePacket {
             ServerPlayer player = ctx.get().getSender();
 
             Thread thread = Thread.currentThread();
+            // TODO player.containerMenu
 
             if (player != null) {
-                ServerLevel serverLevel = (ServerLevel) player.level;
-                BlockPos pos = msg.pos;
+                AbstractContainerMenu container = player.containerMenu;
 
-                BlockState blockState = serverLevel.getBlockState(pos);
-                BlockEntity blockEntity = serverLevel.getBlockEntity(pos);
+                if (container instanceof CrystalFurnaceContainer crystalFurnaceContainer) {
+                    CrystalFurnaceBlockEntity blockEntity = crystalFurnaceContainer.getBlockEntity();
 
-                System.out.println(blockState);
-                System.out.println(blockEntity);
-
-                if (blockEntity instanceof CrystalFurnaceBlockEntity crystalFurnaceBlockEntity) {
-                    System.out.println("HERE????");
+                    blockEntity.addToData(msg.key, msg.value);
+                    if (msg.id != -1) {
+                        blockEntity.addToPoints(msg.id, 1);
+                    }
                 }
             }
 //            Level level = ctx.get().getSender().level;
