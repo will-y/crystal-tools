@@ -47,6 +47,8 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
 
     public static final int SIZE = 13;
     public static final int DATA_SIZE = 200;
+    // TODO: Config
+    public static final int FUEL_EFFICIENCY_ADDED_TICKS = 100;
     private NonNullList<ItemStack> items;
 
     LazyOptional<? extends net.minecraftforge.items.IItemHandler>[] invHandlers = SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
@@ -378,7 +380,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
                 Optional<AbstractCookingRecipe> recipe = this.getRecipe(this.getItem(slot));
 
                 if (!this.isLit() && this.canBurn(recipe.orElse(null), slot)) {
-                    this.litTime = this.getBurnDuration(fuelItemStack);
+                    this.litTime = this.getBurnDuration(fuelItemStack) + this.fuelEfficiencyUpgrade * FUEL_EFFICIENCY_ADDED_TICKS;
                     this.litDuration = this.litTime;
 
                     if (this.isLit()) {
