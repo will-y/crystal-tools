@@ -49,6 +49,8 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     public static final int DATA_SIZE = 200;
     // TODO: Config
     public static final int FUEL_EFFICIENCY_ADDED_TICKS = 100;
+    public static final int SPEED_UPGRADE_SUBTRACT_TICKS = 10;
+
     private NonNullList<ItemStack> items;
 
     LazyOptional<? extends net.minecraftforge.items.IItemHandler>[] invHandlers = SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
@@ -380,7 +382,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
                 Optional<AbstractCookingRecipe> recipe = this.getRecipe(this.getItem(slot));
 
                 if (!this.isLit() && this.canBurn(recipe.orElse(null), slot)) {
-                    this.litTime = this.getBurnDuration(fuelItemStack) + this.fuelEfficiencyUpgrade * FUEL_EFFICIENCY_ADDED_TICKS;
+                    this.litTime = this.getBurnDuration(fuelItemStack);
                     this.litDuration = this.litTime;
 
                     if (this.isLit()) {
@@ -477,13 +479,13 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         if (stack.isEmpty()) {
             return 0;
         } else {
-            return ForgeHooks.getBurnTime(stack, this.recipeType);
+            return ForgeHooks.getBurnTime(stack, this.recipeType) + this.fuelEfficiencyUpgrade * FUEL_EFFICIENCY_ADDED_TICKS;
         }
     }
 
     private int getTotalCookTime(AbstractCookingRecipe recipe, int slot) {
         if (!this.getItem(slot).isEmpty() && recipe != null) {
-            return recipe.getCookingTime();
+            return Math.max(recipe.getCookingTime() - this.speedUpgrade * SPEED_UPGRADE_SUBTRACT_TICKS, 1);
         }
 
         return 0;
