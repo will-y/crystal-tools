@@ -17,6 +17,8 @@ import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+
 public class CrystalFurnaceContainer extends AbstractContainerMenu {
     private final CrystalFurnaceBlockEntity te;
     private final InvWrapper playerInventory;
@@ -89,18 +91,18 @@ public class CrystalFurnaceContainer extends AbstractContainerMenu {
         int[] outputSlots = te.getOutputSLots();
 
         for (int i = 0; i < numSlots; i++) {
-            this.addSlot(new CrystalFurnaceInputSlot(te, inputSlots[i], this.slotXValues[numActiveSlots - 1][i], this.inputSlotY));
+            this.addSlot(new CrystalFurnaceInputSlot(this, inputSlots[i], this.slotXValues[numActiveSlots - 1][i], this.inputSlotY));
         }
 
         for (int i = 0; i < numSlots; i++) {
-            this.addSlot(new CrystalFurnaceOutputSlot(player, te, outputSlots[i], this.slotXValues[numActiveSlots - 1][i], this.outputSlotY));
+            this.addSlot(new CrystalFurnaceOutputSlot(player, this, outputSlots[i], this.slotXValues[numActiveSlots - 1][i], this.outputSlotY));
         }
     }
 
     private void addFuelSlots(int numSlots, int numActiveFuelSlots) {
         int[] slots = te.getFuelSlots();
         for (int i = 0; i < numSlots; i++) {
-            this.addSlot(new CrystalFurnaceFuelSlot(te, slots[i], this.fuelSlotsX, this.fuelSlotsPos[i]));
+            this.addSlot(new CrystalFurnaceFuelSlot(this, slots[i], this.fuelSlotsX, this.fuelSlotsPos[i]));
         }
     }
 
@@ -120,6 +122,14 @@ public class CrystalFurnaceContainer extends AbstractContainerMenu {
         int i = this.data.get(index + 4);
         int j = this.data.get(index + 9);
         return j != 0 && i != 0 ? i / (float) j : 0;
+    }
+
+    public int getNumActiveSlots() {
+        return this.data.get(2) + 1;
+    }
+
+    public int getNumActiveFuelSlots() {
+        return this.data.get(3) + 1;
     }
 
     public CrystalFurnaceBlockEntity getBlockEntity() {
@@ -148,5 +158,17 @@ public class CrystalFurnaceContainer extends AbstractContainerMenu {
 
     public String getBlockType() {
         return "crystal_furnace";
+    }
+
+    public int[] getActiveInputSlots() {
+        return Arrays.copyOfRange(CrystalFurnaceBlockEntity.INPUT_SLOTS, 0, this.getNumActiveSlots());
+    }
+
+    public int[] getActiveOutputSlots() {
+        return Arrays.copyOfRange(CrystalFurnaceBlockEntity.OUTPUT_SLOTS, 0, this.getNumActiveSlots());
+    }
+
+    public int[] getActiveFuelSlots() {
+        return Arrays.copyOfRange(CrystalFurnaceBlockEntity.FUEL_SLOTS, 0, this.getNumActiveFuelSlots());
     }
 }

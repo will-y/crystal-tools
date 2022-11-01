@@ -64,10 +64,6 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     private int[] cookingProgress = new int[5];
     private int[] cookingTotalTime = new int[5];
 
-    // Crystal furnace fields
-    private int numSlots = 5;
-    private int numFuelSlots = 3;
-
     // Levelable things
     private int skillPoints = 0;
     private int[] points = new int[100];
@@ -77,6 +73,10 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     // Things that can be upgraded
     private float speedUpgrade = 0;
     private int fuelEfficiencyUpgrade = 0;
+    private int bonusSlots = 0;
+    private int bonusFuelSlots = 0;
+    private boolean balance = false;
+    private boolean autoOutput = false;
 
     public CrystalFurnaceBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModBlocks.CRYSTAL_FURNACE_BLOCK_ENTITY.get(), pPos, pBlockState);
@@ -240,6 +240,10 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         // Upgrade things
         this.speedUpgrade = nbt.getFloat("SpeedUpgrade");
         this.fuelEfficiencyUpgrade = nbt.getInt("FuelEfficiencyUpgrade");
+        this.bonusSlots = nbt.getInt("Slots");
+        this.bonusFuelSlots = nbt.getInt("FuelSlots");
+        this.balance = nbt.getBoolean("Balance");
+        this.autoOutput = nbt.getBoolean("AutoOutput");
     }
 
 
@@ -261,6 +265,10 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         // Upgrade things
         nbt.putFloat("SpeedUpgrade", this.speedUpgrade);
         nbt.putInt("FuelEfficiencyUpgrade", this.fuelEfficiencyUpgrade);
+        nbt.putInt("Slots", this.bonusSlots);
+        nbt.putInt("FuelSlots", this.bonusFuelSlots);
+        nbt.putBoolean("Balance", this.balance);
+        nbt.putBoolean("AutoOutput", this.autoOutput);
     }
 
     protected final ContainerData dataAccess = new ContainerData() {
@@ -268,8 +276,8 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
             return switch (dataIndex) {
                 case 0 -> CrystalFurnaceBlockEntity.this.litTime;
                 case 1 -> CrystalFurnaceBlockEntity.this.litDuration;
-                case 2 -> CrystalFurnaceBlockEntity.this.numSlots;
-                case 3 -> CrystalFurnaceBlockEntity.this.numFuelSlots;
+                case 2 -> CrystalFurnaceBlockEntity.this.bonusSlots;
+                case 3 -> CrystalFurnaceBlockEntity.this.bonusFuelSlots;
                 case 4 -> CrystalFurnaceBlockEntity.this.cookingProgress[0];
                 case 5 -> CrystalFurnaceBlockEntity.this.cookingProgress[1];
                 case 6 -> CrystalFurnaceBlockEntity.this.cookingProgress[2];
@@ -291,8 +299,8 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
             switch (dataIndex) {
                 case 0 -> CrystalFurnaceBlockEntity.this.litTime = value;
                 case 1 -> CrystalFurnaceBlockEntity.this.litDuration = value;
-                case 2 -> CrystalFurnaceBlockEntity.this.numSlots = value;
-                case 3 -> CrystalFurnaceBlockEntity.this.numFuelSlots = value;
+                case 2 -> CrystalFurnaceBlockEntity.this.bonusSlots = value;
+                case 3 -> CrystalFurnaceBlockEntity.this.bonusFuelSlots = value;
                 case 4 -> CrystalFurnaceBlockEntity.this.cookingProgress[0] = value;
                 case 5 -> CrystalFurnaceBlockEntity.this.cookingProgress[1] = value;
                 case 6 -> CrystalFurnaceBlockEntity.this.cookingProgress[2] = value;
@@ -327,24 +335,12 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         return INPUT_SLOTS;
     }
 
-    public int[] getActiveInputSlots() {
-        return Arrays.copyOfRange(INPUT_SLOTS, 0, this.numSlots);
-    }
-
     public int[] getOutputSLots() {
         return OUTPUT_SLOTS;
     }
 
-    public int[] getActiveOutputSlots() {
-        return Arrays.copyOfRange(OUTPUT_SLOTS, 0, this.numSlots);
-    }
-
     public int[] getFuelSlots() {
         return FUEL_SLOTS;
-    }
-
-    public int[] getActiveFuelSlots() {
-        return Arrays.copyOfRange(FUEL_SLOTS, 0, this.numFuelSlots);
     }
 
     public boolean hasRecipe(ItemStack stack) {
@@ -541,6 +537,10 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
             case "experience_cap" -> this.expCap += value;
             case "speed_bonus" -> this.speedUpgrade += value;
             case "fuel_bonus" -> this.fuelEfficiencyUpgrade += value;
+            case "slot_bonus" -> this.bonusSlots += value;
+            case "fuel_slot_bonus" -> this.bonusFuelSlots += value;
+            case "auto_balance" -> this.balance = value == 1;
+            case "auto_output" -> this.autoOutput = value == 1;
         }
         this.setChanged();
     }
