@@ -32,6 +32,7 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import org.jetbrains.annotations.NotNull;
 
@@ -53,7 +54,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
 
     private NonNullList<ItemStack> items;
 
-    LazyOptional<? extends net.minecraftforge.items.IItemHandler>[] invHandlers = SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
+    LazyOptional<? extends IItemHandler>[] invHandlers = SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
 
     private final RecipeType<? extends AbstractCookingRecipe> recipeType = RecipeType.SMELTING;
 
@@ -74,7 +75,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     private int expCap = 0;
 
     // Things that can be upgraded
-    private int speedUpgrade = 0;
+    private float speedUpgrade = 0;
     private int fuelEfficiencyUpgrade = 0;
 
     public CrystalFurnaceBlockEntity(BlockPos pPos, BlockState pBlockState) {
@@ -237,7 +238,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         this.expCap = nbt.getInt("ExpCap");
 
         // Upgrade things
-        this.speedUpgrade = nbt.getInt("SpeedUpgrade");
+        this.speedUpgrade = nbt.getFloat("SpeedUpgrade");
         this.fuelEfficiencyUpgrade = nbt.getInt("FuelEfficiencyUpgrade");
     }
 
@@ -258,7 +259,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         nbt.putInt("ExpCap", this.expCap);
 
         // Upgrade things
-        nbt.putInt("SpeedUpgrade", this.speedUpgrade);
+        nbt.putFloat("SpeedUpgrade", this.speedUpgrade);
         nbt.putInt("FuelEfficiencyUpgrade", this.fuelEfficiencyUpgrade);
     }
 
@@ -485,7 +486,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
 
     private int getTotalCookTime(AbstractCookingRecipe recipe, int slot) {
         if (!this.getItem(slot).isEmpty() && recipe != null) {
-            return Math.max(recipe.getCookingTime() - this.speedUpgrade * SPEED_UPGRADE_SUBTRACT_TICKS, 1);
+            return Math.max(recipe.getCookingTime() - (int) (this.speedUpgrade * SPEED_UPGRADE_SUBTRACT_TICKS), 1);
         }
 
         return 0;

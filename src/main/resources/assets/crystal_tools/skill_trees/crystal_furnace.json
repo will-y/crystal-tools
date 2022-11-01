@@ -19,6 +19,234 @@
         "key": "fuel_bonus",
         "value": 1
       }
+    ],
+    [
+      {
+        "id": 2,
+        "name": "Furnace Speed II",
+        "description": "Increases smelting speed",
+        "type": "normal",
+        "requirements": [
+          {"node": 0}
+        ],
+        "key": "speed_bonus",
+        "value": 1
+      },
+      {
+        "id": 3,
+        "name": "Fuel Efficiency II",
+        "description": "Increases time that fuel burns",
+        "type": "normal",
+        "requirements": [
+          {"node": 1}
+        ],
+        "key": "fuel_bonus",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 4,
+        "name": "Slot I",
+        "description": "Adds another input and output slot that works in parallel",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [2, 3]}
+        ],
+        "key": "slot_bonus",
+        "value": 1
+      },
+      {
+        "id": 5,
+        "name": "Fuel Slot I",
+        "description": "Adds another fuel slot",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [2, 3]}
+        ],
+        "key": "fuel_slot_bonus",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 6,
+        "name": "Furnace Speed III",
+        "description": "Increases smelting speed",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [4, 5]},
+          {"node": 2}
+        ],
+        "key": "speed_bonus",
+        "value": 1
+      },
+      {
+        "id": 7,
+        "name": "Fuel Efficiency III",
+        "description": "Increases time that fuel burns",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [4, 5]},
+          {"node": 3}
+        ],
+        "key": "fuel_bonus",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 8,
+        "name": "Slot II",
+        "description": "Adds another input and output slot that works in parallel",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [6, 7]},
+          {"node": 4}
+        ],
+        "key": "slot_bonus",
+        "value": 1
+      },
+      {
+        "id": 9,
+        "name": "Auto Split",
+        "description": "Automatically splits the input stacks over all available slots",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [6, 7]}
+        ],
+        "key": "auto_split",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 10,
+        "name": "Furnace Speed IV",
+        "description": "Increases smelting speed",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [8, 9]},
+          {"node": 6}
+        ],
+        "key": "speed_bonus",
+        "value": 1
+      },
+      {
+        "id": 11,
+        "name": "Fuel Efficiency IV",
+        "description": "Increases time that fuel burns",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [8, 9]},
+          {"node": 7}
+        ],
+        "key": "fuel_bonus",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 12,
+        "name": "Slot III",
+        "description": "Adds another input and output slot that works in parallel",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [10, 11]},
+          {"node": 8}
+        ],
+        "key": "slot_bonus",
+        "value": 1
+      },
+      {
+        "id": 13,
+        "name": "Fuel Slot II",
+        "description": "Adds another fuel slot",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [10, 11]},
+          {"node": 5}
+        ],
+        "key": "fuel_slot_bonus",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 14,
+        "name": "Furnace Speed V",
+        "description": "Increases smelting speed",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [12, 13]},
+          {"node": 10}
+        ],
+        "key": "speed_bonus",
+        "value": 1
+      },
+      {
+        "id": 15,
+        "name": "Fuel Efficiency V",
+        "description": "Increases time that fuel burns",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [12, 13]},
+          {"node": 11}
+        ],
+        "key": "fuel_bonus",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 16,
+        "name": "Slot IV",
+        "description": "Adds another input and output slot that works in parallel",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [10, 11]},
+          {"node": 12}
+        ],
+        "key": "slot_bonus",
+        "value": 1
+      },
+      {
+        "id": 17,
+        "name": "Auto Output",
+        "description": "Automatically outputs to inventories next to or below the furnace",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [10, 11]}
+        ],
+        "key": "auto_output",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 18,
+        "name": "Infinite Furnace Speed",
+        "description": "Increases smelting speed",
+        "type": "infinite",
+        "requirements": [
+          {"or_node": [16, 17]},
+          {"node": 14}
+        ],
+        "key": "speed_bonus",
+        "value": 0.25
+      },
+      {
+        "id": 19,
+        "name": "Infinite Fuel Efficiency",
+        "description": "Increases time that fuel burns",
+        "type": "infinite",
+        "requirements": [
+          {"or_node": [16, 17]},
+          {"node": 15}
+        ],
+        "key": "fuel_bonus",
+        "value": 0.25
+      }
     ]
   ]
 }
