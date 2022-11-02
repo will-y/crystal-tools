@@ -46,6 +46,8 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     public static final int[] OUTPUT_SLOTS = new int[] {5, 6, 7, 8, 9};
     public static final int[] FUEL_SLOTS = new int[] {10, 11, 12};
 
+    private static final Direction[] POSSIBLE_INVENTORIES = new Direction[] {Direction.DOWN, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
+
     public static final int SIZE = 13;
     public static final int DATA_SIZE = 200;
     // TODO: Config
@@ -488,6 +490,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         return 0;
     }
 
+    // Upgrade things
     private void balanceFuel() {
         ItemStack fuel1 = this.items.get(FUEL_SLOTS[0]);
         ItemStack fuel2 = this.items.get(FUEL_SLOTS[1]);
@@ -521,7 +524,32 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     }
 
     private void autoOutput() {
-        // TODO
+        if (this.autoOutput) {
+            if (this.level != null) {
+                for (int slotIndex : OUTPUT_SLOTS) {
+                    ItemStack outputStack = this.getItem(slotIndex);
+                    for (Direction dir : POSSIBLE_INVENTORIES) {
+                        BlockEntity blockEntity = this.level.getBlockEntity(this.getBlockPos().relative(dir));
+
+                        if (blockEntity != null) {
+                            Optional<IItemHandler> optional  = blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, dir.getOpposite()).resolve();
+
+                            if (optional.isPresent()) {
+                                IItemHandler handler = optional.get();
+
+                                for (int i = 0; i < handler.getSlots(); i++) {
+                                    outputStack = handler.insertItem(i, outputStack, false);
+
+                                    if (outputStack.isEmpty()) break;
+                                }
+                            }
+                        }
+                        if (outputStack.isEmpty()) break;
+                    }
+                    this.setItem(slotIndex, outputStack);
+                }
+            }
+        }
     }
 
     // Levelable things
