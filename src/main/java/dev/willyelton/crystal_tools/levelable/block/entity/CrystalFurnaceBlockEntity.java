@@ -128,7 +128,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
 
     @Override
     public boolean canPlaceItemThroughFace(int pIndex, @NotNull ItemStack pItemStack, @org.jetbrains.annotations.Nullable Direction pDirection) {
-        return false;
+        return canPlaceItem(pIndex, pItemStack);
     }
 
     public boolean canPlaceItem(int index, @NotNull ItemStack stack) {
