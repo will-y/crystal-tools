@@ -74,7 +74,6 @@ public class CrystalFurnaceContainer extends AbstractContainerMenu {
                     return ItemStack.EMPTY;
                 }
 
-                // TODO: I think I need to implement this on result slot
                 slot.onQuickCraft(itemStack1, itemStack);
             // Player Slots
             } else if (!ArrayUtils.arrayContains(CrystalFurnaceBlockEntity.INPUT_SLOTS, index) && !ArrayUtils.arrayContains(CrystalFurnaceBlockEntity.FUEL_SLOTS, index)) {

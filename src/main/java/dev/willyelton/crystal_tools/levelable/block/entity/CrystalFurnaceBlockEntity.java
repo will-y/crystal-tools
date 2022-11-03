@@ -133,11 +133,11 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
 
     public boolean canPlaceItem(int index, @NotNull ItemStack stack) {
         if (ArrayUtils.arrayContains(INPUT_SLOTS, index)) {
-            return true;
+            return index <= INPUT_SLOTS[this.bonusSlots];
         } else if (ArrayUtils.arrayContains(OUTPUT_SLOTS, index)) {
             return false;
         } else if (ArrayUtils.arrayContains(FUEL_SLOTS, index)) {
-            return net.minecraftforge.common.ForgeHooks.getBurnTime(stack, RecipeType.SMELTING) > 0;
+            return index <= FUEL_SLOTS[this.bonusFuelSlots] && (ForgeHooks.getBurnTime(stack, RecipeType.SMELTING) > 0);
         }
 
         return false;
