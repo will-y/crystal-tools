@@ -223,7 +223,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     @org.jetbrains.annotations.Nullable
     @Override
     public AbstractContainerMenu createMenu(int pContainerId, @NotNull Inventory pPlayerInventory, @NotNull Player pPlayer) {
-        return new CrystalFurnaceContainer(pContainerId, pPlayer.getLevel(), this.getBlockPos(), pPlayerInventory, this.dataAccess, ContainerLevelAccess.create(this.level, this.getBlockPos()));
+        return new CrystalFurnaceContainer(pContainerId, pPlayer.getLevel(), this.getBlockPos(), pPlayerInventory, this.dataAccess);
     }
 
     @Override

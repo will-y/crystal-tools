@@ -7,10 +7,12 @@ import dev.willyelton.crystal_tools.levelable.block.container.slot.CrystalFurnac
 import dev.willyelton.crystal_tools.levelable.block.entity.CrystalFurnaceBlockEntity;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
@@ -24,23 +26,26 @@ public class CrystalFurnaceContainer extends AbstractContainerMenu {
     private final InvWrapper playerInventory;
     private final Player player;
     private final ContainerData data;
-    private final ContainerLevelAccess access;
+    private final Level level;
+
     private final int fuelSlotsX = 21;
     private final int[] fuelSlotsPos = new int[] {69, 44, 19};
     private final int inputSlotY = 58;
     private final int outputSlotY = 23;
     private final int[][] slotXValues = new int[][] {new int[] {96, 0, 0, 0, 0}, new int[] {80, 112, 0, 0, 0}, new int[] {74, 96, 118, 0, 0}, new int[] {57, 83, 109, 135, 0}, new int[] {58, 77, 96, 115, 134}};
 
-    public CrystalFurnaceContainer(int pContainerId, Level level, BlockPos pos, Inventory playerInventory, ContainerData data, ContainerLevelAccess access) {
+    private static final int PLAYER_INVENTORY_START = 13;
+    private static final int PLAYER_INVENTORY_END = 49;
+    private static final int INPUT_START = CrystalFurnaceBlockEntity.INPUT_SLOTS[0];
+    private static final int FUEL_START = CrystalFurnaceBlockEntity.FUEL_SLOTS[0];
+
+    public CrystalFurnaceContainer(int pContainerId, Level level, BlockPos pos, Inventory playerInventory, ContainerData data) {
         super(ModBlocks.CRYSTAL_FURNACE_CONTAINER.get(), pContainerId);
         te = (CrystalFurnaceBlockEntity) level.getBlockEntity(pos);
         this.playerInventory = new InvWrapper(playerInventory);
         this.player = playerInventory.player;
         this.data = data;
-        this.access = access;
-
-        int numActiveSlots = this.data.get(3);
-        int numActiveFuelSlots = this.data.get(4);
+        this.level = playerInventory.player.level;
 
         this.addFurnaceSlots(5, 5);
         this.addFuelSlots(3, 3);
@@ -49,9 +54,63 @@ public class CrystalFurnaceContainer extends AbstractContainerMenu {
         this.addDataSlots(data);
     }
 
+    /**
+     * Called when shift clicking a slot with an item in it
+     * Player inventory starts at 13 goes to 48
+     * My slots are as expected
+     * Pretty much copied from AbstractFurnaceMenu
+     */
     @Override
-    public @NotNull ItemStack quickMoveStack(@NotNull Player pPlayer, int pIndex) {
-        // TODO: See how it is actually called
+    public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
+        ItemStack itemStack;
+        Slot slot = this.slots.get(index);
+        if (slot.hasItem()) {
+            ItemStack itemStack1 = slot.getItem();
+            itemStack = itemStack1.copy();
+
+            // Result Slot
+            if (ArrayUtils.arrayContains(CrystalFurnaceBlockEntity.OUTPUT_SLOTS, index)) {
+                if (!this.moveItemStackTo(itemStack1, PLAYER_INVENTORY_START, PLAYER_INVENTORY_END, true)) {
+                    return ItemStack.EMPTY;
+                }
+
+                // TODO: I think I need to implement this on result slot
+                slot.onQuickCraft(itemStack1, itemStack);
+            // Player Slots
+            } else if (!ArrayUtils.arrayContains(CrystalFurnaceBlockEntity.INPUT_SLOTS, index) && !ArrayUtils.arrayContains(CrystalFurnaceBlockEntity.FUEL_SLOTS, index)) {
+                if (this.canSmelt(itemStack1)) {
+                    if (!this.moveItemStackTo(itemStack1, INPUT_START, INPUT_START + this.getNumActiveSlots(), false)) {
+                        return ItemStack.EMPTY;
+                    }
+                } else if (this.isFuel(itemStack1)) {
+                    if (!this.moveItemStackTo(itemStack1, FUEL_START, FUEL_START + this.getNumActiveFuelSlots(), false)) {
+                        return ItemStack.EMPTY;
+                    }
+                } else if (index >= PLAYER_INVENTORY_START && index < PLAYER_INVENTORY_END - 9) {
+                    if (!this.moveItemStackTo(itemStack1, PLAYER_INVENTORY_END - 9, PLAYER_INVENTORY_END, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                } else if (index >= PLAYER_INVENTORY_END - 9 && index < PLAYER_INVENTORY_END && !this.moveItemStackTo(itemStack1, PLAYER_INVENTORY_START, PLAYER_INVENTORY_END - 9, false)) {
+                    return ItemStack.EMPTY;
+                }
+            // Input and Fuel Slots
+            } else if (!this.moveItemStackTo(itemStack1, PLAYER_INVENTORY_START, PLAYER_INVENTORY_END, false)) {
+                return ItemStack.EMPTY;
+            }
+
+            if (itemStack1.isEmpty()) {
+                slot.set(ItemStack.EMPTY);
+            } else {
+                slot.setChanged();
+            }
+
+            if (itemStack1.getCount() == itemStack.getCount()) {
+                return ItemStack.EMPTY;
+            }
+
+            slot.onTake(player, itemStack1);
+        }
+
         return ItemStack.EMPTY;
     }
 
@@ -138,6 +197,14 @@ public class CrystalFurnaceContainer extends AbstractContainerMenu {
 
     public Player getPlayer() {
         return this.player;
+    }
+
+    protected boolean canSmelt(ItemStack pStack) {
+        return this.level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, new SimpleContainer(pStack), this.level).isPresent();
+    }
+
+    protected boolean isFuel(ItemStack pStack) {
+        return net.minecraftforge.common.ForgeHooks.getBurnTime(pStack, RecipeType.SMELTING) > 0;
     }
 
     // Levelable things

@@ -44,7 +44,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> CRYSTAL_FURNACE = BLOCKS.register("crystal_furnace", () -> new CrystalFurnaceBlock(BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F)));
     public static final RegistryObject<BlockEntityType<CrystalFurnaceBlockEntity>> CRYSTAL_FURNACE_BLOCK_ENTITY = BLOCK_ENTITIES.register("crystal_furnace", () -> BlockEntityType.Builder.of(CrystalFurnaceBlockEntity::new, CRYSTAL_FURNACE.get()).build(null));
     public static final RegistryObject<MenuType<CrystalFurnaceContainer>> CRYSTAL_FURNACE_CONTAINER = CONTAINERS.register("crystal_furnace",
-            () -> IForgeMenuType.create((windowId, inv, data) -> new CrystalFurnaceContainer(windowId, inv.player.level, data.readBlockPos(), inv, new SimpleContainerData(CrystalFurnaceBlockEntity.DATA_SIZE), ContainerLevelAccess.NULL)));
+            () -> IForgeMenuType.create((windowId, inv, data) -> new CrystalFurnaceContainer(windowId, inv.player.level, data.readBlockPos(), inv, new SimpleContainerData(CrystalFurnaceBlockEntity.DATA_SIZE))));
     public static final RegistryObject<Block> CRYSTAL_TORCH = BLOCKS.register("crystal_torch", CrystalTorch::new);
     public static final RegistryObject<Block> CRYSTAL_WALL_TORCH = BLOCKS.register("crystal_wall_torch", CrystalWallTorch::new);
 
