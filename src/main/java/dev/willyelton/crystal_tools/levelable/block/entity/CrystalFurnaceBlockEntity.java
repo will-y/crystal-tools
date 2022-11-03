@@ -19,6 +19,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.AirItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
@@ -39,6 +40,8 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyContainer, MenuProvider {
@@ -520,7 +523,41 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     }
 
     private void balanceInputs() {
-        // TODO
+        if (this.balance) {
+            int[] activeInputSlots = Arrays.copyOfRange(CrystalFurnaceBlockEntity.INPUT_SLOTS, 0, this.bonusSlots + 1);
+
+            Item[] items = new Item[activeInputSlots.length];
+            Map<Item, Integer> itemMap = new HashMap<>();
+
+            for (int i = 0; i < activeInputSlots.length; i++) {
+                ItemStack stack = this.getItem(activeInputSlots[i]);
+                items[i] = stack.getItem();
+                if (stack.is(Items.AIR)) continue;
+
+                if (itemMap.containsKey(stack.getItem())) {
+                    itemMap.put(stack.getItem(), itemMap.get(stack.getItem()) + stack.getCount());
+                } else {
+                    itemMap.put(stack.getItem(), stack.getCount());
+                }
+            }
+
+            for (Item item : itemMap.keySet()) {
+                int[] indices = ArrayUtils.indicesOf(items, item);
+                int[] emptyIndices = ArrayUtils.indicesOf(items, Items.AIR);
+                int[] allIndices = ArrayUtils.combineArrays(indices, emptyIndices);
+                int slots = allIndices.length;
+                int totalCount = itemMap.get(item);
+                int stackCount = totalCount / slots;
+                int leftOver = totalCount % slots;
+
+                for (int index : allIndices) {
+                    int bonus = leftOver-- > 0 ? 1 : 0;
+                    ItemStack toSet = new ItemStack(item, stackCount + bonus);
+                    this.setItem(activeInputSlots[index], toSet);
+                    items[index] = item;
+                }
+            }
+        }
     }
 
     private void autoOutput() {

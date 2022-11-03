@@ -115,7 +115,7 @@
         "requirements": [
           {"or_node": [6, 7]}
         ],
-        "key": "auto_split",
+        "key": "auto_balance",
         "value": 1
       }
     ],
