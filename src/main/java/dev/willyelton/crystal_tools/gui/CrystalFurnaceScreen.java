@@ -47,6 +47,7 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
     private final NonNullList<Slot> slots;
     private final CrystalFurnaceBlockEntity blockEntity;
     private FurnaceUpgradeButton upgradeButton;
+    private float expLabelX;
 
     public CrystalFurnaceScreen(CrystalFurnaceContainer container, Inventory inventory, Component name) {
         super(container, inventory, name);
@@ -55,6 +56,7 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
 
         this.imageHeight = 191;
         this.inventoryLabelY = this.imageHeight - 94;
+        expLabelX = this.inventoryLabelX + 100;
     }
 
     @Override
@@ -100,6 +102,15 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
                 }
             }
         }
+    }
+
+    @Override
+    protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
+        super.renderLabels(poseStack, mouseX, mouseY);
+        this.font.draw(poseStack,
+                Component.literal(String.format("Exp: %d/%d", this.menu.getExp(), this.menu.getExpCap())),
+                this.expLabelX,
+                (float)this.inventoryLabelY, 4210752);
     }
 
     @Override
