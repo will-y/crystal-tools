@@ -1,11 +1,13 @@
 package dev.willyelton.crystal_tools.levelable.block.entity;
 
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.levelable.block.CrystalFurnaceBlock;
 import dev.willyelton.crystal_tools.levelable.block.ModBlocks;
 import dev.willyelton.crystal_tools.levelable.block.container.CrystalFurnaceContainer;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
+import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -78,7 +80,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     private int skillPoints = 0;
     private int[] points = new int[100];
     private int exp = 0;
-    private int expCap = 0;
+    private int expCap = CrystalToolsConfig.BASE_EXPERIENCE_CAP.get();
 
     // Things that can be upgraded
     private float speedUpgrade = 0;
@@ -247,6 +249,8 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         this.points = NBTUtils.getIntArray(nbt, "Points", 100);
         this.exp = nbt.getInt("Exp");
         this.expCap = nbt.getInt("ExpCap");
+
+        if (this.expCap == 0) this.expCap = CrystalToolsConfig.BASE_EXPERIENCE_CAP.get();
 
         // Upgrade things
         this.speedUpgrade = nbt.getFloat("SpeedUpgrade");
@@ -468,10 +472,10 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     }
 
     private boolean burn(Recipe<?> recipe, int slot) {
-        if (recipe != null && this.canBurn(recipe, slot)) {
+        if (recipe != null && this.canBurn(recipe, slot) && recipe instanceof AbstractCookingRecipe cookingRecipe) {
             ItemStack input = this.items.get(slot);
             ItemStack output = this.items.get(slot + 5);
-            ItemStack recipeOutput = recipe.getResultItem();
+            ItemStack recipeOutput = cookingRecipe.getResultItem();
             if (output.isEmpty()) {
                 this.items.set(slot + 5, recipeOutput.copy());
             } else if (output.is(recipeOutput.getItem())) {
@@ -483,7 +487,8 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
             }
 
             input.shrink(1);
-            this.expHeld += ((AbstractCookingRecipe) recipe).getExperience();
+            this.expHeld += cookingRecipe.getExperience();
+            this.addExp(cookingRecipe.getExperience());
             return true;
         } else {
             return false;
@@ -630,6 +635,17 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     public void addToPoints(int id, int value) {
         this.points[id] += value;
         this.setChanged();
+    }
+
+    private void addExp(float recipeExp) {
+        int expToGain = (int) Math.ceil(recipeExp * 10 * CrystalToolsConfig.FURNACE_EXPERIENCE_BOOST.get());
+        this.exp += expToGain;
+
+        while (this.exp > this.expCap) {
+            this.exp = this.exp - this.expCap;
+            this.expCap = ToolUtils.getNewCap(this.expCap, 1);
+            this.skillPoints++;
+        }
     }
 }
 

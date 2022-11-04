@@ -113,7 +113,6 @@ public class ToolUtils {
 
     public static int getNewCap(int currentCap, int levelIncrease) {
         return (int) Math.min((float) (currentCap * Math.pow(CrystalToolsConfig.EXPERIENCE_MULTIPLIER.get(), levelIncrease)), CrystalToolsConfig.MAX_EXP.get());
-
     }
 
     public static void resetPoints(ItemStack stack) {

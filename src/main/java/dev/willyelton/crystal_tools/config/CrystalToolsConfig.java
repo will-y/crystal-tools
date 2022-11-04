@@ -16,6 +16,7 @@ public class CrystalToolsConfig {
     public static ForgeConfigSpec.DoubleValue SWORD_EXPERIENCE_BOOST;
     public static ForgeConfigSpec.IntValue ROCKET_EXPERIENCE_BOOST;
     public static ForgeConfigSpec.DoubleValue APPLE_EXPERIENCE_BOOST;
+    public static ForgeConfigSpec.DoubleValue FURNACE_EXPERIENCE_BOOST;
 
     // Repair
     public static ForgeConfigSpec.IntValue TOOL_REPAIR_COOLDOWN;
@@ -98,6 +99,9 @@ public class CrystalToolsConfig {
 
         APPLE_EXPERIENCE_BOOST = builder.comment("Multiplies how much experience Apples get. (EXP_GAINED = EFFECTIVE_HUNGER_RESTORED * APPLE_EXPERIENCE_BOOST")
                 .defineInRange("apple_experience_boost", 1, 0.1D, 1000D);
+
+        FURNACE_EXPERIENCE_BOOST = builder.comment("Multiplies how much experience Furnaces get.")
+                .defineInRange("furnace_experience_boost", 1D, 1D, 1000D);
 
         TOOL_REPAIR_COOLDOWN = builder.comment("Determines the cooldown between tool auto repairs")
                 .defineInRange("tool_repair_cooldown", 50, 1, 10000);
