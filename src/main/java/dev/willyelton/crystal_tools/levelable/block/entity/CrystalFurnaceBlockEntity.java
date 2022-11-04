@@ -11,8 +11,11 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.*;
+import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -29,6 +32,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -68,6 +72,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     private int litDuration = 0;
     private int[] cookingProgress = new int[5];
     private int[] cookingTotalTime = new int[5];
+    private float expHeld = 0;
 
     // Levelable things
     private int skillPoints = 0;
@@ -235,6 +240,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         this.litDuration = nbt.getInt("LitDuration");
         this.cookingProgress = NBTUtils.getIntArray(nbt, "CookingProgress", 5);
         this.cookingTotalTime = NBTUtils.getIntArray(nbt, "CookingTotalTime", 5);
+        this.expHeld = nbt.getFloat("ExpHeld");
 
         // Levelable things
         this.skillPoints = nbt.getInt("SkillPoints");
@@ -251,7 +257,6 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         this.autoOutput = nbt.getBoolean("AutoOutput");
     }
 
-
     @Override
     protected void saveAdditional(@NotNull CompoundTag nbt) {
         super.saveAdditional(nbt);
@@ -260,6 +265,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         nbt.putInt("LitDuration", this.litDuration);
         nbt.putIntArray("CookingProgress", this.cookingProgress);
         nbt.putIntArray("CookingTotalTime", this.cookingTotalTime);
+        nbt.putFloat("ExpHeld", this.expHeld);
 
         // Levelable things
         nbt.putInt("SkillPoints", this.skillPoints);
@@ -471,6 +477,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
             }
 
             input.shrink(1);
+            this.expHeld += ((AbstractCookingRecipe) recipe).getExperience();
             return true;
         } else {
             return false;
@@ -491,6 +498,10 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         }
 
         return 0;
+    }
+
+    public void popExp(ServerPlayer player) {
+        ExperienceOrb.award(player.getLevel(), player.position(), (int) Math.ceil(this.expHeld));
     }
 
     // Upgrade things
