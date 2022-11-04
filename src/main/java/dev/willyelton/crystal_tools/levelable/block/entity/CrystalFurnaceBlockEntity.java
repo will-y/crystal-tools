@@ -364,6 +364,8 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
                 : this.level.getRecipeManager().getRecipeFor((RecipeType<AbstractCookingRecipe>) recipeType, new SimpleContainer(item), this.level);
     }
 
+    private int autoOutputCounter = 0;
+
     public void serverTick(Level level, BlockPos pos, BlockState state) {
         // flag
         boolean isLit = this.isLit();
@@ -374,14 +376,18 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
 
         if (isLit) {
             this.litTime--;
+            this.autoOutputCounter++;
+            if (autoOutputCounter > 100) {
+                this.autoOutput();
+                this.autoOutputCounter = 0;
+            }
         }
 
         ItemStack fuelItemStack = this.items.get(FUEL_SLOTS[0]);
         // flag 3
         boolean hasFuel = !fuelItemStack.isEmpty();
 
-        // TODO: Only do this for active slots (can probably just change 5 to numActiveSlots
-        for (int slotIndex = 0; slotIndex < 5; slotIndex++) {
+        for (int slotIndex = 0; slotIndex < this.bonusSlots + 1; slotIndex++) {
             int slot = INPUT_SLOTS[slotIndex];
             // Flag 2
             boolean hasItemToSmelt = !items.get(slot).isEmpty();
