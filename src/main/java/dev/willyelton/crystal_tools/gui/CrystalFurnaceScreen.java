@@ -122,8 +122,11 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
                         UPGRADE_BUTTON_WIDTH,
                         UPGRADE_BUTTON_HEIGHT,
                         Component.literal("+"),
-                        pButton -> {
-                            ModGUIs.openScreen(new FurnaceUpgradeScreen(this.menu, this.menu.getPlayer(), this));
-                        }, (pButton, pPoseStack, pMouseX, pMouseY) -> {}, false));
+                        pButton -> ModGUIs.openScreen(new FurnaceUpgradeScreen(this.menu, this.menu.getPlayer(), this)),
+                        (button, poseStack, mouseX, mouseY) -> {
+                            Component textComponent = Component.literal(this.menu.getSkillPoints() + " Points Available");
+                            CrystalFurnaceScreen.this.renderTooltip(poseStack, CrystalFurnaceScreen.this.minecraft.font.split(textComponent, Math.max(CrystalFurnaceScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
+                        },
+                        false));
     }
 }
