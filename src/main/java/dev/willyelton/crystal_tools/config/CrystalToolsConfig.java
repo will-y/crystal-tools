@@ -66,7 +66,10 @@ public class CrystalToolsConfig {
     // Disable Other
     public static ForgeConfigSpec.BooleanValue DISABLE_APPLE;
 
-
+    // Furnace
+    public static ForgeConfigSpec.IntValue FUEL_EFFICIENCY_ADDED_TICKS;
+    public static ForgeConfigSpec.IntValue SPEED_UPGRADE_SUBTRACT_TICKS;
+    public static ForgeConfigSpec.DoubleValue EXPERIENCE_BOOST_PERCENTAGE;
 
     static {
         ForgeConfigSpec.Builder configBuilder = new ForgeConfigSpec.Builder();
@@ -180,5 +183,13 @@ public class CrystalToolsConfig {
 
         // Disable Other
         DISABLE_APPLE = builder.comment("Disables Crystal Apple").define("disable_apple", false);
+
+        // Furnace
+        FUEL_EFFICIENCY_ADDED_TICKS = builder.comment("Ticks added to fuel sources per level of fuel efficiency")
+                .defineInRange("fuel_efficiency_added_ticks", 100, 1, 1000);
+        SPEED_UPGRADE_SUBTRACT_TICKS = builder.comment("Ticks subtracted from the smelting time per level of furnace speed")
+                .defineInRange("speed_upgrade_subtract_ticks", 10, 1, 1000);
+        EXPERIENCE_BOOST_PERCENTAGE = builder.comment("Percentage increase for experience gained from smelting items. EXP_GAINED = EXP_IN_FURNACE * (1 + EXPERIENCE_BOOST_PERCENTAGE * EXPERIENCE BOOST LEVELS)")
+                .defineInRange("experience_boost_percentage", 0.1F, 0, 1000);
     }
 }

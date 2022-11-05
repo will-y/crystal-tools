@@ -59,10 +59,10 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
 
     public static final int SIZE = 13;
     public static final int DATA_SIZE = 200;
-    // TODO: Config
-    public static final int FUEL_EFFICIENCY_ADDED_TICKS = 100;
-    public static final int SPEED_UPGRADE_SUBTRACT_TICKS = 10;
-    public static final float EXP_BOOST_PERCENTAGE = 0.1F;
+
+    public static final int FUEL_EFFICIENCY_ADDED_TICKS = CrystalToolsConfig.FUEL_EFFICIENCY_ADDED_TICKS.get();
+    public static final int SPEED_UPGRADE_SUBTRACT_TICKS = CrystalToolsConfig.SPEED_UPGRADE_SUBTRACT_TICKS.get();
+    public static final double EXP_BOOST_PERCENTAGE = CrystalToolsConfig.EXPERIENCE_BOOST_PERCENTAGE.get();
 
     private NonNullList<ItemStack> items;
 
