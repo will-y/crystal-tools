@@ -62,6 +62,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     // TODO: Config
     public static final int FUEL_EFFICIENCY_ADDED_TICKS = 100;
     public static final int SPEED_UPGRADE_SUBTRACT_TICKS = 10;
+    public static final float EXP_BOOST_PERCENTAGE = 0.1F;
 
     private NonNullList<ItemStack> items;
 
@@ -89,6 +90,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     private int bonusFuelSlots = 0;
     private boolean balance = false;
     private boolean autoOutput = false;
+    private float expModifier;
 
     public CrystalFurnaceBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModBlocks.CRYSTAL_FURNACE_BLOCK_ENTITY.get(), pPos, pBlockState);
@@ -249,6 +251,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         this.points = NBTUtils.getIntArray(nbt, "Points", 100);
         this.exp = nbt.getInt("Exp");
         this.expCap = nbt.getInt("ExpCap");
+        this.expModifier = nbt.getFloat("ExpModifier");
 
         if (this.expCap == 0) this.expCap = CrystalToolsConfig.BASE_EXPERIENCE_CAP.get();
 
@@ -276,6 +279,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         nbt.putIntArray("Points", this.points);
         nbt.putInt("Exp", this.exp);
         nbt.putInt("ExpCap", this.expCap);
+        nbt.putFloat("ExpModifier", this.expModifier);
 
         // Upgrade things
         nbt.putFloat("SpeedUpgrade", this.speedUpgrade);
@@ -512,7 +516,9 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     }
 
     public void popExp(ServerPlayer player) {
-        ExperienceOrb.award(player.getLevel(), player.position(), (int) Math.ceil(this.expHeld));
+        int expAmount = (int) Math.ceil(this.expHeld * (1 + this.expModifier * EXP_BOOST_PERCENTAGE));
+        ExperienceOrb.award(player.getLevel(), player.position(), expAmount);
+        this.expHeld = 0;
     }
 
     // Upgrade things
@@ -628,6 +634,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
             case "fuel_slot_bonus" -> this.bonusFuelSlots += value;
             case "auto_balance" -> this.balance = value == 1;
             case "auto_output" -> this.autoOutput = value == 1;
+            case "exp_boost" -> this.expModifier += value;
         }
         this.setChanged();
     }

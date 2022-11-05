@@ -18,6 +18,15 @@
         "requirements": [],
         "key": "fuel_bonus",
         "value": 1
+      },
+      {
+        "id": 20,
+        "name": "Exp. Boost I",
+        "description": "Increases experience gained from smelting",
+        "type": "normal",
+        "requirements": [],
+        "key": "exp_boost",
+        "value": 1
       }
     ],
     [
@@ -41,6 +50,17 @@
           {"node": 1}
         ],
         "key": "fuel_bonus",
+        "value": 1
+      },
+      {
+        "id": 21,
+        "name": "Exp. Boost II",
+        "description": "Increases experience gained from smelting",
+        "type": "normal",
+        "requirements": [
+          {"node": 20}
+        ],
+        "key": "exp_boost",
         "value": 1
       }
     ],
@@ -92,6 +112,18 @@
         ],
         "key": "fuel_bonus",
         "value": 1
+      },
+      {
+        "id": 22,
+        "name": "Exp. Boost III",
+        "description": "Increases experience gained from smelting",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [4, 5]},
+          {"node": 21}
+        ],
+        "key": "exp_boost",
+        "value": 1
       }
     ],
     [
@@ -142,6 +174,18 @@
           {"node": 7}
         ],
         "key": "fuel_bonus",
+        "value": 1
+      },
+      {
+        "id": 23,
+        "name": "Exp. Boost IV",
+        "description": "Increases experience gained from smelting",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [8, 9]},
+          {"node": 22}
+        ],
+        "key": "exp_boost",
         "value": 1
       }
     ],
@@ -195,6 +239,18 @@
         ],
         "key": "fuel_bonus",
         "value": 1
+      },
+      {
+        "id": 24,
+        "name": "Exp. Boost V",
+        "description": "Increases experience gained from smelting",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [12, 13]},
+          {"node": 23}
+        ],
+        "key": "exp_boost",
+        "value": 1
       }
     ],
     [
@@ -245,6 +301,18 @@
           {"node": 15}
         ],
         "key": "fuel_bonus",
+        "value": 0.25
+      },
+      {
+        "id": 25,
+        "name": "Infinite Exp. Boost",
+        "description": "Increases experience gained from smelting",
+        "type": "infinite",
+        "requirements": [
+          {"or_node":  [16, 17]},
+          {"node": 24}
+        ],
+        "key": "exp_boost",
         "value": 0.25
       }
     ]
