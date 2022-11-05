@@ -101,10 +101,10 @@ public class CrystalFurnaceBlock extends BaseEntityBlock {
         if (!pState.is(pNewState.getBlock())) {
             BlockEntity blockentity = pLevel.getBlockEntity(pPos);
             if (blockentity instanceof CrystalFurnaceBlockEntity) {
-                if (pLevel instanceof ServerLevel) {
+                if (pLevel instanceof ServerLevel serverLevel) {
                     Containers.dropContents(pLevel, pPos, (CrystalFurnaceBlockEntity) blockentity);
                     // TODO: Exp
-//                    ((CrystalFurnaceBlockEntity) blockentity).getRecipesToAwardAndPopExperience((ServerLevel)pLevel, Vec3.atCenterOf(pPos));
+                    ((CrystalFurnaceBlockEntity) blockentity).popExp(serverLevel, Vec3.atCenterOf(pPos));
                 }
 
                 pLevel.updateNeighbourForOutputSignal(pPos, this);

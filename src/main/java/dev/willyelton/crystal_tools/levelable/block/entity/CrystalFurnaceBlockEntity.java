@@ -516,8 +516,12 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     }
 
     public void popExp(ServerPlayer player) {
+        this.popExp(player.getLevel(), player.position());
+    }
+
+    public void popExp(ServerLevel level, Vec3 pos) {
         int expAmount = (int) Math.ceil(this.expHeld * (1 + this.expModifier * EXP_BOOST_PERCENTAGE));
-        ExperienceOrb.award(player.getLevel(), player.position(), expAmount);
+        ExperienceOrb.award(level, pos, expAmount);
         this.expHeld = 0;
     }
 

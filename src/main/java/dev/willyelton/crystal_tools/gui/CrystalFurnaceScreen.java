@@ -8,6 +8,7 @@ import dev.willyelton.crystal_tools.levelable.block.container.slot.CrystalFurnac
 import dev.willyelton.crystal_tools.levelable.block.container.slot.CrystalFurnaceInputSlot;
 import dev.willyelton.crystal_tools.levelable.block.container.slot.CrystalFurnaceOutputSlot;
 import dev.willyelton.crystal_tools.levelable.block.entity.CrystalFurnaceBlockEntity;
+import dev.willyelton.crystal_tools.utils.IntegerUtils;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
@@ -47,7 +48,7 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
     private final NonNullList<Slot> slots;
     private final CrystalFurnaceBlockEntity blockEntity;
     private FurnaceUpgradeButton upgradeButton;
-    private float expLabelX;
+    private final float expLabelX;
 
     public CrystalFurnaceScreen(CrystalFurnaceContainer container, Inventory inventory, Component name) {
         super(container, inventory, name);
@@ -56,7 +57,7 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
 
         this.imageHeight = 191;
         this.inventoryLabelY = this.imageHeight - 94;
-        expLabelX = this.inventoryLabelX + 100;
+        expLabelX = this.inventoryLabelX + 112;
     }
 
     @Override
@@ -107,9 +108,10 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
     @Override
     protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
         super.renderLabels(poseStack, mouseX, mouseY);
+        int xOffset = (IntegerUtils.getDigits(this.menu.getExp()) - 1) * 6 + (IntegerUtils.getDigits(this.menu.getExpCap()) - 2) * 6;
         this.font.draw(poseStack,
                 Component.literal(String.format("Exp: %d/%d", this.menu.getExp(), this.menu.getExpCap())),
-                this.expLabelX,
+                this.expLabelX - xOffset,
                 (float)this.inventoryLabelY, 4210752);
     }
 
