@@ -54,29 +54,6 @@ public class BlockAttributePacket {
                     }
                 }
             }
-//            Level level = ctx.get().getSender().level;
-//            // TODO: getting called twice on client and 0 times on server
-//            System.out.println("In handler");
-//            if (level != null) {
-//                BlockEntity blockEntity = level.getBlockEntity(msg.pos);
-//                System.out.println(level.isClientSide);
-//
-//                System.out.println("Level not null in handler");
-//                System.out.println(msg.pos);
-//                System.out.println(blockEntity);
-//
-//                if (blockEntity instanceof CrystalFurnaceBlockEntity crystalFurnaceBlockEntity) {
-//                    crystalFurnaceBlockEntity.addToData(msg.key, msg.value);
-//                    System.out.println("Adding to data: " + msg.key + " with value: " + msg.value);
-//                }
-//
-//                if (msg.id != -1 && blockEntity != null) {
-//                    if (blockEntity instanceof CrystalFurnaceBlockEntity crystalFurnaceBlockEntity) {
-//                        crystalFurnaceBlockEntity.addToPoints(msg.id, 1);
-//                        System.out.println("Adding to points: " + msg.id);
-//                    }
-//                }
-//            }
         }
     }
 }

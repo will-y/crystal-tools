@@ -1,10 +1,7 @@
 package dev.willyelton.crystal_tools.gui;
 
-import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.levelable.block.container.CrystalFurnaceContainer;
-import dev.willyelton.crystal_tools.levelable.block.entity.CrystalFurnaceBlockEntity;
-import dev.willyelton.crystal_tools.levelable.block.entity.LevelableBlockEntity;
 import dev.willyelton.crystal_tools.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.levelable.skill.SkillDataNode;
 import dev.willyelton.crystal_tools.network.BlockAttributePacket;
@@ -14,7 +11,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class FurnaceUpgradeScreen extends BaseUpgradeScreen {
     private final CrystalFurnaceContainer container;
@@ -54,8 +50,10 @@ public class FurnaceUpgradeScreen extends BaseUpgradeScreen {
         int skillPoints = this.getSkillPoints();
 
         if (skillPoints > 0) {
-            this.container.getBlockEntity().addSkillPoints(-1);
-            this.container.getBlockEntity().addToPoints(node.getId(), (int) node.getValue());
+            this.container.addSkillPoints(-1);
+            // Idk if this is a problem that this is int because it is just to sync client
+            this.container.addToPoints(node.getId(), (int) node.getValue());
+
             PacketHandler.sendToServer(new BlockAttributePacket("skill_points", -1, -1));
             PacketHandler.sendToServer(new BlockAttributePacket(node.getKey(), node.getValue(), node.getId()));
             node.addPoint();

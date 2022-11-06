@@ -212,6 +212,14 @@ public class CrystalFurnaceContainer extends AbstractContainerMenu {
         return this.data.get(14);
     }
 
+    public void addSkillPoints(int points) {
+        this.data.set(14, this.getSkillPoints() + points);
+    }
+
+    public void addToPoints(int nodeId, int value) {
+        this.data.set(nodeId + 100, this.data.get(nodeId + 100) + value);
+    }
+
     public int getExp() {
         return this.data.get(15);
     }
