@@ -53,6 +53,13 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
     private static final int FUEL_BAR_HEIGHT = 2;
     private static final int FUEL_BAR_WIDTH_INCREASE = 20;
 
+    private static final int FUEL_INSERT_X = 26;
+    private static final int FUEL_INSERT_Y = 86;
+    private static final int FUEL_INSERT_TEXTURE_X = 0;
+    private static final int FUEL_INSERT_TEXTURE_Y = 201;
+    private static final int FUEL_INSERT_WIDTH = 6;
+    private static final int FUEL_INSERT_HEIGHT = 5;
+
     private final NonNullList<Slot> slots;
     private final CrystalFurnaceBlockEntity blockEntity;
     private FurnaceUpgradeButton upgradeButton;
@@ -131,8 +138,11 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
         this.blit(poseStack, this.leftPos + FUEL_BAR_X, this.topPos + FUEL_BAR_Y, FUEL_BAR_TEXTURE_X, FUEL_BAR_TEXTURE_Y, FUEL_BAR_INITIAL_WIDTH + widthIncrease, FUEL_BAR_HEIGHT);
 
         if (this.menu.isLit()) {
-            this.blit(poseStack, this.leftPos + FUEL_BAR_X, this.topPos + FUEL_BAR_Y, FUEL_BAR_TEXTURE_X, FUEL_BAR_TEXTURE_Y +( this.animFrame + 1) * 2, FUEL_BAR_INITIAL_WIDTH + widthIncrease, FUEL_BAR_HEIGHT);
+            // draw animated fuel bar
+            this.blit(poseStack, this.leftPos + FUEL_BAR_X, this.topPos + FUEL_BAR_Y, FUEL_BAR_TEXTURE_X, FUEL_BAR_TEXTURE_Y + (this.animFrame + 1) * 2, FUEL_BAR_INITIAL_WIDTH + widthIncrease, FUEL_BAR_HEIGHT);
 
+            // also animate the inserter things
+            this.blit(poseStack, this.leftPos + FUEL_INSERT_X, this.topPos + FUEL_INSERT_Y, FUEL_INSERT_TEXTURE_X + this.animFrame * FUEL_INSERT_WIDTH, FUEL_INSERT_TEXTURE_Y, FUEL_INSERT_WIDTH, FUEL_INSERT_HEIGHT);
         }
     }
 
