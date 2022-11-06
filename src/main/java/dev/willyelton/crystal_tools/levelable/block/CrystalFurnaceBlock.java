@@ -103,7 +103,6 @@ public class CrystalFurnaceBlock extends BaseEntityBlock {
             if (blockentity instanceof CrystalFurnaceBlockEntity) {
                 if (pLevel instanceof ServerLevel serverLevel) {
                     Containers.dropContents(pLevel, pPos, (CrystalFurnaceBlockEntity) blockentity);
-                    // TODO: Exp
                     ((CrystalFurnaceBlockEntity) blockentity).popExp(serverLevel, Vec3.atCenterOf(pPos));
                 }
 

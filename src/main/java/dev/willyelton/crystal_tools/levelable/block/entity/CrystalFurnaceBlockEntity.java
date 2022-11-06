@@ -251,7 +251,6 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         this.points = NBTUtils.getIntArray(nbt, "Points", 100);
         this.exp = nbt.getInt("Exp");
         this.expCap = nbt.getInt("ExpCap");
-        this.expModifier = nbt.getFloat("ExpModifier");
 
         if (this.expCap == 0) this.expCap = CrystalToolsConfig.BASE_EXPERIENCE_CAP.get();
 
@@ -262,6 +261,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         this.bonusFuelSlots = nbt.getInt("FuelSlots");
         this.balance = nbt.getBoolean("Balance");
         this.autoOutput = nbt.getBoolean("AutoOutput");
+        this.expModifier = nbt.getFloat("ExpModifier");
     }
 
     @Override
@@ -279,7 +279,6 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         nbt.putIntArray("Points", this.points);
         nbt.putInt("Exp", this.exp);
         nbt.putInt("ExpCap", this.expCap);
-        nbt.putFloat("ExpModifier", this.expModifier);
 
         // Upgrade things
         nbt.putFloat("SpeedUpgrade", this.speedUpgrade);
@@ -288,6 +287,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         nbt.putInt("FuelSlots", this.bonusFuelSlots);
         nbt.putBoolean("Balance", this.balance);
         nbt.putBoolean("AutoOutput", this.autoOutput);
+        nbt.putFloat("ExpModifier", this.expModifier);
     }
 
     protected final ContainerData dataAccess = new ContainerData() {

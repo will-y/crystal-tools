@@ -17,8 +17,58 @@
               "source": "block_entity",
               "ops": [
                 {
-                  "source": "{}",
-                  "target": "BlockEntityTag",
+                  "source": "SkillPoints",
+                  "target": "BlockEntityTag.SkillPoints",
+                  "op": "replace"
+                },
+                {
+                  "source": "Points",
+                  "target": "BlockEntityTag.Points",
+                  "op": "replace"
+                },
+                {
+                  "source": "Exp",
+                  "target": "BlockEntityTag.Exp",
+                  "op": "replace"
+                },
+                {
+                  "source": "ExpCap",
+                  "target": "BlockEntityTag.ExpCap",
+                  "op": "replace"
+                },
+                {
+                  "source": "SpeedUpgrade",
+                  "target": "BlockEntityTag.SpeedUpgrade",
+                  "op": "replace"
+                },
+                {
+                  "source": "FuelEfficiencyUpgrade",
+                  "target": "BlockEntityTag.FuelEfficiencyUpgrade",
+                  "op": "replace"
+                },
+                {
+                  "source": "Slots",
+                  "target": "BlockEntityTag.Slots",
+                  "op": "replace"
+                },
+                {
+                  "source": "FuelSlots",
+                  "target": "BlockEntityTag.FuelSlots",
+                  "op": "replace"
+                },
+                {
+                  "source": "Balance",
+                  "target": "BlockEntityTag.Balance",
+                  "op": "replace"
+                },
+                {
+                  "source": "AutoOutput",
+                  "target": "BlockEntityTag.AutoOutput",
+                  "op": "replace"
+                },
+                {
+                  "source": "ExpModifier",
+                  "target": "BlockEntityTag.ExpModifier",
                   "op": "replace"
                 }
               ]
