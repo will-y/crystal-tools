@@ -1,3 +1,21 @@
+----------------------- 1.4.0-RELEASE Changes -----------------------
+### Additions
+- Adds the Crystal Furnace
+  - An upgradable furnace that gains experience by smelting items
+    - Experience gained is equal to the experience amount of the recipe
+  - Has the following upgrades:
+    - Furnace Speed: Decreases the time to smelt
+    - Fuel Efficiency: Increases the time that fuel burns
+    - Exp. Boost: Increases the experience (Minecraft Experience) that you get from smelting items
+    - Slot: Adds an extra input and output slot
+    - Fuel Slot: Adds an extra fuel slots
+    - Auto Split: Automatically splits the inputs over the input slots
+    - Auto Output: Automatically puts the output to connected inventories
+- Adds new config options
+  - `FUEL_EFFICIENY_ADDED_TICKS`: Determines how many ticks are added to each piece of fuel per level of Fuel Efficiency
+  - `SPEED_UPGRADE_SUBTRACT_TICKS`: Number of ticks to subtract from each smelting recipe's cooking time per level of Furnace Speed
+  - `EXPERIENCE_BOOST_PERCENTAGE`: Percentage increase for experience gained from smelting items
+
 ----------------------- 1.3.0-RELEASE Changes -----------------------
 ### Additions
 - Adds the Crystal Apple
