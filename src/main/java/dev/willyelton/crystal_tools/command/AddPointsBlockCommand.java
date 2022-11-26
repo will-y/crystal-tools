@@ -38,12 +38,7 @@ public class AddPointsBlockCommand {
 
         if (blockEntity instanceof CrystalFurnaceBlockEntity crystalFurnaceBlockEntity) {
             crystalFurnaceBlockEntity.addSkillPoints(points);
-            System.out.println("[" + Thread.currentThread().getName() + "] Adding Points: " + points);
         }
-
-//        ServerPlayer player = commandContext.getSource().getPlayer();
-//
-//        PacketHandler.sendToPlayer(new AddSkillPointsToClientPacket(pos, points), player);
 
         return 1;
     }

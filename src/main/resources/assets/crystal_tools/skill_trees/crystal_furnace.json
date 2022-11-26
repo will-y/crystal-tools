@@ -71,7 +71,7 @@
         "description": "Adds another input and output slot that works in parallel",
         "type": "normal",
         "requirements": [
-          {"or_node": [2, 3]}
+          {"or_node": [2, 3, 21]}
         ],
         "key": "slot_bonus",
         "value": 1
@@ -82,7 +82,7 @@
         "description": "Adds another fuel slot",
         "type": "normal",
         "requirements": [
-          {"or_node": [2, 3]}
+          {"or_node": [2, 3, 21]}
         ],
         "key": "fuel_slot_bonus",
         "value": 1
@@ -133,7 +133,7 @@
         "description": "Adds another input and output slot that works in parallel",
         "type": "normal",
         "requirements": [
-          {"or_node": [6, 7]},
+          {"or_node": [6, 7, 22]},
           {"node": 4}
         ],
         "key": "slot_bonus",
@@ -145,7 +145,7 @@
         "description": "Automatically splits the input stacks over all available slots",
         "type": "normal",
         "requirements": [
-          {"or_node": [6, 7]}
+          {"or_node": [6, 7, 22]}
         ],
         "key": "auto_balance",
         "value": 1
@@ -196,7 +196,7 @@
         "description": "Adds another input and output slot that works in parallel",
         "type": "normal",
         "requirements": [
-          {"or_node": [10, 11]},
+          {"or_node": [10, 11, 23]},
           {"node": 8}
         ],
         "key": "slot_bonus",
@@ -208,7 +208,7 @@
         "description": "Adds another fuel slot",
         "type": "normal",
         "requirements": [
-          {"or_node": [10, 11]},
+          {"or_node": [10, 11, 23]},
           {"node": 5}
         ],
         "key": "fuel_slot_bonus",
@@ -260,7 +260,7 @@
         "description": "Adds another input and output slot that works in parallel",
         "type": "normal",
         "requirements": [
-          {"or_node": [10, 11]},
+          {"or_node": [14, 15, 24]},
           {"node": 12}
         ],
         "key": "slot_bonus",
@@ -272,7 +272,7 @@
         "description": "Automatically outputs to inventories next to or below the furnace",
         "type": "normal",
         "requirements": [
-          {"or_node": [10, 11]}
+          {"or_node": [14, 15, 24]}
         ],
         "key": "auto_output",
         "value": 1

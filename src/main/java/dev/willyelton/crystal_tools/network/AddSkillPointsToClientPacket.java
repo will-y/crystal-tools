@@ -30,7 +30,6 @@ public class AddSkillPointsToClientPacket {
 
     public static class Handler {
         public static void handle(final AddSkillPointsToClientPacket msg, Supplier<NetworkEvent.Context> ctx) {
-            System.out.println("Thread name: " + Thread.currentThread().getName());
             BlockPos pos = msg.pos;
             int points = msg.points;
 
@@ -41,7 +40,6 @@ public class AddSkillPointsToClientPacket {
                 BlockEntity blockEntity = level.getBlockEntity(pos);
 
                 if (blockEntity instanceof LevelableBlockEntity levelableBlockEntity) {
-                    System.out.println("Adds to skill points");
                     levelableBlockEntity.addSkillPoints(points);
                 }
             }

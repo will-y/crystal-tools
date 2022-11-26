@@ -44,7 +44,6 @@ public abstract class LevelableBlockEntity extends BlockEntity {
     public void load(@NotNull CompoundTag nbt) {
         super.load(nbt);
         this.skillPoints = (int) NBTUtils.getFloatOrAddKey(nbt, "skill_points");
-        System.out.println("In Load: " + skillPoints);
         this.exp = (int) NBTUtils.getFloatOrAddKey(nbt, "experience");
         this.expCap = (int) NBTUtils.getFloatOrAddKey(nbt, "experience_cap", CrystalToolsConfig.BASE_EXPERIENCE_CAP.get());
         this.points = NBTUtils.getIntArray(nbt, "points");

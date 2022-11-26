@@ -77,7 +77,6 @@ public class ModeSwitchPacket {
                 // Use mode for AIOT
                 if (tool.is(ModTools.CRYSTAL_AIOT.get())) {
                     UseMode currentMode = UseMode.fromString(NBTUtils.getString(tool, "use_mode"));
-                    System.out.println(currentMode.toString());
                     NBTUtils.setValue(tool, "use_mode", UseMode.nextMode(tool, currentMode).toString());
                     playerEntity.displayClientMessage(Component.literal("Mode: " + UseMode.nextMode(tool, currentMode)), true);
                 }

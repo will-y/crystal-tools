@@ -137,7 +137,6 @@ public abstract class BaseUpgradeScreen extends Screen {
 
     void updateButtons() {
         int skillPoints = this.getSkillPoints();
-        System.out.println("Updating Buttons, Skill points: " + skillPoints);
         for (SkillButton button : this.skillButtons.values()) {
             SkillDataNode node = button.getDataNode();
             button.active = !button.isComplete && node.canLevel(data, this.player) && skillPoints > 0;
