@@ -66,9 +66,9 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
     private final float expLabelX;
 
     private int counter = 0;
-    private int maxCounter = 10;
+    private final int maxCounter = 15;
     private int animFrame = 0;
-    private int maxAnimFrame = 3;
+    private final int maxAnimFrame = 3;
 
     public CrystalFurnaceScreen(CrystalFurnaceContainer container, Inventory inventory, Component name) {
         super(container, inventory, name);
