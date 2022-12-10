@@ -13,6 +13,7 @@ You can also suggest features or ask questions there.
 - Crystal Torch
   - Acts as a normal torch just with a different texture
   - These can be placed with an upgrade on some tools
+- Crystal Furnace
 
 ## World Generation
 Deepslate Crystal Ore Generates Below Y -44 in veins of size 5.
@@ -142,6 +143,22 @@ There will be upgrades that are common to most tools, and tools will each get un
     - Saturation
     - Slow Falling
 
+### Furnace
+- Furnace Speed
+  - Decreases the time to smelt items
+- Fuel Efficiency
+  - Increases the time fuel burns
+- Experience Boost
+  - Increase the experience (Minecraft exp) that you get from smelting items
+- Slot
+  - Adds one additional input and one additional output slot
+- Fuel Slot
+  - Adds one additional fuel slot
+- Auto Split
+  - Automatically splits the inputs up over the input slots
+- Auto Output
+  - Automatically ejects output items to connected inventories
+
 ## Crafting Recipes
 ### Tools
 #### Pickaxe
@@ -187,6 +204,10 @@ There will be upgrades that are common to most tools, and tools will each get un
 
 #### Apple
 ![Apple Crafting](/img/crafting/apple.png)
+
+### Blocks
+#### Furnace
+![Crystal Furnace Crafting](/img/crafting/furnace.png)
 
 ### Misc
 #### Netherite Stick
@@ -256,3 +277,8 @@ You can change these values in `config/crystal_tools/toml`.
 - `disable_chestplate` (false): Disables the Crystal Chestplate
 - `disable_leggings` (false): Disables the Crystal Leggings
 - `disable_boots` (false): Disables the Crystal Boots
+
+### Furnace
+- `fuel_efficiency_added_ticks` (100): Number of ticks that are added to each fuel piece per level of fuel efficiency
+- `speed_upgrade_subtract_ticks` (10): Number of ticks subtracted from every recipe's duration per level of furnace speed
+- `experience_boost_percentage` (0.1): Percentage increase of experience gained per level of experience boost
