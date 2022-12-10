@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "CCC",
+    "CFC",
+    "CCC"
+  ],
+  "key":
+  {
+    "C": {
+      "item": "crystal_tools:crystal"
+    },
+    "F": {
+      "item": "minecraft:furnace"
+    }
+  },
+  "result":
+  {
+    "item": "crystal_tools:crystal_furnace",
+    "count": 1
+  }
+}
