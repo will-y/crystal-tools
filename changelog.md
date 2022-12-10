@@ -16,6 +16,8 @@
   - `SPEED_UPGRADE_SUBTRACT_TICKS`: Number of ticks to subtract from each smelting recipe's cooking time per level of Furnace Speed
   - `EXPERIENCE_BOOST_PERCENTAGE`: Percentage increase for experience gained from smelting items
 
+### Changes
+- Updates to Forge 1.19.2-43.2.0
 ----------------------- 1.3.0-RELEASE Changes -----------------------
 ### Additions
 - Adds the Crystal Apple
