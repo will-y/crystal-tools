@@ -100,6 +100,7 @@ public class UpgradeScreen extends BaseUpgradeScreen {
         super.updateButtons();
         int skillPoints = (int) NBTUtils.getFloatOrAddKey(tag, "skill_points");
         this.healButton.active = skillPoints > 0;
+        this.resetButton.active = !CrystalToolsConfig.REQUIRE_CRYSTAL_FOR_RESET.get() || this.player.getInventory().hasAnyOf(Set.of(ModItems.CRYSTAL.get()));
     }
 
     @Override

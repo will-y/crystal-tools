@@ -1,4 +1,7 @@
 ----------------------- 1.4.1-RELEASE Changes -----------------------
+### Changes
+- Reset skill points button is now disabled if `require_crystal_for_reset` is true, and you have no crystal items in your inventory
+
 ### Fixes
 - Fixes durability IV and mining speed IV were unlocked at incorrect times on the axe and pickaxe
 - Fixes auto smelt always being unlocked on the shovel

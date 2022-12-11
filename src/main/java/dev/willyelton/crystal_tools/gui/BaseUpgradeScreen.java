@@ -144,8 +144,6 @@ public abstract class BaseUpgradeScreen extends Screen {
                 button.setComplete();
             }
         }
-
-
     }
 
     private void drawDependencyLines(PoseStack poseStack) {
