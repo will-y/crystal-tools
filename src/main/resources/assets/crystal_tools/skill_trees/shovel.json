@@ -179,9 +179,9 @@
         "type": "normal",
         "requirements":[
           {
-            "or_node": [12, 13],
-            "not_node": 17
-          }
+            "or_node": [12, 13]
+          },
+          {"not_node": 17}
         ],
         "key": "auto_smelt",
         "value": 1

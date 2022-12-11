@@ -1,5 +1,14 @@
------------------------ 1.1.0 -----------------------
-
+----------------------- 1.4.1 -----------------------
+- Tools do no damage
+- Torch particles
+- Torch place sound
+- Torch dungeon??
+- Unbreaking on tool skill trees
+- Vein miner levels
+- Repair inf. upgrade
+- Should be as fast as netherite eff V lvl 3 or 4 speed
+- All tools mine mode
+- 3x3 mining might not drop exp
 ------------------ At Some Point ------------------
 - Bow Draw Speed
 - Boots immune to fall damage

@@ -112,7 +112,8 @@
         "description": "Increases Axe's Mining Speed",
         "type": "normal",
         "requirements": [
-          {"or_node":  [6, 7, 19]}
+          {"or_node":  [6, 7, 19]},
+          {"node":  [4]}
         ],
         "key": "speed_bonus",
         "value": 0.25
@@ -123,7 +124,8 @@
         "description": "Increases Axe's Durability",
         "type": "normal",
         "requirements": [
-          {"or_node":  [6, 7, 19]}
+          {"or_node":  [6, 7, 19]},
+          {"node":  [5]}
         ],
         "key": "durability_bonus",
         "value": 200

@@ -107,7 +107,8 @@
         "description": "Increases Pickaxe's Mining Speed",
         "type": "normal",
         "requirements": [
-          {"or_node":  [6, 7]}
+          {"or_node":  [6, 7]},
+          {"node": [4]}
         ],
         "key": "speed_bonus",
         "value": 0.25
@@ -118,7 +119,8 @@
         "description": "Increases Pickaxe's Durability",
         "type": "normal",
         "requirements": [
-          {"or_node":  [6, 7]}
+          {"or_node":  [6, 7]},
+          {"node": [5]}
         ],
         "key": "durability_bonus",
         "value": 200
