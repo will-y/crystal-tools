@@ -1,7 +1,4 @@
 ----------------------- 1.4.1 -----------------------
-- Tools do no damage
-- Torch particles
-- Torch place sound
 - Torch dungeon??
 - Unbreaking on tool skill trees
 - Vein miner levels

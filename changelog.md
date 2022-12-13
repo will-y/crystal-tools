@@ -7,6 +7,7 @@
 - Fixes durability IV and mining speed IV were unlocked at incorrect times on the axe and pickaxe
 - Fixes auto smelt always being unlocked on the shovel
 - Fixes swords being effective on carpets
+- Placing crystal torches with a tool now plays the place sound
 
 ----------------------- 1.4.0-RELEASE Changes -----------------------
 ### Additions

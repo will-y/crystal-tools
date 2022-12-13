@@ -150,6 +150,7 @@ public class ToolUseUtils {
 
             if (level.getBlockState(position).is(Blocks.AIR) && state.isFaceSturdy(level, position, direction)) {
                 level.setBlock(position, torchBlockState, 0);
+                level.playSound(context.getPlayer(), position, SoundEvents.WOOD_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
             } else {
                 return InteractionResult.PASS;
             }
