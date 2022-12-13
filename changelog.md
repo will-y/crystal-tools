@@ -1,10 +1,13 @@
 ----------------------- 1.4.1-RELEASE Changes -----------------------
 ### Changes
 - Reset skill points button is now disabled if `require_crystal_for_reset` is true, and you have no crystal items in your inventory
+- Tools (non sword) now do the same amount of damage as netherite tools
 
 ### Fixes
 - Fixes durability IV and mining speed IV were unlocked at incorrect times on the axe and pickaxe
 - Fixes auto smelt always being unlocked on the shovel
+- Fixes swords being effective on carpets
+
 ----------------------- 1.4.0-RELEASE Changes -----------------------
 ### Additions
 - Adds the Crystal Furnace
@@ -25,6 +28,7 @@
 
 ### Changes
 - Updates to Forge 1.19.2-43.2.0
+
 ----------------------- 1.3.0-RELEASE Changes -----------------------
 ### Additions
 - Adds the Crystal Apple

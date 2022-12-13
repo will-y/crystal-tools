@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ShovelLevelableTool extends DiggerLevelableTool {
     public ShovelLevelableTool() {
-        super(new Item.Properties(), BlockTags.MINEABLE_WITH_SHOVEL, "shovel");
+        super(new Item.Properties(), BlockTags.MINEABLE_WITH_SHOVEL, "shovel", 1.5F, -3.0F);
     }
 
     @Override

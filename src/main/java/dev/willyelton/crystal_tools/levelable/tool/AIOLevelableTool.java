@@ -29,7 +29,7 @@ import java.util.Locale;
 
 public class AIOLevelableTool extends DiggerLevelableTool {
     public AIOLevelableTool() {
-        super(new Properties(), BlockTags.MINEABLE_WITH_PICKAXE, "aiot");
+        super(new Properties(), BlockTags.MINEABLE_WITH_PICKAXE, "aiot", 3, -2.4F);
     }
 
     @Override

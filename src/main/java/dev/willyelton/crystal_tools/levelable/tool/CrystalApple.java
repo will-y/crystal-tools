@@ -25,7 +25,7 @@ public class CrystalApple extends LevelableTool {
     private static final int BASE_EAT_SPEED = 32;
 
     public CrystalApple() {
-        super(new Item.Properties().fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB), null, "apple", 50);
+        super(new Item.Properties().fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB), null, "apple", -4, 0, 50);
     }
 
     public FoodProperties getFoodProperties(ItemStack stack, @Nullable LivingEntity entity) {

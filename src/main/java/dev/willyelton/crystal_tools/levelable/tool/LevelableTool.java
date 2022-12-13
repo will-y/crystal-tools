@@ -1,5 +1,7 @@
 package dev.willyelton.crystal_tools.levelable.tool;
 
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
 import dev.willyelton.crystal_tools.CreativeTabs;
 import dev.willyelton.crystal_tools.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.levelable.ModItems;
@@ -18,6 +20,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
@@ -31,23 +36,27 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-// For now just focus on things that mine (not sword)
 public abstract class LevelableTool extends Item implements LevelableItem {
 
     // Blocks that can be mined by default, null for none
     protected final TagKey<Block> blocks;
     protected final String itemType;
     protected final int initialDurability;
+    private final Multimap<Attribute, AttributeModifier> defaultModifiers;
 
-    public LevelableTool(Item.Properties properties, TagKey<Block> mineableBlocks, String itemType) {
-        this(properties, mineableBlocks, itemType, tier.getUses());
+    public LevelableTool(Item.Properties properties, TagKey<Block> mineableBlocks, String itemType, float attackDamageModifier, float attackSpeedModifier) {
+        this(properties, mineableBlocks, itemType, attackDamageModifier, attackSpeedModifier, tier.getUses());
     }
 
-    public LevelableTool(Item.Properties properties, TagKey<Block> mineableBlocks, String itemType, int durability) {
+    public LevelableTool(Item.Properties properties, TagKey<Block> mineableBlocks, String itemType, float attackDamageModifier, float attackSpeedModifier, int durability) {
         super(properties.defaultDurability(durability).fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB));
         this.blocks = mineableBlocks;
         this.itemType = itemType;
         this.initialDurability = durability;
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", tier.getAttackDamageBonus() + attackDamageModifier, AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", attackSpeedModifier, AttributeModifier.Operation.ADDITION));
+        this.defaultModifiers = builder.build();
     }
 
     // From DiggerItem.java
@@ -184,5 +193,10 @@ public abstract class LevelableTool extends Item implements LevelableItem {
         } else {
             return amount;
         }
+    }
+
+    @Override
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
+        return slot == EquipmentSlot.MAINHAND ? this.defaultModifiers : super.getAttributeModifiers(slot, stack);
     }
 }

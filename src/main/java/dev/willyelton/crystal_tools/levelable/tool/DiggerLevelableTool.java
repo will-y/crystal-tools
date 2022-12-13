@@ -22,8 +22,8 @@ import org.jetbrains.annotations.NotNull;
 public abstract class DiggerLevelableTool extends LevelableTool {
     private static final int MAX_VEIN_MINER_DEPTH = 4;
 
-    public DiggerLevelableTool(Properties properties, TagKey<Block> mineableBlocks, String toolType) {
-        super(properties, mineableBlocks, toolType);
+    public DiggerLevelableTool(Properties properties, TagKey<Block> mineableBlocks, String toolType, float attackDamageModifier, float attackSpeedModifier) {
+        super(properties, mineableBlocks, toolType, attackDamageModifier, attackSpeedModifier);
     }
 
     @Override

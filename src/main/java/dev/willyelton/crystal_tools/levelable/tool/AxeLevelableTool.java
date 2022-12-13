@@ -27,7 +27,7 @@ public class AxeLevelableTool extends LevelableTool {
 
 
     public AxeLevelableTool() {
-        super(new Item.Properties(), BlockTags.MINEABLE_WITH_AXE, "axe");
+        super(new Item.Properties(), BlockTags.MINEABLE_WITH_AXE, "axe", 5.0F, -3.0F);
     }
 
     @Override

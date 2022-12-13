@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class PickaxeLevelableTool extends DiggerLevelableTool {
     public PickaxeLevelableTool() {
-        super(new Item.Properties(), BlockTags.MINEABLE_WITH_PICKAXE, "pickaxe");
+        super(new Item.Properties(), BlockTags.MINEABLE_WITH_PICKAXE, "pickaxe", 1, -2.8F);
     }
 
     public @NotNull InteractionResult useOn(@NotNull UseOnContext context) {

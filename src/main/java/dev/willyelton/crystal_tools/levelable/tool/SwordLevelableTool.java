@@ -29,8 +29,7 @@ public class SwordLevelableTool extends LevelableTool {
     private static final float BASE_KNOCKBACK_RESISTANCE = 0;
 
     public SwordLevelableTool() {
-        // Need an empty block tag
-        super(new Item.Properties(), BlockTags.WOOL_CARPETS, "sword");
+        super(new Item.Properties(), null, "sword", 3, -2.4F);
     }
 
     public static float getAttackDamage(ItemStack stack) {

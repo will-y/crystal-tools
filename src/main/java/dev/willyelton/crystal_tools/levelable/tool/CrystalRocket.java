@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class CrystalRocket extends LevelableTool {
     public CrystalRocket() {
-        super(new Item.Properties(), null, "crystal_rocket", 100);
+        super(new Item.Properties(), null, "crystal_rocket", -4, 0, 100);
     }
 
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pHand) {

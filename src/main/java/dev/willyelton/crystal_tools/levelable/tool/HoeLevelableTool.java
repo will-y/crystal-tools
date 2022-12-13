@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class HoeLevelableTool extends LevelableTool {
     public HoeLevelableTool() {
-        super(new Item.Properties(), BlockTags.MINEABLE_WITH_HOE, "hoe");
+        super(new Item.Properties(), BlockTags.MINEABLE_WITH_HOE, "hoe", -4, 0);
     }
 
     @Override
