@@ -9,6 +9,7 @@
 - Fixes swords being effective on carpets
 - Placing crystal torches with a tool now plays the place sound
 - Fixes crystal torches not being able to be placed in dungeons
+- Fixes 3x3 mining and vein mining not dropping exp for all blocks other than the first
 
 ----------------------- 1.4.0-RELEASE Changes -----------------------
 ### Additions
