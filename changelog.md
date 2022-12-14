@@ -8,6 +8,7 @@
 - Fixes auto smelt always being unlocked on the shovel
 - Fixes swords being effective on carpets
 - Placing crystal torches with a tool now plays the place sound
+- Fixes crystal torches not being able to be placed in dungeons
 
 ----------------------- 1.4.0-RELEASE Changes -----------------------
 ### Additions

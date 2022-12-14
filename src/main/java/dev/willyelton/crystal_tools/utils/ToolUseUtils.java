@@ -148,7 +148,7 @@ public class ToolUseUtils {
                 torchBlockState = ModBlocks.CRYSTAL_WALL_TORCH.get().defaultBlockState().setValue(CrystalWallTorch.FACING, direction).setValue(CrystalTorch.DROP_ITEM, false);
             }
 
-            if (level.getBlockState(position).is(Blocks.AIR) && state.isFaceSturdy(level, position, direction)) {
+            if (level.getBlockState(position).isAir() && state.isFaceSturdy(level, position, direction)) {
                 level.setBlock(position, torchBlockState, 0);
                 level.playSound(context.getPlayer(), position, SoundEvents.WOOD_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
             } else {
