@@ -1,4 +1,7 @@
 ----------------------- 1.4.1-RELEASE Changes -----------------------
+### Additions
+- Adds the `Unbreaking` upgrade to all tools
+
 ### Changes
 - Reset skill points button is now disabled if `require_crystal_for_reset` is true, and you have no crystal items in your inventory
 - Tools (non sword) now do the same amount of damage as netherite tools

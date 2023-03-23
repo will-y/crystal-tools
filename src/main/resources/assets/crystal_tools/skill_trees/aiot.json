@@ -114,6 +114,17 @@
         ],
         "key": "fortune_bonus",
         "value": 3
+      },
+      {
+        "id": 39,
+        "name": "Unbreaking I",
+        "description": "Adds 10% to the chance not use durability",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [4, 5, 6, 7]}
+        ],
+        "key": "unbreaking",
+        "value": 0.1
       }
     ],
     [
@@ -123,7 +134,7 @@
         "description": "Sets anything you hit on fire",
         "type": "normal",
         "requirements": [
-          {"or_node": [8, 9]}
+          {"or_node": [8, 9, 39]}
         ],
         "key": "fire",
         "value": 1
@@ -134,7 +145,7 @@
         "description": "Adds Knockback Resistance when holding the AIOT",
         "type": "normal",
         "requirements": [
-          {"or_node": [8, 9]}
+          {"or_node": [8, 9, 39]}
         ],
         "key": "knockback_resistance",
         "value": 0.1
@@ -145,7 +156,7 @@
         "description": "Adds Knockback to the AIOT",
         "type": "normal",
         "requirements": [
-          {"or_node": [8, 9]}
+          {"or_node": [8, 9, 39]}
         ],
         "key": "knockback",
         "value": 1
@@ -285,6 +296,18 @@
         ],
         "key": "knockback",
         "value": 2
+      },
+      {
+        "id": 40,
+        "name": "Unbreaking II",
+        "description": "Adds 10% to the chance not use durability",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [17, 18, 19, 20]},
+          {"node": 39}
+        ],
+        "key": "unbreaking",
+        "value": 0.1
       }
     ],
     [
@@ -295,7 +318,7 @@
         "type": "normal",
         "requirements": [
           {"node": 13},
-          {"or_node": [21, 22, 23]}
+          {"or_node": [21, 22, 23, 40]}
         ],
         "key": "speed_bonus",
         "value": 0.25
@@ -307,7 +330,7 @@
         "type": "normal",
         "requirements": [
           {"node": 14},
-          {"or_node": [21, 22, 23]}
+          {"or_node": [21, 22, 23, 40]}
         ],
         "key": "damage_bonus",
         "value": 1
@@ -319,7 +342,7 @@
         "type": "normal",
         "requirements": [
           {"node": 15},
-          {"or_node": [21, 22, 23]}
+          {"or_node": [21, 22, 23, 40]}
         ],
         "key": "attack_speed_bonus",
         "value": 1
@@ -331,7 +354,7 @@
         "type": "normal",
         "requirements": [
           {"node": 16},
-          {"or_node": [21, 22, 23]}
+          {"or_node": [21, 22, 23, 40]}
         ],
         "key": "durability_bonus",
         "value": 200
@@ -374,6 +397,18 @@
         ],
         "key": "looting_bonus",
         "value": 3
+      },
+      {
+        "id": 41,
+        "name": "Unbreaking III",
+        "description": "Adds 10% to the chance not use durability",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [24, 25, 26, 27]},
+          {"node": 40}
+        ],
+        "key": "unbreaking",
+        "value": 0.1
       }
     ],
     [
@@ -384,7 +419,7 @@
         "type": "normal",
         "requirements": [
           {"node": 24},
-          {"or_node": [28, 29, 30]}
+          {"or_node": [28, 29, 30, 41]}
         ],
         "key": "speed_bonus",
         "value": 0.25
@@ -396,7 +431,7 @@
         "type": "normal",
         "requirements": [
           {"node": 25},
-          {"or_node": [28, 29, 30]}
+          {"or_node": [28, 29, 30, 41]}
         ],
         "key": "damage_bonus",
         "value": 1
@@ -408,7 +443,7 @@
         "type": "normal",
         "requirements": [
           {"node": 26},
-          {"or_node": [28, 29, 30]}
+          {"or_node": [28, 29, 30, 41]}
         ],
         "key": "attack_speed_bonus",
         "value": 1
@@ -420,7 +455,7 @@
         "type": "normal",
         "requirements": [
           {"node": 27},
-          {"or_node": [28, 29, 30]}
+          {"or_node": [28, 29, 30, 41]}
         ],
         "key": "durability_bonus",
         "value": 200
@@ -470,6 +505,18 @@
         ],
         "key": "durability_bonus",
         "value": 50
+      },
+      {
+        "id": 42,
+        "name": "Infinite Unbreaking",
+        "description": "Add as many points to Unbreaking here as you want (1% per level)",
+        "type": "infinite",
+        "requirements": [
+          {"node": 41},
+          {"or_node": [31, 32, 33, 34]}
+        ],
+        "key": "unbreaking",
+        "value": 0.01
       }
     ]
   ]

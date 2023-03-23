@@ -42,6 +42,17 @@
         ],
         "key": "durability_bonus",
         "value": 200
+      },
+      {
+        "id": 22,
+        "name": "Unbreaking I",
+        "description": "Adds 10% to the chance not use durability",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [0, 1]}
+        ],
+        "key": "unbreaking",
+        "value": 0.1
       }
     ],
     [
@@ -98,6 +109,18 @@
         ],
         "key": "fortune_bonus",
         "value": 3
+      },
+      {
+        "id": 23,
+        "name": "Unbreaking II",
+        "description": "Adds 10% to the chance not use durability",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [4, 5]},
+          {"node": 22}
+        ],
+        "key": "unbreaking",
+        "value": 0.1
       }
     ],
     [
@@ -107,7 +130,7 @@
         "description": "Increases Pickaxe's Mining Speed",
         "type": "normal",
         "requirements": [
-          {"or_node":  [6, 7]},
+          {"or_node":  [6, 7, 23]},
           {"node": [4]}
         ],
         "key": "speed_bonus",
@@ -119,7 +142,7 @@
         "description": "Increases Pickaxe's Durability",
         "type": "normal",
         "requirements": [
-          {"or_node":  [6, 7]},
+          {"or_node":  [6, 7, 23]},
           {"node": [5]}
         ],
         "key": "durability_bonus",
@@ -231,6 +254,18 @@
         ],
         "key": "mine_mode",
         "value": 1
+      },
+      {
+        "id": 24,
+        "name": "Unbreaking III",
+        "description": "Adds 10% to the chance not use durability",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [14, 17, 18, 19]},
+          {"node": 23}
+        ],
+        "key": "unbreaking",
+        "value": 0.1
       }
     ],
     [
@@ -240,7 +275,7 @@
         "description": "Add As Many Points To Speed Here As You Want",
         "type": "infinite",
         "requirements": [
-          {"or_node":  [20, 21]},
+          {"or_node":  [20, 21, 24]},
           {"node": 12}
         ],
         "key": "speed_bonus",
@@ -252,11 +287,23 @@
         "description": "Add As Many Points To Durability Here As You Want",
         "type": "infinite",
         "requirements": [
-          {"or_node":  [20, 21]},
+          {"or_node":  [20, 21, 24]},
           {"node": 13}
         ],
         "key": "durability_bonus",
         "value": 50
+      },
+      {
+        "id": 25,
+        "name": "Infinite Unbreaking",
+        "description": "Add as many points to Unbreaking here as you want (1% per level)",
+        "type": "infinite",
+        "requirements": [
+          {"or_node": [20, 21, 24]},
+          {"node": 24}
+        ],
+        "key": "unbreaking",
+        "value": 0.01
       }
     ]
   ]

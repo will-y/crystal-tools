@@ -187,11 +187,23 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     @Override
     public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<T> onBroken) {
         int durability = this.getMaxDamage(stack) - (int) NBTUtils.getFloatOrAddKey(stack, "Damage");
+        float unbreakingLevel = NBTUtils.getFloatOrAddKey(stack, "unbreaking");
+        int damageToTake = 0;
 
-        if (durability - amount <= 0) {
+        while (amount > 0) {
+            if (unbreakingLevel < Math.random()) {
+                damageToTake++;
+                System.out.println("Take");
+            } else {
+                System.out.println("Dodged");
+            }
+            amount--;
+        }
+
+        if (durability - damageToTake <= 0) {
             return 0;
         } else {
-            return amount;
+            return damageToTake;
         }
     }
 
