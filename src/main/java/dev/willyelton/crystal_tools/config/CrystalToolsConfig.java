@@ -23,6 +23,9 @@ public class CrystalToolsConfig {
     public static ForgeConfigSpec.DoubleValue ROCKET_REPAIR_MODIFIER;
     public static ForgeConfigSpec.DoubleValue APPLE_REPAIR_MODIFIER;
 
+    // Vein Mining
+    public static ForgeConfigSpec.IntValue VEIN_MINER_DEFAULT_RANGE;
+
     public static ForgeConfigSpec.ConfigValue<String> UPGRADE_SCREEN_BACKGROUND;
 
     // Oregen
@@ -114,6 +117,9 @@ public class CrystalToolsConfig {
 
         APPLE_REPAIR_MODIFIER = builder.comment("Increases the repair cooldown for the apple")
                 .defineInRange("apple_repair_modifier", 10D, 1D, 10000D);
+
+        VEIN_MINER_DEFAULT_RANGE = builder.comment("Determines the range of the vein miner on the shovel, pickaxe, and AIOT. It will mine blocks up to this range away from the ore broken.")
+                .defineInRange("vein_miner_range", 4, 1, 100);
 
         UPGRADE_SCREEN_BACKGROUND = builder.comment("The block texture to use for the background of the upgrade screen. Must be a vanilla block name.")
                 .define("upgrade_screen_background", "cracked_deepslate_tiles");

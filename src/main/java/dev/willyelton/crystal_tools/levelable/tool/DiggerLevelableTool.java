@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.levelable.tool;
 
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
 import dev.willyelton.crystal_tools.utils.LevelUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
@@ -16,11 +17,10 @@ import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Class for the shovel and pickaxe
- * Handles the 3x3 mining
+ * Class for the shovel, pickaxe, AIOT
+ * Handles the 3x3 mining and vein mining
  */
 public abstract class DiggerLevelableTool extends LevelableTool {
-    private static final int MAX_VEIN_MINER_DEPTH = 4;
 
     public DiggerLevelableTool(Properties properties, TagKey<Block> mineableBlocks, String toolType, float attackDamageModifier, float attackSpeedModifier) {
         super(properties, mineableBlocks, toolType, attackDamageModifier, attackSpeedModifier);
@@ -47,7 +47,7 @@ public abstract class DiggerLevelableTool extends LevelableTool {
     }
 
     private void veinMinerHelper(ItemStack tool, Level level, Block block, BlockPos blockPos, LivingEntity entity, int depth) {
-        if (depth >= MAX_VEIN_MINER_DEPTH || !level.getBlockState(blockPos).is(block)) {
+        if (depth >= CrystalToolsConfig.VEIN_MINER_DEFAULT_RANGE.get() || !level.getBlockState(blockPos).is(block)) {
             return;
         }
 

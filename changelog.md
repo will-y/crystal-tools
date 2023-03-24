@@ -1,6 +1,7 @@
 ----------------------- 1.4.1-RELEASE Changes -----------------------
 ### Additions
 - Adds the `Unbreaking` upgrade to all tools
+- Adds a new config option `VEIN_MINER_RANGE`. Determines the range of the vein miner on the shovel, pickaxe, and AIOT. It will mine blocks up to this range away from the ore broken.
 
 ### Changes
 - Reset skill points button is now disabled if `require_crystal_for_reset` is true, and you have no crystal items in your inventory

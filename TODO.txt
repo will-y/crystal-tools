@@ -1,10 +1,10 @@
 ----------------------- 1.4.1 -----------------------
-- Unbreaking on tool skill trees
 - Vein miner levels
 - Repair inf. upgrade
 - Should be as fast as netherite eff V lvl 3 or 4 speed
 - All tools mine mode
 - Display overall base stats in tooltip
+- Furnace skill screen doesn't fully refresh when open when point is gained
 ------------------ At Some Point ------------------
 - Bow Draw Speed
 - Boots immune to fall damage
