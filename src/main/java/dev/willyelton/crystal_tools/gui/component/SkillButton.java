@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.levelable.skill.SkillDataNode;
+import dev.willyelton.crystal_tools.levelable.skill.SkillNodeType;
 import dev.willyelton.crystal_tools.levelable.skill.requirement.RequirementType;
 import dev.willyelton.crystal_tools.levelable.skill.requirement.SkillItemRequirement;
 import dev.willyelton.crystal_tools.utils.Colors;
@@ -98,12 +99,24 @@ public class SkillButton extends Button {
     }
 
     public int getTextureY(boolean hovered) {
-        if (this.isComplete) {
-            return 3;
-        } else if (!this.isActive()) {
-            return 0;
-        } else if (hovered) {
-            return 2;
+        boolean isInfinite = this.dataNode.getType() == SkillNodeType.INFINITE;
+        int points = this.dataNode.getPoints();
+        if (isInfinite && points > 0) {
+            if (!this.isActive()) {
+                return 4;
+            } else if (hovered) {
+                return 6;
+            } else {
+                return 5;
+            }
+        } else {
+            if (this.isComplete) {
+                return 3;
+            } else if (!this.isActive()) {
+                return 0;
+            } else if (hovered) {
+                return 2;
+            }
         }
 
         return 1;
