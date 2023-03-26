@@ -4,6 +4,7 @@
 - Adds a new config option `VEIN_MINER_RANGE`. Determines the range of the vein miner on the shovel, pickaxe, and AIOT. It will mine blocks up to this range away from the ore broken.
 - Adds a new config option `AXE_CHOPPER_RANGE`. Determines the range of the tree chopper and tree stripper upgrade on the axe. It will mine logs up to this range away from the log broken.
 - Adds a new texture for infinite skill buttons.
+- Adds the ability to put more points into the `Tree Chopper` and `Tree Stripper` upgrades to increase the range
 
 ### Changes
 - Reset skill points button is now disabled if `require_crystal_for_reset` is true, and you have no crystal items in your inventory

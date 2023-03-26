@@ -52,7 +52,7 @@ public class AxeLevelableTool extends LevelableTool {
     private void stripHelper(UseOnContext context, Level level, ItemStack itemStack, Player player, BlockPos blockPos, InteractionHand slot, int depth) {
         int durability = this.getMaxDamage(itemStack) - (int) NBTUtils.getFloatOrAddKey(itemStack, "Damage");
 
-        if (depth > CrystalToolsConfig.AXE_VEIN_MINER_DEFAULT_RANGE.get() || durability <= 1) {
+        if (depth > CrystalToolsConfig.AXE_VEIN_MINER_DEFAULT_RANGE.get() + NBTUtils.getFloatOrAddKey(itemStack, "tree_strip") - 1 || durability <= 1) {
             return;
         }
 
@@ -100,7 +100,9 @@ public class AxeLevelableTool extends LevelableTool {
     }
 
     private void recursiveBreakHelper(ItemStack tool, Level level, BlockPos blockPos, LivingEntity entity, Block block, int depth) {
-        if (depth > CrystalToolsConfig.AXE_VEIN_MINER_DEFAULT_RANGE.get()) {
+        int durability = this.getMaxDamage(tool) - (int) NBTUtils.getFloatOrAddKey(tool, "Damage");
+
+        if (depth > CrystalToolsConfig.AXE_VEIN_MINER_DEFAULT_RANGE.get() + NBTUtils.getFloatOrAddKey(tool, "tree_chop") - 1 || durability <= 1) {
             return;
         }
 

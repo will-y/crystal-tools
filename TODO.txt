@@ -8,6 +8,7 @@
 - Green outlined button for infinite skills that have a point in them
 - Apple too OP
 - Sword might level up too fast
+- Apple levels up when you break blocks
 ------------------ At Some Point ------------------
 - Bow Draw Speed
 - Boots immune to fall damage
