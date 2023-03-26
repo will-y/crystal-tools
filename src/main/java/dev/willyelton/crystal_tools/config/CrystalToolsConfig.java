@@ -25,6 +25,7 @@ public class CrystalToolsConfig {
 
     // Vein Mining
     public static ForgeConfigSpec.IntValue VEIN_MINER_DEFAULT_RANGE;
+    public static ForgeConfigSpec.IntValue AXE_VEIN_MINER_DEFAULT_RANGE;
 
     public static ForgeConfigSpec.ConfigValue<String> UPGRADE_SCREEN_BACKGROUND;
 
@@ -120,6 +121,9 @@ public class CrystalToolsConfig {
 
         VEIN_MINER_DEFAULT_RANGE = builder.comment("Determines the range of the vein miner on the shovel, pickaxe, and AIOT. It will mine blocks up to this range away from the ore broken.")
                 .defineInRange("vein_miner_range", 4, 1, 100);
+
+        AXE_VEIN_MINER_DEFAULT_RANGE = builder.comment("Determines the range of the tree chopper and tree stripper upgrade on the axe. It will mine logs up to this range away from the log broken.")
+                .defineInRange("tree_chopper_range", 10, 1, 100);
 
         UPGRADE_SCREEN_BACKGROUND = builder.comment("The block texture to use for the background of the upgrade screen. Must be a vanilla block name.")
                 .define("upgrade_screen_background", "cracked_deepslate_tiles");

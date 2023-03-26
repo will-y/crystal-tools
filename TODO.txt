@@ -5,9 +5,12 @@
 - All tools mine mode
 - Display overall base stats in tooltip
 - Furnace skill screen doesn't fully refresh when open when point is gained
+- Green outlined button for infinite skills that have a point in them
+- Apple too OP
+- Sword might level up too fast
 ------------------ At Some Point ------------------
 - Bow Draw Speed
 - Boots immune to fall damage
 - Armor cool potion effects?
 - Auto smelt things in 3x3 and vein mining (Still no clue)
-- When you take off armor you keep stats
+- When you take off armor you keep stats (I think this is just how vanilla works?)
