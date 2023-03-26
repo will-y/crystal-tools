@@ -239,8 +239,8 @@
       {
         "id": 19,
         "name": "Vein Mining",
-        "description": "Mines all ores in a vein when pressing the vein mining key.",
-        "type": "normal",
+        "description": "Mines all ores in a vein when pressing the vein mining key. Adding more points increases the range. (+1 block range per level)",
+        "type": "infinite",
         "requirements":[
           {"or_node": [13, 14, 15, 16]},
           {"not_node": 20}

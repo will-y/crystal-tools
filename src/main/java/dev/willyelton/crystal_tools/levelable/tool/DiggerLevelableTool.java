@@ -47,7 +47,7 @@ public abstract class DiggerLevelableTool extends LevelableTool {
     }
 
     private void veinMinerHelper(ItemStack tool, Level level, Block block, BlockPos blockPos, LivingEntity entity, int depth) {
-        if (depth >= CrystalToolsConfig.VEIN_MINER_DEFAULT_RANGE.get() || !level.getBlockState(blockPos).is(block)) {
+        if (depth >= CrystalToolsConfig.VEIN_MINER_DEFAULT_RANGE.get() + NBTUtils.getFloatOrAddKey(tool, "vein_miner") - 1 || !level.getBlockState(blockPos).is(block)) {
             return;
         }
 

@@ -1,8 +1,8 @@
 ----------------------- 1.4.1 -----------------------
-- Vein miner levels
 - Repair inf. upgrade
 - Should be as fast as netherite eff V lvl 3 or 4 speed
 - All tools mine mode
+- Hoe, shovel vein mining
 - Display overall base stats in tooltip
 - Furnace skill screen doesn't fully refresh when open when point is gained
 - Green outlined button for infinite skills that have a point in them
