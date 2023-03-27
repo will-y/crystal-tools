@@ -5,6 +5,7 @@
 - Adds a new config option `AXE_CHOPPER_RANGE`. Determines the range of the tree chopper and tree stripper upgrade on the axe. It will mine logs up to this range away from the log broken.
 - Adds a new texture for infinite skill buttons.
 - Adds the ability to put more points into the `Tree Chopper`,`Tree Stripper`, and `Vein Miner` upgrades to increase the range
+
 ### Changes
 - Reset skill points button is now disabled if `require_crystal_for_reset` is true, and you have no crystal items in your inventory
 - Tools (non sword) now do the same amount of damage as netherite tools
@@ -16,6 +17,7 @@
 - Placing crystal torches with a tool now plays the place sound
 - Fixes crystal torches not being able to be placed in dungeons
 - Fixes 3x3 mining and vein mining not dropping exp for all blocks other than the first
+- Fixes crystal apple leveling up and taking damage when breaking blocks
 
 ----------------------- 1.4.0-RELEASE Changes -----------------------
 ### Additions

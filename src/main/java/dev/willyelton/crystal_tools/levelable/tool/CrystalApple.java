@@ -4,6 +4,7 @@ import dev.willyelton.crystal_tools.CreativeTabs;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffect;
@@ -16,6 +17,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -113,5 +115,16 @@ public class CrystalApple extends LevelableTool {
     @Override
     public boolean isDisabled() {
         return CrystalToolsConfig.DISABLE_APPLE.get();
+    }
+
+    @Override
+    public boolean mineBlock(@NotNull ItemStack tool, Level level, @NotNull BlockState blockState, @NotNull BlockPos blockPos, @NotNull LivingEntity entity) {
+        // If this tool is disabled break on use
+        if (this.isDisabled()) {
+            tool.shrink(1);
+            return false;
+        }
+
+        return true;
     }
 }
