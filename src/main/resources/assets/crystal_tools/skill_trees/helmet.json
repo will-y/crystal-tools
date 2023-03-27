@@ -209,7 +209,7 @@
         "id": 18,
         "name": "Auto Repair",
         "description": "Automatically Repairs Your Helmet Over Time!",
-        "type": "normal",
+        "type": "infinite",
         "requirements": [
           {"or_node": [11, 12, 13, 14]}
         ],

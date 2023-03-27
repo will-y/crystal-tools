@@ -73,7 +73,7 @@
         "id": 5,
         "name": "Auto Repair",
         "description": "Automatically repairs your rocket over time!",
-        "type": "normal",
+        "type": "infinite",
         "requirements": [
           {
             "or_node": [2, 3]

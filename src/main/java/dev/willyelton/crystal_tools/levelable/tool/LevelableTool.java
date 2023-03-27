@@ -193,9 +193,6 @@ public abstract class LevelableTool extends Item implements LevelableItem {
         while (amount > 0) {
             if (unbreakingLevel < Math.random()) {
                 damageToTake++;
-                System.out.println("Take");
-            } else {
-                System.out.println("Dodged");
             }
             amount--;
         }

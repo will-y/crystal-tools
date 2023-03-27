@@ -89,7 +89,7 @@
         "id": 8,
         "name": "Auto Repair",
         "description": "Automatically repairs your apple over time!",
-        "type": "normal",
+        "type": "infinite",
         "requirements": [
           {"or_node": [4, 5, 6, 7]}
         ],

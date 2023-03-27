@@ -111,7 +111,7 @@ public class CrystalToolsConfig {
                 .defineInRange("furnace_experience_boost", 1D, 1D, 1000D);
 
         TOOL_REPAIR_COOLDOWN = builder.comment("Determines the cooldown between tool auto repairs")
-                .defineInRange("tool_repair_cooldown", 50, 1, 10000);
+                .defineInRange("tool_repair_cooldown", 300, 1, 10000);
 
         ROCKET_REPAIR_MODIFIER = builder.comment("Increases the repair cooldown for the rocket")
                 .defineInRange("rocket_repair_modifier", 10D, 1D, 10000D);

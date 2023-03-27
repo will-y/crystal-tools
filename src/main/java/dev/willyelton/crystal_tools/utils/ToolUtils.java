@@ -83,7 +83,7 @@ public class ToolUtils {
             if (NBTUtils.getBoolean(itemStack, "auto_repair", false)) {
                 if (NBTUtils.addValueToTag(itemStack, "auto_repair_counter", 1) > CrystalToolsConfig.TOOL_REPAIR_COOLDOWN.get() * modifier) {
                     NBTUtils.setValue(itemStack, "auto_repair_counter", 0);
-                    int repairAmount = Math.min((int) NBTUtils.getFloatOrAddKey(itemStack, "auto_repair_amount"), itemStack.getDamageValue());
+                    int repairAmount = Math.min((int) NBTUtils.getFloatOrAddKey(itemStack, "auto_repair"), itemStack.getDamageValue());
                     itemStack.setDamageValue(itemStack.getDamageValue() - repairAmount);
                 }
             }

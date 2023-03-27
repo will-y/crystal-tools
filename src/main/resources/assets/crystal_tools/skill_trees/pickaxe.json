@@ -178,7 +178,7 @@
         "id": 14,
         "name": "Auto Repair",
         "description": "Automatically Repairs Your Tool Over Time!",
-        "type": "normal",
+        "type": "infinite",
         "requirements": [
           {"or_node": [12, 13]}
         ],

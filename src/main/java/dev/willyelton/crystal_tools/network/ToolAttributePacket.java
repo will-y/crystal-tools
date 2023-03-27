@@ -60,9 +60,6 @@ public class ToolAttributePacket {
                     }
                     // also add it like normal
                     NBTUtils.setValue(heldTool, msg.key, msg.value);
-                } else if (msg.key.equals("auto_repair")) {
-                    NBTUtils.setValue(heldTool, msg.key, true);
-                    NBTUtils.addValueToTag(heldTool, "auto_repair_amount", 1);
                 } else {
                     NBTUtils.addValueToTag(heldTool, msg.key, msg.value);
                 }
