@@ -67,7 +67,7 @@ public abstract class LevelableTool extends Item implements LevelableItem {
             // broken
             return 0.1F;
         }
-        return (correctTool(tool, blockState) ? tier.getSpeed() : 1.0F) + bonus;
+        return correctTool(tool, blockState) ? tier.getSpeed() + bonus * 20 : 1.0F;
     }
 
     public boolean correctTool(ItemStack tool, BlockState blockState) {
