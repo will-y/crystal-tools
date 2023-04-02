@@ -99,13 +99,13 @@ public class CrystalToolsConfig {
                 .defineInRange("bow_experience_boost", 1D, 0.1D, 10000D);
 
         SWORD_EXPERIENCE_BOOST = builder.comment("Multiplies how much experience Swords get. (EXP_GAINED = DAMAGE_DONE * SWORD_EXPERIENCE_BOOST")
-                .defineInRange("sword_experience_boost", 1D, 0.1D, 10000D);
+                .defineInRange("sword_experience_boost", 0.8D, 0.1D, 10000D);
 
         ROCKET_EXPERIENCE_BOOST = builder.comment("Determines how much experience rockets get when used")
                 .defineInRange("rocket_experience_boost", 5, 1, 100);
 
         APPLE_EXPERIENCE_BOOST = builder.comment("Multiplies how much experience Apples get. (EXP_GAINED = EFFECTIVE_HUNGER_RESTORED * APPLE_EXPERIENCE_BOOST")
-                .defineInRange("apple_experience_boost", 1, 0.1D, 1000D);
+                .defineInRange("apple_experience_boost", 0.5D, 0.1D, 1000D);
 
         FURNACE_EXPERIENCE_BOOST = builder.comment("Multiplies how much experience Furnaces get.")
                 .defineInRange("furnace_experience_boost", 1D, 1D, 1000D);
@@ -117,7 +117,7 @@ public class CrystalToolsConfig {
                 .defineInRange("rocket_repair_modifier", 10D, 1D, 10000D);
 
         APPLE_REPAIR_MODIFIER = builder.comment("Increases the repair cooldown for the apple")
-                .defineInRange("apple_repair_modifier", 10D, 1D, 10000D);
+                .defineInRange("apple_repair_modifier", 50D, 1D, 10000D);
 
         VEIN_MINER_DEFAULT_RANGE = builder.comment("Determines the range of the vein miner on the shovel, pickaxe, and AIOT. It will mine blocks up to this range away from the ore broken.")
                 .defineInRange("vein_miner_range", 4, 1, 100);

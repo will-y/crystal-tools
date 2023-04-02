@@ -1,19 +1,22 @@
 ----------------------- 1.4.1-RELEASE Changes -----------------------
 ### Additions
-- Adds the `Unbreaking` upgrade to all tools
+- Adds the `Unbreaking` upgrade to all tools.
 - Adds a new config option `VEIN_MINER_RANGE`. Determines the range of the vein miner on the shovel, pickaxe, and AIOT. It will mine blocks up to this range away from the ore broken.
 - Adds a new config option `AXE_CHOPPER_RANGE`. Determines the range of the tree chopper and tree stripper upgrade on the axe. It will mine logs up to this range away from the log broken.
 - Adds a new texture for infinite skill buttons.
-- Adds the ability to put more points into the `Tree Chopper`,`Tree Stripper`, and `Vein Miner` upgrades to increase the range
-- Adds ability to put more points in auto repair to increase the amount repaired
+- Adds the ability to put more points into the `Tree Chopper`,`Tree Stripper`, and `Vein Miner` upgrades to increase the range.
+- Adds ability to put more points in auto repair to increase the amount repaired.
 
 ### Changes
-- Reset skill points button is now disabled if `require_crystal_for_reset` is true, and you have no crystal items in your inventory
-- Tools (non sword) now do the same amount of damage as netherite tools
-- Increases the default time between auto repair ticks (50 ticks -> 300 ticks)
+- Reset skill points button is now disabled if `require_crystal_for_reset` is true, and you have no crystal items in your inventory.
+- Tools (non sword) now do the same amount of damage as netherite tools.
+- Increases the default time between auto repair ticks (50 ticks -> 300 ticks).
 - Increases the speed of crystal tools. Having Mining Speed V is now roughly equivalent to having a netherite pickaxe with Efficiency V.
 - Crystal tools no longer get speed bonuses on blocks they are not effective on.
 - Displays skills in the tooltip when holding shift.
+- Decreases the exp gain of the Crystal Apple.
+- Increases the repair time for the Crystal Apple.
+- Decreases the experience gain of the Crystal Sword slightly.
 
 ### Fixes
 - Fixes durability IV and mining speed IV were unlocked at incorrect times on the axe and pickaxe

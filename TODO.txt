@@ -2,8 +2,6 @@
 - All tools mine mode
 - Hoe, shovel vein mining
 - Furnace skill screen doesn't fully refresh when open when point is gained
-- Apple too OP
-- Sword might level up too fast
 ------------------ At Some Point ------------------
 - Bow Draw Speed
 - Boots immune to fall damage
