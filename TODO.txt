@@ -1,7 +1,6 @@
 ----------------------- 1.4.1 -----------------------
 - All tools mine mode
 - Hoe, shovel vein mining
-- Display overall base stats in tooltip
 - Furnace skill screen doesn't fully refresh when open when point is gained
 - Apple too OP
 - Sword might level up too fast

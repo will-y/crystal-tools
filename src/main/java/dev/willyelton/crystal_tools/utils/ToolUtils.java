@@ -3,8 +3,13 @@ package dev.willyelton.crystal_tools.utils;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
+import dev.willyelton.crystal_tools.levelable.skill.SkillData;
+import dev.willyelton.crystal_tools.levelable.skill.SkillDataNode;
+import dev.willyelton.crystal_tools.levelable.skill.SkillNodeType;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -14,7 +19,10 @@ import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ToolUtils {
     // I hate this but needed because armor needs to actually be an ArmorItem
@@ -58,20 +66,35 @@ public class ToolUtils {
             components.add(Component.literal("\u00A79" + "Auto Smelt Disabled" + changeKey));
         }
 
-//        if (!Screen.hasShiftDown()) {
-//            components.add(Component.literal("<Hold Shift For Skills>"));
-//        } else {
-//            components.add(Component.literal("Skills:"));
-//            int[] points = NBTUtils.getIntArray(itemStack, "points");
-//            SkillData toolData = SkillData.fromResourceLocation(new ResourceLocation("crystal_tools", String.format("skill_trees/%s.json", item.getItemType())), points);
-//            for (SkillDataNode dataNode : toolData.getAllNodes()) {
-//                if (dataNode.isComplete()) {
-//                    components.add(Component.literal("    " + dataNode.getName()));
-//                } else if (dataNode.getType().equals(SkillNodeType.INFINITE) && dataNode.getPoints() > 0) {
-//                    components.add(Component.literal("    " + dataNode.getName() + " (" + dataNode.getPoints() + " points)"));
-//                }
-//            }
-//        }
+        if (!Screen.hasShiftDown()) {
+            components.add(Component.literal("<Hold Shift For Skills>"));
+        } else {
+            Map<String, Float> skills = new HashMap<>();
+            components.add(Component.literal("Skills:"));
+            int[] points = NBTUtils.getIntArray(itemStack, "points");
+            SkillData toolData = SkillData.fromResourceLocation(new ResourceLocation("crystal_tools", String.format("skill_trees/%s.json", item.getItemType())), points);
+            for (SkillDataNode dataNode : toolData.getAllNodes()) {
+                if (dataNode.isComplete() || (dataNode.getType().equals(SkillNodeType.INFINITE) && dataNode.getPoints() > 0)) {
+                    skills.compute(dataNode.getKey(), (key, value) -> value != null ? value + dataNode.getValue() : dataNode.getValue());
+                }
+            }
+
+            skills.forEach((s, aFloat) -> {
+                components.add(Component.literal(String.format("     %s: %s", formatKey(s), formatFloat(aFloat))));
+            });
+        }
+    }
+
+    private static String formatFloat(float f) {
+        if ((float)((int) f) == f) {
+            return Integer.toString((int) f);
+        } else {
+            return Float.toString(f);
+        }
+    }
+
+    private static String formatKey(String key) {
+        return Arrays.stream(key.split("_")).map(StringUtils::capitalize).collect(Collectors.joining(" "));
     }
 
     public static void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand) {

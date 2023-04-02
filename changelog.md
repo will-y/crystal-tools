@@ -13,6 +13,7 @@
 - Increases the default time between auto repair ticks (50 ticks -> 300 ticks)
 - Increases the speed of crystal tools. Having Mining Speed V is now roughly equivalent to having a netherite pickaxe with Efficiency V.
 - Crystal tools no longer get speed bonuses on blocks they are not effective on.
+- Displays skills in the tooltip when holding shift.
 
 ### Fixes
 - Fixes durability IV and mining speed IV were unlocked at incorrect times on the axe and pickaxe
