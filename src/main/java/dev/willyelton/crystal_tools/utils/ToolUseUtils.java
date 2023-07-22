@@ -17,10 +17,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CampfireBlock;
-import net.minecraft.world.level.block.WallTorchBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraftforge.common.ToolActions;
 
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -172,6 +172,7 @@ public class ToolUseUtils {
     }
 
     public static InteractionResult useOnHoe(UseOnContext context, LevelableTool tool, BlockPos blockPos) {
+        System.out.println("Hoeing block " + blockPos);
         ItemStack hoe = context.getItemInHand();
         int durability = tool.getMaxDamage(hoe) - (int) NBTUtils.getFloatOrAddKey(hoe, "Damage");
 
@@ -180,8 +181,8 @@ public class ToolUseUtils {
         }
 
         Level level = context.getLevel();
-        BlockState toolModifiedState = level.getBlockState(blockPos).getToolModifiedState(context, net.minecraftforge.common.ToolActions.HOE_TILL, false);
-        Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> pair = toolModifiedState == null ? null : Pair.of(ctx -> true, changeIntoState(toolModifiedState));
+        BlockState toolModifiedState = level.getBlockState(blockPos).getToolModifiedState(context, ToolActions.HOE_TILL, false);
+        Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> pair = toolModifiedState == null ? null : Pair.of(ctx -> true, changeIntoState(toolModifiedState, blockPos));
         if (pair == null) {
             return InteractionResult.PASS;
         } else {
@@ -206,5 +207,12 @@ public class ToolUseUtils {
                 return InteractionResult.PASS;
             }
         }
+    }
+
+    private static Consumer<UseOnContext> changeIntoState(BlockState blockState, BlockPos blockPos) {
+        return (context) -> {
+            context.getLevel().setBlock(blockPos, blockState, 11);
+            context.getLevel().gameEvent(GameEvent.BLOCK_CHANGE, blockPos, GameEvent.Context.of(context.getPlayer(), blockState));
+        };
     }
 }

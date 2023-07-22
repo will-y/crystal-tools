@@ -1,10 +1,15 @@
 ----------------------- 1.4.1 -----------------------
 - All tools mine mode
-- Hoe, shovel vein mining
 - Furnace skill screen doesn't fully refresh when open when point is gained
+- Fix dragging on skill tree
 ------------------ At Some Point ------------------
 - Bow Draw Speed
 - Boots immune to fall damage
 - Armor cool potion effects?
 - Auto smelt things in 3x3 and vein mining (Still no clue)
 - When you take off armor you keep stats (I think this is just how vanilla works?)
+----------------------- 1.20 -----------------------
+- Datagen
+- Actual json processing
+- Datapack instead of resource pack
+- sonar
