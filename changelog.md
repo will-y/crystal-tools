@@ -22,6 +22,7 @@
 - Decreases the exp gain of the Crystal Apple.
 - Increases the repair time for the Crystal Apple.
 - Decreases the experience gain of the Crystal Sword slightly.
+- Changes the item name color to be consistent
 
 ### Fixes
 - Fixes durability IV and mining speed IV were unlocked at incorrect times on the axe and pickaxe

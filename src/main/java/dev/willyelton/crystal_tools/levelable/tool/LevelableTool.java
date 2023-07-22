@@ -208,4 +208,10 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
         return slot == EquipmentSlot.MAINHAND ? this.defaultModifiers : super.getAttributeModifiers(slot, stack);
     }
+
+    @Override
+    public @NotNull Rarity getRarity(@NotNull ItemStack stack) {
+        // Just to get the right text color always
+        return Rarity.RARE;
+    }
 }

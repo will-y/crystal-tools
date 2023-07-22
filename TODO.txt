@@ -1,16 +1,19 @@
------------------------ 1.4.1 -----------------------
-- Furnace skill screen doesn't fully refresh when open when point is gained
 ------------------ At Some Point ------------------
 - Bow Draw Speed
 - Boots immune to fall damage
 - Armor cool potion effects?
 - Auto smelt things in 3x3 and vein mining (Still no clue)
 - When you take off armor you keep stats (I think this is just how vanilla works?)
+- Furnace skill screen doesn't fully refresh when open when point is gained
+- Crystal Arrow
+- Crystal glass (conn texture)
+- Advancements
+
 ----------------------- 1.20 -----------------------
 - Datagen
 - Actual json processing
     - Make the requirements just one object (maybe not)
-- Datapack instead of resource pack
+- Datapack instead of resource pack (reload listener + cache objects)
 - sonar
 - Fix dragging on skill tree
 - Skill tree UI redesign
