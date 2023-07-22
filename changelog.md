@@ -7,6 +7,10 @@
 - Adds the ability to put more points into the `Tree Chopper`,`Tree Stripper`, and `Vein Miner` upgrades to increase the range.
 - Adds ability to put more points in auto repair to increase the amount repaired.
 - Adds ability to 3x3 mine and hoe with the Crystal Hoe
+- Adds mine mode to
+  - Axe
+  - Hoe
+  - Shovel
 
 ### Changes
 - Reset skill points button is now disabled if `require_crystal_for_reset` is true, and you have no crystal items in your inventory.

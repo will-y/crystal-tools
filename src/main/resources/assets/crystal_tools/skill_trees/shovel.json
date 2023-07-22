@@ -86,7 +86,10 @@
         "description": "Gives Silk Touch To The Shovel",
         "type": "normal",
         "requirements": [
-          {"not_node":  7},
+          {
+            "not_node":  7,
+            "unless": 23
+          },
           {"or_node": [4, 5]}
         ],
         "key": "silk_touch_bonus",
@@ -98,7 +101,10 @@
         "description": "Gives Fortune III To The Shovel",
         "type": "normal",
         "requirements": [
-          {"not_node":  6},
+          {
+            "not_node":  6,
+            "unless": 23
+          },
           {"or_node":  [4, 5]}
         ],
         "key": "fortune_bonus",
@@ -110,7 +116,7 @@
         "description": "Adds 10% to the chance not use durability",
         "type": "normal",
         "requirements": [
-          {"or_node": [0, 1]},
+          {"or_node": [4, 5]},
           {"node": 19}
         ],
         "key": "unbreaking",
@@ -185,12 +191,8 @@
         "description": "Mines in a 3x3 area.",
         "type": "normal",
         "requirements":[
-          {
-            "or_node": [12, 13]
-          },
-          {
-            "not_node": 18
-          }
+          {"or_node": [12, 13]},
+          {"not_node": 18}
         ],
         "key": "3x3",
         "value": 1
@@ -201,12 +203,23 @@
         "description": "Automatically smelts the blocks that you mine.",
         "type": "normal",
         "requirements":[
-          {
-            "or_node": [12, 13]
-          },
+          {"or_node": [12, 13]},
           {"not_node": 17}
         ],
         "key": "auto_smelt",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 23,
+        "name": "Mine Mode",
+        "description": "Press mode_switch key to change the mining mode between unlocked modes (Silk Touch or Fortune). Press shift + mode_switch to change the breaking mode (3x3 or 1x1).",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [14, 17, 18]}
+        ],
+        "key": "mine_mode",
         "value": 1
       },
       {
@@ -215,7 +228,7 @@
         "description": "Adds 10% to the chance not use durability",
         "type": "normal",
         "requirements": [
-          {"or_node": [12, 13]},
+          {"or_node": [14, 17, 18]},
           {"node": 20}
         ],
         "key": "unbreaking",
@@ -229,7 +242,7 @@
         "description": "Add As Many Points To Speed Here As You Want",
         "type": "infinite",
         "requirements": [
-          {"or_node":  [14, 17, 18]},
+          {"or_node":  [21, 23]},
           {"node": 12}
         ],
         "key": "speed_bonus",
@@ -241,7 +254,7 @@
         "description": "Add As Many Points To Durability Here As You Want",
         "type": "infinite",
         "requirements": [
-          {"or_node":  [14, 17, 18]},
+          {"or_node":  [21, 23]},
           {"node": 13}
         ],
         "key": "durability_bonus",
@@ -254,7 +267,7 @@
         "type": "infinite",
         "requirements": [
           {"node": 21},
-          {"or_node": [14, 17, 18]}
+          {"or_node": [21, 23]}
         ],
         "key": "unbreaking",
         "value": 0.01

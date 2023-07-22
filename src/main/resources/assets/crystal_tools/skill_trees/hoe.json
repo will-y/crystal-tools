@@ -86,7 +86,10 @@
         "description": "Gives Silk Touch To The Hoe",
         "type": "normal",
         "requirements": [
-          {"not_node":  7},
+          {
+            "not_node":  7,
+            "unless": 24
+          },
           {"or_node": [4, 5]}
         ],
         "key": "silk_touch_bonus",
@@ -98,7 +101,10 @@
         "description": "Gives Fortune III To The Hoe",
         "type": "normal",
         "requirements": [
-          {"not_node":  6},
+          {
+            "not_node":  6,
+            "unless": 24
+          },
           {"or_node":  [4, 5]}
         ],
         "key": "fortune_bonus",

@@ -86,7 +86,10 @@
         "description": "Gives Silk Touch To The Axe",
         "type": "normal",
         "requirements": [
-          {"not_node":  7},
+          {
+            "not_node":  7,
+            "unless": 25
+          },
           {"or_node": [4, 5]}
         ],
         "key": "silk_touch_bonus",
@@ -98,7 +101,10 @@
         "description": "Gives Fortune III To The Axe",
         "type": "normal",
         "requirements": [
-          {"not_node":  6},
+          {
+            "not_node":  6,
+            "unless": 25
+          },
           {"or_node":  [4, 5]}
         ],
         "key": "fortune_bonus",
@@ -243,6 +249,17 @@
         ],
         "key": "unbreaking",
         "value": 0.1
+      },
+      {
+        "id": 25,
+        "name": "Mine Mode",
+        "description": "Press mode_switch key to change the mining mode between unlocked modes (Silk Touch or Fortune).",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [14, 15]}
+        ],
+        "key": "mine_mode",
+        "value": 1
       }
     ],
     [
@@ -252,7 +269,7 @@
         "description": "Add As Many Points To Speed Here As You Want",
         "type": "infinite",
         "requirements": [
-          {"or_node":  [16, 20, 23]},
+          {"or_node":  [16, 20, 23, 25]},
           {"node": 14}
         ],
         "key": "speed_bonus",
@@ -264,7 +281,7 @@
         "description": "Add As Many Points To Durability Here As You Want",
         "type": "infinite",
         "requirements": [
-          {"or_node":  [16, 20, 23]},
+          {"or_node":  [16, 20, 23, 25]},
           {"node": 15}
         ],
         "key": "durability_bonus",
@@ -277,7 +294,7 @@
         "type": "infinite",
         "requirements": [
           {"node": 23},
-          {"or_node": [16, 20, 23]}
+          {"or_node": [16, 20, 23, 25]}
         ],
         "key": "unbreaking",
         "value": 0.01
