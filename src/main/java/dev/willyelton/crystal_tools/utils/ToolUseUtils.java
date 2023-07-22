@@ -168,6 +168,10 @@ public class ToolUseUtils {
     }
 
     public static InteractionResult useOnHoe(UseOnContext context, LevelableTool tool) {
+        return useOnHoe(context, tool, context.getClickedPos());
+    }
+
+    public static InteractionResult useOnHoe(UseOnContext context, LevelableTool tool, BlockPos blockPos) {
         ItemStack hoe = context.getItemInHand();
         int durability = tool.getMaxDamage(hoe) - (int) NBTUtils.getFloatOrAddKey(hoe, "Damage");
 
@@ -176,8 +180,7 @@ public class ToolUseUtils {
         }
 
         Level level = context.getLevel();
-        BlockPos blockpos = context.getClickedPos();
-        BlockState toolModifiedState = level.getBlockState(blockpos).getToolModifiedState(context, net.minecraftforge.common.ToolActions.HOE_TILL, false);
+        BlockState toolModifiedState = level.getBlockState(blockPos).getToolModifiedState(context, net.minecraftforge.common.ToolActions.HOE_TILL, false);
         Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> pair = toolModifiedState == null ? null : Pair.of(ctx -> true, changeIntoState(toolModifiedState));
         if (pair == null) {
             return InteractionResult.PASS;
@@ -186,7 +189,7 @@ public class ToolUseUtils {
             Consumer<UseOnContext> consumer = pair.getSecond();
             if (predicate.test(context)) {
                 Player player = context.getPlayer();
-                level.playSound(player, blockpos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+                level.playSound(player, blockPos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
                 if (!level.isClientSide) {
                     consumer.accept(context);
                     if (player != null) {
@@ -196,7 +199,7 @@ public class ToolUseUtils {
                     }
                 }
 
-                tool.addExp(hoe, level, blockpos, player);
+                tool.addExp(hoe, level, blockPos, player);
 
                 return InteractionResult.sidedSuccess(level.isClientSide);
             } else {

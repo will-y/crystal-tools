@@ -169,46 +169,6 @@
     ],
     [
       {
-        "id": 14,
-        "name": "Auto Repair",
-        "description": "Automatically Repairs Your Tool Over Time!",
-        "type": "infinite",
-        "requirements": [
-          {"or_node": [12, 13]}
-        ],
-        "key": "auto_repair",
-        "value": 1
-      },
-      {
-        "id": 17,
-        "name": "Auto Smelting",
-        "description": "Automatically smelts the blocks that you mine.",
-        "type": "normal",
-        "requirements": [
-          {
-            "or_node": [12, 13]
-          }
-        ],
-        "key": "auto_smelt",
-        "value": 1
-      },
-      {
-        "id": 18,
-        "name": "Shears",
-        "description": "Can now be used to shear sheep!",
-        "type": "normal",
-        "requirements": [
-          {
-            "or_node": [12, 13]
-          },
-          {
-            "item": ["minecraft:shears"]
-          }
-        ],
-        "key": "shear",
-        "value": 1
-      },
-      {
         "id": 21,
         "name": "Unbreaking III",
         "description": "Adds 10% to the chance not use durability",
@@ -219,6 +179,72 @@
         ],
         "key": "unbreaking",
         "value": 0.1
+      },
+      {
+        "id": 23,
+        "name": "3x3 Mining",
+        "description":  "Mines and hoes in a 3x3 area.",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [12, 13]},
+          {"not_node": [17]}
+        ],
+        "key": "3x3",
+        "value": 1
+      },
+      {
+        "id": 17,
+        "name": "Auto Smelting",
+        "description": "Automatically smelts the blocks that you mine.",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [12, 13]},
+          {"not_node": [23]}
+        ],
+        "key": "auto_smelt",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 14,
+        "name": "Auto Repair",
+        "description": "Automatically Repairs Your Tool Over Time!",
+        "type": "infinite",
+        "requirements": [
+          {"or_node": [21, 23, 17]}
+        ],
+        "key": "auto_repair",
+        "value": 1
+      },
+      {
+        "id": 18,
+        "name": "Shears",
+        "description": "Can now be used to shear sheep!",
+        "type": "normal",
+        "requirements": [
+          {
+            "or_node": [21, 23, 17]
+          },
+          {
+            "item": ["minecraft:shears"]
+          }
+        ],
+        "key": "shear",
+        "value": 1
+      },
+      {
+        "id": 24,
+        "name": "Mine Mode",
+        "description": "Press mode_switch key to change the mining mode between unlocked modes (Silk Touch or Fortune). Press shift + mode_switch to change the breaking mode (3x3 or 1x1).",
+        "type": "normal",
+        "requirements": [
+          {
+            "or_node": [21, 23, 17]
+          }
+        ],
+        "key": "mine_mode",
+        "value": 1
       }
     ],
     [
@@ -228,7 +254,7 @@
         "description": "Add As Many Points To Speed Here As You Want",
         "type": "infinite",
         "requirements": [
-          {"or_node":  [14, 17, 18, 21]},
+          {"or_node":  [14, 18, 24]},
           {"node": 12}
         ],
         "key": "speed_bonus",
@@ -240,7 +266,7 @@
         "description": "Add As Many Points To Durability Here As You Want",
         "type": "infinite",
         "requirements": [
-          {"or_node":  [14, 17, 18, 21]},
+          {"or_node":  [14, 18, 24]},
           {"node": 13}
         ],
         "key": "durability_bonus",
@@ -253,7 +279,7 @@
         "type": "infinite",
         "requirements": [
           {"node": 21},
-          {"or_node": [14, 17, 18]}
+          {"or_node": [14, 18, 24]}
         ],
         "key": "unbreaking",
         "value": 0.01
