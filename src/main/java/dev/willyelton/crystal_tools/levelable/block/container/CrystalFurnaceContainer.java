@@ -45,7 +45,7 @@ public class CrystalFurnaceContainer extends AbstractContainerMenu {
         this.playerInventory = new InvWrapper(playerInventory);
         this.player = playerInventory.player;
         this.data = data;
-        this.level = playerInventory.player.level;
+        this.level = playerInventory.player.level();
 
         this.addFurnaceSlots(5, 5);
         this.addFuelSlots(3, 3);

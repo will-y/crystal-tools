@@ -6,11 +6,13 @@ import dev.willyelton.crystal_tools.levelable.tool.ModTools;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
@@ -30,8 +32,8 @@ public class CrystalAIOTRecipe extends CustomRecipe {
             Items.SLIME_BLOCK
     };
 
-    public CrystalAIOTRecipe(ResourceLocation location) {
-        super(location);
+    public CrystalAIOTRecipe(ResourceLocation location, CraftingBookCategory category) {
+        super(location, category);
     }
     @Override
     public boolean matches(@NotNull CraftingContainer container, @NotNull Level level) {
@@ -63,7 +65,7 @@ public class CrystalAIOTRecipe extends CustomRecipe {
     }
 
     @Override
-    public @NotNull ItemStack assemble(@NotNull CraftingContainer container) {
+    public @NotNull ItemStack assemble(@NotNull CraftingContainer container, @NotNull RegistryAccess registryAccess) {
         ItemStack result = new ItemStack(ModTools.CRYSTAL_AIOT.get());
 
         List<ItemStack> levelableItems = this.getLevelableItems(container);

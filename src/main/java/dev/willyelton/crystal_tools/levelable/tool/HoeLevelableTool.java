@@ -58,18 +58,17 @@ public class HoeLevelableTool extends DiggerLevelableTool {
         }
 
         if (NBTUtils.getFloatOrAddKey(stack, "shear") >= 1 && entity instanceof net.minecraftforge.common.IForgeShearable target) {
-            if (entity.level.isClientSide) return net.minecraft.world.InteractionResult.SUCCESS;
-            BlockPos pos = new BlockPos(entity.getX(), entity.getY(), entity.getZ());
-            if (target.isShearable(stack, entity.level, pos)) {
-                java.util.List<ItemStack> drops = target.onSheared(playerIn, stack, entity.level, pos,
-                        net.minecraft.world.item.enchantment.EnchantmentHelper.getItemEnchantmentLevel(net.minecraft.world.item.enchantment.Enchantments.BLOCK_FORTUNE, stack));
+            if (entity.level().isClientSide) return net.minecraft.world.InteractionResult.SUCCESS;
+            BlockPos pos = BlockPos.containing(entity.position());
+            if (target.isShearable(stack, entity.level(), pos)) {
+                java.util.List<ItemStack> drops = target.onSheared(playerIn, stack, entity.level(), pos,
+                        net.minecraft.world.item.enchantment.EnchantmentHelper.getTagEnchantmentLevel(net.minecraft.world.item.enchantment.Enchantments.BLOCK_FORTUNE, stack));
                 java.util.Random rand = new java.util.Random();
                 drops.forEach(d -> {
                     net.minecraft.world.entity.item.ItemEntity ent = entity.spawnAtLocation(d, 1.0F);
-                    ent.setDeltaMovement(ent.getDeltaMovement().add(((rand.nextFloat() - rand.nextFloat()) * 0.1F), (rand.nextFloat() * 0.05F), ((rand.nextFloat() - rand.nextFloat()) * 0.1F)));
+                    ent.setDeltaMovement(ent.getDeltaMovement().add((double)((rand.nextFloat() - rand.nextFloat()) * 0.1F), (double)(rand.nextFloat() * 0.05F), (double)((rand.nextFloat() - rand.nextFloat()) * 0.1F)));
                 });
                 stack.hurtAndBreak(1, playerIn, e -> e.broadcastBreakEvent(hand));
-                this.addExp(stack, entity.level, playerIn.getOnPos(), playerIn);
             }
             return net.minecraft.world.InteractionResult.SUCCESS;
         }

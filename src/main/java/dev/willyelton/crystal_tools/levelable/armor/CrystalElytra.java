@@ -17,10 +17,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorMaterials;
-import net.minecraft.world.item.ElytraItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.NotNull;
@@ -34,7 +31,7 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
     private static final UUID ELYTRA_UUID = UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D");
 
     public CrystalElytra(Properties pProperties) {
-        super(pProperties.fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB));
+        super(pProperties.fireResistant());
     }
 
     @Override
@@ -72,7 +69,7 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
 
     @Override
     public boolean elytraFlightTick(@NotNull ItemStack stack, net.minecraft.world.entity.LivingEntity entity, int flightTicks) {
-        if (!entity.level.isClientSide) {
+        if (!entity.level().isClientSide) {
             int nextFlightTick = flightTicks + 1;
             if (nextFlightTick % 10 == 0) {
                 if (nextFlightTick % 20 == 0) {
@@ -81,7 +78,7 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
                         stack.hurtAndBreak(1, entity, e -> e.broadcastBreakEvent(net.minecraft.world.entity.EquipmentSlot.CHEST));
                     }
 
-                    this.addExp(stack, entity.getLevel(), entity.getOnPos(), entity);
+                    this.addExp(stack, entity.level(), entity.getOnPos(), entity);
                 }
                 entity.gameEvent(GameEvent.ELYTRA_GLIDE);
             }
@@ -129,7 +126,7 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
     }
 
     public int getDefense(ItemStack stack) {
-        return ArmorMaterials.NETHERITE.getDefenseForSlot(EquipmentSlot.CHEST) + (int) NBTUtils.getFloatOrAddKey(stack, "armor_bonus");
+        return ArmorMaterials.NETHERITE.getDefenseForType(ArmorItem.Type.CHESTPLATE) + (int) NBTUtils.getFloatOrAddKey(stack, "armor_bonus");
     }
 
     public float getToughness(ItemStack stack) {

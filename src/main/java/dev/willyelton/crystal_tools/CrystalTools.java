@@ -62,7 +62,7 @@ public class CrystalTools {
         ModArmor.initArmor();
 
         // Register Ores (Placed Features)
-        ModOres.initOres();
+//        ModOres.initOres();
 
         // Register Custom Recipes
         ModRecipes.initRecipes();

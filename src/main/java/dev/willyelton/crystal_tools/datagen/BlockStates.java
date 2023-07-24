@@ -2,12 +2,12 @@ package dev.willyelton.crystal_tools.datagen;
 
 import dev.willyelton.crystal_tools.levelable.block.ModBlocks;
 import dev.willyelton.crystal_tools.CrystalTools;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 public class BlockStates extends BlockStateProvider {
-    public BlockStates(DataGenerator gen, ExistingFileHelper exFileHelper) {
+    public BlockStates(PackOutput gen, ExistingFileHelper exFileHelper) {
         super(gen, CrystalTools.MODID, exFileHelper);
     }
 

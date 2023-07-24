@@ -20,7 +20,7 @@ public class LivingHurtEvent {
 
             for (ItemStack armor : player.getArmorSlots()) {
                 if (armor.getItem() instanceof LevelableItem item) {
-                    item.addExp(armor, player.getLevel(), player.getOnPos(), player, (int) (damageAmount * CrystalToolsConfig.ARMOR_EXPERIENCE_BOOST.get()));
+                    item.addExp(armor, player.level(), player.getOnPos(), player, (int) (damageAmount * CrystalToolsConfig.ARMOR_EXPERIENCE_BOOST.get()));
                 }
             }
         }

@@ -11,6 +11,7 @@ import dev.willyelton.crystal_tools.levelable.skill.requirement.SkillItemRequire
 import dev.willyelton.crystal_tools.utils.Colors;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.ItemRenderer;
@@ -20,14 +21,15 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SkillButton extends Button {
-    public static final ResourceLocation SKILL_BUTTON_LOCATION = new ResourceLocation("crystal_tools", "textures/gui/skill_button.png");
+public class SkillButton extends CrystalToolsButton {
     private static final int ITEM_WIDTH = 16;
     // used when it is completed, should also set not active but render differently
     public boolean isComplete = false;
@@ -37,11 +39,10 @@ public class SkillButton extends Button {
     private final Player player;
     private final SkillData data;
     private final List<SkillItemRequirement> items;
-    private final ItemRenderer itemRenderer;
 
     private final List<int[]> itemPositions;
 
-    public SkillButton(int x, int y, int width, int height, Component name, OnPress onPress, OnTooltip onTooltip, SkillData data, SkillDataNode node, Player player) {
+    public SkillButton(int x, int y, int width, int height, Component name, OnPress onPress, CrystalToolsButton.OnTooltip onTooltip, SkillData data, SkillDataNode node, Player player) {
         super(x, y, width, height, name, onPress, onTooltip);
         this.dataNode = node;
         this.data = data;
@@ -50,8 +51,6 @@ public class SkillButton extends Button {
                 .filter(requirement -> requirement.getRequirementType() == RequirementType.ITEM)
                 .map(skillDataRequirement -> (SkillItemRequirement) skillDataRequirement)
                 .collect(Collectors.toList());
-
-        this.itemRenderer = Minecraft.getInstance().getItemRenderer();
 
         this.itemPositions = new ArrayList<>();
 
@@ -62,42 +61,29 @@ public class SkillButton extends Button {
     }
 
     @Override
-    public void render(@NotNull PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
+    public void render(@NotNull GuiGraphics guiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         if (this.visible) {
-            this.isHovered = pMouseX >= this.x + xOffset && pMouseY >= this.y + yOffset && pMouseX < this.x + xOffset + this.width && pMouseY < this.y + yOffset + this.height;
-            this.renderButton(pPoseStack, pMouseX, pMouseY, pPartialTick);
+            this.isHovered = pMouseX >= this.getX() + xOffset && pMouseY >= this.getY() + yOffset && pMouseX < this.getX() + xOffset + this.width && pMouseY < this.getY() + yOffset + this.height;
+            this.renderWidget(guiGraphics, pMouseX, pMouseY, pPartialTick);
             if (CrystalToolsConfig.ENABLE_ITEM_REQUIREMENTS.get() && !this.isComplete)
-                this.renderItems(pPoseStack);
+                this.renderItems(guiGraphics);
         }
     }
 
     @Override
-    public void renderButton(@NotNull PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-        Minecraft minecraft = Minecraft.getInstance();
-        Font font = minecraft.font;
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, SKILL_BUTTON_LOCATION);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
-        // need to override this based on my button texture
-        int i = this.getTextureY(this.isHoveredOrFocused());
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.enableDepthTest();
+    protected void blitButton(GuiGraphics guiGraphics, int textureY) {
         // first half of button
-        this.blit(poseStack, this.x + xOffset, this.y + yOffset, 0, i * 20, this.width / 2, this.height);
+        guiGraphics.blit(SKILL_BUTTON_LOCATION, this.getX() + xOffset, this.getY() + yOffset, 0, textureY * 20, this.width / 2, this.height);
         // second half of button
-        this.blit(poseStack, this.x + this.width / 2 + xOffset, this.y + yOffset, 200 - this.width / 2, i * 20, this.width / 2, this.height);
-        // pretty sure does nothing
-        this.renderBg(poseStack, minecraft, mouseX, mouseY);
-        // might need to change based off of how text looks on colors I pick
-        int j = getFGColor();
-        drawCenteredString(poseStack, font, this.getMessage(), this.x + this.width / 2 + this.xOffset, this.y + (this.height - 8) / 2 + this.yOffset, j | Mth.ceil(this.alpha * 255.0F) << 24);
-
-        if (this.isHoveredOrFocused()) {
-            this.renderToolTip(poseStack, mouseX, mouseY);
-        }
+        guiGraphics.blit(SKILL_BUTTON_LOCATION, this.getX() + this.width / 2 + xOffset, this.getY() + yOffset, 200 - this.width / 2, textureY * 20, this.width / 2, this.height);
     }
 
+    @Override
+    protected void drawButtonText(GuiGraphics guiGraphics, Font font, int fgColor) {
+        guiGraphics.drawCenteredString(font, this.getMessage(), this.getX() + this.width / 2 + this.xOffset, this.getY() + (this.height - 8) / 2 + this.yOffset, fgColor | Mth.ceil(this.alpha * 255.0F) << 24);
+    }
+
+    @Override
     public int getTextureY(boolean hovered) {
         boolean isInfinite = this.dataNode.getType() == SkillNodeType.INFINITE;
         int points = this.dataNode.getPoints();
@@ -133,30 +119,40 @@ public class SkillButton extends Button {
 
     @Override
     protected boolean clicked(double pMouseX, double pMouseY) {
-        return this.active && this.visible && pMouseX >= (double) (this.x + xOffset) && pMouseY >= (double) (this.y + yOffset) && pMouseX < (double)(this.x + this.width + xOffset) && pMouseY < (double)(this.y + this.height + yOffset);
+        return this.active &&
+                this.visible &&
+                pMouseX >= (double) (this.getX() + xOffset) &&
+                pMouseY >= (double) (this.getY() + yOffset) &&
+                pMouseX < (double)(this.getX() + this.width + xOffset) &&
+                pMouseY < (double)(this.getY() + this.height + yOffset);
     }
 
     @Override
     public boolean isMouseOver(double pMouseX, double pMouseY) {
-        return this.active && this.visible && pMouseX >= (double) (this.x + xOffset) && pMouseY >= (double) (this.y + yOffset) && pMouseX < (double)(this.x + this.width + xOffset) && pMouseY < (double)(this.y + this.height + yOffset);
+        return this.active &&
+                this.visible &&
+                pMouseX >= (double) (this.getX() + xOffset) &&
+                pMouseY >= (double) (this.getY() + yOffset) &&
+                pMouseX < (double)(this.getX() + this.width + xOffset) &&
+                pMouseY < (double)(this.getY() + this.height + yOffset);
     }
 
-    private void renderItem(PoseStack poseStack, ItemStack itemStack, int x, int y, boolean canLevel) {
-        this.itemRenderer.renderGuiItem(itemStack, x, y);
+    private void renderItem(GuiGraphics guiGraphics, ItemStack itemStack, int x, int y, boolean canLevel) {
+        guiGraphics.renderItem(itemStack, x, y);
         int color;
         if (canLevel) {
             color = Colors.fromRGB(0, 255, 0, 50);
         } else {
             color = Colors.fromRGB(255, 0, 0, 50);
         }
-        fill(poseStack, x, y, x + 16, y + 16, color);
+        guiGraphics.fill(x, y, x + 16, y + 16, color);
     }
 
-    private void renderItems(PoseStack poseStack) {
+    private void renderItems(GuiGraphics guiGraphics) {
         int i = 0;
         for (SkillItemRequirement req : this.items) {
             for (Item item : req.getItems()) {
-                this.renderItem(poseStack, item.getDefaultInstance(), this.x + this.xOffset + this.itemPositions.get(i)[0], this.y + this.yOffset + this.itemPositions.get(i)[1], req.hasItem(this.player, item));
+                this.renderItem(guiGraphics, item.getDefaultInstance(), this.getX() + this.xOffset + this.itemPositions.get(i)[0], this.getY() + this.yOffset + this.itemPositions.get(i)[1], req.hasItem(this.player, item));
                 i++;
                 if (i > 3) break;
             }

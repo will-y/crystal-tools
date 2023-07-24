@@ -17,3 +17,7 @@
 - sonar
 - Fix dragging on skill tree
 - Skill tree UI redesign
+
+----------------- 1.20 inital port ------------------
+- Worldgen
+- Creative tabs

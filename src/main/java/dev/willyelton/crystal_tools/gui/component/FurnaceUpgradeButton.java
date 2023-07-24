@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
@@ -11,45 +12,29 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 
-public class FurnaceUpgradeButton extends Button {
-    public static final ResourceLocation SKILL_BUTTON_LOCATION = new ResourceLocation("crystal_tools", "textures/gui/furnace_button.png");
+public class FurnaceUpgradeButton extends CrystalToolsButton {
+    private final boolean hasSkillPoints;
 
-    private boolean hasSkillPoints;
-
-    public FurnaceUpgradeButton(int x, int y, int width, int height, Component message, OnPress onPress, OnTooltip onTooltip, boolean hasSkillPoints) {
+    public FurnaceUpgradeButton(int x, int y, int width, int height, Component message, OnPress onPress, SkillButton.OnTooltip onTooltip, boolean hasSkillPoints) {
         super(x, y, width, height, message, onPress, onTooltip);
         this.hasSkillPoints = hasSkillPoints;
     }
 
     @Override
-    public void renderButton(@NotNull PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-        Minecraft minecraft = Minecraft.getInstance();
-        Font font = minecraft.font;
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, SKILL_BUTTON_LOCATION);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
-        // need to override this based on my button texture
-        int i = this.getYImage(this.isHoveredOrFocused());
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.enableDepthTest();
+    protected void blitButton(GuiGraphics guiGraphics, int textureY) {
         // first half of button
-        this.blit(poseStack, this.x, this.y, 0, i * this.height, this.width / 2, this.height);
+        guiGraphics.blit(SKILL_BUTTON_LOCATION, this.getX(), this.getY(), 0, textureY * this.height, this.width / 2, this.height);
         // second half of button
-        this.blit(poseStack, this.x + this.width / 2, this.y, 200 - this.width / 2, i * this.height, this.width / 2, this.height);
-        // pretty sure does nothing
-        this.renderBg(poseStack, minecraft, mouseX, mouseY);
-        // might need to change based off of how text looks on colors I pick
-        int j = getFGColor();
-        drawCenteredString(poseStack, font, this.getMessage(), this.x + this.width / 2, this.y + (this.height - 8) / 2, j | Mth.ceil(this.alpha * 255.0F) << 24);
-
-        if (this.isHoveredOrFocused()) {
-            this.renderToolTip(poseStack, mouseX, mouseY);
-        }
+        guiGraphics.blit(SKILL_BUTTON_LOCATION, this.getX() + this.width / 2, this.getY(), 200 - this.width / 2, textureY * this.height, this.width / 2, this.height);
     }
 
     @Override
-    protected int getYImage(boolean pIsHovered) {
+    protected void drawButtonText(GuiGraphics guiGraphics, Font font, int fgColor) {
+        guiGraphics.drawCenteredString(font, this.getMessage(), this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, fgColor | Mth.ceil(this.alpha * 255.0F) << 24);
+    }
+
+    @Override
+    protected int getTextureY(boolean pIsHovered) {
         int i = 1;
         if (!this.active) {
             i = 0;

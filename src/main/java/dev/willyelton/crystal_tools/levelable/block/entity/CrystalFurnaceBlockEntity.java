@@ -11,6 +11,7 @@ import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -194,7 +195,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
             stack.setCount(this.getMaxStackSize());
         }
 
-        if (ArrayUtils.arrayContains(INPUT_SLOTS, slot) && !(!stack.isEmpty() && stack.sameItem(current) && ItemStack.tagMatches(stack, current))) {
+        if (ArrayUtils.arrayContains(INPUT_SLOTS, slot) && !(!stack.isEmpty() && ItemStack.isSameItemSameTags(stack, current))) {
             int index = ArrayUtils.indexOf(INPUT_SLOTS, slot);
             AbstractCookingRecipe recipe = this.getRecipe(stack).orElse(null);
             if (recipe != null) {
@@ -231,7 +232,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     @org.jetbrains.annotations.Nullable
     @Override
     public AbstractContainerMenu createMenu(int pContainerId, @NotNull Inventory pPlayerInventory, @NotNull Player pPlayer) {
-        return new CrystalFurnaceContainer(pContainerId, pPlayer.getLevel(), this.getBlockPos(), pPlayerInventory, this.dataAccess);
+        return new CrystalFurnaceContainer(pContainerId, pPlayer.level(), this.getBlockPos(), pPlayerInventory, this.dataAccess);
     }
 
     @Override
@@ -402,7 +403,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
             if (this.isLit() || hasFuel && hasItemToSmelt) {
                 Optional<AbstractCookingRecipe> recipe = this.getRecipe(this.getItem(slot));
 
-                if (!this.isLit() && this.canBurn(recipe.orElse(null), slot)) {
+                if (!this.isLit() && this.canBurn(level.registryAccess(), recipe.orElse(null), slot)) {
                     this.litTime = this.getBurnDuration(fuelItemStack);
                     this.litDuration = this.litTime;
 
@@ -421,12 +422,12 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
                     }
                 }
 
-                if (this.isLit() && this.canBurn(recipe.orElse(null), slot)) {
+                if (this.isLit() && this.canBurn(level.registryAccess(), recipe.orElse(null), slot)) {
                     this.cookingProgress[slotIndex]++;
                     if (this.cookingProgress[slotIndex] == this.cookingTotalTime[slotIndex]) {
                         this.cookingProgress[slotIndex] = 0;
                         this.cookingTotalTime[slotIndex] = this.getTotalCookTime(recipe.orElse(null), slot);
-                        if (this.burn(recipe.orElse(null), slot)) {
+                        if (this.burn(level.registryAccess(), recipe.orElse(null), slot)) {
                             needsRebalance = true;
                         }
 
@@ -460,25 +461,25 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         return this.litTime > 0;
     }
 
-    private boolean canBurn(Recipe<?> recipe, int slot) {
+    private boolean canBurn(RegistryAccess registryAccess, Recipe<?> recipe, int slot) {
         int outputSlot = slot + 5;
         if (!this.getItem(slot).isEmpty() && recipe != null) {
-            ItemStack recipeOutput = recipe.getResultItem();
+            ItemStack recipeOutput = ((Recipe<WorldlyContainer>) recipe).assemble(this, registryAccess);
             if (!recipeOutput.isEmpty()) {
                 ItemStack output = this.getItem(outputSlot);
                 if (output.isEmpty()) return true;
-                else if (!output.sameItem(recipeOutput)) return false;
+                else if (!ItemStack.isSameItem(output, recipeOutput)) return false;
                 else return output.getCount() + recipeOutput.getCount() <= output.getMaxStackSize();
             }
         }
         return false;
     }
 
-    private boolean burn(Recipe<?> recipe, int slot) {
-        if (recipe != null && this.canBurn(recipe, slot) && recipe instanceof AbstractCookingRecipe cookingRecipe) {
+    private boolean burn(RegistryAccess registryAccess, Recipe<?> recipe, int slot) {
+        if (recipe != null && this.canBurn(registryAccess, recipe, slot) && recipe instanceof AbstractCookingRecipe cookingRecipe) {
             ItemStack input = this.items.get(slot);
             ItemStack output = this.items.get(slot + 5);
-            ItemStack recipeOutput = cookingRecipe.getResultItem();
+            ItemStack recipeOutput = cookingRecipe.assemble(this, registryAccess);
             if (output.isEmpty()) {
                 this.items.set(slot + 5, recipeOutput.copy());
             } else if (output.is(recipeOutput.getItem())) {
@@ -515,7 +516,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     }
 
     public void popExp(ServerPlayer player) {
-        this.popExp(player.getLevel(), player.position());
+        this.popExp(player.serverLevel(), player.position());
     }
 
     public void popExp(ServerLevel level, Vec3 pos) {

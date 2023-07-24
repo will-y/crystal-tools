@@ -6,11 +6,15 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class CreativeTabs {
-    public static final CreativeModeTab CRYSTAL_TOOLS_TAB = new CreativeModeTab("crystal_tools") {
-        @Override
-        public @NotNull ItemStack makeIcon() {
-            return new ItemStack(ModTools.CRYSTAL_PICKAXE.get());
-        }
-    };
+//    public static final CreativeModeTab CRYSTAL_TOOLS_TAB = new CreativeModeTab("crystal_tools") {
+//        @Override
+//        public @NotNull ItemStack makeIcon() {
+//            return new ItemStack(ModTools.CRYSTAL_PICKAXE.get());
+//        }
+//    };
+
+    public static final CreativeModeTab CRYSTAL_TOOLS_TAB = CreativeModeTab.builder()
+            .displayItems((pParameters, pOutput) -> new ItemStack(ModTools.CRYSTAL_PICKAXE.get()))
+            .build();
 
 }

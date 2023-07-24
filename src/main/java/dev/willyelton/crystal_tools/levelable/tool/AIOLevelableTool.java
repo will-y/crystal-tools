@@ -60,7 +60,7 @@ public class AIOLevelableTool extends DiggerLevelableTool {
                 attacker.heal(heal);
             }
 
-            addExp(tool, target.getLevel(), attacker.getOnPos(), attacker, (int) (SwordLevelableTool.getAttackDamage(tool)));
+            addExp(tool, target.level(), attacker.getOnPos(), attacker, (int) (SwordLevelableTool.getAttackDamage(tool)));
         }
 
         return true;

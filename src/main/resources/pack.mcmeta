@@ -1,6 +1,6 @@
 {
     "pack": {
-        "description": "crystal_tools resources",
-        "pack_format": 10
+        "description": "${mod_id} resources",
+        "pack_format": 15
     }
 }

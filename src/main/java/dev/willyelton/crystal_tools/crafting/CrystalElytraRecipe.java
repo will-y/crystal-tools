@@ -4,10 +4,12 @@ import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.levelable.armor.ModArmor;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -21,8 +23,8 @@ import java.util.Map;
 
 public class CrystalElytraRecipe extends CustomRecipe {
 
-    public CrystalElytraRecipe(ResourceLocation pId) {
-        super(pId);
+    public CrystalElytraRecipe(ResourceLocation pId, CraftingBookCategory category) {
+        super(pId, category);
     }
 
     @Override
@@ -52,7 +54,7 @@ public class CrystalElytraRecipe extends CustomRecipe {
     }
 
     @Override
-    public @NotNull ItemStack assemble(@NotNull CraftingContainer container) {
+    public @NotNull ItemStack assemble(@NotNull CraftingContainer container, @NotNull RegistryAccess registryAccess) {
         ItemStack stack = new ItemStack(ModArmor.CRYSTAL_ELYTRA.get());
         List<ItemStack> items = this.getItems(container);
 

@@ -31,7 +31,7 @@ public class ProjectileHitEvent {
                         int damage = Mth.ceil(Mth.clamp((double) f * arrow.getBaseDamage(), 0.0D, 2.147483647E9D));
 
                         LevelableItem item = (LevelableItem) ModTools.CRYSTAL_BOW.get();
-                        item.addExp(heldItem, player.getLevel(), player.getOnPos(), player, (int) (damage * CrystalToolsConfig.BOW_EXPERIENCE_BOOST.get()));
+                        item.addExp(heldItem, player.level(), player.getOnPos(), player, (int) (damage * CrystalToolsConfig.BOW_EXPERIENCE_BOOST.get()));
                     }
                 }
             }

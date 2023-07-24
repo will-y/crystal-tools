@@ -28,7 +28,7 @@ import java.util.function.Predicate;
 
 public class BowLevelableItem extends BowItem implements LevelableItem {
     public BowLevelableItem() {
-        super(new Properties().defaultDurability(tier.getUses()).fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB));
+        super(new Properties().defaultDurability(tier.getUses()).fireResistant());
     }
 
     @Override

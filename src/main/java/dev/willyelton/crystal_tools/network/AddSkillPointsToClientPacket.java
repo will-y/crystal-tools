@@ -36,7 +36,7 @@ public class AddSkillPointsToClientPacket {
             Player player = ctx.get().getSender();
 
             if (player != null) {
-                Level level = player.getLevel();
+                Level level = player.level();
                 BlockEntity blockEntity = level.getBlockEntity(pos);
 
                 if (blockEntity instanceof LevelableBlockEntity levelableBlockEntity) {

@@ -11,6 +11,7 @@ import dev.willyelton.crystal_tools.utils.InventoryUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -48,17 +49,19 @@ public class UpgradeScreen extends BaseUpgradeScreen {
     @Override
     protected void initComponents() {
         // add button to spend skill points to heal tool
-        healButton = addRenderableWidget(new Button(5, 15, 30, Y_SIZE, Component.literal("Heal"), (button) -> {
+        healButton = addRenderableWidget(Button.builder(Component.literal("Heal"), (button) -> {
             PacketHandler.sendToServer(new ToolHealPacket());
             // also do client side to update ui, seems to work, might want to test more
             NBTUtils.addValueToTag(this.tag, "skill_points", -1);
             this.updateButtons();
-        }, (button, poseStack, mouseX, mouseY) -> {
-            Component text = Component.literal("Uses a skill point to fully repair this tool");
-            UpgradeScreen.this.renderTooltip(poseStack, UpgradeScreen.this.minecraft.font.split(text, Math.max(UpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
-        }));
+        }).bounds(5, 15, 30, Y_SIZE).tooltip(Tooltip.create(Component.literal("Uses a skill point to fully repair this tool"))).build());
 
-        resetButton = addRenderableWidget(new Button(width - 40 - 5, 15, 40, Y_SIZE, Component.literal("Reset"), (button) -> {
+        boolean resetRequiresCrystal = CrystalToolsConfig.REQUIRE_CRYSTAL_FOR_RESET.get();
+        String text = "Reset Skill Points";
+        if (resetRequiresCrystal) text += " (Requires 1 Crystal)";
+        Tooltip resetTooltip = Tooltip.create(Component.literal(text));
+
+        resetButton = addRenderableWidget(Button.builder(Component.literal("Reset"), (button) -> {
             boolean requiresCrystal = CrystalToolsConfig.REQUIRE_CRYSTAL_FOR_RESET.get();
 
             if (!requiresCrystal || this.player.getInventory().hasAnyOf(Set.of(ModItems.CRYSTAL.get()))) {
@@ -80,14 +83,7 @@ public class UpgradeScreen extends BaseUpgradeScreen {
             }
 
             this.onClose();
-        }, (button, poseStack, mouseX, mouseY) -> {
-            boolean requiresCrystal = CrystalToolsConfig.REQUIRE_CRYSTAL_FOR_RESET.get();
-            String text = "Reset Skill Points";
-            if (requiresCrystal) text += " (Requires 1 Crystal)";
-            Component textComponent = Component.literal(text);
-            UpgradeScreen.this.renderTooltip(poseStack, UpgradeScreen.this.minecraft.font.split(textComponent, Math.max(UpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
-        }));
-
+        }).bounds(width - 40 - 5, 15, 40, Y_SIZE).tooltip(resetTooltip).build());
     }
 
     @Override

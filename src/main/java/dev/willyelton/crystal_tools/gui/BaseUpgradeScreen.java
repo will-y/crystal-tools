@@ -2,14 +2,12 @@ package dev.willyelton.crystal_tools.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
-import com.mojang.math.Matrix4f;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.levelable.skill.requirement.SkillDataNodeRequirement;
 import dev.willyelton.crystal_tools.levelable.skill.requirement.SkillItemRequirement;
 import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.network.RemoveItemPacket;
-import dev.willyelton.crystal_tools.network.ToolAttributePacket;
 import dev.willyelton.crystal_tools.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.levelable.skill.SkillDataNode;
 import dev.willyelton.crystal_tools.levelable.skill.SkillNodeType;
@@ -17,16 +15,15 @@ import dev.willyelton.crystal_tools.levelable.skill.requirement.RequirementType;
 import dev.willyelton.crystal_tools.levelable.skill.requirement.SkillDataRequirement;
 import dev.willyelton.crystal_tools.utils.Colors;
 import dev.willyelton.crystal_tools.utils.InventoryUtils;
-import dev.willyelton.crystal_tools.utils.NBTUtils;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Matrix4f;
 
 import java.util.HashMap;
 import java.util.List;
@@ -71,12 +68,12 @@ public abstract class BaseUpgradeScreen extends Screen {
     protected abstract void initComponents();
 
     @Override
-    public void render(@NotNull PoseStack poseStack, int mouseX, int mouseY, float particleTicks) {
+    public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float particleTicks) {
         this.renderBlockBackground(0, CrystalToolsConfig.UPGRADE_SCREEN_BACKGROUND.get());
-        drawDependencyLines(poseStack);
-        drawString(poseStack, font, "Skill Points: " + this.getSkillPoints(), 5, 5, Colors.TEXT_LIGHT);
+        drawDependencyLines(guiGraphics);
+        guiGraphics.drawString(font, "Skill Points: " + this.getSkillPoints(), 5, 5, Colors.TEXT_LIGHT);
 
-        super.render(poseStack, mouseX, mouseY, particleTicks);
+        super.render(guiGraphics, mouseX, mouseY, particleTicks);
     }
 
     protected abstract int getSkillPoints();
@@ -101,7 +98,7 @@ public abstract class BaseUpgradeScreen extends Screen {
     private void addButtonFromNode(SkillDataNode node, int x, int y) {
         this.addSkillButton(new SkillButton(x, y, X_SIZE, Y_SIZE, Component.literal(node.getName()), (button) -> {
             this.onSkillButtonPress(node, button);
-        }, (button, poseStack, mouseX, mouseY) -> {
+        }, (button, guiGraphics, mouseX, mouseY) -> {
             String text;
             if (node.getType().equals(SkillNodeType.INFINITE) && node.getPoints() > 0) {
                 text = node.getDescription() + "\n" + node.getPoints() + " Points";
@@ -110,7 +107,7 @@ public abstract class BaseUpgradeScreen extends Screen {
             }
 
             Component textComponent = Component.literal(text);
-            BaseUpgradeScreen.this.renderTooltip(poseStack, BaseUpgradeScreen.this.minecraft.font.split(textComponent, Math.max(BaseUpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
+            guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(BaseUpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
         }, this.data, node, this.player));
     }
 
@@ -146,7 +143,7 @@ public abstract class BaseUpgradeScreen extends Screen {
         }
     }
 
-    private void drawDependencyLines(PoseStack poseStack) {
+    private void drawDependencyLines(GuiGraphics guiGraphics) {
         for (SkillButton button : skillButtons.values()) {
             SkillDataNode node = button.getDataNode();
             for (SkillDataRequirement requirement : node.getRequirements()) {
@@ -178,7 +175,7 @@ public abstract class BaseUpgradeScreen extends Screen {
                         }
                         // so doesn't crash with dependency that doesn't exist
                         if (this.skillButtons.containsKey(j)) {
-                            drawLine(poseStack, getButtonBottomCenter(this.skillButtons.get(j)), getButtonTopCenter(button), color);
+                            drawLine(guiGraphics.pose(), getButtonBottomCenter(this.skillButtons.get(j)), getButtonTopCenter(button), color);
                         }
                     }
                 }
@@ -214,7 +211,6 @@ public abstract class BaseUpgradeScreen extends Screen {
 
         BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
         RenderSystem.enableBlend();
-        RenderSystem.disableTexture();
         RenderSystem.disableDepthTest();
         RenderSystem.blendFunc(770, 771);
         RenderSystem.lineWidth(4);
@@ -224,21 +220,20 @@ public abstract class BaseUpgradeScreen extends Screen {
         bufferbuilder.vertex(pMatrix, (float)maxX, (float)maxY, 0.0F).color(red, green, blue, alpha).endVertex();
 
         BufferUploader.drawWithShader(bufferbuilder.end());
-        RenderSystem.enableTexture();
         RenderSystem.disableBlend();
         RenderSystem.enableDepthTest();
     }
 
     private int[] getButtonBottomCenter(SkillButton button) {
-        int x = button.x + button.xOffset + button.getWidth() / 2;
-        int y = button.y + button.yOffset + button.getHeight();
+        int x = button.getX() + button.xOffset + button.getWidth() / 2;
+        int y = button.getY() + button.yOffset + button.getHeight();
 
         return new int[] {x, y};
     }
 
     private int[] getButtonTopCenter(SkillButton button) {
-        int x = button.x + button.xOffset + button.getWidth() / 2;
-        int y = button.y + button.yOffset;
+        int x = button.getX() + button.xOffset + button.getWidth() / 2;
+        int y = button.getY() + button.yOffset;
 
         return new int[] {x, y};
     }

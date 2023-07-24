@@ -49,7 +49,7 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     }
 
     public LevelableTool(Item.Properties properties, TagKey<Block> mineableBlocks, String itemType, float attackDamageModifier, float attackSpeedModifier, int durability) {
-        super(properties.defaultDurability(durability).fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB));
+        super(properties.defaultDurability(durability).fireResistant());
         this.blocks = mineableBlocks;
         this.itemType = itemType;
         this.initialDurability = durability;
@@ -107,28 +107,29 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     }
 
     protected void dropSmeltedItem(ItemStack tool, Level level, BlockState blockState, BlockPos pos, LivingEntity entity) {
-        if (!level.isClientSide) {
-            Block.getDrops(blockState, (ServerLevel) level, pos, null, entity, tool).forEach((itemStack -> {
-                Container container = new SimpleContainer(itemStack);
-                int count = itemStack.getCount();
-
-                Optional<SmeltingRecipe> recipeOptional = level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, container, level);
-
-                if (recipeOptional.isPresent()) {
-                    SmeltingRecipe recipe = recipeOptional.get();
-                    ExperienceOrb.award((ServerLevel) level, entity.position(), (int) Math.ceil(recipe.getExperience()));
-                    ItemStack result = recipe.getResultItem();
-                    result.setCount(count * result.getCount());
-
-                    if (!result.is(Items.AIR)) {
-//                        System.out.println("dropping: " + result);
-                        Block.popResource(level, pos, result);
-                    }
-                    LevelUtils.destroyBlock(level, pos, result.is(Items.AIR), entity, 512, tool);
-
-                }
-            }));
-        }
+        // TODO
+//        if (!level.isClientSide) {
+//            Block.getDrops(blockState, (ServerLevel) level, pos, null, entity, tool).forEach((itemStack -> {
+//                Container container = new SimpleContainer(itemStack);
+//                int count = itemStack.getCount();
+//
+//                Optional<SmeltingRecipe> recipeOptional = level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, container, level);
+//
+//                if (recipeOptional.isPresent()) {
+//                    SmeltingRecipe recipe = recipeOptional.get();
+//                    ExperienceOrb.award((ServerLevel) level, entity.position(), (int) Math.ceil(recipe.getExperience()));
+//                    ItemStack result = recipe.getResultItem();
+//                    result.setCount(count * result.getCount());
+//
+//                    if (!result.is(Items.AIR)) {
+////                        System.out.println("dropping: " + result);
+//                        Block.popResource(level, pos, result);
+//                    }
+//                    LevelUtils.destroyBlock(level, pos, result.is(Items.AIR), entity, 512, tool);
+//
+//                }
+//            }));
+//        }
     }
 
     @Override
