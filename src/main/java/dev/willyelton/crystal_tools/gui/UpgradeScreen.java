@@ -1,8 +1,8 @@
 package dev.willyelton.crystal_tools.gui;
 
+import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.gui.component.SkillButton;
-import dev.willyelton.crystal_tools.levelable.ModItems;
 import dev.willyelton.crystal_tools.levelable.skill.SkillDataNode;
 import dev.willyelton.crystal_tools.network.*;
 import dev.willyelton.crystal_tools.levelable.LevelableItem;
@@ -64,14 +64,14 @@ public class UpgradeScreen extends BaseUpgradeScreen {
         resetButton = addRenderableWidget(Button.builder(Component.literal("Reset"), (button) -> {
             boolean requiresCrystal = CrystalToolsConfig.REQUIRE_CRYSTAL_FOR_RESET.get();
 
-            if (!requiresCrystal || this.player.getInventory().hasAnyOf(Set.of(ModItems.CRYSTAL.get()))) {
+            if (!requiresCrystal || this.player.getInventory().hasAnyOf(Set.of(Registration.CRYSTAL.get()))) {
                 // Server
                 PacketHandler.sendToServer(new ResetSkillsPacket());
-                PacketHandler.sendToServer(new RemoveItemPacket(ModItems.CRYSTAL.get().getDefaultInstance()));
+                PacketHandler.sendToServer(new RemoveItemPacket(Registration.CRYSTAL.get().getDefaultInstance()));
 
                 // Client
                 ToolUtils.resetPoints(this.stack);
-                InventoryUtils.removeItemFromInventory(this.player.getInventory(), ModItems.CRYSTAL.get().getDefaultInstance());
+                InventoryUtils.removeItemFromInventory(this.player.getInventory(), Registration.CRYSTAL.get().getDefaultInstance());
 
                 int[] points = NBTUtils.getIntArray(stack, "points");
                 if (stack.getItem() instanceof LevelableItem) {
@@ -96,7 +96,7 @@ public class UpgradeScreen extends BaseUpgradeScreen {
         super.updateButtons();
         int skillPoints = (int) NBTUtils.getFloatOrAddKey(tag, "skill_points");
         this.healButton.active = skillPoints > 0;
-        this.resetButton.active = !CrystalToolsConfig.REQUIRE_CRYSTAL_FOR_RESET.get() || this.player.getInventory().hasAnyOf(Set.of(ModItems.CRYSTAL.get()));
+        this.resetButton.active = !CrystalToolsConfig.REQUIRE_CRYSTAL_FOR_RESET.get() || this.player.getInventory().hasAnyOf(Set.of(Registration.CRYSTAL.get()));
     }
 
     @Override

@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.crafting;
 
+import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.levelable.armor.ModArmor;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.RegistryAccess;
@@ -37,7 +37,7 @@ public class CrystalElytraRecipe extends CustomRecipe {
         for (int i = 0; i < container.getContainerSize(); i++) {
             ItemStack itemStack = container.getItem(i);
 
-            if (itemStack.is(ModArmor.CRYSTAL_CHESTPLATE.get())) {
+            if (itemStack.is(Registration.CRYSTAL_CHESTPLATE.get())) {
                 if (foundChestplate)
                     return false;
                 foundChestplate = true;
@@ -55,7 +55,7 @@ public class CrystalElytraRecipe extends CustomRecipe {
 
     @Override
     public @NotNull ItemStack assemble(@NotNull CraftingContainer container, @NotNull RegistryAccess registryAccess) {
-        ItemStack stack = new ItemStack(ModArmor.CRYSTAL_ELYTRA.get());
+        ItemStack stack = new ItemStack(Registration.CRYSTAL_ELYTRA.get());
         List<ItemStack> items = this.getItems(container);
 
         ItemStack elytraItem = items.get(0);
@@ -108,7 +108,7 @@ public class CrystalElytraRecipe extends CustomRecipe {
         for (int i = 0; i < container.getContainerSize(); i++) {
             ItemStack itemStack = container.getItem(i);
 
-            if (itemStack.is(ModArmor.CRYSTAL_CHESTPLATE.get())) {
+            if (itemStack.is(Registration.CRYSTAL_CHESTPLATE.get())) {
                 crystalChestPlateItem = itemStack;
             } else if (itemStack.is(Items.ELYTRA)) {
                 elytraItem = itemStack;

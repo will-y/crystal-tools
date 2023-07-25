@@ -1,8 +1,8 @@
 package dev.willyelton.crystal_tools.levelable.block.entity;
 
+import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.levelable.block.CrystalFurnaceBlock;
-import dev.willyelton.crystal_tools.levelable.block.ModBlocks;
 import dev.willyelton.crystal_tools.levelable.block.container.CrystalFurnaceContainer;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
@@ -45,10 +45,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyContainer, MenuProvider {
     public static final int[] INPUT_SLOTS = new int[] {0, 1, 2, 3, 4};
@@ -60,9 +57,12 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     public static final int SIZE = 13;
     public static final int DATA_SIZE = 200;
 
-    public static final int FUEL_EFFICIENCY_ADDED_TICKS = CrystalToolsConfig.FUEL_EFFICIENCY_ADDED_TICKS.get();
-    public static final int SPEED_UPGRADE_SUBTRACT_TICKS = CrystalToolsConfig.SPEED_UPGRADE_SUBTRACT_TICKS.get();
-    public static final double EXP_BOOST_PERCENTAGE = CrystalToolsConfig.EXPERIENCE_BOOST_PERCENTAGE.get();
+    public static final List<String> NBT_TAGS = List.of("SkillPoints", "Points", "Exp", "ExpCap", "SpeedUpgrade", "FuelEfficiencyUpgrade", "Slots", "FuelSlots", "Balance", "AutoOutput", "ExpModifier", "Items");
+
+    // Config
+    public final int fuelEfficiencyAddedTicks;
+    public final int speedUpgradeSubtractTicks;
+    public final double expBoostPercentage;
 
     private NonNullList<ItemStack> items;
 
@@ -93,8 +93,12 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     private float expModifier;
 
     public CrystalFurnaceBlockEntity(BlockPos pPos, BlockState pBlockState) {
-        super(ModBlocks.CRYSTAL_FURNACE_BLOCK_ENTITY.get(), pPos, pBlockState);
+        super(Registration.CRYSTAL_FURNACE_BLOCK_ENTITY.get(), pPos, pBlockState);
         items = NonNullList.withSize(SIZE, ItemStack.EMPTY);
+
+        fuelEfficiencyAddedTicks = CrystalToolsConfig.FUEL_EFFICIENCY_ADDED_TICKS.get();
+        speedUpgradeSubtractTicks = CrystalToolsConfig.SPEED_UPGRADE_SUBTRACT_TICKS.get();
+        expBoostPercentage = CrystalToolsConfig.EXPERIENCE_BOOST_PERCENTAGE.get();
     }
 
     @Nonnull
@@ -503,13 +507,13 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         if (stack.isEmpty()) {
             return 0;
         } else {
-            return ForgeHooks.getBurnTime(stack, this.recipeType) + this.fuelEfficiencyUpgrade * FUEL_EFFICIENCY_ADDED_TICKS;
+            return ForgeHooks.getBurnTime(stack, this.recipeType) + this.fuelEfficiencyUpgrade * fuelEfficiencyAddedTicks;
         }
     }
 
     private int getTotalCookTime(AbstractCookingRecipe recipe, int slot) {
         if (!this.getItem(slot).isEmpty() && recipe != null) {
-            return Math.max(recipe.getCookingTime() - (int) (this.speedUpgrade * SPEED_UPGRADE_SUBTRACT_TICKS), 1);
+            return Math.max(recipe.getCookingTime() - (int) (this.speedUpgrade * speedUpgradeSubtractTicks), 1);
         }
 
         return 0;
@@ -520,7 +524,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     }
 
     public void popExp(ServerLevel level, Vec3 pos) {
-        int expAmount = (int) Math.ceil(this.expHeld * (1 + this.expModifier * EXP_BOOST_PERCENTAGE));
+        int expAmount = (int) Math.ceil(this.expHeld * (1 + this.expModifier * expBoostPercentage));
         ExperienceOrb.award(level, pos, expAmount);
         this.expHeld = 0;
     }

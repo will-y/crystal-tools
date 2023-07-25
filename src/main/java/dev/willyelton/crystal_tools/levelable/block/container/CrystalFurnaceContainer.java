@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.levelable.block.container;
 
-import dev.willyelton.crystal_tools.levelable.block.ModBlocks;
+import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.levelable.block.container.slot.CrystalFurnaceFuelSlot;
 import dev.willyelton.crystal_tools.levelable.block.container.slot.CrystalFurnaceInputSlot;
 import dev.willyelton.crystal_tools.levelable.block.container.slot.CrystalFurnaceOutputSlot;
@@ -40,7 +40,7 @@ public class CrystalFurnaceContainer extends AbstractContainerMenu {
     private static final int FUEL_START = CrystalFurnaceBlockEntity.FUEL_SLOTS[0];
 
     public CrystalFurnaceContainer(int pContainerId, Level level, BlockPos pos, Inventory playerInventory, ContainerData data) {
-        super(ModBlocks.CRYSTAL_FURNACE_CONTAINER.get(), pContainerId);
+        super(Registration.CRYSTAL_FURNACE_CONTAINER.get(), pContainerId);
         te = (CrystalFurnaceBlockEntity) level.getBlockEntity(pos);
         this.playerInventory = new InvWrapper(playerInventory);
         this.player = playerInventory.player;

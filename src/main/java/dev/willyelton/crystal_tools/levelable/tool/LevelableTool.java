@@ -2,30 +2,21 @@ package dev.willyelton.crystal_tools.levelable.tool;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import dev.willyelton.crystal_tools.CreativeTabs;
+import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.levelable.LevelableItem;
-import dev.willyelton.crystal_tools.levelable.ModItems;
-import dev.willyelton.crystal_tools.utils.LevelUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
-import net.minecraft.world.Container;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -33,7 +24,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Consumer;
 
 public abstract class LevelableTool extends Item implements LevelableItem {
@@ -172,7 +162,7 @@ public abstract class LevelableTool extends Item implements LevelableItem {
 
     @Override
     public boolean isValidRepairItem(@NotNull ItemStack tool, @NotNull ItemStack repairItem) {
-        return repairItem.is(ModItems.CRYSTAL.get());
+        return repairItem.is(Registration.CRYSTAL.get());
     }
 
     @Override

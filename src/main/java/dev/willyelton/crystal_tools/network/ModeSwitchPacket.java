@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.network;
 
-import dev.willyelton.crystal_tools.levelable.tool.ModTools;
+import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.levelable.tool.UseMode;
 import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
@@ -75,7 +75,7 @@ public class ModeSwitchPacket {
 
             if (msg.hasAltDown && !msg.hasShiftDown && !msg.hasCtrlDown) {
                 // Use mode for AIOT
-                if (tool.is(ModTools.CRYSTAL_AIOT.get())) {
+                if (tool.is(Registration.CRYSTAL_AIOT.get())) {
                     UseMode currentMode = UseMode.fromString(NBTUtils.getString(tool, "use_mode"));
                     NBTUtils.setValue(tool, "use_mode", UseMode.nextMode(tool, currentMode).toString());
                     playerEntity.displayClientMessage(Component.literal("Mode: " + UseMode.nextMode(tool, currentMode)), true);

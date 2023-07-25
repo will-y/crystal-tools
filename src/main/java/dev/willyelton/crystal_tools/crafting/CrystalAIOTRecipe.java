@@ -1,8 +1,8 @@
 package dev.willyelton.crystal_tools.crafting;
 
+import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.levelable.LevelableItem;
-import dev.willyelton.crystal_tools.levelable.tool.ModTools;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
@@ -24,11 +24,11 @@ import java.util.List;
 
 public class CrystalAIOTRecipe extends CustomRecipe {
     private static final Item[] requiredItems = new Item[] {
-            ModTools.CRYSTAL_AXE.get(),
-            ModTools.CRYSTAL_PICKAXE.get(),
-            ModTools.CRYSTAL_SHOVEL.get(),
-            ModTools.CRYSTAL_HOE.get(),
-            ModTools.CRYSTAL_SWORD.get(),
+            Registration.CRYSTAL_AXE.get(),
+            Registration.CRYSTAL_PICKAXE.get(),
+            Registration.CRYSTAL_SHOVEL.get(),
+            Registration.CRYSTAL_HOE.get(),
+            Registration.CRYSTAL_SWORD.get(),
             Items.SLIME_BLOCK
     };
 
@@ -66,7 +66,7 @@ public class CrystalAIOTRecipe extends CustomRecipe {
 
     @Override
     public @NotNull ItemStack assemble(@NotNull CraftingContainer container, @NotNull RegistryAccess registryAccess) {
-        ItemStack result = new ItemStack(ModTools.CRYSTAL_AIOT.get());
+        ItemStack result = new ItemStack(Registration.CRYSTAL_AIOT.get());
 
         List<ItemStack> levelableItems = this.getLevelableItems(container);
 

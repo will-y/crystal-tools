@@ -102,6 +102,7 @@ public class CrystalFurnaceBlock extends BaseEntityBlock {
             BlockEntity blockentity = pLevel.getBlockEntity(pPos);
             if (blockentity instanceof CrystalFurnaceBlockEntity) {
                 if (pLevel instanceof ServerLevel serverLevel) {
+                    // TODO: Figure out how to save items to block, might want to change how I use capabilities
                     Containers.dropContents(pLevel, pPos, (CrystalFurnaceBlockEntity) blockentity);
                     ((CrystalFurnaceBlockEntity) blockentity).popExp(serverLevel, Vec3.atCenterOf(pPos));
                 }

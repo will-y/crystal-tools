@@ -1,6 +1,5 @@
 package dev.willyelton.crystal_tools.levelable.tool;
 
-import dev.willyelton.crystal_tools.CreativeTabs;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;

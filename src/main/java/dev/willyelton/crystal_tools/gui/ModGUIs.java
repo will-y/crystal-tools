@@ -1,11 +1,9 @@
 package dev.willyelton.crystal_tools.gui;
 
-import dev.willyelton.crystal_tools.levelable.block.ModBlocks;
+import dev.willyelton.crystal_tools.Registration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class ModGUIs {
@@ -17,7 +15,7 @@ public class ModGUIs {
 
     public static void initScreens(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
-            MenuScreens.register(ModBlocks.CRYSTAL_FURNACE_CONTAINER.get(), CrystalFurnaceScreen::new);
+            MenuScreens.register(Registration.CRYSTAL_FURNACE_CONTAINER.get(), CrystalFurnaceScreen::new);
         });
     }
 }

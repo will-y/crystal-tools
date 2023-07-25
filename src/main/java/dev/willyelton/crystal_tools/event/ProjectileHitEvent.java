@@ -1,9 +1,9 @@
 package dev.willyelton.crystal_tools.event;
 
 import dev.willyelton.crystal_tools.CrystalTools;
+import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.levelable.LevelableItem;
-import dev.willyelton.crystal_tools.levelable.tool.ModTools;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -24,13 +24,13 @@ public class ProjectileHitEvent {
             if (event.getRayTraceResult().getType() == HitResult.Type.ENTITY) {
                 ItemStack heldItem = player.getMainHandItem();
 
-                if (heldItem.is(ModTools.CRYSTAL_BOW.get())) {
+                if (heldItem.is(Registration.CRYSTAL_BOW.get())) {
                     if (event.getProjectile() instanceof AbstractArrow arrow) {
                         float f = (float) arrow.getDeltaMovement().length();
                         // This is how they get damage, ignore crits for now
                         int damage = Mth.ceil(Mth.clamp((double) f * arrow.getBaseDamage(), 0.0D, 2.147483647E9D));
 
-                        LevelableItem item = (LevelableItem) ModTools.CRYSTAL_BOW.get();
+                        LevelableItem item = (LevelableItem) Registration.CRYSTAL_BOW.get();
                         item.addExp(heldItem, player.level(), player.getOnPos(), player, (int) (damage * CrystalToolsConfig.BOW_EXPERIENCE_BOOST.get()));
                     }
                 }

@@ -1,18 +1,15 @@
 package dev.willyelton.crystal_tools;
 
+import dev.willyelton.crystal_tools.datagen.DataGeneration;
 import dev.willyelton.crystal_tools.gui.ModGUIs;
-import dev.willyelton.crystal_tools.levelable.block.ModBlocks;
 import dev.willyelton.crystal_tools.command.RegisterCommandEvent;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.crafting.ItemDisabledCondition;
 import dev.willyelton.crystal_tools.crafting.ModRecipes;
-import dev.willyelton.crystal_tools.levelable.ModItems;
-import dev.willyelton.crystal_tools.levelable.armor.ModArmor;
 import dev.willyelton.crystal_tools.network.PacketHandler;
-import dev.willyelton.crystal_tools.levelable.tool.ModTools;
-import dev.willyelton.crystal_tools.world.ModOres;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -32,12 +29,13 @@ public class CrystalTools {
     public static final ItemDisabledCondition.Serializer INSTANCE = new ItemDisabledCondition.Serializer();
 
     public CrystalTools() {
-        IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         // Register the setup method for modloading
-        eventBus.addListener(this::init);
+        modEventBus.addListener(this::init);
         // Client Register Things
-        eventBus.addListener(this::clientSetup);
+        modEventBus.addListener(this::clientSetup);
+        modEventBus.addListener(DataGeneration::generate);
 
         setup();
 
@@ -48,21 +46,6 @@ public class CrystalTools {
 
         // Register configs
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CrystalToolsConfig.GENERAL_SPEC, "crystal_tools.toml");
-
-        // Register Blocks
-        ModBlocks.initBlocks();
-
-        // Register Items
-        ModItems.initItems();
-
-        // Register Tools
-        ModTools.initTools();
-
-        // Register Items
-        ModArmor.initArmor();
-
-        // Register Ores (Placed Features)
-//        ModOres.initOres();
 
         // Register Custom Recipes
         ModRecipes.initRecipes();
@@ -80,6 +63,10 @@ public class CrystalTools {
         event.enqueueWork(() -> {
             CraftingHelper.register(INSTANCE);
         });
+    }
+
+    private void addCreativeTabItems(BuildCreativeModeTabContentsEvent event) {
+
     }
 
     private void setup() {

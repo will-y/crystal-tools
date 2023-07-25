@@ -1,6 +1,0 @@
-{
-    "parent": "crystal_tools:item/crystal_bow",
-    "textures": {
-        "layer0": "crystal_tools:items/crystal_bow_pulling_0"
-    }
-}

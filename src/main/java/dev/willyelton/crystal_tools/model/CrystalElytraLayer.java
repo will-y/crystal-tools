@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.model;
 
-import dev.willyelton.crystal_tools.levelable.armor.ModArmor;
+import dev.willyelton.crystal_tools.Registration;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
@@ -24,6 +24,6 @@ public class CrystalElytraLayer<T extends LivingEntity, M extends EntityModel<T>
 
     @Override
     public boolean shouldRender(ItemStack stack, @NotNull LivingEntity entity) {
-        return stack.getItem() == ModArmor.CRYSTAL_ELYTRA.get();
+        return stack.getItem() == Registration.CRYSTAL_ELYTRA.get();
     }
 }

@@ -1,9 +1,8 @@
 package dev.willyelton.crystal_tools.utils;
 
 import com.mojang.datafixers.util.Pair;
+import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.levelable.block.CrystalTorch;
-import dev.willyelton.crystal_tools.levelable.block.CrystalWallTorch;
-import dev.willyelton.crystal_tools.levelable.block.ModBlocks;
 import dev.willyelton.crystal_tools.levelable.tool.LevelableTool;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -19,6 +18,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.common.ToolActions;
 
@@ -26,7 +26,6 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-import static net.minecraft.world.item.HoeItem.changeIntoState;
 // TODO make common method, they are all similar
 public class ToolUseUtils {
     public static InteractionResult useOnAxe(UseOnContext pContext, LevelableTool tool) {
@@ -141,11 +140,11 @@ public class ToolUseUtils {
             BlockState torchBlockState;
 
             if (direction.equals(Direction.UP)) {
-                torchBlockState = ModBlocks.CRYSTAL_TORCH.get().defaultBlockState().setValue(CrystalTorch.DROP_ITEM, false);
+                torchBlockState = Registration.CRYSTAL_TORCH.get().defaultBlockState().setValue(CrystalTorch.DROP_ITEM, false);
             } else if (direction.equals(Direction.DOWN)) {
                 return InteractionResult.PASS;
             } else {
-                torchBlockState = ModBlocks.CRYSTAL_WALL_TORCH.get().defaultBlockState().setValue(CrystalWallTorch.FACING, direction).setValue(CrystalTorch.DROP_ITEM, false);
+                torchBlockState = Registration.CRYSTAL_WALL_TORCH.get().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, direction).setValue(CrystalTorch.DROP_ITEM, false);
             }
 
             if (level.getBlockState(position).isAir() && state.isFaceSturdy(level, position, direction)) {

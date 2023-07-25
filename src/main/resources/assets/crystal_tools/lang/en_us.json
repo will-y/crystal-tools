@@ -24,6 +24,6 @@
   "key.crystal_tools.vein_mine": "Vein Mine",
   "key.crystal_tools.mode_switch": "Mode Switch",
   "key.crystal_tools.category": "Crystal Tools",
-  "itemGroup.crystal_tools": "Crystal Tools",
+  "tab.crystal_tools": "Crystal Tools",
   "container.crystal_tools.crystal_furnace": "Crystal Furnace"
 }

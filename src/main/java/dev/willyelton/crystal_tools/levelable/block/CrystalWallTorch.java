@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.levelable.block;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import dev.willyelton.crystal_tools.Registration;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -15,6 +16,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -24,12 +26,12 @@ import javax.annotation.Nullable;
 import java.util.Map;
 
 public class CrystalWallTorch extends CrystalTorch {
-    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+//    public static final DirectionProperty HORIZONTAL_FACING = HorizontalDirectionalBlock.HORIZONTAL_FACING;
     private static final Map<Direction, VoxelShape> AABBS = Maps.newEnumMap(ImmutableMap.of(Direction.NORTH, Block.box(5.5D, 3.0D, 11.0D, 10.5D, 13.0D, 16.0D), Direction.SOUTH, Block.box(5.5D, 3.0D, 0.0D, 10.5D, 13.0D, 5.0D), Direction.WEST, Block.box(11.0D, 3.0D, 5.5D, 16.0D, 13.0D, 10.5D), Direction.EAST, Block.box(0.0D, 3.0D, 5.5D, 5.0D, 13.0D, 10.5D)));
 
     public CrystalWallTorch() {
-        super(BlockBehaviour.Properties.copy(Blocks.SOUL_WALL_TORCH).lootFrom(ModBlocks.CRYSTAL_TORCH));
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(CrystalTorch.DROP_ITEM, true));
+        super(BlockBehaviour.Properties.copy(Blocks.SOUL_WALL_TORCH).lootFrom(Registration.CRYSTAL_TORCH));
+        this.registerDefaultState(this.stateDefinition.any().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH).setValue(CrystalTorch.DROP_ITEM, true));
     }
 
     @Override
@@ -43,11 +45,11 @@ public class CrystalWallTorch extends CrystalTorch {
     }
 
     public static VoxelShape getShape(BlockState pState) {
-        return AABBS.get(pState.getValue(FACING));
+        return AABBS.get(pState.getValue(BlockStateProperties.HORIZONTAL_FACING));
     }
 
     public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
-        Direction direction = pState.getValue(FACING);
+        Direction direction = pState.getValue(BlockStateProperties.HORIZONTAL_FACING);
         BlockPos blockpos = pPos.relative(direction.getOpposite());
         BlockState blockstate = pLevel.getBlockState(blockpos);
         return blockstate.isFaceSturdy(pLevel, blockpos, direction);
@@ -63,7 +65,7 @@ public class CrystalWallTorch extends CrystalTorch {
         for(Direction direction : adirection) {
             if (direction.getAxis().isHorizontal()) {
                 Direction direction1 = direction.getOpposite();
-                blockstate = blockstate.setValue(FACING, direction1);
+                blockstate = blockstate.setValue(BlockStateProperties.HORIZONTAL_FACING, direction1);
                 blockstate = blockstate.setValue(CrystalTorch.DROP_ITEM, true);
                 if (blockstate.canSurvive(levelreader, blockpos)) {
                     return blockstate;
@@ -75,13 +77,13 @@ public class CrystalWallTorch extends CrystalTorch {
     }
 
     @Override
-    public @NotNull BlockState updateShape(BlockState state, Direction facing, @NotNull BlockState facingstate, @NotNull LevelAccessor level, @NotNull BlockPos currentPos, @NotNull BlockPos facingPos) {
-        return facing.getOpposite() == state.getValue(FACING) && !state.canSurvive(level, currentPos) ? Blocks.AIR.defaultBlockState() : state;
+    public @NotNull BlockState updateShape(BlockState state, Direction HORIZONTAL_FACING, @NotNull BlockState HORIZONTAL_FACINGstate, @NotNull LevelAccessor level, @NotNull BlockPos currentPos, @NotNull BlockPos HORIZONTAL_FACINGPos) {
+        return HORIZONTAL_FACING.getOpposite() == state.getValue(BlockStateProperties.HORIZONTAL_FACING) && !state.canSurvive(level, currentPos) ? Blocks.AIR.defaultBlockState() : state;
     }
 
     @Override
     public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, @NotNull RandomSource random) {
-        Direction direction = pState.getValue(FACING);
+        Direction direction = pState.getValue(BlockStateProperties.HORIZONTAL_FACING);
         double d0 = (double)pPos.getX() + 0.5D;
         double d1 = (double)pPos.getY() + 0.7D;
         double d2 = (double)pPos.getZ() + 0.5D;
@@ -93,17 +95,17 @@ public class CrystalWallTorch extends CrystalTorch {
     @Override
     @SuppressWarnings("deprecation")
     public @NotNull BlockState rotate(BlockState state, Rotation rotation) {
-        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
+        return state.setValue(BlockStateProperties.HORIZONTAL_FACING, rotation.rotate(state.getValue(BlockStateProperties.HORIZONTAL_FACING)));
     }
 
     @Override
     @SuppressWarnings("deprecation")
     public @NotNull BlockState mirror(BlockState state, Mirror mirror) {
-        return state.rotate(mirror.getRotation(state.getValue(FACING)));
+        return state.rotate(mirror.getRotation(state.getValue(BlockStateProperties.HORIZONTAL_FACING)));
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
+        builder.add(BlockStateProperties.HORIZONTAL_FACING);
         super.createBlockStateDefinition(builder);
     }
 }

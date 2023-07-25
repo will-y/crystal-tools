@@ -2,9 +2,8 @@ package dev.willyelton.crystal_tools.levelable.armor;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import dev.willyelton.crystal_tools.CreativeTabs;
+import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.levelable.LevelableItem;
-import dev.willyelton.crystal_tools.levelable.ModItems;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
@@ -52,7 +51,7 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
 
     @Override
     public boolean isValidRepairItem(@NotNull ItemStack tool, @NotNull ItemStack repairItem) {
-        return repairItem.is(ModItems.CRYSTAL.get());
+        return repairItem.is(Registration.CRYSTAL.get());
     }
 
     @Override
