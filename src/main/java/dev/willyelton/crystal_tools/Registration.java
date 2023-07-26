@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.common.extensions.IForgeMenuType;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -84,12 +85,37 @@ public class Registration {
                     .title(Component.translatable("tab.crystal_tools"))
                     .icon(() -> new ItemStack(CRYSTAL_PICKAXE.get()))
                     .displayItems((featureFlags, output) -> {
+                        output.accept(CRYSTAL.get());
+                        output.accept(NETHERITE_STICK.get());
+                        output.accept(CRYSTAL_APPLE.get());
+                        output.accept(CRYSTAL_PICKAXE.get());
+                        output.accept(CRYSTAL_AXE.get());
+                        output.accept(CRYSTAL_SHOVEL.get());
+                        output.accept(CRYSTAL_HOE.get());
+                        output.accept(CRYSTAL_SWORD.get());
+                        output.accept(CRYSTAL_BOW.get());
                         output.accept(CRYSTAL_AIOT.get());
+                        output.accept(CRYSTAL_ROCKET.get());
+                        output.accept(CRYSTAL_HELMET.get());
+                        output.accept(CRYSTAL_CHESTPLATE.get());
+                        output.accept(CRYSTAL_LEGGINGS.get());
+                        output.accept(CRYSTAL_BOOTS.get());
+                        output.accept(CRYSTAL_ELYTRA.get());
+                        output.accept(CRYSTAL_ORE_ITEM.get());
+                        output.accept(CRYSTAL_DEEPSLATE_ORE_ITEM.get());
+                        output.accept(CRYSTAL_BLOCK_ITEM.get());
+                        output.accept(CRYSTAL_FURNACE_ITEM.get());
+                        output.accept(CRYSTAL_TORCH_ITEM.get());
                     })
                     .build());
 
 
     public static void init() {
-        ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        ITEMS.register(modEventBus);
+        BLOCKS.register(modEventBus);
+        BLOCK_ENTITIES.register(modEventBus);
+        CONTAINERS.register(modEventBus);
+        TABS.register(modEventBus);
     }
 }

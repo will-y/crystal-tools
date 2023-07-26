@@ -44,6 +44,9 @@ public class CrystalTools {
 
         MinecraftForge.EVENT_BUS.register(RegisterCommandEvent.class);
 
+        // Register everything
+        Registration.init();
+
         // Register configs
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CrystalToolsConfig.GENERAL_SPEC, "crystal_tools.toml");
 
