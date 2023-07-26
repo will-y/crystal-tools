@@ -1,3 +1,19 @@
+----------------------- 1.4.2-RELEASE Changes -----------------------
+### Changes
+- Updates to Minecraft 1.20 (forge _____)
+- Removed the following config options:
+  - `GENERATE_STONE_ORE`
+  - `STONE_VEIN_SIZE`
+  - `STONE_PER_CHUNK`
+  - `STONE_BOTTOM`
+  - `STONE_TOP`
+  - `GENERATE_DEEPSLATE_ORE`
+  - `DEEPSLATE_VEIN_SIZE`
+  - `DEEPSLATE_PER_CHUNK`
+  - `DEEPSLATE_BOTTOM`
+  - `DEEPSLATE_TOP`
+- Oregen is now completely data driven, you can modify all of these things with a datapack
+
 ----------------------- 1.4.1-RELEASE Changes -----------------------
 ### Additions
 - Adds the `Unbreaking` upgrade to all tools.

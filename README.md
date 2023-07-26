@@ -241,21 +241,6 @@ You can change these values in `config/crystal_tools/toml`.
 - `rocket_repair_modifier` (10): Multiplied by TOOL_REPAIR_COOLDOWN to get the cooldown of the auto repair on the rocket. Range: 1 - 10000.
 - `apple_repair_modifier` (10): Multiplied by TOOL_REPAIR_COOLDOWN to get the cooldown of the auto repair on the apple. Range: 1 - 10000.
 
-### Ore Generation (Currently Broken)
-#### Stone
-- `stone_ore_generate` (false): Controls if crystal ore should generate. Values: true, false.
-- `stone_ore_vein_size` (5): The vein size for crystal ore. Range: 1 - 20.
-- `stone_ore_per_chunk` (1): The number of veins that generate per chunk on average. Range: 1 - 100.
-- `stone_ore_y_min` (64): The minimum value that deepslate crystal ore can generate. This is given as a height from the bottom of the world. Range: 64 - 256.
-- `stone_ore_y_max`: (84): The maximum value that deepslate crystal ore can generate. This is given as a height from the bottom of the world. Range: 64 - 256.
-
-#### Deepslate
-- `deepslate_ore_generate` (true): Controls if crystal deepslate ore should generate. Values: true, false.
-- `deepslate_ore_vein_size` (5): The vein size for crystal deepslate ore. Range: 1 - 20.
-- `deepslate_ore_per_chunk` (1): The number of veins that generate per chunk on average. Range: 1 - 100.
-- `deepslate_ore_y_min` (0): The minimum value that deepslate crystal ore can generate. This is given as a height from the bottom of the world. Range: 0 - 64.
-- `deepslate_ore_y_max`: (20): The maximum value that deepslate crystal ore can generate. This is given as a height from the bottom of the world. Range: 0 - 64.
-
 ### Misc
 - `upgrade_screen_background` ("cracked_deepslate_tiles"): Determines the block texture to use for the background of the upgrade screen. Must be a vanilla block's resource location. [Here](https://minecraft.fandom.com/wiki/Java_Edition_data_values#Blocks) is a list of options from the wiki.
 - `enable_item_requirements` (true): Set to false to disable certain nodes from requiring items to upgrade.

@@ -19,5 +19,4 @@
 - Skill tree UI redesign
 
 ----------------- 1.20 initial port ------------------
-- Worldgen
 - UI is bugged
