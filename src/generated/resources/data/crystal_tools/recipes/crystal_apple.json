@@ -1,0 +1,37 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:not",
+          "value": {
+            "type": "crystal_tools:item_disabled",
+            "item": "crystal_tools:crystal_apple"
+          }
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "category": "misc",
+        "key": {
+          "a": {
+            "item": "minecraft:enchanted_golden_apple"
+          },
+          "c": {
+            "item": "crystal_tools:crystal"
+          }
+        },
+        "pattern": [
+          "ccc",
+          "cac",
+          "ccc"
+        ],
+        "result": {
+          "item": "crystal_tools:crystal_apple"
+        },
+        "show_notification": true
+      }
+    }
+  ]
+}

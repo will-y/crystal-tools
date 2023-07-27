@@ -1,4 +1,3 @@
-
 {
   "type": "forge:conditional",
   "recipes": [
@@ -8,32 +7,30 @@
           "type": "forge:not",
           "value": {
             "type": "crystal_tools:item_disabled",
-            "item": "crystal_tools:crystal_bow"
+            "item": "crystal_tools:crystal_hoe"
           }
         }
       ],
-      "recipe":{
+      "recipe": {
         "type": "minecraft:crafting_shaped",
-        "pattern":
-        [
-          " SX",
-          "S X",
-          " SX"
-        ],
-        "key":
-        {
-          "X": {
+        "category": "equipment",
+        "key": {
+          "c": {
             "item": "crystal_tools:crystal"
           },
-          "S": {
+          "s": {
             "item": "crystal_tools:netherite_stick"
           }
         },
-        "result":
-        {
-          "item": "crystal_tools:crystal_bow",
-          "count": 1
-        }
+        "pattern": [
+          "cc",
+          " s",
+          " s"
+        ],
+        "result": {
+          "item": "crystal_tools:crystal_hoe"
+        },
+        "show_notification": true
       }
     }
   ]

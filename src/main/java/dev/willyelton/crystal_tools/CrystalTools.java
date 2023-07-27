@@ -35,6 +35,7 @@ public class CrystalTools {
         modEventBus.addListener(this::init);
         // Client Register Things
         modEventBus.addListener(this::clientSetup);
+        CraftingHelper.register(INSTANCE);
         modEventBus.addListener(DataGeneration::generate);
 
         setup();
@@ -63,9 +64,9 @@ public class CrystalTools {
 
     private void init(final FMLCommonSetupEvent event) {
         // some preinit code
-        event.enqueueWork(() -> {
-            CraftingHelper.register(INSTANCE);
-        });
+//        event.enqueueWork(() -> {
+//
+//        });
     }
 
     private void addCreativeTabItems(BuildCreativeModeTabContentsEvent event) {

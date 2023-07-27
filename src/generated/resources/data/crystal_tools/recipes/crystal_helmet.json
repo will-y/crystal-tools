@@ -7,32 +7,26 @@
           "type": "forge:not",
           "value": {
             "type": "crystal_tools:item_disabled",
-            "item": "crystal_tools:crystal_axe"
+            "item": "crystal_tools:crystal_helmet"
           }
         }
       ],
       "recipe": {
         "type": "minecraft:crafting_shaped",
-        "pattern":
-        [
-          "XX",
-          "XS",
-          " S"
-        ],
-        "key":
-        {
-          "X": {
+        "category": "equipment",
+        "key": {
+          "c": {
             "item": "crystal_tools:crystal"
-          },
-          "S": {
-            "item": "crystal_tools:netherite_stick"
           }
         },
-        "result":
-        {
-          "item": "crystal_tools:crystal_axe",
-          "count": 1
-        }
+        "pattern": [
+          "ccc",
+          "c c"
+        ],
+        "result": {
+          "item": "crystal_tools:crystal_helmet"
+        },
+        "show_notification": true
       }
     }
   ]

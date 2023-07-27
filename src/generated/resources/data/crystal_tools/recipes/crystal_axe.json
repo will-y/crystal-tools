@@ -1,4 +1,3 @@
-
 {
   "type": "forge:conditional",
   "recipes": [
@@ -8,32 +7,30 @@
           "type": "forge:not",
           "value": {
             "type": "crystal_tools:item_disabled",
-            "item": "crystal_tools:crystal_pickaxe"
+            "item": "crystal_tools:crystal_axe"
           }
         }
       ],
       "recipe": {
         "type": "minecraft:crafting_shaped",
-        "pattern":
-        [
-          "XXX",
-          " S ",
-          " S "
-        ],
-        "key":
-        {
-          "X": {
+        "category": "equipment",
+        "key": {
+          "c": {
             "item": "crystal_tools:crystal"
           },
-          "S": {
+          "s": {
             "item": "crystal_tools:netherite_stick"
           }
         },
-        "result":
-        {
-          "item": "crystal_tools:crystal_pickaxe",
-          "count": 1
-        }
+        "pattern": [
+          "cc",
+          "cs",
+          " s"
+        ],
+        "result": {
+          "item": "crystal_tools:crystal_axe"
+        },
+        "show_notification": true
       }
     }
   ]

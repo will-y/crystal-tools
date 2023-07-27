@@ -13,6 +13,7 @@
   - `DEEPSLATE_BOTTOM`
   - `DEEPSLATE_TOP`
 - Oregen is now completely data driven, you can modify all of these things with a datapack
+- Changes recipe of Crystal Apple to require an Enchanted Golden Apple
 
 ----------------------- 1.4.1-RELEASE Changes -----------------------
 ### Additions

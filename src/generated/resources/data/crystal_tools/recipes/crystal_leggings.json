@@ -1,4 +1,3 @@
-
 {
   "type": "forge:conditional",
   "recipes": [
@@ -14,26 +13,21 @@
       ],
       "recipe": {
         "type": "minecraft:crafting_shaped",
-        "pattern":
-        [
-          "XNX",
-          "X X",
-          "X X"
-        ],
-        "key":
-        {
-          "X": {
+        "category": "equipment",
+        "key": {
+          "c": {
             "item": "crystal_tools:crystal"
-          },
-          "N": {
-            "item": "minecraft:netherite_ingot"
           }
         },
-        "result":
-        {
-          "item": "crystal_tools:crystal_leggings",
-          "count": 1
-        }
+        "pattern": [
+          "ccc",
+          "c c",
+          "c c"
+        ],
+        "result": {
+          "item": "crystal_tools:crystal_leggings"
+        },
+        "show_notification": true
       }
     }
   ]

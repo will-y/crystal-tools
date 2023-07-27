@@ -1,11 +1,11 @@
-// 1.20.1	2023-07-25T17:11:02.9905827	Item Models: crystal_tools
+// 1.20.1	2023-07-25T21:40:30.7751537	Item Models: crystal_tools
 cf7d10e3346cf7c4a77fe6e285deab4d542b73d5 assets/crystal_tools/models/item/crystal.json
 fbc32cccc6c3666086e083d767db164226c8f5e9 assets/crystal_tools/models/item/crystal_aiot.json
 fc5c466807626ebba61df59c2f4c32ea20cc293c assets/crystal_tools/models/item/crystal_apple.json
 e9366dcfcac3e19c3f32701e5a693fc660a45afe assets/crystal_tools/models/item/crystal_axe.json
 e04a543b89bfe1b6d0a64797284cf5770976300f assets/crystal_tools/models/item/crystal_block.json
 4fddaac8019367491b43382e2b8d9ab331dad5a2 assets/crystal_tools/models/item/crystal_boots.json
-ef85d3e06ca138e0a11c9ec8bcbe621b58a1e75c assets/crystal_tools/models/item/crystal_bow.json
+b3e3634670a632b9b21252a97418cecd08f95b16 assets/crystal_tools/models/item/crystal_bow.json
 849e276c3b1b01d2f0ab69137120dc5e2998c1a0 assets/crystal_tools/models/item/crystal_bow_pulling_0.json
 18268aaf94f067b0361a5907553448f397762a67 assets/crystal_tools/models/item/crystal_bow_pulling_1.json
 a3c799c7d95d04da17857db37cdf6bb115e93266 assets/crystal_tools/models/item/crystal_bow_pulling_2.json

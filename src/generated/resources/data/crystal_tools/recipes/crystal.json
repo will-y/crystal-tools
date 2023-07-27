@@ -1,13 +1,13 @@
 {
   "type": "minecraft:crafting_shapeless",
+  "category": "misc",
   "ingredients": [
     {
       "item": "crystal_tools:crystal_block"
     }
   ],
-  "result":
-  {
-    "item": "crystal_tools:crystal",
-    "count": 9
+  "result": {
+    "count": 9,
+    "item": "crystal_tools:crystal"
   }
 }

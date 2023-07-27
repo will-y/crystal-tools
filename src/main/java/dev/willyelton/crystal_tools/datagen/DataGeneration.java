@@ -22,5 +22,6 @@ public class DataGeneration {
 
         generator.addProvider(event.includeServer(), new LootTableProvider(packOutput, Collections.emptySet(),
                 List.of(new LootTableProvider.SubProviderEntry(CrystalToolsLootTables::new, LootContextParamSets.BLOCK))));
+        generator.addProvider(event.includeServer(), new CrystalToolsRecipes(packOutput));
     }
 }

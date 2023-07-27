@@ -8,6 +8,7 @@
 - Crystal Arrow
 - Crystal glass (conn texture)
 - Advancements
+- Crystal Generator
 
 ----------------------- 1.20 -----------------------
 - Datagen

@@ -85,7 +85,7 @@
       }
     },
     {
-      "model": "crystal_tools:item/crystal_bow_pulling_1",
+      "model": "crystal_tools:item/crystal_bow_pulling_2",
       "predicate": {
         "minecraft:pull": 0.9,
         "minecraft:pulling": 1.0
