@@ -13,6 +13,7 @@ import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 
 public class FurnaceUpgradeButton extends CrystalToolsButton {
+    public static final ResourceLocation FURNACE_BUTTON_LOCATION = new ResourceLocation("crystal_tools", "textures/gui/furnace_button.png");
     private final boolean hasSkillPoints;
 
     public FurnaceUpgradeButton(int x, int y, int width, int height, Component message, OnPress onPress, SkillButton.OnTooltip onTooltip, boolean hasSkillPoints) {
@@ -23,9 +24,9 @@ public class FurnaceUpgradeButton extends CrystalToolsButton {
     @Override
     protected void blitButton(GuiGraphics guiGraphics, int textureY) {
         // first half of button
-        guiGraphics.blit(SKILL_BUTTON_LOCATION, this.getX(), this.getY(), 0, textureY * this.height, this.width / 2, this.height);
+        guiGraphics.blit(FURNACE_BUTTON_LOCATION, this.getX(), this.getY(), 0, textureY * this.height, this.width / 2, this.height);
         // second half of button
-        guiGraphics.blit(SKILL_BUTTON_LOCATION, this.getX() + this.width / 2, this.getY(), 200 - this.width / 2, textureY * this.height, this.width / 2, this.height);
+        guiGraphics.blit(FURNACE_BUTTON_LOCATION, this.getX() + this.width / 2, this.getY(), 200 - this.width / 2, textureY * this.height, this.width / 2, this.height);
     }
 
     @Override

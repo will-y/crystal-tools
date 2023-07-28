@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class SkillButton extends CrystalToolsButton {
+    public static final ResourceLocation SKILL_BUTTON_LOCATION = new ResourceLocation("crystal_tools", "textures/gui/skill_button.png");
     private static final int ITEM_WIDTH = 16;
     // used when it is completed, should also set not active but render differently
     public boolean isComplete = false;

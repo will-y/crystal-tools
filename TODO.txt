@@ -19,6 +19,3 @@
 - sonar
 - Fix dragging on skill tree
 - Skill tree UI redesign
-
------------------ 1.20 initial port ------------------
-- UI is bugged

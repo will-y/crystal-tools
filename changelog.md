@@ -1,6 +1,6 @@
 ----------------------- 1.4.2-RELEASE Changes -----------------------
 ### Changes
-- Updates to Minecraft 1.20 (forge _____)
+- Updates to Minecraft 1.20.1 (forge 47.1.0)
 - Removed the following config options:
   - `GENERATE_STONE_ORE`
   - `STONE_VEIN_SIZE`
