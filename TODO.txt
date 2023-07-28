@@ -9,6 +9,7 @@
 - Crystal glass (conn texture)
 - Advancements
 - Crystal Generator
+- JEI Integration
 
 ----------------------- 1.20 -----------------------
 - Datagen
