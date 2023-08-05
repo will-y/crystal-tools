@@ -15,29 +15,27 @@ public class RemoveItemPacket {
         this.item = item;
     }
 
-    public static void encode(RemoveItemPacket msg, FriendlyByteBuf buffer) {
-        buffer.writeItem(msg.item);
+    public RemoveItemPacket(FriendlyByteBuf buffer) {
+        this.item = buffer.readItem();
     }
 
-    public static RemoveItemPacket decode(FriendlyByteBuf buffer) {
-        return new RemoveItemPacket(buffer.readItem());
+    public void encode(FriendlyByteBuf buffer) {
+        buffer.writeItem(this.item);
     }
 
-    public static class Handler {
-        public static void handle(final RemoveItemPacket msg, Supplier<NetworkEvent.Context> ctx) {
-            ServerPlayer player = ctx.get().getSender();
-            if (player == null) return;
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
+        ServerPlayer player = ctx.get().getSender();
+        if (player == null) return;
 
-            ItemStack itemToRemove = msg.item;
+        ItemStack itemToRemove = this.item;
 
-            if (itemToRemove.isEmpty()) return;
+        if (itemToRemove.isEmpty()) return;
 
-            Inventory inventory = player.getInventory();
-            int index = inventory.findSlotMatchingItem(itemToRemove);
+        Inventory inventory = player.getInventory();
+        int index = inventory.findSlotMatchingItem(itemToRemove);
 
-            if (index == -1) return;
+        if (index == -1) return;
 
-            inventory.removeItem(index, 1);
-        }
+        inventory.removeItem(index, 1);
     }
 }

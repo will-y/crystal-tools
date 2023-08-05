@@ -11,23 +11,21 @@ import java.util.function.Supplier;
 
 public class ToolHealPacket {
 
-    public static void encode(ToolHealPacket msg, FriendlyByteBuf buffer) {
+    public ToolHealPacket() {}
+
+    public ToolHealPacket(FriendlyByteBuf buffer) {}
+
+    public void encode(FriendlyByteBuf buffer) {
     }
 
-    public static ToolHealPacket decode(FriendlyByteBuf buffer) {
-        return new ToolHealPacket();
-    }
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
+        ServerPlayer playerEntity = ctx.get().getSender();
+        if (playerEntity != null) {
+            ItemStack heldTool = ItemStackUtils.getHeldLevelableTool(playerEntity);
 
-    public static class Handler {
-        public static void handle(final ToolHealPacket msg, Supplier<NetworkEvent.Context> ctx) {
-            ServerPlayer playerEntity = ctx.get().getSender();
-            if (playerEntity != null) {
-                ItemStack heldTool = ItemStackUtils.getHeldLevelableTool(playerEntity);
-
-                if (!heldTool.isEmpty()) {
-                    heldTool.setDamageValue(0);
-                    NBTUtils.addValueToTag(heldTool, "skill_points", -1);
-                }
+            if (!heldTool.isEmpty()) {
+                heldTool.setDamageValue(0);
+                NBTUtils.addValueToTag(heldTool, "skill_points", -1);
             }
         }
     }

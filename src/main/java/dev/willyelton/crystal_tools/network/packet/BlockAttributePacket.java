@@ -21,33 +21,32 @@ public class BlockAttributePacket {
         this.id = id;
     }
 
-    public static void encode(BlockAttributePacket msg, FriendlyByteBuf buffer) {
-        buffer.writeInt(msg.key.length());
-        buffer.writeCharSequence(msg.key, Charset.defaultCharset());
-        buffer.writeFloat(msg.value);
-        buffer.writeInt(msg.id);
-    }
-
-    public static BlockAttributePacket decode(FriendlyByteBuf buffer) {
+    public BlockAttributePacket(FriendlyByteBuf buffer) {
         int keyLen = buffer.readInt();
-        String key = buffer.readCharSequence(keyLen, Charset.defaultCharset()).toString();
-        return new BlockAttributePacket(key, buffer.readFloat(), buffer.readInt());
+        this.key = buffer.readCharSequence(keyLen, Charset.defaultCharset()).toString();
+        this.value = buffer.readFloat();
+        this.id = buffer.readInt();
     }
 
-    public static class Handler {
-        public static void handle(final BlockAttributePacket msg, Supplier<NetworkEvent.Context> ctx) {
-            ServerPlayer player = ctx.get().getSender();
+    public void encode(FriendlyByteBuf buffer) {
+        buffer.writeInt(this.key.length());
+        buffer.writeCharSequence(this.key, Charset.defaultCharset());
+        buffer.writeFloat(this.value);
+        buffer.writeInt(this.id);
+    }
 
-            if (player != null) {
-                AbstractContainerMenu container = player.containerMenu;
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
+        ServerPlayer player = ctx.get().getSender();
 
-                if (container instanceof CrystalFurnaceContainer crystalFurnaceContainer) {
-                    CrystalFurnaceBlockEntity blockEntity = crystalFurnaceContainer.getBlockEntity();
+        if (player != null) {
+            AbstractContainerMenu container = player.containerMenu;
 
-                    blockEntity.addToData(msg.key, msg.value);
-                    if (msg.id != -1) {
-                        blockEntity.addToPoints(msg.id, 1);
-                    }
+            if (container instanceof CrystalFurnaceContainer crystalFurnaceContainer) {
+                CrystalFurnaceBlockEntity blockEntity = crystalFurnaceContainer.getBlockEntity();
+
+                blockEntity.addToData(this.key, this.value);
+                if (this.id != -1) {
+                    blockEntity.addToPoints(this.id, 1);
                 }
             }
         }

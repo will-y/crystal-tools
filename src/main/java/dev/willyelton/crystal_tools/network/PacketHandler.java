@@ -17,10 +17,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class PacketHandler {
-    private static final String PROTOCOL_VERSION = Integer.toString(4);
     private static short index = 0;
-    // No idea what this does, probably don't need it
-//    private static final PacketSplitManager SPLIT_MANAGER = new PacketSplitManager();
 
     public static final SimpleChannel HANDLER = NetworkRegistry.ChannelBuilder
             .named(new ResourceLocation(CrystalTools.MODID, "messages"))
@@ -30,19 +27,47 @@ public class PacketHandler {
             .simpleChannel();
 
     public static void register() {
-        registerMessage(ToolAttributePacket.class, ToolAttributePacket::encode, ToolAttributePacket::decode, ToolAttributePacket.Handler::handle);
-        registerMessage(ToolHealPacket.class, ToolHealPacket::encode, ToolHealPacket::decode, ToolHealPacket.Handler::handle);
-        registerMessage(ModeSwitchPacket.class, ModeSwitchPacket::encode, ModeSwitchPacket::decode, ModeSwitchPacket.Handler::handle);
-        registerMessage(RemoveItemPacket.class, RemoveItemPacket::encode, RemoveItemPacket::decode, RemoveItemPacket.Handler::handle);
-        registerMessage(BlockAttributePacket.class, BlockAttributePacket::encode, BlockAttributePacket::decode, BlockAttributePacket.Handler::handle);
+        // Client to Server
+        HANDLER.messageBuilder(BlockAttributePacket.class, index++)
+                .decoder(BlockAttributePacket::new)
+                .encoder(BlockAttributePacket::encode)
+                .consumerMainThread(BlockAttributePacket::handle)
+                .add();
 
-        registerMessageToClient(AddSkillPointsToClientPacket.class, AddSkillPointsToClientPacket::encode, AddSkillPointsToClientPacket::decode, AddSkillPointsToClientPacket.Handler::handle);
-        registerMessage(ResetSkillsPacket.class, ResetSkillsPacket::encode, ResetSkillsPacket::decode, ResetSkillsPacket::handle);
+        HANDLER.messageBuilder(ModeSwitchPacket.class, index++)
+                .decoder(ModeSwitchPacket::new)
+                .encoder(ModeSwitchPacket::encode)
+                .consumerMainThread(ModeSwitchPacket::handle)
+                .add();
+
+        HANDLER.messageBuilder(RemoveItemPacket.class, index++)
+                .decoder(RemoveItemPacket::new)
+                .encoder(RemoveItemPacket::encode)
+                .consumerMainThread(RemoveItemPacket::handle)
+                .add();
+
+        HANDLER.messageBuilder(ResetSkillsPacket.class, index++)
+                .decoder(ResetSkillsPacket::new)
+                .encoder(ResetSkillsPacket::encode)
+                .consumerMainThread(ResetSkillsPacket::handle)
+                .add();
 
         HANDLER.messageBuilder(SkillCacheUpdatePacket.class, index++, NetworkDirection.PLAY_TO_CLIENT)
-                .decoder(SkillCacheUpdatePacket::decode)
+                .decoder(SkillCacheUpdatePacket::new)
                 .encoder(SkillCacheUpdatePacket::encode)
-                .consumerMainThread(SkillCacheUpdatePacket.Handler::handle)
+                .consumerMainThread(SkillCacheUpdatePacket::handle)
+                .add();
+
+        HANDLER.messageBuilder(ToolAttributePacket.class, index++)
+                .decoder(ToolAttributePacket::new)
+                .encoder(ToolAttributePacket::encode)
+                .consumerMainThread(ToolAttributePacket::handle)
+                .add();
+
+        HANDLER.messageBuilder(ToolHealPacket.class, index++)
+                .decoder(ToolHealPacket::new)
+                .encoder(ToolHealPacket::encode)
+                .consumerMainThread(ToolHealPacket::handle)
                 .add();
     }
 
@@ -58,17 +83,4 @@ public class PacketHandler {
         HANDLER.send(PacketDistributor.ALL.noArg(), message);
     }
 
-    private static <MSG> void registerMessage(Class<MSG> messageType, BiConsumer<MSG, FriendlyByteBuf> encoder, Function<FriendlyByteBuf, MSG> decoder, BiConsumer<MSG, Supplier<NetworkEvent.Context>> messageConsumer) {
-        HANDLER.registerMessage(index, messageType, encoder, decoder, messageConsumer);
-        index++;
-        if (index > 0xFF)
-            throw new RuntimeException("Too many messages!");
-    }
-
-    private static <MSG> void registerMessageToClient(Class<MSG> messageType, BiConsumer<MSG, FriendlyByteBuf> encoder, Function<FriendlyByteBuf, MSG> decoder, BiConsumer<MSG, Supplier<NetworkEvent.Context>> messageConsumer) {
-        HANDLER.registerMessage(index, messageType, encoder, decoder, messageConsumer, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
-        index++;
-        if (index > 0xFF)
-            throw new RuntimeException("Too many messages!");
-    }
 }

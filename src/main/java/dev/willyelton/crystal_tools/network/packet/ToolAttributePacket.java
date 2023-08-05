@@ -24,50 +24,49 @@ public class ToolAttributePacket {
         this.id = id;
     }
 
-    public static void encode(ToolAttributePacket msg, FriendlyByteBuf buffer) {
-        buffer.writeInt(msg.key.length());
-        buffer.writeCharSequence(msg.key, Charset.defaultCharset());
-        buffer.writeFloat(msg.value);
-        buffer.writeInt(msg.id);
-    }
-
-    public static ToolAttributePacket decode(FriendlyByteBuf buffer) {
+    public ToolAttributePacket(FriendlyByteBuf buffer) {
         int keyLen = buffer.readInt();
-        String key = buffer.readCharSequence(keyLen, Charset.defaultCharset()).toString();
-        return new ToolAttributePacket(key, buffer.readFloat(), buffer.readInt());
+        this.key = buffer.readCharSequence(keyLen, Charset.defaultCharset()).toString();
+        this.value = buffer.readFloat();
+        this.id = buffer.readInt();
     }
 
-    public static class Handler {
-        public static void handle(final ToolAttributePacket msg, Supplier<NetworkEvent.Context> ctx) {
-            ServerPlayer playerEntity = ctx.get().getSender();
-            ItemStack heldTool = ItemStackUtils.getHeldLevelableTool(playerEntity);
+    public void encode(FriendlyByteBuf buffer) {
+        buffer.writeInt(this.key.length());
+        buffer.writeCharSequence(this.key, Charset.defaultCharset());
+        buffer.writeFloat(this.value);
+        buffer.writeInt(this.id);
+    }
 
-            if (!heldTool.isEmpty()) {
-                Enchantment enchantment = enchantmentFromString(msg.key);
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
+        ServerPlayer playerEntity = ctx.get().getSender();
+        ItemStack heldTool = ItemStackUtils.getHeldLevelableTool(playerEntity);
 
-                if (enchantment != null) {
-                    // Special cases for silk touch and fortune because mode switch upgrade
-                    if (enchantment.equals(Enchantments.SILK_TOUCH)) {
-                        if (NBTUtils.getFloatOrAddKey(heldTool, "fortune_bonus") == 0) {
-                            EnchantmentUtils.addEnchantment(heldTool, enchantment, (int) msg.value);
-                        }
-                    } else if (enchantment.equals(Enchantments.BLOCK_FORTUNE)) {
-                        if (NBTUtils.getFloatOrAddKey(heldTool, "silk_touch_bonus") == 0) {
-                            EnchantmentUtils.addEnchantment(heldTool, enchantment, (int) msg.value);
-                        }
-                    } else {
-                        EnchantmentUtils.addEnchantment(heldTool, enchantment, (int) msg.value);
+        if (!heldTool.isEmpty()) {
+            Enchantment enchantment = enchantmentFromString(this.key);
+
+            if (enchantment != null) {
+                // Special cases for silk touch and fortune because mode switch upgrade
+                if (enchantment.equals(Enchantments.SILK_TOUCH)) {
+                    if (NBTUtils.getFloatOrAddKey(heldTool, "fortune_bonus") == 0) {
+                        EnchantmentUtils.addEnchantment(heldTool, enchantment, (int) this.value);
                     }
-                    // also add it like normal
-                    NBTUtils.setValue(heldTool, msg.key, msg.value);
+                } else if (enchantment.equals(Enchantments.BLOCK_FORTUNE)) {
+                    if (NBTUtils.getFloatOrAddKey(heldTool, "silk_touch_bonus") == 0) {
+                        EnchantmentUtils.addEnchantment(heldTool, enchantment, (int) this.value);
+                    }
                 } else {
-                    NBTUtils.addValueToTag(heldTool, msg.key, msg.value);
+                    EnchantmentUtils.addEnchantment(heldTool, enchantment, (int) this.value);
                 }
+                // also add it like normal
+                NBTUtils.setValue(heldTool, this.key, this.value);
+            } else {
+                NBTUtils.addValueToTag(heldTool, this.key, this.value);
+            }
 
-                // update the skill points array
-                if (msg.id != -1) {
-                    NBTUtils.addValueToArray(heldTool, "points", msg.id, 1);
-                }
+            // update the skill points array
+            if (this.id != -1) {
+                NBTUtils.addValueToArray(heldTool, "points", this.id, 1);
             }
         }
     }

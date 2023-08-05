@@ -25,61 +25,61 @@ public class ModeSwitchPacket {
         this.hasAltDown = hasAltDown;
     }
 
-    public static void encode(ModeSwitchPacket msg, FriendlyByteBuf buffer) {
-        buffer.writeBoolean(msg.hasShiftDown);
-        buffer.writeBoolean(msg.hasCtrlDown);
-        buffer.writeBoolean(msg.hasAltDown);
+    public ModeSwitchPacket(FriendlyByteBuf buffer) {
+        this.hasShiftDown = buffer.readBoolean();
+        this.hasCtrlDown = buffer.readBoolean();
+        this.hasAltDown = buffer.readBoolean();
     }
 
-    public static ModeSwitchPacket decode(FriendlyByteBuf buffer) {
-        return new ModeSwitchPacket(buffer.readBoolean(), buffer.readBoolean(), buffer.readBoolean());
+    public void encode(FriendlyByteBuf buffer) {
+        buffer.writeBoolean(this.hasShiftDown);
+        buffer.writeBoolean(this.hasCtrlDown);
+        buffer.writeBoolean(this.hasAltDown);
     }
 
-    public static class Handler {
-        public static void handle(final ModeSwitchPacket msg, Supplier<NetworkEvent.Context> ctx) {
-            ServerPlayer playerEntity = ctx.get().getSender();
-            if (playerEntity == null) return;
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
+        ServerPlayer playerEntity = ctx.get().getSender();
+        if (playerEntity == null) return;
 
-            ItemStack tool = ItemStackUtils.getHeldLevelableTool(playerEntity);
-            if (tool.isEmpty()) return;
+        ItemStack tool = ItemStackUtils.getHeldLevelableTool(playerEntity);
+        if (tool.isEmpty()) return;
 
-            // check for upgrade
-            if (NBTUtils.getFloatOrAddKey(tool, "mine_mode") > 0) {
-                if (msg.hasShiftDown && !msg.hasCtrlDown && !msg.hasAltDown) {
-                    // 3x3 or 1x1 mode
-                    if (NBTUtils.getFloatOrAddKey(tool, "3x3") > 0) {
-                        boolean disable3x3 = NBTUtils.getBoolean(tool, "disable_3x3");
-                        NBTUtils.setValue(tool, "disable_3x3", !disable3x3);
-                        playerEntity.displayClientMessage(Component.literal("Break Mode: " + (!disable3x3 ? "1x1" : "3x3")), true);
-                    }
-                } else if (msg.hasCtrlDown && !msg.hasShiftDown && !msg.hasAltDown){
-                    // Auto smelt on/off
-                    if (NBTUtils.getFloatOrAddKey(tool, "auto_smelt") > 0) {
-                        boolean disableAutoSmelt = NBTUtils.getBoolean(tool, "disable_auto_smelt");
-                        NBTUtils.setValue(tool, "disable_auto_smelt", !disableAutoSmelt);
-                        playerEntity.displayClientMessage(Component.literal("Auto Smelt " + (!disableAutoSmelt ? "Disabled" : "Enabled")), true);
-                    }
-                } else {
-                    // silk touch or fortune
-                    if (EnchantmentUtils.hasEnchantment(tool, Enchantments.SILK_TOUCH) && NBTUtils.getFloatOrAddKey(tool, "fortune_bonus") > 0) {
-                        EnchantmentUtils.removeEnchantment(tool, Enchantments.SILK_TOUCH);
-                        EnchantmentUtils.addEnchantment(tool, Enchantments.BLOCK_FORTUNE, 3);
-                        playerEntity.displayClientMessage(Component.literal("Mine Mode: Fortune"), true);
-                    } else if (EnchantmentUtils.hasEnchantment(tool, Enchantments.BLOCK_FORTUNE) && NBTUtils.getFloatOrAddKey(tool, "silk_touch_bonus") > 0) {
-                        EnchantmentUtils.removeEnchantment(tool, Enchantments.BLOCK_FORTUNE);
-                        EnchantmentUtils.addEnchantment(tool, Enchantments.SILK_TOUCH, 1);
-                        playerEntity.displayClientMessage(Component.literal("Mine Mode: Silk Touch"), true);
-                    }
+        // check for upgrade
+        if (NBTUtils.getFloatOrAddKey(tool, "mine_mode") > 0) {
+            if (this.hasShiftDown && !this.hasCtrlDown && !this.hasAltDown) {
+                // 3x3 or 1x1 mode
+                if (NBTUtils.getFloatOrAddKey(tool, "3x3") > 0) {
+                    boolean disable3x3 = NBTUtils.getBoolean(tool, "disable_3x3");
+                    NBTUtils.setValue(tool, "disable_3x3", !disable3x3);
+                    playerEntity.displayClientMessage(Component.literal("Break Mode: " + (!disable3x3 ? "1x1" : "3x3")), true);
+                }
+            } else if (this.hasCtrlDown && !this.hasShiftDown && !this.hasAltDown){
+                // Auto smelt on/off
+                if (NBTUtils.getFloatOrAddKey(tool, "auto_smelt") > 0) {
+                    boolean disableAutoSmelt = NBTUtils.getBoolean(tool, "disable_auto_smelt");
+                    NBTUtils.setValue(tool, "disable_auto_smelt", !disableAutoSmelt);
+                    playerEntity.displayClientMessage(Component.literal("Auto Smelt " + (!disableAutoSmelt ? "Disabled" : "Enabled")), true);
+                }
+            } else {
+                // silk touch or fortune
+                if (EnchantmentUtils.hasEnchantment(tool, Enchantments.SILK_TOUCH) && NBTUtils.getFloatOrAddKey(tool, "fortune_bonus") > 0) {
+                    EnchantmentUtils.removeEnchantment(tool, Enchantments.SILK_TOUCH);
+                    EnchantmentUtils.addEnchantment(tool, Enchantments.BLOCK_FORTUNE, 3);
+                    playerEntity.displayClientMessage(Component.literal("Mine Mode: Fortune"), true);
+                } else if (EnchantmentUtils.hasEnchantment(tool, Enchantments.BLOCK_FORTUNE) && NBTUtils.getFloatOrAddKey(tool, "silk_touch_bonus") > 0) {
+                    EnchantmentUtils.removeEnchantment(tool, Enchantments.BLOCK_FORTUNE);
+                    EnchantmentUtils.addEnchantment(tool, Enchantments.SILK_TOUCH, 1);
+                    playerEntity.displayClientMessage(Component.literal("Mine Mode: Silk Touch"), true);
                 }
             }
+        }
 
-            if (msg.hasAltDown && !msg.hasShiftDown && !msg.hasCtrlDown) {
-                // Use mode for AIOT
-                if (tool.is(Registration.CRYSTAL_AIOT.get())) {
-                    UseMode currentMode = UseMode.fromString(NBTUtils.getString(tool, "use_mode"));
-                    NBTUtils.setValue(tool, "use_mode", UseMode.nextMode(tool, currentMode).toString());
-                    playerEntity.displayClientMessage(Component.literal("Mode: " + UseMode.nextMode(tool, currentMode)), true);
-                }
+        if (this.hasAltDown && !this.hasShiftDown && !this.hasCtrlDown) {
+            // Use mode for AIOT
+            if (tool.is(Registration.CRYSTAL_AIOT.get())) {
+                UseMode currentMode = UseMode.fromString(NBTUtils.getString(tool, "use_mode"));
+                NBTUtils.setValue(tool, "use_mode", UseMode.nextMode(tool, currentMode).toString());
+                playerEntity.displayClientMessage(Component.literal("Mode: " + UseMode.nextMode(tool, currentMode)), true);
             }
         }
     }

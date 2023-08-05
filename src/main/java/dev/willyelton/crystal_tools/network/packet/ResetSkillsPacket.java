@@ -10,15 +10,15 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
 
 public class ResetSkillsPacket {
-    public static void encode(ResetSkillsPacket msg, FriendlyByteBuf buffer) {
+    public ResetSkillsPacket() {}
+
+    public ResetSkillsPacket(FriendlyByteBuf buffer) {}
+
+    public void encode(FriendlyByteBuf buffer) {
 
     }
 
-    public static ResetSkillsPacket decode(FriendlyByteBuf buffer) {
-        return new ResetSkillsPacket();
-    }
-
-    public static void handle(final ResetSkillsPacket msg, Supplier<NetworkEvent.Context> ctx) {
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
         ServerPlayer player = ctx.get().getSender();
 
         if (player != null) {

@@ -19,20 +19,19 @@ public class SkillCacheUpdatePacket {
         this.data = data;
     }
 
-    public static void encode(SkillCacheUpdatePacket msg, FriendlyByteBuf buffer) {
-        buffer.writeUtf(msg.tool);
-        buffer.writeJsonWithCodec(SkillData.CODEC, msg.data);
+    public SkillCacheUpdatePacket(FriendlyByteBuf buffer) {
+        this.tool = buffer.readUtf();
+        this.data = buffer.readJsonWithCodec(SkillData.CODEC);
     }
 
-    public static SkillCacheUpdatePacket decode(FriendlyByteBuf buffer) {
-        return new SkillCacheUpdatePacket(buffer.readUtf(), buffer.readJsonWithCodec(SkillData.CODEC));
+    public void encode(FriendlyByteBuf buffer) {
+        buffer.writeUtf(this.tool);
+        buffer.writeJsonWithCodec(SkillData.CODEC, this.data);
     }
 
-    public static class Handler {
-        public static void handle(final SkillCacheUpdatePacket msg, Supplier<NetworkEvent.Context> ctx) {
-            CrystalTools.LOGGER.log(Level.TRACE, "Adding tool to cache: " + msg.tool);
+    public void handle(Supplier<NetworkEvent.Context> ctx) {
+        CrystalTools.LOGGER.log(Level.TRACE, "Adding tool to cache: " + this.tool);
 
-            SkillTreeRegistry.SKILL_TREES.put(msg.tool, msg.data);
-        }
+        SkillTreeRegistry.SKILL_TREES.put(this.tool, this.data);
     }
 }
