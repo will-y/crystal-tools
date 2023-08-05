@@ -27,7 +27,7 @@
         "description": "Increases Hoe's Mining Speed",
         "type": "normal",
         "requirements": [
-          {"node":  0}
+          {"node":  [0]}
         ],
         "key": "speed_bonus",
         "value": 0.25
@@ -38,7 +38,7 @@
         "description": "Increases Hoe's Durability",
         "type": "normal",
         "requirements": [
-          {"node":  1}
+          {"node":  [1]}
         ],
         "key": "durability_bonus",
         "value": 200
@@ -62,7 +62,7 @@
         "description": "Increases Hoe's Mining Speed",
         "type": "normal",
         "requirements": [
-          {"node":  2}
+          {"node":  [2]}
         ],
         "key": "speed_bonus",
         "value": 0.25
@@ -73,7 +73,7 @@
         "description": "Increases Hoe's Durability",
         "type": "normal",
         "requirements": [
-          {"node":  3}
+          {"node":  [3]}
         ],
         "key": "durability_bonus",
         "value": 200
@@ -87,8 +87,8 @@
         "type": "normal",
         "requirements": [
           {
-            "not_node":  7,
-            "unless": 24
+            "not_node": [7],
+            "unless": [24]
           },
           {"or_node": [4, 5]}
         ],
@@ -102,10 +102,10 @@
         "type": "normal",
         "requirements": [
           {
-            "not_node":  6,
-            "unless": 24
+            "not_node": [6],
+            "unless": [24]
           },
-          {"or_node":  [4, 5]}
+          {"or_node": [4, 5]}
         ],
         "key": "fortune_bonus",
         "value": 3
@@ -117,7 +117,7 @@
         "type": "normal",
         "requirements": [
           {"or_node": [4, 5]},
-          {"node": 19}
+          {"node": [19]}
         ],
         "key": "unbreaking",
         "value": 0.1
@@ -131,7 +131,7 @@
         "type": "normal",
         "requirements": [
           {"or_node":  [6, 7, 20]},
-          {"node": 4}
+          {"node": [4]}
         ],
         "key": "speed_bonus",
         "value": 0.25
@@ -143,7 +143,7 @@
         "type": "normal",
         "requirements": [
           {"or_node":  [6, 7, 20]},
-          {"node": 5}
+          {"node": [5]}
         ],
         "key": "durability_bonus",
         "value": 200
@@ -156,7 +156,7 @@
         "description": "Increases Hoe's Mining Speed",
         "type": "normal",
         "requirements": [
-          {"node": 10}
+          {"node": [10]}
         ],
         "key": "speed_bonus",
         "value": 0.25
@@ -167,7 +167,7 @@
         "description": "Increases Hoe's Durability",
         "type": "normal",
         "requirements": [
-          {"node": 11}
+          {"node": [11]}
         ],
         "key": "durability_bonus",
         "value": 200
@@ -181,7 +181,7 @@
         "type": "normal",
         "requirements": [
           {"or_node": [12, 13]},
-          {"node": 20}
+          {"node": [20]}
         ],
         "key": "unbreaking",
         "value": 0.1
@@ -261,7 +261,7 @@
         "type": "infinite",
         "requirements": [
           {"or_node":  [14, 18, 24]},
-          {"node": 12}
+          {"node": [12]}
         ],
         "key": "speed_bonus",
         "value": 0.1
@@ -273,7 +273,7 @@
         "type": "infinite",
         "requirements": [
           {"or_node":  [14, 18, 24]},
-          {"node": 13}
+          {"node": [13]}
         ],
         "key": "durability_bonus",
         "value": 50
@@ -284,7 +284,7 @@
         "description": "Add as many points to Unbreaking here as you want (1% per level)",
         "type": "infinite",
         "requirements": [
-          {"node": 21},
+          {"node": [21]},
           {"or_node": [14, 18, 24]}
         ],
         "key": "unbreaking",

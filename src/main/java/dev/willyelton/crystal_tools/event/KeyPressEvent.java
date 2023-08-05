@@ -4,7 +4,7 @@ import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.gui.ModGUIs;
 import dev.willyelton.crystal_tools.gui.UpgradeScreen;
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
-import dev.willyelton.crystal_tools.network.ModeSwitchPacket;
+import dev.willyelton.crystal_tools.network.packet.ModeSwitchPacket;
 import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import net.minecraft.client.Minecraft;

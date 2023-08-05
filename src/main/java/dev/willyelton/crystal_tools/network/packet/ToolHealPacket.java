@@ -1,14 +1,12 @@
-package dev.willyelton.crystal_tools.network;
+package dev.willyelton.crystal_tools.network.packet;
 
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.network.NetworkEvent;
 
-import java.nio.charset.Charset;
 import java.util.function.Supplier;
 
 public class ToolHealPacket {

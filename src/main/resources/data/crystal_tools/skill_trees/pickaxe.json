@@ -4,7 +4,7 @@
       {
         "id": 0,
         "name": "Mining Speed I",
-        "description": "Increases Axe's Mining Speed",
+        "description": "Increases Pickaxe's Mining Speed",
         "type": "normal",
         "requirements": [],
         "key": "speed_bonus",
@@ -13,7 +13,7 @@
       {
         "id": 1,
         "name": "Durability I",
-        "description": "Increases Axe's Durability",
+        "description": "Increases Pickaxe's Durability",
         "type": "normal",
         "requirements": [],
         "key": "durability_bonus",
@@ -24,10 +24,10 @@
       {
         "id": 2,
         "name": "Mining Speed II",
-        "description": "Increases Axe's Mining Speed",
+        "description": "Increases Pickaxe's Mining Speed",
         "type": "normal",
         "requirements": [
-          {"node":  0}
+          {"node":  [0]}
         ],
         "key": "speed_bonus",
         "value": 0.25
@@ -35,23 +35,34 @@
       {
         "id": 3,
         "name": "Durability II",
-        "description": "Increases Axe's Durability",
+        "description": "Increases Pickaxe's Durability",
         "type": "normal",
         "requirements": [
-          {"node":  1}
+          {"node": [1]}
         ],
         "key": "durability_bonus",
         "value": 200
+      },
+      {
+        "id": 22,
+        "name": "Unbreaking I",
+        "description": "Adds 10% to the chance not use durability",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [0, 1]}
+        ],
+        "key": "unbreaking",
+        "value": 0.1
       }
     ],
     [
       {
         "id": 4,
         "name": "Mining Speed III",
-        "description": "Increases Axe's Mining Speed",
+        "description": "Increases Pickaxe's Mining Speed",
         "type": "normal",
         "requirements": [
-          {"node":  2}
+          {"node": [2]}
         ],
         "key": "speed_bonus",
         "value": 0.25
@@ -59,10 +70,10 @@
       {
         "id": 5,
         "name": "Durability III",
-        "description": "Increases Axe's Durability",
+        "description": "Increases Pickaxe's Durability",
         "type": "normal",
         "requirements": [
-          {"node":  3}
+          {"node": [3]}
         ],
         "key": "durability_bonus",
         "value": 200
@@ -70,25 +81,14 @@
     ],
     [
       {
-        "id": 19,
-        "name": "Leaf Miner",
-        "description": "Axe now efficiently mines leaves and other similar blocks.",
-        "type": "normal",
-        "requirements": [
-          {"or_node": [4, 5]}
-        ],
-        "key": "leaf_mine",
-        "value": 1
-      },
-      {
         "id": 6,
         "name": "Silk Touch",
-        "description": "Gives Silk Touch To The Axe",
+        "description": "Gives Silk Touch To The Pickaxe",
         "type": "normal",
         "requirements": [
           {
-            "not_node":  7,
-            "unless": 25
+            "not_node": [7],
+            "unless": [21]
           },
           {"or_node": [4, 5]}
         ],
@@ -98,12 +98,12 @@
       {
         "id": 7,
         "name": "Fortune III",
-        "description": "Gives Fortune III To The Axe",
+        "description": "Gives Fortune III To The Pickaxe",
         "type": "normal",
         "requirements": [
           {
-            "not_node":  6,
-            "unless": 25
+            "not_node": [6],
+            "unless": [21]
           },
           {"or_node":  [4, 5]}
         ],
@@ -111,12 +111,13 @@
         "value": 3
       },
       {
-        "id": 21,
-        "name": "Unbreaking I",
+        "id": 23,
+        "name": "Unbreaking II",
         "description": "Adds 10% to the chance not use durability",
         "type": "normal",
         "requirements": [
-          {"or_node": [4, 5]}
+          {"or_node": [4, 5]},
+          {"node": [22]}
         ],
         "key": "unbreaking",
         "value": 0.1
@@ -126,11 +127,11 @@
       {
         "id": 10,
         "name": "Mining Speed IV",
-        "description": "Increases Axe's Mining Speed",
+        "description": "Increases Pickaxe's Mining Speed",
         "type": "normal",
         "requirements": [
-          {"or_node":  [6, 7, 19, 21]},
-          {"node":  [4]}
+          {"or_node":  [6, 7, 23]},
+          {"node": [4]}
         ],
         "key": "speed_bonus",
         "value": 0.25
@@ -138,11 +139,11 @@
       {
         "id": 11,
         "name": "Durability IV",
-        "description": "Increases Axe's Durability",
+        "description": "Increases Pickaxe's Durability",
         "type": "normal",
         "requirements": [
-          {"or_node":  [6, 7, 19, 21]},
-          {"node":  [5]}
+          {"or_node": [6, 7, 23]},
+          {"node": [5]}
         ],
         "key": "durability_bonus",
         "value": 200
@@ -151,60 +152,22 @@
     [
       {
         "id": 12,
-        "name": "Tree Chopper",
-        "description": "Hold the vein miner key to chop an entire tree! Add additional points to extend the Range! (+1 block range per level)",
-        "type": "infinite",
-        "requirements": [
-          {"or_node": [10, 11]}
-        ],
-        "key": "tree_chop",
-        "value": 1
-      },
-      {
-        "id": 13,
-        "name": "Tree Stripper",
-        "description": "Hold the vein miner key to strip an entire tree! Add additional points to extend the Range! (+1 block range per level)",
-        "type": "infinite",
-        "requirements": [
-          {"or_node": [10, 11]}
-        ],
-        "key": "tree_strip",
-        "value": 1
-      },
-      {
-        "id": 22,
-        "name": "Unbreaking II",
-        "description": "Adds 10% to the chance not use durability",
-        "type": "normal",
-        "requirements": [
-          {"or_node": [10, 11]},
-          {"node": 21}
-        ],
-        "key": "unbreaking",
-        "value": 0.1
-      }
-    ],
-    [
-      {
-        "id": 14,
         "name": "Mining Speed V",
-        "description": "Increases Axe's Mining Speed",
+        "description": "Increases Pickaxe's Mining Speed",
         "type": "normal",
         "requirements": [
-          {"node": 10},
-          {"or_node": [12, 13, 22]}
+          {"node": [10]}
         ],
         "key": "speed_bonus",
         "value": 0.25
       },
       {
-        "id": 15,
+        "id": 13,
         "name": "Durability V",
-        "description": "Increases Axe's Durability",
+        "description": "Increases Pickaxe's Durability",
         "type": "normal",
         "requirements": [
-          {"node": 11},
-          {"or_node": [12, 13, 22]}
+          {"node": [11]}
         ],
         "key": "durability_bonus",
         "value": 200
@@ -212,89 +175,132 @@
     ],
     [
       {
-        "id": 16,
+        "id": 14,
         "name": "Auto Repair",
         "description": "Automatically Repairs Your Tool Over Time!",
         "type": "infinite",
         "requirements": [
-          {"or_node": [14, 15]}
+          {"or_node": [12, 13]}
         ],
         "key": "auto_repair",
         "value": 1
       },
       {
-        "id": 20,
+        "id": 17,
+        "name": "3x3 Mining",
+        "description": "Mines in a 3x3 area.",
+        "type": "normal",
+        "requirements":[
+          {
+            "or_node": [12, 13]
+          },
+          {"not_node": [18, 19]}
+        ],
+        "key": "3x3",
+        "value": 1
+      },
+      {
+        "id": 18,
+        "name": "Vein Mining",
+        "description": "Mines all ores in a vein when pressing the vein mining key. Adding more points increases the range. (+1 block range per level)",
+        "type": "infinite",
+        "requirements":[
+          {
+            "or_node": [12, 13]
+          },
+          {"not_node": [17, 19]}
+        ],
+        "key": "vein_miner",
+        "value": 1
+      },
+      {
+        "id": 19,
         "name": "Auto Smelting",
         "description": "Automatically smelts the blocks that you mine.",
         "type": "normal",
         "requirements":[
           {
-            "or_node": [14, 15]
+            "or_node": [12, 13]
           },
-          {
-            "not_node": 12
-          }
+          {"not_node": [17, 18]}
         ],
         "key": "auto_smelt",
-        "value": 1
-      },
-      {
-        "id": 23,
-        "name": "Unbreaking III",
-        "description": "Adds 10% to the chance not use durability",
-        "type": "normal",
-        "requirements": [
-          {"or_node": [14, 15]},
-          {"node": 22}
-        ],
-        "key": "unbreaking",
-        "value": 0.1
-      },
-      {
-        "id": 25,
-        "name": "Mine Mode",
-        "description": "Press mode_switch key to change the mining mode between unlocked modes (Silk Touch or Fortune).",
-        "type": "normal",
-        "requirements": [
-          {"or_node": [14, 15]}
-        ],
-        "key": "mine_mode",
         "value": 1
       }
     ],
     [
       {
-        "id":  17,
+        "id": 20,
+        "name": "Torch",
+        "description": "Right-Click to place a torch. Uses 10 durability.",
+        "type": "normal",
+        "requirements": [
+          {
+            "or_node": [14, 17, 18, 19]
+          }
+        ],
+        "key": "torch",
+        "value": 1
+      },
+      {
+        "id": 21,
+        "name": "Mine Mode",
+        "description": "Press mode_switch key to change the mining mode between unlocked modes (Silk Touch or Fortune). Press shift + mode_switch to change the breaking mode (3x3 or 1x1)",
+        "type": "normal",
+        "requirements": [
+          {
+            "or_node": [14, 17, 18, 19]
+          }
+        ],
+        "key": "mine_mode",
+        "value": 1
+      },
+      {
+        "id": 24,
+        "name": "Unbreaking III",
+        "description": "Adds 10% to the chance not use durability",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [14, 17, 18, 19]},
+          {"node": [23]}
+        ],
+        "key": "unbreaking",
+        "value": 0.1
+      }
+    ],
+    [
+      {
+        "id":  15,
         "name": "Infinite Speed",
         "description": "Add As Many Points To Speed Here As You Want",
         "type": "infinite",
         "requirements": [
-          {"or_node":  [16, 20, 23, 25]},
-          {"node": 14}
+          {"or_node": [20, 21, 24]},
+          {"node": [12]}
         ],
         "key": "speed_bonus",
         "value": 0.1
       },
       {
-        "id": 18,
+        "id": 16,
         "name": "Infinite Durability",
         "description": "Add As Many Points To Durability Here As You Want",
         "type": "infinite",
         "requirements": [
-          {"or_node":  [16, 20, 23, 25]},
-          {"node": 15}
+          {"or_node": [20, 21, 24]},
+          {"node": [13]}
         ],
         "key": "durability_bonus",
         "value": 50
       },
       {
-        "id": 24,
+        "id": 25,
         "name": "Infinite Unbreaking",
         "description": "Add as many points to Unbreaking here as you want (1% per level)",
         "type": "infinite",
         "requirements": [
-          {"node": 23},
-          {"or_node": [16, 20, 23, 25]}
+          {"or_node": [20, 21, 24]},
+          {"node": [24]}
         ],
         "key": "unbreaking",
         "value": 0.01

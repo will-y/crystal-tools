@@ -1,6 +1,9 @@
 package dev.willyelton.crystal_tools.levelable.skill;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.willyelton.crystal_tools.levelable.skill.requirement.SkillDataRequirement;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
@@ -15,12 +18,12 @@ public class SkillDataNode {
     private final String key;
     private final float value;
 
-    public SkillDataNode(int id, String name, String description, SkillNodeType type, int points, String key, float value, List<SkillDataRequirement> requirements) {
+    public SkillDataNode(int id, String name, String description, SkillNodeType type, String key, float value, List<SkillDataRequirement> requirements) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.type = type;
-        this.points = points;
+        this.points = 0;
         this.key = key;
         this.value = value;
         this.requirements = requirements;
@@ -101,4 +104,15 @@ public class SkillDataNode {
                 ", value=" + value +
                 '}';
     }
+
+    public static final Codec<SkillDataNode> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            Codec.INT.fieldOf("id").forGetter(SkillDataNode::getId),
+            Codec.STRING.fieldOf("name").forGetter(SkillDataNode::getName),
+            Codec.STRING.fieldOf("description").forGetter(SkillDataNode::getDescription),
+            StringRepresentable.fromEnum(SkillNodeType::values).fieldOf("type").forGetter(SkillDataNode::getType),
+            Codec.STRING.fieldOf("key").forGetter(SkillDataNode::getKey),
+            Codec.FLOAT.fieldOf("value").forGetter(SkillDataNode::getValue),
+            SkillDataRequirement.CODEC.listOf().fieldOf("requirements").forGetter(SkillDataNode::getRequirements)
+    ).apply(instance, SkillDataNode::new));
+
 }

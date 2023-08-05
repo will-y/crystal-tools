@@ -45,7 +45,7 @@
         "description": "Increases the number of food points the apple restores",
         "type": "normal",
         "requirements": [
-          {"node":  0}
+          {"node":  [0]}
         ],
         "key": "nutrition_bonus",
         "value": 2
@@ -56,7 +56,7 @@
         "description": "Increases the saturation of the apple",
         "type": "normal",
         "requirements": [
-          {"node": 1}
+          {"node": [1]}
         ],
         "key": "saturation_bonus",
         "value": 0.4
@@ -67,7 +67,7 @@
         "description": "Increases how fast you can eat the apple",
         "type": "normal",
         "requirements": [
-          {"node": 2}
+          {"node": [2]}
         ],
         "key": "eat_speed_bonus",
         "value": 6
@@ -78,7 +78,7 @@
         "description": "Increases the durability of the apple",
         "type": "normal",
         "requirements": [
-          {"node": 3}
+          {"node": [3]}
         ],
         "key": "durability_bonus",
         "value": 25
@@ -115,7 +115,7 @@
         "description": "Increases the number of food points the apple restores",
         "type": "normal",
         "requirements": [
-          {"node":  4},
+          {"node":  [4]},
           {"or_node": [8, 9]}
         ],
         "key": "nutrition_bonus",
@@ -127,7 +127,7 @@
         "description": "Increases the saturation of the apple",
         "type": "normal",
         "requirements": [
-          {"node": 5},
+          {"node": [5]},
           {"or_node": [8, 9]}
         ],
         "key": "saturation_bonus",
@@ -139,7 +139,7 @@
         "description": "Increases how fast you can eat the apple",
         "type": "normal",
         "requirements": [
-          {"node": 6},
+          {"node": [6]},
           {"or_node": [8, 9]}
         ],
         "key": "eat_speed_bonus",
@@ -151,7 +151,7 @@
         "description": "Increases the durability of the apple",
         "type": "normal",
         "requirements": [
-          {"node": 7},
+          {"node": [7]},
           {"or_node": [8, 9]}
         ],
         "key": "durability_bonus",
@@ -165,7 +165,7 @@
         "description": "Increases the number of food points the apple restores",
         "type": "normal",
         "requirements": [
-          {"node":  10}
+          {"node":  [10]}
         ],
         "key": "nutrition_bonus",
         "value": 2
@@ -176,7 +176,7 @@
         "description": "Increases the saturation of the apple",
         "type": "normal",
         "requirements": [
-          {"node": 11}
+          {"node": [11]}
         ],
         "key": "saturation_bonus",
         "value": 0.4
@@ -187,7 +187,7 @@
         "description": "Increases how fast you can eat the apple",
         "type": "normal",
         "requirements": [
-          {"node": 12}
+          {"node": [12]}
         ],
         "key": "eat_speed_bonus",
         "value": 6
@@ -198,7 +198,7 @@
         "description": "Increases the durability of the apple",
         "type": "normal",
         "requirements": [
-          {"node": 13}
+          {"node": [13]}
         ],
         "key": "durability_bonus",
         "value": 25
@@ -211,7 +211,7 @@
         "description": "Put as many points into nutrition as you want",
         "type": "infinite",
         "requirements": [
-          {"node": 14}
+          {"node": [14]}
         ],
         "key": "nutrition_bonus",
         "value": 1
@@ -222,7 +222,7 @@
         "description": "Put as many points into saturation as you want",
         "type": "infinite",
         "requirements": [
-          {"node": 15}
+          {"node": [15]}
         ],
         "key": "saturation_bonus",
         "value": 0.1
@@ -233,7 +233,7 @@
         "description": "Put as many points into eat speed as you want (only up to 7 points will do anything)",
         "type": "infinite",
         "requirements": [
-          {"node": 16}
+          {"node": [16]}
         ],
         "key": "eat_speed_bonus",
         "value": 1
@@ -244,7 +244,7 @@
         "description": "Put as many points into durability as you want",
         "type": "infinite",
         "requirements": [
-          {"node": 17}
+          {"node": [17]}
         ],
         "key": "durability_bonus",
         "value": 10

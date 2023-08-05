@@ -1,4 +1,4 @@
-package dev.willyelton.crystal_tools.network;
+package dev.willyelton.crystal_tools.network.packet;
 
 import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;

@@ -14,7 +14,7 @@ import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid= CrystalTools.MODID)
+@Mod.EventBusSubscriber(modid = CrystalTools.MODID)
 public class ProjectileHitEvent {
     @SubscribeEvent
     public static void handleProjectileHit(ProjectileImpactEvent event) {

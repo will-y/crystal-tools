@@ -1,8 +1,17 @@
 package dev.willyelton.crystal_tools.levelable.skill;
 
-public enum SkillNodeType {
-    NORMAL,
-    INFINITE;
+import net.minecraft.util.StringRepresentable;
+import org.jetbrains.annotations.NotNull;
+
+public enum SkillNodeType implements StringRepresentable {
+    NORMAL("normal"),
+    INFINITE("infinite");
+
+    private final String id;
+
+    private SkillNodeType(String id) {
+        this.id = id;
+    }
 
     public static SkillNodeType fromString(String type) {
         if (type.equalsIgnoreCase("normal")) {
@@ -12,5 +21,10 @@ public enum SkillNodeType {
         }
 
         return NORMAL;
+    }
+
+    @Override
+    public @NotNull String getSerializedName() {
+        return this.id;
     }
 }

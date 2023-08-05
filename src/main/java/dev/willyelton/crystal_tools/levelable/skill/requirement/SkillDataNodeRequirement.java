@@ -1,5 +1,7 @@
 package dev.willyelton.crystal_tools.levelable.skill.requirement;
 
+import java.util.List;
+
 public interface SkillDataNodeRequirement {
-    int[] getRequiredNodes();
+    List<Integer> getRequiredNodes();
 }

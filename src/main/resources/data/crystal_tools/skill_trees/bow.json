@@ -36,7 +36,7 @@
         "description": "Increased the Damage Done (equal to power IV)",
         "type": "normal",
         "requirements": [
-          {"node": 0}
+          {"node": [0]}
         ],
         "key": "arrow_damage",
         "value": 1
@@ -47,7 +47,7 @@
         "description": "Increases the speed of fired arrows",
         "type": "normal",
         "requirements": [
-          {"node": 1}
+          {"node": [1]}
         ],
         "key": "arrow_speed_bonus",
         "value": 1
@@ -58,7 +58,7 @@
         "description": "Increases Bow's Durability",
         "type": "normal",
         "requirements":[
-          {"node": 2}
+          {"node": [2]}
         ],
         "key": "durability_bonus",
         "value": 200
@@ -95,7 +95,7 @@
         "description": "Increased the Damage Done (equal to power VI)",
         "type": "normal",
         "requirements": [
-          {"node": 3},
+          {"node": [3]},
           {"or_node": [6, 8]}
         ],
         "key": "arrow_damage",
@@ -107,7 +107,7 @@
         "description": "Increases the speed of fired arrows",
         "type": "normal",
         "requirements": [
-          {"node": 4},
+          {"node": [4]},
           {"or_node": [6, 8]}
         ],
         "key": "arrow_speed_bonus",
@@ -119,7 +119,7 @@
         "description": "Increases Bow's Durability",
         "type": "normal",
         "requirements":[
-          {"node": 5},
+          {"node": [5]},
           {"or_node": [6, 8]}
         ],
         "key": "durability_bonus",
@@ -134,7 +134,7 @@
         "type": "normal",
         "requirements": [
           {"or_node": [9, 10, 11]},
-          {"node": 6}
+          {"node": [6]}
         ],
         "key": "arrow_knockback",
         "value": 1
@@ -158,7 +158,7 @@
         "description": "Increased the Damage Done (equal to power VI)",
         "type": "normal",
         "requirements": [
-          {"node": 9},
+          {"node": [9]},
           {"or_node": [12, 14]}
         ],
         "key": "arrow_damage",
@@ -170,7 +170,7 @@
         "description": "Increases the speed of fired arrows",
         "type": "normal",
         "requirements": [
-          {"node": 10},
+          {"node": [10]},
           {"or_node": [12, 14]}
         ],
         "key": "arrow_speed_bonus",
@@ -182,7 +182,7 @@
         "description": "Increases Bow's Durability",
         "type": "normal",
         "requirements":[
-          {"node": 11},
+          {"node": [11]},
           {"or_node": [12, 14]}
         ],
         "key": "durability_bonus",
@@ -197,7 +197,7 @@
         "type": "normal",
         "requirements": [
           {"or_node": [15, 16, 17]},
-          {"node": 12}
+          {"node": [12]}
         ],
         "key": "arrow_knockback",
         "value": 1
@@ -221,7 +221,7 @@
         "description": "Increased the Damage Done (equal to power VIII)",
         "type": "normal",
         "requirements": [
-          {"node": 15},
+          {"node": [15]},
           {"or_node": [18, 20]}
         ],
         "key": "arrow_damage",
@@ -233,7 +233,7 @@
         "description": "Increases the speed of fired arrows",
         "type": "normal",
         "requirements": [
-          {"node": 16},
+          {"node": [16]},
           {"or_node": [18, 20]}
         ],
         "key": "arrow_speed_bonus",
@@ -245,7 +245,7 @@
         "description": "Increases Bow's Durability",
         "type": "normal",
         "requirements":[
-          {"node": 17},
+          {"node": [17]},
           {"or_node": [18, 20]}
         ],
         "key": "durability_bonus",
@@ -259,7 +259,7 @@
         "description": "Put as many points into arrow damage as you want!",
         "type": "infinite",
         "requirements": [
-          {"node": 21}
+          {"node": [21]}
         ],
         "key": "arrow_damage",
         "value": 0.25
@@ -270,7 +270,7 @@
         "description": "Put as many points into arrow speed as yu want!",
         "type": "infinite",
         "requirements": [
-          {"node": 22}
+          {"node": [22]}
         ],
         "key": "arrow_speed_bonus",
         "value": 0.25
@@ -281,7 +281,7 @@
         "description": "Put as many points into durability as you want!",
         "type": "infinite",
         "requirements": [
-          {"node": 23}
+          {"node": [23]}
         ],
         "key": "durability_bonus",
         "value": 50

@@ -24,21 +24,17 @@ import org.apache.logging.log4j.Logger;
 @Mod(CrystalTools.MODID)
 public class CrystalTools {
     // Directly reference a log4j logger.
-    private static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger();
     public static final String MODID = "crystal_tools";
     public static final ItemDisabledCondition.Serializer INSTANCE = new ItemDisabledCondition.Serializer();
 
     public CrystalTools() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        // Register the setup method for modloading
-        modEventBus.addListener(this::init);
         // Client Register Things
         modEventBus.addListener(this::clientSetup);
         CraftingHelper.register(INSTANCE);
         modEventBus.addListener(DataGeneration::generate);
-
-        setup();
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -60,20 +56,5 @@ public class CrystalTools {
 
     private void clientSetup(final FMLClientSetupEvent event) {
         ModGUIs.initScreens(event);
-    }
-
-    private void init(final FMLCommonSetupEvent event) {
-        // some preinit code
-//        event.enqueueWork(() -> {
-//
-//        });
-    }
-
-    private void addCreativeTabItems(BuildCreativeModeTabContentsEvent event) {
-
-    }
-
-    private void setup() {
-
     }
 }

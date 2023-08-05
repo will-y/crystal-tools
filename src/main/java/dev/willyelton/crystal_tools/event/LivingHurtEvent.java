@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid=CrystalTools.MODID)
+@Mod.EventBusSubscriber(modid = CrystalTools.MODID)
 public class LivingHurtEvent {
     @SubscribeEvent
     public static void handleLivingHurtEvent(net.minecraftforge.event.entity.living.LivingHurtEvent event) {

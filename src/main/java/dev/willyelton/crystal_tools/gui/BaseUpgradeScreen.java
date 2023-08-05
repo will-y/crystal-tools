@@ -7,7 +7,7 @@ import dev.willyelton.crystal_tools.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.levelable.skill.requirement.SkillDataNodeRequirement;
 import dev.willyelton.crystal_tools.levelable.skill.requirement.SkillItemRequirement;
 import dev.willyelton.crystal_tools.network.PacketHandler;
-import dev.willyelton.crystal_tools.network.RemoveItemPacket;
+import dev.willyelton.crystal_tools.network.packet.RemoveItemPacket;
 import dev.willyelton.crystal_tools.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.levelable.skill.SkillDataNode;
 import dev.willyelton.crystal_tools.levelable.skill.SkillNodeType;
@@ -149,7 +149,7 @@ public abstract class BaseUpgradeScreen extends Screen {
             for (SkillDataRequirement requirement : node.getRequirements()) {
                 if (requirement instanceof SkillDataNodeRequirement nodeRequirement) {
                     RequirementType type = requirement.getRequirementType();
-                    int[] nodes = nodeRequirement.getRequiredNodes();
+                    List<Integer> nodes = nodeRequirement.getRequiredNodes();
 
                     for (int j : nodes) {
                         int color = Colors.fromRGB(0, 255, 0);

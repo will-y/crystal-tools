@@ -1,4 +1,4 @@
-package dev.willyelton.crystal_tools.network;
+package dev.willyelton.crystal_tools.network.packet;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;

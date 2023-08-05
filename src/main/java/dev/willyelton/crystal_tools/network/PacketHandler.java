@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.network;
 
 import dev.willyelton.crystal_tools.CrystalTools;
+import dev.willyelton.crystal_tools.network.packet.*;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -37,6 +38,12 @@ public class PacketHandler {
 
         registerMessageToClient(AddSkillPointsToClientPacket.class, AddSkillPointsToClientPacket::encode, AddSkillPointsToClientPacket::decode, AddSkillPointsToClientPacket.Handler::handle);
         registerMessage(ResetSkillsPacket.class, ResetSkillsPacket::encode, ResetSkillsPacket::decode, ResetSkillsPacket::handle);
+
+        HANDLER.messageBuilder(SkillCacheUpdatePacket.class, index++, NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(SkillCacheUpdatePacket::decode)
+                .encoder(SkillCacheUpdatePacket::encode)
+                .consumerMainThread(SkillCacheUpdatePacket.Handler::handle)
+                .add();
     }
 
     public static void sendToServer(Object msg) {
@@ -45,6 +52,10 @@ public class PacketHandler {
 
     public static <MSG> void sendToPlayer(MSG message, ServerPlayer player) {
         HANDLER.send(PacketDistributor.PLAYER.with(() -> player), message);
+    }
+
+    public static  <MSG> void sendToAllPlayers(MSG message) {
+        HANDLER.send(PacketDistributor.ALL.noArg(), message);
     }
 
     private static <MSG> void registerMessage(Class<MSG> messageType, BiConsumer<MSG, FriendlyByteBuf> encoder, Function<FriendlyByteBuf, MSG> decoder, BiConsumer<MSG, Supplier<NetworkEvent.Context>> messageConsumer) {

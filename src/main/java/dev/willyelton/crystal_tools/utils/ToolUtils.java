@@ -6,6 +6,7 @@ import dev.willyelton.crystal_tools.keybinding.KeyBindings;
 import dev.willyelton.crystal_tools.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.levelable.skill.SkillDataNode;
 import dev.willyelton.crystal_tools.levelable.skill.SkillNodeType;
+import dev.willyelton.crystal_tools.levelable.skill.SkillTreeRegistry;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -71,8 +72,7 @@ public class ToolUtils {
         } else {
             Map<String, Float> skills = new HashMap<>();
             components.add(Component.literal("Skills:"));
-            int[] points = NBTUtils.getIntArray(itemStack, "points");
-            SkillData toolData = SkillData.fromResourceLocation(new ResourceLocation("crystal_tools", String.format("skill_trees/%s.json", item.getItemType())), points);
+            SkillData toolData = getSkillData(itemStack);
             for (SkillDataNode dataNode : toolData.getAllNodes()) {
                 if (dataNode.isComplete() || (dataNode.getType().equals(SkillNodeType.INFINITE) && dataNode.getPoints() > 0)) {
                     skills.compute(dataNode.getKey(), (key, value) -> value != null ? value + dataNode.getValue() : dataNode.getValue());
@@ -154,6 +154,18 @@ public class ToolUtils {
             stack.getTag().putInt("Damage", damage);
             stack.getTag().putInt("RepairCost", repairCost);
             NBTUtils.setValue(stack, "skill_points", (float) skillPoints);
+        }
+    }
+
+    public static SkillData getSkillData(ItemStack stack) {
+        int[] points = NBTUtils.getIntArray(stack, "points");
+        if (stack.getItem() instanceof LevelableItem) {
+            String toolType = ((LevelableItem) stack.getItem()).getItemType();
+            SkillData data = SkillTreeRegistry.SKILL_TREES.get(toolType);
+            data.applyPoints(points);
+            return data;
+        } else {
+            return null;
         }
     }
 }

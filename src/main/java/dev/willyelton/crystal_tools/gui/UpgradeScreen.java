@@ -4,9 +4,14 @@ import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.levelable.skill.SkillDataNode;
+import dev.willyelton.crystal_tools.levelable.skill.SkillTreeRegistry;
 import dev.willyelton.crystal_tools.network.*;
 import dev.willyelton.crystal_tools.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.levelable.skill.SkillData;
+import dev.willyelton.crystal_tools.network.packet.RemoveItemPacket;
+import dev.willyelton.crystal_tools.network.packet.ResetSkillsPacket;
+import dev.willyelton.crystal_tools.network.packet.ToolAttributePacket;
+import dev.willyelton.crystal_tools.network.packet.ToolHealPacket;
 import dev.willyelton.crystal_tools.utils.InventoryUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
@@ -29,19 +34,10 @@ public class UpgradeScreen extends BaseUpgradeScreen {
     public UpgradeScreen(ItemStack itemStack, Player player) {
         super(player, Component.literal("Upgrade Screen"));
         this.stack = itemStack;
-        this.data = getSkillData();
+        this.data = ToolUtils.getSkillData(itemStack);
         this.tag = itemStack.getTag();
     }
 
-    protected SkillData getSkillData() {
-        int[] points = NBTUtils.getIntArray(stack, "points");
-        if (stack.getItem() instanceof LevelableItem) {
-            String toolType = ((LevelableItem) stack.getItem()).getItemType();
-            return SkillData.fromResourceLocation(new ResourceLocation("crystal_tools", String.format("skill_trees/%s.json", toolType)), points);
-        } else {
-            return null;
-        }
-    }
 
     /**
      * Used to init things differently from the default item implementation of the upgrade screen
@@ -73,13 +69,7 @@ public class UpgradeScreen extends BaseUpgradeScreen {
                 ToolUtils.resetPoints(this.stack);
                 InventoryUtils.removeItemFromInventory(this.player.getInventory(), Registration.CRYSTAL.get().getDefaultInstance());
 
-                int[] points = NBTUtils.getIntArray(stack, "points");
-                if (stack.getItem() instanceof LevelableItem) {
-                    String toolType = ((LevelableItem) stack.getItem()).getItemType();
-                    data = SkillData.fromResourceLocation(new ResourceLocation("crystal_tools", String.format("skill_trees/%s.json", toolType)), points);
-                } else {
-                    data = null;
-                }
+                data = ToolUtils.getSkillData(this.stack);
             }
 
             this.onClose();

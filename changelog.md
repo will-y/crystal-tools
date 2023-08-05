@@ -1,3 +1,7 @@
+## 1.4.3-RELEASE Changes
+### Changes
+- Skill Tress now use a datapack instead of a resource pack
+
 ----------------------- 1.4.2-RELEASE Changes -----------------------
 ### Changes
 - Updates to Minecraft 1.20.1 (forge 47.1.0)

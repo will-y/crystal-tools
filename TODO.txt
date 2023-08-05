@@ -12,10 +12,8 @@
 - JEI Integration
 
 ----------------------- 1.20 -----------------------
-- Datagen
-- Actual json processing
-    - Make the requirements just one object (maybe not)
-- Datapack instead of resource pack (reload listener + cache objects)
 - sonar
 - Fix dragging on skill tree
 - Skill tree UI redesign
+- torch
+- tooltips

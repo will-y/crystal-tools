@@ -54,7 +54,7 @@
         "description": "Gives the elytra Prot II.",
         "type": "normal",
         "requirements": [
-          {"node": 0}
+          {"node": [0]}
         ],
         "key": "Prot_bonus",
         "value": 2
@@ -65,7 +65,7 @@
         "description": "Gives the elytra Fire Prot II.",
         "type": "normal",
         "requirements": [
-          {"node": 1}
+          {"node": [1]}
         ],
         "key": "fire_Prot_bonus",
         "value": 2
@@ -76,7 +76,7 @@
         "description": "Gives the elytra Blast Prot II.",
         "type": "normal",
         "requirements": [
-          {"node": 2}
+          {"node": [2]}
         ],
         "key": "blast_Prot_bonus",
         "value": 2
@@ -87,7 +87,7 @@
         "description": "Gives the elytra Projectile Prot II.",
         "type": "normal",
         "requirements": [
-          {"node": 3}
+          {"node": [3]}
         ],
         "key": "projectile_Prot_bonus",
         "value": 2
@@ -98,7 +98,7 @@
         "description": "Increases the durability of the eyltra. Also uses less durability while flying",
         "type": "normal",
         "requirements": [
-          {"node":  26}
+          {"node":  [26]}
         ],
         "key": "durability_bonus",
         "value": 200
@@ -144,7 +144,7 @@
         "description": "Increases the durability of the eyltra. Also uses less durability while flying",
         "type": "normal",
         "requirements": [
-          {"node":  27}
+          {"node":  [27]}
         ],
         "key": "durability_bonus",
         "value": 200
@@ -157,7 +157,7 @@
         "description": "Gives the elytra Prot III.",
         "type": "normal",
         "requirements": [
-          {"node": 4},
+          {"node": [4]},
           {"or_node": [8, 9, 10]}
         ],
         "key": "Prot_bonus",
@@ -169,7 +169,7 @@
         "description": "Gives the elytra Fire Prot III.",
         "type": "normal",
         "requirements": [
-          {"node": 5},
+          {"node": [5]},
           {"or_node": [8, 9, 10]}
         ],
         "key": "fire_Prot_bonus",
@@ -181,7 +181,7 @@
         "description": "Gives the elytra Blast Prot III.",
         "type": "normal",
         "requirements": [
-          {"node": 6},
+          {"node": [6]},
           {"or_node": [8, 9, 10]}
         ],
         "key": "blast_Prot_bonus",
@@ -193,7 +193,7 @@
         "description": "Gives the elytra Projectile Prot III.",
         "type": "normal",
         "requirements": [
-          {"node": 7},
+          {"node": [7]},
           {"or_node": [8, 9, 10]}
         ],
         "key": "projectile_Prot_bonus",
@@ -207,7 +207,7 @@
         "description": "Gives the elytra more base armor.",
         "type": "normal",
         "requirements": [
-          {"node": 8},
+          {"node": [8]},
           {"or_node": [11, 12, 13, 14]}
         ],
         "key": "armor_bonus",
@@ -219,7 +219,7 @@
         "description": "Gives the elytra more armor toughness.",
         "type": "normal",
         "requirements": [
-          {"node": 8},
+          {"node": [8]},
           {"or_node": [11, 12, 13, 14]}
         ],
         "key": "toughness_bonus",
@@ -232,7 +232,7 @@
         "type": "normal",
         "requirements": [
           {"or_node": [11, 12, 13, 14]},
-          {"node": 10}
+          {"node": [10]}
         ],
         "key": "health_bonus",
         "value": 2
@@ -256,7 +256,7 @@
         "description": "Gives the elytra Prot IV.",
         "type": "normal",
         "requirements": [
-          {"node": 11},
+          {"node": [11]},
           {"or_node": [15, 16, 17, 18]}
         ],
         "key": "Prot_bonus",
@@ -268,7 +268,7 @@
         "description": "Gives the elytra Fire Prot IV.",
         "type": "normal",
         "requirements": [
-          {"node": 12},
+          {"node": [12]},
           {"or_node": [15, 16, 17, 18]}
         ],
         "key": "fire_Prot_bonus",
@@ -280,7 +280,7 @@
         "description": "Gives the elytra Blast Prot IV.",
         "type": "normal",
         "requirements": [
-          {"node": 13},
+          {"node": [13]},
           {"or_node": [15, 16, 17, 18]}
         ],
         "key": "blast_Prot_bonus",
@@ -292,7 +292,7 @@
         "description": "Gives the elytra Projectile Prot IV.",
         "type": "normal",
         "requirements": [
-          {"node": 14},
+          {"node": [14]},
           {"or_node": [15, 16, 17, 18]}
         ],
         "key": "projectile_Prot_bonus",
@@ -306,7 +306,7 @@
         "description": "Gives the elytra more base armor.",
         "type": "normal",
         "requirements": [
-          {"node": 15},
+          {"node": [15]},
           {"or_node": [19, 20, 21, 22]}
         ],
         "key": "armor_bonus",
@@ -318,7 +318,7 @@
         "description": "Gives the elytra more armor toughness.",
         "type": "normal",
         "requirements": [
-          {"node": 16},
+          {"node": [16]},
           {"or_node": [19, 20, 21, 22]}
         ],
         "key": "toughness_bonus",
@@ -331,7 +331,7 @@
         "type": "normal",
         "requirements": [
           {"or_node": [19, 20, 21, 22]},
-          {"node": 17}
+          {"node": [17]}
         ],
         "key": "health_bonus",
         "value": 4

@@ -4,7 +4,8 @@ import dev.willyelton.crystal_tools.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.levelable.block.container.CrystalFurnaceContainer;
 import dev.willyelton.crystal_tools.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.levelable.skill.SkillDataNode;
-import dev.willyelton.crystal_tools.network.BlockAttributePacket;
+import dev.willyelton.crystal_tools.levelable.skill.SkillTreeRegistry;
+import dev.willyelton.crystal_tools.network.packet.BlockAttributePacket;
 import dev.willyelton.crystal_tools.network.PacketHandler;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -31,7 +32,9 @@ public class FurnaceUpgradeScreen extends BaseUpgradeScreen {
     protected SkillData getSkillData() {
         int[] points = this.container.getPoints();
         String blockType = this.container.getBlockType();
-        return SkillData.fromResourceLocation(new ResourceLocation("crystal_tools", String.format("skill_trees/%s.json", blockType)), points);
+        SkillData data = SkillTreeRegistry.SKILL_TREES.get(blockType);
+        data.applyPoints(points);
+        return data;
     }
 
     @Override
