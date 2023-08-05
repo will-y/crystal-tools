@@ -2,6 +2,9 @@
 ### Changes
 - Skill Tress now use a datapack instead of a resource pack
 
+### Fixes
+- Fixed Crystal Torches dropping items when placed by a tool
+
 ----------------------- 1.4.2-RELEASE Changes -----------------------
 ### Changes
 - Updates to Minecraft 1.20.1 (forge 47.1.0)

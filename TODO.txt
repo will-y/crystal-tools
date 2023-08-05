@@ -15,5 +15,4 @@
 - sonar
 - Fix dragging on skill tree
 - Skill tree UI redesign
-- torch
 - tooltips

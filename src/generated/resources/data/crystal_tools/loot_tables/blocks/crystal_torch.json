@@ -5,12 +5,33 @@
       "bonus_rolls": 0.0,
       "conditions": [
         {
-          "condition": "minecraft:survives_explosion"
+          "condition": "minecraft:any_of",
+          "terms": [
+            {
+              "block": "crystal_tools:crystal_torch",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "drop_item": "true"
+              }
+            },
+            {
+              "block": "crystal_tools:crystal_wall_torch",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "drop_item": "true"
+              }
+            }
+          ]
         }
       ],
       "entries": [
         {
           "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "minecraft:survives_explosion"
+            }
+          ],
           "name": "crystal_tools:crystal_torch"
         }
       ],
