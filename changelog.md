@@ -3,7 +3,8 @@
 - Skill Tress now use a datapack instead of a resource pack
 
 ### Fixes
-- Fixed Crystal Torches dropping items when placed by a tool
+- Fixes Crystal Torches dropping items when placed by a tool
+- Fixes tooltip sticking in the upgrade screen
 
 ----------------------- 1.4.2-RELEASE Changes -----------------------
 ### Changes

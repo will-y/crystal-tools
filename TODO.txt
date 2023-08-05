@@ -15,4 +15,4 @@
 - sonar
 - Fix dragging on skill tree
 - Skill tree UI redesign
-- tooltips
+- format packets
