@@ -1,6 +1,7 @@
 ## 1.4.3-RELEASE Changes
 ### Changes
 - Skill Tress now use a datapack instead of a resource pack
+- Heal button is now disabled when the tool is not damaged
 
 ### Fixes
 - Fixes Crystal Torches dropping items when placed by a tool

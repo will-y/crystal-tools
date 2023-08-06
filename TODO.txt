@@ -12,6 +12,5 @@
 - JEI Integration
 
 ----------------------- 1.20 -----------------------
-- sonar
 - Fix dragging on skill tree
 - Skill tree UI redesign

@@ -50,6 +50,8 @@ public class UpgradeScreen extends BaseUpgradeScreen {
             // also do client side to update ui, seems to work, might want to test more
             NBTUtils.addValueToTag(this.tag, "skill_points", -1);
             this.updateButtons();
+            // Itemstack won't get updated yetD I guess so need to manually disable heal after use
+            button.active = false;
         }).bounds(5, 15, 30, Y_SIZE).tooltip(Tooltip.create(Component.literal("Uses a skill point to fully repair this tool"))).build());
 
         boolean resetRequiresCrystal = CrystalToolsConfig.REQUIRE_CRYSTAL_FOR_RESET.get();
@@ -85,7 +87,7 @@ public class UpgradeScreen extends BaseUpgradeScreen {
     protected void updateButtons() {
         super.updateButtons();
         int skillPoints = (int) NBTUtils.getFloatOrAddKey(tag, "skill_points");
-        this.healButton.active = skillPoints > 0;
+        this.healButton.active = skillPoints > 0 && this.stack.isDamaged();
         this.resetButton.active = !CrystalToolsConfig.REQUIRE_CRYSTAL_FOR_RESET.get() || this.player.getInventory().hasAnyOf(Set.of(Registration.CRYSTAL.get()));
     }
 
