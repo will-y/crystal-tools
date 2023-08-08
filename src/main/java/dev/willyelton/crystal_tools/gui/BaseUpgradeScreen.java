@@ -29,14 +29,23 @@ import java.util.HashMap;
 import java.util.List;
 
 public abstract class BaseUpgradeScreen extends Screen {
-    final Player player;
-    protected SkillData data;
-    private final HashMap<Integer, SkillButton> skillButtons = new HashMap<>();
-
-    protected static final int Y_PADDING = 20;
+    protected static final int Y_PADDING = 30;
     protected static final int X_SIZE = 100;
     protected static final int Y_SIZE = 20;
     protected static final int MIN_X_PADDING = 5;
+    private static final ResourceLocation DEPENDENCY_LINE_LOCATION = new ResourceLocation("crystal_tools", "textures/gui/dependency_line.png");
+    private static final float DEPENDENCY_LINE_WIDTH = 9;
+    private static final int DEPENDENCY_LINE_IMAGE_WIDTH = 252;
+    private static final int DEPENDENCY_LINE_IMAGE_HEIGHT = 256;
+
+    private static int ANIMATION_FRAME = 0;
+    private static final int ANIMATION_FRAME_MIN = 0;
+    private static int ANIMATION_COUNTER = 0;
+    private static final int ANIMATION_COUNTER_MAX = 10;
+
+    protected final Player player;
+    protected SkillData data;
+    private final HashMap<Integer, SkillButton> skillButtons = new HashMap<>();
 
     private int xOffset = 0;
     private int yOffset = 0;
@@ -72,8 +81,17 @@ public abstract class BaseUpgradeScreen extends Screen {
         this.renderBlockBackground(0, CrystalToolsConfig.UPGRADE_SCREEN_BACKGROUND.get());
         drawDependencyLines(guiGraphics);
         guiGraphics.drawString(font, "Skill Points: " + this.getSkillPoints(), 5, 5, Colors.TEXT_LIGHT);
-
+//        drawDependencyLine(guiGraphics, 100, 100, mouseX, mouseY, true);
         super.render(guiGraphics, mouseX, mouseY, particleTicks);
+
+
+        ANIMATION_COUNTER++;
+
+        if (ANIMATION_COUNTER > ANIMATION_COUNTER_MAX) {
+            ANIMATION_COUNTER = 0;
+            if (ANIMATION_FRAME < ANIMATION_FRAME_MIN) ANIMATION_FRAME = 11;
+            ANIMATION_FRAME--;
+        }
     }
 
     protected abstract int getSkillPoints();
@@ -145,41 +163,43 @@ public abstract class BaseUpgradeScreen extends Screen {
 
     private void drawDependencyLines(GuiGraphics guiGraphics) {
         for (SkillButton button : skillButtons.values()) {
-            SkillDataNode node = button.getDataNode();
-            for (SkillDataRequirement requirement : node.getRequirements()) {
-                if (requirement instanceof SkillDataNodeRequirement nodeRequirement) {
-                    RequirementType type = requirement.getRequirementType();
-                    List<Integer> nodes = nodeRequirement.getRequiredNodes();
+//            if (button.isHovered()) {
+                SkillDataNode node = button.getDataNode();
+                for (SkillDataRequirement requirement : node.getRequirements()) {
+                    if (requirement instanceof SkillDataNodeRequirement nodeRequirement) {
+                        RequirementType type = requirement.getRequirementType();
+                        List<Integer> nodes = nodeRequirement.getRequiredNodes();
 
-                    for (int j : nodes) {
-                        int color = Colors.fromRGB(0, 255, 0);
-                        switch (type) {
-                            case NODE_OR -> {
-                                if (requirement.canLevel(data, this.player)) {
-                                    color = Colors.fromRGB(0, 255, 100, 100);
-                                } else {
-                                    color = Colors.fromRGB(255, 0, 100, 100);
+                        for (int j : nodes) {
+                            int color = Colors.fromRGB(0, 255, 0);
+                            switch (type) {
+                                case NODE_OR -> {
+                                    if (requirement.canLevel(data, this.player)) {
+                                        color = Colors.fromRGB(0, 255, 100, 100);
+                                    } else {
+                                        color = Colors.fromRGB(255, 0, 100, 100);
+                                    }
+                                }
+                                case NODE_AND -> {
+                                    if (requirement.canLevel(data, this.player)) {
+                                        color = Colors.fromRGB(0, 255, 0);
+                                    } else {
+                                        color = Colors.fromRGB(255, 0, 0);
+                                    }
+                                }
+                                case NODE_NOT -> {
+                                    // no line for now
+                                    continue;
                                 }
                             }
-                            case NODE_AND -> {
-                                if (requirement.canLevel(data, this.player)) {
-                                    color = Colors.fromRGB(0, 255, 0);
-                                } else {
-                                    color = Colors.fromRGB(255, 0, 0);
-                                }
+                            // so doesn't crash with dependency that doesn't exist
+                            if (this.skillButtons.containsKey(j) && this.skillButtons.get(j).isHovered() || button.isHovered()) {
+                                drawDependencyLine(guiGraphics, getButtonCenter(this.skillButtons.get(j)), getButtonCenter(button), false);
                             }
-                            case NODE_NOT -> {
-                                // no line for now
-                                continue;
-                            }
-                        }
-                        // so doesn't crash with dependency that doesn't exist
-                        if (this.skillButtons.containsKey(j)) {
-                            drawLine(guiGraphics.pose(), getButtonBottomCenter(this.skillButtons.get(j)), getButtonTopCenter(button), color);
                         }
                     }
                 }
-            }
+//            }
         }
     }
 
@@ -224,6 +244,47 @@ public abstract class BaseUpgradeScreen extends Screen {
         RenderSystem.enableDepthTest();
     }
 
+    private void drawDependencyLine(GuiGraphics guiGraphics, int[] p1, int[] p2, boolean active) {
+        drawDependencyLine(guiGraphics, p1[0], p1[1], p2[0], p2[1], active);
+    }
+
+    private void drawDependencyLine(GuiGraphics guiGraphics, int x1, int y1, int x2, int y2, boolean active) {
+        RenderSystem.setShaderTexture(0, DEPENDENCY_LINE_LOCATION);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        Matrix4f matrix4f = guiGraphics.pose().last().pose();
+        BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
+
+
+        float yImageStart = active ? DEPENDENCY_LINE_WIDTH : 0;
+        float yImageEnd = active ? DEPENDENCY_LINE_WIDTH * 2 : DEPENDENCY_LINE_WIDTH;
+        float xImageStart = ANIMATION_FRAME;
+        float xImageEnd = 0;
+        float length = (float) Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
+        float angle = (float) Math.atan2((x2 - x1), (y2 - y1));
+        float xOffset = DEPENDENCY_LINE_WIDTH / 2 * (float) Math.cos(angle);
+        float yOffset = DEPENDENCY_LINE_WIDTH / 2 * (float) Math.sin(angle);
+
+        float x1F = x1 - xOffset;
+        float y1F = y1 + yOffset;
+        float x2F = x1 + xOffset;
+        float y2F = y1 - yOffset;
+        float x3F = x2 + xOffset;
+        float y3F = y2 - yOffset;
+        float x4F = x2 - xOffset;
+        float y4F = y2 + yOffset;
+
+        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        bufferbuilder.vertex(matrix4f, x2F, y2F, 0).uv((float) ANIMATION_FRAME / DEPENDENCY_LINE_IMAGE_WIDTH, yImageStart / DEPENDENCY_LINE_IMAGE_HEIGHT).endVertex();
+        bufferbuilder.vertex(matrix4f, x1F, y1F, 0).uv((float) ANIMATION_FRAME / DEPENDENCY_LINE_IMAGE_WIDTH, yImageEnd / DEPENDENCY_LINE_IMAGE_HEIGHT).endVertex();
+        bufferbuilder.vertex(matrix4f, x4F, y4F, 0).uv((length + ANIMATION_FRAME) / DEPENDENCY_LINE_IMAGE_WIDTH, yImageEnd / DEPENDENCY_LINE_IMAGE_HEIGHT).endVertex();
+        bufferbuilder.vertex(matrix4f, x3F, y3F, 0).uv((length + ANIMATION_FRAME) / DEPENDENCY_LINE_IMAGE_WIDTH, yImageStart / DEPENDENCY_LINE_IMAGE_HEIGHT).endVertex();
+        BufferUploader.drawWithShader(bufferbuilder.end());
+    }
+
+    private void drawPlaceholder(GuiGraphics guiGraphics, int x, int y, int color) {
+        guiGraphics.fill(x + 1, y + 1, x - 1, y - 1, color);
+    }
+
     private int[] getButtonBottomCenter(SkillButton button) {
         int x = button.getX() + button.xOffset + button.getWidth() / 2;
         int y = button.getY() + button.yOffset + button.getHeight();
@@ -234,6 +295,13 @@ public abstract class BaseUpgradeScreen extends Screen {
     private int[] getButtonTopCenter(SkillButton button) {
         int x = button.getX() + button.xOffset + button.getWidth() / 2;
         int y = button.getY() + button.yOffset;
+
+        return new int[] {x, y};
+    }
+
+    private int[] getButtonCenter(SkillButton button) {
+        int x = button.getX() + button.xOffset + button.getWidth() / 2;
+        int y = button.getY() + button.yOffset + button.getHeight() / 2;
 
         return new int[] {x, y};
     }
