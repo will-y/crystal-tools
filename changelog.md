@@ -1,13 +1,15 @@
-## 1.4.3-RELEASE Changes
+# Crystal Tools Change Log
+## 1.5.0 Changes
 ### Changes
 - Skill Tress now use a datapack instead of a resource pack
-- Heal button is now disabled when the tool is not damaged
+- Heal button is now disabled when the tool is not damaged 
+- Redesigned the skill tree page to look better and make requirements more clear
 
 ### Fixes
 - Fixes Crystal Torches dropping items when placed by a tool
 - Fixes tooltip sticking in the upgrade screen
 
------------------------ 1.4.2-RELEASE Changes -----------------------
+## 1.4.2 Changes
 ### Changes
 - Updates to Minecraft 1.20.1 (forge 47.1.0)
 - Removed the following config options:
@@ -24,7 +26,7 @@
 - Oregen is now completely data driven, you can modify all of these things with a datapack
 - Changes recipe of Crystal Apple to require an Enchanted Golden Apple
 
------------------------ 1.4.1-RELEASE Changes -----------------------
+## 1.4.1
 ### Additions
 - Adds the `Unbreaking` upgrade to all tools.
 - Adds a new config option `VEIN_MINER_RANGE`. Determines the range of the vein miner on the shovel, pickaxe, and AIOT. It will mine blocks up to this range away from the ore broken.
@@ -59,7 +61,7 @@
 - Fixes 3x3 mining and vein mining not dropping exp for all blocks other than the first
 - Fixes crystal apple leveling up and taking damage when breaking blocks
 
------------------------ 1.4.0-RELEASE Changes -----------------------
+## 1.4.0
 ### Additions
 - Adds the Crystal Furnace
   - An upgradable furnace that gains experience by smelting items
@@ -80,7 +82,7 @@
 ### Changes
 - Updates to Forge 1.19.2-43.2.0
 
------------------------ 1.3.0-RELEASE Changes -----------------------
+# 1.3.0
 ### Additions
 - Adds the Crystal Apple
   - It is a food source with durability that can level up
@@ -114,20 +116,20 @@
 ### Fixes
 - Fixes other items being able to be added in to the crystal elytra recipe
 
------------------------ 1.2.3-RELEASE Changes -----------------------
+# 1.2.3
 ### Fixes
 - Actually fixes elytra bug
 - Allows pickaxe to use items and place blocks in the offhand
 
------------------------ 1.2.2-RELEASE Changes -----------------------
+# 1.2.2
 ### Fixes
 - Fixes a fully upgraded crystal elytra causing infinite health and freezing the game
 
------------------------ 1.2.1-RELEASE Changes -----------------------
+# 1.2.1
 ### Fixes
 - Fixes AIOT breaking bedrock when the 3x3 mining upgrade is unlocked
 
------------------------ 1.2.0 RELEASE Changes -----------------------
+# 1.2.0
 ### Additions
 - Adds the Crystal Elytra
     - It is armored and can be leveled like other crystal tools/armor
@@ -147,18 +149,18 @@
 ### Changes
 - Made spacing work better on the skill trees when there were more than 4 in a tier
 
------------------------ 1.1.3-RELEASE Changes -----------------------
+# 1.1.3
 ### Fixes
 - Hoe now works again
 - Axe now stops stripping logs if it runs out of durability while vein stripping
 
------------------------ 1.1.3-BETA Changes -----------------------
+# 1.1.3-BETA
 
 NOTE: Ore generation configs do not work in this version
 ### Fixes
 - Ores now generate again
 - Keybinds now work again
 
------------------------ 1.1.3-ALPHA Changes -----------------------
+# 1.1.3-ALPHA
 
 Initial port to 1.19, oregen is disabled

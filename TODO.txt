@@ -10,7 +10,7 @@
 - Advancements
 - Crystal Generator
 - JEI Integration
-
------------------------ 1.20 -----------------------
 - Fix dragging on skill tree
 - Skill tree UI redesign
+- Furnace upgrade: save fuel
+- Fix 3x3 look face (maybe look at building gadgets / chisel and bits (rendering))
