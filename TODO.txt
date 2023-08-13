@@ -11,6 +11,11 @@
 - Crystal Generator
 - JEI Integration
 - Fix dragging on skill tree
-- Skill tree UI redesign
 - Furnace upgrade: save fuel
-- Fix 3x3 look face (maybe look at building gadgets / chisel and bits (rendering))
+- Auto pickup
+- Fishing rod
+- Make a properties class that deals with all of the nbt stuff
+- AIOT 3x3 with right clicking actions
+- Hoe renderering 3x3 special cases
+- Fix smelting
+- Reach
