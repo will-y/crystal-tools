@@ -8,6 +8,7 @@
 - Skill Tress now use a datapack instead of a resource pack
 - Heal button is now disabled when the tool is not damaged 
 - Redesigned the skill tree page to look better and make requirements more clear
+- 3x3 Mining a torch with obsidian around it will no longer break the obsidian (blocks have to have similar destroy speeds now)
 
 ### Fixes
 - Fixes Crystal Torches dropping items when placed by a tool

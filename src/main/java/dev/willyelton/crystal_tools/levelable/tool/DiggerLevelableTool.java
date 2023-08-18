@@ -38,7 +38,8 @@ public abstract class DiggerLevelableTool extends LevelableTool {
         if (NBTUtils.getFloatOrAddKey(tool, "3x3") > 0 && !NBTUtils.getBoolean(tool, "disable_3x3")) {
             BlockHitResult result = RayTraceUtils.rayTrace(entity);
             Direction direction = result.getDirection();
-            blockBreakerHelper(tool, level, BlockCollectors.collect3x3(blockPos, direction), entity);
+            float firstBlockSpeed = blockState.getDestroySpeed(level, blockPos);
+            blockBreakerHelper(tool, level, BlockCollectors.collect3x3(blockPos, direction), entity, firstBlockSpeed);
         }
 
         if (NBTUtils.getFloatOrAddKey(tool, "vein_miner") > 0 && KeyBindings.veinMine.isDown() && blockState.is(Tags.Blocks.ORES)) {
@@ -66,9 +67,11 @@ public abstract class DiggerLevelableTool extends LevelableTool {
         }
     }
 
-    private void blockBreakerHelper(ItemStack tool, Level level, List<BlockPos> blockPosCollection, LivingEntity entity) {
+    private void blockBreakerHelper(ItemStack tool, Level level, List<BlockPos> blockPosCollection, LivingEntity entity, float firstBlockSpeed) {
         for (BlockPos pos : blockPosCollection) {
-            breakBlock(tool, level, pos, entity);
+            if (level.getBlockState(pos).getDestroySpeed(level, pos) <= firstBlockSpeed + 20) {
+                breakBlock(tool, level, pos, entity);
+            }
         }
     }
 
