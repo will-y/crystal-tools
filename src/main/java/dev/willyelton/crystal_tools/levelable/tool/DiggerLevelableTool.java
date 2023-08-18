@@ -66,7 +66,6 @@ public abstract class DiggerLevelableTool extends LevelableTool {
         }
     }
 
-    // just going to hard code it for now
     private void blockBreakerHelper(ItemStack tool, Level level, List<BlockPos> blockPosCollection, LivingEntity entity) {
         for (BlockPos pos : blockPosCollection) {
             breakBlock(tool, level, pos, entity);

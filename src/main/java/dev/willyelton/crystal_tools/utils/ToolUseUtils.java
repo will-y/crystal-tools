@@ -171,7 +171,6 @@ public class ToolUseUtils {
     }
 
     public static InteractionResult useOnHoe(UseOnContext context, LevelableTool tool, BlockPos blockPos) {
-        System.out.println("Hoeing block " + blockPos);
         ItemStack hoe = context.getItemInHand();
         int durability = tool.getMaxDamage(hoe) - (int) NBTUtils.getFloatOrAddKey(hoe, "Damage");
 

@@ -42,5 +42,22 @@ public class BlockCollectors {
                 result.add(pos.south().below());
             }
         }
-        return result;}
+        return result;
+    }
+
+    public static List<BlockPos> collect3x3Hoe(BlockPos pos) {
+        List<BlockPos> result = new ArrayList<>();
+        result.add(pos);
+
+        result.add(pos.north());
+        result.add(pos.south());
+        result.add(pos.east());
+        result.add(pos.west());
+        result.add(pos.north().east());
+        result.add(pos.north().west());
+        result.add(pos.south().east());
+        result.add(pos.south().west());
+
+        return result;
+    }
 }

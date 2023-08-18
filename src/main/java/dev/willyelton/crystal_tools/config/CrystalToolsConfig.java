@@ -34,6 +34,7 @@ public class CrystalToolsConfig {
     public static ForgeConfigSpec.DoubleValue BACKGROUND_OPACITY;
     public static ForgeConfigSpec.BooleanValue PAUSE_SCREEN;
     public static ForgeConfigSpec.BooleanValue REQUIRE_CRYSTAL_FOR_RESET;
+    public static ForgeConfigSpec.BooleanValue DISABLE_BLOCK_TARGET_RENDERING;
 
     // Disable Tools
     public static ForgeConfigSpec.BooleanValue DISABLE_PICKAXE;
@@ -125,6 +126,9 @@ public class CrystalToolsConfig {
 
         REQUIRE_CRYSTAL_FOR_RESET = builder.comment("Require a crystal item in your inventory for resetting skill points")
                 .define("require_crystal_for_reset", true);
+
+        DISABLE_BLOCK_TARGET_RENDERING = builder.comment("Disables the block highlighting for 3x3 mining")
+                .define("disable_block_target_rendering", false);
 
         // Disable Tools
         DISABLE_PICKAXE = builder.comment("Disables Crystal Pickaxe").define("disable_pickaxe", false);

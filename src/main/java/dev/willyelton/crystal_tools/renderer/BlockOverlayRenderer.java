@@ -3,13 +3,17 @@ package dev.willyelton.crystal_tools.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import dev.willyelton.crystal_tools.levelable.tool.*;
 import dev.willyelton.crystal_tools.utils.BlockCollectors;
 import dev.willyelton.crystal_tools.utils.RayTraceUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
@@ -19,7 +23,7 @@ import java.util.List;
 
 public class BlockOverlayRenderer {
 
-    public static void render(RenderLevelStageEvent event) {
+    public static void render(RenderLevelStageEvent event, LevelableTool toolItem, ItemStack stack) {
         final Minecraft mc = Minecraft.getInstance();
         final Player player = mc.player;
         final Level level = mc.level;
@@ -33,17 +37,28 @@ public class BlockOverlayRenderer {
             }
 
             BlockPos pos = hitResult.getBlockPos();
+            BlockState hitBlockState = level.getBlockState(pos);
             PoseStack pose = event.getPoseStack();
             pose.pushPose();
             pose.translate(-view.x, -view.y, -view.z);
 
             VertexConsumer builder = buffer.getBuffer(CrystalToolsRenderType.BLOCK_OVERLAY);
 
-            // TODO: somewhere do a method that gets all blocks to break so I can use for break and for render here
-            List<BlockPos> blockPosCollection = BlockCollectors.collect3x3(pos, hitResult.getDirection());
+            List<BlockPos> blockPosCollection;
+            boolean hoe = false;
+
+            if (toolItem instanceof HoeLevelableTool && !hitBlockState.is(BlockTags.MINEABLE_WITH_HOE)) {
+                blockPosCollection = BlockCollectors.collect3x3Hoe(pos);
+                hoe = true;
+            } else {
+                blockPosCollection = BlockCollectors.collect3x3(pos, hitResult.getDirection());
+            }
 
             for (BlockPos renderPos : blockPosCollection) {
-                if (level.getBlockState(renderPos).isAir()) continue;
+                BlockState state = level.getBlockState(renderPos);
+                if (state.isAir()) continue;
+                // TODO: Can hoe somehow
+                if (!toolItem.correctTool(stack, state) && !hoe) continue;
                 BlockOverlayRenderer.renderBlockPos(pose, builder, renderPos, 80.8F / 255, 94.5F / 255, 92.2F / 255);
             }
             pose.popPose();

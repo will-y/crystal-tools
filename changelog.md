@@ -1,5 +1,9 @@
 # Crystal Tools Change Log
 ## 1.5.0 Changes
+### Additions
+- When 3x3 mining (or hoeing) it now shows a preview of which blocks you will be mining
+- Adds a new config option `DISABLE_BLOCK_TARGET_RENDERING`. Disables the rendering preview.
+
 ### Changes
 - Skill Tress now use a datapack instead of a resource pack
 - Heal button is now disabled when the tool is not damaged 
