@@ -14,6 +14,7 @@
 - Fixes Crystal Torches dropping items when placed by a tool
 - Fixes tooltip sticking in the upgrade screen
 - 3x3 Mining is now only based on the face you break not the direction the place is facing
+- Smelting upgrade fixed
 
 ## 1.4.2 Changes
 ### Changes

@@ -33,7 +33,7 @@ public class LevelUtils {
                 BlockEntity blockentity = blockstate.hasBlockEntity() ? level.getBlockEntity(pPos) : null;
                 // Change to tool
                 if (pEntity != null) {
-                    Block.dropResources(blockstate, level, pEntity.getOnPos().above(), blockentity, pEntity, tool);
+                    Block.dropResources(blockstate, level, pPos, blockentity, pEntity, tool);
 
                     if (pEntity instanceof ServerPlayer player && level instanceof ServerLevel serverLevel) {
                         int exp = net.minecraftforge.common.ForgeHooks.onBlockBreakEvent(level, GameType.SURVIVAL, player, pPos);

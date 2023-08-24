@@ -2,9 +2,11 @@ package dev.willyelton.crystal_tools.utils;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.function.Predicate;
 
 public class BlockCollectors {
     public static List<BlockPos> collect3x3(BlockPos pos, Direction direction) {
@@ -59,5 +61,32 @@ public class BlockCollectors {
         result.add(pos.south().west());
 
         return result;
+    }
+
+    public static Collection<BlockPos> collectVeinMine(BlockPos pos, Level level, Predicate<BlockState> canHarvest, int maxBlocks) {
+        Set<BlockPos> visited = new HashSet<>();
+        Queue<BlockPos> toVisit = new LinkedList<>();
+        int blocks = 0;
+
+        // First one is guaranteed to be correct
+        toVisit.add(pos);
+
+        while(!toVisit.isEmpty() && blocks < maxBlocks) {
+            BlockPos next = toVisit.poll();
+            boolean added = visited.add(next);
+
+            if (added) {
+                // add children, all 8 around, up, only if correct state
+                toVisit.addAll(getNextBlocks(next, level, canHarvest));
+                blocks++;
+            }
+        }
+        return visited;
+    }
+
+    private static List<BlockPos> getNextBlocks(BlockPos pos, Level level, Predicate<BlockState> canHarvest) {
+        List<BlockPos> result = List.of(pos.above(), pos.north(), pos.north().east(), pos.east(), pos.south().east(), pos.south(), pos.south().west(), pos.west(), pos.north().west(), pos.below());
+
+        return result.stream().filter(x -> canHarvest.test(level.getBlockState(x))).toList();
     }
 }

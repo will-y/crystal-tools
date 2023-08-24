@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.levelable.tool;
 
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
+import dev.willyelton.crystal_tools.utils.BlockCollectors;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUseUtils;
 import net.minecraft.core.BlockPos;
@@ -19,10 +20,12 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
-public class AxeLevelableTool extends LevelableTool {
+public class AxeLevelableTool extends LevelableTool implements VeinMinerLevelableTool {
     public AxeLevelableTool() {
         super(new Item.Properties(), BlockTags.MINEABLE_WITH_AXE, "axe", 5.0F, -3.0F);
     }
@@ -89,43 +92,15 @@ public class AxeLevelableTool extends LevelableTool {
     }
 
     @Override
-    public boolean mineBlock(@NotNull ItemStack tool, Level level, @NotNull BlockState blockState, @NotNull BlockPos blockPos, @NotNull LivingEntity entity) {
-
-        if (NBTUtils.getFloatOrAddKey(tool, "tree_chop") > 0 && KeyBindings.veinMine.isDown() && blockState.is(BlockTags.MINEABLE_WITH_AXE)) {
-            Block minedBlock = blockState.getBlock();
-            recursiveBreakHelper(tool, level, blockPos, entity, minedBlock, 0);
+    public boolean onBlockStartBreak(ItemStack tool, BlockPos pos, Player player) {
+        Level level = player.level();
+        BlockState blockState = level.getBlockState(pos);
+        if (NBTUtils.getFloatOrAddKey(tool, "tree_chop") > 0 && KeyBindings.veinMine.isDown() && canVeinMin(blockState)) {
+            Collection<BlockPos> toMine = BlockCollectors.collectVeinMine(pos, level, this.getVeinMinerPredicate(blockState), this.getMaxBlocks(tool));
+            this.breakBlockCollection(tool, level, toMine, player, blockState.getDestroySpeed(level, pos));
         }
 
-        return super.mineBlock(tool, level, blockState, blockPos, entity);
-    }
-
-    private void recursiveBreakHelper(ItemStack tool, Level level, BlockPos blockPos, LivingEntity entity, Block block, int depth) {
-        int durability = this.getMaxDamage(tool) - (int) NBTUtils.getFloatOrAddKey(tool, "Damage");
-
-        if (depth > CrystalToolsConfig.AXE_VEIN_MINER_DEFAULT_RANGE.get() + NBTUtils.getFloatOrAddKey(tool, "tree_chop") - 1 || durability <= 1) {
-            return;
-        }
-
-        BlockState state = level.getBlockState(blockPos);
-        if (state.is(block)) {
-            level.destroyBlock(blockPos, true, entity);
-            tool.hurtAndBreak(1, entity, (player) -> player.broadcastBreakEvent(EquipmentSlot.MAINHAND));
-        } else {
-            return;
-        }
-
-        List<BlockPos> positionsToLook = List.of(blockPos.north(), blockPos.south(), blockPos.east(), blockPos.west(),
-                blockPos.north().east(), blockPos.north().west(), blockPos.south().east(), blockPos.south().west());
-
-        for (BlockPos pos : positionsToLook) {
-            recursiveBreakHelper(tool, level, pos, entity, block, depth + 1);
-        }
-
-        for (BlockPos pos : positionsToLook) {
-            recursiveBreakHelper(tool, level, pos.above(), entity, block, depth + 1);
-        }
-
-        recursiveBreakHelper(tool, level, blockPos.above(), entity, block, depth + 1);
+        return super.onBlockStartBreak(tool, pos, player);
     }
 
     @Override
@@ -136,5 +111,21 @@ public class AxeLevelableTool extends LevelableTool {
     @Override
     public boolean isDisabled() {
         return CrystalToolsConfig.DISABLE_AXE.get();
+    }
+
+    @Override
+    public Predicate<BlockState> getVeinMinerPredicate(BlockState minedBlockState) {
+        return blockState -> blockState.is(minedBlockState.getBlock());
+    }
+
+    @Override
+    public int getMaxBlocks(ItemStack stack) {
+        // TODO: 0 if broken? Or put broken logic in renderer somewhere
+        return (int) (CrystalToolsConfig.AXE_VEIN_MINER_DEFAULT_RANGE.get() + NBTUtils.getFloatOrAddKey(stack, "tree_chop") - 1);
+    }
+
+    @Override
+    public boolean canVeinMin(BlockState blockState) {
+        return blockState.is(BlockTags.MINEABLE_WITH_AXE);
     }
 }

@@ -230,9 +230,6 @@
         "requirements":[
           {
             "or_node": [14, 15]
-          },
-          {
-            "not_node": [12]
           }
         ],
         "key": "auto_smelt",

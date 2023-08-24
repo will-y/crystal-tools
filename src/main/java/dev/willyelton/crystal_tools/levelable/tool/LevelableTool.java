@@ -4,26 +4,37 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.levelable.LevelableItem;
+import dev.willyelton.crystal_tools.utils.LevelUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
+import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 public abstract class LevelableTool extends Item implements LevelableItem {
@@ -76,6 +87,21 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     }
 
     @Override
+    public boolean onBlockStartBreak(ItemStack tool, BlockPos pos, Player player) {
+        Level level = player.level();
+
+        if (NBTUtils.getFloatOrAddKey(tool, "auto_smelt") > 0 && !NBTUtils.getBoolean(tool, "disable_auto_smelt")) {
+            if (!level.isClientSide) {
+                dropSmeltedItem(tool, level, level.getBlockState(pos), pos, player);
+            }
+            this.mineBlock(tool, level, level.getBlockState(pos), pos, player);
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
     public boolean mineBlock(@NotNull ItemStack tool, Level level, @NotNull BlockState blockState, @NotNull BlockPos blockPos, @NotNull LivingEntity entity) {
         // If this tool is disabled break on use
         if (this.isDisabled()) {
@@ -85,10 +111,6 @@ public abstract class LevelableTool extends Item implements LevelableItem {
 
         if (!level.isClientSide && blockState.getDestroySpeed(level, blockPos) != 0.0F) {
             tool.hurtAndBreak(1, entity, (player) -> player.broadcastBreakEvent(EquipmentSlot.MAINHAND));
-
-            if (NBTUtils.getFloatOrAddKey(tool, "auto_smelt") > 0 &&!NBTUtils.getBoolean(tool, "disable_auto_smelt")) {
-                dropSmeltedItem(tool, level, blockState, blockPos, entity);
-            }
         }
 
         addExp(tool, level, blockPos, entity);
@@ -96,30 +118,57 @@ public abstract class LevelableTool extends Item implements LevelableItem {
         return true;
     }
 
+    public void breakBlock(ItemStack tool, Level level, BlockPos blockPos, LivingEntity entity) {
+        BlockState blockState = level.getBlockState(blockPos);
+        if (isCorrectToolForDrops(tool, blockState)) {
+            if (NBTUtils.getFloatOrAddKey(tool, "auto_smelt") > 0 && !NBTUtils.getBoolean(tool, "disable_auto_smelt")) {
+                if (!level.isClientSide) {
+                    dropSmeltedItem(tool, level, blockState, blockPos, entity);
+                }
+            } else {
+                LevelUtils.destroyBlock(level, blockPos, true, entity, 512, tool);
+            }
+            if (!level.isClientSide && blockState.getDestroySpeed(level, blockPos) != 0.0F) {
+                tool.hurtAndBreak(1, entity, (player) -> player.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+            }
+            addExp(tool, level, blockPos, entity);
+        }
+    }
+
     protected void dropSmeltedItem(ItemStack tool, Level level, BlockState blockState, BlockPos pos, LivingEntity entity) {
-        // TODO
-//        if (!level.isClientSide) {
-//            Block.getDrops(blockState, (ServerLevel) level, pos, null, entity, tool).forEach((itemStack -> {
-//                Container container = new SimpleContainer(itemStack);
-//                int count = itemStack.getCount();
-//
-//                Optional<SmeltingRecipe> recipeOptional = level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, container, level);
-//
-//                if (recipeOptional.isPresent()) {
-//                    SmeltingRecipe recipe = recipeOptional.get();
-//                    ExperienceOrb.award((ServerLevel) level, entity.position(), (int) Math.ceil(recipe.getExperience()));
-//                    ItemStack result = recipe.getResultItem();
-//                    result.setCount(count * result.getCount());
-//
-//                    if (!result.is(Items.AIR)) {
-////                        System.out.println("dropping: " + result);
-//                        Block.popResource(level, pos, result);
-//                    }
-//                    LevelUtils.destroyBlock(level, pos, result.is(Items.AIR), entity, 512, tool);
-//
-//                }
-//            }));
-//        }
+        List<ItemStack> drops = Block.getDrops(blockState, (ServerLevel) level, pos, null, entity, tool);
+        List<ItemStack> toDrop = new ArrayList<>();
+
+        for (ItemStack stack : drops) {
+            int count = stack.getCount();
+
+            Optional<SmeltingRecipe> recipeOptional = level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, new SimpleContainer(stack), level);
+
+            if (recipeOptional.isPresent()) {
+                SmeltingRecipe recipe = recipeOptional.get();
+                ExperienceOrb.award((ServerLevel) level, entity.position(), (int) Math.ceil(recipe.getExperience()));
+                ItemStack result = recipe.getResultItem(level.registryAccess()).copy();
+                result.setCount(count * result.getCount());
+
+                if (!result.is(Items.AIR)) {
+                    toDrop.add(result);
+                }
+            }
+        }
+
+        LevelUtils.destroyBlock(level, pos, toDrop.isEmpty(), entity, 512, tool);
+
+        for (ItemStack stack : toDrop) {
+            Block.popResource(level, pos, stack);
+        }
+    }
+
+    public void breakBlockCollection(ItemStack tool, Level level, Collection<BlockPos> blockPosCollection, LivingEntity entity, float firstBlockSpeed) {
+        for (BlockPos pos : blockPosCollection) {
+            if (level.getBlockState(pos).getDestroySpeed(level, pos) <= firstBlockSpeed + 20) {
+                breakBlock(tool, level, pos, entity);
+            }
+        }
     }
 
     @Override

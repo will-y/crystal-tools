@@ -8,6 +8,7 @@ import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.StringUtils;
 import dev.willyelton.crystal_tools.utils.ToolUseUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
@@ -16,6 +17,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
@@ -82,6 +84,12 @@ public class AIOLevelableTool extends DiggerLevelableTool {
     }
 
     @Override
+    public boolean onBlockStartBreak(ItemStack tool, BlockPos pos, Player player) {
+        // TODO: Look for axe first and then do other
+        // Make collectors so you don't dupe code with axe
+        return super.onBlockStartBreak(tool, pos, player);
+    }
+        @Override
     public @NotNull InteractionResult useOn(UseOnContext context) {
         ItemStack stack = context.getItemInHand();
 

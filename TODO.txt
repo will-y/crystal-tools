@@ -16,6 +16,8 @@
 - Fishing rod
 - Make a properties class that deals with all of the nbt stuff
 - AIOT 3x3 with right clicking actions
-- Hoe renderering 3x3 special cases
 - Fix smelting
 - Reach
+- Rendering on vein mining
+- Turn off auto smelt
+- Configure color of highlight?

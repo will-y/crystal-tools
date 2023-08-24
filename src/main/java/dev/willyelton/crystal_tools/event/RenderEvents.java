@@ -2,7 +2,9 @@ package dev.willyelton.crystal_tools.event;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
+import dev.willyelton.crystal_tools.keybinding.KeyBindings;
 import dev.willyelton.crystal_tools.levelable.tool.LevelableTool;
+import dev.willyelton.crystal_tools.levelable.tool.VeinMinerLevelableTool;
 import dev.willyelton.crystal_tools.renderer.BlockOverlayRenderer;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.client.Minecraft;
@@ -28,7 +30,11 @@ public class RenderEvents {
             ItemStack itemStack = player.getItemInHand(InteractionHand.MAIN_HAND);
 
             if (itemStack.getItem() instanceof LevelableTool toolItem && NBTUtils.getFloatOrAddKey(itemStack, "3x3") > 0 && !NBTUtils.getBoolean(itemStack, "disable_3x3")) {
-                BlockOverlayRenderer.render(event, toolItem, itemStack);
+                BlockOverlayRenderer.render3x3(event, toolItem, itemStack);
+            }
+
+            if (KeyBindings.veinMine.isDown() && itemStack.getItem() instanceof VeinMinerLevelableTool veinMinerLevelableTool && NBTUtils.getFloatOrAddKey(itemStack, "tree_chop") > 0) {
+                BlockOverlayRenderer.renderVeinMiner(event, veinMinerLevelableTool, itemStack);
             }
         }
     }

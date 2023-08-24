@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -19,11 +20,12 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import org.joml.Matrix4f;
 
+import java.util.Collection;
 import java.util.List;
 
 public class BlockOverlayRenderer {
 
-    public static void render(RenderLevelStageEvent event, LevelableTool toolItem, ItemStack stack) {
+    public static void render3x3(RenderLevelStageEvent event, LevelableTool toolItem, ItemStack stack) {
         final Minecraft mc = Minecraft.getInstance();
         final Player player = mc.player;
         final Level level = mc.level;
@@ -56,9 +58,42 @@ public class BlockOverlayRenderer {
 
             for (BlockPos renderPos : blockPosCollection) {
                 BlockState state = level.getBlockState(renderPos);
-                if (state.isAir()) continue;
                 // TODO: Can hoe somehow
-                if (!toolItem.correctTool(stack, state) && !hoe) continue;
+                if (state.isAir() || (!toolItem.correctTool(stack, state) && !hoe)) continue;
+                BlockOverlayRenderer.renderBlockPos(pose, builder, renderPos, 80.8F / 255, 94.5F / 255, 92.2F / 255);
+            }
+            pose.popPose();
+        }
+    }
+
+    public static void renderVeinMiner(RenderLevelStageEvent event, VeinMinerLevelableTool toolItem, ItemStack stack) {
+        final Minecraft mc = Minecraft.getInstance();
+        final Player player = mc.player;
+        final Level level = mc.level;
+        if (player != null && level != null) {
+            MultiBufferSource.BufferSource buffer = mc.renderBuffers().bufferSource();
+            Vec3 view = mc.gameRenderer.getMainCamera().getPosition();
+
+            BlockHitResult hitResult = RayTraceUtils.rayTrace(player);
+            if (level.getBlockState(hitResult.getBlockPos()).isAir()) {
+                return;
+            }
+
+            BlockPos pos = hitResult.getBlockPos();
+            BlockState hitBlockState = level.getBlockState(pos);
+            if (!toolItem.canVeinMin(hitBlockState)) return;
+
+            PoseStack pose = event.getPoseStack();
+            pose.pushPose();
+            pose.translate(-view.x, -view.y, -view.z);
+
+            VertexConsumer builder = buffer.getBuffer(CrystalToolsRenderType.BLOCK_OVERLAY);
+
+            Collection<BlockPos> blockPosCollection = BlockCollectors.collectVeinMine(pos, level, toolItem.getVeinMinerPredicate(hitBlockState), toolItem.getMaxBlocks(stack));
+
+            for (BlockPos renderPos : blockPosCollection) {
+                BlockState state = level.getBlockState(renderPos);
+                if (state.isAir()) continue;
                 BlockOverlayRenderer.renderBlockPos(pose, builder, renderPos, 80.8F / 255, 94.5F / 255, 92.2F / 255);
             }
             pose.popPose();

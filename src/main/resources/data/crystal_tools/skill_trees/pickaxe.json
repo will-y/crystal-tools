@@ -194,7 +194,7 @@
           {
             "or_node": [12, 13]
           },
-          {"not_node": [18, 19]}
+          {"not_node": [18]}
         ],
         "key": "3x3",
         "value": 1
@@ -208,7 +208,7 @@
           {
             "or_node": [12, 13]
           },
-          {"not_node": [17, 19]}
+          {"not_node": [17]}
         ],
         "key": "vein_miner",
         "value": 1
@@ -221,8 +221,7 @@
         "requirements":[
           {
             "or_node": [12, 13]
-          },
-          {"not_node": [17, 18]}
+          }
         ],
         "key": "auto_smelt",
         "value": 1
