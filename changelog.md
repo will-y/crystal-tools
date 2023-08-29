@@ -9,6 +9,7 @@
 - Heal button is now disabled when the tool is not damaged 
 - Redesigned the skill tree page to look better and make requirements more clear
 - 3x3 Mining a torch with obsidian around it will no longer break the obsidian (blocks have to have similar destroy speeds now)
+- Removed the Tree Stripper upgrade, Tree Chopper now mines and strips whole trees
 
 ### Fixes
 - Fixes Crystal Torches dropping items when placed by a tool

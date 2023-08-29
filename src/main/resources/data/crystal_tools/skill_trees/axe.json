@@ -152,23 +152,12 @@
       {
         "id": 12,
         "name": "Tree Chopper",
-        "description": "Hold the vein miner key to chop an entire tree! Add additional points to extend the Range! (+1 block range per level)",
+        "description": "Hold the vein miner key to chop or strip an entire tree! Add additional points to extend the Range! (+1 block range per level)",
         "type": "infinite",
         "requirements": [
           {"or_node": [10, 11]}
         ],
         "key": "tree_chop",
-        "value": 1
-      },
-      {
-        "id": 13,
-        "name": "Tree Stripper",
-        "description": "Hold the vein miner key to strip an entire tree! Add additional points to extend the Range! (+1 block range per level)",
-        "type": "infinite",
-        "requirements": [
-          {"or_node": [10, 11]}
-        ],
-        "key": "tree_strip",
         "value": 1
       },
       {
@@ -192,7 +181,7 @@
         "type": "normal",
         "requirements": [
           {"node": [10]},
-          {"or_node": [12, 13, 22]}
+          {"or_node": [12, 22]}
         ],
         "key": "speed_bonus",
         "value": 0.25
@@ -204,7 +193,7 @@
         "type": "normal",
         "requirements": [
           {"node": [11]},
-          {"or_node": [12, 13, 22]}
+          {"or_node": [12, 22]}
         ],
         "key": "durability_bonus",
         "value": 200

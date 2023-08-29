@@ -5,6 +5,7 @@ import dev.willyelton.crystal_tools.keybinding.KeyBindings;
 import dev.willyelton.crystal_tools.utils.BlockCollectors;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUseUtils;
+import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
@@ -18,6 +19,8 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.ToolActions;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -36,59 +39,50 @@ public class AxeLevelableTool extends LevelableTool implements VeinMinerLevelabl
             pContext.getItemInHand().shrink(1);
             return InteractionResult.FAIL;
         }
+        Level level = pContext.getLevel();
+        Player player = pContext.getPlayer();
+        BlockPos blockPos = pContext.getClickedPos();
+        BlockState initialState = level.getBlockState(blockPos);
         InteractionResult result = ToolUseUtils.useOnAxe(pContext, this);
 
         if (result == InteractionResult.SUCCESS || result == InteractionResult.sidedSuccess(pContext.getLevel().isClientSide)) {
             ItemStack itemStack = pContext.getItemInHand();
-            Level level = pContext.getLevel();
-            Player player = pContext.getPlayer();
-            BlockPos blockPos = pContext.getClickedPos();
 
-            if (NBTUtils.getFloatOrAddKey(itemStack, "tree_strip") > 0 && KeyBindings.veinMine.isDown()) {
-                stripHelper(pContext, level, itemStack, player, blockPos.above(), pContext.getHand(), 0);
+
+            if (NBTUtils.getFloatOrAddKey(itemStack, "tree_chop") > 0 && KeyBindings.veinMine.isDown()) {
+                stripHelper(pContext, level, itemStack, player, blockPos, pContext.getHand(), initialState);
             }
         }
 
         return result;
     }
 
-    private void stripHelper(UseOnContext context, Level level, ItemStack itemStack, Player player, BlockPos blockPos, InteractionHand slot, int depth) {
-        int durability = this.getMaxDamage(itemStack) - (int) NBTUtils.getFloatOrAddKey(itemStack, "Damage");
+    private void stripHelper(UseOnContext context, Level level, ItemStack itemStack, Player player, BlockPos blockPos, InteractionHand slot, BlockState initialState) {
+        Collection<BlockPos> blocksToStrip = BlockCollectors.collectVeinMine(blockPos, level, getVeinMinerPredicate(initialState), getMaxBlocks(itemStack));
 
-        if (depth > CrystalToolsConfig.AXE_VEIN_MINER_DEFAULT_RANGE.get() + NBTUtils.getFloatOrAddKey(itemStack, "tree_strip") - 1 || durability <= 1) {
-            return;
-        }
-
-        BlockState blockState = level.getBlockState(blockPos);
-        Optional<BlockState> optional = Optional.ofNullable(blockState.getToolModifiedState(context, net.minecraftforge.common.ToolActions.AXE_STRIP, false));
-
-        if (optional.isPresent()) {
-            level.setBlock(blockPos, optional.get(), 11);
-
-            if (player != null) {
-                itemStack.hurtAndBreak(1, player, (p_150686_) -> p_150686_.broadcastBreakEvent(slot));
+        for (BlockPos pos : blocksToStrip) {
+            if((this.getMaxDamage(itemStack) - (int) NBTUtils.getFloatOrAddKey(itemStack, "Damage")) == 0) {
+                return;
             }
 
-            addExp(itemStack, level, blockPos, player);
+            BlockState blockState = level.getBlockState(pos);
+            Optional<BlockState> optional = Optional.ofNullable(blockState.getToolModifiedState(context, ToolActions.AXE_STRIP, false));
 
-            List<BlockPos> positionsToLook = List.of(blockPos.north(), blockPos.south(), blockPos.east(), blockPos.west(),
-                    blockPos.north().east(), blockPos.north().west(), blockPos.south().east(), blockPos.south().west());
+            if (optional.isPresent()) {
+                level.setBlock(pos, optional.get(), 11);
 
-            for (BlockPos pos : positionsToLook) {
-                stripHelper(context, level, itemStack, player, pos, slot, depth + 1);
+                if (player != null) {
+                    itemStack.hurtAndBreak(1, player, player1 -> player1.broadcastBreakEvent(slot));
+                }
+
+                addExp(itemStack, level, pos, player);
             }
-
-            for (BlockPos pos : positionsToLook) {
-                stripHelper(context, level, itemStack, player, pos.above(), slot, depth + 1);
-            }
-
-            stripHelper(context, level, itemStack, player, blockPos.above(), slot, depth + 1);
         }
     }
 
     @Override
-    public boolean canPerformAction(ItemStack stack, net.minecraftforge.common.ToolAction toolAction) {
-        return net.minecraftforge.common.ToolActions.DEFAULT_AXE_ACTIONS.contains(toolAction);
+    public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
+        return ToolActions.DEFAULT_AXE_ACTIONS.contains(toolAction);
     }
 
     @Override
@@ -120,7 +114,7 @@ public class AxeLevelableTool extends LevelableTool implements VeinMinerLevelabl
 
     @Override
     public int getMaxBlocks(ItemStack stack) {
-        // TODO: 0 if broken? Or put broken logic in renderer somewhere
+        if (ToolUtils.isBroken(stack)) return 0;
         return (int) (CrystalToolsConfig.AXE_VEIN_MINER_DEFAULT_RANGE.get() + NBTUtils.getFloatOrAddKey(stack, "tree_chop") - 1);
     }
 

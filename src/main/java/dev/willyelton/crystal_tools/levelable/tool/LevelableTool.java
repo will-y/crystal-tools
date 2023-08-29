@@ -119,6 +119,7 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     }
 
     public void breakBlock(ItemStack tool, Level level, BlockPos blockPos, LivingEntity entity) {
+        // TODO: Don't break if broken
         BlockState blockState = level.getBlockState(blockPos);
         if (isCorrectToolForDrops(tool, blockState)) {
             if (NBTUtils.getFloatOrAddKey(tool, "auto_smelt") > 0 && !NBTUtils.getBoolean(tool, "disable_auto_smelt")) {

@@ -51,7 +51,6 @@ There will be upgrades that are common to most tools, and tools will each get un
 - Silk Touch
 - Fortune
 - Auto Smelting
-  - This currently doesn't work with 3x3 mining or vein mining, you can only have this or one of those.
 - 3x3 Mining
 - Mode Switch
   - Allows you to upgrade both Fortune and Silk Touch on your tool, and switch between them. (`m` by default)
@@ -59,15 +58,14 @@ There will be upgrades that are common to most tools, and tools will each get un
 ### Pickaxe
 - Vein Mining
   - Will mine out an entire vein of ore when you are holding the vein miner key.
-  - It applies silk touch and fortune to evey one mined.
+  - It applies silk touch, fortune, and auto smelt to evey one mined.
+  - Can add more points to increase the number of blocks mined
 - Torch Placer
   - Places a torch when you right-click on a block, uses 10 durability.
 
 ### Axe
 - Tree Chopper
-  - Will chop an entire tree if you hold the vein miner key
-- Tree Stripper
-  - Strips an entire tree when you hold the vein miner key
+  - Will chop or strip multiple blocks if you hold the vein miner key. You can increase the number of blocks by adding more points to it.
 - Leaf Miner
   - Allows axe to mine leaves efficiently.
 
