@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.levelable.tool;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.utils.LevelUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
@@ -147,7 +148,7 @@ public abstract class LevelableTool extends Item implements LevelableItem {
 
             if (recipeOptional.isPresent()) {
                 SmeltingRecipe recipe = recipeOptional.get();
-                ExperienceOrb.award((ServerLevel) level, entity.position(), (int) Math.ceil(recipe.getExperience()));
+                popExperience((ServerLevel) level, entity, recipe.getExperience());
                 ItemStack result = recipe.getResultItem(level.registryAccess()).copy();
                 result.setCount(count * result.getCount());
 
@@ -161,6 +162,17 @@ public abstract class LevelableTool extends Item implements LevelableItem {
 
         for (ItemStack stack : toDrop) {
             Block.popResource(level, pos, stack);
+        }
+    }
+
+    private void popExperience(ServerLevel level, LivingEntity entity, float experience) {
+        int fullXp = (int) Math.floor(experience);
+        float partialXp = experience - fullXp;
+
+        if (partialXp > 0 && Math.random() < partialXp) {
+            ExperienceOrb.award(level, entity.position(), fullXp + 1);
+        } else {
+            ExperienceOrb.award(level, entity.position(), fullXp);
         }
     }
 

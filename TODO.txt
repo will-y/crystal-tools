@@ -2,7 +2,6 @@
 - Bow Draw Speed
 - Boots immune to fall damage
 - Armor cool potion effects?
-- Auto smelt things in 3x3 and vein mining (Still no clue)
 - When you take off armor you keep stats (I think this is just how vanilla works?)
 - Furnace skill screen doesn't fully refresh when open when point is gained
 - Crystal Arrow
