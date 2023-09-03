@@ -8,9 +8,7 @@ import dev.willyelton.crystal_tools.utils.RayTraceUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -20,7 +18,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.Tags;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.function.Predicate;
 
 /**
@@ -37,7 +34,7 @@ public abstract class DiggerLevelableTool extends LevelableTool implements VeinM
     public boolean onBlockStartBreak(ItemStack tool, BlockPos pos, Player player) {
         Level level = player.level();
         BlockState blockState = level.getBlockState(pos);
-        if (NBTUtils.getFloatOrAddKey(tool, "vein_miner") > 0 && KeyBindings.veinMine.isDown() && canVeinMin(blockState)) {
+        if (NBTUtils.getFloatOrAddKey(tool, "vein_miner") > 0 && KeyBindings.veinMine.isDown() && canVeinMin(tool, blockState)) {
             Collection<BlockPos> toMine = BlockCollectors.collectVeinMine(pos, level, this.getVeinMinerPredicate(blockState), this.getMaxBlocks(tool));
             this.breakBlockCollection(tool, level, toMine, player, blockState.getDestroySpeed(level, pos));
         } else if (NBTUtils.getFloatOrAddKey(tool, "3x3") > 0 && !NBTUtils.getBoolean(tool, "disable_3x3")) {
@@ -63,7 +60,7 @@ public abstract class DiggerLevelableTool extends LevelableTool implements VeinM
     }
 
     @Override
-    public boolean canVeinMin(BlockState blockState) {
+    public boolean canVeinMin(ItemStack stack, BlockState blockState) {
         return blockState.is(Tags.Blocks.ORES);
     }
 }

@@ -75,7 +75,7 @@ public class ToolUtils {
             SkillData toolData = getSkillData(itemStack);
             for (SkillDataNode dataNode : toolData.getAllNodes()) {
                 if (dataNode.isComplete() || (dataNode.getType().equals(SkillNodeType.INFINITE) && dataNode.getPoints() > 0)) {
-                    skills.compute(dataNode.getKey(), (key, value) -> value != null ? value + dataNode.getValue() : dataNode.getValue());
+                    skills.compute(dataNode.getKey(), (key, value) -> value != null ? value + dataNode.getValue() * dataNode.getPoints() : dataNode.getValue() * dataNode.getPoints());
                 }
             }
 

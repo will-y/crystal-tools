@@ -7,6 +7,8 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.ToolActions;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -21,12 +23,12 @@ public class ShovelLevelableTool extends DiggerLevelableTool {
             pContext.getItemInHand().shrink(1);
             return InteractionResult.FAIL;
         }
-        return ToolUseUtils.useOnShovel(pContext, this);
+        return ToolUseUtils.useOnShovel3x3(pContext, this);
     }
 
     @Override
-    public boolean canPerformAction(ItemStack stack, net.minecraftforge.common.ToolAction toolAction) {
-        return net.minecraftforge.common.ToolActions.DEFAULT_SHOVEL_ACTIONS.contains(toolAction);
+    public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
+        return ToolActions.DEFAULT_SHOVEL_ACTIONS.contains(toolAction);
     }
 
     @Override

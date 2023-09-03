@@ -29,12 +29,11 @@ public class RenderEvents {
         if (player != null) {
             ItemStack itemStack = player.getItemInHand(InteractionHand.MAIN_HAND);
 
-            if (itemStack.getItem() instanceof LevelableTool toolItem && NBTUtils.getFloatOrAddKey(itemStack, "3x3") > 0 && !NBTUtils.getBoolean(itemStack, "disable_3x3")) {
-                BlockOverlayRenderer.render3x3(event, toolItem, itemStack);
-            }
-
-            if (KeyBindings.veinMine.isDown() && itemStack.getItem() instanceof VeinMinerLevelableTool veinMinerLevelableTool && NBTUtils.getFloatOrAddKey(itemStack, "tree_chop") > 0) {
+            // TODO: remove tree chop
+            if (KeyBindings.veinMine.isDown() && itemStack.getItem() instanceof VeinMinerLevelableTool veinMinerLevelableTool && (NBTUtils.getFloatOrAddKey(itemStack, "tree_chop") > 0 || NBTUtils.getFloatOrAddKey(itemStack, "vein_miner") > 0)) {
                 BlockOverlayRenderer.renderVeinMiner(event, veinMinerLevelableTool, itemStack);
+            } else if (itemStack.getItem() instanceof LevelableTool toolItem && NBTUtils.getFloatOrAddKey(itemStack, "3x3") > 0 && !NBTUtils.getBoolean(itemStack, "disable_3x3")) {
+                BlockOverlayRenderer.render3x3(event, toolItem, itemStack);
             }
         }
     }

@@ -1,8 +1,8 @@
 # Crystal Tools Change Log
 ## 1.5.0 Changes
 ### Additions
-- When 3x3 mining (or hoeing) it now shows a preview of which blocks you will be mining
-- Adds a new config option `DISABLE_BLOCK_TARGET_RENDERING`. Disables the rendering preview.
+- When 3x3 or vein mining it now shows a preview of which blocks you will be mining.
+- Adds a new config option `DISABLE_BLOCK_TARGET_RENDERING`. Disables the breaking preview.
 
 ### Changes
 - Skill Tress now use a datapack instead of a resource pack
@@ -10,12 +10,15 @@
 - Redesigned the skill tree page to look better and make requirements more clear
 - 3x3 Mining a torch with obsidian around it will no longer break the obsidian (blocks have to have similar destroy speeds now)
 - Removed the Tree Stripper upgrade, Tree Chopper now mines and strips whole trees
+- AIOT and shovel now make paths in 3x3 when in 3x3 mode
 
 ### Fixes
 - Fixes Crystal Torches dropping items when placed by a tool
 - Fixes tooltip sticking in the upgrade screen
 - 3x3 Mining is now only based on the face you break not the direction the place is facing
 - Smelting upgrade fixed
+- AIOT now correctly hoes in 3x3 area
+- AIOT now vein strips correctly
 
 ## 1.4.2 Changes
 ### Changes

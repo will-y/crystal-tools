@@ -10,21 +10,17 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -34,50 +30,13 @@ public class AxeLevelableTool extends LevelableTool implements VeinMinerLevelabl
     }
 
     @Override
-    public @NotNull InteractionResult useOn(@NotNull UseOnContext pContext) {
+    public @NotNull InteractionResult useOn(@NotNull UseOnContext context) {
         if (this.isDisabled()) {
-            pContext.getItemInHand().shrink(1);
+            context.getItemInHand().shrink(1);
             return InteractionResult.FAIL;
         }
-        Level level = pContext.getLevel();
-        Player player = pContext.getPlayer();
-        BlockPos blockPos = pContext.getClickedPos();
-        BlockState initialState = level.getBlockState(blockPos);
-        InteractionResult result = ToolUseUtils.useOnAxe(pContext, this);
 
-        if (result == InteractionResult.SUCCESS || result == InteractionResult.sidedSuccess(pContext.getLevel().isClientSide)) {
-            ItemStack itemStack = pContext.getItemInHand();
-
-
-            if (NBTUtils.getFloatOrAddKey(itemStack, "tree_chop") > 0 && KeyBindings.veinMine.isDown()) {
-                stripHelper(pContext, level, itemStack, player, blockPos, pContext.getHand(), initialState);
-            }
-        }
-
-        return result;
-    }
-
-    private void stripHelper(UseOnContext context, Level level, ItemStack itemStack, Player player, BlockPos blockPos, InteractionHand slot, BlockState initialState) {
-        Collection<BlockPos> blocksToStrip = BlockCollectors.collectVeinMine(blockPos, level, getVeinMinerPredicate(initialState), getMaxBlocks(itemStack));
-
-        for (BlockPos pos : blocksToStrip) {
-            if((this.getMaxDamage(itemStack) - (int) NBTUtils.getFloatOrAddKey(itemStack, "Damage")) == 0) {
-                return;
-            }
-
-            BlockState blockState = level.getBlockState(pos);
-            Optional<BlockState> optional = Optional.ofNullable(blockState.getToolModifiedState(context, ToolActions.AXE_STRIP, false));
-
-            if (optional.isPresent()) {
-                level.setBlock(pos, optional.get(), 11);
-
-                if (player != null) {
-                    itemStack.hurtAndBreak(1, player, player1 -> player1.broadcastBreakEvent(slot));
-                }
-
-                addExp(itemStack, level, pos, player);
-            }
-        }
+        return ToolUseUtils.useOnAxeVeinStrip(context, this);
     }
 
     @Override
@@ -89,7 +48,7 @@ public class AxeLevelableTool extends LevelableTool implements VeinMinerLevelabl
     public boolean onBlockStartBreak(ItemStack tool, BlockPos pos, Player player) {
         Level level = player.level();
         BlockState blockState = level.getBlockState(pos);
-        if (NBTUtils.getFloatOrAddKey(tool, "tree_chop") > 0 && KeyBindings.veinMine.isDown() && canVeinMin(blockState)) {
+        if (NBTUtils.getFloatOrAddKey(tool, "tree_chop") > 0 && KeyBindings.veinMine.isDown() && canVeinMin(tool, blockState)) {
             Collection<BlockPos> toMine = BlockCollectors.collectVeinMine(pos, level, this.getVeinMinerPredicate(blockState), this.getMaxBlocks(tool));
             this.breakBlockCollection(tool, level, toMine, player, blockState.getDestroySpeed(level, pos));
         }
@@ -99,7 +58,7 @@ public class AxeLevelableTool extends LevelableTool implements VeinMinerLevelabl
 
     @Override
     public boolean correctTool(ItemStack tool, BlockState blockState) {
-        return super.correctTool(tool, blockState) || (NBTUtils.getFloatOrAddKey(tool, "leaf_mine") > 0 && blockState.is(BlockTags.MINEABLE_WITH_HOE));
+        return super.correctTool(tool, blockState) || (NBTUtils.getFloatOrAddKey(tool, "leaf_mine") > 0 && blockState.is(BlockTags.LEAVES));
     }
 
     @Override
@@ -119,7 +78,7 @@ public class AxeLevelableTool extends LevelableTool implements VeinMinerLevelabl
     }
 
     @Override
-    public boolean canVeinMin(BlockState blockState) {
-        return blockState.is(BlockTags.MINEABLE_WITH_AXE);
+    public boolean canVeinMin(ItemStack stack, BlockState blockState) {
+        return blockState.is(BlockTags.MINEABLE_WITH_AXE) || (NBTUtils.getFloatOrAddKey(stack, "leaf_mine") > 0 && blockState.is(BlockTags.LEAVES));
     }
 }

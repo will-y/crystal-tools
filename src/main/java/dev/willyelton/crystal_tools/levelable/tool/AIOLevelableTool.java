@@ -23,6 +23,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -85,11 +86,9 @@ public class AIOLevelableTool extends DiggerLevelableTool {
 
     @Override
     public boolean onBlockStartBreak(ItemStack tool, BlockPos pos, Player player) {
-        // TODO: Look for axe first and then do other
-        // Make collectors so you don't dupe code with axe
         return super.onBlockStartBreak(tool, pos, player);
     }
-        @Override
+    @Override
     public @NotNull InteractionResult useOn(UseOnContext context) {
         ItemStack stack = context.getItemInHand();
 
@@ -102,13 +101,13 @@ public class AIOLevelableTool extends DiggerLevelableTool {
 
         switch (mode) {
             case HOE -> {
-                return useOnHoe(context);
+                return ToolUseUtils.useOnHoe3x3(context, this);
             }
             case SHOVEL -> {
-                return useOnShovel(context);
+                return ToolUseUtils.useOnShovel3x3(context, this);
             }
             case AXE -> {
-                return useOnAxe(context);
+                return ToolUseUtils.useOnAxeVeinStrip(context, this);
             }
             case TORCH -> {
                 return useOnTorch(context);
@@ -138,19 +137,20 @@ public class AIOLevelableTool extends DiggerLevelableTool {
     }
 
     public InteractionResult useOnShovel(UseOnContext pContext) {
-        return ToolUseUtils.useOnShovel(pContext, this);
+        return ToolUseUtils.useOnShovel(pContext, this, pContext.getClickedPos());
     }
 
     public InteractionResult useOnTorch(UseOnContext context) {
         return ToolUseUtils.useOnTorch(context, this);
     }
 
-    public InteractionResult useOnHoe(UseOnContext context) {
-        return ToolUseUtils.useOnHoe(context, this);
-    }
-
     @Override
     public boolean isDisabled() {
         return CrystalToolsConfig.DISABLE_AIOT.get();
+    }
+
+    @Override
+    public boolean canVeinMin(ItemStack stack, BlockState blockState) {
+        return blockState.is(Tags.Blocks.ORES) || blockState.is(BlockTags.LOGS) || (blockState.is(BlockTags.LEAVES));
     }
 }

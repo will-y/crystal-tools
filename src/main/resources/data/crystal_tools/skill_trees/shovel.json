@@ -191,8 +191,7 @@
         "description": "Mines in a 3x3 area.",
         "type": "normal",
         "requirements":[
-          {"or_node": [12, 13]},
-          {"not_node": [18]}
+          {"or_node": [12, 13]}
         ],
         "key": "3x3",
         "value": 1
@@ -203,8 +202,7 @@
         "description": "Automatically smelts the blocks that you mine.",
         "type": "normal",
         "requirements":[
-          {"or_node": [12, 13]},
-          {"not_node": [17]}
+          {"or_node": [12, 13]}
         ],
         "key": "auto_smelt",
         "value": 1

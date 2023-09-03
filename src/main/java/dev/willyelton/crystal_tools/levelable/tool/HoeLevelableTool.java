@@ -25,24 +25,7 @@ public class HoeLevelableTool extends DiggerLevelableTool {
             return InteractionResult.FAIL;
         }
 
-        if (NBTUtils.getFloatOrAddKey(context.getItemInHand(), "3x3") > 0 && !NBTUtils.getBoolean(context.getItemInHand(), "disable_3x3")) {
-            InteractionResult result = null;
-
-            for (int i = -1; i < 2; i++) {
-                for (int j = -1; j < 2; j++) {
-                    InteractionResult hoeResult = ToolUseUtils.useOnHoe(context, this, context.getClickedPos().offset(i, 0, j));
-                    if (!hoeResult.equals(InteractionResult.PASS)) {
-                        result = hoeResult;
-                    }
-                }
-            }
-
-            return result == null ? InteractionResult.PASS : result;
-        }
-
-        return ToolUseUtils.useOnHoe(context, this);
-
-
+        return ToolUseUtils.useOnHoe3x3(context, this);
     }
 
     @Override

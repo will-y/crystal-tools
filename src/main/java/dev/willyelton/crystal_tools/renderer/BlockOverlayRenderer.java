@@ -10,7 +10,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -81,7 +80,7 @@ public class BlockOverlayRenderer {
 
             BlockPos pos = hitResult.getBlockPos();
             BlockState hitBlockState = level.getBlockState(pos);
-            if (!toolItem.canVeinMin(hitBlockState)) return;
+            if (!toolItem.canVeinMin(stack, hitBlockState)) return;
 
             PoseStack pose = event.getPoseStack();
             pose.pushPose();

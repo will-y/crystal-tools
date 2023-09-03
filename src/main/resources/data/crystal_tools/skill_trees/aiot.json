@@ -230,8 +230,7 @@
         "description": "Mines in a 3x3 area.",
         "type": "normal",
         "requirements":[
-          {"or_node": [13, 14, 15, 16]},
-          {"not_node": [20]}
+          {"or_node": [13, 14, 15, 16]}
         ],
         "key": "3x3",
         "value": 1
@@ -242,8 +241,7 @@
         "description": "Mines all ores in a vein when pressing the vein mining key. Adding more points increases the range. (+1 block range per level)",
         "type": "infinite",
         "requirements":[
-          {"or_node": [13, 14, 15, 16]},
-          {"not_node": [20]}
+          {"or_node": [13, 14, 15, 16]}
         ],
         "key": "vein_miner",
         "value": 1
@@ -254,8 +252,7 @@
         "description": "Automatically smelts the blocks that you mine.",
         "type": "normal",
         "requirements":[
-          {"or_node": [13, 14, 15, 16]},
-          {"not_node": [18, 19]}
+          {"or_node": [13, 14, 15, 16]}
         ],
         "key": "auto_smelt",
         "value": 1

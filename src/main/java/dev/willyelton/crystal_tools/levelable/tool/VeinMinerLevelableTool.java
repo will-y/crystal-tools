@@ -10,5 +10,5 @@ public interface VeinMinerLevelableTool {
 
     int getMaxBlocks(ItemStack stack);
 
-    boolean canVeinMin(BlockState blockState);
+    boolean canVeinMin(ItemStack stack, BlockState blockState);
 }
