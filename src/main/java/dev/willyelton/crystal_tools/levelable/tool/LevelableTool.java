@@ -10,6 +10,7 @@ import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
@@ -29,13 +30,11 @@ import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Consumer;
 
 public abstract class LevelableTool extends Item implements LevelableItem {
@@ -45,6 +44,8 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     protected final String itemType;
     protected final int initialDurability;
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
+    private final UUID reachUUID;
+    private Attribute reach;
 
     public LevelableTool(Item.Properties properties, TagKey<Block> mineableBlocks, String itemType, float attackDamageModifier, float attackSpeedModifier) {
         this(properties, mineableBlocks, itemType, attackDamageModifier, attackSpeedModifier, tier.getUses());
@@ -59,6 +60,7 @@ public abstract class LevelableTool extends Item implements LevelableItem {
         builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", tier.getAttackDamageBonus() + attackDamageModifier, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", attackSpeedModifier, AttributeModifier.Operation.ADDITION));
         this.defaultModifiers = builder.build();
+        this.reachUUID = UUID.randomUUID();
     }
 
     // From DiggerItem.java
@@ -259,6 +261,28 @@ public abstract class LevelableTool extends Item implements LevelableItem {
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
+//        if (slot == EquipmentSlot.MAINHAND && !ToolUtils.isBroken(stack)) {
+//
+//            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+//            builder.put(reach, new AttributeModifier("Reach modifier", 2, AttributeModifier.Operation.ADDITION));
+//
+//            return builder.build();
+//        }
+//
+//        return super.getAttributeModifiers(slot, stack);
+
+        if (slot == EquipmentSlot.MAINHAND && !ToolUtils.isBroken(stack)) {
+            if (reach == null) {
+                reach = ForgeRegistries.ATTRIBUTES.getValue(new ResourceLocation("forge", "reach_distance"));
+                assert reach != null;
+            }
+
+            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+            builder.putAll(defaultModifiers);
+            builder.put(reach, new AttributeModifier(reachUUID, "Reach modifier", 2, AttributeModifier.Operation.ADDITION));
+            return builder.build();
+        }
+
         return slot == EquipmentSlot.MAINHAND ? this.defaultModifiers : super.getAttributeModifiers(slot, stack);
     }
 

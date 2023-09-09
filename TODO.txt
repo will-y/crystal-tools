@@ -2,7 +2,6 @@
 - Bow Draw Speed
 - Boots immune to fall damage
 - Armor cool potion effects?
-- When you take off armor you keep stats (I think this is just how vanilla works?)
 - Furnace skill screen doesn't fully refresh when open when point is gained
 - Crystal Arrow
 - Crystal glass (conn texture)
@@ -10,11 +9,12 @@
 - Crystal Generator
 - JEI Integration
 - Fix dragging on skill tree
-- Furnace upgrade: save fuel
-- Auto pickup
-- Fishing rod
 - Make a properties class that deals with all of the nbt stuff
-- Reach
 - Configure color of highlight?
+- Breaking animation on multibreaks
 
--------------------- 1.5.0 -----------------------
+--------------- 1.6.0 ---------------------------
+- Reach
+- Auto pickup
+- Furnace upgrade: save fuel
+- Fishing rod

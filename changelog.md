@@ -1,5 +1,7 @@
 # Crystal Tools Change Log
-## 1.5.0 Changes
+## 1.6.0
+
+## 1.5.0
 ### Additions
 - When 3x3 or vein mining it now shows a preview of which blocks you will be mining.
 - Adds a new config option `DISABLE_BLOCK_TARGET_RENDERING`. Disables the breaking preview.
@@ -21,7 +23,7 @@
 - AIOT now correctly hoes in 3x3 area
 - AIOT now vein strips correctly
 
-## 1.4.2 Changes
+## 1.4.2
 ### Changes
 - Updates to Minecraft 1.20.1 (forge 47.1.0)
 - Removed the following config options:
