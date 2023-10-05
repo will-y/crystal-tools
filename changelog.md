@@ -1,5 +1,8 @@
 # Crystal Tools Change Log
-## 1.6.0
+## 1.5.1
+### Fixes
+- Fixes tools not taking damage with autosmelting on
+- Fixes tools being enchantable by book
 
 ## 1.5.0
 ### Additions

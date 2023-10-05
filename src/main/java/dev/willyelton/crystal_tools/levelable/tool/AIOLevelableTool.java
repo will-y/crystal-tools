@@ -132,14 +132,6 @@ public class AIOLevelableTool extends DiggerLevelableTool {
         components.add(Component.literal(toolTip));
     }
 
-    public InteractionResult useOnAxe(UseOnContext pContext) {
-        return ToolUseUtils.useOnAxe(pContext, this);
-    }
-
-    public InteractionResult useOnShovel(UseOnContext pContext) {
-        return ToolUseUtils.useOnShovel(pContext, this, pContext.getClickedPos());
-    }
-
     public InteractionResult useOnTorch(UseOnContext context) {
         return ToolUseUtils.useOnTorch(context, this);
     }

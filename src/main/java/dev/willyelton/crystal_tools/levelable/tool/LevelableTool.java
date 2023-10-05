@@ -112,7 +112,7 @@ public abstract class LevelableTool extends Item implements LevelableItem {
             return false;
         }
 
-        if (!level.isClientSide && blockState.getDestroySpeed(level, blockPos) != 0.0F) {
+        if (!level.isClientSide) {
             tool.hurtAndBreak(1, entity, (player) -> player.broadcastBreakEvent(EquipmentSlot.MAINHAND));
         }
 
@@ -122,7 +122,7 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     }
 
     public void breakBlock(ItemStack tool, Level level, BlockPos blockPos, LivingEntity entity) {
-        // TODO: Don't break if broken
+        // TODO: Don't break if tool is broken
         BlockState blockState = level.getBlockState(blockPos);
         if (isCorrectToolForDrops(tool, blockState)) {
             if (NBTUtils.getFloatOrAddKey(tool, "auto_smelt") > 0 && !NBTUtils.getBoolean(tool, "disable_auto_smelt")) {
@@ -132,7 +132,7 @@ public abstract class LevelableTool extends Item implements LevelableItem {
             } else {
                 LevelUtils.destroyBlock(level, blockPos, true, entity, 512, tool);
             }
-            if (!level.isClientSide && blockState.getDestroySpeed(level, blockPos) != 0.0F) {
+            if (!level.isClientSide) {
                 tool.hurtAndBreak(1, entity, (player) -> player.broadcastBreakEvent(EquipmentSlot.MAINHAND));
             }
             addExp(tool, level, blockPos, entity);
@@ -261,16 +261,6 @@ public abstract class LevelableTool extends Item implements LevelableItem {
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-//        if (slot == EquipmentSlot.MAINHAND && !ToolUtils.isBroken(stack)) {
-//
-//            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-//            builder.put(reach, new AttributeModifier("Reach modifier", 2, AttributeModifier.Operation.ADDITION));
-//
-//            return builder.build();
-//        }
-//
-//        return super.getAttributeModifiers(slot, stack);
-
         if (slot == EquipmentSlot.MAINHAND && !ToolUtils.isBroken(stack)) {
             if (reach == null) {
                 reach = ForgeRegistries.ATTRIBUTES.getValue(new ResourceLocation("forge", "reach_distance"));
@@ -290,5 +280,15 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     public @NotNull Rarity getRarity(@NotNull ItemStack stack) {
         // Just to get the right text color always
         return Rarity.RARE;
+    }
+
+    @Override
+    public boolean isEnchantable(@NotNull ItemStack stack) {
+        return false;
+    }
+
+    @Override
+    public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
+        return false;
     }
 }
