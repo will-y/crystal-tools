@@ -41,7 +41,7 @@ public abstract class DiggerLevelableTool extends LevelableTool implements VeinM
             BlockHitResult result = RayTraceUtils.rayTrace(player);
             Direction direction = result.getDirection();
             float firstBlockSpeed = blockState.getDestroySpeed(level, pos);
-            breakBlockCollection(tool, level, BlockCollectors.collect3x3(pos, direction), player, firstBlockSpeed);
+            this.breakBlockCollection(tool, level, BlockCollectors.collect3x3(pos, direction), player, firstBlockSpeed);
             return true;
         }
 

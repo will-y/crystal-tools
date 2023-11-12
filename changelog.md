@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 1.6.0
+### Fixes
+- Fixes tools not rendering highlight on non-mineable blocks
+
 ## 1.5.1
 ### Fixes
 - Fixes tools not taking damage with autosmelting on

@@ -77,6 +77,17 @@
         ],
         "key": "durability_bonus",
         "value": 200
+      },
+      {
+        "id": 25,
+        "name": "Reach I",
+        "description": "Increases Hoe's Reach Distance",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [2, 3, 19]}
+        ],
+        "key": "reach",
+        "value": 1
       }
     ],
     [
@@ -90,7 +101,7 @@
             "not_node": [7],
             "unless": [24]
           },
-          {"or_node": [4, 5]}
+          {"or_node": [4, 5, 25]}
         ],
         "key": "silk_touch_bonus",
         "value": 1
@@ -105,7 +116,7 @@
             "not_node": [6],
             "unless": [24]
           },
-          {"or_node": [4, 5]}
+          {"or_node": [4, 5, 25]}
         ],
         "key": "fortune_bonus",
         "value": 3
@@ -147,6 +158,18 @@
         ],
         "key": "durability_bonus",
         "value": 200
+      },
+      {
+        "id": 26,
+        "name": "Reach II",
+        "description": "Increases Hoe's Reach Distance",
+        "type": "normal",
+        "requirements": [
+          {"node": 25},
+          {"or_node": [6, 7, 20]}
+        ],
+        "key": "reach",
+        "value": 1
       }
     ],
     [
@@ -209,6 +232,18 @@
         ],
         "key": "auto_smelt",
         "value": 1
+      },
+      {
+        "id": 27,
+        "name": "Reach III",
+        "description": "Increases Hoe's Reach Distance",
+        "type": "normal",
+        "requirements": [
+          {"node": 26},
+          {"or_node": [12, 13]}
+        ],
+        "key": "reach",
+        "value": 1
       }
     ],
     [
@@ -218,7 +253,7 @@
         "description": "Automatically Repairs Your Tool Over Time!",
         "type": "infinite",
         "requirements": [
-          {"or_node": [21, 23, 17]}
+          {"or_node": [21, 23, 17, 27]}
         ],
         "key": "auto_repair",
         "value": 1
@@ -230,7 +265,7 @@
         "type": "normal",
         "requirements": [
           {
-            "or_node": [21, 23, 17]
+            "or_node": [21, 23, 17, 27]
           },
           {
             "item": ["minecraft:shears"]
@@ -246,7 +281,7 @@
         "type": "normal",
         "requirements": [
           {
-            "or_node": [21, 23, 17]
+            "or_node": [21, 23, 17, 27]
           }
         ],
         "key": "mine_mode",
@@ -289,6 +324,18 @@
         ],
         "key": "unbreaking",
         "value": 0.01
+      },
+      {
+        "id": 28,
+        "name": "Infinite Reach",
+        "description": "Add as many points to Reach here as you want",
+        "type": "infinite",
+        "requirements": [
+          {"node": [27]},
+          {"or_node": [14, 18, 24]}
+        ],
+        "key": "reach",
+        "value": 0.1
       }
     ]
   ]

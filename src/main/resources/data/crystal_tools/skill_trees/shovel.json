@@ -77,6 +77,17 @@
         ],
         "key": "durability_bonus",
         "value": 200
+      },
+      {
+        "id": 24,
+        "name": "Reach I",
+        "description": "Increases Shovel's Reach Distance",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [2, 3, 19]}
+        ],
+        "key": "reach",
+        "value": 1
       }
     ],
     [
@@ -147,6 +158,18 @@
         ],
         "key": "durability_bonus",
         "value": 200
+      },
+      {
+        "id": 25,
+        "name": "Reach II",
+        "description": "Increases Shovel's Reach Distance",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [6, 7, 20]},
+          {"node": [24]}
+        ],
+        "key": "reach",
+        "value": 1
       }
     ],
     [
@@ -206,6 +229,18 @@
         ],
         "key": "auto_smelt",
         "value": 1
+      },
+      {
+        "id": 26,
+        "name": "Reach III",
+        "description": "Increases Shovel's Reach Distance",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [12, 13]},
+          {"node": [25]}
+        ],
+        "key": "reach",
+        "value": 1
       }
     ],
     [
@@ -215,7 +250,7 @@
         "description": "Press mode_switch key to change the mining mode between unlocked modes (Silk Touch or Fortune). Press shift + mode_switch to change the breaking mode (3x3 or 1x1).",
         "type": "normal",
         "requirements": [
-          {"or_node": [14, 17, 18]}
+          {"or_node": [14, 17, 18, 26]}
         ],
         "key": "mine_mode",
         "value": 1
@@ -226,7 +261,7 @@
         "description": "Adds 10% to the chance not use durability",
         "type": "normal",
         "requirements": [
-          {"or_node": [14, 17, 18]},
+          {"or_node": [14, 17, 18, 26]},
           {"node": [20]}
         ],
         "key": "unbreaking",

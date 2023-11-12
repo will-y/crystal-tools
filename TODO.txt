@@ -12,6 +12,7 @@
 - Make a properties class that deals with all of the nbt stuff
 - Configure color of highlight?
 - Breaking animation on multibreaks
+- Make or node connections look different somehow
 
 --------------- 1.6.0 ---------------------------
 - Reach

@@ -262,18 +262,25 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
         if (slot == EquipmentSlot.MAINHAND && !ToolUtils.isBroken(stack)) {
-            if (reach == null) {
-                reach = ForgeRegistries.ATTRIBUTES.getValue(new ResourceLocation("forge", "reach_distance"));
-                assert reach != null;
-            }
-
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
             builder.putAll(defaultModifiers);
-            builder.put(reach, new AttributeModifier(reachUUID, "Reach modifier", 2, AttributeModifier.Operation.ADDITION));
-            return builder.build();
-        }
 
-        return slot == EquipmentSlot.MAINHAND ? this.defaultModifiers : super.getAttributeModifiers(slot, stack);
+            if (NBTUtils.getFloatOrAddKey(stack, "reach") > 0) {
+                if (reach == null) {
+                    reach = ForgeRegistries.ATTRIBUTES.getValue(new ResourceLocation("forge", "reach_distance"));
+                    assert reach != null;
+                }
+
+                builder.put(reach, new AttributeModifier(reachUUID,
+                        "Reach modifier",
+                        NBTUtils.getFloatOrAddKey(stack, "reach") * CrystalToolsConfig.REACH_INCREASE.get(),
+                        AttributeModifier.Operation.ADDITION));
+            }
+
+            return builder.build();
+        } else {
+            return super.getAttributeModifiers(slot, stack);
+        }
     }
 
     @Override

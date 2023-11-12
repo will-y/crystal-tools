@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.event;
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
+import dev.willyelton.crystal_tools.levelable.tool.DiggerLevelableTool;
 import dev.willyelton.crystal_tools.levelable.tool.LevelableTool;
 import dev.willyelton.crystal_tools.levelable.tool.VeinMinerLevelableTool;
 import dev.willyelton.crystal_tools.renderer.BlockOverlayRenderer;
@@ -11,6 +12,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderHighlightEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
@@ -46,10 +49,15 @@ public class RenderEvents {
 
         if (player == null) return;
 
-        ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
+        if (event.getTarget() instanceof BlockHitResult blockHitResult) {
+            BlockState state = player.level().getBlockState(blockHitResult.getBlockPos());
+            ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
 
-        if (stack.getItem() instanceof LevelableTool && NBTUtils.getFloatOrAddKey(stack, "3x3") > 0 && !NBTUtils.getBoolean(stack, "disable_3x3")) {
-            event.setCanceled(true);
+            if (stack.getItem() instanceof LevelableTool toolItem && NBTUtils.getFloatOrAddKey(stack, "3x3") > 0 && !NBTUtils.getBoolean(stack, "disable_3x3")) {
+                if (toolItem.correctTool(stack, state)) {
+                    event.setCanceled(true);
+                }
+            }
         }
     }
 }
