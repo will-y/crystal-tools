@@ -1,7 +1,10 @@
 # Crystal Tools Change Log
 ## 1.6.0
 ### Fixes
-- Fixes tools not rendering highlight on non-mineable blocks
+- Fixes tools not rendering highlight on non-mineable blocks 
+
+### Changes
+- Updates to Forge 1.20.1-47.2.5
 
 ## 1.5.1
 ### Fixes
