@@ -6,6 +6,7 @@
 
 ### Fixes
 - Fixes recipe for crystal elytra and crystal AIOT not showing up in JEI
+- Fixes the crystal bow not being able to shoot arrows from quivers
 
 ----------------------- 1.3.0 Changes -----------------------
 ### Additions

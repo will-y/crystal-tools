@@ -4,7 +4,6 @@ import dev.willyelton.crystal_tools.CreativeTabs;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.item.LevelableItem;
 import dev.willyelton.crystal_tools.item.ModItems;
-import dev.willyelton.crystal_tools.utils.LevelUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.network.chat.Component;
@@ -20,6 +19,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.ForgeHooks;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-// TODO extend BowItem
 public class BowLevelableItem extends BowItem implements LevelableItem {
     public BowLevelableItem() {
         super(new Properties().defaultDurability(tier.getUses()).fireResistant().tab(CreativeTabs.CRYSTAL_TOOLS_TAB));
@@ -118,8 +117,8 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
 
         boolean flag = !getProjectile(itemstack, pPlayer).isEmpty() || NBTUtils.getFloatOrAddKey(itemstack, "infinity") > 0;
 
-//        InteractionResultHolder<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemstack, pLevel, pPlayer, pHand, flag);
-//        if (ret != null) return ret;
+        InteractionResultHolder<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemstack, pLevel, pPlayer, pHand, flag);
+        if (ret != null) return ret;
 
         if (ToolUtils.isBroken(itemstack) || (!pPlayer.getAbilities().instabuild && !flag)) {
             return InteractionResultHolder.fail(itemstack);
@@ -150,19 +149,21 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
         if (!(pShootable.getItem() instanceof BowLevelableItem)) {
             return ItemStack.EMPTY;
         } else {
-            Predicate<ItemStack> predicate = getAllSupportedProjectiles();
+            Predicate<ItemStack> predicate = getSupportedHeldProjectiles();
             ItemStack itemstack = ProjectileWeaponItem.getHeldProjectile(player, predicate);
             if (!itemstack.isEmpty()) {
-                return itemstack;
+                return ForgeHooks.getProjectile(player, pShootable, itemstack);
             } else {
+                predicate = getAllSupportedProjectiles();
+
                 for(int i = 0; i < player.getInventory().getContainerSize(); ++i) {
                     ItemStack itemstack1 = player.getInventory().getItem(i);
                     if (predicate.test(itemstack1)) {
-                        return itemstack1;
+                        return ForgeHooks.getProjectile(player, pShootable, itemstack1);
                     }
                 }
 
-                return player.getAbilities().instabuild ? new ItemStack(Items.ARROW) : ItemStack.EMPTY;
+                return ForgeHooks.getProjectile(player, pShootable, player.getAbilities().instabuild ? new ItemStack(Items.ARROW) : ItemStack.EMPTY);
             }
         }
     }

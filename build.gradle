@@ -8,11 +8,13 @@ buildscript {
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath 'org.parchmentmc:librarian:1.+'
+//        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7.+' // For testing mods with mixins
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
+//apply plugin: 'org.spongepowered.mixin' // For testing mods with mixins
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
@@ -57,6 +59,9 @@ minecraft {
             // You can set various levels here.
             // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
             property 'forge.logging.console.level', 'debug'
+
+//            property 'mixin.env.remapRefMap', 'true' // When testing with other mods that use mixins
+//            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
 
             mods {
                 crystal_tools {
@@ -121,6 +126,10 @@ repositories {
     // Put repositories for dependencies here
     // ForgeGradle automatically adds the Forge maven and Maven Central for you
     maven { url "https://maven.blamejared.com" } // JEI
+    maven {url "https://cursemaven.com" } // Curseforge
+    maven {
+        url = "https://maven.theillusivec4.top/"
+    } // Curios
 
     // If you have mod jar dependencies in ./libs, you can declare them as a repository like so:
 //     flatDir {
@@ -139,9 +148,12 @@ dependencies {
 //     runtimeOnly fg.deobf("mezz.jei:jei-1.18.2:${jei_version}") // Adds the full JEI mod as a runtime dependency
     // implementation fg.deobf("com.tterrag.registrate:Registrate:MC${mc_version}-${registrate_version}") // Adds registrate as a dependency
 
+//    implementation fg.deobf("top.theillusivec4.curios:curios-forge:1.18.2-5.0.6.3")
+//    runtimeOnly fg.deobf("curse.maven:nyfs-quivers-482731:4020792")
+
     compileOnly fg.deobf("mezz.jei:jei-1.18.2-common-api:${jei_version}")
     compileOnly fg.deobf("mezz.jei:jei-1.18.2-forge-api:${jei_version}")
-    implementation fg.deobf("mezz.jei:jei-1.18.2-forge:${jei_version}")
+    runtimeOnly fg.deobf("mezz.jei:jei-1.18.2-forge:${jei_version}")
 
     // Examples using mod jars from ./libs
     // implementation fg.deobf("blank:coolmod-${mc_version}:${coolmod_version}")
