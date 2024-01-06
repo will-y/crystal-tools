@@ -178,6 +178,16 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     }
 
     @Override
+    public boolean isEnchantable(@NotNull ItemStack stack) {
+        return false;
+    }
+
+    @Override
+    public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
+        return false;
+    }
+
+    @Override
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
         ToolUtils.appendHoverText(itemStack, level, components, flag, this);
     }
