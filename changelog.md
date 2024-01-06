@@ -1,3 +1,12 @@
+----------------------- 1.3.1 -----------------------
+### Changes
+- Updates to Forge 40.2.17
+
+### Additions
+
+### Fixes
+- Fixes recipe for crystal elytra and crystal AIOT not showing up in JEI
+
 ----------------------- 1.3.0 Changes -----------------------
 ### Additions
 - Adds the Crystal Apple

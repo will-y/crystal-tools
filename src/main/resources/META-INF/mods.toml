@@ -60,3 +60,9 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis lacinia magn
     versionRange="[1.18,1.19)"
     ordering="NONE"
     side="BOTH"
+[[dependencies.crystal_tools]]
+    modId="jei"
+    mandatory=false
+    versionRange="[10,)"
+    ordering="NONE"
+    side="CLIENT"

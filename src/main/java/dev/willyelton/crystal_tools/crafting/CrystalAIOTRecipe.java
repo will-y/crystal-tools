@@ -6,12 +6,14 @@ import dev.willyelton.crystal_tools.item.tool.ModTools;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
+import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CrystalAIOTRecipe extends CustomRecipe {
+public class CrystalAIOTRecipe extends CrystalToolsRecipe {
     private static final Item[] requiredItems = new Item[] {
             ModTools.CRYSTAL_AXE.get(),
             ModTools.CRYSTAL_PICKAXE.get(),
@@ -33,6 +35,7 @@ public class CrystalAIOTRecipe extends CustomRecipe {
     public CrystalAIOTRecipe(ResourceLocation location) {
         super(location);
     }
+
     @Override
     public boolean matches(@NotNull CraftingContainer container, @NotNull Level level) {
         if (CrystalToolsConfig.DISABLE_AIOT.get()) return false;
@@ -104,5 +107,15 @@ public class CrystalAIOTRecipe extends CustomRecipe {
         }
 
         return result;
+    }
+
+    @Override
+    public List<ItemStack> getInputs() {
+        return Arrays.stream(requiredItems).map(ItemStack::new).toList();
+    }
+
+    @Override
+    public ItemStack getOutput() {
+        return new ItemStack(ModTools.CRYSTAL_AIOT.get());
     }
 }
