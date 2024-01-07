@@ -173,4 +173,14 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Wearable
             }
         }
     }
+
+    @Override
+    public boolean isEnchantable(@NotNull ItemStack stack) {
+        return false;
+    }
+
+    @Override
+    public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
+        return false;
+    }
 }

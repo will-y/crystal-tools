@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class CrystalElytraRecipe extends CustomRecipe {
+public class CrystalElytraRecipe extends CrystalToolsRecipe {
 
     public CrystalElytraRecipe(ResourceLocation pId) {
         super(pId);
@@ -114,5 +114,15 @@ public class CrystalElytraRecipe extends CustomRecipe {
         }
 
         return List.of(elytraItem, crystalChestPlateItem);
+    }
+
+    @Override
+    public List<ItemStack> getInputs() {
+        return List.of(new ItemStack(ModArmor.CRYSTAL_CHESTPLATE.get()), new ItemStack(Items.ELYTRA));
+    }
+
+    @Override
+    public ItemStack getOutput() {
+        return new ItemStack(ModArmor.CRYSTAL_ELYTRA.get());
     }
 }

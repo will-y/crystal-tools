@@ -214,4 +214,15 @@ public abstract class LevelableTool extends Item implements LevelableItem {
         // Just to get the right text color always
         return Rarity.RARE;
     }
+
+
+    @Override
+    public boolean isEnchantable(@NotNull ItemStack stack) {
+        return false;
+    }
+
+    @Override
+    public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
+        return false;
+    }
 }

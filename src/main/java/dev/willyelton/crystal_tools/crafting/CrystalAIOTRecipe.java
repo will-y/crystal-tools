@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CrystalAIOTRecipe extends CustomRecipe {
+public class CrystalAIOTRecipe extends CrystalToolsRecipe {
     private static final Item[] requiredItems = new Item[] {
             ModTools.CRYSTAL_AXE.get(),
             ModTools.CRYSTAL_PICKAXE.get(),
@@ -33,6 +33,7 @@ public class CrystalAIOTRecipe extends CustomRecipe {
     public CrystalAIOTRecipe(ResourceLocation location) {
         super(location);
     }
+
     @Override
     public boolean matches(@NotNull CraftingContainer container, @NotNull Level level) {
         if (CrystalToolsConfig.DISABLE_AIOT.get()) return false;
@@ -104,5 +105,15 @@ public class CrystalAIOTRecipe extends CustomRecipe {
         }
 
         return result;
+    }
+
+    @Override
+    public List<ItemStack> getInputs() {
+        return Arrays.stream(requiredItems).map(ItemStack::new).toList();
+    }
+
+    @Override
+    public ItemStack getOutput() {
+        return new ItemStack(ModTools.CRYSTAL_AIOT.get());
     }
 }

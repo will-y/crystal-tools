@@ -1,3 +1,11 @@
+----------------------- 1.4.2 -----------------------
+### Additions
+- Adds config option `REPAIR_IN_HAND`: If true, tools can repair while you are holding them
+
+### Fixes
+- Fixes recipe for crystal elytra and crystal AIOT not showing up in JEI
+- Fixes the crystal bow not being able to shoot arrows from quivers
+
 ----------------------- 1.4.1-RELEASE Changes -----------------------
 ### Additions
 - Adds the `Unbreaking` upgrade to all tools.

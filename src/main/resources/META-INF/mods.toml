@@ -56,3 +56,9 @@ This mod adds a new class of tools to Minecraft called crystal tools. They are m
     versionRange="[1.19,1.20)"
     ordering="NONE"
     side="BOTH"
+[[dependencies.crystal_tools]]
+    modId="jei"
+    mandatory=false
+    versionRange="[11,)"
+    ordering="NONE"
+    side="CLIENT"
