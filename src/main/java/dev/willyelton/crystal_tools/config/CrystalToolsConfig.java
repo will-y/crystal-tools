@@ -20,6 +20,7 @@ public class CrystalToolsConfig {
 
     // Repair
     public static ForgeConfigSpec.IntValue TOOL_REPAIR_COOLDOWN;
+    public static ForgeConfigSpec.BooleanValue REPAIR_IN_HAND;
     public static ForgeConfigSpec.DoubleValue ROCKET_REPAIR_MODIFIER;
     public static ForgeConfigSpec.DoubleValue APPLE_REPAIR_MODIFIER;
 
@@ -98,6 +99,9 @@ public class CrystalToolsConfig {
 
         TOOL_REPAIR_COOLDOWN = builder.comment("Determines the cooldown between tool auto repairs")
                 .defineInRange("tool_repair_cooldown", 300, 1, 10000);
+
+        REPAIR_IN_HAND = builder.comment("If true, tools will auto repair while you are holding them")
+                .define("repair_in_hand", false);
 
         ROCKET_REPAIR_MODIFIER = builder.comment("Increases the repair cooldown for the rocket")
                 .defineInRange("rocket_repair_modifier", 10D, 1D, 10000D);

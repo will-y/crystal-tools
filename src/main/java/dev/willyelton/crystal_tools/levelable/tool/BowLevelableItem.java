@@ -18,6 +18,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.ForgeHooks;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -110,6 +111,9 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
         }
         boolean flag = !getProjectile(itemstack, pPlayer).isEmpty() || NBTUtils.getFloatOrAddKey(itemstack, "infinity") > 0;
 
+        InteractionResultHolder<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemstack, pLevel, pPlayer, pHand, flag);
+        if (ret != null) return ret;
+
         if (ToolUtils.isBroken(itemstack) || (!pPlayer.getAbilities().instabuild && !flag)) {
             return InteractionResultHolder.fail(itemstack);
         } else {
@@ -142,16 +146,16 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
             Predicate<ItemStack> predicate = getAllSupportedProjectiles();
             ItemStack itemstack = ProjectileWeaponItem.getHeldProjectile(player, predicate);
             if (!itemstack.isEmpty()) {
-                return itemstack;
+                return ForgeHooks.getProjectile(player, pShootable, itemstack);
             } else {
                 for(int i = 0; i < player.getInventory().getContainerSize(); ++i) {
                     ItemStack itemstack1 = player.getInventory().getItem(i);
                     if (predicate.test(itemstack1)) {
-                        return itemstack1;
+                        return ForgeHooks.getProjectile(player, pShootable, itemstack1);
                     }
                 }
 
-                return player.getAbilities().instabuild ? new ItemStack(Items.ARROW) : ItemStack.EMPTY;
+                return ForgeHooks.getProjectile(player, pShootable, player.getAbilities().instabuild ? new ItemStack(Items.ARROW) : ItemStack.EMPTY);
             }
         }
     }
@@ -217,5 +221,15 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
 
     public boolean isDisabled() {
         return CrystalToolsConfig.DISABLE_BOW.get();
+    }
+
+    @Override
+    public boolean isEnchantable(@NotNull ItemStack stack) {
+        return false;
+    }
+
+    @Override
+    public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
+        return false;
     }
 }

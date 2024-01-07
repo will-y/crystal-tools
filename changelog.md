@@ -1,4 +1,13 @@
 # Crystal Tools Change Log
+## 1.5.2
+### Additions
+- Adds config option `REPAIR_IN_HAND`: If true, tools can repair while you are holding them
+
+### Fixes
+- Fixes recipe for crystal elytra and crystal AIOT not showing up in JEI
+- Fixes the crystal bow not being able to shoot arrows from quivers
+- Fixes more items being enchantable
+
 ## 1.5.1
 ### Fixes
 - Fixes tools not taking damage with autosmelting on

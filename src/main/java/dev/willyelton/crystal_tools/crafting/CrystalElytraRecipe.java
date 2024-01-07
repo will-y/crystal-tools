@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class CrystalElytraRecipe extends CustomRecipe {
+public class CrystalElytraRecipe extends CrystalToolsRecipe {
 
     public CrystalElytraRecipe(ResourceLocation pId, CraftingBookCategory category) {
         super(pId, category);
@@ -116,5 +116,15 @@ public class CrystalElytraRecipe extends CustomRecipe {
         }
 
         return List.of(elytraItem, crystalChestPlateItem);
+    }
+
+    @Override
+    public List<ItemStack> getInputs() {
+        return List.of(new ItemStack(Registration.CRYSTAL_CHESTPLATE.get()), new ItemStack(Items.ELYTRA));
+    }
+
+    @Override
+    public ItemStack getOutput() {
+        return new ItemStack(Registration.CRYSTAL_ELYTRA.get());
     }
 }

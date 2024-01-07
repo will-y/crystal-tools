@@ -141,6 +141,7 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Equipabl
         return tier.getEnchantmentValue();
     }
 
+    // TODO
     @Override
     public void onArmorTick(ItemStack stack, Level world, Player player) {
         if (this.isDisabled()) {
@@ -172,5 +173,15 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Equipabl
                 return false;
             }
         }
+    }
+
+    @Override
+    public boolean isEnchantable(@NotNull ItemStack stack) {
+        return false;
+    }
+
+    @Override
+    public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
+        return false;
     }
 }

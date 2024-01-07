@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CrystalAIOTRecipe extends CustomRecipe {
+public class CrystalAIOTRecipe extends CrystalToolsRecipe {
     private static final Item[] requiredItems = new Item[] {
             Registration.CRYSTAL_AXE.get(),
             Registration.CRYSTAL_PICKAXE.get(),
@@ -106,5 +106,15 @@ public class CrystalAIOTRecipe extends CustomRecipe {
         }
 
         return result;
+    }
+
+    @Override
+    public List<ItemStack> getInputs() {
+        return Arrays.stream(requiredItems).map(ItemStack::new).toList();
+    }
+
+    @Override
+    public ItemStack getOutput() {
+        return new ItemStack(Registration.CRYSTAL_AIOT.get());
     }
 }
