@@ -7,11 +7,12 @@
 - Crystal glass (conn texture)
 - Advancements
 - Crystal Generator
-- JEI Integration
 - Fix dragging on skill tree
 - Make a properties class that deals with all of the nbt stuff
 - Configure color of highlight?
 - Breaking animation on multibreaks
+- Magnet
+- Backpack
 
 --------------- 1.6.0 ---------------------------
 - Reach
