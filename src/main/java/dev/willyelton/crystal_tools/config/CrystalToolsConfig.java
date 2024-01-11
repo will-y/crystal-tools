@@ -36,6 +36,7 @@ public class CrystalToolsConfig {
     public static ForgeConfigSpec.BooleanValue PAUSE_SCREEN;
     public static ForgeConfigSpec.BooleanValue REQUIRE_CRYSTAL_FOR_RESET;
     public static ForgeConfigSpec.BooleanValue DISABLE_BLOCK_TARGET_RENDERING;
+    public static ForgeConfigSpec.DoubleValue REACH_INCREASE;
 
     // Disable Tools
     public static ForgeConfigSpec.BooleanValue DISABLE_PICKAXE;
@@ -133,6 +134,9 @@ public class CrystalToolsConfig {
 
         DISABLE_BLOCK_TARGET_RENDERING = builder.comment("Disables the block highlighting for 3x3 mining")
                 .define("disable_block_target_rendering", false);
+
+        REACH_INCREASE = builder.comment("Reach distance increase for the Reach upgrade")
+                .defineInRange("reach_increase", 0.5, 0.01, 20);
 
         // Disable Tools
         DISABLE_PICKAXE = builder.comment("Disables Crystal Pickaxe").define("disable_pickaxe", false);

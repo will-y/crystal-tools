@@ -13,9 +13,9 @@
 - Breaking animation on multibreaks
 - Magnet
 - Backpack
+- Make or node connections look different somehow
 
 --------------- 1.6.0 ---------------------------
-- Reach
 - Auto pickup
 - Furnace upgrade: save fuel
 - Fishing rod

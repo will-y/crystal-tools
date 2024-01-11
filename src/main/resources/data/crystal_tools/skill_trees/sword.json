@@ -146,6 +146,17 @@
         ],
         "key": "durability_bonus",
         "value": 200
+      },
+      {
+        "id": 30,
+        "name": "Reach I",
+        "description": "Increases Sword's Reach Distance",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [6, 7, 8, 26]}
+        ],
+        "key": "reach",
+        "value": 1
       }
     ],
     [
@@ -155,7 +166,7 @@
         "description": "Adds Knockback Resistance when holding the sword",
         "type": "normal",
         "requirements": [
-          {"or_node": [9, 10, 11]},
+          {"or_node": [9, 10, 11, 30]},
           {"node": [7]}
         ],
         "key": "knockback_resistance",
@@ -167,7 +178,7 @@
         "description": "You gain 1 heart back on each attack",
         "type": "normal",
         "requirements": [
-          {"or_node": [9, 10, 11]}
+          {"or_node": [9, 10, 11, 30]}
         ],
         "key": "lifesteal",
         "value": 1
@@ -178,7 +189,7 @@
         "description": "Adds Knockback to the Sword",
         "type": "normal",
         "requirements": [
-          {"or_node": [9, 10, 11]},
+          {"or_node": [9, 10, 11, 30]},
           {"node": [8]}
         ],
         "key": "knockback",
@@ -233,6 +244,18 @@
         ],
         "key": "durability_bonus",
         "value": 200
+      },
+      {
+        "id": 31,
+        "name": "Reach II",
+        "description": "Increases Sword's Reach Distance",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [12, 13, 14, 27]},
+          {"node": [30]}
+        ],
+        "key": "reach",
+        "value": 1
       }
     ],
     [
@@ -242,7 +265,7 @@
         "description": "Gives this sword Looting III",
         "type": "normal",
         "requirements": [
-          {"or_node": [15, 16, 17]}
+          {"or_node": [15, 16, 17, 31]}
         ],
         "key": "looting_bonus",
         "value": 3
@@ -253,7 +276,7 @@
         "description": "Automatically Repairs Your Tool Over Time!",
         "type": "infinite",
         "requirements": [
-          {"or_node": [15, 16, 17]}
+          {"or_node": [15, 16, 17, 31]}
         ],
         "key": "auto_repair",
         "value": 1
@@ -264,7 +287,7 @@
         "description": "Adds 10% to the chance not use durability",
         "type": "normal",
         "requirements": [
-          {"or_node": [15, 16, 17]},
+          {"or_node": [15, 16, 17, 31]},
           {"node": [27]}
         ],
         "key": "unbreaking",
@@ -307,6 +330,18 @@
         ],
         "key": "durability_bonus",
         "value": 200
+      },
+      {
+        "id": 32,
+        "name": "Reach III",
+        "description": "Increases Sword's Reach Distance",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [18, 19, 28]},
+          {"node": [31]}
+        ],
+        "key": "reach",
+        "value": 1
       }
     ],
     [
@@ -350,10 +385,21 @@
         "type": "infinite",
         "requirements": [
           {"node": [28]},
-          {"or_node": [20, 21, 22]}
+          {"or_node": [20, 21, 22, 32]}
         ],
         "key": "unbreaking",
         "value": 0.01
+      },
+      {
+        "id": 33,
+        "name": "Infinite Reach",
+        "description": "Add as many points to Reach here as you want",
+        "type": "infinite",
+        "requirements": [
+          {"node": [32]}
+        ],
+        "key": "reach",
+        "value": 0.1
       }
     ]
   ]
