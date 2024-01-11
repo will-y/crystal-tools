@@ -165,7 +165,7 @@
         "description": "Increases Hoe's Reach Distance",
         "type": "normal",
         "requirements": [
-          {"node": 25},
+          {"node": [25]},
           {"or_node": [6, 7, 20]}
         ],
         "key": "reach",
@@ -239,7 +239,7 @@
         "description": "Increases Hoe's Reach Distance",
         "type": "normal",
         "requirements": [
-          {"node": 26},
+          {"node": [26]},
           {"or_node": [12, 13]}
         ],
         "key": "reach",

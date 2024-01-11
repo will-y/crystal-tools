@@ -304,6 +304,18 @@
         ],
         "key": "unbreaking",
         "value": 0.01
+      },
+      {
+        "id": 27,
+        "name": "Infinite Reach",
+        "description": "Add as many points to Reach here as you want",
+        "type": "infinite",
+        "requirements": [
+          {"node": [26]},
+          {"or_node": [21, 23]}
+        ],
+        "key": "reach",
+        "value": 0.1
       }
     ]
   ]

@@ -96,6 +96,8 @@ public class SwordLevelableTool extends LevelableTool {
             builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", getAttackSpeed(stack), AttributeModifier.Operation.ADDITION));
             builder.put(Attributes.ATTACK_KNOCKBACK, new AttributeModifier("Weapon modifier", getAttackKnockback(stack), AttributeModifier.Operation.ADDITION));
             builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier("Weapon modifier", getKnockbackResistance(stack), AttributeModifier.Operation.ADDITION));
+            // To get reach
+            builder.putAll(super.getAttributeModifiers(slot, stack));
             return builder.build();
         } else {
             return super.getAttributeModifiers(slot, stack);

@@ -1,5 +1,8 @@
 # Crystal Tools Change Log
 ## 1.6.0
+### Additions
+- Adds new reach ability for all tools
+
 ### Fixes
 - Fixes tools not rendering highlight on non-mineable blocks 
 
