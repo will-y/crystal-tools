@@ -17,5 +17,4 @@
 
 --------------- 1.6.0 ---------------------------
 - Auto pickup
-- Furnace upgrade: save fuel
 - Fishing rod

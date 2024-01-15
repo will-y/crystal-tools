@@ -91,6 +91,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     private boolean balance = false;
     private boolean autoOutput = false;
     private float expModifier;
+    private boolean saveFuel = false;
 
     public CrystalFurnaceBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(Registration.CRYSTAL_FURNACE_BLOCK_ENTITY.get(), pPos, pBlockState);
@@ -266,6 +267,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         this.balance = nbt.getBoolean("Balance");
         this.autoOutput = nbt.getBoolean("AutoOutput");
         this.expModifier = nbt.getFloat("ExpModifier");
+        this.saveFuel = nbt.getBoolean("SaveFuel");
     }
 
     @Override
@@ -292,6 +294,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         nbt.putBoolean("Balance", this.balance);
         nbt.putBoolean("AutoOutput", this.autoOutput);
         nbt.putFloat("ExpModifier", this.expModifier);
+        nbt.putBoolean("SaveFuel", this.saveFuel);
     }
 
     protected final ContainerData dataAccess = new ContainerData() {
@@ -387,7 +390,10 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         boolean needChange = false;
 
         if (isLit) {
-            this.litTime--;
+            if (!saveFuel || (hasInputItems() && saveFuel)) {
+                this.litTime--;
+            }
+
             this.autoOutputCounter++;
             if (autoOutputCounter > 100) {
                 this.autoOutput();
@@ -633,16 +639,17 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
 
     public void addToData(String key, float value) {
         switch(key) {
-            case "skill_points" -> this.skillPoints += value;
-            case "experience" -> this.exp += value;
-            case "experience_cap" -> this.expCap += value;
+            case "skill_points" -> this.skillPoints += (int) value;
+            case "experience" -> this.exp += (int) value;
+            case "experience_cap" -> this.expCap += (int) value;
             case "speed_bonus" -> this.speedUpgrade += value;
-            case "fuel_bonus" -> this.fuelEfficiencyUpgrade += value;
-            case "slot_bonus" -> this.bonusSlots += value;
-            case "fuel_slot_bonus" -> this.bonusFuelSlots += value;
+            case "fuel_bonus" -> this.fuelEfficiencyUpgrade += (int) value;
+            case "slot_bonus" -> this.bonusSlots += (int) value;
+            case "fuel_slot_bonus" -> this.bonusFuelSlots += (int) value;
             case "auto_balance" -> this.balance = value == 1;
             case "auto_output" -> this.autoOutput = value == 1;
             case "exp_boost" -> this.expModifier += value;
+            case "save_fuel" -> this.saveFuel = value == 1;
         }
         this.setChanged();
     }
@@ -661,6 +668,16 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
             this.expCap = ToolUtils.getNewCap(this.expCap, 1);
             this.skillPoints++;
         }
+    }
+
+    private boolean hasInputItems() {
+        for (int i : INPUT_SLOTS) {
+            if (!items.get(i).isEmpty()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 

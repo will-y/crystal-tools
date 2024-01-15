@@ -2,6 +2,8 @@
 ## 1.6.0
 ### Additions
 - Adds new reach ability for all tools
+- Adds new upgrade `save_fuel` to the crystal furnace
+  - Fuel is no longer consumed when you have to items to smelt
 
 ### Fixes
 - Fixes tools not rendering highlight on non-mineable blocks 
