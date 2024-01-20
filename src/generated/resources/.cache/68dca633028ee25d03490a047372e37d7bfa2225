@@ -1,8 +1,9 @@
-// 1.20.1	2023-07-25T21:40:30.7751537	Item Models: crystal_tools
+// 1.20.1	2024-01-16T10:30:29.415631079	Item Models: crystal_tools
 cf7d10e3346cf7c4a77fe6e285deab4d542b73d5 assets/crystal_tools/models/item/crystal.json
 fbc32cccc6c3666086e083d767db164226c8f5e9 assets/crystal_tools/models/item/crystal_aiot.json
 fc5c466807626ebba61df59c2f4c32ea20cc293c assets/crystal_tools/models/item/crystal_apple.json
 e9366dcfcac3e19c3f32701e5a693fc660a45afe assets/crystal_tools/models/item/crystal_axe.json
+fc2e1b698f6e7f685e2d0e23bef580bdea860f1f assets/crystal_tools/models/item/crystal_backpack.json
 e04a543b89bfe1b6d0a64797284cf5770976300f assets/crystal_tools/models/item/crystal_block.json
 4fddaac8019367491b43382e2b8d9ab331dad5a2 assets/crystal_tools/models/item/crystal_boots.json
 b3e3634670a632b9b21252a97418cecd08f95b16 assets/crystal_tools/models/item/crystal_bow.json

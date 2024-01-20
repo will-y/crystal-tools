@@ -39,6 +39,7 @@ public class Registration {
     public static final RegistryObject<Item> CRYSTAL = ITEMS.register("crystal", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> NETHERITE_STICK = ITEMS.register("netherite_stick", () -> new Item(new Item.Properties().fireResistant()));
     public static final RegistryObject<Item> CRYSTAL_APPLE = ITEMS.register("crystal_apple", CrystalApple::new);
+    public static final RegistryObject<Item> CRYSTAL_BACKPACK = ITEMS.register("crystal_backpack", CrystalBackpack::new);
 
     // Tools
     public static final RegistryObject<Item> CRYSTAL_PICKAXE = ITEMS.register("crystal_pickaxe", PickaxeLevelableTool::new);
