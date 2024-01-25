@@ -1,11 +1,14 @@
 package dev.willyelton.crystal_tools;
 
+import dev.willyelton.crystal_tools.inventory.CrystalBackpackInventory;
+import dev.willyelton.crystal_tools.inventory.container.CrystalBackpackContainerMenu;
+import dev.willyelton.crystal_tools.levelable.CrystalBackpack;
 import dev.willyelton.crystal_tools.levelable.armor.CrystalElytra;
 import dev.willyelton.crystal_tools.levelable.armor.LevelableArmor;
 import dev.willyelton.crystal_tools.levelable.block.CrystalFurnaceBlock;
 import dev.willyelton.crystal_tools.levelable.block.CrystalTorch;
 import dev.willyelton.crystal_tools.levelable.block.CrystalWallTorch;
-import dev.willyelton.crystal_tools.levelable.block.container.CrystalFurnaceContainer;
+import dev.willyelton.crystal_tools.inventory.container.CrystalFurnaceContainerMenu;
 import dev.willyelton.crystal_tools.levelable.block.entity.CrystalFurnaceBlockEntity;
 import dev.willyelton.crystal_tools.levelable.tool.*;
 import net.minecraft.core.Direction;
@@ -77,11 +80,13 @@ public class Registration {
     public static final RegistryObject<BlockEntityType<CrystalFurnaceBlockEntity>> CRYSTAL_FURNACE_BLOCK_ENTITY = BLOCK_ENTITIES.register("crystal_furnace", () -> BlockEntityType.Builder.of(CrystalFurnaceBlockEntity::new, CRYSTAL_FURNACE.get()).build(null));
 
     // Containers
-    public static final RegistryObject<MenuType<CrystalFurnaceContainer>> CRYSTAL_FURNACE_CONTAINER = CONTAINERS.register("crystal_furnace",
-            () -> IForgeMenuType.create((windowId, inv, data) -> new CrystalFurnaceContainer(windowId, inv.player.level(), data.readBlockPos(), inv, new SimpleContainerData(CrystalFurnaceBlockEntity.DATA_SIZE))));
+    public static final RegistryObject<MenuType<CrystalFurnaceContainerMenu>> CRYSTAL_FURNACE_CONTAINER = CONTAINERS.register("crystal_furnace",
+            () -> IForgeMenuType.create((windowId, inv, data) -> new CrystalFurnaceContainerMenu(windowId, inv.player.level(), data.readBlockPos(), inv, new SimpleContainerData(CrystalFurnaceBlockEntity.DATA_SIZE))));
+    public static final RegistryObject<MenuType<CrystalBackpackContainerMenu>> CRYSTAL_BACKPACK_CONTAINER = CONTAINERS.register("crystal_backpack",
+            () -> IForgeMenuType.create(CrystalBackpackContainerMenu::new));
 
     // Creative Tabs
-    public static final RegistryObject<CreativeModeTab> TAB = TABS.register("crytal_tools_tab", () ->
+    public static final RegistryObject<CreativeModeTab> TAB = TABS.register("crystal_tools_tab", () ->
             CreativeModeTab.builder()
                     .title(Component.translatable("tab.crystal_tools"))
                     .icon(() -> new ItemStack(CRYSTAL_PICKAXE.get()))

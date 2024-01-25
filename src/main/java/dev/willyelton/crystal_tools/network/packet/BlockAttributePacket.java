@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.network.packet;
 
-import dev.willyelton.crystal_tools.levelable.block.container.CrystalFurnaceContainer;
+import dev.willyelton.crystal_tools.inventory.container.CrystalFurnaceContainerMenu;
 import dev.willyelton.crystal_tools.levelable.block.entity.CrystalFurnaceBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -41,8 +41,8 @@ public class BlockAttributePacket {
         if (player != null) {
             AbstractContainerMenu container = player.containerMenu;
 
-            if (container instanceof CrystalFurnaceContainer crystalFurnaceContainer) {
-                CrystalFurnaceBlockEntity blockEntity = crystalFurnaceContainer.getBlockEntity();
+            if (container instanceof CrystalFurnaceContainerMenu crystalFurnaceContainerMenu) {
+                CrystalFurnaceBlockEntity blockEntity = crystalFurnaceContainerMenu.getBlockEntity();
 
                 blockEntity.addToData(this.key, this.value);
                 if (this.id != -1) {

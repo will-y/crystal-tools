@@ -3,7 +3,7 @@ package dev.willyelton.crystal_tools.levelable.block.entity;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.levelable.block.CrystalFurnaceBlock;
-import dev.willyelton.crystal_tools.levelable.block.container.CrystalFurnaceContainer;
+import dev.willyelton.crystal_tools.inventory.container.CrystalFurnaceContainerMenu;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
@@ -237,7 +237,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     @org.jetbrains.annotations.Nullable
     @Override
     public AbstractContainerMenu createMenu(int pContainerId, @NotNull Inventory pPlayerInventory, @NotNull Player pPlayer) {
-        return new CrystalFurnaceContainer(pContainerId, pPlayer.level(), this.getBlockPos(), pPlayerInventory, this.dataAccess);
+        return new CrystalFurnaceContainerMenu(pContainerId, pPlayer.level(), this.getBlockPos(), pPlayerInventory, this.dataAccess);
     }
 
     @Override

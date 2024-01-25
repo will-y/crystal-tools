@@ -13,6 +13,13 @@
 - Breaking animation on multibreaks
 - Magnet
 - Backpack
+    - Auto pickup (mode switch to turn on and off)
+    - Filter (blacklist / whitelist)
+    - Trash
+    - Exp Storage ? (mode switch to turn on and off)
+    - Sort ?
+    - Shift right click to store all in chest
+    - Store all in nearby chests
 - Make or node connections look different somehow
 - Pressing k with no tools will go to equipped items, buttons at the top of the screen to arrow between equipped / held items
 
