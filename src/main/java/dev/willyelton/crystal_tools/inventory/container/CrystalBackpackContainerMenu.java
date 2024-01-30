@@ -2,12 +2,14 @@ package dev.willyelton.crystal_tools.inventory.container;
 
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.inventory.CrystalBackpackInventory;
+import dev.willyelton.crystal_tools.inventory.container.slot.ReadOnlySlot;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.items.SlotItemHandler;
 
 public class CrystalBackpackContainerMenu extends BaseContainerMenu {
     public static final int START_Y = 18;
@@ -53,6 +55,20 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu {
     @Override
     public boolean stillValid(Player player) {
         return true;
+    }
+
+    @Override
+    protected void layoutHotbar(int leftCol, int topRow) {
+        int index = 0;
+        int x = leftCol;
+        for (int i = 0 ; i < 9 ; i++) {
+            if (playerInventory.getInv().getItem(index).is(Registration.CRYSTAL_BACKPACK.get())) {
+                addSlot(new ReadOnlySlot(playerInventory, index, x, topRow));
+            }
+            addSlot(new SlotItemHandler(playerInventory, index, x, topRow));
+            x += 18;
+            index++;
+        }
     }
 
     public int getRows() {

@@ -1,26 +1,32 @@
 package dev.willyelton.crystal_tools.inventory;
 
+import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
+import org.jetbrains.annotations.NotNull;
 
 public class CrystalBackpackInventory extends ItemStackHandler {
     private boolean isDirty;
-    private ItemStack stack;
+    private ItemStack backpackStack;
 
     public CrystalBackpackInventory(int size) {
         super(size);
-        this.stack = ItemStack.EMPTY;
+        this.backpackStack = ItemStack.EMPTY;
     }
 
     public CrystalBackpackInventory(ItemStack stack) {
         super((int) NBTUtils.getFloatOrAddKey(stack, "rows", 1) * 9);
-        this.stack = stack;
+        this.backpackStack = stack;
     }
 
-    public boolean isDirty() {
-        boolean state = isDirty;
-        isDirty = false;
-        return state;
+    @Override
+    public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+        return !stack.is(Registration.CRYSTAL_BACKPACK.get());
+    }
+
+    public ItemStack insertStack(ItemStack stack) {
+        return ItemHandlerHelper.insertItem(this, stack, false);
     }
 }

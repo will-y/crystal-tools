@@ -9,7 +9,7 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class BaseContainerMenu extends AbstractContainerMenu {
-    private final InvWrapper playerInventory;
+    protected final InvWrapper playerInventory;
 
     protected BaseContainerMenu(@Nullable MenuType<?> pMenuType, int pContainerId, Inventory playerInventory) {
         super(pMenuType, pContainerId);
@@ -38,7 +38,11 @@ public abstract class BaseContainerMenu extends AbstractContainerMenu {
         addSlotBox(playerInventory, 9, leftCol, topRow, 9, 18, 3, 18);
 
         // Hotbar
-        topRow += 58;
+        layoutHotbar(leftCol, topRow + 58);
+
+    }
+
+    protected void layoutHotbar(int leftCol, int topRow) {
         addSlotRange(playerInventory, 0, leftCol, topRow, 9, 18);
     }
 }

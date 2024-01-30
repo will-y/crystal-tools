@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.levelable;
 
 import dev.willyelton.crystal_tools.CrystalTools;
+import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.capability.CrystalBackpackCapabilityProvider;
 import dev.willyelton.crystal_tools.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.inventory.container.CrystalBackpackContainerMenu;
@@ -28,6 +29,8 @@ import net.minecraftforge.network.NetworkHooks;
 import org.checkerframework.checker.units.qual.C;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class CrystalBackpack extends Item implements LevelableItem {
 
@@ -81,7 +84,24 @@ public class CrystalBackpack extends Item implements LevelableItem {
         return new CrystalBackpackCapabilityProvider(stack);
     }
 
-    private CrystalBackpackInventory getInventory(ItemStack stack) {
+    private record CrystalBackpackMenuSupplier(CrystalBackpack backpackItem, ItemStack stack) implements MenuProvider {
+        @Override
+        public Component getDisplayName() {
+            return stack.getHoverName();
+        }
+
+        @Override
+        public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
+            // Server side constructor
+            return new CrystalBackpackContainerMenu(containerId, playerInventory, getInventory(stack), stack);
+        }
+    }
+
+    public static List<ItemStack> findBackpackStacks(Player player) {
+        return player.getInventory().items.stream().filter(stack -> stack.is(Registration.CRYSTAL_BACKPACK.get())).toList();
+    }
+
+    public static CrystalBackpackInventory getInventory(ItemStack stack) {
         IItemHandler inventory = stack.getCapability(ForgeCapabilities.ITEM_HANDLER).orElseGet(() -> {
             CrystalTools.LOGGER.error("Crystal Backpack cannot find capability");
             return new CrystalBackpackInventory(0);
@@ -94,17 +114,4 @@ public class CrystalBackpack extends Item implements LevelableItem {
             return new CrystalBackpackInventory(0);
         }
     }
-
-    private record CrystalBackpackMenuSupplier(CrystalBackpack backpackItem, ItemStack stack) implements MenuProvider {
-        @Override
-            public Component getDisplayName() {
-                return stack.getHoverName();
-            }
-
-            @Override
-            public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
-                // Server side constructor
-                return new CrystalBackpackContainerMenu(containerId, playerInventory, backpackItem.getInventory(stack), stack);
-            }
-        }
 }
