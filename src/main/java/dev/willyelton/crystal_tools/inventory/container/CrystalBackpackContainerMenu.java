@@ -8,6 +8,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 
@@ -42,14 +43,35 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu {
         this.stack = stack;
         rows = backpackInventory.getSlots() / 9;
         this.layoutPlayerInventorySlots(START_X, START_Y + rows * 18 + 14);
-        // TODO: Add slots
         this.addSlotBox(backpackInventory, 0, START_X, START_Y, SLOTS_PER_ROW, 18, rows, 18);
 //        this.addDataSlots(containerData);
     }
 
     @Override
-    public ItemStack quickMoveStack(Player player, int pIndex) {
-        return ItemStack.EMPTY;
+    public ItemStack quickMoveStack(Player player, int index) {
+        ItemStack itemstack = ItemStack.EMPTY;
+        Slot slot = this.slots.get(index);
+        if (slot.hasItem()) {
+            ItemStack itemstack1 = slot.getItem();
+            itemstack = itemstack1.copy();
+            // if you clicked in played inventory
+            if (index < 36) {
+               if (!this.moveItemStackTo(itemstack1, 36, this.slots.size(), false)) {
+                   return ItemStack.EMPTY;
+               }
+               // clicked in backpack
+            } else if (!this.moveItemStackTo(itemstack1, 0, 36, true)) {
+                return ItemStack.EMPTY;
+            }
+
+            if (itemstack1.isEmpty()) {
+                slot.setByPlayer(ItemStack.EMPTY);
+            } else {
+                slot.setChanged();
+            }
+        }
+
+        return itemstack;
     }
 
     @Override
@@ -64,8 +86,9 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu {
         for (int i = 0 ; i < 9 ; i++) {
             if (playerInventory.getInv().getItem(index).is(Registration.CRYSTAL_BACKPACK.get())) {
                 addSlot(new ReadOnlySlot(playerInventory, index, x, topRow));
+            } else {
+                addSlot(new SlotItemHandler(playerInventory, index, x, topRow));
             }
-            addSlot(new SlotItemHandler(playerInventory, index, x, topRow));
             x += 18;
             index++;
         }
