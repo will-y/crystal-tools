@@ -8,7 +8,6 @@ import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 
 public class CrystalBackpackInventory extends ItemStackHandler {
-    private boolean isDirty;
     private ItemStack backpackStack;
 
     public CrystalBackpackInventory(int size) {
