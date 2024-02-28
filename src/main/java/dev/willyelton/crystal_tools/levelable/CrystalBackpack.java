@@ -9,6 +9,9 @@ import dev.willyelton.crystal_tools.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.TagTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -25,11 +28,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.network.NetworkHooks;
 import org.checkerframework.checker.units.qual.C;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CrystalBackpack extends Item implements LevelableItem {
@@ -113,5 +119,38 @@ public class CrystalBackpack extends Item implements LevelableItem {
             CrystalTools.LOGGER.error("Different inventory capability found on crystal backpack");
             return new CrystalBackpackInventory(0);
         }
+    }
+
+    public static List<ItemStack> getFilterItems(ItemStack stack) {
+        if (!stack.is(Registration.CRYSTAL_BACKPACK.get())) {
+            throw new IllegalArgumentException("Cannot get filter items on  " + stack.getItem());
+        }
+        CompoundTag tag = stack.getTag();
+
+        if (tag == null || tag.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        CompoundTag filterTag = tag.getCompound("filter");
+
+        if (filterTag.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        int filterSize = filterTag.getInt("Size");
+
+        ItemStackHandler filterInventory = new ItemStackHandler(filterSize);
+        filterInventory.deserializeNBT(filterTag);
+
+        List<ItemStack> results = new ArrayList<>();
+
+        for (int i = 0; i < filterSize; i++) {
+            ItemStack stackInSlot = filterInventory.getStackInSlot(i);
+            if (!stackInSlot.isEmpty()) {
+                results.add(stackInSlot.copy());
+            }
+        }
+
+        return results;
     }
 }

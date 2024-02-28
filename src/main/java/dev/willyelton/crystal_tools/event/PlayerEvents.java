@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.event;
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.levelable.CrystalBackpack;
+import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.eventbus.api.Event;
@@ -20,8 +21,13 @@ public class PlayerEvents {
         ItemStack original = event.getItem().getItem().copy();
 
         for (ItemStack backpackStack : backpackStacks) {
-            // TODO: filters
             CrystalBackpackInventory inventory = CrystalBackpack.getInventory(backpackStack);
+            List<ItemStack> filterStacks = CrystalBackpack.getFilterItems(backpackStack);
+
+            if (!shouldPickup(stackToInsert, filterStacks)) {
+                continue;
+            }
+
             stackToInsert = inventory.insertStack(stackToInsert);
 
             if (stackToInsert.isEmpty()) {
@@ -38,5 +44,17 @@ public class PlayerEvents {
             event.getItem().setItem(stackToInsert);
             event.setCanceled(true);
         }
+    }
+
+    private static boolean shouldPickup(ItemStack stack, List<ItemStack> filter) {
+        // TODO: matching modes (respect nbt)
+        boolean whiteList = NBTUtils.getBoolean(stack, "white_list");
+        for (ItemStack filterStack : filter) {
+            if (filterStack.is(stack.getItem())) {
+                return whiteList;
+            }
+        }
+
+        return !whiteList;
     }
 }
