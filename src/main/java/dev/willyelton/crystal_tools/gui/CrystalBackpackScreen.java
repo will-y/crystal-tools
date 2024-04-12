@@ -12,8 +12,11 @@ import org.jetbrains.annotations.NotNull;
 public class CrystalBackpackScreen extends AbstractContainerScreen<CrystalBackpackContainerMenu> {
     private static final ResourceLocation TEXTURE = new ResourceLocation("crystal_tools:textures/gui/crystal_backpack.png");
 
+    private final CrystalBackpackContainerMenu container;
+
     public CrystalBackpackScreen(CrystalBackpackContainerMenu container, Inventory inventory, Component name) {
         super(container, inventory, name);
+        this.container = container;
         this.inventoryLabelX = 8;
         this.inventoryLabelY = container.getRows() * 18 + CrystalBackpackContainerMenu.START_Y + 2;
     }
@@ -31,9 +34,14 @@ public class CrystalBackpackScreen extends AbstractContainerScreen<CrystalBackpa
         RenderSystem.setShaderTexture(0, TEXTURE);
         int i = this.leftPos;
         int j = this.topPos;
+        // Backpack top bar
         guiGraphics.blit(TEXTURE, i, j, 0, 0, 176, 17);
         // TODO: multiple rows
-        guiGraphics.blit(TEXTURE, i, j + 17, 0, 222, 176, 18);
-        guiGraphics.blit(TEXTURE, i, j + 17 + 18, 0, 125, 176, 96);
+        for (int row = 0; row < container.getRows(); row++) {
+            // Backpack row
+            guiGraphics.blit(TEXTURE, i, j + 17 + 18 * row, 0, 222, 176, 18);
+        }
+        // Player inventory
+        guiGraphics.blit(TEXTURE, i, j + 17 + 18 * container.getRows(), 0, 125, 176, 96);
     }
 }

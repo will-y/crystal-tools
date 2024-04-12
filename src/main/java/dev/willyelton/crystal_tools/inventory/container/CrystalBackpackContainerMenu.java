@@ -1,6 +1,5 @@
 package dev.willyelton.crystal_tools.inventory.container;
 
-import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.inventory.container.slot.ReadOnlySlot;
@@ -9,13 +8,11 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
-import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
+import org.apache.logging.log4j.Level;
 
 public class CrystalBackpackContainerMenu extends BaseContainerMenu {
     public static final int START_Y = 18;
@@ -47,6 +44,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu {
     }
 
     @Override
+    // TODO: Shift clicking goes into filter slots and kills item
     public ItemStack quickMoveStack(Player player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = slots.get(index);

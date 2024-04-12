@@ -1,7 +1,6 @@
 package dev.willyelton.crystal_tools.capability;
 
 import dev.willyelton.crystal_tools.inventory.CrystalBackpackInventory;
-import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
@@ -21,7 +20,7 @@ public class CrystalBackpackCapabilityProvider implements ICapabilitySerializabl
     }
 
     private CrystalBackpackInventory inventory;
-    private final LazyOptional<IItemHandler> lazyInitializationSupplier = LazyOptional.of(this::getCachedInventory);
+    private LazyOptional<IItemHandler> lazyInitializationSupplier = LazyOptional.of(this::getCachedInventory);
 
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
@@ -34,6 +33,7 @@ public class CrystalBackpackCapabilityProvider implements ICapabilitySerializabl
 
     @Override
     public CompoundTag serializeNBT() {
+        // TODO: Looks to be called every tick? Seems wrong. Debug to see what calls?
         CompoundTag tag = new CompoundTag();
         tag.put("inventory", getCachedInventory().serializeNBT());
         return tag;
@@ -44,10 +44,17 @@ public class CrystalBackpackCapabilityProvider implements ICapabilitySerializabl
         getCachedInventory().deserializeNBT(nbt.getCompound("inventory"));
     }
 
-    // TODO: Probably check for size changes here
     private CrystalBackpackInventory getCachedInventory() {
         if (inventory == null) {
             inventory = new CrystalBackpackInventory(stack);
+        } else {
+            CrystalBackpackInventory newInventory = new CrystalBackpackInventory(stack);
+            if (inventory.getSlots() != newInventory.getSlots()) {
+                newInventory.copyFrom(inventory);
+                inventory = newInventory;
+                // This is probably not a good thing to do, but it works
+                lazyInitializationSupplier = LazyOptional.of(() -> inventory);
+            }
         }
         return inventory;
     }

@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.inventory;
 
+import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.world.item.ItemStack;
@@ -16,7 +17,7 @@ public class CrystalBackpackInventory extends ItemStackHandler {
     }
 
     public CrystalBackpackInventory(ItemStack stack) {
-        super((int) NBTUtils.getFloatOrAddKey(stack, "rows", 1) * 9);
+        super((int) NBTUtils.getFloatOrAddKey(stack, "capacity", 1) * 9);
         this.backpackStack = stack;
     }
 
@@ -27,5 +28,12 @@ public class CrystalBackpackInventory extends ItemStackHandler {
 
     public ItemStack insertStack(ItemStack stack) {
         return ItemHandlerHelper.insertItem(this, stack, false);
+    }
+
+    public void copyFrom(CrystalBackpackInventory other) {
+        int maxIndex = Math.min(other.getSlots(), this.getSlots());
+        for (int i = 0; i < maxIndex; i++) {
+            this.setStackInSlot(i, other.getStackInSlot(i));
+        }
     }
 }

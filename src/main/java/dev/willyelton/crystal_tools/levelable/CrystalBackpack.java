@@ -52,7 +52,7 @@ public class CrystalBackpack extends Item implements LevelableItem {
         if (player instanceof ServerPlayer serverPlayer) {
             NetworkHooks.openScreen(serverPlayer,
                     new CrystalBackpackMenuSupplier(this, stack),
-                    friendlyByteBuf -> friendlyByteBuf.writeInt((int) NBTUtils.getFloatOrAddKey(stack, "rows", 1)));
+                    friendlyByteBuf -> friendlyByteBuf.writeInt((int) NBTUtils.getFloatOrAddKey(stack, "capacity", 1)));
         }
 
         return InteractionResultHolder.success(stack);
@@ -125,6 +125,7 @@ public class CrystalBackpack extends Item implements LevelableItem {
         if (!stack.is(Registration.CRYSTAL_BACKPACK.get())) {
             throw new IllegalArgumentException("Cannot get filter items on  " + stack.getItem());
         }
+
         CompoundTag tag = stack.getTag();
 
         if (tag == null || tag.isEmpty()) {

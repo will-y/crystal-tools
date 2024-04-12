@@ -1,0 +1,174 @@
+{
+  "tiers": [
+    [
+      {
+        "id": 0,
+        "name": "Capacity I",
+        "description": "Increases the number of slots in the backpack by 9",
+        "type": "normal",
+        "requirements": [],
+        "key": "capacity",
+        "value": 1
+      },
+      {
+        "id": 1,
+        "name": "Auto Pickup",
+        "description": "Items matching the backpack's filter will automatically go into the backpack when picked up",
+        "type": "normal",
+        "requirements": [],
+        "key": "auto_pickup",
+        "value": 1
+      },
+      {
+        "id": 2,
+        "name": "Filter Slots I",
+        "description": "Adds 5 filter slots to the backpack",
+        "type": "normal",
+        "requirements": [],
+        "key": "filters_slots",
+        "value": 5
+      }
+    ],
+    [
+      {
+        "id": 3,
+        "name": "Capacity II",
+        "description": "Increases the number of slots in the backpack by 9",
+        "type": "normal",
+        "requirements": [
+          {"node": [0]}
+        ],
+        "key": "capacity",
+        "value": 1
+      },
+      {
+        "id": 4,
+        "name": "Whitelist Filter",
+        "description": "Adds the option to use the filter as a whitelist",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [0, 1, 2]},
+          {"node": [2]}
+        ],
+        "key": "whitelist_enabled",
+        "value": 1
+      },
+      {
+        "id": 5,
+        "name": "Filter Slots II",
+        "description": "Adds 5 filter slots to the backpack",
+        "type": "normal",
+        "requirements": [
+          {"node": [2]}
+        ],
+        "key": "filters_slots",
+        "value": 5
+      }
+    ],
+    [
+      {
+        "id": 6,
+        "name": "Capacity III",
+        "description": "Increases the number of slots in the backpack by 9",
+        "type": "normal",
+        "requirements": [
+          {"node": [3]}
+        ],
+        "key": "capacity",
+        "value": 1
+      },
+      {
+        "id": 7,
+        "name": "Sort",
+        "description": "Adds the option sort the backpack's contents",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [3, 4, 5]}
+        ],
+        "key": "sort_enabled",
+        "value": 1
+      },
+      {
+        "id": 8,
+        "name": "Filter Slots III",
+        "description": "Adds 5 filter slots to the backpack",
+        "type": "normal",
+        "requirements": [
+          {"node": [5]}
+        ],
+        "key": "filters_slots",
+        "value": 5
+      }
+    ],
+    [
+      {
+        "id": 9,
+        "name": "Capacity IV",
+        "description": "Increases the number of slots in the backpack by 9",
+        "type": "normal",
+        "requirements": [
+          {"node": [6]}
+        ],
+        "key": "capacity",
+        "value": 1
+      },
+      {
+        "id": 10,
+        "name": "Trash",
+        "description": "Trashes items matching a backpack filter that won't fit",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [6, 7, 8]}
+        ],
+        "key": "capacity",
+        "value": 1
+      },
+      {
+        "id": 11,
+        "name": "Filter Slots IV",
+        "description": "Adds 5 filter slots to the backpack",
+        "type": "normal",
+        "requirements": [
+          {"node": [8]}
+        ],
+        "key": "filters_slots",
+        "value": 5
+      }
+    ],
+    [
+      {
+        "id": 12,
+        "name": "Capacity V",
+        "description": "Increases the number of slots in the backpack by 9",
+        "type": "normal",
+        "requirements": [
+          {"node": [9]}
+        ],
+        "key": "capacity",
+        "value": 1
+      },
+      {
+        "id": 13,
+        "name": "Store in Inventory",
+        "description": "Shift right click on an inventory to store all items in that inventory",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [9, 10, 11]}
+        ],
+        "key": "inventory_store",
+        "value": 1
+      },
+      {
+        "id": 14,
+        "name": "Filter Slots IV",
+        "description": "Adds 5 filter slots to the backpack",
+        "type": "normal",
+        "requirements": [
+          {"node": [11]}
+        ],
+        "key": "filters_slots",
+        "value": 5
+      }
+    ]
+  ]
+}
