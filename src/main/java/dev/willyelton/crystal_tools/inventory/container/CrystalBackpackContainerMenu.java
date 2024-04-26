@@ -44,16 +44,15 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu {
     }
 
     @Override
-    // TODO: Shift clicking goes into filter slots and kills item
     public ItemStack quickMoveStack(Player player, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = slots.get(index);
-        if (slot.hasItem()) {
+        if (slot.hasItem() && !isFilterSlot(index)) {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
             // if you clicked in played inventory
             if (index < 36) {
-               if (!this.moveItemStackTo(itemstack1, 36, slots.size(), false)) {
+               if (!this.moveItemStackTo(itemstack1, 36, slots.size() - filterInventory.getSlots(), false)) {
                    return ItemStack.EMPTY;
                }
                // clicked in backpack
