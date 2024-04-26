@@ -24,7 +24,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu {
     private final CrystalBackpackInventory inventory;
     private final ItemStackHandler filterInventory;
     private final ItemStack stack;
-    private int rows;
+    private final int rows;
 
     // Client constructor
     public CrystalBackpackContainerMenu(int containerId, Inventory playerInventory, FriendlyByteBuf data) {
@@ -40,7 +40,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu {
         this.filterInventory = createFilterInventory(stack);
         this.layoutPlayerInventorySlots(START_X, START_Y + rows * SLOT_SIZE + 14);
         this.addSlotBox(backpackInventory, 0, START_X, START_Y, SLOTS_PER_ROW, SLOT_SIZE, rows, 18);
-        this.addSlotBox(filterInventory, 0, START_X + SLOTS_PER_ROW * SLOT_SIZE + 14, START_Y, 5, SLOT_SIZE, 1, SLOT_SIZE);
+        this.addSlotBox(filterInventory, 0, START_X + SLOTS_PER_ROW * SLOT_SIZE + 11, START_Y, 5, SLOT_SIZE, 1, SLOT_SIZE);
     }
 
     @Override
@@ -124,7 +124,12 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu {
         return rows;
     }
 
+    public int getFilterRows() {
+        return this.filterInventory.getSlots() / 5;
+    }
+
     private ItemStackHandler createFilterInventory(ItemStack stack) {
+        // TODO this doesn't upgrade yet
         ItemStackHandler itemStackHandler = new ItemStackHandler(FILTER_SLOTS);
         CompoundTag tag = stack.getOrCreateTagElement("filter");
         if (!tag.isEmpty()) {
