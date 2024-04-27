@@ -20,6 +20,8 @@
     - Sort ?
     - Shift right click to store all in chest
     - Store all in nearby chests
+    - Trash slots
+    - Transparency on filter slots
 - Make or node connections look different somehow
 - Pressing k with no tools will go to equipped items, buttons at the top of the screen to arrow between equipped / held items
 - Auto crafter

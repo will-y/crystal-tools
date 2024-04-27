@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.capability;
 
 import dev.willyelton.crystal_tools.inventory.CrystalBackpackInventory;
+import dev.willyelton.crystal_tools.utils.InventoryUtils;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
@@ -50,7 +51,8 @@ public class CrystalBackpackCapabilityProvider implements ICapabilitySerializabl
         } else {
             CrystalBackpackInventory newInventory = new CrystalBackpackInventory(stack);
             if (inventory.getSlots() != newInventory.getSlots()) {
-                newInventory.copyFrom(inventory);
+                InventoryUtils.copyTo(inventory, newInventory);
+//                newInventory.copyFrom(inventory);
                 inventory = newInventory;
                 // This is probably not a good thing to do, but it works
                 lazyInitializationSupplier = LazyOptional.of(() -> inventory);

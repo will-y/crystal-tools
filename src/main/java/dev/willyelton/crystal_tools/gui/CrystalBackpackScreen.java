@@ -32,7 +32,7 @@ public class CrystalBackpackScreen extends AbstractContainerScreen<CrystalBackpa
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
+    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
         // Backpack top bar
@@ -43,13 +43,28 @@ public class CrystalBackpackScreen extends AbstractContainerScreen<CrystalBackpa
             guiGraphics.blit(TEXTURE, leftPos, topPos + 17 + 18 * row, 0, 222, 176, 18, TEXTURE_SIZE, TEXTURE_SIZE);
         }
 
-        // Filter
-        // TODO: Multiple filter rows
-        if (container.getFilterRows() > 0) {
-            guiGraphics.blit(TEXTURE, leftPos + 173, topPos, 0, 240, 103, 41, TEXTURE_SIZE, TEXTURE_SIZE);
-        }
-
         // Player inventory
         guiGraphics.blit(TEXTURE, leftPos, topPos + 17 + 18 * container.getRows(), 0, 125, 176, 96, TEXTURE_SIZE, TEXTURE_SIZE);
+
+        // Filter
+        if (container.getFilterRows() > 0) {
+            drawFilter(guiGraphics, leftPos + 173, topPos, container.getFilterRows());
+        }
+    }
+
+    private void drawFilter(GuiGraphics guiGraphics, int x, int y, int rows) {
+        // Draw text
+        guiGraphics.drawString(this.font, Component.literal("Pickup Filter"), leftPos + this.titleLabelX + 173, topPos + this.titleLabelY, 4210752, false);
+
+        // Draw top
+        guiGraphics.blit(TEXTURE, x, y, 0, 240, 103, 17, TEXTURE_SIZE, TEXTURE_SIZE);
+
+        // Draw rows
+        for (int i = 0; i < rows; i++) {
+            guiGraphics.blit(TEXTURE, x, y + 17 + 18 * i, 0, 257, 103, 18, TEXTURE_SIZE, TEXTURE_SIZE);
+        }
+
+        // Draw bottom
+        guiGraphics.blit(TEXTURE, x, y + 17 + 18 * rows, 0, 275, 103, 6, TEXTURE_SIZE, TEXTURE_SIZE);
     }
 }

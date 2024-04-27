@@ -5,13 +5,9 @@ import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.capability.CrystalBackpackCapabilityProvider;
 import dev.willyelton.crystal_tools.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.inventory.container.CrystalBackpackContainerMenu;
-import dev.willyelton.crystal_tools.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.nbt.TagTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -30,7 +26,6 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.network.NetworkHooks;
-import org.checkerframework.checker.units.qual.C;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -48,11 +43,13 @@ public class CrystalBackpack extends Item implements LevelableItem {
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand usedHand) {
         ItemStack stack = player.getItemInHand(usedHand);
 
-        // TODO: Open inventory
         if (player instanceof ServerPlayer serverPlayer) {
             NetworkHooks.openScreen(serverPlayer,
                     new CrystalBackpackMenuSupplier(this, stack),
-                    friendlyByteBuf -> friendlyByteBuf.writeInt((int) NBTUtils.getFloatOrAddKey(stack, "capacity", 1)));
+                    friendlyByteBuf -> {
+                        friendlyByteBuf.writeInt((int) NBTUtils.getFloatOrAddKey(stack, "capacity", 1));
+                        friendlyByteBuf.writeInt((int) NBTUtils.getFloatOrAddKey(stack, "filter_capacity", 0));
+                    });
         }
 
         return InteractionResultHolder.success(stack);
@@ -99,7 +96,8 @@ public class CrystalBackpack extends Item implements LevelableItem {
         @Override
         public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
             // Server side constructor
-            return new CrystalBackpackContainerMenu(containerId, playerInventory, getInventory(stack), stack);
+            return new CrystalBackpackContainerMenu(containerId, playerInventory, getInventory(stack), stack,
+                    (int) NBTUtils.getFloatOrAddKey(stack, "filter_capacity", 0));
         }
     }
 

@@ -25,8 +25,8 @@
         "description": "Adds 5 filter slots to the backpack",
         "type": "normal",
         "requirements": [],
-        "key": "filters_slots",
-        "value": 5
+        "key": "filter_capacity",
+        "value": 1
       }
     ],
     [
@@ -61,8 +61,8 @@
         "requirements": [
           {"node": [2]}
         ],
-        "key": "filters_slots",
-        "value": 5
+        "key": "filter_capacity",
+        "value": 1
       }
     ],
     [
@@ -96,8 +96,8 @@
         "requirements": [
           {"node": [5]}
         ],
-        "key": "filters_slots",
-        "value": 5
+        "key": "filter_capacity",
+        "value": 1
       }
     ],
     [
@@ -131,8 +131,8 @@
         "requirements": [
           {"node": [8]}
         ],
-        "key": "filters_slots",
-        "value": 5
+        "key": "filter_capacity",
+        "value": 1
       }
     ],
     [
@@ -166,8 +166,8 @@
         "requirements": [
           {"node": [11]}
         ],
-        "key": "filters_slots",
-        "value": 5
+        "key": "filter_capacity",
+        "value": 1
       }
     ]
   ]

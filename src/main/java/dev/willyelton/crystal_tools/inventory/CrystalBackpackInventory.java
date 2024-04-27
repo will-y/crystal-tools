@@ -1,6 +1,5 @@
 package dev.willyelton.crystal_tools.inventory;
 
-import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.world.item.ItemStack;

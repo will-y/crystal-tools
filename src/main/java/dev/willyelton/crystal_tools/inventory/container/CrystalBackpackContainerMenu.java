@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.inventory.container;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.inventory.container.slot.ReadOnlySlot;
+import dev.willyelton.crystal_tools.utils.InventoryUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -12,35 +13,41 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
-import org.apache.logging.log4j.Level;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 public class CrystalBackpackContainerMenu extends BaseContainerMenu {
     public static final int START_Y = 18;
     private static final int START_X = 8;
     private static final int SLOT_SIZE = 18;
     private static final int SLOTS_PER_ROW = 9;
-    // TODO: will be on stack or something
-    private static final int FILTER_SLOTS = 5;
+    public static final int FILTER_SLOTS_PER_ROW = 5;
     private final CrystalBackpackInventory inventory;
+    @Nullable
     private final ItemStackHandler filterInventory;
     private final ItemStack stack;
     private final int rows;
+    private final int filterRows;
 
     // Client constructor
     public CrystalBackpackContainerMenu(int containerId, Inventory playerInventory, FriendlyByteBuf data) {
-        this(containerId, playerInventory, new CrystalBackpackInventory(data.readInt() * 9), ItemStack.EMPTY);
+        this(containerId, playerInventory, new CrystalBackpackInventory(data.readInt() * 9), ItemStack.EMPTY, data.readInt());
     }
 
     // Server constructor
-    public CrystalBackpackContainerMenu(int containerId, Inventory playerInventory, CrystalBackpackInventory backpackInventory, ItemStack stack) {
+    public CrystalBackpackContainerMenu(int containerId, Inventory playerInventory, CrystalBackpackInventory backpackInventory, ItemStack stack, int filterRows) {
         super(Registration.CRYSTAL_BACKPACK_CONTAINER.get(), containerId, playerInventory);
         this.inventory = backpackInventory;
         this.stack = stack;
-        this.rows = backpackInventory.getSlots() / 9;
+        this.rows = backpackInventory.getSlots() / SLOTS_PER_ROW;
+        this.filterRows = filterRows;
         this.filterInventory = createFilterInventory(stack);
         this.layoutPlayerInventorySlots(START_X, START_Y + rows * SLOT_SIZE + 14);
         this.addSlotBox(backpackInventory, 0, START_X, START_Y, SLOTS_PER_ROW, SLOT_SIZE, rows, 18);
-        this.addSlotBox(filterInventory, 0, START_X + SLOTS_PER_ROW * SLOT_SIZE + 11, START_Y, 5, SLOT_SIZE, 1, SLOT_SIZE);
+        if (Objects.nonNull(filterInventory)) {
+            this.addSlotBox(filterInventory, 0, START_X + SLOTS_PER_ROW * SLOT_SIZE + 11, START_Y, FILTER_SLOTS_PER_ROW, SLOT_SIZE, filterRows, SLOT_SIZE);
+        }
     }
 
     @Override
@@ -52,7 +59,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu {
             itemstack = itemstack1.copy();
             // if you clicked in played inventory
             if (index < 36) {
-               if (!this.moveItemStackTo(itemstack1, 36, slots.size() - filterInventory.getSlots(), false)) {
+               if (!this.moveItemStackTo(itemstack1, 36, slots.size() - getFilterSlots(), false)) {
                    return ItemStack.EMPTY;
                }
                // clicked in backpack
@@ -93,7 +100,9 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu {
     @Override
     public void removed(Player pPlayer) {
         super.removed(pPlayer);
-        stack.getOrCreateTag().put("filter", filterInventory.serializeNBT());
+        if (Objects.nonNull(filterInventory)) {
+            stack.getOrCreateTag().put("filter", filterInventory.serializeNBT());
+        }
     }
 
     @Override
@@ -103,7 +112,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu {
             return;
         }
 
-        if (clickType == ClickType.THROW || clickType == ClickType.CLONE) {
+        if (Objects.isNull(filterInventory) || clickType == ClickType.THROW || clickType == ClickType.CLONE) {
             return;
         }
 
@@ -125,16 +134,30 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu {
     }
 
     public int getFilterRows() {
-        return this.filterInventory.getSlots() / 5;
+        return filterRows;
+    }
+
+    private int getFilterSlots() {
+        if (Objects.isNull(filterInventory)) {
+            return 0;
+        }
+
+        return filterInventory.getSlots();
     }
 
     private ItemStackHandler createFilterInventory(ItemStack stack) {
-        // TODO this doesn't upgrade yet
-        ItemStackHandler itemStackHandler = new ItemStackHandler(FILTER_SLOTS);
+        if (filterRows == 0) {
+            return null;
+        }
+
+        ItemStackHandler itemStackHandler = new ItemStackHandler(filterRows * FILTER_SLOTS_PER_ROW);
+        ItemStackHandler storedItems = new ItemStackHandler(0);
         CompoundTag tag = stack.getOrCreateTagElement("filter");
         if (!tag.isEmpty()) {
-            itemStackHandler.deserializeNBT(tag);
+            storedItems.deserializeNBT(tag);
         }
+
+        InventoryUtils.copyTo(storedItems, itemStackHandler);
 
         return itemStackHandler;
     }
