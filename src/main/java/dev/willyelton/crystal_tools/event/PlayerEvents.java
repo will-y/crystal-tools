@@ -24,7 +24,7 @@ public class PlayerEvents {
             CrystalBackpackInventory inventory = CrystalBackpack.getInventory(backpackStack);
             List<ItemStack> filterStacks = CrystalBackpack.getFilterItems(backpackStack);
 
-            if (!shouldPickup(stackToInsert, filterStacks)) {
+            if (!shouldPickup(backpackStack, stackToInsert, filterStacks)) {
                 continue;
             }
 
@@ -46,11 +46,11 @@ public class PlayerEvents {
         }
     }
 
-    private static boolean shouldPickup(ItemStack stack, List<ItemStack> filter) {
+    private static boolean shouldPickup(ItemStack backpackStack, ItemStack pickupStack, List<ItemStack> filter) {
         // TODO: matching modes (respect nbt)
-        boolean whiteList = NBTUtils.getBoolean(stack, "white_list");
+        boolean whiteList = NBTUtils.getBoolean(backpackStack, "whitelist");
         for (ItemStack filterStack : filter) {
-            if (filterStack.is(stack.getItem())) {
+            if (filterStack.is(pickupStack.getItem())) {
                 return whiteList;
             }
         }

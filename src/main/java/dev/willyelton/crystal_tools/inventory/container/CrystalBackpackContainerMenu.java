@@ -3,7 +3,10 @@ package dev.willyelton.crystal_tools.inventory.container;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.inventory.container.slot.ReadOnlySlot;
+import dev.willyelton.crystal_tools.network.PacketHandler;
+import dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket;
 import dev.willyelton.crystal_tools.utils.InventoryUtils;
+import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -29,14 +32,17 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu {
     private final ItemStack stack;
     private final int rows;
     private final int filterRows;
+    private boolean whitelist;
 
     // Client constructor
     public CrystalBackpackContainerMenu(int containerId, Inventory playerInventory, FriendlyByteBuf data) {
-        this(containerId, playerInventory, new CrystalBackpackInventory(data.readInt() * 9), ItemStack.EMPTY, data.readInt());
+        this(containerId, playerInventory, new CrystalBackpackInventory(data.readInt() * 9), ItemStack.EMPTY,
+                data.readInt());
     }
 
     // Server constructor
-    public CrystalBackpackContainerMenu(int containerId, Inventory playerInventory, CrystalBackpackInventory backpackInventory, ItemStack stack, int filterRows) {
+    public CrystalBackpackContainerMenu(int containerId, Inventory playerInventory, CrystalBackpackInventory backpackInventory,
+                                        ItemStack stack, int filterRows) {
         super(Registration.CRYSTAL_BACKPACK_CONTAINER.get(), containerId, playerInventory);
         this.inventory = backpackInventory;
         this.stack = stack;
@@ -48,6 +54,8 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu {
         if (Objects.nonNull(filterInventory)) {
             this.addSlotBox(filterInventory, 0, START_X + SLOTS_PER_ROW * SLOT_SIZE + 11, START_Y, FILTER_SLOTS_PER_ROW, SLOT_SIZE, filterRows, SLOT_SIZE);
         }
+
+        whitelist = NBTUtils.getBoolean(stack, "whitelist");
     }
 
     @Override
@@ -103,6 +111,8 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu {
         if (Objects.nonNull(filterInventory)) {
             stack.getOrCreateTag().put("filter", filterInventory.serializeNBT());
         }
+
+        stack.getOrCreateTag().putBoolean("whitelist", whitelist);
     }
 
     @Override
@@ -135,6 +145,18 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu {
 
     public int getFilterRows() {
         return filterRows;
+    }
+
+    public boolean getWhitelist() {
+        return whitelist;
+    }
+
+    public void setWhitelist(boolean whitelist) {
+        this.whitelist = whitelist;
+    }
+
+    public void sendUpdatePacket(BackpackScreenPacket.Type type) {
+        PacketHandler.sendToServer(new BackpackScreenPacket(type));
     }
 
     private int getFilterSlots() {

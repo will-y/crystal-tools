@@ -17,6 +17,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -34,9 +35,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class CrystalBackpack extends Item implements LevelableItem {
+    public static final int DATA_SIZE = 1;
 
     public CrystalBackpack() {
-        super(new Item.Properties());
+        super(new Properties());
     }
 
     @Override
@@ -89,17 +91,17 @@ public class CrystalBackpack extends Item implements LevelableItem {
 
     private record CrystalBackpackMenuSupplier(CrystalBackpack backpackItem, ItemStack stack) implements MenuProvider {
         @Override
-        public Component getDisplayName() {
-            return stack.getHoverName();
-        }
+            public Component getDisplayName() {
+                return stack.getHoverName();
+            }
 
-        @Override
-        public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
-            // Server side constructor
-            return new CrystalBackpackContainerMenu(containerId, playerInventory, getInventory(stack), stack,
-                    (int) NBTUtils.getFloatOrAddKey(stack, "filter_capacity", 0));
+            @Override
+            public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
+                // Server side constructor
+                return new CrystalBackpackContainerMenu(containerId, playerInventory, getInventory(stack), stack,
+                        (int) NBTUtils.getFloatOrAddKey(stack, "filter_capacity", 0));
+            }
         }
-    }
 
     public static List<ItemStack> findBackpackStacks(Player player) {
         return player.getInventory().items.stream().filter(stack -> stack.is(Registration.CRYSTAL_BACKPACK.get())).toList();

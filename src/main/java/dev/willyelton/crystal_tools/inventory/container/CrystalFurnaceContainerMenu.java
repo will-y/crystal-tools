@@ -137,7 +137,6 @@ public class CrystalFurnaceContainerMenu extends BaseContainerMenu {
         if (this.data.get(1) == 0) return 0;
 
         return this.data.get(0) / (float) this.data.get(1);
-
     }
 
     public boolean isLit() {

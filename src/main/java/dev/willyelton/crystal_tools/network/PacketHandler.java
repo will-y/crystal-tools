@@ -52,12 +52,6 @@ public class PacketHandler {
                 .consumerMainThread(ResetSkillsPacket::handle)
                 .add();
 
-        HANDLER.messageBuilder(SkillCacheUpdatePacket.class, index++, NetworkDirection.PLAY_TO_CLIENT)
-                .decoder(SkillCacheUpdatePacket::new)
-                .encoder(SkillCacheUpdatePacket::encode)
-                .consumerMainThread(SkillCacheUpdatePacket::handle)
-                .add();
-
         HANDLER.messageBuilder(ToolAttributePacket.class, index++)
                 .decoder(ToolAttributePacket::new)
                 .encoder(ToolAttributePacket::encode)
@@ -68,6 +62,19 @@ public class PacketHandler {
                 .decoder(ToolHealPacket::new)
                 .encoder(ToolHealPacket::encode)
                 .consumerMainThread(ToolHealPacket::handle)
+                .add();
+
+        HANDLER.messageBuilder(BackpackScreenPacket.class, index++)
+                .decoder(BackpackScreenPacket::new)
+                .encoder(BackpackScreenPacket::encode)
+                .consumerMainThread(BackpackScreenPacket::handle)
+                .add();
+
+        // Server to Client
+        HANDLER.messageBuilder(SkillCacheUpdatePacket.class, index++, NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(SkillCacheUpdatePacket::new)
+                .encoder(SkillCacheUpdatePacket::encode)
+                .consumerMainThread(SkillCacheUpdatePacket::handle)
                 .add();
     }
 
