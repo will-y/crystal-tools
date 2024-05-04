@@ -28,11 +28,4 @@ public class CrystalBackpackInventory extends ItemStackHandler {
     public ItemStack insertStack(ItemStack stack) {
         return ItemHandlerHelper.insertItem(this, stack, false);
     }
-
-    public void copyFrom(CrystalBackpackInventory other) {
-        int maxIndex = Math.min(other.getSlots(), this.getSlots());
-        for (int i = 0; i < maxIndex; i++) {
-            this.setStackInSlot(i, other.getStackInSlot(i));
-        }
-    }
 }

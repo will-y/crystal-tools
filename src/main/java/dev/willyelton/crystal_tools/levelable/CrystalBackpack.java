@@ -11,20 +11,24 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
@@ -35,8 +39,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class CrystalBackpack extends Item implements LevelableItem {
-    public static final int DATA_SIZE = 1;
-
     public CrystalBackpack() {
         super(new Properties());
     }
@@ -55,6 +57,29 @@ public class CrystalBackpack extends Item implements LevelableItem {
         }
 
         return InteractionResultHolder.success(stack);
+    }
+
+    @Override
+    public InteractionResult useOn(UseOnContext context) {
+        Level level = context.getLevel();
+        BlockEntity blockEntity = level.getBlockEntity(context.getClickedPos());
+        ItemStack backpackStack = context.getItemInHand();
+
+        if (NBTUtils.getBoolean(backpackStack, "inventory_store")) {
+            CrystalBackpackInventory backpackInventory = getInventory(backpackStack);
+
+            if (blockEntity != null && backpackInventory != null) {
+                blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, context.getClickedFace()).ifPresent(itemHandler -> {
+                    for (int i = 0; i < backpackInventory.getSlots(); i++) {
+                        backpackInventory.setStackInSlot(i, ItemHandlerHelper.insertItem(itemHandler, backpackInventory.getStackInSlot(i),false));
+                    }
+                });
+
+                return InteractionResult.SUCCESS;
+            }
+        }
+
+        return super.useOn(context);
     }
 
     @Override
