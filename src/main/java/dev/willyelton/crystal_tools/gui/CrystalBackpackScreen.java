@@ -9,10 +9,11 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 
-import static dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket.Type.PICKUP_BLACKLIST;
-import static dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket.Type.PICKUP_WHITELIST;
+import static dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket.Type.*;
 
 public class CrystalBackpackScreen extends AbstractContainerScreen<CrystalBackpackContainerMenu> {
     public static final ResourceLocation TEXTURE = new ResourceLocation("crystal_tools:textures/gui/crystal_backpack.png");
@@ -73,11 +74,21 @@ public class CrystalBackpackScreen extends AbstractContainerScreen<CrystalBackpa
                         container.setWhitelist(whitelist);
                         BackpackScreenPacket.Type type = whitelist ? PICKUP_WHITELIST : PICKUP_BLACKLIST;
                         container.sendUpdatePacket(type);
-
                     }
                 },
                 (button, guiGraphics, mouseX, mouseY) -> {
-                    Component textComponent = Component.literal("Whitelist");
+                    Component textComponent = Component.literal(whitelist ? "Whitelist" : "Blacklist");
+                    guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalBackpackScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
+                },
+                whitelist, false));
+
+        this.addRenderableWidget(new WhitelistToggleButton(this.leftPos + 30, this.topPos - 30,
+                button -> {
+                    container.sendUpdatePacket(SORT);
+                    button.setFocused(false);
+                },
+                (button, guiGraphics, mouseX, mouseY) -> {
+                    Component textComponent = Component.literal("Sort");
                     guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalBackpackScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
                 },
                 whitelist, false));

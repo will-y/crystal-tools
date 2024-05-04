@@ -22,4 +22,10 @@ public class InventoryUtils {
             destination.setStackInSlot(i, source.getStackInSlot(i));
         }
     }
+
+    public static void clear(ItemStackHandler inv) {
+        for (int i = 0; i < inv.getSlots(); i++) {
+            inv.setStackInSlot(i, ItemStack.EMPTY);
+        }
+    }
 }

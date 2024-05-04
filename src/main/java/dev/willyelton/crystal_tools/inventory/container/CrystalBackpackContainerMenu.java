@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.inventory.container;
 
 import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.inventory.container.slot.ReadOnlySlot;
 import dev.willyelton.crystal_tools.network.PacketHandler;
@@ -14,6 +15,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import org.jetbrains.annotations.Nullable;
@@ -157,6 +159,10 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu {
 
     public void sendUpdatePacket(BackpackScreenPacket.Type type) {
         PacketHandler.sendToServer(new BackpackScreenPacket(type));
+    }
+
+    public void sort() {
+        this.inventory.sort(CrystalToolsConfig.BACKPACK_SORT_TYPE.get());
     }
 
     private int getFilterSlots() {
