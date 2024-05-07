@@ -3,9 +3,11 @@ package dev.willyelton.crystal_tools.levelable;
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.capability.CrystalBackpackCapabilityProvider;
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.inventory.container.CrystalBackpackContainerMenu;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
+import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -20,6 +22,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -105,13 +108,17 @@ public class CrystalBackpack extends Item implements LevelableItem {
 
     @Override
     public boolean isDisabled() {
-        // TODO: Config
-        return false;
+        return CrystalToolsConfig.DISABLE_BACKPACK.get();
     }
 
     @Override
     public @Nullable ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
         return new CrystalBackpackCapabilityProvider(stack);
+    }
+
+    @Override
+    public void appendHoverText(@NotNull ItemStack itemStack, @javax.annotation.Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
+        ToolUtils.appendHoverText(itemStack, level, components, flag, this);
     }
 
     private record CrystalBackpackMenuSupplier(CrystalBackpack backpackItem, ItemStack stack) implements MenuProvider {
@@ -178,5 +185,19 @@ public class CrystalBackpack extends Item implements LevelableItem {
         }
 
         return results;
+    }
+
+    /**
+     * Adds exp to all backpacks in the player's inventory
+     * @param player Player to search inventory and give xp to backpacks in
+     * @param exp Amount to add to each backpack
+     */
+    public static void addXpToBackpacks(Player player, int exp) {
+        player.getInventory().items.stream()
+                .filter(stack -> stack.is(Registration.CRYSTAL_BACKPACK.get()))
+                .forEach(stack -> {
+                    LevelableItem item = (LevelableItem) stack.getItem();
+                    item.addExp(stack, player.level(), player.blockPosition(), player, exp);
+                });
     }
 }

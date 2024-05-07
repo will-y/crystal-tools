@@ -58,6 +58,7 @@ public class CrystalToolsConfig {
 
     // Disable Other
     public static ForgeConfigSpec.BooleanValue DISABLE_APPLE;
+    public static ForgeConfigSpec.BooleanValue DISABLE_BACKPACK;
 
     // Furnace
     public static ForgeConfigSpec.IntValue FUEL_EFFICIENCY_ADDED_TICKS;
@@ -161,6 +162,7 @@ public class CrystalToolsConfig {
 
         // Disable Other
         DISABLE_APPLE = builder.comment("Disables Crystal Apple").define("disable_apple", false);
+        DISABLE_BACKPACK = builder.comment("Disables Crystal Backpack").define("disable_backpack", false);
 
         // Furnace
         FUEL_EFFICIENCY_ADDED_TICKS = builder.comment("Ticks added to fuel sources per level of fuel efficiency")

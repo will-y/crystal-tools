@@ -21,6 +21,10 @@ public class PlayerEvents {
         ItemStack original = event.getItem().getItem().copy();
 
         for (ItemStack backpackStack : backpackStacks) {
+            if (!NBTUtils.getBoolean(backpackStack, "auto_pickup")) {
+                continue;
+            }
+
             CrystalBackpackInventory inventory = CrystalBackpack.getInventory(backpackStack);
             List<ItemStack> filterStacks = CrystalBackpack.getFilterItems(backpackStack);
 

@@ -1,6 +1,6 @@
 ------------------ At Some Point ------------------
 - Bow Draw Speed
-- Boots immune to fall damage
+- Boots immune to fall damage (LivingFallEvent)
 - Armor cool potion effects?
 - Furnace skill screen doesn't fully refresh when open when point is gained
 - Crystal Arrow
@@ -13,17 +13,27 @@
 - Breaking animation on multibreaks
 - Magnet
 - Backpack
-    - Auto pickup (mode switch to turn on and off)
-    - Trash (separate filters?)
-    - Exp Storage ? (mode switch to turn on and off)
-    - Sort ?
-    - Transparency on filter slots
-    - Shift to see more attributes
-    - NBT Matching filter
+    - Trash (separate filters?) v2
+    - Exp Storage ? (mode switch to turn on and off) v2
+    - Transparency on filter slots v2
+    - NBT Matching filter v2
+    - Scrollbar and more rows
+- Hopper
+    - Inventory space
+    - Speed
+    - Filters
+- If I'm getting into things like hoppers, chests, backpacks, might want to think about some other way to level things up
 - Make or node connections look different somehow
 - Pressing k with no tools will go to equipped items, buttons at the top of the screen to arrow between equipped / held items
 - Auto crafter
+- Button in upgrade screen to convert exp to tool levels (5 levels?)
 
---------------- 1.6.0 ---------------------------
+--------------------------- 1.6.0 ---------------------------
+- Backpack
+    - Beta tooltip?
+    - Documentation
+    - Look into skill tree, needs some more changes
+--------------------------- 1.7.0 ---------------------------
 - Auto pickup
 - Fishing rod
+- Backpack v2

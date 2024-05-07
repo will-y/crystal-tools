@@ -4,6 +4,10 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
 
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 public class InventoryUtils {
     public static boolean removeItemFromInventory(Inventory inv, ItemStack itemStack) {
         if (itemStack.isEmpty()) return false;
