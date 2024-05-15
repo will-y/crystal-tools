@@ -1,9 +1,11 @@
 package dev.willyelton.crystal_tools.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import dev.willyelton.crystal_tools.gui.component.ScrollBar;
 import dev.willyelton.crystal_tools.gui.component.WhitelistToggleButton;
 import dev.willyelton.crystal_tools.inventory.container.CrystalBackpackContainerMenu;
 import dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -15,21 +17,44 @@ import org.jetbrains.annotations.NotNull;
 
 import static dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket.Type.*;
 
-public class CrystalBackpackScreen extends AbstractContainerScreen<CrystalBackpackContainerMenu> {
+public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBackpackContainerMenu> {
     public static final ResourceLocation TEXTURE = new ResourceLocation("crystal_tools:textures/gui/crystal_backpack.png");
 
     private static final int TEXTURE_SIZE = 512;
+    private static final int INVENTORY_WIDTH = 176;
+    private static final int INVENTORY_HEIGHT = 96;
+    private static final int TOP_BAR_HEIGHT = 17;
+    private static final int ROW_HEIGHT = 18;
 
     private final CrystalBackpackContainerMenu container;
 
     private boolean whitelist;
 
     public CrystalBackpackScreen(CrystalBackpackContainerMenu container, Inventory inventory, Component name) {
-        super(container, inventory, name);
+        super(container, inventory, name, INVENTORY_WIDTH - 3, TOP_BAR_HEIGHT, 128);
         this.container = container;
         this.inventoryLabelX = 8;
-        this.inventoryLabelY = container.getRows() * 18 + CrystalBackpackContainerMenu.START_Y + 2;
-        whitelist = container.getWhitelist();
+        // TODO: Also needs to change, probably going to need to set things when we received packet
+        // Setup method that is called?
+//        this.inventoryLabelY = container.getRows() * 18 + CrystalBackpackContainerMenu.START_Y + 2;
+        this.whitelist = container.getWhitelist();
+        this.imageWidth = INVENTORY_WIDTH;
+        // TODO This needs to change
+//        this.imageHeight = TOP_BAR_HEIGHT + INVENTORY_HEIGHT + getMaxDisplayRows() * ROW_HEIGHT;
+    }
+
+    private void setHeights() {
+        // Sets up all of the variables, needs to be able to be re called on resize
+        // TODO: Method for this somewhere, needed everywhere
+        int rowsToDraw;
+
+        if (getMaxDisplayRows() <= 0) {
+            rowsToDraw = menu.getRows();
+        } else {
+            rowsToDraw = Math.min(menu.getRows(), getMaxDisplayRows());
+        }
+        this.inventoryLabelY = rowsToDraw * ROW_HEIGHT + CrystalBackpackContainerMenu.START_Y + 2;
+        this.imageHeight = TOP_BAR_HEIGHT + INVENTORY_HEIGHT + rowsToDraw * ROW_HEIGHT;
     }
 
     @Override
@@ -43,28 +68,45 @@ public class CrystalBackpackScreen extends AbstractContainerScreen<CrystalBackpa
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
-        // Backpack top bar
-        guiGraphics.blit(TEXTURE, leftPos, topPos, 0, 0, 176, 17, TEXTURE_SIZE, TEXTURE_SIZE);
 
-        for (int row = 0; row < container.getRows(); row++) {
+        int rowsToDraw;
+
+        if (getMaxDisplayRows() <= 0) {
+            rowsToDraw = menu.getRows();
+        } else {
+            rowsToDraw = Math.min(menu.getRows(), getMaxDisplayRows());
+        }
+
+        // Backpack top bar
+        guiGraphics.blit(TEXTURE, leftPos, topPos, 0, 0, INVENTORY_WIDTH, TOP_BAR_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
+
+        for (int row = 0; row < rowsToDraw; row++) {
             // Backpack row
-            guiGraphics.blit(TEXTURE, leftPos, topPos + 17 + 18 * row, 0, 222, 176, 18, TEXTURE_SIZE, TEXTURE_SIZE);
+            guiGraphics.blit(TEXTURE, leftPos, topPos + TOP_BAR_HEIGHT + ROW_HEIGHT * row, 0, 222, INVENTORY_WIDTH, ROW_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
         }
 
         // Player inventory
-        guiGraphics.blit(TEXTURE, leftPos, topPos + 17 + 18 * container.getRows(), 0, 125, 176, 96, TEXTURE_SIZE, TEXTURE_SIZE);
+        guiGraphics.blit(TEXTURE, leftPos, topPos + TOP_BAR_HEIGHT + ROW_HEIGHT * rowsToDraw, 0, 125, INVENTORY_WIDTH, INVENTORY_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
+
+        super.renderBg(guiGraphics, partialTick, mouseX, mouseY);
 
         // Filter
         if (container.getFilterRows() > 0) {
-            drawFilter(guiGraphics, leftPos + 173, topPos, container.getFilterRows());
+            int leftOffset = canScroll() ? SCROLL_WIDTH + 4 : 0;
+            drawFilter(guiGraphics, leftPos + INVENTORY_WIDTH + leftOffset - 3, topPos, container.getFilterRows());
         }
     }
 
     @Override
-    protected void init() {
-        super.init();
+    public int getMaxDisplayRows() {
+        return (this.height - TOP_BAR_HEIGHT - INVENTORY_HEIGHT) / ROW_HEIGHT;
+    }
 
-        this.addRenderableWidget(new WhitelistToggleButton(this.leftPos, this.topPos - 30,
+    @Override
+    protected void init() {
+        setHeights();
+        super.init();
+        this.addRenderableWidget(new WhitelistToggleButton(this.leftPos, this.topPos,
                 button -> {
                     whitelist = !whitelist;
                     if (button instanceof WhitelistToggleButton toggleButton) {
@@ -82,7 +124,7 @@ public class CrystalBackpackScreen extends AbstractContainerScreen<CrystalBackpa
                 },
                 whitelist, false));
 
-        this.addRenderableWidget(new WhitelistToggleButton(this.leftPos + 30, this.topPos - 30,
+        this.addRenderableWidget(new WhitelistToggleButton(this.leftPos + 30, this.topPos,
                 button -> {
                     container.sendUpdatePacket(SORT);
                     button.setFocused(false);
@@ -95,9 +137,6 @@ public class CrystalBackpackScreen extends AbstractContainerScreen<CrystalBackpa
     }
 
     private void drawFilter(GuiGraphics guiGraphics, int x, int y, int rows) {
-        // Draw text
-        guiGraphics.drawString(this.font, Component.literal("Pickup Filter"), leftPos + this.titleLabelX + 173, topPos + this.titleLabelY, 4210752, false);
-
         // Draw top
         guiGraphics.blit(TEXTURE, x, y, 0, 240, 103, 17, TEXTURE_SIZE, TEXTURE_SIZE);
 
@@ -108,5 +147,8 @@ public class CrystalBackpackScreen extends AbstractContainerScreen<CrystalBackpa
 
         // Draw bottom
         guiGraphics.blit(TEXTURE, x, y + 17 + 18 * rows, 0, 275, 103, 6, TEXTURE_SIZE, TEXTURE_SIZE);
+
+        // Draw text
+        guiGraphics.drawString(this.font, Component.literal("Pickup Filter"), x + 8, topPos + this.titleLabelY, 4210752, false);
     }
 }

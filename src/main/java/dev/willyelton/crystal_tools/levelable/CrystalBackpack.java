@@ -43,7 +43,7 @@ import java.util.List;
 
 public class CrystalBackpack extends Item implements LevelableItem {
     public CrystalBackpack() {
-        super(new Properties());
+        super(new Properties().stacksTo(1).fireResistant());
     }
 
     @Override
@@ -118,6 +118,7 @@ public class CrystalBackpack extends Item implements LevelableItem {
 
     @Override
     public void appendHoverText(@NotNull ItemStack itemStack, @javax.annotation.Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
+        components.add(Component.literal("\u00A7d\u00A7l" + "The backpack is currently a WIP. Please report any issues or comment suggestions."));
         ToolUtils.appendHoverText(itemStack, level, components, flag, this);
     }
 

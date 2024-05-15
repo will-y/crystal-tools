@@ -2,26 +2,31 @@ package dev.willyelton.crystal_tools.inventory.container;
 
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
+import dev.willyelton.crystal_tools.gui.ScrollableMenu;
 import dev.willyelton.crystal_tools.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.inventory.container.slot.ReadOnlySlot;
+import dev.willyelton.crystal_tools.inventory.container.slot.ScrollableSlot;
 import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket;
 import dev.willyelton.crystal_tools.utils.InventoryUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-public class CrystalBackpackContainerMenu extends BaseContainerMenu {
+public class CrystalBackpackContainerMenu extends BaseContainerMenu implements ScrollableMenu {
     public static final int START_Y = 18;
     private static final int START_X = 8;
     private static final int SLOT_SIZE = 18;
@@ -34,6 +39,8 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu {
     private final int rows;
     private final int filterRows;
     private boolean whitelist;
+    private int maxRows;
+    private final NonNullList<ScrollableSlot> backpackSlots;
 
     // Client constructor
     public CrystalBackpackContainerMenu(int containerId, Inventory playerInventory, FriendlyByteBuf data) {
@@ -42,6 +49,10 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu {
     }
 
     // Server constructor
+    // TODO: Need to redo everything
+    // Maybe make 3 packets, scroll down scroll up, scroll to
+    // Or just scroll to, should know rows already
+    // Make sure clear resets index, probably won't
     public CrystalBackpackContainerMenu(int containerId, Inventory playerInventory, CrystalBackpackInventory backpackInventory,
                                         ItemStack stack, int filterRows) {
         super(Registration.CRYSTAL_BACKPACK_CONTAINER.get(), containerId, playerInventory);
@@ -50,13 +61,51 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu {
         this.rows = backpackInventory.getSlots() / SLOTS_PER_ROW;
         this.filterRows = filterRows;
         this.filterInventory = createFilterInventory(stack);
-        this.layoutPlayerInventorySlots(START_X, START_Y + rows * SLOT_SIZE + 14);
-        this.addSlotBox(backpackInventory, 0, START_X, START_Y, SLOTS_PER_ROW, SLOT_SIZE, rows, 18);
-        if (Objects.nonNull(filterInventory)) {
-            this.addSlotBox(filterInventory, 0, START_X + SLOTS_PER_ROW * SLOT_SIZE + 11, START_Y, FILTER_SLOTS_PER_ROW, SLOT_SIZE, filterRows, SLOT_SIZE);
+        this.backpackSlots = NonNullList.createWithCapacity(rows * SLOTS_PER_ROW);
+//        setUpSlots();
+        whitelist = NBTUtils.getBoolean(stack, "whitelist");
+    }
+
+    @Override
+    protected void addSlot(IItemHandler handler, int index, int x, int y) {
+        // TODO Filter slots are not filter slots, filter logic wrong not this logic
+        if (handler instanceof CrystalBackpackInventory) {
+            ScrollableSlot slot = new ScrollableSlot(handler, index, x, y);
+            backpackSlots.add(slot);
+            addSlot(slot);
+        } else {
+            SlotItemHandler slot = new SlotItemHandler(handler, index, x, y);
+            addSlot(slot);
+        }
+    }
+
+    private void setUpPlayerSlots() {
+        this.layoutPlayerInventorySlots(START_X, START_Y + Math.min(maxRows, rows) * SLOT_SIZE + 14);
+    }
+
+    private void setUpBackpackSlots() {
+        int rowsToDraw;
+
+        if (maxRows == 0) {
+            rowsToDraw = rows;
+        } else {
+            rowsToDraw = Math.min(rows, maxRows);
         }
 
-        whitelist = NBTUtils.getBoolean(stack, "whitelist");
+        this.addSlotBox(this.inventory, 0, START_X, START_Y, SLOTS_PER_ROW, SLOT_SIZE, rowsToDraw, SLOT_SIZE);
+    }
+
+    private void setUpFilterSlots() {
+        if (Objects.nonNull(filterInventory)) {
+            int xOffset = canScroll() ? 18 : 0;
+            this.addSlotBox(filterInventory, 0, START_X + SLOTS_PER_ROW * SLOT_SIZE + xOffset + 11, START_Y, FILTER_SLOTS_PER_ROW, SLOT_SIZE, filterRows, SLOT_SIZE);
+        }
+    }
+
+    public void setUpSlots() {
+        setUpPlayerSlots();
+        setUpBackpackSlots();
+        setUpFilterSlots();
     }
 
     @Override
@@ -194,6 +243,50 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu {
     }
 
     private int getNonFilterSlots() {
-        return 36 + rows * SLOTS_PER_ROW;
+        int displayedRows;
+        if (maxRows == 0) {
+            displayedRows = rows;
+        } else {
+            displayedRows = Math.min(rows, maxRows);
+        }
+        return 36 + displayedRows * SLOTS_PER_ROW;
+    }
+
+    @Override
+    public int getRowIndexForScroll(float scrollOffset) {
+        return Math.max((int)((double)(scrollOffset * (float) (rows - maxRows)) + 0.5D), 0);
+    }
+
+    @Override
+    public float getScrollForRowIndex(int row) {
+        return Mth.clamp(row / (float) (rows - maxRows), 0.0F, 1.0F);
+    }
+
+    @Override
+    public void scrollTo(int row) {
+        if (row > this.rows - this.maxRows || row < 0) {
+            return;
+        }
+
+        for (int i = 0; i < backpackSlots.size(); i++) {
+            backpackSlots.get(i).setSlotIndex(i + row * 9);
+        }
+    }
+
+    @Override
+    public void setMaxRows(int maxRows) {
+        // TODO: This breaks when screen is resized
+        this.maxRows = maxRows;
+        setUpSlots();
+    }
+
+    @Override
+    public boolean canScroll() {
+        return rows > maxRows;
+    }
+
+    @Override
+    public float subtractInputFromScroll(float scrollOffset, double delta) {
+        return Mth.clamp(scrollOffset - (float) (delta / (double) (rows - maxRows)), 0.0F, 1.0F);
     }
 }

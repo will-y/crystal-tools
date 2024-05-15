@@ -43,18 +43,6 @@
       },
       {
         "id": 4,
-        "name": "Whitelist Filter",
-        "description": "Adds the option to use the filter as a whitelist",
-        "type": "normal",
-        "requirements": [
-          {"or_node": [0, 1, 2]},
-          {"node": [2]}
-        ],
-        "key": "whitelist_enabled",
-        "value": 1
-      },
-      {
-        "id": 5,
         "name": "Filter Slots II",
         "description": "Adds 5 filter slots to the backpack",
         "type": "normal",
@@ -67,7 +55,7 @@
     ],
     [
       {
-        "id": 6,
+        "id": 5,
         "name": "Capacity III",
         "description": "Increases the number of slots in the backpack by 9",
         "type": "normal",
@@ -78,23 +66,23 @@
         "value": 1
       },
       {
-        "id": 7,
+        "id": 6,
         "name": "Sort",
         "description": "Adds the option sort the backpack's contents",
         "type": "normal",
         "requirements": [
-          {"or_node": [3, 4, 5]}
+          {"or_node": [3, 4]}
         ],
         "key": "sort_enabled",
         "value": 1
       },
       {
-        "id": 8,
+        "id": 7,
         "name": "Filter Slots III",
         "description": "Adds 5 filter slots to the backpack",
         "type": "normal",
         "requirements": [
-          {"node": [5]}
+          {"node": [4]}
         ],
         "key": "filter_capacity",
         "value": 1
@@ -102,34 +90,58 @@
     ],
     [
       {
-        "id": 9,
+        "id": 8,
         "name": "Capacity IV",
         "description": "Increases the number of slots in the backpack by 9",
         "type": "normal",
         "requirements": [
-          {"node": [6]}
+          {"node": [5]}
         ],
         "key": "capacity",
         "value": 1
       },
       {
-        "id": 10,
-        "name": "Trash",
-        "description": "Trashes items matching a backpack filter that won't fit",
+        "id": 9,
+        "name": "Filter Slots IV",
+        "description": "Adds 5 filter slots to the backpack",
         "type": "normal",
         "requirements": [
-          {"or_node": [6, 7, 8]}
+          {"node": [7]}
+        ],
+        "key": "filter_capacity",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 10,
+        "name": "Capacity V",
+        "description": "Increases the number of slots in the backpack by 9",
+        "type": "normal",
+        "requirements": [
+          {"node": [8]}
         ],
         "key": "capacity",
         "value": 1
       },
       {
         "id": 11,
+        "name": "Store in Inventory",
+        "description": "Shift right click on an inventory to store all items in that inventory",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [8, 9]}
+        ],
+        "key": "inventory_store",
+        "value": 1
+      },
+      {
+        "id": 12,
         "name": "Filter Slots IV",
         "description": "Adds 5 filter slots to the backpack",
         "type": "normal",
         "requirements": [
-          {"node": [8]}
+          {"node": [9]}
         ],
         "key": "filter_capacity",
         "value": 1
@@ -137,36 +149,14 @@
     ],
     [
       {
-        "id": 12,
-        "name": "Capacity V",
-        "description": "Increases the number of slots in the backpack by 9",
-        "type": "normal",
+        "id": 13,
+        "name": "Infinite Capacity",
+        "description": "Infinite Capacity",
+        "type": "infinite",
         "requirements": [
-          {"node": [9]}
+          {"node": [10]}
         ],
         "key": "capacity",
-        "value": 1
-      },
-      {
-        "id": 13,
-        "name": "Store in Inventory",
-        "description": "Shift right click on an inventory to store all items in that inventory",
-        "type": "normal",
-        "requirements": [
-          {"or_node": [9, 10, 11]}
-        ],
-        "key": "inventory_store",
-        "value": 1
-      },
-      {
-        "id": 14,
-        "name": "Filter Slots IV",
-        "description": "Adds 5 filter slots to the backpack",
-        "type": "normal",
-        "requirements": [
-          {"node": [11]}
-        ],
-        "key": "filter_capacity",
         "value": 1
       }
     ]
