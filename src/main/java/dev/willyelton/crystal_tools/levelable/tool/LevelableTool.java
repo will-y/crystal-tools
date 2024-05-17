@@ -37,7 +37,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Consumer;
 
-public abstract class LevelableTool extends Item implements LevelableItem {
+public abstract class LevelableTool extends TieredItem implements LevelableItem {
 
     // Blocks that can be mined by default, null for none
     protected final TagKey<Block> blocks;
@@ -52,7 +52,7 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     }
 
     public LevelableTool(Item.Properties properties, TagKey<Block> mineableBlocks, String itemType, float attackDamageModifier, float attackSpeedModifier, int durability) {
-        super(properties.defaultDurability(durability).fireResistant());
+        super(tier, properties.fireResistant());
         this.blocks = mineableBlocks;
         this.itemType = itemType;
         this.initialDurability = durability;
@@ -227,11 +227,6 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     @Override
     public boolean isValidRepairItem(@NotNull ItemStack tool, @NotNull ItemStack repairItem) {
         return repairItem.is(Registration.CRYSTAL.get());
-    }
-
-    @Override
-    public int getEnchantmentValue(ItemStack stack) {
-        return tier.getEnchantmentValue();
     }
 
     @Override
