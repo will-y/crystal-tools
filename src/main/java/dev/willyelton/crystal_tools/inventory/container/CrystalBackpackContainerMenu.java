@@ -40,21 +40,18 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
     private final int filterRows;
     private boolean whitelist;
     private int maxRows;
+    private boolean canSort;
     private final NonNullList<ScrollableSlot> backpackSlots;
 
     // Client constructor
     public CrystalBackpackContainerMenu(int containerId, Inventory playerInventory, FriendlyByteBuf data) {
         this(containerId, playerInventory, new CrystalBackpackInventory(data.readInt() * 9), ItemStack.EMPTY,
-                data.readInt());
+                data.readInt(), data.readBoolean());
     }
 
     // Server constructor
-    // TODO: Need to redo everything
-    // Maybe make 3 packets, scroll down scroll up, scroll to
-    // Or just scroll to, should know rows already
-    // Make sure clear resets index, probably won't
     public CrystalBackpackContainerMenu(int containerId, Inventory playerInventory, CrystalBackpackInventory backpackInventory,
-                                        ItemStack stack, int filterRows) {
+                                        ItemStack stack, int filterRows, boolean canSort) {
         super(Registration.CRYSTAL_BACKPACK_CONTAINER.get(), containerId, playerInventory);
         this.inventory = backpackInventory;
         this.stack = stack;
@@ -63,7 +60,9 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         this.filterInventory = createFilterInventory(stack);
         this.backpackSlots = NonNullList.createWithCapacity(rows * SLOTS_PER_ROW);
 //        setUpSlots();
+        // TODO: Probably doesn't work
         whitelist = NBTUtils.getBoolean(stack, "whitelist");
+        this.canSort = canSort;
     }
 
     @Override
@@ -197,6 +196,10 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         return filterRows;
     }
 
+    public boolean canSort() {
+        return canSort;
+    }
+
     public boolean getWhitelist() {
         return whitelist;
     }
@@ -275,9 +278,12 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
 
     @Override
     public void setMaxRows(int maxRows) {
-        // TODO: This breaks when screen is resized
         this.maxRows = maxRows;
-        setUpSlots();
+        if (this.slots.isEmpty()) {
+            // First time
+            setUpSlots();
+        }
+
     }
 
     @Override

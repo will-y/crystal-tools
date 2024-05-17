@@ -56,6 +56,7 @@ public class CrystalBackpack extends Item implements LevelableItem {
                     friendlyByteBuf -> {
                         friendlyByteBuf.writeInt((int) NBTUtils.getFloatOrAddKey(stack, "capacity", 1));
                         friendlyByteBuf.writeInt((int) NBTUtils.getFloatOrAddKey(stack, "filter_capacity", 0));
+                        friendlyByteBuf.writeBoolean(NBTUtils.getBoolean(stack, "sort_enabled", false));
                     });
         }
 
@@ -132,7 +133,8 @@ public class CrystalBackpack extends Item implements LevelableItem {
             public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
                 // Server side constructor
                 return new CrystalBackpackContainerMenu(containerId, playerInventory, getInventory(stack), stack,
-                        (int) NBTUtils.getFloatOrAddKey(stack, "filter_capacity", 0));
+                        (int) NBTUtils.getFloatOrAddKey(stack, "filter_capacity", 0),
+                        NBTUtils.getBoolean(stack, "can_sort", false));
             }
         }
 

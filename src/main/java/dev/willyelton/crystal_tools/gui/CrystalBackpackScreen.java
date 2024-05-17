@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.willyelton.crystal_tools.gui.component.ScrollBar;
+import dev.willyelton.crystal_tools.gui.component.SortButton;
 import dev.willyelton.crystal_tools.gui.component.WhitelistToggleButton;
 import dev.willyelton.crystal_tools.inventory.container.CrystalBackpackContainerMenu;
 import dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket;
@@ -34,13 +35,7 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
         super(container, inventory, name, INVENTORY_WIDTH - 3, TOP_BAR_HEIGHT, 128);
         this.container = container;
         this.inventoryLabelX = 8;
-        // TODO: Also needs to change, probably going to need to set things when we received packet
-        // Setup method that is called?
-//        this.inventoryLabelY = container.getRows() * 18 + CrystalBackpackContainerMenu.START_Y + 2;
         this.whitelist = container.getWhitelist();
-        this.imageWidth = INVENTORY_WIDTH;
-        // TODO This needs to change
-//        this.imageHeight = TOP_BAR_HEIGHT + INVENTORY_HEIGHT + getMaxDisplayRows() * ROW_HEIGHT;
     }
 
     private void setHeights() {
@@ -53,8 +48,16 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
         } else {
             rowsToDraw = Math.min(menu.getRows(), getMaxDisplayRows());
         }
+
         this.inventoryLabelY = rowsToDraw * ROW_HEIGHT + CrystalBackpackContainerMenu.START_Y + 2;
         this.imageHeight = TOP_BAR_HEIGHT + INVENTORY_HEIGHT + rowsToDraw * ROW_HEIGHT;
+        this.imageWidth = INVENTORY_WIDTH;
+        if (rowsToDraw > menu.getRows()) {
+            this.imageWidth += SCROLL_WIDTH + 4;
+        }
+        if (menu.getFilterRows() > 0) {
+            this.imageWidth += 100;
+        }
     }
 
     @Override
@@ -106,34 +109,33 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
     protected void init() {
         setHeights();
         super.init();
-        this.addRenderableWidget(new WhitelistToggleButton(this.leftPos, this.topPos,
-                button -> {
-                    whitelist = !whitelist;
-                    if (button instanceof WhitelistToggleButton toggleButton) {
-                        toggleButton.setWhitelist(whitelist);
-                        // Stays focused after click for some reason
-                        toggleButton.setFocused(false);
-                        container.setWhitelist(whitelist);
-                        BackpackScreenPacket.Type type = whitelist ? PICKUP_WHITELIST : PICKUP_BLACKLIST;
-                        container.sendUpdatePacket(type);
-                    }
-                },
-                (button, guiGraphics, mouseX, mouseY) -> {
-                    Component textComponent = Component.literal(whitelist ? "Whitelist" : "Blacklist");
-                    guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalBackpackScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
-                },
-                whitelist, false));
+        if (this.menu.getFilterRows() > 0) {
+            int xOffset = this.menu.canScroll() ? SCROLL_WIDTH + 4 : 0;
+            this.addRenderableWidget(new WhitelistToggleButton(this.leftPos + INVENTORY_WIDTH + 82 + xOffset, this.topPos + 4,
+                    button -> {
+                        whitelist = !whitelist;
+                        if (button instanceof WhitelistToggleButton toggleButton) {
+                            toggleButton.setWhitelist(whitelist);
+                            container.setWhitelist(whitelist);
+                            BackpackScreenPacket.Type type = whitelist ? PICKUP_WHITELIST : PICKUP_BLACKLIST;
+                            container.sendUpdatePacket(type);
+                        }
+                    },
+                    (button, guiGraphics, mouseX, mouseY) -> {
+                        Component textComponent = Component.literal(whitelist ? "Whitelist" : "Blacklist");
+                        guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalBackpackScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
+                    },
+                    whitelist));
+        }
 
-        this.addRenderableWidget(new WhitelistToggleButton(this.leftPos + 30, this.topPos,
-                button -> {
-                    container.sendUpdatePacket(SORT);
-                    button.setFocused(false);
-                },
-                (button, guiGraphics, mouseX, mouseY) -> {
-                    Component textComponent = Component.literal("Sort");
-                    guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalBackpackScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
-                },
-                whitelist, false));
+        if (this.menu.canSort()) {
+            this.addRenderableWidget(new SortButton(this.leftPos + 157, this.topPos + 4,
+                    button -> container.sendUpdatePacket(SORT),
+                    (button, guiGraphics, mouseX, mouseY) -> {
+                        Component textComponent = Component.literal("Sort");
+                        guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalBackpackScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
+                    }));
+        }
     }
 
     private void drawFilter(GuiGraphics guiGraphics, int x, int y, int rows) {

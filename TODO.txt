@@ -17,6 +17,7 @@
     - Exp Storage ? (mode switch to turn on and off) v2
     - Transparency on filter slots v2
     - NBT Matching filter v2
+    - Weird UI when more filter than scrollbar
 - Hopper
     - Inventory space
     - Speed
@@ -30,11 +31,8 @@
 --------------------------- 1.6.0 ---------------------------
 - Backpack
     - Documentation
-    - Look into skill tree, needs some more changes
-    - Fix button locations
-    - Remove trash and whitelist filter from skill tree
-    - new sort button type / icon
     - Mode switch to turn pickup on/off
+- Make the scrolling on the skill tree better
 
 --------------------------- 1.7.0 ---------------------------
 - Auto pickup
