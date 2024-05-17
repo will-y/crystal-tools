@@ -11,6 +11,10 @@
 ### Changes
 - Updates to Forge 1.20.1-47.2.5
 
+## 1.5.3
+### Fixes
+- Fixes Tools not extending `TieredItem`
+
 ## 1.5.2
 ### Additions
 - Adds config option `REPAIR_IN_HAND`: If true, tools can repair while you are holding them
