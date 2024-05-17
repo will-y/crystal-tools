@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 1.5.3
+### Fixes
+- Fixes Tools not extending `TieredItem`
+
 ## 1.5.2
 ### Additions
 - Adds config option `REPAIR_IN_HAND`: If true, tools can repair while you are holding them
