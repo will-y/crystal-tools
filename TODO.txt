@@ -18,6 +18,7 @@
     - Transparency on filter slots v2
     - NBT Matching filter v2
     - Weird UI when more filter than scrollbar
+    - Change screen size so you need or don't need a scroll bar breaks things
 - Hopper
     - Inventory space
     - Speed
@@ -28,12 +29,12 @@
 - Auto crafter
 - Button in upgrade screen to convert exp to tool levels (5 levels?)
 - When I have to do the big refactor, maybe try tags and events instead of needing my own type
+- Limit to infinite nodes (breaking json change so wait until 1.21)
 
 --------------------------- 1.6.0 ---------------------------
 - Backpack
-    - Scroll bar height is wrong
-    - What if you shift click and visible inventory is full it bugs into filter slot
     - Probably should limit rows
+    - Clean up scrollable container stuff, don't need all of those methods on menu probably
 - Make the scrolling on the skill tree better (seems fine in live?)
 - Reach
 

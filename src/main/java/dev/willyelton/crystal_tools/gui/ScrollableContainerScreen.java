@@ -21,7 +21,8 @@ public abstract class ScrollableContainerScreen<T extends AbstractContainerMenu 
 
     private final int scrollX;
     private final int scrollY;
-    private final int scrollHeight;
+    // Setter because won't be known at constructor time
+    private int scrollHeight;
 
     private float scrollOffset;
     private boolean scrolling;
@@ -53,7 +54,6 @@ public abstract class ScrollableContainerScreen<T extends AbstractContainerMenu 
             currentRow = i;
             PacketHandler.sendToServer(new ScrollPacket(i));
         }
-//        this.menu.scrollTo(this.scrollOffset);
     }
 
     @Override
@@ -97,12 +97,10 @@ public abstract class ScrollableContainerScreen<T extends AbstractContainerMenu 
             this.scrollOffset = Mth.clamp(this.scrollOffset, 0.0F, 1.0F);
             // TODO: Abstract
             int i = this.menu.getRowIndexForScroll(this.scrollOffset);
-            System.out.println(i + ", " + currentRow);
             if (i != currentRow) {
                 currentRow = i;
                 PacketHandler.sendToServer(new ScrollPacket(i));
             }
-//            this.menu.scrollTo(scrollOffset);
             return true;
         }
 
@@ -119,11 +117,19 @@ public abstract class ScrollableContainerScreen<T extends AbstractContainerMenu 
             // Draw top
             guiGraphics.blit(TEXTURE, scrollXActual, topPos, 0, 0, SCROLL_WIDTH + 7, scrollY);
 
-            // Scroll container top half
-            guiGraphics.blit(TEXTURE, scrollXActual, scrollYActual, SCROLL_WIDTH + 7, 0, SCROLL_WIDTH + 7, scrollHeight / 2);
+            int heightDrawn = 1;
 
-            // Scroll container bottom half
-            guiGraphics.blit(TEXTURE, scrollXActual, scrollYActual + scrollHeight / 2, SCROLL_WIDTH + 7, 256 - scrollHeight / 2, SCROLL_WIDTH + 7, scrollHeight / 2);
+            // Top Pixel
+            guiGraphics.blit(TEXTURE, scrollXActual, scrollYActual, SCROLL_WIDTH + 7, 0, SCROLL_WIDTH + 7, 1);
+
+            while (heightDrawn < scrollHeight - 254) {
+                guiGraphics.blit(TEXTURE, scrollXActual, scrollYActual + heightDrawn, SCROLL_WIDTH + 7, 1, SCROLL_WIDTH + 7, 254);
+                heightDrawn += 254;
+            }
+
+            int remainingHeight = scrollHeight - heightDrawn;
+
+            guiGraphics.blit(TEXTURE, scrollXActual, scrollYActual + heightDrawn, SCROLL_WIDTH + 7, 256 - remainingHeight, SCROLL_WIDTH + 7, remainingHeight);
 
             // Draw bottom
             guiGraphics.blit(TEXTURE, scrollXActual, scrollYActual + scrollHeight, 0, 251, SCROLL_WIDTH + 7, 5);
@@ -131,6 +137,10 @@ public abstract class ScrollableContainerScreen<T extends AbstractContainerMenu 
             // Draw handle
             guiGraphics.blit(TEXTURE, scrollXActual + 1, scrollYActual + 1 + (int) ((float) (scrollYEnd - scrollYActual - 17) * scrollOffset), (SCROLL_WIDTH + 7) * 2, 0, HANDLE_WIDTH, HANDLE_HEIGHT);
         }
+    }
+
+    public void setScrollHeight(int scrollHeight) {
+        this.scrollHeight = scrollHeight;
     }
 
     public abstract int getMaxDisplayRows();

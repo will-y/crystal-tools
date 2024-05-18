@@ -58,6 +58,8 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
         if (menu.getFilterRows() > 0) {
             this.imageWidth += 100;
         }
+
+        this.setScrollHeight(rowsToDraw * ROW_HEIGHT);
     }
 
     @Override
@@ -103,6 +105,13 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
     @Override
     public int getMaxDisplayRows() {
         return (this.height - TOP_BAR_HEIGHT - INVENTORY_HEIGHT) / ROW_HEIGHT;
+    }
+
+    @Override
+    public void resize(Minecraft minecraft, int width, int height) {
+        // TODO: Should be fixed, don't want to rn
+        this.onClose();
+        super.resize(minecraft, width, height);
     }
 
     @Override

@@ -117,7 +117,12 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
             // if you clicked in played inventory
             if (index < 36) {
                if (!this.moveItemStackTo(itemstack1, 36, slots.size() - getFilterSlots(), false)) {
-                   return ItemStack.EMPTY;
+                   // Need to check if there is room in inventory off-screen
+                   // TODO: Works, little bit of a client desync though
+                   itemstack1 = inventory.insertStack(itemstack);
+                   if (!itemstack1.isEmpty()) {
+                       return ItemStack.EMPTY;
+                   }
                }
                // clicked in backpack
             } else if (!this.moveItemStackTo(itemstack1, 0, 36, true)) {
