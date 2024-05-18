@@ -38,7 +38,6 @@ import java.util.*;
 import java.util.function.Consumer;
 
 public abstract class LevelableTool extends TieredItem implements LevelableItem {
-
     // Blocks that can be mined by default, null for none
     protected final TagKey<Block> blocks;
     protected final String itemType;
@@ -48,16 +47,16 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
     private Attribute reach;
 
     public LevelableTool(Item.Properties properties, TagKey<Block> mineableBlocks, String itemType, float attackDamageModifier, float attackSpeedModifier) {
-        this(properties, mineableBlocks, itemType, attackDamageModifier, attackSpeedModifier, tier.getUses());
+        this(properties, mineableBlocks, itemType, attackDamageModifier, attackSpeedModifier, INITIAL_TIER.getUses());
     }
 
     public LevelableTool(Item.Properties properties, TagKey<Block> mineableBlocks, String itemType, float attackDamageModifier, float attackSpeedModifier, int durability) {
-        super(tier, properties.fireResistant());
+        super(Tiers.NETHERITE, properties.fireResistant());
         this.blocks = mineableBlocks;
         this.itemType = itemType;
         this.initialDurability = durability;
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", tier.getAttackDamageBonus() + attackDamageModifier, AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", INITIAL_TIER.getAttackDamageBonus() + attackDamageModifier, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", attackSpeedModifier, AttributeModifier.Operation.ADDITION));
         this.defaultModifiers = builder.build();
         this.reachUUID = UUID.randomUUID();
@@ -71,7 +70,7 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
             // broken
             return 0.1F;
         }
-        return correctTool(tool, blockState) ? tier.getSpeed() + bonus * 20 : 1.0F;
+        return correctTool(tool, blockState) ? getTier().getSpeed() + bonus * 20 : 1.0F;
     }
 
     public boolean correctTool(ItemStack tool, BlockState blockState) {
@@ -188,7 +187,7 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
 
     @Override
     public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
-        return correctTool(stack, state) && net.minecraftforge.common.TierSortingRegistry.isCorrectTierForDrops(tier, state);
+        return correctTool(stack, state) && net.minecraftforge.common.TierSortingRegistry.isCorrectTierForDrops(getTier(), state);
     }
 
     @Override
@@ -264,7 +263,8 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
 
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
             builder.putAll(defaultModifiers);
-            builder.put(reach, new AttributeModifier(reachUUID, "Reach modifier", 2, AttributeModifier.Operation.ADDITION));
+            // TODO: Reach for when its ready
+//            builder.put(reach, new AttributeModifier(reachUUID, "Reach modifier", 2, AttributeModifier.Operation.ADDITION));
             return builder.build();
         }
 

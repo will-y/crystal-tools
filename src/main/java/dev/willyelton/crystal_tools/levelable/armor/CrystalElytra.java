@@ -41,7 +41,7 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
     @Override
     public int getMaxDamage(ItemStack stack) {
         int bonusDurability = (int) NBTUtils.getFloatOrAddKey(stack, "durability_bonus");
-        return tier.getUses() + bonusDurability;
+        return INITIAL_TIER.getUses() + bonusDurability;
     }
 
     @Override

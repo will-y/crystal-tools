@@ -28,7 +28,7 @@ import java.util.function.Predicate;
 
 public class BowLevelableItem extends BowItem implements LevelableItem {
     public BowLevelableItem() {
-        super(new Properties().defaultDurability(tier.getUses()).fireResistant());
+        super(new Properties().defaultDurability(INITIAL_TIER.getUses()).fireResistant());
     }
 
     @Override
@@ -168,7 +168,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     @Override
     public int getMaxDamage(ItemStack stack) {
         int bonusDurability = (int) NBTUtils.getFloatOrAddKey(stack, "durability_bonus");
-        return tier.getUses() + bonusDurability;
+        return INITIAL_TIER.getUses() + bonusDurability;
     }
 
     @Override
@@ -200,7 +200,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
 
     @Override
     public int getEnchantmentValue() {
-        return tier.getEnchantmentValue();
+        return INITIAL_TIER.getEnchantmentValue();
     }
 
     @Override

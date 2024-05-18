@@ -13,9 +13,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 
 public interface LevelableItem {
-
-    // Just used for default values, just at netherite for now
-    Tier tier = Tiers.NETHERITE;
+   Tier INITIAL_TIER = Tiers.NETHERITE;
 
     default void addExp(ItemStack tool, Level level, BlockPos blockPos, LivingEntity player) {
         addExp(tool, level, blockPos, player, 1);
