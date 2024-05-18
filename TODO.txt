@@ -32,6 +32,10 @@
 - Backpack
     - Documentation
     - Mode switch to turn pickup on/off
+    - Auto pickup doesn't work
+    - Doesn't show up in creative menu or JEI
+    - Scroll bar height is wrong
+    - What if you shift click and visible inventory is full it bugs into filter slot
 - Make the scrolling on the skill tree better
 
 --------------------------- 1.7.0 ---------------------------

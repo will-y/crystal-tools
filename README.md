@@ -39,6 +39,9 @@ The following tools/armor pieces are implemented:
 - Crystal Rocket
 - Crystal Apple
 
+## Other Items
+- Crystal Backpack
+
 ## Upgrades
 There will be upgrades that are common to most tools, and tools will each get unique upgrades as well. Below is a list of all currently implemented upgrades.
 
@@ -157,6 +160,21 @@ There will be upgrades that are common to most tools, and tools will each get un
 - Auto Output
   - Automatically ejects output items to connected inventories
 
+### Backpack
+- Capacity
+  - Adds 9 more item slots
+- Auto Pickup
+  - Items that you pickup will go into your backpack if they match the filter
+  - Can be toggled off with the Mode Switch key
+- Filter Slots
+  - Each level adds 5 filter slots for deciding what the backpack picks up
+  - Has a button to switch between whitelist and blacklist
+- Sort
+  - Adds a button that will automatically sort the contents of the backpack
+  - By default, it will sort by number of items. This can be changed in the config to `QUANTITY`, `NAME`, `MOD`, or `ID`
+- Store In Inventory
+  - Shift Right-clicking on a chest or another inventory will attempt to store all items from the backpack in the inventory
+
 ## Crafting Recipes
 ### Tools
 #### Pickaxe
@@ -216,6 +234,9 @@ There will be upgrades that are common to most tools, and tools will each get un
 
 #### Crystal
 ![Crystal Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/crystal.png)
+
+### Crystal Backpack
+![Crystal Backpack](https://github.com/will-y/crystal-tools/raw/main/img/crafting/crystal_backpack.png)
 
 ## Config
 The following config options are available. The default values are in parentheses.
