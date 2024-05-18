@@ -34,7 +34,6 @@
 --------------------------- 1.6.0 ---------------------------
 - Backpack
     - Probably should limit rows
-    - Clean up scrollable container stuff, don't need all of those methods on menu probably
 - Make the scrolling on the skill tree better (seems fine in live?)
 - Reach
 

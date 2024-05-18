@@ -11,7 +11,7 @@ public interface ScrollableMenu {
 
     boolean canScroll();
 
-    float subtractInputFromScroll(float scrollOffset, double delta);
-
     int getRows();
+
+    void setUpSlots();
 }

@@ -101,6 +101,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         }
     }
 
+    @Override
     public void setUpSlots() {
         setUpPlayerSlots();
         setUpBackpackSlots();
@@ -294,10 +295,5 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
     @Override
     public boolean canScroll() {
         return rows > maxRows;
-    }
-
-    @Override
-    public float subtractInputFromScroll(float scrollOffset, double delta) {
-        return Mth.clamp(scrollOffset - (float) (delta / (double) (rows - maxRows)), 0.0F, 1.0F);
     }
 }

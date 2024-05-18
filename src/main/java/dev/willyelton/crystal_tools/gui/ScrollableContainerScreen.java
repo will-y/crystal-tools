@@ -1,6 +1,5 @@
 package dev.willyelton.crystal_tools.gui;
 
-import dev.willyelton.crystal_tools.inventory.container.CrystalBackpackContainerMenu;
 import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.network.packet.ContainerRowsPacket;
 import dev.willyelton.crystal_tools.network.packet.ScrollPacket;
@@ -41,7 +40,7 @@ public abstract class ScrollableContainerScreen<T extends AbstractContainerMenu 
         super.init();
         // Might need to go in resize
         this.menu.setMaxRows(getMaxDisplayRows());
-        ((CrystalBackpackContainerMenu) menu).setUpSlots();
+        menu.setUpSlots();
         PacketHandler.sendToServer(new ContainerRowsPacket(getMaxDisplayRows()));
     }
 
@@ -95,7 +94,6 @@ public abstract class ScrollableContainerScreen<T extends AbstractContainerMenu 
             int scrollBottom = scrollTop + scrollHeight;
             this.scrollOffset = ((float) mouseY - (float) scrollTop - HANDLE_HEIGHT / 2.0F) / ((float) (scrollBottom - scrollTop - HANDLE_HEIGHT));
             this.scrollOffset = Mth.clamp(this.scrollOffset, 0.0F, 1.0F);
-            // TODO: Abstract
             int i = this.menu.getRowIndexForScroll(this.scrollOffset);
             if (i != currentRow) {
                 currentRow = i;
