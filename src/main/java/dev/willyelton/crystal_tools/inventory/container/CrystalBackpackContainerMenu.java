@@ -46,12 +46,12 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
     // Client constructor
     public CrystalBackpackContainerMenu(int containerId, Inventory playerInventory, FriendlyByteBuf data) {
         this(containerId, playerInventory, new CrystalBackpackInventory(data.readInt() * 9), ItemStack.EMPTY,
-                data.readInt(), data.readBoolean());
+                data.readInt(), data.readBoolean(), data.readBoolean());
     }
 
     // Server constructor
     public CrystalBackpackContainerMenu(int containerId, Inventory playerInventory, CrystalBackpackInventory backpackInventory,
-                                        ItemStack stack, int filterRows, boolean canSort) {
+                                        ItemStack stack, int filterRows, boolean whitelist, boolean canSort) {
         super(Registration.CRYSTAL_BACKPACK_CONTAINER.get(), containerId, playerInventory);
         this.inventory = backpackInventory;
         this.stack = stack;
@@ -61,7 +61,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         this.backpackSlots = NonNullList.createWithCapacity(rows * SLOTS_PER_ROW);
 //        setUpSlots();
         // TODO: Probably doesn't work
-        whitelist = NBTUtils.getBoolean(stack, "whitelist");
+        this.whitelist = whitelist;
         this.canSort = canSort;
     }
 

@@ -27,16 +27,15 @@
 - Pressing k with no tools will go to equipped items, buttons at the top of the screen to arrow between equipped / held items
 - Auto crafter
 - Button in upgrade screen to convert exp to tool levels (5 levels?)
+- When I have to do the big refactor, maybe try tags and events instead of needing my own type
 
 --------------------------- 1.6.0 ---------------------------
 - Backpack
-    - Documentation
-    - Mode switch to turn pickup on/off
-    - Auto pickup doesn't work
-    - Doesn't show up in creative menu or JEI
     - Scroll bar height is wrong
     - What if you shift click and visible inventory is full it bugs into filter slot
-- Make the scrolling on the skill tree better
+    - Probably should limit rows
+- Make the scrolling on the skill tree better (seems fine in live?)
+- Reach
 
 --------------------------- 1.7.0 ---------------------------
 - Auto pickup

@@ -7,6 +7,7 @@ import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.inventory.container.CrystalBackpackContainerMenu;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
+import dev.willyelton.crystal_tools.utils.StringUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -40,6 +41,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class CrystalBackpack extends Item implements LevelableItem {
     public CrystalBackpack() {
@@ -56,6 +58,7 @@ public class CrystalBackpack extends Item implements LevelableItem {
                     friendlyByteBuf -> {
                         friendlyByteBuf.writeInt((int) NBTUtils.getFloatOrAddKey(stack, "capacity", 1));
                         friendlyByteBuf.writeInt((int) NBTUtils.getFloatOrAddKey(stack, "filter_capacity", 0));
+                        friendlyByteBuf.writeBoolean(NBTUtils.getBoolean(stack, "whitelist", true));
                         friendlyByteBuf.writeBoolean(NBTUtils.getBoolean(stack, "sort_enabled", false));
                     });
         }
@@ -120,6 +123,8 @@ public class CrystalBackpack extends Item implements LevelableItem {
     @Override
     public void appendHoverText(@NotNull ItemStack itemStack, @javax.annotation.Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
         components.add(Component.literal("\u00A7d\u00A7l" + "The backpack is currently a WIP. Please report any issues or comment suggestions."));
+        String toolTip = "\u00A79" + "Auto Pickup " + (NBTUtils.getBoolean(itemStack, "pickup_disabled", false) ? "Disabled" : "Enabled");
+        components.add(Component.literal(toolTip));
         ToolUtils.appendHoverText(itemStack, level, components, flag, this);
     }
 
@@ -134,6 +139,7 @@ public class CrystalBackpack extends Item implements LevelableItem {
                 // Server side constructor
                 return new CrystalBackpackContainerMenu(containerId, playerInventory, getInventory(stack), stack,
                         (int) NBTUtils.getFloatOrAddKey(stack, "filter_capacity", 0),
+                        NBTUtils.getBoolean(stack, "whitelist", true),
                         NBTUtils.getBoolean(stack, "can_sort", false));
             }
         }

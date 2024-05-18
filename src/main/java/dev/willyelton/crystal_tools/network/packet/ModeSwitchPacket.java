@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.network.packet;
 
 import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.levelable.CrystalBackpack;
 import dev.willyelton.crystal_tools.levelable.tool.UseMode;
 import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
@@ -81,6 +82,13 @@ public class ModeSwitchPacket {
                 NBTUtils.setValue(tool, "use_mode", UseMode.nextMode(tool, currentMode).toString());
                 playerEntity.displayClientMessage(Component.literal("Mode: " + UseMode.nextMode(tool, currentMode)), true);
             }
+        }
+
+        // Backpack
+        if (tool.is(Registration.CRYSTAL_BACKPACK.get())) {
+            boolean pickupDisabled = NBTUtils.getBoolean(tool, "pickup_disabled", false);
+            NBTUtils.setValue(tool, "pickup_disabled", !pickupDisabled);
+            playerEntity.displayClientMessage(Component.literal("Auto Pickup " + (pickupDisabled ? "Enabled" : "Disabled")), true);
         }
     }
 }

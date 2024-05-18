@@ -21,7 +21,7 @@ public class PlayerEvents {
         ItemStack original = event.getItem().getItem().copy();
 
         for (ItemStack backpackStack : backpackStacks) {
-            if (!NBTUtils.getBoolean(backpackStack, "auto_pickup")) {
+            if (!NBTUtils.getBoolean(backpackStack, "auto_pickup") || NBTUtils.getBoolean(backpackStack, "pickup_disabled")) {
                 continue;
             }
 
@@ -52,6 +52,10 @@ public class PlayerEvents {
 
     private static boolean shouldPickup(ItemStack backpackStack, ItemStack pickupStack, List<ItemStack> filter) {
         // TODO: matching modes (respect nbt)
+        // If there are no filters, default to pickup
+        if (NBTUtils.getFloatOrAddKey(backpackStack, "filter_capacity") == 0) {
+            return true;
+        }
         boolean whiteList = NBTUtils.getBoolean(backpackStack, "whitelist");
         for (ItemStack filterStack : filter) {
             if (filterStack.is(pickupStack.getItem())) {

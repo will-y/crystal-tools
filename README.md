@@ -287,3 +287,6 @@ You can change these values in `config/crystal_tools/toml`.
 - `fuel_efficiency_added_ticks` (100): Number of ticks that are added to each fuel piece per level of fuel efficiency
 - `speed_upgrade_subtract_ticks` (10): Number of ticks subtracted from every recipe's duration per level of furnace speed
 - `experience_boost_percentage` (0.1): Percentage increase of experience gained per level of experience boost
+
+### Backpack
+- `backpack_sort_type` (QUANTITY): Sort method that the backpack uses. Can be one of: `QUANTITY`, `NAME`, `MOD`, or `ID`
