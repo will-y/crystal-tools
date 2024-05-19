@@ -4,10 +4,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
 
-public class ScrollableSlot extends SlotItemHandler {
+public class ScrollableSlot extends CrystalSlotItemHandler {
     private int actualSlotIndex;
 
     public ScrollableSlot(IItemHandler itemHandler, int index, int xPosition, int yPosition) {

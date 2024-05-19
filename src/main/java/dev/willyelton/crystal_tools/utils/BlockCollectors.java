@@ -85,8 +85,23 @@ public class BlockCollectors {
     }
 
     private static List<BlockPos> getNextBlocks(BlockPos pos, Level level, Predicate<BlockState> canHarvest) {
-        List<BlockPos> result = List.of(pos.above(), pos.north(), pos.north().east(), pos.east(), pos.south().east(), pos.south(), pos.south().west(), pos.west(), pos.north().west(), pos.below());
+        List<BlockPos> result = new ArrayList<>(getAdjacentPositions(pos));
+        result.add(pos.above());
+        result.add(pos.below());
+        result.addAll(getAdjacentPositions(pos.above()));
+        result.addAll(getAdjacentPositions(pos.below()));
+
+//        List<BlockPos> result = List.of(pos.above(), pos.north(), pos.north().east(), pos.east(), pos.south().east(), pos.south(), pos.south().west(), pos.west(), pos.north().west(), pos.below());
 
         return result.stream().filter(x -> canHarvest.test(level.getBlockState(x))).toList();
+    }
+
+    /**
+     * Gets all 8 positions around the given position
+     * @param pos Input position
+     * @return List of all blocks
+     */
+    private static List<BlockPos> getAdjacentPositions(BlockPos pos) {
+        return List.of(pos.north(), pos.north().east(), pos.east(), pos.south().east(), pos.south(), pos.south().west(), pos.west(), pos.north().west());
     }
 }

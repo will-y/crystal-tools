@@ -19,6 +19,9 @@
     - NBT Matching filter v2
     - Weird UI when more filter than scrollbar
     - Change screen size so you need or don't need a scroll bar breaks things
+    - Limit rows, will be easy with the limit to infinite nodes item below
+    - Prio for multiple backpacks / pickup order
+    - Match backpack items filter
 - Hopper
     - Inventory space
     - Speed
@@ -30,12 +33,14 @@
 - Button in upgrade screen to convert exp to tool levels (5 levels?)
 - When I have to do the big refactor, maybe try tags and events instead of needing my own type
 - Limit to infinite nodes (breaking json change so wait until 1.21)
+- Block break event triggers 10 times instead of 9 on 3x3
+- 3x3 is a little weird with ores
 
 --------------------------- 1.6.0 ---------------------------
-- Backpack
-    - Probably should limit rows
 - Make the scrolling on the skill tree better (seems fine in live?)
 - Reach
+- Server classloading issue (vein mining). Probably need to send packet to break all of the blocks as the player or something?
+- Ordering on AIOT tooltips
 
 --------------------------- 1.7.0 ---------------------------
 - Auto pickup

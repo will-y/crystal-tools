@@ -1,15 +1,12 @@
 package dev.willyelton.crystal_tools.inventory.container;
 
+import dev.willyelton.crystal_tools.inventory.container.slot.CrystalSlotItemHandler;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.inventory.Slot;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Collection;
 
 public abstract class BaseContainerMenu extends AbstractContainerMenu {
     protected final InvWrapper playerInventory;
@@ -37,7 +34,7 @@ public abstract class BaseContainerMenu extends AbstractContainerMenu {
     }
 
     protected void addSlot(IItemHandler handler, int index, int x, int y) {
-        addSlot(new SlotItemHandler(handler, index, x, y));
+        addSlot(new CrystalSlotItemHandler(handler, index, x, y));
     }
 
     protected void layoutPlayerInventorySlots(int leftCol, int topRow) {

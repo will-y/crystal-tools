@@ -40,7 +40,6 @@ public abstract class ScrollableContainerScreen<T extends AbstractContainerMenu 
         super.init();
         // Might need to go in resize
         this.menu.setMaxRows(getMaxDisplayRows());
-        menu.setUpSlots();
         PacketHandler.sendToServer(new ContainerRowsPacket(getMaxDisplayRows()));
     }
 

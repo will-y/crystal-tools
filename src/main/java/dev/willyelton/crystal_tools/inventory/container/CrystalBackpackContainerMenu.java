@@ -1,15 +1,16 @@
 package dev.willyelton.crystal_tools.inventory.container;
 
+import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.gui.ScrollableMenu;
 import dev.willyelton.crystal_tools.inventory.CrystalBackpackInventory;
+import dev.willyelton.crystal_tools.inventory.container.slot.CrystalSlotItemHandler;
 import dev.willyelton.crystal_tools.inventory.container.slot.ReadOnlySlot;
 import dev.willyelton.crystal_tools.inventory.container.slot.ScrollableSlot;
 import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket;
 import dev.willyelton.crystal_tools.utils.InventoryUtils;
-import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -21,7 +22,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.SlotItemHandler;
+import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -59,21 +60,18 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         this.filterRows = filterRows;
         this.filterInventory = createFilterInventory(stack);
         this.backpackSlots = NonNullList.createWithCapacity(rows * SLOTS_PER_ROW);
-//        setUpSlots();
-        // TODO: Probably doesn't work
         this.whitelist = whitelist;
         this.canSort = canSort;
     }
 
     @Override
     protected void addSlot(IItemHandler handler, int index, int x, int y) {
-        // TODO Filter slots are not filter slots, filter logic wrong not this logic
         if (handler instanceof CrystalBackpackInventory) {
             ScrollableSlot slot = new ScrollableSlot(handler, index, x, y);
             backpackSlots.add(slot);
             addSlot(slot);
         } else {
-            SlotItemHandler slot = new SlotItemHandler(handler, index, x, y);
+            CrystalSlotItemHandler slot = new CrystalSlotItemHandler(handler, index, x, y);
             addSlot(slot);
         }
     }
@@ -153,7 +151,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
             if (playerInventory.getInv().getItem(index).is(Registration.CRYSTAL_BACKPACK.get())) {
                 addSlot(new ReadOnlySlot(playerInventory, index, x, topRow));
             } else {
-                addSlot(new SlotItemHandler(playerInventory, index, x, topRow));
+                addSlot(new CrystalSlotItemHandler(playerInventory, index, x, topRow));
             }
             x += 18;
             index++;
