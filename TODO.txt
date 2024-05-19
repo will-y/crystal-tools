@@ -8,7 +8,6 @@
 - Advancements
 - Crystal Generator
 - Fix dragging on skill tree
-- Make a properties class that deals with all of the nbt stuff
 - Configure color of highlight?
 - Breaking animation on multibreaks
 - Magnet
@@ -27,7 +26,7 @@
     - Speed
     - Filters
 - If I'm getting into things like hoppers, chests, backpacks, might want to think about some other way to level things up
-- Make or node connections look different somehow
+- Make or / not / unless node connections look different somehow
 - Pressing k with no tools will go to equipped items, buttons at the top of the screen to arrow between equipped / held items
 - Auto crafter
 - Button in upgrade screen to convert exp to tool levels (5 levels?)
@@ -38,9 +37,7 @@
 
 --------------------------- 1.6.0 ---------------------------
 - Make the scrolling on the skill tree better (seems fine in live?)
-- Reach
 - Server classloading issue (vein mining). Probably need to send packet to break all of the blocks as the player or something?
-- Ordering on AIOT tooltips
 
 --------------------------- 1.7.0 ---------------------------
 - Auto pickup

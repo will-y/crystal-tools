@@ -20,6 +20,7 @@
 ### Fixes
 - Fixes tools not rendering highlight on non-mineable blocks
 - Fixes vein miner missing some ores diagonally
+- Fixes silk touch and fortune not unlocking when you unlocked mine mode on the AIOT
 
 ### Changes
 - Updates to Forge 1.20.1-47.2.5

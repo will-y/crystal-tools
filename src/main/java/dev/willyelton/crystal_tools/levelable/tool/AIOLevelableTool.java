@@ -3,13 +3,10 @@ package dev.willyelton.crystal_tools.levelable.tool;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.keybinding.KeyBindings;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
-import dev.willyelton.crystal_tools.utils.StringUtils;
 import dev.willyelton.crystal_tools.utils.ToolUseUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -19,16 +16,10 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Locale;
 
 public class AIOLevelableTool extends DiggerLevelableTool {
     public AIOLevelableTool() {
@@ -121,16 +112,6 @@ public class AIOLevelableTool extends DiggerLevelableTool {
     @Override
     public boolean canPerformAction(ItemStack stack, net.minecraftforge.common.ToolAction toolAction) {
         return true;
-    }
-
-    @Override
-    public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
-        super.appendHoverText(itemStack, level, components, flag);
-        String toolTip = "\u00A79" + "Mode: " + StringUtils.capitalize(NBTUtils.getString(itemStack, "use_mode").toLowerCase(Locale.ROOT));
-        if (KeyBindings.modeSwitch != null) {
-            toolTip = toolTip + " (alt + " + KeyBindings.modeSwitch.getKey().getDisplayName().getString() + " to change)";
-        }
-        components.add(Component.literal(toolTip));
     }
 
     public InteractionResult useOnTorch(UseOnContext context) {

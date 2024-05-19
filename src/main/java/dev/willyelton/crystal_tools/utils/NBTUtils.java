@@ -134,12 +134,16 @@ public class NBTUtils {
     }
 
     public static String getString(ItemStack itemStack, String key) {
+        return getString(itemStack, key, "");
+    }
+
+    public static String getString(ItemStack itemStack, String key, String defaultValue) {
         CompoundTag tag = getTag(itemStack);
 
         if (tag.contains(key)) {
             return tag.getString(key);
         } else {
-            return "";
+            return defaultValue;
         }
     }
 }

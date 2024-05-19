@@ -1,28 +1,24 @@
 package dev.willyelton.crystal_tools.utils;
 
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
+import dev.willyelton.crystal_tools.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.levelable.skill.SkillDataNode;
 import dev.willyelton.crystal_tools.levelable.skill.SkillNodeType;
 import dev.willyelton.crystal_tools.levelable.skill.SkillTreeRegistry;
+import dev.willyelton.crystal_tools.levelable.tool.AIOLevelableTool;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ToolUtils {
@@ -63,8 +59,16 @@ public class ToolUtils {
         }
 
         if (NBTUtils.getFloatOrAddKey(itemStack, "mine_mode") > 0 && NBTUtils.getFloatOrAddKey(itemStack, "auto_smelt") > 0 && NBTUtils.getBoolean(itemStack, "disable_auto_smelt")) {
-            String changeKey = KeyBindings.modeSwitch == null ? "" : " (Ctrl + " + KeyBindings.modeSwitch.getKey().getDisplayName().getString() + " to change)";
+            String changeKey = KeyBindings.modeSwitch == null ? "" : " (Ctrl + " + KeyBindings.modeSwitch.getKey().getDisplayName().getString() + " to enable)";
             components.add(Component.literal("\u00A79" + "Auto Smelt Disabled" + changeKey));
+        }
+
+        if (item instanceof AIOLevelableTool) {
+            String toolTip = "\u00A79" + "Use Mode: " + StringUtils.capitalize(NBTUtils.getString(itemStack, "use_mode", "hoe").toLowerCase(Locale.ROOT));
+            if (KeyBindings.modeSwitch != null) {
+                toolTip = toolTip + " (alt + " + KeyBindings.modeSwitch.getKey().getDisplayName().getString() + " to change)";
+            }
+            components.add(Component.literal(toolTip));
         }
 
         if (!Screen.hasShiftDown()) {
