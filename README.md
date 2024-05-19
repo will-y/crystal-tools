@@ -244,16 +244,17 @@ You can change these values in `config/crystal_tools/toml`.
 
 ### General
 
-- `base_experience_cap` (50): Starting EXP requirements for Tools and Armor. Range: 1 - 10000.
+- `base_experience_cap` (75): Starting EXP requirements for Tools and Armor. Range: 1 - 10000.
 - `max_exp` (1000): The maximum amount of exp that can be required for the next level. Range 1 - 100000.
-- `experience_multiplier` (1.25): Multiplier for max experience to the next level. Range: 1.0 - 100.0.
+- `experience_multiplier` (1.1): Multiplier for max experience to the next level. Range: 1.0 - 100.0.
 
 ### Experience Boosts
 - `armor_experience_boost` (2.0): Multiplies how much experience Armor gets, experience is calculated by `EXP_GAINED` = DAMAGE_TAKEN * ARMOR_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.
 - `bow_experience_boost` (1.0): Multiplies how much experience Bows get, experience is calculated by `EXP_GAINED` = UNMITIGATED_DAMAGE_DONE * BOW_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.
-- `sword_experience_boost` (1.0): Multiplies how much experience Swords get, experience is calculated by EXP_GAINED = UNMITIGATED_DAMAGE_DONE * SWORD_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.
+- `sword_experience_boost` (0.8): Multiplies how much experience Swords get, experience is calculated by `EXP_GAINED` = UNMITIGATED_DAMAGE_DONE * SWORD_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.
 - `rocket_experience_boost` (5): Determines how much experience Rockets get per use. Range: 1 - 1000.
-- `apple_experience_boost` (1): Multiplies how much experience Apples get, experience is calculated by EXP_GAINED = (SATURATION * 2 + 1) * NUTRITION * APPLE_EXPERIENCE_BOOST. Range: 0.1 - 1000.0.
+- `apple_experience_boost` (0.5): Multiplies how much experience Apples get, experience is calculated by `EXP_GAINED` = (SATURATION * 2 + 1) * NUTRITION * APPLE_EXPERIENCE_BOOST. Range: 0.1 - 1000.0.
+- `furnace_experience_boost` (1): Multiplies how much experience Furnaces get, experience is calculated by `EXP_GAINED` = RECIPE_EXP * 10 * FURNACE_EXPERIENCE_BOOST. Range: 0.1 - 1000.0.
 
 ### Repair
 - `tool_repair_cooldown` (50): Determines the cooldown between durability repairs for tools with the auto repair upgrade in ticks (20 ticks per second). Range: 1 - 10000.
@@ -290,3 +291,4 @@ You can change these values in `config/crystal_tools/toml`.
 
 ### Backpack
 - `backpack_sort_type` (QUANTITY): Sort method that the backpack uses. Can be one of: `QUANTITY`, `NAME`, `MOD`, or `ID`
+- `backpack_base_experience_cap` (150): Starting EXP requirements for the Backpack. Range: 1 - 10000.

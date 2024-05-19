@@ -10,7 +10,6 @@ import net.minecraftforge.fml.common.Mod;
 public class BlockEvents {
     @SubscribeEvent
     public static void handleBlockBreakEvent(BlockEvent.BreakEvent event) {
-        System.out.println("Event Triggered");
         CrystalBackpack.addXpToBackpacks(event.getPlayer(), 1);
     }
 }

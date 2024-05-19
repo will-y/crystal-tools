@@ -33,7 +33,7 @@ public class ToolUtils {
             return;
         }
         int newExperience = (int) NBTUtils.getFloatOrAddKey(itemStack, "experience");
-        int experienceCap = (int) NBTUtils.getFloatOrAddKey(itemStack, "experience_cap", CrystalToolsConfig.BASE_EXPERIENCE_CAP.get());
+        int experienceCap = item.getExperienceCap(itemStack);
 
         int durability = item.getMaxDamage(itemStack) - (int) NBTUtils.getFloatOrAddKey(itemStack, "Damage");
 
@@ -118,20 +118,16 @@ public class ToolUtils {
         return durability <= 1;
     }
 
-    public static void increaseExpCap(CompoundTag tag, int levelIncrease) {
-        int experienceCap = (int) NBTUtils.getFloatOrAddKey(tag, "experience_cap", CrystalToolsConfig.BASE_EXPERIENCE_CAP.get());
-
-        int newCap = getNewCap(experienceCap, levelIncrease);
-
-        NBTUtils.setValue(tag, "experience_cap", newCap);
-    }
-
     public static void increaseExpCap(ItemStack stack) {
         increaseExpCap(stack, 1);
     }
 
     public static void increaseExpCap(ItemStack stack, int levelIncrease) {
-        increaseExpCap(stack.getTag(), levelIncrease);
+        if (stack.getItem() instanceof LevelableItem item) {
+            int experienceCap = item.getExperienceCap(stack);
+            int newCap = getNewCap(experienceCap, levelIncrease);
+            NBTUtils.setValue(stack, "experience_cap", newCap);
+        }
     }
 
     public static int getNewCap(int currentCap, int levelIncrease) {

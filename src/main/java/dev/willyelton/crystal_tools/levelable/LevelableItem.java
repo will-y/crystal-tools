@@ -21,7 +21,7 @@ public interface LevelableItem {
 
     default void addExp(ItemStack tool, Level level, BlockPos blockPos,LivingEntity livingEntity, int amount) {
         int newExperience = (int) NBTUtils.addValueToTag(tool, "experience", amount);
-        int experienceCap = (int) NBTUtils.getFloatOrAddKey(tool, "experience_cap", CrystalToolsConfig.BASE_EXPERIENCE_CAP.get());
+        int experienceCap = getExperienceCap(tool);
 
         if (newExperience >= experienceCap) {
             // level up
@@ -34,13 +34,16 @@ public interface LevelableItem {
                 }
             }
             NBTUtils.setValue(tool, "experience", Math.max(0, newExperience - experienceCap));
-//            NBTUtils.setValue(tool, "experience_cap", (float) (experienceCap * CrystalToolsConfig.EXPERIENCE_MULTIPLIER.get()));
             ToolUtils.increaseExpCap(tool);
         }
     }
 
     default int getSkillPoints(ItemStack stack) {
         return (int) NBTUtils.getFloatOrAddKey(stack, "skill_points");
+    }
+
+    default int getExperienceCap(ItemStack tool) {
+        return (int) NBTUtils.getFloatOrAddKey(tool, "experience_cap", CrystalToolsConfig.BASE_EXPERIENCE_CAP.get());
     }
 
     String getItemType();

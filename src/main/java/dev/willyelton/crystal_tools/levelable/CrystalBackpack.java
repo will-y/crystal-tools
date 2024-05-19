@@ -128,6 +128,11 @@ public class CrystalBackpack extends Item implements LevelableItem {
         ToolUtils.appendHoverText(itemStack, level, components, flag, this);
     }
 
+    @Override
+    public int getExperienceCap(ItemStack tool) {
+        return (int) NBTUtils.getFloatOrAddKey(tool, "experience_cap", CrystalToolsConfig.BACKPACK_BASE_EXPERIENCE_CAP.get());
+    }
+
     private record CrystalBackpackMenuSupplier(CrystalBackpack backpackItem, ItemStack stack) implements MenuProvider {
         @Override
             public Component getDisplayName() {

@@ -67,6 +67,7 @@ public class CrystalToolsConfig {
 
     // Backpack
     public static ForgeConfigSpec.EnumValue<CrystalBackpackInventory.SortType> BACKPACK_SORT_TYPE;
+    public static ForgeConfigSpec.IntValue BACKPACK_BASE_EXPERIENCE_CAP;
 
     static {
         ForgeConfigSpec.Builder configBuilder = new ForgeConfigSpec.Builder();
@@ -77,13 +78,13 @@ public class CrystalToolsConfig {
     private static void setupConfig(ForgeConfigSpec.Builder builder) {
         // EXP
         BASE_EXPERIENCE_CAP = builder.comment("Starting EXP Value for Tools and Armor")
-                .defineInRange("base_experience_cap", 50, 1, 10000);
+                .defineInRange("base_experience_cap", 75, 1, 10000);
 
         MAX_EXP = builder.comment("Max exp that can be required to get to the next level")
                 .defineInRange("max_exp", 1000, 1, 100000);
 
         EXPERIENCE_MULTIPLIER = builder.comment("Multiplier for the experience to the next level")
-                .defineInRange("experience_multiplier", 1.05D, 1D, 5);
+                .defineInRange("experience_multiplier", 1.1D, 1D, 5);
 
         ARMOR_EXPERIENCE_BOOST = builder.comment("Multiplies how much experience Armor gets. (EXP_GAINED = DAMAGE_TAKEN * ARMOR_EXPERIENCE_BOOST)")
                 .defineInRange("armor_experience_boost", 2D, 0.1D, 10000D);
@@ -175,5 +176,7 @@ public class CrystalToolsConfig {
         // Backpack
         BACKPACK_SORT_TYPE = builder.comment("Method used for sorting the Crystal Backpack")
                 .defineEnum("backpack_sort_type", CrystalBackpackInventory.SortType.QUANTITY);
+        BACKPACK_BASE_EXPERIENCE_CAP = builder.comment("Starting EXP Value for the Backpack")
+                .defineInRange("backpack_base_experience_cap", 150, 1, 10000);
     }
 }

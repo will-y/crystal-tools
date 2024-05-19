@@ -4,12 +4,28 @@
 - Adds new reach ability for all tools
 - Adds new upgrade `save_fuel` to the crystal furnace
   - Fuel is no longer consumed when you have to items to smelt
+- Adds the Crystal Backpack
+  - It starts as a backpack with only 9 slots to store items
+  - Can be leveled up by breaking blocks and hitting enemies
+  - Levels can be used to:
+    - Upgrade the capacity
+    - Allow backpack to auto pickup items
+    - Add pickup filter slots (can be either whitelist or blacklist)
+    - Add the option to sort the backpack's contents
+    - Add the option to store all items in the backpack into an inventory block/
+- Adds config option `BACKPACK_SORT_TYPE`: Sort method that the backpack uses. Can be one of: `QUANTITY`, `NAME`, `MOD`, or `ID`
+- Adds config option `BACKPACK_BASE_EXPERIENCE_CAP`: Starting EXP Value for the Backpack/
+  - Backpacks are kind of op, so by default they take a little more xp to level up
 
 ### Fixes
-- Fixes tools not rendering highlight on non-mineable blocks 
+- Fixes tools not rendering highlight on non-mineable blocks
+- Fixes vein miner missing some ores diagonally
 
 ### Changes
 - Updates to Forge 1.20.1-47.2.5
+- It felt like things were leveling up a little to fast, you can change back in the configs if you like
+  - Changes the default option for `BASE_EXPERIENCE_CAP` to 75
+  - Changes the default option for `EXPERIENCE_MULTIPLIER` to 1.1
 
 ## 1.5.3
 ### Fixes
