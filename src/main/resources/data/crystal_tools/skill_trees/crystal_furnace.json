@@ -276,6 +276,17 @@
         ],
         "key": "auto_output",
         "value": 1
+      },
+      {
+        "id": 26,
+        "name": "Save Fuel",
+        "description": "No longer consumes fuel when not burning an item",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [14, 15, 24]}
+        ],
+        "key": "save_fuel",
+        "value": 1
       }
     ],
     [

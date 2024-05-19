@@ -1,6 +1,6 @@
 ------------------ At Some Point ------------------
 - Bow Draw Speed
-- Boots immune to fall damage
+- Boots immune to fall damage (LivingFallEvent)
 - Armor cool potion effects?
 - Furnace skill screen doesn't fully refresh when open when point is gained
 - Crystal Arrow
@@ -13,9 +13,36 @@
 - Breaking animation on multibreaks
 - Magnet
 - Backpack
+    - Trash (separate filters?) v2
+    - Exp Storage ? (mode switch to turn on and off) v2
+    - Transparency on filter slots v2
+    - NBT Matching filter v2
+    - Weird UI when more filter than scrollbar
+    - Change screen size so you need or don't need a scroll bar breaks things
+    - Limit rows, will be easy with the limit to infinite nodes item below
+    - Prio for multiple backpacks / pickup order
+    - Match backpack items filter
+- Hopper
+    - Inventory space
+    - Speed
+    - Filters
+- If I'm getting into things like hoppers, chests, backpacks, might want to think about some other way to level things up
 - Make or node connections look different somehow
+- Pressing k with no tools will go to equipped items, buttons at the top of the screen to arrow between equipped / held items
+- Auto crafter
+- Button in upgrade screen to convert exp to tool levels (5 levels?)
+- When I have to do the big refactor, maybe try tags and events instead of needing my own type
+- Limit to infinite nodes (breaking json change so wait until 1.21)
+- Block break event triggers 10 times instead of 9 on 3x3
+- 3x3 is a little weird with ores
 
---------------- 1.6.0 ---------------------------
+--------------------------- 1.6.0 ---------------------------
+- Make the scrolling on the skill tree better (seems fine in live?)
+- Reach
+- Server classloading issue (vein mining). Probably need to send packet to break all of the blocks as the player or something?
+- Ordering on AIOT tooltips
+
+--------------------------- 1.7.0 ---------------------------
 - Auto pickup
-- Furnace upgrade: save fuel
 - Fishing rod
+- Backpack v2

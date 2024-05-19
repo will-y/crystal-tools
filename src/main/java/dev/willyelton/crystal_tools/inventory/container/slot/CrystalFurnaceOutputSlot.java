@@ -1,30 +1,27 @@
-package dev.willyelton.crystal_tools.levelable.block.container.slot;
+package dev.willyelton.crystal_tools.inventory.container.slot;
 
-import dev.willyelton.crystal_tools.levelable.block.container.CrystalFurnaceContainer;
+import dev.willyelton.crystal_tools.inventory.container.CrystalFurnaceContainerMenu;
 import dev.willyelton.crystal_tools.levelable.block.entity.CrystalFurnaceBlockEntity;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.FurnaceResultSlot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
-
-import java.util.Arrays;
 
 public class CrystalFurnaceOutputSlot extends FurnaceResultSlot {
-    private final CrystalFurnaceContainer crystalFurnaceContainer;
+    private final CrystalFurnaceContainerMenu crystalFurnaceContainerMenu;
     private final Player player;
     private int removeCount;
 
-    public CrystalFurnaceOutputSlot(Player player, CrystalFurnaceContainer crystalFurnaceContainer, int pSlot, int pX, int pY) {
-        super(player, crystalFurnaceContainer.getBlockEntity(), pSlot, pX, pY);
-        this.crystalFurnaceContainer = crystalFurnaceContainer;
+    public CrystalFurnaceOutputSlot(Player player, CrystalFurnaceContainerMenu crystalFurnaceContainerMenu, int pSlot, int pX, int pY) {
+        super(player, crystalFurnaceContainerMenu.getBlockEntity(), pSlot, pX, pY);
+        this.crystalFurnaceContainerMenu = crystalFurnaceContainerMenu;
         this.player = player;
     }
 
     @Override
     public boolean isActive() {
-        return ArrayUtils.arrayContains(crystalFurnaceContainer.getActiveOutputSlots(), this.index);
+        return ArrayUtils.arrayContains(crystalFurnaceContainerMenu.getActiveOutputSlots(), this.index);
     }
 
     protected void checkTakeAchievements(ItemStack pStack) {

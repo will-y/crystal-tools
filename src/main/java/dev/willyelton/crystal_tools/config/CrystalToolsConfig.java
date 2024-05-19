@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.config;
 
+import dev.willyelton.crystal_tools.inventory.CrystalBackpackInventory;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 public class CrystalToolsConfig {
@@ -57,11 +58,15 @@ public class CrystalToolsConfig {
 
     // Disable Other
     public static ForgeConfigSpec.BooleanValue DISABLE_APPLE;
+    public static ForgeConfigSpec.BooleanValue DISABLE_BACKPACK;
 
     // Furnace
     public static ForgeConfigSpec.IntValue FUEL_EFFICIENCY_ADDED_TICKS;
     public static ForgeConfigSpec.IntValue SPEED_UPGRADE_SUBTRACT_TICKS;
     public static ForgeConfigSpec.DoubleValue EXPERIENCE_BOOST_PERCENTAGE;
+
+    // Backpack
+    public static ForgeConfigSpec.EnumValue<CrystalBackpackInventory.SortType> BACKPACK_SORT_TYPE;
 
     static {
         ForgeConfigSpec.Builder configBuilder = new ForgeConfigSpec.Builder();
@@ -157,6 +162,7 @@ public class CrystalToolsConfig {
 
         // Disable Other
         DISABLE_APPLE = builder.comment("Disables Crystal Apple").define("disable_apple", false);
+        DISABLE_BACKPACK = builder.comment("Disables Crystal Backpack").define("disable_backpack", false);
 
         // Furnace
         FUEL_EFFICIENCY_ADDED_TICKS = builder.comment("Ticks added to fuel sources per level of fuel efficiency")
@@ -165,5 +171,9 @@ public class CrystalToolsConfig {
                 .defineInRange("speed_upgrade_subtract_ticks", 10, 1, 1000);
         EXPERIENCE_BOOST_PERCENTAGE = builder.comment("Percentage increase for experience gained from smelting items. EXP_GAINED = EXP_IN_FURNACE * (1 + EXPERIENCE_BOOST_PERCENTAGE * EXPERIENCE BOOST LEVELS)")
                 .defineInRange("experience_boost_percentage", 0.1F, 0, 1000);
+
+        // Backpack
+        BACKPACK_SORT_TYPE = builder.comment("Method used for sorting the Crystal Backpack")
+                .defineEnum("backpack_sort_type", CrystalBackpackInventory.SortType.QUANTITY);
     }
 }

@@ -2,19 +2,12 @@ package dev.willyelton.crystal_tools.network;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.network.packet.*;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkDirection;
-import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
-
-import java.util.Optional;
-import java.util.function.BiConsumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class PacketHandler {
     private static short index = 0;
@@ -52,12 +45,6 @@ public class PacketHandler {
                 .consumerMainThread(ResetSkillsPacket::handle)
                 .add();
 
-        HANDLER.messageBuilder(SkillCacheUpdatePacket.class, index++, NetworkDirection.PLAY_TO_CLIENT)
-                .decoder(SkillCacheUpdatePacket::new)
-                .encoder(SkillCacheUpdatePacket::encode)
-                .consumerMainThread(SkillCacheUpdatePacket::handle)
-                .add();
-
         HANDLER.messageBuilder(ToolAttributePacket.class, index++)
                 .decoder(ToolAttributePacket::new)
                 .encoder(ToolAttributePacket::encode)
@@ -68,6 +55,31 @@ public class PacketHandler {
                 .decoder(ToolHealPacket::new)
                 .encoder(ToolHealPacket::encode)
                 .consumerMainThread(ToolHealPacket::handle)
+                .add();
+
+        HANDLER.messageBuilder(BackpackScreenPacket.class, index++)
+                .decoder(BackpackScreenPacket::new)
+                .encoder(BackpackScreenPacket::encode)
+                .consumerMainThread(BackpackScreenPacket::handle)
+                .add();
+
+        HANDLER.messageBuilder(ScrollPacket.class, index++)
+                .decoder(ScrollPacket::new)
+                .encoder(ScrollPacket::encode)
+                .consumerMainThread(ScrollPacket::handle)
+                .add();
+
+        HANDLER.messageBuilder(ContainerRowsPacket.class, index++)
+                .decoder(ContainerRowsPacket::new)
+                .encoder(ContainerRowsPacket::encode)
+                .consumerMainThread(ContainerRowsPacket::handle)
+                .add();
+
+        // Server to Client
+        HANDLER.messageBuilder(SkillCacheUpdatePacket.class, index++, NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(SkillCacheUpdatePacket::new)
+                .encoder(SkillCacheUpdatePacket::encode)
+                .consumerMainThread(SkillCacheUpdatePacket::handle)
                 .add();
     }
 

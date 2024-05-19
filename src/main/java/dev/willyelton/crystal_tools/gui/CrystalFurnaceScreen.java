@@ -1,12 +1,11 @@
 package dev.willyelton.crystal_tools.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import dev.willyelton.crystal_tools.gui.component.FurnaceUpgradeButton;
-import dev.willyelton.crystal_tools.levelable.block.container.CrystalFurnaceContainer;
-import dev.willyelton.crystal_tools.levelable.block.container.slot.CrystalFurnaceFuelSlot;
-import dev.willyelton.crystal_tools.levelable.block.container.slot.CrystalFurnaceInputSlot;
-import dev.willyelton.crystal_tools.levelable.block.container.slot.CrystalFurnaceOutputSlot;
+import dev.willyelton.crystal_tools.inventory.container.CrystalFurnaceContainerMenu;
+import dev.willyelton.crystal_tools.inventory.container.slot.CrystalFurnaceFuelSlot;
+import dev.willyelton.crystal_tools.inventory.container.slot.CrystalFurnaceInputSlot;
+import dev.willyelton.crystal_tools.inventory.container.slot.CrystalFurnaceOutputSlot;
 import dev.willyelton.crystal_tools.levelable.block.entity.CrystalFurnaceBlockEntity;
 import dev.willyelton.crystal_tools.utils.IntegerUtils;
 import net.minecraft.client.gui.GuiGraphics;
@@ -18,7 +17,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import org.jetbrains.annotations.NotNull;
 
-public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnaceContainer> {
+public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnaceContainerMenu> {
     private static final ResourceLocation TEXTURE = new ResourceLocation("crystal_tools:textures/gui/crystal_furnace.png");
     private static final int SLOT_TEXTURE_X = 176;
     private static final int SLOT_TEXTURE_Y = 27;
@@ -71,7 +70,7 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
     private int animFrame = 0;
     private final int maxAnimFrame = 3;
 
-    public CrystalFurnaceScreen(CrystalFurnaceContainer container, Inventory inventory, Component name) {
+    public CrystalFurnaceScreen(CrystalFurnaceContainerMenu container, Inventory inventory, Component name) {
         super(container, inventory, name);
         this.slots = container.slots;
         this.blockEntity = container.getBlockEntity();

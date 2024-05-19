@@ -173,6 +173,17 @@ public class CrystalToolsRecipes extends RecipeProvider {
                         .unlockedBy("has_crystal", HAS_CRYSTAL),
                 Registration.CRYSTAL_BOOTS.getId());
 
+        buildConditionalRecipe(consumer,
+                ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_BACKPACK.get())
+                        .pattern("lcl")
+                        .pattern("chc")
+                        .pattern("lcl")
+                        .define('l', Items.LEATHER)
+                        .define('c', Registration.CRYSTAL.get())
+                        .define('h', Items.CHEST)
+                        .unlockedBy("has_crystal", HAS_CRYSTAL),
+                Registration.CRYSTAL_BACKPACK.getId());
+
         // Machines
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Registration.CRYSTAL_FURNACE.get())
                 .pattern("ccc")

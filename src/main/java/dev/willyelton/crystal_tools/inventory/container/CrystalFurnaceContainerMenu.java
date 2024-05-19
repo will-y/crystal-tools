@@ -1,9 +1,9 @@
-package dev.willyelton.crystal_tools.levelable.block.container;
+package dev.willyelton.crystal_tools.inventory.container;
 
 import dev.willyelton.crystal_tools.Registration;
-import dev.willyelton.crystal_tools.levelable.block.container.slot.CrystalFurnaceFuelSlot;
-import dev.willyelton.crystal_tools.levelable.block.container.slot.CrystalFurnaceInputSlot;
-import dev.willyelton.crystal_tools.levelable.block.container.slot.CrystalFurnaceOutputSlot;
+import dev.willyelton.crystal_tools.inventory.container.slot.CrystalFurnaceFuelSlot;
+import dev.willyelton.crystal_tools.inventory.container.slot.CrystalFurnaceInputSlot;
+import dev.willyelton.crystal_tools.inventory.container.slot.CrystalFurnaceOutputSlot;
 import dev.willyelton.crystal_tools.levelable.block.entity.CrystalFurnaceBlockEntity;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
 import net.minecraft.core.BlockPos;
@@ -14,16 +14,12 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.SlotItemHandler;
-import net.minecraftforge.items.wrapper.InvWrapper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-public class CrystalFurnaceContainer extends AbstractContainerMenu {
+public class CrystalFurnaceContainerMenu extends BaseContainerMenu {
     private final CrystalFurnaceBlockEntity te;
-    private final InvWrapper playerInventory;
     private final Player player;
     private final ContainerData data;
     private final Level level;
@@ -39,10 +35,9 @@ public class CrystalFurnaceContainer extends AbstractContainerMenu {
     private static final int INPUT_START = CrystalFurnaceBlockEntity.INPUT_SLOTS[0];
     private static final int FUEL_START = CrystalFurnaceBlockEntity.FUEL_SLOTS[0];
 
-    public CrystalFurnaceContainer(int pContainerId, Level level, BlockPos pos, Inventory playerInventory, ContainerData data) {
-        super(Registration.CRYSTAL_FURNACE_CONTAINER.get(), pContainerId);
+    public CrystalFurnaceContainerMenu(int pContainerId, Level level, BlockPos pos, Inventory playerInventory, ContainerData data) {
+        super(Registration.CRYSTAL_FURNACE_CONTAINER.get(), pContainerId, playerInventory);
         te = (CrystalFurnaceBlockEntity) level.getBlockEntity(pos);
-        this.playerInventory = new InvWrapper(playerInventory);
         this.player = playerInventory.player;
         this.data = data;
         this.level = playerInventory.player.level();
@@ -118,32 +113,6 @@ public class CrystalFurnaceContainer extends AbstractContainerMenu {
         return te.stillValid(pPlayer);
     }
 
-    private int addSlotRange(IItemHandler handler, int index, int x, int y, int amount, int dx) {
-        for (int i = 0 ; i < amount ; i++) {
-            addSlot(new SlotItemHandler(handler, index, x, y));
-            x += dx;
-            index++;
-        }
-        return index;
-    }
-
-    private int addSlotBox(IItemHandler handler, int index, int x, int y, int horAmount, int dx, int verAmount, int dy) {
-        for (int j = 0 ; j < verAmount ; j++) {
-            index = addSlotRange(handler, index, x, y, horAmount, dx);
-            y += dy;
-        }
-        return index;
-    }
-
-    private void layoutPlayerInventorySlots(int leftCol, int topRow) {
-        // Player inventory
-        addSlotBox(playerInventory, 9, leftCol, topRow, 9, 18, 3, 18);
-
-        // Hotbar
-        topRow += 58;
-        addSlotRange(playerInventory, 0, leftCol, topRow, 9, 18);
-    }
-
     private void addFurnaceSlots(int numSlots, int numActiveSlots) {
         int[] inputSlots = te.getInputSlots();
         int[] outputSlots = te.getOutputSLots();
@@ -168,7 +137,6 @@ public class CrystalFurnaceContainer extends AbstractContainerMenu {
         if (this.data.get(1) == 0) return 0;
 
         return this.data.get(0) / (float) this.data.get(1);
-
     }
 
     public boolean isLit() {

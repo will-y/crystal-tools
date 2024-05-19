@@ -1,16 +1,10 @@
 package dev.willyelton.crystal_tools.gui.component;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import org.jetbrains.annotations.NotNull;
 
 public class FurnaceUpgradeButton extends CrystalToolsButton {
     public static final ResourceLocation FURNACE_BUTTON_LOCATION = new ResourceLocation("crystal_tools", "textures/gui/furnace_button.png");

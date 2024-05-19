@@ -37,7 +37,7 @@ public class ToolUtils {
 
         int durability = item.getMaxDamage(itemStack) - (int) NBTUtils.getFloatOrAddKey(itemStack, "Damage");
 
-        if (durability <= 1) {
+        if (durability <= 1 && item.getMaxDamage(itemStack) != 1) {
             components.add(Component.literal("\u00A7c\u00A7l" + "Broken"));
         }
 

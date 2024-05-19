@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.gui;
 
 import dev.willyelton.crystal_tools.gui.component.SkillButton;
-import dev.willyelton.crystal_tools.levelable.block.container.CrystalFurnaceContainer;
+import dev.willyelton.crystal_tools.inventory.container.CrystalFurnaceContainerMenu;
 import dev.willyelton.crystal_tools.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.levelable.skill.SkillDataNode;
 import dev.willyelton.crystal_tools.levelable.skill.SkillTreeRegistry;
@@ -10,14 +10,13 @@ import dev.willyelton.crystal_tools.network.PacketHandler;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
 public class FurnaceUpgradeScreen extends BaseUpgradeScreen {
-    private final CrystalFurnaceContainer container;
+    private final CrystalFurnaceContainerMenu container;
     private final Screen screen;
 
-    public FurnaceUpgradeScreen(CrystalFurnaceContainer container, Player player, Screen toOpen) {
+    public FurnaceUpgradeScreen(CrystalFurnaceContainerMenu container, Player player, Screen toOpen) {
         super(player, Component.literal("Upgrade Furnace"));
         this.container = container;
         this.data = this.getSkillData();
