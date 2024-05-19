@@ -32,7 +32,7 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Equipabl
     private static final UUID[] ARMOR_MODIFIER_UUID_PER_SLOT = new UUID[]{UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"), UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"), UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"), UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150")};
 
     public LevelableArmor(String itemType, ArmorItem.Type type) {
-        super(ArmorMaterials.NETHERITE, type, new Properties().fireResistant().defaultDurability(tier.getUses()));
+        super(ArmorMaterials.NETHERITE, type, new Properties().fireResistant().defaultDurability(INITIAL_TIER.getUses()));
         this.itemType = itemType;
     }
 
@@ -95,7 +95,7 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Equipabl
     @Override
     public int getMaxDamage(ItemStack stack) {
         int bonusDurability = (int) NBTUtils.getFloatOrAddKey(stack, "durability_bonus");
-        return tier.getUses() + bonusDurability;
+        return INITIAL_TIER.getUses() + bonusDurability;
     }
 
     @Override
@@ -138,7 +138,7 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Equipabl
 
     @Override
     public int getEnchantmentValue() {
-        return tier.getEnchantmentValue();
+        return INITIAL_TIER.getEnchantmentValue();
     }
 
     // TODO

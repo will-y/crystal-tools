@@ -21,7 +21,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
 public class SwordLevelableTool extends LevelableTool {
-    private static final float BASE_ATTACK_DAMAGE = tier.getAttackDamageBonus() + 3;
+    private static final float BASE_ATTACK_DAMAGE = INITIAL_TIER.getAttackDamageBonus() + 3;
     private static final float BASE_ATTACK_SPEED = -2.4f;
     private static final float BASE_ATTACK_KNOCKBACK = 0;
     private static final float BASE_KNOCKBACK_RESISTANCE = 0;
