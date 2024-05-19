@@ -2,10 +2,6 @@ package dev.willyelton.crystal_tools.utils;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-
-import java.util.Map;
 
 public class NBTUtils {
 

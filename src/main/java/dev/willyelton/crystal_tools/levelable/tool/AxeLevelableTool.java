@@ -8,7 +8,6 @@ import dev.willyelton.crystal_tools.utils.ToolUseUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -21,7 +20,6 @@ import net.minecraftforge.common.ToolActions;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
-import java.util.Optional;
 import java.util.function.Predicate;
 
 public class AxeLevelableTool extends LevelableTool implements VeinMinerLevelableTool {
@@ -48,9 +46,11 @@ public class AxeLevelableTool extends LevelableTool implements VeinMinerLevelabl
     public boolean onBlockStartBreak(ItemStack tool, BlockPos pos, Player player) {
         Level level = player.level();
         BlockState blockState = level.getBlockState(pos);
-        if (NBTUtils.getFloatOrAddKey(tool, "tree_chop") > 0 && KeyBindings.veinMine.isDown() && canVeinMin(tool, blockState)) {
-            Collection<BlockPos> toMine = BlockCollectors.collectVeinMine(pos, level, this.getVeinMinerPredicate(blockState), this.getMaxBlocks(tool));
-            this.breakBlockCollection(tool, level, toMine, player, blockState.getDestroySpeed(level, pos));
+        if (NBTUtils.getFloatOrAddKey(tool, "tree_chop") > 0 && canVeinMin(tool, blockState)) {
+            if (level.isClientSide && KeyBindings.veinMine.isDown()) {
+                Collection<BlockPos> toMine = BlockCollectors.collectVeinMine(pos, level, this.getVeinMinerPredicate(blockState), this.getMaxBlocks(tool));
+                this.breakBlockCollection(tool, level, toMine, player, blockState.getDestroySpeed(level, pos), true);
+            }
         }
 
         return super.onBlockStartBreak(tool, pos, player);

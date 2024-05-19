@@ -33,15 +33,12 @@ public abstract class DiggerLevelableTool extends LevelableTool implements VeinM
     @Override
     public boolean onBlockStartBreak(ItemStack tool, BlockPos pos, Player player) {
         Level level = player.level();
-
         BlockState blockState = level.getBlockState(pos);
         if (NBTUtils.getFloatOrAddKey(tool, "vein_miner") > 0 && canVeinMin(tool, blockState)) {
             if (level.isClientSide && KeyBindings.veinMine.isDown()) {
                 Collection<BlockPos> toMine = BlockCollectors.collectVeinMine(pos, level, this.getVeinMinerPredicate(blockState), this.getMaxBlocks(tool));
-                this.breakBlockCollection(tool, level, toMine, player, blockState.getDestroySpeed(level, pos));
-                // TODO: Send packet to server
+                this.breakBlockCollection(tool, level, toMine, player, blockState.getDestroySpeed(level, pos), true);
             }
-
         } else if (NBTUtils.getFloatOrAddKey(tool, "3x3") > 0 && !NBTUtils.getBoolean(tool, "disable_3x3")) {
             BlockHitResult result = RayTraceUtils.rayTrace(player);
             Direction direction = result.getDirection();

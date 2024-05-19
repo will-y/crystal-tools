@@ -75,6 +75,18 @@ public class PacketHandler {
                 .consumerMainThread(ContainerRowsPacket::handle)
                 .add();
 
+        HANDLER.messageBuilder(BlockBreakPacket.class, index++)
+                .decoder(BlockBreakPacket::new)
+                .encoder(BlockBreakPacket::encode)
+                .consumerMainThread(BlockBreakPacket::handle)
+                .add();
+
+        HANDLER.messageBuilder(BlockStripPacket.class, index++)
+                .decoder(BlockStripPacket::new)
+                .encoder(BlockStripPacket::encode)
+                .consumerMainThread(BlockStripPacket::handle)
+                .add();
+
         // Server to Client
         HANDLER.messageBuilder(SkillCacheUpdatePacket.class, index++, NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(SkillCacheUpdatePacket::new)

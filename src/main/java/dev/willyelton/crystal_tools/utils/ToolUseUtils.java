@@ -6,6 +6,8 @@ import dev.willyelton.crystal_tools.keybinding.KeyBindings;
 import dev.willyelton.crystal_tools.levelable.block.CrystalTorch;
 import dev.willyelton.crystal_tools.levelable.tool.LevelableTool;
 import dev.willyelton.crystal_tools.levelable.tool.VeinMinerLevelableTool;
+import dev.willyelton.crystal_tools.network.PacketHandler;
+import dev.willyelton.crystal_tools.network.packet.BlockStripPacket;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -93,35 +95,37 @@ public class ToolUseUtils {
             ItemStack itemStack = context.getItemInHand();
 
             // TODO: remove tree_chop
-            if ((NBTUtils.getFloatOrAddKey(itemStack, "tree_chop") > 0 || NBTUtils.getFloatOrAddKey(itemStack, "vein_miner") > 0) && KeyBindings.veinMine.isDown()) {
-                stripHelper(context, tool, level, itemStack, player, blockPos, context.getHand(), initialState);
+            if ((NBTUtils.getFloatOrAddKey(itemStack, "tree_chop") > 0 || NBTUtils.getFloatOrAddKey(itemStack, "vein_miner") > 0) &&
+                    level.isClientSide && KeyBindings.veinMine.isDown()) {
+                Collection<BlockPos> blocksToStrip = BlockCollectors.collectVeinMine(blockPos, level, tool.getVeinMinerPredicate(initialState), tool.getMaxBlocks(itemStack));
+
+                for (BlockPos pos : blocksToStrip) {
+                    BlockState blockState = level.getBlockState(pos);
+                    Optional<BlockState> optional = Optional.ofNullable(blockState.getToolModifiedState(context, ToolActions.AXE_STRIP, false));
+                    if (optional.isPresent()) {
+                        stripBlock(tool, level, itemStack, player, pos, context.getHand(), optional.get());
+                        PacketHandler.sendToServer(new BlockStripPacket(pos, context.getHand(), optional.get()));
+                    }
+                }
             }
         }
 
         return result;
     }
 
-    private static <T extends LevelableTool & VeinMinerLevelableTool> void stripHelper(UseOnContext context, T tool, Level level, ItemStack itemStack, Player player, BlockPos blockPos, InteractionHand slot, BlockState initialState) {
-        Collection<BlockPos> blocksToStrip = BlockCollectors.collectVeinMine(blockPos, level, tool.getVeinMinerPredicate(initialState), tool.getMaxBlocks(itemStack));
-
-        for (BlockPos pos : blocksToStrip) {
-            if((tool.getMaxDamage(itemStack) - (int) NBTUtils.getFloatOrAddKey(itemStack, "Damage")) == 0) {
-                return;
-            }
-
-            BlockState blockState = level.getBlockState(pos);
-            Optional<BlockState> optional = Optional.ofNullable(blockState.getToolModifiedState(context, ToolActions.AXE_STRIP, false));
-
-            if (optional.isPresent()) {
-                level.setBlock(pos, optional.get(), 11);
-
-                if (player != null) {
-                    itemStack.hurtAndBreak(1, player, player1 -> player1.broadcastBreakEvent(slot));
-                }
-
-                tool.addExp(itemStack, level, pos, player);
-            }
+    public static <T extends LevelableTool> void stripBlock(T tool, Level level, ItemStack itemStack, Player player, BlockPos blockPos, InteractionHand slot, BlockState newState) {
+        if ((tool.getMaxDamage(itemStack) - (int) NBTUtils.getFloatOrAddKey(itemStack, "Damage")) == 0) {
+            return;
         }
+
+        level.setBlock(blockPos, newState, 11);
+
+        if (player != null) {
+            itemStack.hurtAndBreak(1, player, player1 -> player1.broadcastBreakEvent(slot));
+        }
+
+        tool.addExp(itemStack, level, blockPos, player);
+
     }
 
     public static InteractionResult useOnShovel(UseOnContext pContext, LevelableTool tool, BlockPos blockpos) {

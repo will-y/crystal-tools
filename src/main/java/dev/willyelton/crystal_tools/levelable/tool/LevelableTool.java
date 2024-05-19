@@ -5,6 +5,8 @@ import com.google.common.collect.Multimap;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.levelable.LevelableItem;
+import dev.willyelton.crystal_tools.network.PacketHandler;
+import dev.willyelton.crystal_tools.network.packet.BlockBreakPacket;
 import dev.willyelton.crystal_tools.utils.LevelUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
@@ -14,7 +16,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
-import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -178,9 +179,16 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
     }
 
     public void breakBlockCollection(ItemStack tool, Level level, Collection<BlockPos> blockPosCollection, LivingEntity entity, float firstBlockSpeed) {
+        breakBlockCollection(tool, level, blockPosCollection, entity, firstBlockSpeed, false);
+    }
+
+    public void breakBlockCollection(ItemStack tool, Level level, Collection<BlockPos> blockPosCollection, LivingEntity entity, float firstBlockSpeed, boolean sendServerPackets) {
         for (BlockPos pos : blockPosCollection) {
             if (level.getBlockState(pos).getDestroySpeed(level, pos) <= firstBlockSpeed + 20) {
                 breakBlock(tool, level, pos, entity);
+                if (sendServerPackets) {
+                    PacketHandler.sendToServer(new BlockBreakPacket(pos));
+                }
             }
         }
     }

@@ -3,7 +3,7 @@
 ### Additions
 - Adds new reach ability for all tools
 - Adds new upgrade `save_fuel` to the crystal furnace
-  - Fuel is no longer consumed when you have to items to smelt
+  - Fuel is no longer consumed when you have no items to smelt
 - Adds the Crystal Backpack
   - It starts as a backpack with only 9 slots to store items
   - Can be leveled up by breaking blocks and hitting enemies
@@ -21,6 +21,7 @@
 - Fixes tools not rendering highlight on non-mineable blocks
 - Fixes vein miner missing some ores diagonally
 - Fixes silk touch and fortune not unlocking when you unlocked mine mode on the AIOT
+- Fixes vein mining and vein stripping not working on servers
 
 ### Changes
 - Updates to Forge 1.20.1-47.2.5

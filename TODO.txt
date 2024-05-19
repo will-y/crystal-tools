@@ -34,10 +34,7 @@
 - Limit to infinite nodes (breaking json change so wait until 1.21)
 - Block break event triggers 10 times instead of 9 on 3x3
 - 3x3 is a little weird with ores
-
---------------------------- 1.6.0 ---------------------------
-- Make the scrolling on the skill tree better (seems fine in live?)
-- Server classloading issue (vein mining). Probably need to send packet to break all of the blocks as the player or something?
+- Packet interface
 
 --------------------------- 1.7.0 ---------------------------
 - Auto pickup
