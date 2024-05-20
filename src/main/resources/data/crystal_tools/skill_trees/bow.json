@@ -346,7 +346,7 @@
         "id": 32,
         "name": "Infinite Draw Speed",
         "description": "Increases Bow's Draw Speed. Will max out at 18 points.",
-        "type": "normal",
+        "type": "infinite",
         "requirements": [
           {"node": [31]}
         ],
