@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.event;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.levelable.tool.BowLevelableItem;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -18,9 +18,9 @@ public class FOVEvent {
         float f = event.getFovModifier();
 
         if (player.isUsingItem()) {
-            if (itemStack.is(Registration.CRYSTAL_BOW.get())) {
+            if (itemStack.getItem() instanceof BowLevelableItem item) {
                 int i = player.getTicksUsingItem();
-                float f1 = (float)i / 20.0F;
+                float f1 = (float) i / item.getChargeTime(itemStack);
                 if (f1 > 1.0F) {
                     f1 = 1.0F;
                 } else {

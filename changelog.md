@@ -4,6 +4,7 @@
 - Adds new reach ability for all tools
 - Adds new upgrade `save_fuel` to the crystal furnace
   - Fuel is no longer consumed when you have no items to smelt
+- Adds new updates `draw_speed` to the crystal bow
 - Adds the Crystal Backpack
   - It starts as a backpack with only 9 slots to store items
   - Can be leveled up by breaking blocks and hitting enemies

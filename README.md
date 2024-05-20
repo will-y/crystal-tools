@@ -86,6 +86,7 @@ There will be upgrades that are common to most tools, and tools will each get un
 ### Bow
 - Arrow Damage
 - Arrow Speed
+- Draw Speed
 - Flame
 - Infinity
 - Arrow Knockback
@@ -243,7 +244,6 @@ The following config options are available. The default values are in parenthese
 You can change these values in `config/crystal_tools/toml`.
 
 ### General
-
 - `base_experience_cap` (75): Starting EXP requirements for Tools and Armor. Range: 1 - 10000.
 - `max_exp` (1000): The maximum amount of exp that can be required for the next level. Range 1 - 100000.
 - `experience_multiplier` (1.1): Multiplier for max experience to the next level. Range: 1.0 - 100.0.

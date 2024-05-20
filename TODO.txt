@@ -1,5 +1,4 @@
 ------------------ At Some Point ------------------
-- Bow Draw Speed
 - Boots immune to fall damage (LivingFallEvent)
 - Armor cool potion effects?
 - Furnace skill screen doesn't fully refresh when open when point is gained
@@ -35,6 +34,7 @@
 - Block break event triggers 10 times instead of 9 on 3x3
 - 3x3 is a little weird with ores
 - Packet interface
+- Scroll wheel moves skill tree screens
 
 --------------------------- 1.7.0 ---------------------------
 - Auto pickup

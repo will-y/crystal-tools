@@ -32,20 +32,20 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     }
 
     @Override
-    public void releaseUsing(@NotNull ItemStack pStack, @NotNull Level pLevel, @NotNull LivingEntity pEntityLiving, int pTimeLeft) {
-        if (pEntityLiving instanceof Player player) {
+    public void releaseUsing(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity entity, int timeLeft) {
+        if (entity instanceof Player player) {
             boolean flag = player.getAbilities().instabuild;
 
             ItemStack itemstack;
 
-            if (NBTUtils.getFloatOrAddKey(pStack, "infinity") > 0) {
+            if (NBTUtils.getFloatOrAddKey(stack, "infinity") > 0) {
                 itemstack = new ItemStack(Items.ARROW);
             } else {
-                itemstack = getProjectile(pStack, player);
+                itemstack = getProjectile(stack, player);
             }
 
-            int i = this.getUseDuration(pStack) - pTimeLeft;
-            i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(pStack, pLevel, player, i, !itemstack.isEmpty() || flag);
+            int i = this.getUseDuration(stack) - timeLeft;
+            i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, level, player, i, !itemstack.isEmpty() || flag);
             if (i < 0) return;
 
             if (!itemstack.isEmpty() || flag) {
@@ -53,42 +53,42 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
                     itemstack = new ItemStack(Items.ARROW);
                 }
 
-                float f = getPowerForTime(i);
-                if (!((double)f < 0.1D)) {
-                    boolean flag1 = player.getAbilities().instabuild || (itemstack.getItem() instanceof ArrowItem && ((ArrowItem)itemstack.getItem()).isInfinite(itemstack, pStack, player));
-                    if (!pLevel.isClientSide) {
+                float f = getPower(i, stack);
+                if (((double)f >= 0.1D)) {
+                    boolean flag1 = player.getAbilities().instabuild || (itemstack.getItem() instanceof ArrowItem && ((ArrowItem)itemstack.getItem()).isInfinite(itemstack, stack, player));
+                    if (!level.isClientSide) {
                         ArrowItem arrowitem = (ArrowItem)(itemstack.getItem() instanceof ArrowItem ? itemstack.getItem() : Items.ARROW);
-                        AbstractArrow abstractarrow = arrowitem.createArrow(pLevel, itemstack, player);
+                        AbstractArrow abstractarrow = arrowitem.createArrow(level, itemstack, player);
                         abstractarrow = customArrow(abstractarrow);
                         //TODO: TOO Random
-                        abstractarrow.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, f * 3.0F + NBTUtils.getFloatOrAddKey(pStack, "arrow_speed_bonus") / 4.0F, 0.0F);
+                        abstractarrow.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, f * 3.0F + NBTUtils.getFloatOrAddKey(stack, "arrow_speed_bonus") / 4.0F, 0.0F);
                         if (f == 1.0F) {
                             abstractarrow.setCritArrow(true);
                         }
 
-                        float j = NBTUtils.getFloatOrAddKey(pStack, "arrow_damage");
+                        float j = NBTUtils.getFloatOrAddKey(stack, "arrow_damage");
                         if (j > 0) {
                             abstractarrow.setBaseDamage(abstractarrow.getBaseDamage() + (double)j + 0.5D);
                         }
 
-                        int k = (int) NBTUtils.getFloatOrAddKey(pStack, "arrow_knockback");
+                        int k = (int) NBTUtils.getFloatOrAddKey(stack, "arrow_knockback");
                         if (k > 0) {
                             abstractarrow.setKnockback(k);
                         }
 
-                        if (NBTUtils.getFloatOrAddKey(pStack, "flame") > 0) {
+                        if (NBTUtils.getFloatOrAddKey(stack, "flame") > 0) {
                             abstractarrow.setSecondsOnFire(100);
                         }
 
-                        pStack.hurtAndBreak(1, player, (p_40665_) -> p_40665_.broadcastBreakEvent(player.getUsedItemHand()));
-                        if (flag1 || player.getAbilities().instabuild && (itemstack.is(Items.SPECTRAL_ARROW) || itemstack.is(Items.TIPPED_ARROW)) || NBTUtils.getFloatOrAddKey(pStack, "infinity") > 0) {
+                        stack.hurtAndBreak(1, player, (p_40665_) -> p_40665_.broadcastBreakEvent(player.getUsedItemHand()));
+                        if (flag1 || player.getAbilities().instabuild && (itemstack.is(Items.SPECTRAL_ARROW) || itemstack.is(Items.TIPPED_ARROW)) || NBTUtils.getFloatOrAddKey(stack, "infinity") > 0) {
                             abstractarrow.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                         }
 
-                        pLevel.addFreshEntity(abstractarrow);
+                        level.addFreshEntity(abstractarrow);
                     }
 
-                    pLevel.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (pLevel.getRandom().nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+                    level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + f * 0.5F);
                     if (!flag1 && !player.getAbilities().instabuild) {
                         itemstack.shrink(1);
                         if (itemstack.isEmpty()) {
@@ -120,14 +120,6 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
             pPlayer.startUsingItem(pHand);
             return InteractionResultHolder.consume(itemstack);
         }
-    }
-
-    // TODO: Change this by level
-    // Doesn't work, try something else later (works for apple for some reason)
-    @Override
-    public int getUseDuration(@NotNull ItemStack stack) {
-//        return Math.max(72000 - (int) (5000 * NBTUtils.getFloatOrAddKey(stack, "draw_speed")), 20000);
-        return 72000;
     }
 
     @Override
@@ -231,5 +223,19 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     @Override
     public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
         return false;
+    }
+
+    public float getChargeTime(ItemStack stack) {
+        return Math.max(1F, 20F - NBTUtils.getFloatOrAddKey(stack, "draw_speed"));
+    }
+
+    private float getPower(int charge, ItemStack stack) {
+        float f = (float) charge / getChargeTime(stack);
+        f = (f * f + f * 2.0F) / 3.0F;
+        if (f > 1.0F) {
+            f = 1.0F;
+        }
+
+        return f;
     }
 }

@@ -27,6 +27,15 @@
         "requirements":[],
         "key": "durability_bonus",
         "value": 200
+      },
+      {
+        "id": 27,
+        "name": "Draw Speed I",
+        "description": "Increases Bow's Draw Speed",
+        "type": "normal",
+        "requirements":[],
+        "key": "draw_speed",
+        "value": 2
       }
     ],
     [
@@ -62,6 +71,17 @@
         ],
         "key": "durability_bonus",
         "value": 200
+      },
+      {
+        "id": 28,
+        "name": "Draw Speed II",
+        "description": "Increases Bow's Draw Speed",
+        "type": "normal",
+        "requirements": [
+          {"node": [27]}
+        ],
+        "key": "draw_speed",
+        "value": 2
       }
     ],
     [
@@ -71,7 +91,7 @@
         "description": "Adds Punch I to the bow",
         "type": "normal",
         "requirements": [
-          {"or_node": [3, 4, 5]}
+          {"or_node": [3, 4, 5, 28]}
         ],
         "key": "arrow_knockback",
         "value": 1
@@ -82,7 +102,7 @@
         "description": "Gives the bow flame",
         "type": "normal",
         "requirements": [
-          {"or_node": [3, 4, 5]}
+          {"or_node": [3, 4, 5, 28]}
         ],
         "key": "flame",
         "value": 1
@@ -124,6 +144,18 @@
         ],
         "key": "durability_bonus",
         "value": 200
+      },
+      {
+        "id": 29,
+        "name": "Draw Speed III",
+        "description": "Increases Bow's Draw Speed",
+        "type": "normal",
+        "requirements": [
+          {"node": [28]},
+          {"or_node":  [6, 8]}
+        ],
+        "key": "draw_speed",
+        "value": 2
       }
     ],
     [
@@ -133,7 +165,7 @@
         "description": "Adds Punch II to the bow",
         "type": "normal",
         "requirements": [
-          {"or_node": [9, 10, 11]},
+          {"or_node": [9, 10, 11, 29]},
           {"node": [6]}
         ],
         "key": "arrow_knockback",
@@ -145,7 +177,7 @@
         "description": "Gives the bow infinity. (Doesn't require 1 arrow in your inventory)",
         "type": "normal",
         "requirements": [
-          {"or_node": [9, 10, 11]}
+          {"or_node": [9, 10, 11, 29]}
         ],
         "key": "infinity",
         "value": 1
@@ -154,7 +186,7 @@
     [
       {
         "id": 15,
-        "name": "Arrow Damage III",
+        "name": "Arrow Damage IV",
         "description": "Increased the Damage Done (equal to power VI)",
         "type": "normal",
         "requirements": [
@@ -166,7 +198,7 @@
       },
       {
         "id": 16,
-        "name": "Arrow Speed III",
+        "name": "Arrow Speed IV",
         "description": "Increases the speed of fired arrows",
         "type": "normal",
         "requirements": [
@@ -178,7 +210,7 @@
       },
       {
         "id": 17,
-        "name": "Durability III",
+        "name": "Durability IV",
         "description": "Increases Bow's Durability",
         "type": "normal",
         "requirements":[
@@ -187,6 +219,18 @@
         ],
         "key": "durability_bonus",
         "value": 200
+      },
+      {
+        "id": 30,
+        "name": "Draw Speed IV",
+        "description": "Increases Bow's Draw Speed",
+        "type": "normal",
+        "requirements": [
+          {"node": [29]},
+          {"or_node":  [12, 14]}
+        ],
+        "key": "draw_speed",
+        "value": 2
       }
     ],
     [
@@ -196,7 +240,7 @@
         "description": "Adds Punch III to the bow",
         "type": "normal",
         "requirements": [
-          {"or_node": [15, 16, 17]},
+          {"or_node": [15, 16, 17, 30]},
           {"node": [12]}
         ],
         "key": "arrow_knockback",
@@ -208,7 +252,7 @@
         "description": "Automatically Repairs Your Tool Over Time!",
         "type": "infinite",
         "requirements": [
-          {"or_node": [15, 16, 17]}
+          {"or_node": [15, 16, 17, 30]}
         ],
         "key": "auto_repair",
         "value": 1
@@ -217,7 +261,7 @@
     [
       {
         "id": 21,
-        "name": "Arrow Damage IV",
+        "name": "Arrow Damage V",
         "description": "Increased the Damage Done (equal to power VIII)",
         "type": "normal",
         "requirements": [
@@ -229,7 +273,7 @@
       },
       {
         "id": 22,
-        "name": "Arrow Speed IV",
+        "name": "Arrow Speed V",
         "description": "Increases the speed of fired arrows",
         "type": "normal",
         "requirements": [
@@ -241,7 +285,7 @@
       },
       {
         "id": 23,
-        "name": "Durability IV",
+        "name": "Durability V",
         "description": "Increases Bow's Durability",
         "type": "normal",
         "requirements":[
@@ -250,6 +294,18 @@
         ],
         "key": "durability_bonus",
         "value": 200
+      },
+      {
+        "id": 31,
+        "name": "Draw Speed V",
+        "description": "Increases Bow's Draw Speed",
+        "type": "normal",
+        "requirements": [
+          {"node": [30]},
+          {"or_node":  [18, 20]}
+        ],
+        "key": "draw_speed",
+        "value": 2
       }
     ],
     [
@@ -285,6 +341,17 @@
         ],
         "key": "durability_bonus",
         "value": 50
+      },
+      {
+        "id": 32,
+        "name": "Infinite Draw Speed",
+        "description": "Increases Bow's Draw Speed. Will max out at 18 points.",
+        "type": "normal",
+        "requirements": [
+          {"node": [31]}
+        ],
+        "key": "draw_speed",
+        "value": 0.5
       }
     ]
   ]
