@@ -4,8 +4,8 @@
 - Adds new reach ability for all tools
 - Adds new upgrade `save_fuel` to the crystal furnace
   - Fuel is no longer consumed when you have no items to smelt
-- Adds new updates `draw_speed` to the crystal bow
-- Adds new update `no_fall_damage` to the crystal boots. Will negate all fall damage
+- Adds new upgrade `draw_speed` to the crystal bow
+- Adds new upgrade `no_fall_damage` to the crystal boots. Will negate all fall damage
 - Adds config option `REACH_INCREASE`: The amount of reach you get for each level (in blocks)
 - Adds config option `ENCHANT_TOOLS`: If true, tools will be enchantable. This could cause weird interactions and issues
 - Adds the Crystal Backpack
