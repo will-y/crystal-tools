@@ -17,6 +17,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeHooks;
 import org.jetbrains.annotations.NotNull;
@@ -217,12 +219,18 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
 
     @Override
     public boolean isEnchantable(@NotNull ItemStack stack) {
-        return false;
+        return CrystalToolsConfig.ENCHANT_TOOLS.get();
     }
 
     @Override
     public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
-        return false;
+        return CrystalToolsConfig.ENCHANT_TOOLS.get();
+    }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+        return CrystalToolsConfig.ENCHANT_TOOLS.get() &&
+                (super.canApplyAtEnchantingTable(stack, enchantment) || enchantment.category.equals(EnchantmentCategory.BOW));
     }
 
     public float getChargeTime(ItemStack stack) {

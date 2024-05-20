@@ -38,6 +38,7 @@ public class CrystalToolsConfig {
     public static ForgeConfigSpec.BooleanValue REQUIRE_CRYSTAL_FOR_RESET;
     public static ForgeConfigSpec.BooleanValue DISABLE_BLOCK_TARGET_RENDERING;
     public static ForgeConfigSpec.DoubleValue REACH_INCREASE;
+    public static ForgeConfigSpec.BooleanValue ENCHANT_TOOLS;
 
     // Disable Tools
     public static ForgeConfigSpec.BooleanValue DISABLE_PICKAXE;
@@ -143,6 +144,8 @@ public class CrystalToolsConfig {
 
         REACH_INCREASE = builder.comment("Reach distance increase for the Reach upgrade")
                 .defineInRange("reach_increase", 0.5, 0.01, 20);
+        ENCHANT_TOOLS = builder.comment("If true, Crystal Tools will be enchantable. Note: There could be some weird interactions / it might break some things")
+                .define("enchant_tools", false);
 
         // Disable Tools
         DISABLE_PICKAXE = builder.comment("Disables Crystal Pickaxe").define("disable_pickaxe", false);

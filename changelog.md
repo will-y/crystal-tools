@@ -5,6 +5,8 @@
 - Adds new upgrade `save_fuel` to the crystal furnace
   - Fuel is no longer consumed when you have no items to smelt
 - Adds new updates `draw_speed` to the crystal bow
+- Adds config option `REACH_INCREASE`: The amount of reach you get for each level (in blocks)
+- Adds config option `ENCHANT_TOOLS`: If true, tools will be enchantable. This could cause weird interactions and issues
 - Adds the Crystal Backpack
   - It starts as a backpack with only 9 slots to store items
   - Can be leveled up by breaking blocks and hitting enemies
@@ -15,7 +17,7 @@
     - Add the option to sort the backpack's contents
     - Add the option to store all items in the backpack into an inventory block/
 - Adds config option `BACKPACK_SORT_TYPE`: Sort method that the backpack uses. Can be one of: `QUANTITY`, `NAME`, `MOD`, or `ID`
-- Adds config option `BACKPACK_BASE_EXPERIENCE_CAP`: Starting EXP Value for the Backpack/
+- Adds config option `BACKPACK_BASE_EXPERIENCE_CAP`: Starting EXP Value for the Backpack
   - Backpacks are kind of op, so by default they take a little more xp to level up
 
 ### Fixes

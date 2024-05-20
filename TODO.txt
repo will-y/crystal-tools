@@ -35,6 +35,7 @@
 - 3x3 is a little weird with ores
 - Packet interface
 - Scroll wheel moves skill tree screens
+- Bow effect arrows
 
 --------------------------- 1.7.0 ---------------------------
 - Auto pickup

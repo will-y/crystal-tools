@@ -155,11 +155,11 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
 
     @Override
     public boolean isEnchantable(@NotNull ItemStack stack) {
-        return false;
+        return CrystalToolsConfig.ENCHANT_TOOLS.get();
     }
 
     @Override
     public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
-        return false;
+        return CrystalToolsConfig.ENCHANT_TOOLS.get();
     }
 }

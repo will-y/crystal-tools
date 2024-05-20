@@ -17,6 +17,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
@@ -126,5 +128,12 @@ public class AIOLevelableTool extends DiggerLevelableTool {
     @Override
     public boolean canVeinMin(ItemStack stack, BlockState blockState) {
         return blockState.is(Tags.Blocks.ORES) || blockState.is(BlockTags.LOGS) || (blockState.is(BlockTags.LEAVES));
+    }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+        return CrystalToolsConfig.ENCHANT_TOOLS.get() &&
+                (super.canApplyAtEnchantingTable(stack, enchantment) || enchantment.category.equals(EnchantmentCategory.WEAPON) ||
+                        enchantment.category.equals(EnchantmentCategory.DIGGER));
     }
 }
