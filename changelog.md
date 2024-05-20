@@ -19,7 +19,7 @@
     - Add the option to store all items in the backpack into an inventory block/
 - Adds config option `BACKPACK_SORT_TYPE`: Sort method that the backpack uses. Can be one of: `QUANTITY`, `NAME`, `MOD`, or `ID`
 - Adds config option `BACKPACK_BASE_EXPERIENCE_CAP`: Starting EXP Value for the Backpack
-  - Backpacks are kind of op, so by default they take a little more xp to level up
+  - Backpacks are kind of op and don't require as many levels total, so by default they take a little more xp to level up
 
 ### Fixes
 - Fixes tools not rendering highlight on non-mineable blocks
