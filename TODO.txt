@@ -1,5 +1,4 @@
 ------------------ At Some Point ------------------
-- Boots immune to fall damage (LivingFallEvent)
 - Armor cool potion effects?
 - Furnace skill screen doesn't fully refresh when open when point is gained
 - Crystal Arrow

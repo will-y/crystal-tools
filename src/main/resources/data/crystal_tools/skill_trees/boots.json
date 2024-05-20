@@ -314,6 +314,19 @@
         "key": "frost_walker_bonus",
         "value": 2
       }
+    ],
+    [
+      {
+        "id": 27,
+        "name": "No Fall Damage",
+        "description": "Negates all fall damage.",
+        "type": "normal",
+        "requirements": [
+          {"node": [19, 20, 21, 22, 23, 24, 25, 26]}
+        ],
+        "key": "no_fall_damage",
+        "value": 1
+      }
     ]
   ]
 }

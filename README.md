@@ -116,6 +116,7 @@ There will be upgrades that are common to most tools, and tools will each get un
 - Depth Strider
 - Soul Speed
 - Frost Walker
+- Negate Fall Damage
 
 ### Elytra
 - Durability + Unbreaking
