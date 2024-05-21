@@ -37,9 +37,6 @@
 
 --------------------------- 1.6.1 ---------------------------
 - Button in upgrade screen to convert exp to tool levels (5 levels?)
-- Try to upgrade curios again
-- Fix dependencies in mod.toml
-- Button to open backpack from curios slots
 
 --------------------------- 1.7.0 ---------------------------
 - Auto pickup

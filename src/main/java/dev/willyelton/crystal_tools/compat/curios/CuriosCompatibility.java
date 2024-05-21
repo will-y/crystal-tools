@@ -10,13 +10,12 @@ import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class CuriosCompatibility {
     public static List<ItemStack> getCrystalBackpacksInCurios(Player player) {
         if (!ModList.get().isLoaded("curios")) {
-            return Collections.emptyList();
+            return new ArrayList<>();
         }
 
         List<ItemStack> toReturn = new ArrayList<>();
