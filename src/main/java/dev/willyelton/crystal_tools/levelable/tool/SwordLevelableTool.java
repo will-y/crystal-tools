@@ -78,13 +78,15 @@ public class SwordLevelableTool extends LevelableTool {
                 target.setSecondsOnFire(5);
             }
 
-            int heal = (int) NBTUtils.getFloatOrAddKey(tool, "lifesteal");
+            if (ToolUtils.isValidEntity(target)) {
+                int heal = (int) NBTUtils.getFloatOrAddKey(tool, "lifesteal");
 
-            if (heal > 0) {
-                attacker.heal(heal);
+                if (heal > 0) {
+                    attacker.heal(heal);
+                }
+
+                addExp(tool, target.level(), attacker.getOnPos(), attacker, (int) (getAttackDamage(tool) * CrystalToolsConfig.SWORD_EXPERIENCE_BOOST.get()));
             }
-
-            addExp(tool, target.level(), attacker.getOnPos(), attacker, (int) (getAttackDamage(tool) * CrystalToolsConfig.SWORD_EXPERIENCE_BOOST.get()));
         }
 
         return true;

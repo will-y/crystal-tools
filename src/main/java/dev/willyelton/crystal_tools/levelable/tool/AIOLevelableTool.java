@@ -50,13 +50,15 @@ public class AIOLevelableTool extends DiggerLevelableTool {
                 target.setSecondsOnFire(5);
             }
 
-            int heal = (int) NBTUtils.getFloatOrAddKey(tool, "lifesteal");
+            if (ToolUtils.isValidEntity(target)) {
+                int heal = (int) NBTUtils.getFloatOrAddKey(tool, "lifesteal");
 
-            if (heal > 0) {
-                attacker.heal(heal);
+                if (heal > 0) {
+                    attacker.heal(heal);
+                }
+
+                addExp(tool, target.level(), attacker.getOnPos(), attacker, (int) (SwordLevelableTool.getAttackDamage(tool)));
             }
-
-            addExp(tool, target.level(), attacker.getOnPos(), attacker, (int) (SwordLevelableTool.getAttackDamage(tool)));
         }
 
         return true;

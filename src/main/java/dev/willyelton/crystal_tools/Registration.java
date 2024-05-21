@@ -1,20 +1,22 @@
 package dev.willyelton.crystal_tools;
 
-import dev.willyelton.crystal_tools.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.inventory.container.CrystalBackpackContainerMenu;
+import dev.willyelton.crystal_tools.inventory.container.CrystalFurnaceContainerMenu;
 import dev.willyelton.crystal_tools.levelable.CrystalBackpack;
 import dev.willyelton.crystal_tools.levelable.armor.CrystalElytra;
 import dev.willyelton.crystal_tools.levelable.armor.LevelableArmor;
 import dev.willyelton.crystal_tools.levelable.block.CrystalFurnaceBlock;
 import dev.willyelton.crystal_tools.levelable.block.CrystalTorch;
 import dev.willyelton.crystal_tools.levelable.block.CrystalWallTorch;
-import dev.willyelton.crystal_tools.inventory.container.CrystalFurnaceContainerMenu;
 import dev.willyelton.crystal_tools.levelable.block.entity.CrystalFurnaceBlockEntity;
 import dev.willyelton.crystal_tools.levelable.tool.*;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.*;
@@ -84,6 +86,9 @@ public class Registration {
             () -> IForgeMenuType.create((windowId, inv, data) -> new CrystalFurnaceContainerMenu(windowId, inv.player.level(), data.readBlockPos(), inv, new SimpleContainerData(CrystalFurnaceBlockEntity.DATA_SIZE))));
     public static final RegistryObject<MenuType<CrystalBackpackContainerMenu>> CRYSTAL_BACKPACK_CONTAINER = CONTAINERS.register("crystal_backpack",
             () -> IForgeMenuType.create(CrystalBackpackContainerMenu::new));
+
+    // Tags
+    public static final TagKey<EntityType<?>> ENTITY_BLACKLIST = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(CrystalTools.MODID, "entity_blacklist"));
 
     // Creative Tabs
     public static final RegistryObject<CreativeModeTab> TAB = TABS.register("crystal_tools_tab", () ->

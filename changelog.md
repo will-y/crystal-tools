@@ -1,4 +1,11 @@
 # Crystal Tools Change Log
+## 1.6.1
+### Additions
+- Adds a new tag `entity_blacklist`. Entities with this tag will not level up swords, bows, and the AIOT when attacked.
+
+### Fixes
+- Fixes tools being leveled up by attacking armor stands
+
 ## 1.6.0
 ### Additions
 - Adds new reach ability for all tools

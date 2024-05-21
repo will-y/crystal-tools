@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.utils;
 
+import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
 import dev.willyelton.crystal_tools.levelable.LevelableItem;
@@ -12,6 +13,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -167,5 +169,9 @@ public class ToolUtils {
         } else {
             return null;
         }
+    }
+
+    public static boolean isValidEntity(LivingEntity entity) {
+        return !entity.getType().is(Registration.ENTITY_BLACKLIST);
     }
 }

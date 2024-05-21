@@ -237,7 +237,7 @@ There will be upgrades that are common to most tools, and tools will each get un
 #### Crystal
 ![Crystal Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/crystal.png)
 
-### Crystal Backpack
+#### Crystal Backpack
 ![Crystal Backpack](https://github.com/will-y/crystal-tools/raw/main/img/crafting/crystal_backpack.png)
 
 ## Config
@@ -295,3 +295,6 @@ You can change these values in `config/crystal_tools/toml`.
 ### Backpack
 - `backpack_sort_type` (QUANTITY): Sort method that the backpack uses. Can be one of: `QUANTITY`, `NAME`, `MOD`, or `ID`
 - `backpack_base_experience_cap` (150): Starting EXP requirements for the Backpack. Range: 1 - 10000.
+
+## Tags
+- `entity_types/entity_blacklist`: Entities that have this tag will not level up the sword, bow, or AIOT when attacked. Only entity to have it by default is the armor stand.

@@ -22,6 +22,10 @@ public class DataGeneration {
 
         CrystalToolsBlockTags blockTags = new CrystalToolsBlockTags(packOutput, lookupProvider, event.getExistingFileHelper());
         generator.addProvider(event.includeServer(), blockTags);
+
+        CrystalToolsEntityTypeTags entityTypeTags = new CrystalToolsEntityTypeTags(packOutput, lookupProvider, event.getExistingFileHelper());
+        generator.addProvider(event.includeServer(), entityTypeTags);
+
         generator.addProvider(event.includeServer(), new LootTableProvider(packOutput, Collections.emptySet(),
                 List.of(new LootTableProvider.SubProviderEntry(CrystalToolsLootTables::new, LootContextParamSets.BLOCK))));
         generator.addProvider(event.includeServer(), new CrystalToolsRecipes(packOutput));
