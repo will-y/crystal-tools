@@ -23,6 +23,10 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run')
+            // Curios Things
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
 
@@ -38,6 +42,10 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
+
+            // Curios Things
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
 
             property 'forge.logging.markers', 'REGISTRIES'
 
@@ -94,6 +102,10 @@ repositories {
     maven { // JEI
         url "https://maven.blamejared.com"
     }
+    maven { // Curios
+        name = "Illusive Soulworks maven"
+        url = "https://maven.theillusivec4.top/"
+    }
 }
 
 dependencies {
@@ -101,6 +113,10 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+    // Compile against only the API artifact
+    compileOnly(fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}:api"))
+    // Use the full Curios API jar at runtime
+    runtimeOnly(fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}"))
 }
 
 def resourceTargets = ['META-INF/mods.toml', 'pack.mcmeta']

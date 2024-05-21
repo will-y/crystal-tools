@@ -3,11 +3,11 @@ package dev.willyelton.crystal_tools.levelable;
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.capability.CrystalBackpackCapabilityProvider;
+import dev.willyelton.crystal_tools.compat.curios.CuriosCompatibility;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.inventory.container.CrystalBackpackContainerMenu;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
-import dev.willyelton.crystal_tools.utils.StringUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -30,7 +30,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
@@ -41,7 +40,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 public class CrystalBackpack extends Item implements LevelableItem {
     public CrystalBackpack() {
@@ -150,7 +148,10 @@ public class CrystalBackpack extends Item implements LevelableItem {
         }
 
     public static List<ItemStack> findBackpackStacks(Player player) {
-        return player.getInventory().items.stream().filter(stack -> stack.is(Registration.CRYSTAL_BACKPACK.get())).toList();
+        List<ItemStack> backpackStacks = CuriosCompatibility.getCrystalBackpacksInCurios(player);
+        backpackStacks.addAll(player.getInventory().items.stream().filter(stack -> stack.is(Registration.CRYSTAL_BACKPACK.get())).toList());
+
+        return backpackStacks;
     }
 
     public static CrystalBackpackInventory getInventory(ItemStack stack) {
@@ -207,8 +208,7 @@ public class CrystalBackpack extends Item implements LevelableItem {
      * @param exp Amount to add to each backpack
      */
     public static void addXpToBackpacks(Player player, int exp) {
-        player.getInventory().items.stream()
-                .filter(stack -> stack.is(Registration.CRYSTAL_BACKPACK.get()))
+        findBackpackStacks(player)
                 .forEach(stack -> {
                     LevelableItem item = (LevelableItem) stack.getItem();
                     item.addExp(stack, player.level(), player.blockPosition(), player, exp);
