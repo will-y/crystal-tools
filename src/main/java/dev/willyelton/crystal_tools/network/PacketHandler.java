@@ -87,6 +87,12 @@ public class PacketHandler {
                 .consumerMainThread(BlockStripPacket::handle)
                 .add();
 
+        HANDLER.messageBuilder(OpenBackpackPacket.class, index++)
+                .decoder(friendlyByteBuf -> new OpenBackpackPacket())
+                .encoder((openBackpackPacket, friendlyByteBuf) -> {})
+                .consumerMainThread(OpenBackpackPacket::handle)
+                .add();
+
         // Server to Client
         HANDLER.messageBuilder(SkillCacheUpdatePacket.class, index++, NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(SkillCacheUpdatePacket::new)

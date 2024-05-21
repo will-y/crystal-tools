@@ -4,8 +4,9 @@ import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.gui.ModGUIs;
 import dev.willyelton.crystal_tools.gui.UpgradeScreen;
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
-import dev.willyelton.crystal_tools.network.packet.ModeSwitchPacket;
 import dev.willyelton.crystal_tools.network.PacketHandler;
+import dev.willyelton.crystal_tools.network.packet.ModeSwitchPacket;
+import dev.willyelton.crystal_tools.network.packet.OpenBackpackPacket;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -33,6 +34,10 @@ public class KeyPressEvent {
         if (KeyBindings.modeSwitch.consumeClick()) {
             handleModeSwitch();
         }
+
+        if (KeyBindings.openBackpack.consumeClick()) {
+            handleOpenBackpack();
+        }
     }
 
     public static void handleUpgradeMenu(ItemStack levelableTool, Player player) {
@@ -46,5 +51,9 @@ public class KeyPressEvent {
      */
     public static void handleModeSwitch() {
         PacketHandler.sendToServer(new ModeSwitchPacket(Screen.hasShiftDown(), Screen.hasControlDown(), Screen.hasAltDown()));
+    }
+
+    public static void handleOpenBackpack() {
+        PacketHandler.sendToServer(new OpenBackpackPacket());
     }
 }

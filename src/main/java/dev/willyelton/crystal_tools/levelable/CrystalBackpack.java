@@ -51,17 +51,21 @@ public class CrystalBackpack extends Item implements LevelableItem {
         ItemStack stack = player.getItemInHand(usedHand);
 
         if (player instanceof ServerPlayer serverPlayer) {
-            NetworkHooks.openScreen(serverPlayer,
-                    new CrystalBackpackMenuSupplier(this, stack),
-                    friendlyByteBuf -> {
-                        friendlyByteBuf.writeInt((int) NBTUtils.getFloatOrAddKey(stack, "capacity", 1));
-                        friendlyByteBuf.writeInt((int) NBTUtils.getFloatOrAddKey(stack, "filter_capacity", 0));
-                        friendlyByteBuf.writeBoolean(NBTUtils.getBoolean(stack, "whitelist", true));
-                        friendlyByteBuf.writeBoolean(NBTUtils.getBoolean(stack, "sort_enabled", false));
-                    });
+            openBackpack(serverPlayer, stack);
         }
 
         return InteractionResultHolder.success(stack);
+    }
+
+    public void openBackpack(ServerPlayer serverPlayer, ItemStack backpackStack) {
+        NetworkHooks.openScreen(serverPlayer,
+                new CrystalBackpackMenuSupplier(this, backpackStack),
+                friendlyByteBuf -> {
+                    friendlyByteBuf.writeInt((int) NBTUtils.getFloatOrAddKey(backpackStack, "capacity", 1));
+                    friendlyByteBuf.writeInt((int) NBTUtils.getFloatOrAddKey(backpackStack, "filter_capacity", 0));
+                    friendlyByteBuf.writeBoolean(NBTUtils.getBoolean(backpackStack, "whitelist", true));
+                    friendlyByteBuf.writeBoolean(NBTUtils.getBoolean(backpackStack, "sort_enabled", false));
+                });
     }
 
     @Override

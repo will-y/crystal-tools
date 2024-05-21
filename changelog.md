@@ -2,6 +2,8 @@
 ## 1.6.1
 ### Additions
 - Adds a new tag `entity_blacklist`. Entities with this tag will not level up swords, bows, and the AIOT when attacked.
+- Adds the ability to equip backpacks in Curios slots
+- Adds the ability to press the `open_backpack` key (b by default) to open a backpack anywhere inside your inventory or curios slots
 
 ### Fixes
 - Fixes tools being leveled up by attacking armor stands
