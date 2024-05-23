@@ -93,6 +93,12 @@ public class PacketHandler {
                 .consumerMainThread(OpenBackpackPacket::handle)
                 .add();
 
+        HANDLER.messageBuilder(RemoveXpPacket.class, index++)
+                .decoder(RemoveXpPacket::new)
+                .encoder(RemoveXpPacket::encode)
+                .consumerMainThread(RemoveXpPacket::handle)
+                .add();
+
         // Server to Client
         HANDLER.messageBuilder(SkillCacheUpdatePacket.class, index++, NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(SkillCacheUpdatePacket::new)

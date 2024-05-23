@@ -1,9 +1,12 @@
 # Crystal Tools Change Log
 ## 1.6.1
 ### Additions
-- Adds a new tag `entity_blacklist`. Entities with this tag will not level up swords, bows, and the AIOT when attacked.
+- Adds a new tag `entity_blacklist`. Entities with this tag will not level up swords, bows, and the AIOT when attacked
 - Adds the ability to equip backpacks in Curios slots
 - Adds the ability to press the `open_backpack` key (b by default) to open a backpack anywhere inside your inventory or curios slots
+- Adds a button to convert experience into skill points
+- Adds config option `EXPERIENCE_LEVELING_SCALING`: Number of levels in a tool before the experience level costs increases. Set to 0 to disable scaling
+- Adds config option `EXPERIENCE_PER_SKILL_LEVEL`: Determines the number of experience levels you need to gain a level on a tool. Set to 0 to disable
 
 ### Fixes
 - Fixes tools being leveled up by attacking armor stands

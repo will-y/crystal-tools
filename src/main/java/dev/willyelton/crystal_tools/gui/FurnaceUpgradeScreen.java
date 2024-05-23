@@ -23,11 +23,6 @@ public class FurnaceUpgradeScreen extends BaseUpgradeScreen {
         this.screen = toOpen;
     }
 
-    @Override
-    protected void initComponents() {
-
-    }
-
     protected SkillData getSkillData() {
         int[] points = this.container.getPoints();
         String blockType = this.container.getBlockType();
@@ -52,11 +47,10 @@ public class FurnaceUpgradeScreen extends BaseUpgradeScreen {
         int skillPoints = this.getSkillPoints();
 
         if (skillPoints > 0) {
-            this.container.addSkillPoints(-1);
+            changeSkillPoints(-1);
             // Idk if this is a problem that this is int because it is just to sync client
             this.container.addToPoints(node.getId(), (int) node.getValue());
 
-            PacketHandler.sendToServer(new BlockAttributePacket("skill_points", -1, -1));
             PacketHandler.sendToServer(new BlockAttributePacket(node.getKey(), node.getValue(), node.getId()));
             node.addPoint();
             if (node.isComplete()) {
@@ -65,6 +59,12 @@ public class FurnaceUpgradeScreen extends BaseUpgradeScreen {
         }
 
         super.onSkillButtonPress(node, button);
+    }
+
+    @Override
+    protected void changeSkillPoints(int change) {
+        this.container.addSkillPoints(change);
+        PacketHandler.sendToServer(new BlockAttributePacket("skill_points", change, -1));
     }
 
     @Override

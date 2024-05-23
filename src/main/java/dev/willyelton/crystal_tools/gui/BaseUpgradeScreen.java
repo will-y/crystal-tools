@@ -4,17 +4,20 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.gui.component.SkillButton;
-import dev.willyelton.crystal_tools.levelable.skill.requirement.SkillDataNodeRequirement;
-import dev.willyelton.crystal_tools.levelable.skill.requirement.SkillItemRequirement;
-import dev.willyelton.crystal_tools.network.PacketHandler;
-import dev.willyelton.crystal_tools.network.packet.RemoveItemPacket;
+import dev.willyelton.crystal_tools.gui.component.XpButton;
 import dev.willyelton.crystal_tools.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.levelable.skill.SkillDataNode;
 import dev.willyelton.crystal_tools.levelable.skill.SkillNodeType;
 import dev.willyelton.crystal_tools.levelable.skill.requirement.RequirementType;
+import dev.willyelton.crystal_tools.levelable.skill.requirement.SkillDataNodeRequirement;
 import dev.willyelton.crystal_tools.levelable.skill.requirement.SkillDataRequirement;
+import dev.willyelton.crystal_tools.levelable.skill.requirement.SkillItemRequirement;
+import dev.willyelton.crystal_tools.network.PacketHandler;
+import dev.willyelton.crystal_tools.network.packet.RemoveItemPacket;
+import dev.willyelton.crystal_tools.network.packet.RemoveXpPacket;
 import dev.willyelton.crystal_tools.utils.Colors;
 import dev.willyelton.crystal_tools.utils.InventoryUtils;
+import dev.willyelton.crystal_tools.utils.XpUtils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -50,6 +53,8 @@ public abstract class BaseUpgradeScreen extends Screen {
     private int xOffset = 0;
     private int yOffset = 0;
 
+    private XpButton xpButton;
+
     public BaseUpgradeScreen(Player player, Component title) {
         super(title);
         this.player = player;
@@ -74,7 +79,34 @@ public abstract class BaseUpgradeScreen extends Screen {
     /**
      * Used to init things differently from the default item implementation of the upgrade screen
      */
-    protected abstract void initComponents();
+    protected void initComponents() {
+        if (CrystalToolsConfig.EXPERIENCE_PER_SKILL_LEVEL.get() > 0) {
+            xpButton = addRenderableWidget(new XpButton(5, 35, 30, Y_SIZE, pButton -> {
+                int xpCost = XpUtils.getXPForLevel(getXpLevelCost());
+                if (XpUtils.getPlayerTotalXp(player) >= xpCost) {
+                    player.giveExperiencePoints(-xpCost);
+                    PacketHandler.sendToServer(new RemoveXpPacket(xpCost));
+                    changeSkillPoints(1);
+                    updateButtons();
+                }
+            }, (pButton, guiGraphics, mouseX, mouseY) -> {
+                Component textComponent = Component.literal("Use Experience To Level Up");
+                guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(BaseUpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
+            }, getXpLevelCost()));
+        }
+    }
+
+    protected abstract void changeSkillPoints(int change);
+
+    private int getXpLevelCost() {
+        int xpLevelCost = CrystalToolsConfig.EXPERIENCE_PER_SKILL_LEVEL.get();
+        int levelScaling = CrystalToolsConfig.EXPERIENCE_LEVELING_SCALING.get();
+        if (levelScaling > 0) {
+            xpLevelCost += data.getTotalPoints() / levelScaling;
+        }
+
+        return xpLevelCost;
+    }
 
     @Override
     public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float particleTicks) {
@@ -141,6 +173,8 @@ public abstract class BaseUpgradeScreen extends Screen {
             }
         }
 
+        this.data.addPoint();
+
         this.updateButtons();
     }
 
@@ -157,6 +191,10 @@ public abstract class BaseUpgradeScreen extends Screen {
             if (node.isComplete()) {
                 button.setComplete();
             }
+        }
+
+        if (xpButton != null) {
+            xpButton.update(getXpLevelCost(), player);
         }
     }
 

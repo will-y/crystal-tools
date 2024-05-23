@@ -268,8 +268,10 @@ You can change these values in `config/crystal_tools/toml`.
 - `enable_item_requirements` (true): Set to false to disable certain nodes from requiring items to upgrade.
 - `background_opacity` (1.0): Controls the background opacity of the skill tree screen. Range: 0 - 1.0.
 - `pause_screen` (true): Controls if the skill tree screen pauses the game or not in single-player.
-- `reach_increase` (0.5): The amount of reach you get for each level (in blocks). Range 0.1 - 20.
+- `reach_increase` (0.5): The amount of reach you get for each level (in blocks). Range: 0.1 - 20.
 - `enchant_tools` (false): If true, tools will be enchantable. This could cause weird interactions and issues.
+- `experience_leveling_scaling` (10): Number of levels in a tool before the experience level costs increases. Set to 0 to disable scaling. Range: 0 - 100.
+- `experience_per_skill_level` (10): Determines the number of experience levels you need to gain a level on a tool. Set to 0 to disable. Range: 0 100.
 
 ### Disable Tools
 - `disable_pickaxe` (false): Disables the Crystal Pickaxe

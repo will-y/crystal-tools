@@ -39,6 +39,8 @@ public class CrystalToolsConfig {
     public static ForgeConfigSpec.BooleanValue DISABLE_BLOCK_TARGET_RENDERING;
     public static ForgeConfigSpec.DoubleValue REACH_INCREASE;
     public static ForgeConfigSpec.BooleanValue ENCHANT_TOOLS;
+    public static ForgeConfigSpec.IntValue EXPERIENCE_LEVELING_SCALING;
+    public static ForgeConfigSpec.IntValue EXPERIENCE_PER_SKILL_LEVEL;
 
     // Disable Tools
     public static ForgeConfigSpec.BooleanValue DISABLE_PICKAXE;
@@ -144,8 +146,15 @@ public class CrystalToolsConfig {
 
         REACH_INCREASE = builder.comment("Reach distance increase for the Reach upgrade")
                 .defineInRange("reach_increase", 0.5, 0.01, 20);
+
         ENCHANT_TOOLS = builder.comment("If true, Crystal Tools will be enchantable. Note: There could be some weird interactions / it might break some things")
                 .define("enchant_tools", false);
+
+        EXPERIENCE_LEVELING_SCALING = builder.comment("Number of levels in a tool before the experience level costs increases. Set to 0 to disable scaling")
+                .defineInRange("experience_leveling_scaling", 10, 0, 100);
+
+        EXPERIENCE_PER_SKILL_LEVEL = builder.comment("Determines the number of experience levels you need to gain a level on a tool. Set to 0 to disable")
+                .defineInRange("experience_per_skill_level", 10, 0, 100);
 
         // Disable Tools
         DISABLE_PICKAXE = builder.comment("Disables Crystal Pickaxe").define("disable_pickaxe", false);

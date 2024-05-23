@@ -4,10 +4,7 @@ import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.levelable.skill.SkillDataNode;
-import dev.willyelton.crystal_tools.levelable.skill.SkillTreeRegistry;
-import dev.willyelton.crystal_tools.network.*;
-import dev.willyelton.crystal_tools.levelable.LevelableItem;
-import dev.willyelton.crystal_tools.levelable.skill.SkillData;
+import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.network.packet.RemoveItemPacket;
 import dev.willyelton.crystal_tools.network.packet.ResetSkillsPacket;
 import dev.willyelton.crystal_tools.network.packet.ToolAttributePacket;
@@ -19,7 +16,6 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
@@ -44,6 +40,7 @@ public class UpgradeScreen extends BaseUpgradeScreen {
      */
     @Override
     protected void initComponents() {
+        super.initComponents();
         // add button to spend skill points to heal tool
         healButton = addRenderableWidget(Button.builder(Component.literal("Heal"), (button) -> {
             PacketHandler.sendToServer(new ToolHealPacket());
@@ -96,8 +93,7 @@ public class UpgradeScreen extends BaseUpgradeScreen {
         int skillPoints = (int) NBTUtils.getFloatOrAddKey(tag, "skill_points");
 
         if (skillPoints > 0) {
-            NBTUtils.addValueToTag(tag, "skill_points", -1);
-            PacketHandler.sendToServer(new ToolAttributePacket("skill_points", -1, -1));
+            changeSkillPoints(-1);
             PacketHandler.sendToServer(new ToolAttributePacket(node.getKey(), node.getValue(), node.getId()));
             node.addPoint();
             if (node.isComplete()) {
@@ -106,5 +102,11 @@ public class UpgradeScreen extends BaseUpgradeScreen {
         }
 
         super.onSkillButtonPress(node, button);
+    }
+
+    @Override
+    protected void changeSkillPoints(int change) {
+        NBTUtils.addValueToTag(tag, "skill_points", change);
+        PacketHandler.sendToServer(new ToolAttributePacket("skill_points", change, -1));
     }
 }

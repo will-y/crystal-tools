@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.gui.component;
 
+import dev.willyelton.crystal_tools.CrystalTools;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -7,7 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 public class FurnaceUpgradeButton extends CrystalToolsButton {
-    public static final ResourceLocation FURNACE_BUTTON_LOCATION = new ResourceLocation("crystal_tools", "textures/gui/furnace_button.png");
+    public static final ResourceLocation FURNACE_BUTTON_LOCATION = new ResourceLocation(CrystalTools.MODID, "textures/gui/furnace_button.png");
     private final boolean hasSkillPoints;
 
     public FurnaceUpgradeButton(int x, int y, int width, int height, Component message, OnPress onPress, SkillButton.OnTooltip onTooltip, boolean hasSkillPoints) {
