@@ -1,11 +1,9 @@
 ------------------ At Some Point ------------------
-- Armor cool potion effects?
 - Furnace skill screen doesn't fully refresh when open when point is gained
 - Crystal Arrow
 - Crystal glass (conn texture)
 - Advancements
 - Crystal Generator
-- Fix dragging on skill tree
 - Configure color of highlight?
 - Breaking animation on multibreaks
 - Magnet
@@ -14,7 +12,6 @@
     - Exp Storage ? (mode switch to turn on and off) v2
     - Transparency on filter slots v2
     - NBT Matching filter v2
-    - Weird UI when more filter than scrollbar
     - Change screen size so you need or don't need a scroll bar breaks things
     - Limit rows, will be easy with the limit to infinite nodes item below
     - Prio for multiple backpacks / pickup order
@@ -23,18 +20,13 @@
     - Inventory space
     - Speed
     - Filters
-- If I'm getting into things like hoppers, chests, backpacks, might want to think about some other way to level things up
 - Make or / not / unless node connections look different somehow
 - Pressing k with no tools will go to equipped items, buttons at the top of the screen to arrow between equipped / held items
 - Auto crafter
 - When I have to do the big refactor, maybe try tags and events instead of needing my own type
 - Limit to infinite nodes (breaking json change so wait until 1.21)
 - Block break event triggers 10 times instead of 9 on 3x3
-- 3x3 is a little weird with ores
 - Packet interface
-- Scroll wheel moves skill tree screens
-- Bow effect arrows
-- Trident
 - Do something better with tooltips
 - Chest
 - Shulker
@@ -45,6 +37,19 @@
 - Quarry
 
 --------------------------- 1.7.0 ---------------------------
-- Auto pickup
+- Make an attacking levelable tool
+- Or just move attribute stuff to base class (tools won't use it if they can't)
+- Trident
+    - Attack Damage
+    - Durability
+    - Throw Speed
+    - Channeling
+    - Riptide
+    - Loyalty
+    - Mode Switch
+    - Fall damage immune while holding? (Maybe just make them do boots)
+- Bow effect arrows
 - Fishing rod
-- Backpack v2
+- Armor cool potion effects? (On Hit Effects)
+- Auto pickup
+- Scroll wheel moves skill tree screens
