@@ -10,6 +10,7 @@
 
 ### Fixes
 - Fixes tools being leveled up by attacking armor stands
+- Fixes a crash if you ate a Crystal Apple with supersaturation installed
 
 ## 1.6.0
 ### Additions

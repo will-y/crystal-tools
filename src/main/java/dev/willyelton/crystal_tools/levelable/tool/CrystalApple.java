@@ -29,8 +29,14 @@ public class CrystalApple extends LevelableTool {
         super(new Item.Properties().fireResistant(), null, "apple", -4, 0, 50);
     }
 
+    @Override
     public FoodProperties getFoodProperties(ItemStack stack, @Nullable LivingEntity entity) {
         return getFoodPropertiesFromNBT(stack);
+    }
+
+    @Override
+    public FoodProperties getFoodProperties() {
+        return new FoodProperties.Builder().build();
     }
 
     private FoodProperties getFoodPropertiesFromNBT(ItemStack stack) {

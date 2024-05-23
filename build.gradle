@@ -106,6 +106,9 @@ repositories {
         name = "Illusive Soulworks maven"
         url = "https://maven.theillusivec4.top/"
     }
+    maven { // Curseforge
+        url "https://cursemaven.com"
+    }
 }
 
 dependencies {
