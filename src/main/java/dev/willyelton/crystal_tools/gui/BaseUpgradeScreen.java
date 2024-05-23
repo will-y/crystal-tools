@@ -81,7 +81,7 @@ public abstract class BaseUpgradeScreen extends Screen {
      */
     protected void initComponents() {
         if (CrystalToolsConfig.EXPERIENCE_PER_SKILL_LEVEL.get() > 0) {
-            xpButton = addRenderableWidget(new XpButton(5, 35, 30, Y_SIZE, pButton -> {
+            xpButton = addRenderableWidget(new XpButton(5, getXpButtonY(), 30, Y_SIZE, pButton -> {
                 int xpCost = XpUtils.getXPForLevel(getXpLevelCost());
                 if (XpUtils.getPlayerTotalXp(player) >= xpCost) {
                     player.giveExperiencePoints(-xpCost);
@@ -95,6 +95,8 @@ public abstract class BaseUpgradeScreen extends Screen {
             }, getXpLevelCost()));
         }
     }
+
+    protected abstract int getXpButtonY();
 
     protected abstract void changeSkillPoints(int change);
 

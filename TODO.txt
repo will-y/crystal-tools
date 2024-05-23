@@ -44,11 +44,6 @@
 - Spawner
 - Quarry
 
---------------------------- 1.6.1 ---------------------------
-- apple bug
-- test xp thing with furnace
-- test scaling configs
-
 --------------------------- 1.7.0 ---------------------------
 - Auto pickup
 - Fishing rod

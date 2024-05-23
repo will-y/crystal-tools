@@ -109,4 +109,9 @@ public class UpgradeScreen extends BaseUpgradeScreen {
         NBTUtils.addValueToTag(tag, "skill_points", change);
         PacketHandler.sendToServer(new ToolAttributePacket("skill_points", change, -1));
     }
+
+    @Override
+    protected int getXpButtonY() {
+        return 35;
+    }
 }

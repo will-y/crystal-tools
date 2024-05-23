@@ -71,4 +71,9 @@ public class FurnaceUpgradeScreen extends BaseUpgradeScreen {
     protected int getSkillPoints() {
         return this.container.getSkillPoints();
     }
+
+    @Override
+    protected int getXpButtonY() {
+        return 15;
+    }
 }
