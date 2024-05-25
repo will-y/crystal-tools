@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools;
 
+import dev.willyelton.crystal_tools.entity.CrystalTridentEntity;
 import dev.willyelton.crystal_tools.inventory.container.CrystalBackpackContainerMenu;
 import dev.willyelton.crystal_tools.inventory.container.CrystalFurnaceContainerMenu;
 import dev.willyelton.crystal_tools.levelable.CrystalBackpack;
@@ -17,6 +18,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.*;
@@ -36,6 +38,8 @@ import net.minecraftforge.registries.RegistryObject;
 public class Registration {
     private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, CrystalTools.MODID);
     private static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, CrystalTools.MODID);
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, CrystalTools.MODID);
+
     private static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, CrystalTools.MODID);
     private static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, CrystalTools.MODID);
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, CrystalTools.MODID);
@@ -55,6 +59,7 @@ public class Registration {
     public static final RegistryObject<Item> CRYSTAL_BOW = ITEMS.register("crystal_bow", BowLevelableItem::new);
     public static final RegistryObject<Item> CRYSTAL_AIOT = ITEMS.register("crystal_aiot", AIOLevelableTool::new);
     public static final RegistryObject<Item> CRYSTAL_ROCKET = ITEMS.register("crystal_rocket", CrystalRocket::new);
+    public static final RegistryObject<Item> CRYSTAL_TRIDENT = ITEMS.register("crystal_trident", CrystalTrident::new);
 
     // Armor
     public static final RegistryObject<Item> CRYSTAL_HELMET = ITEMS.register("crystal_helmet", () -> new LevelableArmor("helmet", ArmorItem.Type.HELMET));
@@ -77,6 +82,13 @@ public class Registration {
     public static final RegistryObject<Item> CRYSTAL_BLOCK_ITEM = ITEMS.register("crystal_block", () -> new BlockItem(CRYSTAL_BLOCK.get(), new Item.Properties()));
     public static final RegistryObject<Item> CRYSTAL_FURNACE_ITEM = ITEMS.register("crystal_furnace", () -> new BlockItem(CRYSTAL_FURNACE.get(), new Item.Properties()));
     public static final RegistryObject<Item> CRYSTAL_TORCH_ITEM = ITEMS.register("crystal_torch", () -> new StandingAndWallBlockItem(CRYSTAL_TORCH.get(), CRYSTAL_WALL_TORCH.get(), new Item.Properties(), Direction.DOWN));
+
+    // Entities
+    public static final RegistryObject<EntityType<CrystalTridentEntity>> CRYSTAL_TRIDENT_ENTITY = ENTITIES.register("crystal_trident", () -> EntityType.Builder.of(CrystalTridentEntity::new, MobCategory.MISC)
+            .sized(0.5F, 0.5F)
+            .clientTrackingRange(4)
+            .updateInterval(20)
+            .build("crystal_tools:crystal_trident"));
 
     // Block Entities
     public static final RegistryObject<BlockEntityType<CrystalFurnaceBlockEntity>> CRYSTAL_FURNACE_BLOCK_ENTITY = BLOCK_ENTITIES.register("crystal_furnace", () -> BlockEntityType.Builder.of(CrystalFurnaceBlockEntity::new, CRYSTAL_FURNACE.get()).build(null));
@@ -126,6 +138,7 @@ public class Registration {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ITEMS.register(modEventBus);
         BLOCKS.register(modEventBus);
+        ENTITIES.register(modEventBus);
         BLOCK_ENTITIES.register(modEventBus);
         CONTAINERS.register(modEventBus);
         TABS.register(modEventBus);

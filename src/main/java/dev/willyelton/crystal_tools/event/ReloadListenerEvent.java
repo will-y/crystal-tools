@@ -9,6 +9,7 @@ import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.network.packet.SkillCacheUpdatePacket;
+import dev.willyelton.crystal_tools.renderer.CrystalTridentBlockEntityWithoutLevelRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -35,6 +36,7 @@ public class ReloadListenerEvent {
     @SubscribeEvent
     public static void handleReloadListener(AddReloadListenerEvent reloadListenerEvent) {
         reloadListenerEvent.addListener(new ReloadListener());
+        reloadListenerEvent.addListener(CrystalTridentBlockEntityWithoutLevelRenderer.INSTANCE);
     }
 
     private static Map<String, SkillData> skillDataMap;

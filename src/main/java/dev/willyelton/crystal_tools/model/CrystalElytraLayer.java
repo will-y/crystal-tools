@@ -10,11 +10,11 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public class CrystalElytraLayer<T extends LivingEntity, M extends EntityModel<T>> extends ElytraLayer {
+public class CrystalElytraLayer<T extends LivingEntity, M extends EntityModel<T>> extends ElytraLayer<T, M> {
     private static final ResourceLocation WINGS_LOCATION = new ResourceLocation("crystal_tools", "textures/entity/crystal_elytra.png");
 
-    public CrystalElytraLayer(RenderLayerParent<net.minecraft.world.entity.Entity, EntityModel<net.minecraft.world.entity.Entity>> pRenderer, EntityModelSet p_174494_) {
-        super(pRenderer, p_174494_);
+    public CrystalElytraLayer(RenderLayerParent<T, M> renderer, EntityModelSet entityModelSet) {
+        super(renderer, entityModelSet);
     }
 
     @Override

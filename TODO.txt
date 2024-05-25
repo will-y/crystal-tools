@@ -23,7 +23,6 @@
 - Make or / not / unless node connections look different somehow
 - Pressing k with no tools will go to equipped items, buttons at the top of the screen to arrow between equipped / held items
 - Auto crafter
-- When I have to do the big refactor, maybe try tags and events instead of needing my own type
 - Limit to infinite nodes (breaking json change so wait until 1.21)
 - Block break event triggers 10 times instead of 9 on 3x3
 - Packet interface
@@ -35,10 +34,14 @@
 - Enchanting Table
 - Spawner
 - Quarry
-
---------------------------- 1.7.0 ---------------------------
+--------------------------- 1.21 refactor ---------------------------
 - Make an attacking levelable tool
 - Or just move attribute stuff to base class (tools won't use it if they can't)
+- maybe try tags and events instead of needing my own type
+- Capability instead of just writing to NBT tags?
+- Event organization
+
+--------------------------- 1.7.0 ---------------------------
 - Trident
     - Attack Damage
     - Durability
@@ -48,6 +51,8 @@
     - Loyalty
     - Mode Switch
     - Fall damage immune while holding? (Maybe just make them do boots)
+    - Reach
+    - Don't actually throw
 - Bow effect arrows
 - Fishing rod
 - Armor cool potion effects? (On Hit Effects)

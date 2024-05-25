@@ -1,21 +1,19 @@
 package dev.willyelton.crystal_tools;
 
-import dev.willyelton.crystal_tools.datagen.DataGeneration;
-import dev.willyelton.crystal_tools.gui.ModGUIs;
 import dev.willyelton.crystal_tools.command.RegisterCommandEvent;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.crafting.ItemDisabledCondition;
 import dev.willyelton.crystal_tools.crafting.ModRecipes;
+import dev.willyelton.crystal_tools.datagen.DataGeneration;
+import dev.willyelton.crystal_tools.gui.ModGUIs;
 import dev.willyelton.crystal_tools.network.PacketHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -56,5 +54,8 @@ public class CrystalTools {
 
     private void clientSetup(final FMLClientSetupEvent event) {
         ModGUIs.initScreens(event);
+        event.enqueueWork(() -> {
+            
+        });
     }
 }

@@ -29,7 +29,11 @@ public class SwordLevelableTool extends LevelableTool {
     private static final float BASE_KNOCKBACK_RESISTANCE = 0;
 
     public SwordLevelableTool() {
-        super(new Item.Properties(), null, "sword", 3, -2.4F);
+        this("sword", 3, -2.4f);
+    }
+
+    public SwordLevelableTool(String itemType, float attackDamageModifier, float attackSpeedModifier) {
+        super(new Item.Properties(), null, itemType, attackDamageModifier, attackSpeedModifier);
     }
 
     public static float getAttackDamage(ItemStack stack) {

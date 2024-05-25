@@ -51,6 +51,7 @@ public class CrystalToolsConfig {
     public static ForgeConfigSpec.BooleanValue DISABLE_AIOT;
     public static ForgeConfigSpec.BooleanValue DISABLE_BOW;
     public static ForgeConfigSpec.BooleanValue DISABLE_ROCKET;
+    public static ForgeConfigSpec.BooleanValue DISABLE_TRIDENT;
 
     // Disable Armor
     public static ForgeConfigSpec.BooleanValue DISABLE_ELYTRA;
@@ -165,6 +166,7 @@ public class CrystalToolsConfig {
         DISABLE_AIOT = builder.comment("Disables Crystal AIOT").define("disable_aiot", false);
         DISABLE_BOW = builder.comment("Disables Crystal Bow").define("disable_bow", false);
         DISABLE_ROCKET = builder.comment("Disables Crystal Rocket").define("disable_rocket", false);
+        DISABLE_TRIDENT = builder.comment("Disables Crystal Trident").define("disable_trident", false);
 
         // Disable Armor
         DISABLE_ELYTRA = builder.comment("Disables Crystal Elytra").define("disable_elytra", false);
