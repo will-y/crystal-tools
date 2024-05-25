@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.entity.CrystalTridentEntity;
-import dev.willyelton.crystal_tools.model.CrystalTridentModel;
+import net.minecraft.client.model.TridentModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -21,11 +21,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class CrystalTridentRenderer extends EntityRenderer<CrystalTridentEntity> {
     public static final ResourceLocation CRYSTAL_TRIDENT_LOCATION = new ResourceLocation(CrystalTools.MODID, "textures/entity/crystal_trident.png");
 
-    private final CrystalTridentModel model;
+    private final TridentModel model;
 
     public CrystalTridentRenderer(EntityRendererProvider.Context context) {
         super(context);
-        this.model = new CrystalTridentModel(context.bakeLayer(ModelLayers.TRIDENT));
+        this.model = new TridentModel(context.bakeLayer(ModelLayers.TRIDENT));
     }
 
     @Override

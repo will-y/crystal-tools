@@ -3,8 +3,8 @@ package dev.willyelton.crystal_tools.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.model.CrystalTridentModel;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.TridentModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -21,7 +21,7 @@ public class CrystalTridentBlockEntityWithoutLevelRenderer extends BlockEntityWi
     // Copy this  because they are private in super
     private final EntityModelSet entityModelSet;
 
-    private CrystalTridentModel crystalTridentModel;
+    private TridentModel crystalTridentModel;
 
     public CrystalTridentBlockEntityWithoutLevelRenderer() {
         super(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());
@@ -30,7 +30,7 @@ public class CrystalTridentBlockEntityWithoutLevelRenderer extends BlockEntityWi
 
     @Override
     public void onResourceManagerReload(ResourceManager resourceManager) {
-        this.crystalTridentModel = new CrystalTridentModel(this.entityModelSet.bakeLayer(ModelLayers.TRIDENT));
+        this.crystalTridentModel = new TridentModel(this.entityModelSet.bakeLayer(ModelLayers.TRIDENT));
     }
 
     @Override
