@@ -32,7 +32,8 @@ public class ReloadListenerEvent {
 
     private static final Gson gson = new GsonBuilder().create();
     private static final List<String> SKILL_TREES = List.of("aiot", "apple", "axe", "boots", "bow", "chestplate",
-            "crystal_elytra", "crystal_furnace", "crystal_rocket", "helmet", "hoe", "leggings", "pickaxe", "shovel", "sword", "backpack");
+            "crystal_elytra", "crystal_furnace", "crystal_rocket", "helmet", "hoe", "leggings", "pickaxe", "shovel",
+            "sword", "backpack", "trident");
     @SubscribeEvent
     public static void handleReloadListener(AddReloadListenerEvent reloadListenerEvent) {
         reloadListenerEvent.addListener(new ReloadListener());

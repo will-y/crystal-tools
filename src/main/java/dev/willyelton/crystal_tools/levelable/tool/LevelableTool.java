@@ -266,23 +266,30 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
         if (slot == EquipmentSlot.MAINHAND && !ToolUtils.isBroken(stack)) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
             builder.putAll(defaultModifiers);
-
-            if (NBTUtils.getFloatOrAddKey(stack, "reach") > 0) {
-                if (reach == null) {
-                    reach = ForgeRegistries.ATTRIBUTES.getValue(new ResourceLocation("forge", "reach_distance"));
-                    assert reach != null;
-                }
-
-                builder.put(reach, new AttributeModifier(reachUUID,
-                        "Reach modifier",
-                        NBTUtils.getFloatOrAddKey(stack, "reach") * CrystalToolsConfig.REACH_INCREASE.get(),
-                        AttributeModifier.Operation.ADDITION));
-            }
+            builder.putAll(getReachModifiers(slot, stack));
 
             return builder.build();
         } else {
             return super.getAttributeModifiers(slot, stack);
         }
+    }
+
+    public Multimap<Attribute, AttributeModifier> getReachModifiers(EquipmentSlot slot, ItemStack stack) {
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+
+        if (NBTUtils.getFloatOrAddKey(stack, "reach") > 0) {
+            if (reach == null) {
+                reach = ForgeRegistries.ATTRIBUTES.getValue(new ResourceLocation("forge", "reach_distance"));
+                assert reach != null;
+            }
+
+            builder.put(reach, new AttributeModifier(reachUUID,
+                    "Reach modifier",
+                    NBTUtils.getFloatOrAddKey(stack, "reach") * CrystalToolsConfig.REACH_INCREASE.get(),
+                    AttributeModifier.Operation.ADDITION));
+        }
+
+        return builder.build();
     }
 
     @Override

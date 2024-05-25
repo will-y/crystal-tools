@@ -24,6 +24,7 @@
 - Pressing k with no tools will go to equipped items, buttons at the top of the screen to arrow between equipped / held items
 - Auto crafter
 - Limit to infinite nodes (breaking json change so wait until 1.21)
+    - Require x points in infinite node as requirement?
 - Block break event triggers 10 times instead of 9 on 3x3
 - Packet interface
 - Do something better with tooltips
@@ -43,16 +44,18 @@
 
 --------------------------- 1.7.0 ---------------------------
 - Trident
-    - Attack Damage
-    - Durability
-    - Throw Speed
-    - Channeling
-    - Riptide
-    - Loyalty
-    - Mode Switch
-    - Fall damage immune while holding? (Maybe just make them do boots)
-    - Reach
-    - Don't actually throw
+    - Damage, Proj. Damage, Durability
+    - Unbreaking, Projectile Speed, Reach
+    - Riptide, Loyalty, Other
+
+    - Other Options
+        - Channeling
+        - Auto repair
+        - Mode Switch
+        - Always riptide
+        - Instant Loyalty
+
+- Datagen trident models
 - Bow effect arrows
 - Fishing rod
 - Armor cool potion effects? (On Hit Effects)

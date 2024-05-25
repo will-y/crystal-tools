@@ -84,7 +84,7 @@ public class Registration {
     public static final RegistryObject<Item> CRYSTAL_TORCH_ITEM = ITEMS.register("crystal_torch", () -> new StandingAndWallBlockItem(CRYSTAL_TORCH.get(), CRYSTAL_WALL_TORCH.get(), new Item.Properties(), Direction.DOWN));
 
     // Entities
-    public static final RegistryObject<EntityType<CrystalTridentEntity>> CRYSTAL_TRIDENT_ENTITY = ENTITIES.register("crystal_trident", () -> EntityType.Builder.of(CrystalTridentEntity::new, MobCategory.MISC)
+    public static final RegistryObject<EntityType<CrystalTridentEntity>> CRYSTAL_TRIDENT_ENTITY = ENTITIES.register("crystal_trident", () -> EntityType.Builder.<CrystalTridentEntity>of(CrystalTridentEntity::new, MobCategory.MISC)
             .sized(0.5F, 0.5F)
             .clientTrackingRange(4)
             .updateInterval(20)
