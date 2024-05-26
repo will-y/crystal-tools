@@ -44,9 +44,9 @@
 - Event organization
 
 --------------------------- 1.7.0 ---------------------------
-- Datagen trident models
 - Bow effect arrows
 - Fishing rod
 - Armor cool potion effects? (On Hit Effects)
 - Auto pickup
 - Scroll wheel moves skill tree screens
+- Double check everything in the trident skill tree

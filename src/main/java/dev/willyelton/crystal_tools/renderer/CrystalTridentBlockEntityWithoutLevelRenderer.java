@@ -42,6 +42,7 @@ public class CrystalTridentBlockEntityWithoutLevelRenderer extends BlockEntityWi
             poseStack.pushPose();
             if (displayContext == ItemDisplayContext.GROUND) {
                 // No idea why I need this
+                // TODO: Probably a model json issue
                 poseStack.scale(0.5F, 0.5F, 0.5F);
                 poseStack.translate(0, 0.25, 0);
             }

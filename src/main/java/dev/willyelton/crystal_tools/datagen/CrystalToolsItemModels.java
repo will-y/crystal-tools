@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.datagen;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
+import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -39,6 +40,7 @@ public class CrystalToolsItemModels extends ItemModelProvider {
         basicItem(Registration.CRYSTAL_SHOVEL.get());
         basicItem(Registration.CRYSTAL_SWORD.get());
         registerBow();
+        registerTrident();
 
         // Armor
         basicItem(Registration.CRYSTAL_HELMET.get());
@@ -94,6 +96,105 @@ public class CrystalToolsItemModels extends ItemModelProvider {
                     .predicate(mcLoc("pulling"), 1)
                     .predicate(mcLoc("pull"), 0.9F)
                     .model(bowModels[2])
+                .end();
+    }
+
+    private void registerTrident() {
+        // Inventory Model
+        ResourceLocation tridentLocation = Registration.CRYSTAL_TRIDENT.getId();
+        ResourceLocation tridentTextureLocation = new ResourceLocation(tridentLocation.getNamespace(), "item/" + tridentLocation.getPath());
+        getBuilder(tridentLocation + "_inventory")
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", tridentTextureLocation);
+
+        // Throwing Model
+        ModelFile throwingModel = getBuilder(tridentLocation + "_throwing")
+                .parent(new ModelFile.UncheckedModelFile("builtin/entity"))
+                .guiLight(BlockModel.GuiLight.FRONT)
+                .texture("particle", tridentTextureLocation)
+                .transforms()
+                    .transform(ItemDisplayContext.THIRD_PERSON_RIGHT_HAND)
+                        .rotation(0, 90, 180)
+                        .translation(8, -17, 9)
+                        .scale(1, 1, 1)
+                    .end()
+                    .transform(ItemDisplayContext.THIRD_PERSON_LEFT_HAND)
+                        .rotation(0, 90, 180)
+                        .translation(8, -17, -7)
+                        .scale(1, 1, 1)
+                    .end()
+                    .transform(ItemDisplayContext.FIRST_PERSON_RIGHT_HAND)
+                        .rotation(0, -90, 25)
+                        .translation(-3, 17, 1)
+                        .scale(1, 1, 1)
+                    .end()
+                    .transform(ItemDisplayContext.FIRST_PERSON_LEFT_HAND)
+                        .rotation(0, 90, -25)
+                        .translation(13, 17, 1)
+                        .scale(1, 1, 1)
+                    .end()
+                    .transform(ItemDisplayContext.GUI)
+                        .rotation(15, -25, -5)
+                        .translation(2, 3, 0)
+                        .scale(0.65F, 0.65F, 0.65F)
+                    .end()
+                    .transform(ItemDisplayContext.FIXED)
+                        .rotation(0, 180, 0)
+                        .translation(-2, 4, -5)
+                        .scale(0.5F, 0.5F, 0.5F)
+                    .end()
+                    .transform(ItemDisplayContext.GROUND)
+                        .rotation(0, 0, 0)
+                        .translation(4, 4, 2)
+                        .scale(0.25F, 0.25F, 0.25F)
+                    .end()
+                .end();
+
+        // Normal Model
+        getBuilder(tridentLocation.toString())
+                .parent(new ModelFile.UncheckedModelFile("builtin/entity"))
+                .guiLight(BlockModel.GuiLight.FRONT)
+                .texture("particle", tridentTextureLocation)
+                .transforms()
+                    .transform(ItemDisplayContext.THIRD_PERSON_RIGHT_HAND)
+                        .rotation(0, 60, 0)
+                        .translation(11, 17, -2)
+                        .scale(1, 1, 1)
+                    .end()
+                    .transform(ItemDisplayContext.THIRD_PERSON_LEFT_HAND)
+                        .rotation(0, 60, 0)
+                        .translation(3, 17, 12)
+                        .scale(1, 1, 1)
+                    .end()
+                    .transform(ItemDisplayContext.FIRST_PERSON_RIGHT_HAND)
+                        .rotation(0, -90, 25)
+                        .translation(-3, 17, 1)
+                        .scale(1, 1, 1)
+                    .end()
+                    .transform(ItemDisplayContext.FIRST_PERSON_LEFT_HAND)
+                        .rotation(0, 90, -25)
+                        .translation(13, 17 , 1)
+                        .scale(1, 1, 1)
+                    .end()
+                    .transform(ItemDisplayContext.GUI)
+                        .rotation(15, -25, -5)
+                        .translation(2, 3, 0)
+                        .scale(0.65F, 0.65F, 0.65F)
+                    .end()
+                    .transform(ItemDisplayContext.FIXED)
+                        .rotation(0, 180, 0)
+                        .translation(-2, 4, -5)
+                        .scale(0.5F, 0.5F, 0.5F)
+                    .end()
+                    .transform(ItemDisplayContext.GROUND)
+                        .rotation(0, 0, 0)
+                        .translation(4, 4, 2)
+                        .scale(0.25F, 0.25F, 0.25F)
+                    .end()
+                .end()
+                .override()
+                    .predicate(mcLoc("throwing"), 1)
+                    .model(throwingModel)
                 .end();
     }
 }
