@@ -1,6 +1,5 @@
 package dev.willyelton.crystal_tools.datagen;
 
-import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.crafting.ItemDisabledCondition;
 import dev.willyelton.crystal_tools.crafting.ModRecipes;
@@ -9,12 +8,10 @@ import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.ConditionalRecipe;
 import net.minecraftforge.common.crafting.conditions.NotCondition;
-import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
@@ -137,6 +134,17 @@ public class CrystalToolsRecipes extends RecipeProvider {
                         .define('r', Items.FIREWORK_ROCKET)
                         .unlockedBy("has_crystal", HAS_CRYSTAL),
                 Registration.CRYSTAL_ROCKET.getId());
+
+        buildConditionalRecipe(consumer,
+                ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_TRIDENT.get())
+                        .pattern("ccc")
+                        .pattern("sts")
+                        .pattern(" s ")
+                        .define('c', Registration.CRYSTAL.get())
+                        .define('t', Items.TRIDENT)
+                        .define('s', Registration.NETHERITE_STICK.get())
+                        .unlockedBy("has_crystal", HAS_CRYSTAL),
+                Registration.CRYSTAL_TRIDENT.getId());
 
         // Armor
         buildConditionalRecipe(consumer,

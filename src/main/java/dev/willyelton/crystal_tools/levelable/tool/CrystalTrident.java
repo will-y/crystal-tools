@@ -21,7 +21,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -85,9 +84,13 @@ public class CrystalTrident extends SwordLevelableTool {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
+        if (this.isDisabled()) {
+            itemstack.shrink(1);
+        }
+
         if (itemstack.getDamageValue() >= itemstack.getMaxDamage() - 1) {
             return InteractionResultHolder.fail(itemstack);
-        } else if (EnchantmentHelper.getRiptide(itemstack) > 0 && !player.isInWaterOrRain()) {
+        } else if (riptideEnabled(itemstack) && !canRiptide(itemstack, player)) {
             return InteractionResultHolder.fail(itemstack);
         } else {
             player.startUsingItem(hand);
@@ -101,67 +104,79 @@ public class CrystalTrident extends SwordLevelableTool {
             int timeUsed = this.getUseDuration(stack) - timeLeft;
             if (timeUsed >= 10) {
                 int riptideLevel = (int) NBTUtils.getFloatOrAddKey(stack, "riptide");
-                if (riptideLevel <= 0 || canRiptide(stack, player)) {
-                    if (!level.isClientSide) {
-                        stack.hurtAndBreak(1, player, (p_43388_) -> {
-                            p_43388_.broadcastBreakEvent(entityLiving.getUsedItemHand());
-                        });
-                        // TODO: Mode switch stuff
-                        if (riptideLevel == 0) {
-                            CrystalTridentEntity tridentEntity = new CrystalTridentEntity(level, player, stack);
-                            // TODO: Speed + riptide + more
-                            tridentEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F + (float)riptideLevel * 0.5F, 1.0F);
-                            if (player.getAbilities().instabuild) {
-                                // TODO: Infinite Throw
-                                tridentEntity.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
-                            }
+                if (!level.isClientSide) {
+                    stack.hurtAndBreak(1, player, (player2) -> {
+                        player2.broadcastBreakEvent(entityLiving.getUsedItemHand());
+                    });
 
-                            level.addFreshEntity(tridentEntity);
-                            level.playSound(null, tridentEntity, SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
-                            // TODO: Infinite Throw
-                            if (!player.getAbilities().instabuild) {
-                                player.getInventory().removeItem(stack);
-                            }
+                    if (!riptideEnabled(stack)) {
+                        CrystalTridentEntity tridentEntity = new CrystalTridentEntity(level, player, stack);
+                        float velocity = 2.5F + NBTUtils.getFloatOrAddKey(stack, "projectile_speed") * 0.5F;
+                        tridentEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, velocity, 1.0F);
+                        if (player.getAbilities().instabuild) {
+                            tridentEntity.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
+                        }
+
+                        level.addFreshEntity(tridentEntity);
+                        level.playSound(null, tridentEntity, SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
+                        if (!player.getAbilities().instabuild) {
+                            player.getInventory().removeItem(stack);
                         }
                     }
+                }
 
-                    player.awardStat(Stats.ITEM_USED.get(this));
-                    // Do riptide things
-                    if (riptideLevel > 0) {
-                        float playerYRot = player.getYRot();
-                        float playerXRot = player.getXRot();
-                        float playerPushX = -Mth.sin(playerYRot * ((float)Math.PI / 180F)) * Mth.cos(playerXRot * ((float)Math.PI / 180F));
-                        float playerPushY = -Mth.sin(playerXRot * ((float)Math.PI / 180F));
-                        float playerPushZ = Mth.cos(playerYRot * ((float)Math.PI / 180F)) * Mth.cos(playerXRot * ((float)Math.PI / 180F));
-                        float playerSpeed = Mth.sqrt(playerPushX * playerPushX + playerPushY * playerPushY + playerPushZ * playerPushZ);
-                        float playerPushMagnitude = 3.0F * ((1.0F + (float) riptideLevel) / 4.0F);
-                        playerPushX *= playerPushMagnitude / playerSpeed;
-                        playerPushY *= playerPushMagnitude / playerSpeed;
-                        playerPushZ *= playerPushMagnitude / playerSpeed;
-                        player.push(playerPushX, playerPushY, playerPushZ);
-                        // TODO: Level this?
-                        player.startAutoSpinAttack(20);
-                        if (player.onGround()) {
-                            player.move(MoverType.SELF, new Vec3(0.0D, 1.1999999F, 0.0D));
-                        }
-
-                        SoundEvent soundevent;
-                        if (riptideLevel >= 3) {
-                            soundevent = SoundEvents.TRIDENT_RIPTIDE_3;
-                        } else if (riptideLevel == 2) {
-                            soundevent = SoundEvents.TRIDENT_RIPTIDE_2;
-                        } else {
-                            soundevent = SoundEvents.TRIDENT_RIPTIDE_1;
-                        }
-
-                        level.playSound(null, player, soundevent, SoundSource.PLAYERS, 1.0F, 1.0F);
+                player.awardStat(Stats.ITEM_USED.get(this));
+                // Do riptide things
+                if (canRiptide(stack, player)) {
+                    float playerYRot = player.getYRot();
+                    float playerXRot = player.getXRot();
+                    float playerPushX = -Mth.sin(playerYRot * ((float)Math.PI / 180F)) * Mth.cos(playerXRot * ((float)Math.PI / 180F));
+                    float playerPushY = -Mth.sin(playerXRot * ((float)Math.PI / 180F));
+                    float playerPushZ = Mth.cos(playerYRot * ((float)Math.PI / 180F)) * Mth.cos(playerXRot * ((float)Math.PI / 180F));
+                    float playerSpeed = Mth.sqrt(playerPushX * playerPushX + playerPushY * playerPushY + playerPushZ * playerPushZ);
+                    float playerPushMagnitude = 3.0F * ((1.0F + (float) riptideLevel) / 4.0F);
+                    playerPushX *= playerPushMagnitude / playerSpeed;
+                    playerPushY *= playerPushMagnitude / playerSpeed;
+                    playerPushZ *= playerPushMagnitude / playerSpeed;
+                    player.push(playerPushX, playerPushY, playerPushZ);
+                    player.startAutoSpinAttack(20);
+                    if (player.onGround()) {
+                        player.move(MoverType.SELF, new Vec3(0.0D, 1.1999999F, 0.0D));
                     }
+
+                    SoundEvent soundevent;
+                    if (riptideLevel >= 3) {
+                        soundevent = SoundEvents.TRIDENT_RIPTIDE_3;
+                    } else if (riptideLevel == 2) {
+                        soundevent = SoundEvents.TRIDENT_RIPTIDE_2;
+                    } else {
+                        soundevent = SoundEvents.TRIDENT_RIPTIDE_1;
+                    }
+
+                    level.playSound(null, player, soundevent, SoundSource.PLAYERS, 1.0F, 1.0F);
                 }
             }
         }
     }
 
+    @Override
+    protected double getExperienceBoost() {
+        return CrystalToolsConfig.TRIDENT_EXPERIENCE_BOOST.get();
+    }
+
     private boolean canRiptide(ItemStack stack, Player player) {
-        return player.isInWaterOrRain();
+        if (NBTUtils.getBoolean(stack, "riptide_disabled")) return false;
+
+        if (NBTUtils.getBoolean(stack, "always_riptide")) return true;
+
+        return NBTUtils.getBoolean(stack, "riptide") && player.isInWaterOrRain();
+    }
+
+    private boolean riptideEnabled(ItemStack stack) {
+        if (NBTUtils.getBoolean(stack, "riptide_disabled")) return false;
+
+        if (NBTUtils.getBoolean(stack, "always_riptide")) return true;
+
+        return NBTUtils.getBoolean(stack, "riptide");
     }
 }

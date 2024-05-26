@@ -1,4 +1,26 @@
 # Crystal Tools Change Log
+## 1.7.0
+### Additions
+- Adds the Crystal Trident
+  - Can be leveled by hitting enemies like a sword, or by shooting it at entities
+  - Levels can be used to:
+    - Increase Attack Damage
+    - Increase Projectile Damage
+    - Increase Durability
+    - Increase Projectile Speed
+    - Increase Unbreaking Level
+    - Increase Reach
+    - Increase Riptide Level
+    - Increase Loyalty Level
+    - Increase Channeling Damage
+    - Auto Repair
+    - Switch between Loyalty and Riptide
+    - Allow Riptide even when it's not raining
+    - Instant Loyalty (It won't have to travel back to you, when it hits something it will instantly appear in your inventory)
+- Adds config option `DISABLE_TRIDENT`: Disables Crystal Trident
+- Adds config option `ALWAYS_CHANNEL`: If true, channeling Crystal Tridents will summon lightning even if they don't hit an entity
+- Adds config option `TRIDENT_EXPERIENCE_BOOST`: Multiplies experience Tridents get
+
 ## 1.6.1
 ### Additions
 - Adds a new tag `entity_blacklist`. Entities with this tag will not level up swords, bows, and the AIOT when attacked

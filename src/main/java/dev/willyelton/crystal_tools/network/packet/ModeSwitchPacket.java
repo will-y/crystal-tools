@@ -1,7 +1,6 @@
 package dev.willyelton.crystal_tools.network.packet;
 
 import dev.willyelton.crystal_tools.Registration;
-import dev.willyelton.crystal_tools.levelable.CrystalBackpack;
 import dev.willyelton.crystal_tools.levelable.tool.UseMode;
 import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
@@ -89,6 +88,13 @@ public class ModeSwitchPacket {
             boolean pickupDisabled = NBTUtils.getBoolean(tool, "pickup_disabled", false);
             NBTUtils.setValue(tool, "pickup_disabled", !pickupDisabled);
             playerEntity.displayClientMessage(Component.literal("Auto Pickup " + (pickupDisabled ? "Enabled" : "Disabled")), true);
+        }
+
+        // Trident
+        if (tool.is(Registration.CRYSTAL_TRIDENT.get())) {
+            boolean riptideDisabled = NBTUtils.getBoolean(tool, "riptide_disabled");
+            NBTUtils.setValue(tool, "riptide_disabled", !riptideDisabled);
+            playerEntity.displayClientMessage(Component.literal("Riptide " + (riptideDisabled ? "Enabled" : "Disabled")), true);
         }
     }
 }

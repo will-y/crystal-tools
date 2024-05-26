@@ -61,7 +61,7 @@
           {"or_node": [0, 1, 2]}
         ],
         "key": "reach",
-        "value": 200
+        "value": 1
       }
     ],
     [
@@ -98,11 +98,14 @@
       {
         "id": 8,
         "name": "Channeling",
-        "description": "Adds Channeling to the Trident. Does not have to be during a thunderstorm",
-        "type": "normal",
+        "description": "Adds Channeling to the Trident. Does not have to be during a thunderstorm. The more points added, the more damage the lightning does. Lightning created by this will not hurt you",
+        "type": "infinite",
         "requirements": [
           {"or_node": [3, 4, 5]},
-          {"not_node": [6]}
+          {
+            "not_node": [6],
+            "unless": [26]
+          }
         ],
         "key": "channeling",
         "value": 1
@@ -181,7 +184,7 @@
           {"or_node": [9, 10, 11]}
         ],
         "key": "reach",
-        "value": 200
+        "value": 1
       }
     ],
     [
@@ -225,7 +228,7 @@
         "requirements": [
           {"or_node": [12, 13, 14]}
         ],
-        "key": "loyalty",
+        "key": "auto_repair",
         "value": 1
       }
     ],
@@ -302,7 +305,7 @@
           {"or_node": [18, 19, 20]}
         ],
         "key": "reach",
-        "value": 200
+        "value": 1
       }
     ],
     [
@@ -342,7 +345,7 @@
         "id": 26,
         "name": "Riptide Toggle",
         "description": "Allows you to toggle Riptide off",
-        "type": "infinite",
+        "type": "normal",
         "requirements": [
           {"or_node": [21, 22, 23]}
         ],
@@ -367,7 +370,7 @@
         "id": 28,
         "name": "Infinite Projectile Damage",
         "description": "Add As Many Points To Projectile Damage Here As You Want",
-        "type": "normal",
+        "type": "infinite",
         "requirements": [
           {"node": [19]},
           {"or_node": [24, 25, 26]}
@@ -415,7 +418,7 @@
       },
       {
         "id": 32,
-        "name": "Infinite Projectile Speed",
+        "name": "Infinite Reach",
         "description": "Add as many points to Reach here as you want",
         "type": "infinite",
         "requirements": [
@@ -424,27 +427,38 @@
         ],
         "key": "reach",
         "value": 0.1
+      },
+      {
+        "id": 33,
+        "name": "Infinite Riptide",
+        "description": "Add as many points to Riptide here as you want",
+        "type": "infinite",
+        "requirements": [
+          {"node": [24]}
+        ],
+        "key": "riptide",
+        "value": 0.25
       }
     ],
     [
       {
-        "id": 33,
+        "id": 34,
         "name": "Always Riptide",
         "description": "Allows you to Riptide even when it isn't raining",
         "type": "normal",
         "requirements": [
-          {"node": [24, 27, 28 , 29, 30, 31, 32]}
+          {"node": [24, 27, 28 , 29, 30, 31, 32, 33]}
         ],
         "key": "always_riptide",
         "value": 1
       },
       {
-        "id": 34,
+        "id": 35,
         "name": "Instant Loyalty",
         "description": "The Trident instantly comes back to you",
         "type": "normal",
         "requirements": [
-          {"node": [25, 27, 28 , 29, 30, 31, 32]}
+          {"node": [25, 27, 28 , 29, 30, 31, 32, 33]}
         ],
         "key": "instant_loyalty",
         "value": 1

@@ -89,7 +89,7 @@ public class SwordLevelableTool extends LevelableTool {
                     attacker.heal(heal);
                 }
 
-                addExp(tool, target.level(), attacker.getOnPos(), attacker, (int) (getAttackDamage(tool) * CrystalToolsConfig.SWORD_EXPERIENCE_BOOST.get()));
+                addExp(tool, target.level(), attacker.getOnPos(), attacker, (int) (getAttackDamage(tool) * getExperienceBoost()));
             }
         }
 
@@ -126,5 +126,9 @@ public class SwordLevelableTool extends LevelableTool {
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
         return CrystalToolsConfig.ENCHANT_TOOLS.get() &&
                 (super.canApplyAtEnchantingTable(stack, enchantment) || enchantment.category.equals(EnchantmentCategory.WEAPON));
+    }
+
+    protected double getExperienceBoost() {
+        return CrystalToolsConfig.SWORD_EXPERIENCE_BOOST.get();
     }
 }

@@ -1,6 +1,8 @@
 package dev.willyelton.crystal_tools.entity;
 
 import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
+import dev.willyelton.crystal_tools.levelable.tool.CrystalTrident;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -20,13 +22,16 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 
 public class CrystalTridentEntity extends AbstractArrow {
+    public static final String CRYSTAL_TOOLS_TRIDENT_LIGHTNING_TAG = "crystal_tools.trident.lightning";
     private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(CrystalTridentEntity.class, EntityDataSerializers.BYTE);
 
-    protected ItemStack tridentItem = new ItemStack(Registration.CRYSTAL_TRIDENT.get());
+    protected ItemStack tridentStack = new ItemStack(Registration.CRYSTAL_TRIDENT.get());
+    protected CrystalTrident tridentItem = (CrystalTrident) Registration.CRYSTAL_TRIDENT.get();
     protected boolean dealtDamage;
     protected int clientSideReturnTridentTickCount;
 
@@ -36,7 +41,8 @@ public class CrystalTridentEntity extends AbstractArrow {
 
     public CrystalTridentEntity(Level level, LivingEntity shooter, ItemStack stack) {
         super(Registration.CRYSTAL_TRIDENT_ENTITY.get(), shooter, level);
-        this.tridentItem = stack;
+        this.tridentStack = stack;
+        this.entityData.set(ID_LOYALTY, (byte) NBTUtils.getFloatOrAddKey(stack, "loyalty"));
     }
 
     @Override
@@ -56,14 +62,18 @@ public class CrystalTridentEntity extends AbstractArrow {
         // If loyalty
         if (loyaltyLevel > 0 && (this.dealtDamage || this.isNoPhysics()) && entity != null) {
             if (!this.isAcceptableReturnOwner()) {
-                // TODO: See what this actually does
+                // Drop if player with loyalty dies while it is returning
                 if (!this.level().isClientSide && this.pickup == AbstractArrow.Pickup.ALLOWED) {
                     this.spawnAtLocation(this.getPickupItem(), 0.1F);
                 }
 
                 this.discard();
             } else {
-                // TODO: Here is where we add to player's inventory if infinite loyalty
+                if (NBTUtils.getBoolean(tridentStack, "instant_loyalty") && entity instanceof Player player) {
+                    if (player.getInventory().add(this.getPickupItem())) {
+                        this.discard();
+                    }
+                }
                 this.setNoPhysics(true);
                 Vec3 moveDirection = entity.getEyePosition().subtract(this.position());
                 this.setPosRaw(this.getX(), this.getY() + moveDirection.y * 0.015D * (double) loyaltyLevel, this.getZ());
@@ -85,27 +95,25 @@ public class CrystalTridentEntity extends AbstractArrow {
 
     @Override
     protected ItemStack getPickupItem() {
-        return tridentItem.copy();
+        return tridentStack.copy();
     }
 
     @Override
     protected EntityHitResult findHitEntity(Vec3 pStartVec, Vec3 pEndVec) {
-        // TODO: For impaling maybe?
         return this.dealtDamage ? null : super.findHitEntity(pStartVec, pEndVec);
     }
 
     @Override
     protected void onHitEntity(EntityHitResult pResult) {
         Entity hitEntity = pResult.getEntity();
-        float damage = 8.0F;
+        float damage = 8.0F + NBTUtils.getFloatOrAddKey(tridentStack, "projectile_damage");
         if (hitEntity instanceof LivingEntity livingEntity) {
-            damage += EnchantmentHelper.getDamageBonus(this.tridentItem, livingEntity.getMobType());
+            damage += EnchantmentHelper.getDamageBonus(this.tridentStack, livingEntity.getMobType());
         }
 
         Entity damagingEntity = this.getOwner();
         DamageSource damagesource = this.damageSources().trident(this, (damagingEntity == null ? this : damagingEntity));
         this.dealtDamage = true;
-        SoundEvent soundevent = SoundEvents.TRIDENT_HIT;
         if (hitEntity.hurt(damagesource, damage)) {
             if (hitEntity.getType() == EntityType.ENDERMAN) {
                 return;
@@ -119,27 +127,25 @@ public class CrystalTridentEntity extends AbstractArrow {
 
                 this.doPostHurtEffects(livingEntity);
             }
-        }
 
-        this.setDeltaMovement(this.getDeltaMovement().multiply(-0.01D, -0.1D, -0.01D));
-        float soundVolume = 1.0F;
-        // TODO: Should we summon lightning all the time?
-        if (!this.level().isClientSide && this.isChanneling()) {
-            BlockPos blockpos = hitEntity.blockPosition();
-            if (this.level().canSeeSky(blockpos)) {
-                // TODO: Can set lightning damage here
-                LightningBolt lightningbolt = EntityType.LIGHTNING_BOLT.create(this.level());
-                if (lightningbolt != null) {
-                    lightningbolt.moveTo(Vec3.atBottomCenterOf(blockpos));
-                    lightningbolt.setCause(damagingEntity instanceof ServerPlayer ? (ServerPlayer)damagingEntity : null);
-                    this.level().addFreshEntity(lightningbolt);
-                    soundevent = SoundEvents.TRIDENT_THUNDER;
-                    soundVolume = 5.0F;
-                }
+            if (damagingEntity instanceof Player player) {
+                tridentItem.addExp(tridentStack, level(), damagingEntity.getOnPos(), player, (int) damage);
             }
         }
 
-        this.playSound(soundevent, soundVolume, 1.0F);
+        if (!this.summonLightning(hitEntity.blockPosition())) {
+            this.playSound(SoundEvents.TRIDENT_HIT, 1.0F, 1.0F);
+        }
+
+        this.setDeltaMovement(this.getDeltaMovement().multiply(-0.01D, -0.1D, -0.01D));
+    }
+
+    @Override
+    protected void onHitBlock(BlockHitResult result) {
+        if (CrystalToolsConfig.ALWAYS_CHANNEL.get()) {
+            this.summonLightning(result.getBlockPos());
+        }
+        super.onHitBlock(result);
     }
 
     @Override
@@ -163,27 +169,24 @@ public class CrystalTridentEntity extends AbstractArrow {
     public void readAdditionalSaveData(CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
         if (pCompound.contains("Trident", 10)) {
-            this.tridentItem = ItemStack.of(pCompound.getCompound("Trident"));
+            this.tridentStack = ItemStack.of(pCompound.getCompound("Trident"));
         }
 
         this.dealtDamage = pCompound.getBoolean("DealtDamage");
-        // TODO: Actual loyalty
-        this.entityData.set(ID_LOYALTY, (byte)EnchantmentHelper.getLoyalty(this.tridentItem));
+        this.entityData.set(ID_LOYALTY, (byte) NBTUtils.getFloatOrAddKey(tridentStack, "loyalty"));
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag pCompound) {
-        // TODO: Does this not need to ready loyalty
         super.addAdditionalSaveData(pCompound);
-        pCompound.put("Trident", this.tridentItem.save(new CompoundTag()));
+        pCompound.put("Trident", this.tridentStack.save(new CompoundTag()));
         pCompound.putBoolean("DealtDamage", this.dealtDamage);
     }
 
-    // TODO: Should this ever despawn?
     @Override
     public void tickDespawn() {
-        int i = this.entityData.get(ID_LOYALTY);
-        if (this.pickup != AbstractArrow.Pickup.ALLOWED || i <= 0) {
+        int loyaltyLevel = this.entityData.get(ID_LOYALTY);
+        if (this.pickup != AbstractArrow.Pickup.ALLOWED || loyaltyLevel <= 0) {
             super.tickDespawn();
         }
     }
@@ -199,7 +202,7 @@ public class CrystalTridentEntity extends AbstractArrow {
     }
 
     private boolean isChanneling() {
-        return NBTUtils.getBoolean(tridentItem, "channeling");
+        return NBTUtils.getBoolean(tridentStack, "channeling");
     }
 
     private boolean isAcceptableReturnOwner() {
@@ -209,5 +212,26 @@ public class CrystalTridentEntity extends AbstractArrow {
         } else {
             return false;
         }
+    }
+
+    private boolean summonLightning(BlockPos blockPos) {
+        if (!this.level().isClientSide && this.isChanneling()) {
+            blockPos = blockPos.above();
+            if (this.level().canSeeSky(blockPos)) {
+                LightningBolt lightningbolt = EntityType.LIGHTNING_BOLT.create(this.level());
+                if (lightningbolt != null) {
+                    int damage = 5 + (int) NBTUtils.getFloatOrAddKey(tridentStack, "channeling");
+                    lightningbolt.setDamage(damage);
+                    lightningbolt.moveTo(Vec3.atBottomCenterOf(blockPos));
+                    lightningbolt.setCause(this.getOwner() instanceof ServerPlayer ? (ServerPlayer) this.getOwner() : null);
+                    lightningbolt.addTag(CRYSTAL_TOOLS_TRIDENT_LIGHTNING_TAG);
+                    this.level().addFreshEntity(lightningbolt);
+                    this.playSound(SoundEvents.TRIDENT_THUNDER, 5.0F, 1.0F);
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

@@ -18,6 +18,8 @@ public class CrystalToolsConfig {
     public static ForgeConfigSpec.IntValue ROCKET_EXPERIENCE_BOOST;
     public static ForgeConfigSpec.DoubleValue APPLE_EXPERIENCE_BOOST;
     public static ForgeConfigSpec.DoubleValue FURNACE_EXPERIENCE_BOOST;
+    public static ForgeConfigSpec.DoubleValue TRIDENT_EXPERIENCE_BOOST;
+
 
     // Repair
     public static ForgeConfigSpec.IntValue TOOL_REPAIR_COOLDOWN;
@@ -73,6 +75,9 @@ public class CrystalToolsConfig {
     public static ForgeConfigSpec.EnumValue<CrystalBackpackInventory.SortType> BACKPACK_SORT_TYPE;
     public static ForgeConfigSpec.IntValue BACKPACK_BASE_EXPERIENCE_CAP;
 
+    // Trident
+    public static ForgeConfigSpec.BooleanValue ALWAYS_CHANNEL;
+
     static {
         ForgeConfigSpec.Builder configBuilder = new ForgeConfigSpec.Builder();
         setupConfig(configBuilder);
@@ -107,6 +112,9 @@ public class CrystalToolsConfig {
 
         FURNACE_EXPERIENCE_BOOST = builder.comment("Multiplies how much experience Furnaces get.")
                 .defineInRange("furnace_experience_boost", 1D, 1D, 1000D);
+
+        TRIDENT_EXPERIENCE_BOOST = builder.comment("Multiplies experience Tridents get. (EXP_GAINED = DAMAGE_DONE * TRIDENT_EXPERIENCE_BOOST")
+                .defineInRange("trident_experience_boost", 1, 0.1D, 10000D);
 
         TOOL_REPAIR_COOLDOWN = builder.comment("Determines the cooldown between tool auto repairs")
                 .defineInRange("tool_repair_cooldown", 300, 1, 10000);
@@ -192,5 +200,8 @@ public class CrystalToolsConfig {
                 .defineEnum("backpack_sort_type", CrystalBackpackInventory.SortType.QUANTITY);
         BACKPACK_BASE_EXPERIENCE_CAP = builder.comment("Starting EXP Value for the Backpack")
                 .defineInRange("backpack_base_experience_cap", 150, 1, 10000);
+
+        ALWAYS_CHANNEL = builder.comment("If true, channeling Crystal Tridents will summon lightning even if they don't hit an entity")
+                .define("always_channel", true);
     }
 }

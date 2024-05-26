@@ -1,4 +1,4 @@
-// 1.20.1	2024-05-06T23:06:07.080256	Recipes
+// 1.20.1	2024-05-25T22:42:17.2243144	Recipes
 c3f1301dbe62f3d030a5e6deb7bb1e122975a4d4 data/crystal_tools/advancements/recipes/decorations/crystal_block.json
 bdd1de9f5b2286e2af691dd54e2afef0796d294a data/crystal_tools/advancements/recipes/misc/crystal.json
 50a16f74b41c29dcff728abb744db83880a91476 data/crystal_tools/advancements/recipes/misc/crystal_furnace.json
@@ -23,4 +23,5 @@ dde037f7e692dfe4edfea5c747760e687e74636c data/crystal_tools/recipes/crystal_hoe.
 ad1c524b31c982aca8dc6a4aed5cccd9fba4036b data/crystal_tools/recipes/crystal_shovel.json
 f3f56c27e63b80e74d712a846ec652e9c7097d7e data/crystal_tools/recipes/crystal_sword.json
 7733a9e29a3e3bd190c730e87255377f89df0117 data/crystal_tools/recipes/crystal_torch.json
+ee659a85fb940e1de1ccc974d951853b40dcb89e data/crystal_tools/recipes/crystal_trident.json
 e7e5d3021b2188eeab9b670abd111c002752e03a data/crystal_tools/recipes/netherite_stick.json

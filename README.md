@@ -38,6 +38,7 @@ The following tools/armor pieces are implemented:
 - Crystal Elytra
 - Crystal Rocket
 - Crystal Apple
+- Crystal Trident
 
 ## Other Items
 - Crystal Backpack
@@ -82,6 +83,17 @@ There will be upgrades that are common to most tools, and tools will each get un
 - Lifesteal
   - You heal each time you hit an enemy
 - Looting
+
+### Trident
+- Attack Damage
+- Projectile Damage
+- Projectile Speed
+- Riptide Level
+- Loyalty Level
+- Channeling (Add more points to increase lightning damage)
+- Switch between Loyalty and Riptide
+- Allow Riptide when not raining
+- Instant Loyalty (It won't have to travel back to you, when it hits something it will instantly appear in your inventory)
 
 ### Bow
 - Arrow Damage
@@ -194,6 +206,9 @@ There will be upgrades that are common to most tools, and tools will each get un
 #### Sword
 ![Sword Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/sword.png)
 
+#### Trident
+![Trident Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/trident.png)
+
 #### AIOT
 - Will give you skill points equal to all the points on tools used to craft it (spent or unspent)
 
@@ -253,6 +268,7 @@ You can change these values in `config/crystal_tools/toml`.
 - `armor_experience_boost` (2.0): Multiplies how much experience Armor gets, experience is calculated by `EXP_GAINED` = DAMAGE_TAKEN * ARMOR_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.
 - `bow_experience_boost` (1.0): Multiplies how much experience Bows get, experience is calculated by `EXP_GAINED` = UNMITIGATED_DAMAGE_DONE * BOW_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.
 - `sword_experience_boost` (0.8): Multiplies how much experience Swords get, experience is calculated by `EXP_GAINED` = UNMITIGATED_DAMAGE_DONE * SWORD_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.
+- `trident_experience_boost` (1.0): Multiplies how much experience Tridents get, experience is calculated by `EXP_GAINED` = UNMITIGATED_DAMAGE_DONE * TRIDENT_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.
 - `rocket_experience_boost` (5): Determines how much experience Rockets get per use. Range: 1 - 1000.
 - `apple_experience_boost` (0.5): Multiplies how much experience Apples get, experience is calculated by `EXP_GAINED` = (SATURATION * 2 + 1) * NUTRITION * APPLE_EXPERIENCE_BOOST. Range: 0.1 - 1000.0.
 - `furnace_experience_boost` (1): Multiplies how much experience Furnaces get, experience is calculated by `EXP_GAINED` = RECIPE_EXP * 10 * FURNACE_EXPERIENCE_BOOST. Range: 0.1 - 1000.0.
@@ -288,6 +304,8 @@ You can change these values in `config/crystal_tools/toml`.
 - `disable_chestplate` (false): Disables the Crystal Chestplate
 - `disable_leggings` (false): Disables the Crystal Leggings
 - `disable_boots` (false): Disables the Crystal Boots
+- `disable_backpack` (false): Disables the Crystal Backpack
+- `disable_trident` (false): Disables the Crystal Trident
 
 ### Furnace
 - `fuel_efficiency_added_ticks` (100): Number of ticks that are added to each fuel piece per level of fuel efficiency
@@ -297,6 +315,9 @@ You can change these values in `config/crystal_tools/toml`.
 ### Backpack
 - `backpack_sort_type` (QUANTITY): Sort method that the backpack uses. Can be one of: `QUANTITY`, `NAME`, `MOD`, or `ID`
 - `backpack_base_experience_cap` (150): Starting EXP requirements for the Backpack. Range: 1 - 10000.
+
+### Trident
+- `always_channel` (true): If true, channeling Crystal Tridents will summon lightning even if they don't hit an entity
 
 ## Tags
 - `entity_types/entity_blacklist`: Entities that have this tag will not level up the sword, bow, or AIOT when attacked. Only entity to have it by default is the armor stand.
@@ -310,4 +331,4 @@ Add a file `entity_blacklist.json` in a datapack in the location `crystal_tools/
   ]
 }
 ```
-More information on tags and databacks can be found [here](https://minecraft.fandom.com/wiki/Tag).
+More information on tags and datapacks can be found [here](https://minecraft.fandom.com/wiki/Tag).
