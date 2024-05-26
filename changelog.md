@@ -20,6 +20,11 @@
 - Adds config option `DISABLE_TRIDENT`: Disables Crystal Trident
 - Adds config option `ALWAYS_CHANNEL`: If true, channeling Crystal Tridents will summon lightning even if they don't hit an entity
 - Adds config option `TRIDENT_EXPERIENCE_BOOST`: Multiplies experience Tridents get
+- Adds Tipped Arrow upgrades for Crystal Bows
+  - Poison
+  - Slowness
+  - Weakness
+  - Wither
 
 ## 1.6.1
 ### Additions

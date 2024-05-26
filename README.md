@@ -102,6 +102,11 @@ There will be upgrades that are common to most tools, and tools will each get un
 - Flame
 - Infinity
 - Arrow Knockback
+- Tipped Arrows
+  - Poison
+  - Weakness
+  - Slowness
+  - Wither
 
 ### All Armor
 - Protection

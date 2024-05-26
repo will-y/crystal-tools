@@ -353,6 +353,56 @@
         "key": "draw_speed",
         "value": 0.5
       }
+    ],
+    [
+      {
+        "id": 33,
+        "name": "Tipped: Poison",
+        "description": "Adds Poison Effect to shot arrows",
+        "type": "normal",
+        "requirements": [
+          {"node": [24, 25, 26, 32]},
+          {"item": ["minecraft:nether_wart", "minecraft:spider_eye" ,"minecraft:fermented_spider_eye", "minecraft:glowstone_dust"]}
+        ],
+        "key": "effect_19",
+        "value": 6
+      },
+      {
+        "id": 34,
+        "name": "Tipped: Weakness",
+        "description": "Adds Weakness Effect to shot arrows",
+        "type": "normal",
+        "requirements": [
+          {"node": [24, 25, 26, 32]},
+          {"item": ["minecraft:nether_wart", "minecraft:blaze_powder", "minecraft:fermented_spider_eye", "minecraft:glowstone_dust"]}
+        ],
+        "key": "effect_18",
+        "value": 12
+      },
+      {
+        "id": 35,
+        "name": "Tipped: Slowness",
+        "description": "Adds Slowness Effect to shot arrows",
+        "type": "normal",
+        "requirements": [
+          {"node": [24, 25, 26, 32]},
+          {"item": ["minecraft:nether_wart", "minecraft:sugar", "minecraft:fermented_spider_eye", "minecraft:glowstone_dust"]}
+        ],
+        "key": "effect_2",
+        "value": 12
+      },
+      {
+        "id": 36,
+        "name": "Tipped: Wither",
+        "description": "Adds Wither Effect to shot arrows",
+        "type": "normal",
+        "requirements": [
+          {"node": [24, 25, 26, 32]},
+          {"item": ["minecraft:nether_wart", "minecraft:bone", "minecraft:fermented_spider_eye", "minecraft:glowstone_dust"]}
+        ],
+        "key": "effect_20",
+        "value": 6
+      }
     ]
   ]
 }

@@ -130,6 +130,7 @@ public class Registration {
                         output.accept(CRYSTAL_FURNACE_ITEM.get());
                         output.accept(CRYSTAL_TORCH_ITEM.get());
                         output.accept(CRYSTAL_BACKPACK.get());
+                        output.accept(CRYSTAL_TRIDENT.get());
                     })
                     .build());
 
