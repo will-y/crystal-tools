@@ -19,6 +19,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelEvent;
+import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -44,6 +45,19 @@ public class ClientEvents {
         // Trident things
         ItemProperties.register(Registration.CRYSTAL_TRIDENT.get(), new ResourceLocation("throwing"),
                 (pStack, pLevel, pEntity, pSeed) -> pEntity != null && pEntity.isUsingItem() && pEntity.getUseItem() == pStack ? 1.0F : 0.0F);
+
+        // Fishing Rod
+        ItemProperties.register(Registration.CRYSTAL_FISHING_ROD.get(), new ResourceLocation("cast"),
+                (stack, level, entity, seed) -> {
+                    if (entity == null) {
+                        return 0.0F;
+                    } else {
+                        boolean flag = entity.getMainHandItem() == stack;
+                        boolean flag1 = entity.getOffhandItem() == stack && !entity.getMainHandItem().getItem().canPerformAction(stack, ToolActions.FISHING_ROD_CAST);
+
+                        return (flag || flag1) && entity instanceof Player && ((Player) entity).fishing != null ? 1.0F : 0.0F;
+                    }
+        });
     }
 
     @SubscribeEvent

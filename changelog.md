@@ -17,14 +17,24 @@
     - Switch between Loyalty and Riptide
     - Allow Riptide even when it's not raining
     - Instant Loyalty (It won't have to travel back to you, when it hits something it will instantly appear in your inventory)
-- Adds config option `DISABLE_TRIDENT`: Disables Crystal Trident
-- Adds config option `ALWAYS_CHANNEL`: If true, channeling Crystal Tridents will summon lightning even if they don't hit an entity
-- Adds config option `TRIDENT_EXPERIENCE_BOOST`: Multiplies experience Tridents get
+  - Adds config option `DISABLE_TRIDENT`: Disables Crystal Trident
+  - Adds config option `ALWAYS_CHANNEL`: If true, channeling Crystal Tridents will summon lightning even if they don't hit an entity
+  - Adds config option `TRIDENT_EXPERIENCE_BOOST`: Multiplies experience Tridents get
 - Adds Tipped Arrow upgrades for Crystal Bows
   - Poison
   - Slowness
   - Weakness
   - Wither
+- Adds the Crystal Fishing Rod
+  - Levels can be used to:
+    - Increase Lure Level
+    - Increase Luck of the Sea Level
+    - Increase Durability
+    - Increase Unbreaking Level
+    - Add a chance to double fishing drops
+    - Auto Repair
+  - Adds config option `DISABLE_CRYSTAL_FISHING_ROW`: Disables Crystal Fishing Rod
+  - Adds config option `FISHING_ROD_EXP`: Determines how much experience you get for fish caught
 
 ## 1.6.1
 ### Additions

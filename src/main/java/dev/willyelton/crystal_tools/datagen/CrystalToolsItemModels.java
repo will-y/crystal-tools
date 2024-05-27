@@ -41,6 +41,7 @@ public class CrystalToolsItemModels extends ItemModelProvider {
         basicItem(Registration.CRYSTAL_SWORD.get());
         registerBow();
         registerTrident();
+        registerFishingRod();
 
         // Armor
         basicItem(Registration.CRYSTAL_HELMET.get());
@@ -195,6 +196,20 @@ public class CrystalToolsItemModels extends ItemModelProvider {
                 .override()
                     .predicate(mcLoc("throwing"), 1)
                     .model(throwingModel)
+                .end();
+    }
+
+    private void registerFishingRod() {
+        ResourceLocation fishingRodId = Registration.CRYSTAL_FISHING_ROD.getId();
+        ModelFile castModel = getBuilder(fishingRodId + "_cast")
+                .parent(new ModelFile.UncheckedModelFile("crystal_tools:item/crystal_fishing_rod"))
+                .texture("layer0", modLoc("item/crystal_fishing_rod_cast"));
+
+        basicItem(Registration.CRYSTAL_FISHING_ROD.get())
+                .parent(new ModelFile.UncheckedModelFile("item/handheld_rod"))
+                .override()
+                .predicate(mcLoc("cast"), 1)
+                .model(castModel)
                 .end();
     }
 }

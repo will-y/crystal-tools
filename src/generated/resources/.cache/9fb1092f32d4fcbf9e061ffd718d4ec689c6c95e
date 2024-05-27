@@ -1,4 +1,4 @@
-// 1.20.1	2024-05-25T22:42:17.2243144	Recipes
+// 1.20.1	2024-05-27T15:08:47.8593579	Recipes
 c3f1301dbe62f3d030a5e6deb7bb1e122975a4d4 data/crystal_tools/advancements/recipes/decorations/crystal_block.json
 bdd1de9f5b2286e2af691dd54e2afef0796d294a data/crystal_tools/advancements/recipes/misc/crystal.json
 50a16f74b41c29dcff728abb744db83880a91476 data/crystal_tools/advancements/recipes/misc/crystal_furnace.json
@@ -14,6 +14,7 @@ fb75bf68f9f7d21f79f1b1a17dc011011e317196 data/crystal_tools/advancements/recipes
 9063cd23066dd82b24266188b8bdd6e056638b33 data/crystal_tools/recipes/crystal_bow.json
 fa0a91ac88e9fbc220bcfb497406972266a5f942 data/crystal_tools/recipes/crystal_chestplate.json
 3d0811452bca3e99f8e958e9aa258c6da86cb08c data/crystal_tools/recipes/crystal_elytra.json
+ae5854fbd3d07cf0d41248c6152504df611e4fba data/crystal_tools/recipes/crystal_fishing_rod.json
 0d2c164b651ab941c0950fce6413224a981ebbd4 data/crystal_tools/recipes/crystal_furnace.json
 7808d7102863d9bd3265ca60ff2331a0eaf85778 data/crystal_tools/recipes/crystal_helmet.json
 dde037f7e692dfe4edfea5c747760e687e74636c data/crystal_tools/recipes/crystal_hoe.json

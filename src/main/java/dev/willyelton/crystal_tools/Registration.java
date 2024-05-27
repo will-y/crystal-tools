@@ -60,6 +60,7 @@ public class Registration {
     public static final RegistryObject<Item> CRYSTAL_AIOT = ITEMS.register("crystal_aiot", AIOLevelableTool::new);
     public static final RegistryObject<Item> CRYSTAL_ROCKET = ITEMS.register("crystal_rocket", CrystalRocket::new);
     public static final RegistryObject<Item> CRYSTAL_TRIDENT = ITEMS.register("crystal_trident", CrystalTrident::new);
+    public static final RegistryObject<Item> CRYSTAL_FISHING_ROD = ITEMS.register("crystal_fishing_rod", CrystalFishingRod::new);
 
     // Armor
     public static final RegistryObject<Item> CRYSTAL_HELMET = ITEMS.register("crystal_helmet", () -> new LevelableArmor("helmet", ArmorItem.Type.HELMET));
@@ -131,6 +132,7 @@ public class Registration {
                         output.accept(CRYSTAL_TORCH_ITEM.get());
                         output.accept(CRYSTAL_BACKPACK.get());
                         output.accept(CRYSTAL_TRIDENT.get());
+                        output.accept(CRYSTAL_FISHING_ROD.get());
                     })
                     .build());
 

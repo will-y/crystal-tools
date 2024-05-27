@@ -1,4 +1,4 @@
-// 1.20.1	2024-05-25T23:41:39.4361954	Item Models: crystal_tools
+// 1.20.1	2024-05-27T12:41:42.147077	Item Models: crystal_tools
 cf7d10e3346cf7c4a77fe6e285deab4d542b73d5 assets/crystal_tools/models/item/crystal.json
 fbc32cccc6c3666086e083d767db164226c8f5e9 assets/crystal_tools/models/item/crystal_aiot.json
 fc5c466807626ebba61df59c2f4c32ea20cc293c assets/crystal_tools/models/item/crystal_apple.json
@@ -13,6 +13,8 @@ a3c799c7d95d04da17857db37cdf6bb115e93266 assets/crystal_tools/models/item/crysta
 e524ce922c99127178b223170bdfccf14afd951b assets/crystal_tools/models/item/crystal_chestplate.json
 34259a2a6bc89b51ce435cba1b41bb5239adb465 assets/crystal_tools/models/item/crystal_deepslate_ore.json
 fa61b92a8460a8254d9e2381b6052ec1c6c8c66a assets/crystal_tools/models/item/crystal_elytra.json
+6f9b93e4e26c7a079e0bdd7068c256588bbd5645 assets/crystal_tools/models/item/crystal_fishing_rod.json
+cb15466aefb9d14127dddfbc99d35c1d3273d7c6 assets/crystal_tools/models/item/crystal_fishing_rod_cast.json
 dc733a2cfa832636301ed13b625c16aac8fd4bf1 assets/crystal_tools/models/item/crystal_furnace.json
 4221e4838a45620bd09a05f0f11688bf6f2349c6 assets/crystal_tools/models/item/crystal_helmet.json
 bdf781b9817d8698cf4f1137c2f61871edf82151 assets/crystal_tools/models/item/crystal_hoe.json

@@ -19,7 +19,7 @@ public class CrystalToolsConfig {
     public static ForgeConfigSpec.DoubleValue APPLE_EXPERIENCE_BOOST;
     public static ForgeConfigSpec.DoubleValue FURNACE_EXPERIENCE_BOOST;
     public static ForgeConfigSpec.DoubleValue TRIDENT_EXPERIENCE_BOOST;
-
+    public static ForgeConfigSpec.IntValue FISHING_ROD_EXP;
 
     // Repair
     public static ForgeConfigSpec.IntValue TOOL_REPAIR_COOLDOWN;
@@ -54,6 +54,7 @@ public class CrystalToolsConfig {
     public static ForgeConfigSpec.BooleanValue DISABLE_BOW;
     public static ForgeConfigSpec.BooleanValue DISABLE_ROCKET;
     public static ForgeConfigSpec.BooleanValue DISABLE_TRIDENT;
+    public static ForgeConfigSpec.BooleanValue DISABLE_FISHING_ROD;
 
     // Disable Armor
     public static ForgeConfigSpec.BooleanValue DISABLE_ELYTRA;
@@ -116,6 +117,9 @@ public class CrystalToolsConfig {
         TRIDENT_EXPERIENCE_BOOST = builder.comment("Multiplies experience Tridents get. (EXP_GAINED = DAMAGE_DONE * TRIDENT_EXPERIENCE_BOOST")
                 .defineInRange("trident_experience_boost", 1, 0.1D, 10000D);
 
+        FISHING_ROD_EXP = builder.comment("Determines how much experience you get for fish caught")
+                .defineInRange("fishing_rod_exp", 10, 1, 1000);
+
         TOOL_REPAIR_COOLDOWN = builder.comment("Determines the cooldown between tool auto repairs")
                 .defineInRange("tool_repair_cooldown", 300, 1, 10000);
 
@@ -175,6 +179,7 @@ public class CrystalToolsConfig {
         DISABLE_BOW = builder.comment("Disables Crystal Bow").define("disable_bow", false);
         DISABLE_ROCKET = builder.comment("Disables Crystal Rocket").define("disable_rocket", false);
         DISABLE_TRIDENT = builder.comment("Disables Crystal Trident").define("disable_trident", false);
+        DISABLE_FISHING_ROD = builder.comment("Disables Crystal Fishing Rod").define("disable_fishing_rod", false);
 
         // Disable Armor
         DISABLE_ELYTRA = builder.comment("Disables Crystal Elytra").define("disable_elytra", false);

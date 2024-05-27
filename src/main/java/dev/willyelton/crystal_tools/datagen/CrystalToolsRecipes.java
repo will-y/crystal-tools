@@ -146,6 +146,17 @@ public class CrystalToolsRecipes extends RecipeProvider {
                         .unlockedBy("has_crystal", HAS_CRYSTAL),
                 Registration.CRYSTAL_TRIDENT.getId());
 
+        buildConditionalRecipe(consumer,
+                ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_FISHING_ROD.get())
+                        .pattern("  s")
+                        .pattern(" st")
+                        .pattern("s c")
+                        .define('c', Registration.CRYSTAL.get())
+                        .define('t', Items.STRING)
+                        .define('s', Registration.NETHERITE_STICK.get())
+                        .unlockedBy("has_crystal", HAS_CRYSTAL),
+                Registration.CRYSTAL_FISHING_ROD.getId());
+
         // Armor
         buildConditionalRecipe(consumer,
                 ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_HELMET.get())

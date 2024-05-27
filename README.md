@@ -108,6 +108,11 @@ There will be upgrades that are common to most tools, and tools will each get un
   - Slowness
   - Wither
 
+### Fishing Rod
+- Lure
+- Luck of the Sea
+- Chance to Double Drops (by default 20% per level)
+
 ### All Armor
 - Protection
 - Fire Protection
@@ -214,6 +219,9 @@ There will be upgrades that are common to most tools, and tools will each get un
 #### Trident
 ![Trident Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/trident.png)
 
+### Fishing Rod
+![Fishing Rod Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/fishing_rod.png)
+
 #### AIOT
 - Will give you skill points equal to all the points on tools used to craft it (spent or unspent)
 
@@ -277,6 +285,7 @@ You can change these values in `config/crystal_tools/toml`.
 - `rocket_experience_boost` (5): Determines how much experience Rockets get per use. Range: 1 - 1000.
 - `apple_experience_boost` (0.5): Multiplies how much experience Apples get, experience is calculated by `EXP_GAINED` = (SATURATION * 2 + 1) * NUTRITION * APPLE_EXPERIENCE_BOOST. Range: 0.1 - 1000.0.
 - `furnace_experience_boost` (1): Multiplies how much experience Furnaces get, experience is calculated by `EXP_GAINED` = RECIPE_EXP * 10 * FURNACE_EXPERIENCE_BOOST. Range: 0.1 - 1000.0.
+- `fishing_rod_exp` (10): Determines how much experience you get for fish caught. Range 1 - 1000
 
 ### Repair
 - `tool_repair_cooldown` (50): Determines the cooldown between durability repairs for tools with the auto repair upgrade in ticks (20 ticks per second). Range: 1 - 10000.
@@ -311,6 +320,7 @@ You can change these values in `config/crystal_tools/toml`.
 - `disable_boots` (false): Disables the Crystal Boots
 - `disable_backpack` (false): Disables the Crystal Backpack
 - `disable_trident` (false): Disables the Crystal Trident
+- `disable_fishing_rod` (false): Disables the Crystal Fishing Rod
 
 ### Furnace
 - `fuel_efficiency_added_ticks` (100): Number of ticks that are added to each fuel piece per level of fuel efficiency

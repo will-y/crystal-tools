@@ -36,6 +36,7 @@
 - Spawner
 - Quarry
 - Data gen ore gen
+- Wolf
 
 --------------------------- 1.21 refactor ---------------------------
 - Make an attacking levelable tool
@@ -45,7 +46,8 @@
 - Event organization
 
 --------------------------- 1.7.0 ---------------------------
-- Fishing rod
+- Add trident to trident tag
+- Sword / Trident Attack Issue
 - Armor cool potion effects? (On Hit Effects)
 - Auto pickup
 - Scroll wheel moves skill tree screens

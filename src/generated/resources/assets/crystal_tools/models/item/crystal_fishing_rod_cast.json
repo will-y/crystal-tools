@@ -1,0 +1,6 @@
+{
+  "parent": "crystal_tools:item/crystal_fishing_rod",
+  "textures": {
+    "layer0": "crystal_tools:item/crystal_fishing_rod_cast"
+  }
+}

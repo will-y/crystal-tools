@@ -1,4 +1,4 @@
-package dev.willyelton.crystal_tools.event;
+package dev.willyelton.crystal_tools.event.client;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.levelable.tool.BowLevelableItem;
