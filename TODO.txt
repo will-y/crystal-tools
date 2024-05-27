@@ -46,5 +46,4 @@
 
 --------------------------- 1.7.0 ---------------------------
 - Auto pickup
-- Scroll wheel moves skill tree screens
 - Double check everything in the trident skill tree

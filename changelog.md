@@ -36,6 +36,7 @@
   - Adds config option `DISABLE_CRYSTAL_FISHING_ROW`: Disables Crystal Fishing Rod
   - Adds config option `FISHING_ROD_EXP`: Determines how much experience you get for fish caught
 - Adds thorns option to the armor pieces
+- Adds ability to use the scroll wheel to scroll on upgrade screens
 
 ### Fixes
 - Fixes prot enchantments not going on armor

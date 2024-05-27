@@ -231,6 +231,15 @@ public abstract class BaseUpgradeScreen extends Screen {
         return false;
     }
 
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
+        for (SkillButton skillButton : this.skillButtons.values()) {
+            skillButton.yOffset += (int) delta * 10;
+        }
+
+        return true;
+    }
+
     private void drawDependencyLine(GuiGraphics guiGraphics, int[] p1, int[] p2, boolean active) {
         drawDependencyLine(guiGraphics, p1[0], p1[1], p2[0], p2[1], active);
     }
