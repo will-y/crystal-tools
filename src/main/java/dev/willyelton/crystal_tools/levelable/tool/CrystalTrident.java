@@ -6,6 +6,7 @@ import dev.willyelton.crystal_tools.entity.CrystalTridentEntity;
 import dev.willyelton.crystal_tools.renderer.CrystalTridentBlockEntityWithoutLevelRenderer;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -30,10 +31,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.Consumer;
 
 public class CrystalTrident extends SwordLevelableTool {
-    // TODO: This attack and attack speed things don't do anything
-    // Change levelable tool to do base and sword to do bonus only probably
     public CrystalTrident() {
-        super("trident", 3, -2.9F);
+        super("trident", 4, -2.9F);
     }
 
     @Override
@@ -162,6 +161,11 @@ public class CrystalTrident extends SwordLevelableTool {
     @Override
     protected double getExperienceBoost() {
         return CrystalToolsConfig.TRIDENT_EXPERIENCE_BOOST.get();
+    }
+
+    @Override
+    public boolean mineBlock(@NotNull ItemStack tool, Level level, @NotNull BlockState blockState, @NotNull BlockPos blockPos, @NotNull LivingEntity entity) {
+        return false;
     }
 
     private boolean canRiptide(ItemStack stack, Player player) {

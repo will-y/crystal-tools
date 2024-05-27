@@ -39,13 +39,21 @@ import java.util.*;
 import java.util.function.Consumer;
 
 public abstract class LevelableTool extends TieredItem implements LevelableItem {
+    protected static final UUID ATTACK_DAMAGE_UUID = UUID.randomUUID();
+    protected static final UUID ATTACK_SPEED_UUID = UUID.randomUUID();
+    protected static final UUID ATTACK_KNOCKBACK_UUID = UUID.randomUUID();
+    protected static final UUID KNOCKBACK_RESISTANCE_UUID = UUID.randomUUID();
+    protected static final UUID REACH_UUID = UUID.randomUUID();
+    protected static final UUID ATTACK_RANGE_UUID = UUID.randomUUID();
+
     // Blocks that can be mined by default, null for none
     protected final TagKey<Block> blocks;
     protected final String itemType;
     protected final int initialDurability;
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
-    private final UUID reachUUID;
-    private Attribute reach;
+    private Attribute reachAttribute;
+    private Attribute attackRangeAttribute;
+    private final float initialAttackDamage;
 
     public LevelableTool(Item.Properties properties, TagKey<Block> mineableBlocks, String itemType, float attackDamageModifier, float attackSpeedModifier) {
         this(properties, mineableBlocks, itemType, attackDamageModifier, attackSpeedModifier, INITIAL_TIER.getUses());
@@ -56,11 +64,14 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
         this.blocks = mineableBlocks;
         this.itemType = itemType;
         this.initialDurability = durability;
+        this.initialAttackDamage = INITIAL_TIER.getAttackDamageBonus() + attackDamageModifier;
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", INITIAL_TIER.getAttackDamageBonus() + attackDamageModifier, AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", this.initialAttackDamage, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", attackSpeedModifier, AttributeModifier.Operation.ADDITION));
         this.defaultModifiers = builder.build();
-        this.reachUUID = UUID.randomUUID();
+
+        reachAttribute = ForgeRegistries.ATTRIBUTES.getValue(new ResourceLocation("forge", "reach_distance"));
+        attackRangeAttribute = ForgeRegistries.ATTRIBUTES.getValue(new ResourceLocation("forge", "attack_range"));
     }
 
     // From DiggerItem.java
@@ -266,7 +277,32 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
         if (slot == EquipmentSlot.MAINHAND && !ToolUtils.isBroken(stack)) {
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
             builder.putAll(defaultModifiers);
-            builder.putAll(getReachModifiers(slot, stack));
+
+            float attackDamage = NBTUtils.getFloatOrAddKey(stack, "damage_bonus");
+            if (attackDamage > 0) {
+                builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_UUID, "Weapon modifier", attackDamage, AttributeModifier.Operation.ADDITION));
+            }
+
+            float attackSpeed = NBTUtils.getFloatOrAddKey(stack, "attack_speed_bonus");
+            if (attackSpeed > 0) {
+                builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_UUID, "Weapon modifier", attackSpeed, AttributeModifier.Operation.ADDITION));
+            }
+
+            float attackKnockback = NBTUtils.getFloatOrAddKey(stack, "knockback");
+            if (attackKnockback > 0) {
+                builder.put(Attributes.ATTACK_KNOCKBACK, new AttributeModifier(ATTACK_KNOCKBACK_UUID, "Weapon modifier", attackKnockback, AttributeModifier.Operation.ADDITION));
+            }
+
+            float knockbackResistance = NBTUtils.getFloatOrAddKey(stack, "knockback_resistance");
+            if (knockbackResistance > 0) {
+                builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(KNOCKBACK_RESISTANCE_UUID, "Weapon modifier", knockbackResistance, AttributeModifier.Operation.ADDITION));
+            }
+
+            float reach = NBTUtils.getFloatOrAddKey(stack, "reach");
+            if (reach > 0) {
+                builder.put(reachAttribute, new AttributeModifier(REACH_UUID, "Weapon modifier", reach, AttributeModifier.Operation.ADDITION));
+                builder.put(attackRangeAttribute, new AttributeModifier(ATTACK_RANGE_UUID, "Weapon modifier", reach, AttributeModifier.Operation.ADDITION));
+            }
 
             return builder.build();
         } else {
@@ -274,23 +310,34 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
         }
     }
 
-    public Multimap<Attribute, AttributeModifier> getReachModifiers(EquipmentSlot slot, ItemStack stack) {
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-
-        if (NBTUtils.getFloatOrAddKey(stack, "reach") > 0) {
-            if (reach == null) {
-                reach = ForgeRegistries.ATTRIBUTES.getValue(new ResourceLocation("forge", "reach_distance"));
-                assert reach != null;
-            }
-
-            builder.put(reach, new AttributeModifier(reachUUID,
-                    "Reach modifier",
-                    NBTUtils.getFloatOrAddKey(stack, "reach") * CrystalToolsConfig.REACH_INCREASE.get(),
-                    AttributeModifier.Operation.ADDITION));
+    private void setForgeRegistries() {
+        // TODO: This could probably be better, not sure when these registries are set
+        if (reachAttribute == null) {
+            reachAttribute = ForgeRegistries.ATTRIBUTES.getValue(new ResourceLocation("forge", "reach_distance"));
         }
 
-        return builder.build();
+        if (attackRangeAttribute == null) {
+            attackRangeAttribute = ForgeRegistries.ATTRIBUTES.getValue(new ResourceLocation("forge", "attack_range"));
+        }
     }
+
+//    public Multimap<Attribute, AttributeModifier> getReachModifiers(EquipmentSlot slot, ItemStack stack) {
+//        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+//
+//        if (NBTUtils.getFloatOrAddKey(stack, "reach") > 0) {
+//            if (reach == null) {
+//                reach = ForgeRegistries.ATTRIBUTES.getValue(new ResourceLocation("forge", "reach_distance"));
+//                assert reach != null;
+//            }
+//
+//            builder.put(reach, new AttributeModifier(reachUUID,
+//                    "Reach modifier",
+//                    NBTUtils.getFloatOrAddKey(stack, "reach") * CrystalToolsConfig.REACH_INCREASE.get(),
+//                    AttributeModifier.Operation.ADDITION));
+//        }
+//
+//        return builder.build();
+//    }
 
     @Override
     public @NotNull Rarity getRarity(@NotNull ItemStack stack) {
@@ -306,5 +353,9 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
     @Override
     public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
         return CrystalToolsConfig.ENCHANT_TOOLS.get();
+    }
+
+    protected float getAttackDamage(ItemStack stack) {
+        return initialAttackDamage + NBTUtils.getFloatOrAddKey(stack, "damage_bonus");
     }
 }
