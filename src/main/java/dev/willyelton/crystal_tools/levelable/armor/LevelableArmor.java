@@ -38,7 +38,7 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Equipabl
 
     @Override
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-        // TODO: Dupe with elytra I assume
+        // TODO: Dupe with elytra
         if (slot == this.getEquipmentSlot()) {
             UUID uuid = ARMOR_MODIFIER_UUID_PER_SLOT[slot.getIndex()];
             ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();

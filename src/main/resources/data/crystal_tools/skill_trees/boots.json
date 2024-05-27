@@ -7,7 +7,7 @@
         "description": "Gives the boots Prot I.",
         "type": "normal",
         "requirements": [],
-        "key": "Prot_bonus",
+        "key": "protection_bonus",
         "value": 1
       },
       {
@@ -16,7 +16,7 @@
         "description": "Gives the boots Fire Prot I.",
         "type": "normal",
         "requirements": [],
-        "key": "fire_Prot_bonus",
+        "key": "fire_protection_bonus",
         "value": 1
       },
       {
@@ -25,7 +25,7 @@
         "description": "Gives the boots Blast Prot I.",
         "type": "normal",
         "requirements": [],
-        "key": "blast_Prot_bonus",
+        "key": "blast_protection_bonus",
         "value": 1
       },
       {
@@ -34,7 +34,7 @@
         "description": "Gives the boots Projectile Prot I.",
         "type": "normal",
         "requirements": [],
-        "key": "projectile_Prot_bonus",
+        "key": "projectile_protection_bonus",
         "value": 1
       }
     ],
@@ -47,7 +47,7 @@
         "requirements": [
           {"node": [0]}
         ],
-        "key": "Prot_bonus",
+        "key": "protection_bonus",
         "value": 2
       },
       {
@@ -58,7 +58,7 @@
         "requirements": [
           {"node": [1]}
         ],
-        "key": "fire_Prot_bonus",
+        "key": "fire_protection_bonus",
         "value": 2
       },
       {
@@ -69,7 +69,7 @@
         "requirements": [
           {"node": [2]}
         ],
-        "key": "blast_Prot_bonus",
+        "key": "blast_protection_bonus",
         "value": 2
       },
       {
@@ -80,7 +80,7 @@
         "requirements": [
           {"node": [3]}
         ],
-        "key": "projectile_Prot_bonus",
+        "key": "projectile_protection_bonus",
         "value": 2
       }
     ],
@@ -129,7 +129,7 @@
           {"node": [4]},
           {"or_node": [8, 9, 10]}
         ],
-        "key": "Prot_bonus",
+        "key": "protection_bonus",
         "value": 3
       },
       {
@@ -141,7 +141,7 @@
           {"node": [5]},
           {"or_node": [8, 9, 10]}
         ],
-        "key": "fire_Prot_bonus",
+        "key": "fire_protection_bonus",
         "value": 3
       },
       {
@@ -153,7 +153,7 @@
           {"node": [6]},
           {"or_node": [8, 9, 10]}
         ],
-        "key": "blast_Prot_bonus",
+        "key": "blast_protection_bonus",
         "value": 3
       },
       {
@@ -165,7 +165,7 @@
           {"node": [7]},
           {"or_node": [8, 9, 10]}
         ],
-        "key": "projectile_Prot_bonus",
+        "key": "projectile_protection_bonus",
         "value": 3
       }
     ],
@@ -227,7 +227,7 @@
           {"node": [11]},
           {"or_node": [15, 16, 17, 18]}
         ],
-        "key": "Prot_bonus",
+        "key": "protection_bonus",
         "value": 4
       },
       {
@@ -239,7 +239,7 @@
           {"node": [12]},
           {"or_node": [15, 16, 17, 18]}
         ],
-        "key": "fire_Prot_bonus",
+        "key": "fire_protection_bonus",
         "value": 4
       },
       {
@@ -251,7 +251,7 @@
           {"node": [13]},
           {"or_node": [15, 16, 17, 18]}
         ],
-        "key": "blast_Prot_bonus",
+        "key": "blast_protection_bonus",
         "value": 4
       },
       {
@@ -263,7 +263,7 @@
           {"node": [14]},
           {"or_node": [15, 16, 17, 18]}
         ],
-        "key": "projectile_Prot_bonus",
+        "key": "projectile_protection_bonus",
         "value": 4
       }
     ],
@@ -313,6 +313,17 @@
         ],
         "key": "frost_walker_bonus",
         "value": 2
+      },
+      {
+        "id": 28,
+        "name": "Thorns",
+        "description": "Gives the boots thorns III",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [19, 20, 21, 22]}
+        ],
+        "key": "thorns_bonus",
+        "value": 3
       }
     ],
     [

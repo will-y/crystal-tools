@@ -38,7 +38,9 @@ The following tools/armor pieces are implemented:
 - Crystal Elytra
 - Crystal Rocket
 - Crystal Apple
+- Crystal Backpack
 - Crystal Trident
+- Crystal Fishing Rod
 
 ## Other Items
 - Crystal Backpack
