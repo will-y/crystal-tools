@@ -58,6 +58,7 @@ There will be upgrades that are common to most tools, and tools will each get un
 - Fortune
 - Auto Smelting
 - 3x3 Mining
+- Auto Pickup
 - Mode Switch
   - Allows you to upgrade both Fortune and Silk Touch on your tool, and switch between them. (`m` by default)
 
