@@ -60,9 +60,10 @@ public class ToolUtils {
             components.add(Component.literal("\u00A79" + "Break Mode: " + mode + changeKey));
         }
 
-        if (NBTUtils.getFloatOrAddKey(itemStack, "mine_mode") > 0 && NBTUtils.getFloatOrAddKey(itemStack, "auto_smelt") > 0 && NBTUtils.getBoolean(itemStack, "disable_auto_smelt")) {
-            String changeKey = KeyBindings.modeSwitch == null ? "" : " (Ctrl + " + KeyBindings.modeSwitch.getKey().getDisplayName().getString() + " to enable)";
-            components.add(Component.literal("\u00A79" + "Auto Smelt Disabled" + changeKey));
+        if (NBTUtils.getFloatOrAddKey(itemStack, "mine_mode") > 0 && NBTUtils.getFloatOrAddKey(itemStack, "auto_smelt") > 0) {
+            boolean enabled = !NBTUtils.getBoolean(itemStack, "disable_auto_smelt");
+            String changeKey = KeyBindings.modeSwitch == null ? "" : " (Ctrl + " + KeyBindings.modeSwitch.getKey().getDisplayName().getString() + " to toggle)";
+            components.add(Component.literal("\u00A79" + "Auto Smelt " + (enabled ? "Enabled" : "Disabled") + changeKey));
         }
 
         if (item instanceof AIOLevelableTool) {

@@ -37,10 +37,14 @@
   - Adds config option `FISHING_ROD_EXP`: Determines how much experience you get for fish caught
 - Adds thorns option to the armor pieces
 - Adds ability to use the scroll wheel to scroll on upgrade screens
+- Adds new upgrade `auto_pickup`. Blocks mined will automatically go into your inventory if there is space
 
 ### Fixes
 - Fixes prot enchantments not going on armor
 - Fixes reach upgrades not increasing attack range
+
+### Changes
+- The Autosmelt tooltip is always shown when autosmelt and mode switch are upgraded
 
 ## 1.6.1
 ### Additions
