@@ -40,6 +40,7 @@
 
 ### Fixes
 - Fixes prot enchantments not going on armor
+- Fixes reach upgrades not increasing attack range
 
 ## 1.6.1
 ### Additions

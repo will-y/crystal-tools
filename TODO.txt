@@ -23,8 +23,6 @@
 - Make or / not / unless node connections look different somehow
 - Pressing k with no tools will go to equipped items, buttons at the top of the screen to arrow between equipped / held items
 - Auto crafter
-- Limit to infinite nodes (breaking json change so wait until 1.21)
-    - Require x points in infinite node as requirement?
 - Block break event triggers 10 times instead of 9 on 3x3
 - Packet interface
 - Do something better with tooltips
@@ -38,12 +36,16 @@
 - Data gen ore gen
 - Wolf
 - Adds tools to respective tool tags
+- Event driven block breaking things (smelting / 3x3 / vein mining) maybe
+- Items picked up with autopickup go into backpacks
 
 --------------------------- 1.21 refactor ---------------------------
 - maybe try tags and events instead of needing my own type
 - Capability instead of just writing to NBT tags?
 - Event organization
+- Limit to infinite nodes (breaking json change so wait until 1.21)
+    - Require x points in infinite node as requirement?
 
 --------------------------- 1.7.0 ---------------------------
-- Auto pickup
 - Double check everything in the trident skill tree
+- Show tooltip for smelting enabled not just disabled + others

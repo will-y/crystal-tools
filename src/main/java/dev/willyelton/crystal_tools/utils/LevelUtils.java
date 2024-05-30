@@ -1,8 +1,12 @@
 package dev.willyelton.crystal_tools.utils;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
@@ -13,45 +17,68 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraftforge.common.ForgeHooks;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class LevelUtils {
     // I stole this from Level.java because it is bad and I need to make it better
-    public static boolean destroyBlock(Level level, BlockPos pPos, boolean pDropBlock, @Nullable Entity pEntity, int pRecursionLeft, ItemStack tool) {
-        BlockState blockstate = level.getBlockState(pPos);
-        if (blockstate.isAir()) {
+    public static boolean destroyBlock(Level level, BlockPos pos, boolean dropBlock, @Nullable Entity entity, int recursionLeft, ItemStack tool, boolean autoPickup) {
+        BlockState blockState = level.getBlockState(pos);
+        if (blockState.isAir()) {
             return false;
         } else {
-            FluidState fluidstate = level.getFluidState(pPos);
-            if (!(blockstate.getBlock() instanceof BaseFireBlock)) {
-                level.levelEvent(2001, pPos, Block.getId(blockstate));
+            FluidState fluidstate = level.getFluidState(pos);
+            if (!(blockState.getBlock() instanceof BaseFireBlock)) {
+                level.levelEvent(2001, pos, Block.getId(blockState));
             }
 
-            if (pDropBlock) {
-                BlockEntity blockentity = blockstate.hasBlockEntity() ? level.getBlockEntity(pPos) : null;
-                // Change to tool
-                if (pEntity != null) {
-                    Block.dropResources(blockstate, level, pPos, blockentity, pEntity, tool);
+            if (dropBlock) {
+                BlockEntity blockentity = blockState.hasBlockEntity() ? level.getBlockEntity(pos) : null;
 
-                    if (pEntity instanceof ServerPlayer player && level instanceof ServerLevel serverLevel) {
-                        int exp = net.minecraftforge.common.ForgeHooks.onBlockBreakEvent(level, GameType.SURVIVAL, player, pPos);
+                if (entity instanceof ServerPlayer player && level instanceof ServerLevel serverLevel) {
+                    List<ItemStack> drops = Block.getDrops(blockState, (ServerLevel) level, pos, null, entity, tool);
+                    if (autoPickup) {
+                        addToInventoryOrDrop(drops, player, level, pos);
+                    } else {
+                        Block.dropResources(blockState, level, pos, blockentity, entity, tool);
+                    }
 
-                        if (exp > 0) {
-                            blockstate.getBlock().popExperience(serverLevel, pPos, exp);
-                        }
+                    int exp = ForgeHooks.onBlockBreakEvent(level, GameType.SURVIVAL, player, pos);
+
+                    if (exp > 0) {
+                        blockState.getBlock().popExperience(serverLevel, pos, exp);
                     }
                 } else {
-                    Block.dropResources(blockstate, level, pPos, blockentity, pEntity, tool);
+                    Block.dropResources(blockState, level, pos, blockentity, entity, tool);
                 }
             }
 
-            boolean flag = level.setBlock(pPos, fluidstate.createLegacyBlock(), 3, pRecursionLeft);
+            boolean flag = level.setBlock(pos, fluidstate.createLegacyBlock(), 3, recursionLeft);
             if (flag) {
-                level.gameEvent(pEntity, GameEvent.BLOCK_DESTROY, pPos);
+                level.gameEvent(entity, GameEvent.BLOCK_DESTROY, pos);
             }
 
             return flag;
+        }
+    }
+
+    public static void addToInventoryOrDrop(List<ItemStack> stacks, ServerPlayer player, Level level, BlockPos pos) {
+        boolean pickedUp = false;
+
+
+
+        for (ItemStack stack : stacks) {
+            if (!player.getInventory().add(stack)) {
+                Block.popResource(level, pos, stack);
+            } else {
+                pickedUp = true;
+            }
+        }
+
+        if (pickedUp) {
+            player.connection.send(new ClientboundSoundPacket(Holder.direct(SoundEvents.ITEM_PICKUP), SoundSource.PLAYERS, player.getX(), player.getY(), player.getZ(),  0.2F, (level.random.nextFloat() - level.random.nextFloat()) * 1.4F + 2.0F, level.getRandom().nextLong()));
         }
     }
 }

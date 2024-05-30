@@ -170,6 +170,17 @@
         ],
         "key": "reach",
         "value": 1
+      },
+      {
+        "id": 29,
+        "name": "Auto Pickup",
+        "description": "When you break blocks, the drops will automatically go into your inventory if there is space.",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [6, 7, 20]}
+        ],
+        "key": "auto_pickup",
+        "value": 1
       }
     ],
     [

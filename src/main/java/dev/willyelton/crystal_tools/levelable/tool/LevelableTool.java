@@ -14,6 +14,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.SimpleContainer;
@@ -104,11 +105,21 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
     public boolean onBlockStartBreak(ItemStack tool, BlockPos pos, Player player) {
         Level level = player.level();
 
+        boolean autoPickup = NBTUtils.getBoolean(tool, "auto_pickup");
+
         if (NBTUtils.getFloatOrAddKey(tool, "auto_smelt") > 0 && !NBTUtils.getBoolean(tool, "disable_auto_smelt")) {
             if (!level.isClientSide) {
-                dropSmeltedItem(tool, level, level.getBlockState(pos), pos, player);
+                dropSmeltedItem(tool, level, level.getBlockState(pos), pos, player, autoPickup);
             }
             this.mineBlock(tool, level, level.getBlockState(pos), pos, player);
+            return true;
+        }
+
+        // Could just call LevelUtils.destroyBlock, but I don't completely trust it so might as well use default behavior when I can
+        if (autoPickup) {
+            if (!level.isClientSide) {
+                LevelUtils.destroyBlock(level, pos, true, player, 512, tool, true);
+            }
             return true;
         }
 
@@ -136,21 +147,24 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
         // TODO: Don't break if tool is broken
         BlockState blockState = level.getBlockState(blockPos);
         if (isCorrectToolForDrops(tool, blockState)) {
-            if (NBTUtils.getFloatOrAddKey(tool, "auto_smelt") > 0 && !NBTUtils.getBoolean(tool, "disable_auto_smelt")) {
-                if (!level.isClientSide) {
-                    dropSmeltedItem(tool, level, blockState, blockPos, entity);
-                }
-            } else {
-                LevelUtils.destroyBlock(level, blockPos, true, entity, 512, tool);
-            }
+            boolean autoPickup = NBTUtils.getBoolean(tool, "auto_pickup");
             if (!level.isClientSide) {
+                if (NBTUtils.getFloatOrAddKey(tool, "auto_smelt") > 0 && !NBTUtils.getBoolean(tool, "disable_auto_smelt")) {
+                    dropSmeltedItem(tool, level, blockState, blockPos, entity, autoPickup);
+                } else {
+                    LevelUtils.destroyBlock(level, blockPos, true, entity, 512, tool, autoPickup);
+                }
+
                 tool.hurtAndBreak(1, entity, (player) -> player.broadcastBreakEvent(EquipmentSlot.MAINHAND));
             }
             addExp(tool, level, blockPos, entity);
         }
     }
 
-    protected void dropSmeltedItem(ItemStack tool, Level level, BlockState blockState, BlockPos pos, LivingEntity entity) {
+    /**
+     * Only Called on Server
+     */
+    protected void dropSmeltedItem(ItemStack tool, Level level, BlockState blockState, BlockPos pos, LivingEntity entity, boolean autoPickup) {
         List<ItemStack> drops = Block.getDrops(blockState, (ServerLevel) level, pos, null, entity, tool);
         List<ItemStack> toDrop = new ArrayList<>();
 
@@ -167,14 +181,22 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
 
                 if (!result.is(Items.AIR)) {
                     toDrop.add(result);
+                } else {
+                    toDrop.add(stack);
                 }
+            } else {
+                toDrop.add(stack);
             }
         }
 
-        LevelUtils.destroyBlock(level, pos, toDrop.isEmpty(), entity, 512, tool);
+        LevelUtils.destroyBlock(level, pos, toDrop.isEmpty(), entity, 512, tool, false);
 
-        for (ItemStack stack : toDrop) {
-            Block.popResource(level, pos, stack);
+        if (autoPickup && entity instanceof ServerPlayer player) {
+            LevelUtils.addToInventoryOrDrop(toDrop, player, level, pos);
+        } else {
+            for (ItemStack stack : toDrop) {
+                Block.popResource(level, pos, stack);
+            }
         }
     }
 
@@ -309,35 +331,6 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
             return super.getAttributeModifiers(slot, stack);
         }
     }
-
-    private void setForgeRegistries() {
-        // TODO: This could probably be better, not sure when these registries are set
-        if (reachAttribute == null) {
-            reachAttribute = ForgeRegistries.ATTRIBUTES.getValue(new ResourceLocation("forge", "reach_distance"));
-        }
-
-        if (attackRangeAttribute == null) {
-            attackRangeAttribute = ForgeRegistries.ATTRIBUTES.getValue(new ResourceLocation("forge", "attack_range"));
-        }
-    }
-
-//    public Multimap<Attribute, AttributeModifier> getReachModifiers(EquipmentSlot slot, ItemStack stack) {
-//        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-//
-//        if (NBTUtils.getFloatOrAddKey(stack, "reach") > 0) {
-//            if (reach == null) {
-//                reach = ForgeRegistries.ATTRIBUTES.getValue(new ResourceLocation("forge", "reach_distance"));
-//                assert reach != null;
-//            }
-//
-//            builder.put(reach, new AttributeModifier(reachUUID,
-//                    "Reach modifier",
-//                    NBTUtils.getFloatOrAddKey(stack, "reach") * CrystalToolsConfig.REACH_INCREASE.get(),
-//                    AttributeModifier.Operation.ADDITION));
-//        }
-//
-//        return builder.build();
-//    }
 
     @Override
     public @NotNull Rarity getRarity(@NotNull ItemStack stack) {

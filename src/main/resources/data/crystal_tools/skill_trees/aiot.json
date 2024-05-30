@@ -378,6 +378,17 @@
         ],
         "key": "durability_bonus",
         "value": 200
+      },
+      {
+        "id": 47,
+        "name": "Auto Pickup",
+        "description": "When you break blocks, the drops will automatically go into your inventory if there is space.",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [21, 22, 23, 40, 44]}
+        ],
+        "key": "auto_pickup",
+        "value": 1
       }
     ],
     [
@@ -388,7 +399,7 @@
         "type": "normal",
         "requirements": [
           {
-            "or_node": [24, 25, 26, 27]
+            "or_node": [24, 25, 26, 27, 47]
           }
         ],
         "key": "torch",
@@ -401,7 +412,7 @@
         "type": "normal",
         "requirements": [
           {
-            "or_node": [24, 25, 26, 27]
+            "or_node": [24, 25, 26, 27, 47]
           }
         ],
         "key": "mine_mode",
@@ -413,7 +424,7 @@
         "description": "Gives this AIOT Looting III",
         "type": "normal",
         "requirements": [
-          {"or_node": [24, 25, 26, 27]}
+          {"or_node": [24, 25, 26, 27, 47]}
         ],
         "key": "looting_bonus",
         "value": 3
@@ -424,7 +435,7 @@
         "description": "Adds 10% to the chance not use durability",
         "type": "normal",
         "requirements": [
-          {"or_node": [24, 25, 26, 27]},
+          {"or_node": [24, 25, 26, 27, 47]},
           {"node": [40]}
         ],
         "key": "unbreaking",
@@ -436,7 +447,7 @@
         "description": "Increases AIOT's Reach Distance",
         "type": "normal",
         "requirements": [
-          {"or_node": [24, 25, 26, 27]},
+          {"or_node": [24, 25, 26, 27, 47]},
           {"node": [44]}
         ],
         "key": "reach",

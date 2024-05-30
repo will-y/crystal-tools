@@ -232,6 +232,17 @@
         ],
         "key": "reach",
         "value": 1
+      },
+      {
+        "id": 30,
+        "name": "Auto Pickup",
+        "description": "When you break blocks, the drops will automatically go into your inventory if there is space.",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [12, 22]}
+        ],
+        "key": "auto_pickup",
+        "value": 1
       }
     ],
     [
@@ -241,7 +252,7 @@
         "description": "Automatically Repairs Your Tool Over Time!",
         "type": "infinite",
         "requirements": [
-          {"or_node": [14, 15, 28]}
+          {"or_node": [14, 15, 28, 30]}
         ],
         "key": "auto_repair",
         "value": 1
@@ -253,7 +264,7 @@
         "type": "normal",
         "requirements":[
           {
-            "or_node": [14, 15, 28]
+            "or_node": [14, 15, 28, 30]
           }
         ],
         "key": "auto_smelt",
@@ -265,7 +276,7 @@
         "description": "Adds 10% to the chance not use durability",
         "type": "normal",
         "requirements": [
-          {"or_node": [14, 15, 28]},
+          {"or_node": [14, 15, 28, 30]},
           {"node": [22]}
         ],
         "key": "unbreaking",
@@ -277,7 +288,7 @@
         "description": "Press mode_switch key to change the mining mode between unlocked modes (Silk Touch or Fortune).",
         "type": "normal",
         "requirements": [
-          {"or_node": [14, 15, 28]}
+          {"or_node": [14, 15, 28, 30]}
         ],
         "key": "mine_mode",
         "value": 1

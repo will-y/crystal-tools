@@ -27,7 +27,6 @@ import java.util.function.Predicate;
  * Handles the 3x3 mining and vein mining
  */
 public abstract class DiggerLevelableTool extends LevelableTool implements VeinMinerLevelableTool {
-
     public DiggerLevelableTool(Properties properties, TagKey<Block> mineableBlocks, String toolType, float attackDamageModifier, float attackSpeedModifier) {
         super(properties, mineableBlocks, toolType, attackDamageModifier, attackSpeedModifier);
     }
