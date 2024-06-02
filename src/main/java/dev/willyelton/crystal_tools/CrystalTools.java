@@ -18,7 +18,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-// The value here should match an entry in the META-INF/mods.toml file
+// The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(CrystalTools.MODID)
 public class CrystalTools {
     // Directly reference a log4j logger.
