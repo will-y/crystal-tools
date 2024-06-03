@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 1.7.2
+### Additions
+- Adds Russian Translation (credit to https://github.com/Alexander317)
+
 ## 1.7.1
 ### Fixes
 - Fixes server crashing on load due to trident model
