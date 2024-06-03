@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 1.7.1
+### Fixes
+- Fixes server crashing on load due to trident model
+
 ## 1.7.0
 ### Additions
 - Adds the Crystal Trident

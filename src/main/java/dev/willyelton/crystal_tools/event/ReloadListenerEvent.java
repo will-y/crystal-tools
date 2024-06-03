@@ -9,7 +9,6 @@ import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.network.packet.SkillCacheUpdatePacket;
-import dev.willyelton.crystal_tools.renderer.CrystalTridentBlockEntityWithoutLevelRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -29,15 +28,14 @@ import java.util.*;
 
 @Mod.EventBusSubscriber(modid = CrystalTools.MODID)
 public class ReloadListenerEvent {
-
     private static final Gson gson = new GsonBuilder().create();
     private static final List<String> SKILL_TREES = List.of("aiot", "apple", "axe", "boots", "bow", "chestplate",
             "crystal_elytra", "crystal_furnace", "crystal_rocket", "helmet", "hoe", "leggings", "pickaxe", "shovel",
             "sword", "backpack", "trident", "fishing_rod");
+
     @SubscribeEvent
     public static void handleReloadListener(AddReloadListenerEvent reloadListenerEvent) {
         reloadListenerEvent.addListener(new ReloadListener());
-        reloadListenerEvent.addListener(CrystalTridentBlockEntityWithoutLevelRenderer.INSTANCE);
     }
 
     private static Map<String, SkillData> skillDataMap;
@@ -45,7 +43,6 @@ public class ReloadListenerEvent {
     @SubscribeEvent
     public static void handleDataPackSync(OnDatapackSyncEvent onDatapackSyncEvent) {
         for (Map.Entry<String, SkillData> entry : skillDataMap.entrySet()) {
-
             if (onDatapackSyncEvent.getPlayer() != null) {
                 CrystalTools.LOGGER.log(Level.TRACE, "Syncing Tool " + entry.getKey() + " with player " + onDatapackSyncEvent.getPlayer().getDisplayName().getString());
                 PacketHandler.sendToPlayer(new SkillCacheUpdatePacket(entry.getKey(), entry.getValue()), onDatapackSyncEvent.getPlayer());
@@ -57,7 +54,6 @@ public class ReloadListenerEvent {
     }
 
     private static final class ReloadListener extends SimplePreparableReloadListener<Map<String, SkillData>> {
-
         @Override
         protected @NotNull Map<String, SkillData> prepare(@NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profiler) {
             CrystalTools.LOGGER.log(Level.TRACE, "Reloading Crystal Tools Skill Trees");
