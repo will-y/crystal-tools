@@ -291,7 +291,7 @@
           {"or_node": [17, 18, 19, 20]}
         ],
         "key": "lifesteal",
-        "value": 1
+        "value": 2
       },
       {
         "id": 23,

@@ -1,22 +1,18 @@
 package dev.willyelton.crystal_tools.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.willyelton.crystal_tools.gui.component.ScrollBar;
 import dev.willyelton.crystal_tools.gui.component.SortButton;
 import dev.willyelton.crystal_tools.gui.component.WhitelistToggleButton;
 import dev.willyelton.crystal_tools.inventory.container.CrystalBackpackContainerMenu;
-import dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket;
+import dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 
-import static dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket.Type.*;
+import static dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload.PickupType.*;
 
 public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBackpackContainerMenu> {
     public static final ResourceLocation TEXTURE = new ResourceLocation("crystal_tools:textures/gui/crystal_backpack.png");
@@ -64,7 +60,7 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
 
     @Override
     public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        this.renderBackground(guiGraphics);
+        this.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
         super.render(guiGraphics, mouseX, mouseY, partialTick);
         this.renderTooltip(guiGraphics, mouseX, mouseY);
     }
@@ -126,7 +122,7 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
                         if (button instanceof WhitelistToggleButton toggleButton) {
                             toggleButton.setWhitelist(whitelist);
                             container.setWhitelist(whitelist);
-                            BackpackScreenPacket.Type type = whitelist ? PICKUP_WHITELIST : PICKUP_BLACKLIST;
+                            BackpackScreenPayload.PickupType type = whitelist ? PICKUP_WHITELIST : PICKUP_BLACKLIST;
                             container.sendUpdatePacket(type);
                         }
                     },

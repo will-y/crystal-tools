@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "crystal_tools:crystal"
-            ]
+            "items": "crystal_tools:crystal"
           }
         ]
       },
@@ -22,14 +20,13 @@
   },
   "requirements": [
     [
-      "has_crystal",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_crystal"
     ]
   ],
   "rewards": {
     "recipes": [
       "crystal_tools:netherite_stick"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

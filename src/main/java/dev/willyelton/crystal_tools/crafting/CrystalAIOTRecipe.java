@@ -1,25 +1,24 @@
 package dev.willyelton.crystal_tools.crafting;
 
+import dev.willyelton.crystal_tools.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
-import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
-import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class CrystalAIOTRecipe extends CrystalToolsRecipe {
@@ -32,9 +31,10 @@ public class CrystalAIOTRecipe extends CrystalToolsRecipe {
             Items.SLIME_BLOCK
     };
 
-    public CrystalAIOTRecipe(ResourceLocation location, CraftingBookCategory category) {
-        super(location, category);
+    public CrystalAIOTRecipe(CraftingBookCategory category) {
+        super(category);
     }
+
     @Override
     public boolean matches(@NotNull CraftingContainer container, @NotNull Level level) {
         if (CrystalToolsConfig.DISABLE_AIOT.get()) return false;
@@ -65,7 +65,7 @@ public class CrystalAIOTRecipe extends CrystalToolsRecipe {
     }
 
     @Override
-    public @NotNull ItemStack assemble(@NotNull CraftingContainer container, @NotNull RegistryAccess registryAccess) {
+    public @NotNull ItemStack assemble(@NotNull CraftingContainer container, @NotNull HolderLookup.Provider registryAccess) {
         ItemStack result = new ItemStack(Registration.CRYSTAL_AIOT.get());
 
         List<ItemStack> levelableItems = this.getLevelableItems(container);
@@ -73,11 +73,11 @@ public class CrystalAIOTRecipe extends CrystalToolsRecipe {
         int totalPoints = 0;
 
         for (ItemStack stack : levelableItems) {
-            int[] points = NBTUtils.getIntArray(stack, "points");
-            totalPoints += Arrays.stream(points).sum() + (int) NBTUtils.getFloatOrAddKey(stack, "skill_points");
+            List<Integer> points = stack.getOrDefault(DataComponents.POINTS_ARRAY, Collections.emptyList());
+            totalPoints += points.stream().mapToInt(Integer::intValue).sum() + stack.getOrDefault(DataComponents.SKILL_POINTS, 0);
         }
 
-        NBTUtils.setValue(result, "skill_points", totalPoints);
+        result.set(DataComponents.SKILL_POINTS, totalPoints);
 
         ToolUtils.increaseExpCap(result, totalPoints);
 

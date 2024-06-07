@@ -17,7 +17,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraftforge.common.ForgeHooks;
+import net.neoforged.neoforge.common.CommonHooks;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -45,7 +45,7 @@ public class LevelUtils {
                         Block.dropResources(blockState, level, pos, blockentity, entity, tool);
                     }
 
-                    int exp = ForgeHooks.onBlockBreakEvent(level, GameType.SURVIVAL, player, pos);
+                    int exp = CommonHooks.fireBlockBreak(level, GameType.SURVIVAL, player, pos, blockState);
 
                     if (exp > 0) {
                         blockState.getBlock().popExperience(serverLevel, pos, exp);
@@ -66,8 +66,6 @@ public class LevelUtils {
 
     public static void addToInventoryOrDrop(List<ItemStack> stacks, ServerPlayer player, Level level, BlockPos pos) {
         boolean pickedUp = false;
-
-
 
         for (ItemStack stack : stacks) {
             if (!player.getInventory().add(stack)) {

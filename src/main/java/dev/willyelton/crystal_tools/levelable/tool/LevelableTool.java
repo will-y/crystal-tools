@@ -1,18 +1,14 @@
 package dev.willyelton.crystal_tools.levelable.tool;
 
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
+import dev.willyelton.crystal_tools.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.levelable.LevelableItem;
-import dev.willyelton.crystal_tools.network.PacketHandler;
-import dev.willyelton.crystal_tools.network.packet.BlockBreakPacket;
+import dev.willyelton.crystal_tools.common.network.data.BlockBreakPayload;
 import dev.willyelton.crystal_tools.utils.LevelUtils;
-import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
@@ -20,24 +16,34 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.TieredItem;
+import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
-import java.util.*;
-import java.util.function.Consumer;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public abstract class LevelableTool extends TieredItem implements LevelableItem {
     protected static final UUID ATTACK_DAMAGE_UUID = UUID.randomUUID();
@@ -51,9 +57,6 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
     protected final TagKey<Block> blocks;
     protected final String itemType;
     protected final int initialDurability;
-    private final Multimap<Attribute, AttributeModifier> defaultModifiers;
-    private Attribute reachAttribute;
-    private Attribute attackRangeAttribute;
     private final float initialAttackDamage;
 
     public LevelableTool(Item.Properties properties, TagKey<Block> mineableBlocks, String itemType, float attackDamageModifier, float attackSpeedModifier) {
@@ -61,24 +64,26 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
     }
 
     public LevelableTool(Item.Properties properties, TagKey<Block> mineableBlocks, String itemType, float attackDamageModifier, float attackSpeedModifier, int durability) {
-        super(Tiers.NETHERITE, properties.fireResistant());
+        super(Tiers.NETHERITE, properties.fireResistant()
+                .rarity(Rarity.RARE)
+                .attributes(ItemAttributeModifiers.builder()
+                        .add(Attributes.ATTACK_DAMAGE,
+                                new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", INITIAL_TIER.getAttackDamageBonus() + attackDamageModifier, AttributeModifier.Operation.ADD_VALUE),
+                                EquipmentSlotGroup.MAINHAND)
+                        .add(Attributes.ATTACK_SPEED,
+                                new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", attackSpeedModifier, AttributeModifier.Operation.ADD_VALUE),
+                                EquipmentSlotGroup.MAINHAND)
+                        .build()));
         this.blocks = mineableBlocks;
         this.itemType = itemType;
         this.initialDurability = durability;
         this.initialAttackDamage = INITIAL_TIER.getAttackDamageBonus() + attackDamageModifier;
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", this.initialAttackDamage, AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", attackSpeedModifier, AttributeModifier.Operation.ADDITION));
-        this.defaultModifiers = builder.build();
-
-        reachAttribute = ForgeRegistries.ATTRIBUTES.getValue(new ResourceLocation("forge", "reach_distance"));
-        attackRangeAttribute = ForgeRegistries.ATTRIBUTES.getValue(new ResourceLocation("forge", "attack_range"));
     }
 
     // From DiggerItem.java
     @Override
     public float getDestroySpeed(@NotNull ItemStack tool, @NotNull BlockState blockState) {
-        float bonus = NBTUtils.getFloatOrAddKey(tool, "speed_bonus");
+        float bonus = tool.getOrDefault(DataComponents.MINING_SPEED, 0F);
         if (ToolUtils.isBroken(tool)) {
             // broken
             return 0.1F;
@@ -97,17 +102,23 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
             return false;
         }
 
-        tool.hurtAndBreak(2, attacker, (player) -> player.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+        tool.hurtAndBreak(2, attacker, EquipmentSlot.MAINHAND);
         return true;
     }
 
-    @Override
+    /**
+     * Called from {@link dev.willyelton.crystal_tools.common.events.BlockEvents}
+     * @param tool Stack used for breaking the block (player mainhand item)
+     * @param pos Position of the block
+     * @param player Player breaking the block
+     * @return Return true to cancel the original break event
+     */
     public boolean onBlockStartBreak(ItemStack tool, BlockPos pos, Player player) {
         Level level = player.level();
 
-        boolean autoPickup = NBTUtils.getBoolean(tool, "auto_pickup");
+        boolean autoPickup = tool.getOrDefault(DataComponents.AUTO_PICKUP, false);
 
-        if (NBTUtils.getFloatOrAddKey(tool, "auto_smelt") > 0 && !NBTUtils.getBoolean(tool, "disable_auto_smelt")) {
+        if (shouldAutoSmelt(tool)) {
             if (!level.isClientSide) {
                 dropSmeltedItem(tool, level, level.getBlockState(pos), pos, player, autoPickup);
             }
@@ -135,7 +146,7 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
         }
 
         if (!level.isClientSide) {
-            tool.hurtAndBreak(1, entity, (player) -> player.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+            tool.hurtAndBreak(1, entity, EquipmentSlot.MAINHAND);
         }
 
         addExp(tool, level, blockPos, entity);
@@ -147,15 +158,15 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
         // TODO: Don't break if tool is broken
         BlockState blockState = level.getBlockState(blockPos);
         if (isCorrectToolForDrops(tool, blockState)) {
-            boolean autoPickup = NBTUtils.getBoolean(tool, "auto_pickup");
+            boolean autoPickup = tool.getOrDefault(DataComponents.AUTO_PICKUP, false);
             if (!level.isClientSide) {
-                if (NBTUtils.getFloatOrAddKey(tool, "auto_smelt") > 0 && !NBTUtils.getBoolean(tool, "disable_auto_smelt")) {
+                if (shouldAutoSmelt(tool)) {
                     dropSmeltedItem(tool, level, blockState, blockPos, entity, autoPickup);
                 } else {
                     LevelUtils.destroyBlock(level, blockPos, true, entity, 512, tool, autoPickup);
                 }
 
-                tool.hurtAndBreak(1, entity, (player) -> player.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+                tool.hurtAndBreak(1, entity, EquipmentSlot.MAINHAND);
             }
             addExp(tool, level, blockPos, entity);
         }
@@ -171,10 +182,10 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
         for (ItemStack stack : drops) {
             int count = stack.getCount();
 
-            Optional<SmeltingRecipe> recipeOptional = level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, new SimpleContainer(stack), level);
+            Optional<RecipeHolder<SmeltingRecipe>> recipeOptional = level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, new SimpleContainer(stack), level);
 
             if (recipeOptional.isPresent()) {
-                SmeltingRecipe recipe = recipeOptional.get();
+                SmeltingRecipe recipe = recipeOptional.get().value();
                 popExperience((ServerLevel) level, entity, recipe.getExperience());
                 ItemStack result = recipe.getResultItem(level.registryAccess()).copy();
                 result.setCount(count * result.getCount());
@@ -220,7 +231,7 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
             if (level.getBlockState(pos).getDestroySpeed(level, pos) <= firstBlockSpeed + 20) {
                 breakBlock(tool, level, pos, entity);
                 if (sendServerPackets) {
-                    PacketHandler.sendToServer(new BlockBreakPacket(pos));
+                    PacketDistributor.sendToServer(new BlockBreakPayload(pos));
                 }
             }
         }
@@ -228,7 +239,7 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
 
     @Override
     public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
-        return correctTool(stack, state) && net.minecraftforge.common.TierSortingRegistry.isCorrectTierForDrops(getTier(), state);
+        return correctTool(stack, state) && INITIAL_TIER.createToolProperties(blocks).isCorrectForDrops(state);
     }
 
     @Override
@@ -238,7 +249,7 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
 
     @Override
     public int getMaxDamage(ItemStack stack) {
-        int bonusDurability = (int) NBTUtils.getFloatOrAddKey(stack, "durability_bonus");
+        int bonusDurability = stack.getOrDefault(DataComponents.DURABILITY_BONUS, 0);
         return this.initialDurability + bonusDurability;
     }
 
@@ -270,14 +281,16 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
-        ToolUtils.appendHoverText(itemStack, level, components, flag, this);
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag flag) {
+        ToolUtils.appendHoverText(stack, tooltipComponents, flag, this);
     }
 
+    // TODO: These that I have to override the same in armor / bow ... should probably be a default method I can call
     @Override
-    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<T> onBroken) {
-        int durability = this.getMaxDamage(stack) - (int) NBTUtils.getFloatOrAddKey(stack, "Damage");
-        float unbreakingLevel = NBTUtils.getFloatOrAddKey(stack, "unbreaking");
+    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Runnable onBroken) {
+        // TODO: Check this, new vanilla method getDamageValue
+        int durability = this.getMaxDamage(stack) - stack.getDamageValue();
+        float unbreakingLevel = stack.getOrDefault(DataComponents.UNBREAKING, 0F);
         int damageToTake = 0;
 
         while (amount > 0) {
@@ -295,47 +308,41 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
     }
 
     @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-        if (slot == EquipmentSlot.MAINHAND && !ToolUtils.isBroken(stack)) {
-            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-            builder.putAll(defaultModifiers);
+    public @NotNull ItemAttributeModifiers getAttributeModifiers(@NotNull ItemStack stack) {
+        // TODO: Make sure default attributes are still applied, I assume they should be
+        if (!ToolUtils.isBroken(stack)) {
+            ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
 
-            float attackDamage = NBTUtils.getFloatOrAddKey(stack, "damage_bonus");
+            float attackDamage = stack.getOrDefault(DataComponents.DAMAGE_BONUS, 0F);
             if (attackDamage > 0) {
-                builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_UUID, "Weapon modifier", attackDamage, AttributeModifier.Operation.ADDITION));
+                builder.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_UUID, "Weapon modifier", attackDamage, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
             }
 
-            float attackSpeed = NBTUtils.getFloatOrAddKey(stack, "attack_speed_bonus");
+            float attackSpeed = stack.getOrDefault(DataComponents.ATTACK_SPEED, 0F);
             if (attackSpeed > 0) {
-                builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_UUID, "Weapon modifier", attackSpeed, AttributeModifier.Operation.ADDITION));
+                builder.add(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_UUID, "Weapon modifier", attackSpeed, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
             }
 
-            float attackKnockback = NBTUtils.getFloatOrAddKey(stack, "knockback");
+            float attackKnockback = stack.getOrDefault(DataComponents.KNOCKBACK, 0F);
             if (attackKnockback > 0) {
-                builder.put(Attributes.ATTACK_KNOCKBACK, new AttributeModifier(ATTACK_KNOCKBACK_UUID, "Weapon modifier", attackKnockback, AttributeModifier.Operation.ADDITION));
+                builder.add(Attributes.ATTACK_KNOCKBACK, new AttributeModifier(ATTACK_KNOCKBACK_UUID, "Weapon modifier", attackKnockback, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
             }
 
-            float knockbackResistance = NBTUtils.getFloatOrAddKey(stack, "knockback_resistance");
+            float knockbackResistance = stack.getOrDefault(DataComponents.KNOCKBACK_RESISTANCE, 0F);
             if (knockbackResistance > 0) {
-                builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(KNOCKBACK_RESISTANCE_UUID, "Weapon modifier", knockbackResistance, AttributeModifier.Operation.ADDITION));
+                builder.add(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(KNOCKBACK_RESISTANCE_UUID, "Weapon modifier", knockbackResistance, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
             }
 
-            float reach = NBTUtils.getFloatOrAddKey(stack, "reach");
+            float reach = stack.getOrDefault(DataComponents.RANGE, 0F);
             if (reach > 0) {
-                builder.put(reachAttribute, new AttributeModifier(REACH_UUID, "Weapon modifier", reach, AttributeModifier.Operation.ADDITION));
-                builder.put(attackRangeAttribute, new AttributeModifier(ATTACK_RANGE_UUID, "Weapon modifier", reach, AttributeModifier.Operation.ADDITION));
+                builder.add(Attributes.BLOCK_INTERACTION_RANGE, new AttributeModifier(REACH_UUID, "Tool modifier", reach, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
+                builder.add(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(ATTACK_RANGE_UUID, "Weapon modifier", reach, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
             }
 
             return builder.build();
         } else {
-            return super.getAttributeModifiers(slot, stack);
+            return super.getAttributeModifiers(stack);
         }
-    }
-
-    @Override
-    public @NotNull Rarity getRarity(@NotNull ItemStack stack) {
-        // Just to get the right text color always
-        return Rarity.RARE;
     }
 
     @Override
@@ -349,6 +356,10 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
     }
 
     protected float getAttackDamage(ItemStack stack) {
-        return initialAttackDamage + NBTUtils.getFloatOrAddKey(stack, "damage_bonus");
+        return initialAttackDamage + stack.getOrDefault(DataComponents.DAMAGE_BONUS, 0F);
+    }
+
+    private boolean shouldAutoSmelt(ItemStack stack) {
+        return stack.getOrDefault(DataComponents.AUTO_SMELT, false) && !stack.getOrDefault(DataComponents.DISABLE_AUTO_SMELT, false);
     }
 }

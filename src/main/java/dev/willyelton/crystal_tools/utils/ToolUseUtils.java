@@ -1,13 +1,13 @@
 package dev.willyelton.crystal_tools.utils;
 
 import com.mojang.datafixers.util.Pair;
+import dev.willyelton.crystal_tools.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
 import dev.willyelton.crystal_tools.levelable.block.CrystalTorch;
 import dev.willyelton.crystal_tools.levelable.tool.LevelableTool;
 import dev.willyelton.crystal_tools.levelable.tool.VeinMinerLevelableTool;
-import dev.willyelton.crystal_tools.network.PacketHandler;
-import dev.willyelton.crystal_tools.network.packet.BlockStripPacket;
+import dev.willyelton.crystal_tools.common.network.data.BlockStripPayload;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -16,7 +16,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
@@ -25,7 +25,8 @@ import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraftforge.common.ToolActions;
+import net.neoforged.neoforge.common.ToolActions;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -41,14 +42,14 @@ public class ToolUseUtils {
         BlockState blockstate = level.getBlockState(blockpos);
         ItemStack itemStack = pContext.getItemInHand();
 
-        int durability = tool.getMaxDamage(itemStack) - (int) NBTUtils.getFloatOrAddKey(itemStack, "Damage");
+        int durability = tool.getMaxDamage(itemStack) - itemStack.getDamageValue();
 
         if (durability <= 1) {
             return InteractionResult.PASS;
         }
-        Optional<BlockState> optional = Optional.ofNullable(blockstate.getToolModifiedState(pContext, net.minecraftforge.common.ToolActions.AXE_STRIP, false));
-        Optional<BlockState> optional1 = Optional.ofNullable(blockstate.getToolModifiedState(pContext, net.minecraftforge.common.ToolActions.AXE_SCRAPE, false));
-        Optional<BlockState> optional2 = Optional.ofNullable(blockstate.getToolModifiedState(pContext, net.minecraftforge.common.ToolActions.AXE_WAX_OFF, false));
+        Optional<BlockState> optional = Optional.ofNullable(blockstate.getToolModifiedState(pContext, ToolActions.AXE_STRIP, false));
+        Optional<BlockState> optional1 = Optional.ofNullable(blockstate.getToolModifiedState(pContext, ToolActions.AXE_SCRAPE, false));
+        Optional<BlockState> optional2 = Optional.ofNullable(blockstate.getToolModifiedState(pContext, ToolActions.AXE_WAX_OFF, false));
         Optional<BlockState> optional3 = Optional.empty();
         if (optional.isPresent()) {
             level.playSound(player, blockpos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -71,9 +72,7 @@ public class ToolUseUtils {
             level.setBlock(blockpos, optional3.get(), 11);
 
             if (player != null) {
-                itemStack.hurtAndBreak(1, player, (p_150686_) -> {
-                    p_150686_.broadcastBreakEvent(pContext.getHand());
-                });
+                itemStack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(pContext.getHand()));
             }
 
             tool.addExp(itemStack, level, blockpos, player);
@@ -95,8 +94,8 @@ public class ToolUseUtils {
             ItemStack itemStack = context.getItemInHand();
 
             // TODO: remove tree_chop
-            if ((NBTUtils.getFloatOrAddKey(itemStack, "tree_chop") > 0 || NBTUtils.getFloatOrAddKey(itemStack, "vein_miner") > 0) &&
-                    level.isClientSide && KeyBindings.veinMine.isDown()) {
+            if (itemStack.getOrDefault(DataComponents.VEIN_MINER, 0) > 0
+                    && level.isClientSide && KeyBindings.veinMine.isDown()) {
                 Collection<BlockPos> blocksToStrip = BlockCollectors.collectVeinMine(blockPos, level, tool.getVeinMinerPredicate(initialState), tool.getMaxBlocks(itemStack));
 
                 for (BlockPos pos : blocksToStrip) {
@@ -104,7 +103,7 @@ public class ToolUseUtils {
                     Optional<BlockState> optional = Optional.ofNullable(blockState.getToolModifiedState(context, ToolActions.AXE_STRIP, false));
                     if (optional.isPresent()) {
                         stripBlock(tool, level, itemStack, player, pos, context.getHand(), optional.get());
-                        PacketHandler.sendToServer(new BlockStripPacket(pos, context.getHand(), optional.get()));
+                        PacketDistributor.sendToServer(new BlockStripPayload(pos, context.getHand(), optional.get()));
                     }
                 }
             }
@@ -113,18 +112,18 @@ public class ToolUseUtils {
         return result;
     }
 
-    public static <T extends LevelableTool> void stripBlock(T tool, Level level, ItemStack itemStack, Player player, BlockPos blockPos, InteractionHand slot, BlockState newState) {
-        if ((tool.getMaxDamage(itemStack) - (int) NBTUtils.getFloatOrAddKey(itemStack, "Damage")) == 0) {
+    public static <T extends LevelableTool> void stripBlock(T tool, Level level, ItemStack stack, Player player, BlockPos blockPos, InteractionHand hand, BlockState newState) {
+        if ((tool.getMaxDamage(stack) - stack.getDamageValue()) == 0) {
             return;
         }
 
         level.setBlock(blockPos, newState, 11);
 
         if (player != null) {
-            itemStack.hurtAndBreak(1, player, player1 -> player1.broadcastBreakEvent(slot));
+            stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
         }
 
-        tool.addExp(itemStack, level, blockPos, player);
+        tool.addExp(stack, level, blockPos, player);
 
     }
 
@@ -139,7 +138,7 @@ public class ToolUseUtils {
             return InteractionResult.PASS;
         } else {
             Player player = pContext.getPlayer();
-            BlockState blockstate1 = blockstate.getToolModifiedState(pContext, net.minecraftforge.common.ToolActions.SHOVEL_FLATTEN, false);
+            BlockState blockstate1 = blockstate.getToolModifiedState(pContext, ToolActions.SHOVEL_FLATTEN, false);
             BlockState blockstate2 = null;
             if (blockstate1 != null && level.isEmptyBlock(blockpos.above())) {
                 level.playSound(player, blockpos, SoundEvents.SHOVEL_FLATTEN, SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -157,9 +156,7 @@ public class ToolUseUtils {
                 if (!level.isClientSide) {
                     level.setBlock(blockpos, blockstate2, 11);
                     if (player != null) {
-                        pContext.getItemInHand().hurtAndBreak(1, player, (p_43122_) -> {
-                            p_43122_.broadcastBreakEvent(pContext.getHand());
-                        });
+                        pContext.getItemInHand().hurtAndBreak(1, player, LivingEntity.getSlotForHand(pContext.getHand()));
                     }
                 }
 
@@ -173,7 +170,8 @@ public class ToolUseUtils {
     }
 
     public static InteractionResult useOnShovel3x3(UseOnContext context, LevelableTool tool) {
-        if (NBTUtils.getFloatOrAddKey(context.getItemInHand(), "3x3") > 0 && !NBTUtils.getBoolean(context.getItemInHand(), "disable_3x3")) {
+        ItemStack stack = context.getItemInHand();
+        if (stack.getOrDefault(DataComponents.HAS_3x3, false) && !stack.getOrDefault(DataComponents.DISABLE_3x3, false)) {
             InteractionResult result = null;
 
             for (int i = -1; i < 2; i++) {
@@ -192,9 +190,9 @@ public class ToolUseUtils {
     }
 
     public static InteractionResult useOnTorch(UseOnContext context, LevelableTool tool) {
-        ItemStack itemStack = context.getItemInHand();
+        ItemStack stack = context.getItemInHand();
 
-        if (NBTUtils.getFloatOrAddKey(itemStack, "torch") > 0) {
+        if (stack.getOrDefault(DataComponents.TORCH, false)) {
             Level level = context.getLevel();
             BlockPos position = context.getClickedPos();
             BlockState state = level.getBlockState(position);
@@ -219,12 +217,10 @@ public class ToolUseUtils {
             }
 
             if (!level.isClientSide && context.getPlayer() != null) {
-                itemStack.hurtAndBreak(10, context.getPlayer(), (player) -> {
-                    player.broadcastBreakEvent(EquipmentSlot.MAINHAND);
-                });
+                stack.hurtAndBreak(10, context.getPlayer(), LivingEntity.getSlotForHand(context.getHand()));
             }
 
-            tool.addExp(itemStack, level, context.getClickedPos(), context.getPlayer());
+            tool.addExp(stack, level, context.getClickedPos(), context.getPlayer());
         }
 
         return InteractionResult.SUCCESS;
@@ -236,7 +232,7 @@ public class ToolUseUtils {
 
     public static InteractionResult useOnHoe(UseOnContext context, LevelableTool tool, BlockPos blockPos) {
         ItemStack hoe = context.getItemInHand();
-        int durability = tool.getMaxDamage(hoe) - (int) NBTUtils.getFloatOrAddKey(hoe, "Damage");
+        int durability = tool.getMaxDamage(hoe) - hoe.getDamageValue();
 
         if (durability <= 1) {
             return InteractionResult.PASS;
@@ -256,9 +252,7 @@ public class ToolUseUtils {
                 if (!level.isClientSide) {
                     consumer.accept(context);
                     if (player != null) {
-                        context.getItemInHand().hurtAndBreak(1, player, (p_150845_) -> {
-                            p_150845_.broadcastBreakEvent(context.getHand());
-                        });
+                        context.getItemInHand().hurtAndBreak(1, player, LivingEntity.getSlotForHand(context.getHand()));
                     }
                 }
 
@@ -272,7 +266,9 @@ public class ToolUseUtils {
     }
 
     public static InteractionResult useOnHoe3x3(UseOnContext context, LevelableTool tool) {
-        if (NBTUtils.getFloatOrAddKey(context.getItemInHand(), "3x3") > 0 && !NBTUtils.getBoolean(context.getItemInHand(), "disable_3x3")) {
+        ItemStack stack = context.getItemInHand();
+
+        if (stack.getOrDefault(DataComponents.HAS_3x3, false) && !stack.getOrDefault(DataComponents.DISABLE_3x3, false)) {
             InteractionResult result = null;
 
             for (int i = -1; i < 2; i++) {

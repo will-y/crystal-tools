@@ -2,14 +2,15 @@ package dev.willyelton.crystal_tools.levelable.block.entity;
 
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.levelable.block.CrystalFurnaceBlock;
 import dev.willyelton.crystal_tools.inventory.container.CrystalFurnaceContainerMenu;
+import dev.willyelton.crystal_tools.levelable.block.CrystalFurnaceBlock;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
@@ -17,7 +18,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
-import net.minecraft.world.*;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -29,24 +33,26 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+// TODO: Audit / comment code, don't use WordlyContainer, extract out things that will be common to a generator / other
 public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyContainer, MenuProvider {
     public static final int[] INPUT_SLOTS = new int[] {0, 1, 2, 3, 4};
     public static final int[] OUTPUT_SLOTS = new int[] {5, 6, 7, 8, 9};
@@ -66,8 +72,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
 
     private NonNullList<ItemStack> items;
 
-    LazyOptional<? extends IItemHandler>[] invHandlers = SidedInvWrapper.create(this, Direction.DOWN, Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST);
-
+    private final Map<Direction, IItemHandler> sidedCaps;
     private final RecipeType<? extends AbstractCookingRecipe> recipeType = RecipeType.SMELTING;
 
     // Furnace related fields
@@ -100,27 +105,13 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         fuelEfficiencyAddedTicks = CrystalToolsConfig.FUEL_EFFICIENCY_ADDED_TICKS.get();
         speedUpgradeSubtractTicks = CrystalToolsConfig.SPEED_UPGRADE_SUBTRACT_TICKS.get();
         expBoostPercentage = CrystalToolsConfig.EXPERIENCE_BOOST_PERCENTAGE.get();
+        sidedCaps = Arrays.stream(new Direction[] {Direction.DOWN, Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST})
+                .map(direction -> Map.entry(direction, new SidedInvWrapper(this, direction)))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (!this.isRemoved() && side != null && cap == ForgeCapabilities.ITEM_HANDLER) {
-            if (side == Direction.DOWN)
-                return invHandlers[0].cast();
-            else if (side == Direction.UP)
-                return invHandlers[1].cast();
-            else if (side == Direction.NORTH)
-                return invHandlers[2].cast();
-            else if (side == Direction.SOUTH)
-                return invHandlers[3].cast();
-            else if (side == Direction.WEST)
-                return invHandlers[4].cast();
-            else
-                return invHandlers[5].cast();
-        }
-
-        return super.getCapability(cap, side);
+    public IItemHandler getCapForSide(Direction side) {
+        return this.sidedCaps.get(side);
     }
 
     @Override
@@ -151,7 +142,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         } else if (ArrayUtils.arrayContains(OUTPUT_SLOTS, index)) {
             return false;
         } else if (ArrayUtils.arrayContains(FUEL_SLOTS, index)) {
-            return index <= FUEL_SLOTS[this.bonusFuelSlots] && (ForgeHooks.getBurnTime(stack, RecipeType.SMELTING) > 0);
+            return index <= FUEL_SLOTS[this.bonusFuelSlots] && (stack.getBurnTime(RecipeType.SMELTING) > 0);
         }
 
         return false;
@@ -200,9 +191,9 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
             stack.setCount(this.getMaxStackSize());
         }
 
-        if (ArrayUtils.arrayContains(INPUT_SLOTS, slot) && !(!stack.isEmpty() && ItemStack.isSameItemSameTags(stack, current))) {
+        if (ArrayUtils.arrayContains(INPUT_SLOTS, slot) && !(!stack.isEmpty() && ItemStack.isSameItemSameComponents(stack, current))) {
             int index = ArrayUtils.indexOf(INPUT_SLOTS, slot);
-            AbstractCookingRecipe recipe = this.getRecipe(stack).orElse(null);
+            AbstractCookingRecipe recipe = this.getRecipe(stack);
             if (recipe != null) {
                 this.cookingTotalTime[index] = getTotalCookTime(recipe, index);
                 this.cookingProgress[index] = 0;
@@ -211,13 +202,15 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         }
 
         if (ArrayUtils.arrayContains(FUEL_SLOTS, slot)) {
-            this.getRecipe(stack).ifPresent(recipe -> this.balanceFuel());
+            if (this.getRecipe(stack) != null) {
+                this.balanceFuel();
+            }
         }
     }
 
     @Override
     public boolean stillValid(@NotNull Player pPlayer) {
-        if (this.level.getBlockEntity(this.worldPosition) != this) {
+        if (level != null && level.getBlockEntity(this.worldPosition) != this) {
             return false;
         } else {
             return pPlayer.distanceToSqr((double)this.worldPosition.getX() + 0.5D, (double)this.worldPosition.getY() + 0.5D, (double)this.worldPosition.getZ() + 0.5D) <= 64.0D;
@@ -234,24 +227,23 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         return Component.translatable("container.crystal_tools.crystal_furnace");
     }
 
-    @org.jetbrains.annotations.Nullable
     @Override
-    public AbstractContainerMenu createMenu(int pContainerId, @NotNull Inventory pPlayerInventory, @NotNull Player pPlayer) {
+    public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
         return new CrystalFurnaceContainerMenu(pContainerId, pPlayer.level(), this.getBlockPos(), pPlayerInventory, this.dataAccess);
     }
 
     @Override
-    public void load(@NotNull CompoundTag nbt) {
-        super.load(nbt);
+    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+        super.loadAdditional(nbt, registries);
         this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(nbt, this.items);
+        ContainerHelper.loadAllItems(nbt, this.items, registries);
         this.litTime = nbt.getInt("LitTime");
         this.litDuration = nbt.getInt("LitDuration");
         this.cookingProgress = NBTUtils.getIntArray(nbt, "CookingProgress", 5);
         this.cookingTotalTime = NBTUtils.getIntArray(nbt, "CookingTotalTime", 5);
         this.expHeld = nbt.getFloat("ExpHeld");
 
-        // Levelable things
+        // Levelable things TODO: Super class
         this.skillPoints = nbt.getInt("SkillPoints");
         this.points = NBTUtils.getIntArray(nbt, "Points", 100);
         this.exp = nbt.getInt("Exp");
@@ -271,9 +263,9 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     }
 
     @Override
-    protected void saveAdditional(@NotNull CompoundTag nbt) {
-        super.saveAdditional(nbt);
-        ContainerHelper.saveAllItems(nbt, this.items);
+    protected void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+        super.saveAdditional(nbt, registries);
+        ContainerHelper.saveAllItems(nbt, this.items, registries);
         nbt.putInt("LitTime", this.litTime);
         nbt.putInt("LitDuration", this.litDuration);
         nbt.putIntArray("CookingProgress", this.cookingProgress);
@@ -354,7 +346,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     };
 
     public boolean isFuel(ItemStack stack) {
-        return net.minecraftforge.common.ForgeHooks.getBurnTime(stack, this.recipeType) > 0;
+        return stack.getBurnTime(this.recipeType) > 0;
     }
 
     public int[] getInputSlots() {
@@ -370,13 +362,15 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     }
 
     public boolean hasRecipe(ItemStack stack) {
-        return getRecipe(stack).isPresent();
+        return getRecipe(stack) != null;
     }
 
-    protected Optional<AbstractCookingRecipe> getRecipe(ItemStack item) {
-        return (item.getItem() instanceof AirItem)
+    protected AbstractCookingRecipe getRecipe(ItemStack item) {
+        Optional<RecipeHolder<AbstractCookingRecipe>> recipeHolderOptional = (item.getItem() instanceof AirItem)
                 ? Optional.empty()
                 : this.level.getRecipeManager().getRecipeFor((RecipeType<AbstractCookingRecipe>) recipeType, new SimpleContainer(item), this.level);
+
+        return recipeHolderOptional.map(RecipeHolder::value).orElse(null);
     }
 
     private int autoOutputCounter = 0;
@@ -411,9 +405,9 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
             boolean hasItemToSmelt = !items.get(slot).isEmpty();
 
             if (this.isLit() || hasFuel && hasItemToSmelt) {
-                Optional<AbstractCookingRecipe> recipe = this.getRecipe(this.getItem(slot));
+                AbstractCookingRecipe recipe = this.getRecipe(this.getItem(slot));
 
-                if (!this.isLit() && this.canBurn(level.registryAccess(), recipe.orElse(null), slot)) {
+                if (!this.isLit() && this.canBurn(level.registryAccess(), recipe, slot)) {
                     this.litTime = this.getBurnDuration(fuelItemStack);
                     this.litDuration = this.litTime;
 
@@ -432,12 +426,12 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
                     }
                 }
 
-                if (this.isLit() && this.canBurn(level.registryAccess(), recipe.orElse(null), slot)) {
+                if (this.isLit() && this.canBurn(level.registryAccess(), recipe, slot)) {
                     this.cookingProgress[slotIndex]++;
                     if (this.cookingProgress[slotIndex] == this.cookingTotalTime[slotIndex]) {
                         this.cookingProgress[slotIndex] = 0;
-                        this.cookingTotalTime[slotIndex] = this.getTotalCookTime(recipe.orElse(null), slot);
-                        if (this.burn(level.registryAccess(), recipe.orElse(null), slot)) {
+                        this.cookingTotalTime[slotIndex] = this.getTotalCookTime(recipe, slot);
+                        if (this.burn(level.registryAccess(), recipe, slot)) {
                             needsRebalance = true;
                         }
 
@@ -471,7 +465,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         return this.litTime > 0;
     }
 
-    private boolean canBurn(RegistryAccess registryAccess, Recipe<?> recipe, int slot) {
+    private boolean canBurn(RegistryAccess registryAccess, Object recipe, int slot) {
         int outputSlot = slot + 5;
         if (!this.getItem(slot).isEmpty() && recipe != null) {
             ItemStack recipeOutput = ((Recipe<WorldlyContainer>) recipe).assemble(this, registryAccess);
@@ -485,7 +479,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         return false;
     }
 
-    private boolean burn(RegistryAccess registryAccess, Recipe<?> recipe, int slot) {
+    private boolean burn(RegistryAccess registryAccess, Object recipe, int slot) {
         if (recipe != null && this.canBurn(registryAccess, recipe, slot) && recipe instanceof AbstractCookingRecipe cookingRecipe) {
             ItemStack input = this.items.get(slot);
             ItemStack output = this.items.get(slot + 5);
@@ -513,7 +507,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         if (stack.isEmpty()) {
             return 0;
         } else {
-            return ForgeHooks.getBurnTime(stack, this.recipeType) + this.fuelEfficiencyUpgrade * fuelEfficiencyAddedTicks;
+            return stack.getBurnTime(this.recipeType) + this.fuelEfficiencyUpgrade * fuelEfficiencyAddedTicks;
         }
     }
 
@@ -611,11 +605,10 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
                         BlockEntity blockEntity = this.level.getBlockEntity(this.getBlockPos().relative(dir));
 
                         if (blockEntity != null) {
-                            Optional<IItemHandler> optional  = blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, dir.getOpposite()).resolve();
+                            IItemHandler handler = level.getCapability(Capabilities.ItemHandler.BLOCK, getBlockPos(), dir.getOpposite());
+//                            Optional<IItemHandler> optional  = blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, dir.getOpposite()).resolve();
 
-                            if (optional.isPresent()) {
-                                IItemHandler handler = optional.get();
-
+                            if (handler != null) {
                                 for (int i = 0; i < handler.getSlots(); i++) {
                                     outputStack = handler.insertItem(i, outputStack, false);
 

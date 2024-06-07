@@ -1,10 +1,10 @@
 package dev.willyelton.crystal_tools.levelable.tool;
 
 
+import dev.willyelton.crystal_tools.DataComponents;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.entity.CrystalTridentEntity;
 import dev.willyelton.crystal_tools.renderer.CrystalTridentBlockEntityWithoutLevelRenderer;
-import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
@@ -20,12 +20,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.common.ToolAction;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
@@ -46,18 +45,13 @@ public class CrystalTrident extends SwordLevelableTool {
     }
 
     @Override
-    public boolean canPerformAction(ItemStack stack, net.minecraftforge.common.ToolAction toolAction) {
+    public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
         return false;
     }
 
     @Override
     public boolean isDisabled() {
         return CrystalToolsConfig.DISABLE_TRIDENT.get();
-    }
-
-    @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-        return CrystalToolsConfig.ENCHANT_TOOLS.get() && enchantment.category.equals(EnchantmentCategory.TRIDENT);
     }
 
     @Override
@@ -102,15 +96,13 @@ public class CrystalTrident extends SwordLevelableTool {
         if (entityLiving instanceof Player player) {
             int timeUsed = this.getUseDuration(stack) - timeLeft;
             if (timeUsed >= 10) {
-                int riptideLevel = (int) NBTUtils.getFloatOrAddKey(stack, "riptide");
+                int riptideLevel = stack.getOrDefault(DataComponents.RIPTIDE, 0);
                 if (!level.isClientSide) {
-                    stack.hurtAndBreak(1, player, (player2) -> {
-                        player2.broadcastBreakEvent(entityLiving.getUsedItemHand());
-                    });
+                    stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(entityLiving.getUsedItemHand()));
 
                     if (!riptideEnabled(stack)) {
                         CrystalTridentEntity tridentEntity = new CrystalTridentEntity(level, player, stack);
-                        float velocity = 2.5F + NBTUtils.getFloatOrAddKey(stack, "projectile_speed") * 0.5F;
+                        float velocity = 2.5F + stack.getOrDefault(DataComponents.PROJECTILE_SPEED, 0F) * 0.5F;
                         tridentEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, velocity, 1.0F);
                         if (player.getAbilities().instabuild) {
                             tridentEntity.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
@@ -169,18 +161,18 @@ public class CrystalTrident extends SwordLevelableTool {
     }
 
     private boolean canRiptide(ItemStack stack, Player player) {
-        if (NBTUtils.getBoolean(stack, "riptide_disabled")) return false;
+        if (stack.getOrDefault(DataComponents.RIPTIDE_DISABLED, false)) return false;
 
-        if (NBTUtils.getBoolean(stack, "always_riptide")) return true;
+        if (stack.getOrDefault(DataComponents.ALWAYS_RIPTIDE, false)) return true;
 
-        return NBTUtils.getBoolean(stack, "riptide") && player.isInWaterOrRain();
+        return stack.getOrDefault(DataComponents.RIPTIDE, 0) > 0 && player.isInWaterOrRain();
     }
 
     private boolean riptideEnabled(ItemStack stack) {
-        if (NBTUtils.getBoolean(stack, "riptide_disabled")) return false;
+        if (stack.getOrDefault(DataComponents.RIPTIDE_DISABLED, false)) return false;
 
-        if (NBTUtils.getBoolean(stack, "always_riptide")) return true;
+        if (stack.getOrDefault(DataComponents.ALWAYS_RIPTIDE, false)) return true;
 
-        return NBTUtils.getBoolean(stack, "riptide");
+        return stack.getOrDefault(DataComponents.RIPTIDE, 0) > 0;
     }
 }

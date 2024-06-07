@@ -10,7 +10,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.*;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
@@ -170,8 +171,8 @@ public class CrystalFurnaceContainerMenu extends BaseContainerMenu {
         return this.level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, new SimpleContainer(pStack), this.level).isPresent();
     }
 
-    protected boolean isFuel(ItemStack pStack) {
-        return net.minecraftforge.common.ForgeHooks.getBurnTime(pStack, RecipeType.SMELTING) > 0;
+    protected boolean isFuel(ItemStack stack) {
+        return stack.getBurnTime(RecipeType.SMELTING) > 0;
     }
 
     // Levelable things

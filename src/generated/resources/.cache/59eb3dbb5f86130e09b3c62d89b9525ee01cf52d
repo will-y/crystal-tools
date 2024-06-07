@@ -1,6 +1,6 @@
-// 1.20.1	2023-08-05T14:02:52.6537814	Loot Tables
+// 1.20.6	2024-06-07T12:15:26.762361373	Loot Tables
 9e1d8ab823f61a9a832ffa879584d239713c95b9 data/crystal_tools/loot_tables/blocks/crystal_block.json
-b4d5d4b1bd598dcb378bb7be5c99a9c8fcffa1a1 data/crystal_tools/loot_tables/blocks/crystal_deepslate_ore.json
-c04f954713d3836b89dcd3004502e91151fa7879 data/crystal_tools/loot_tables/blocks/crystal_furnace.json
-004146f246e5984873e622c4784a160683a72538 data/crystal_tools/loot_tables/blocks/crystal_ore.json
+5cab172c2826f48ce5aeaa87d6303995815afa7f data/crystal_tools/loot_tables/blocks/crystal_deepslate_ore.json
+913bb4ab5b6a2917ca58367c168545d79a89458d data/crystal_tools/loot_tables/blocks/crystal_furnace.json
+796ba60c45c2453f9ee77ed11f603cfb24815ac7 data/crystal_tools/loot_tables/blocks/crystal_ore.json
 79201804d1bf05c2adb090e807871bffe8b53253 data/crystal_tools/loot_tables/blocks/crystal_torch.json

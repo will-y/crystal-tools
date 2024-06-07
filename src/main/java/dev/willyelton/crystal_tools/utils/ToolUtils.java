@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.utils;
 
+import dev.willyelton.crystal_tools.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
@@ -10,8 +11,10 @@ import dev.willyelton.crystal_tools.levelable.skill.SkillNodeType;
 import dev.willyelton.crystal_tools.levelable.skill.SkillTreeRegistry;
 import dev.willyelton.crystal_tools.levelable.tool.AIOLevelableTool;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -19,55 +22,60 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 
-import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ToolUtils {
     // I hate this but needed because armor needs to actually be an ArmorItem
-    public static void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> components, TooltipFlag flag, LevelableItem item) {
+    public static void appendHoverText(ItemStack stack, List<Component> components, TooltipFlag flag, LevelableItem item) {
         if (item.isDisabled()) {
             components.add(Component.literal("\u00A7c\u00A7l" + "Disabled"));
             return;
         }
-        int newExperience = (int) NBTUtils.getFloatOrAddKey(itemStack, "experience");
-        int experienceCap = item.getExperienceCap(itemStack);
+        int newExperience = stack.getOrDefault(DataComponents.SKILL_EXPERIENCE, 0);
+        int experienceCap = item.getExperienceCap(stack);
 
-        int durability = item.getMaxDamage(itemStack) - (int) NBTUtils.getFloatOrAddKey(itemStack, "Damage");
+        int durability = item.getMaxDamage(stack) - stack.getDamageValue();
 
-        if (durability <= 1 && item.getMaxDamage(itemStack) != 1) {
+        if (durability <= 1 && item.getMaxDamage(stack) != 1) {
             components.add(Component.literal("\u00A7c\u00A7l" + "Broken"));
         }
 
         components.add(Component.literal(String.format("%d/%d XP To Next Level", newExperience, experienceCap)));
-        int skillPoints = (int) NBTUtils.getFloatOrAddKey(itemStack, "skill_points");
+        int skillPoints = stack.getOrDefault(DataComponents.SKILL_POINTS, 0);
         if (skillPoints > 0) {
             components.add(Component.literal(String.format("%d Unspent Skill Points", skillPoints)));
         }
 
-        if (NBTUtils.getFloatOrAddKey(itemStack, "mine_mode") > 0
-                && NBTUtils.getFloatOrAddKey(itemStack, "silk_touch_bonus") > 0
-                && NBTUtils.getFloatOrAddKey(itemStack, "fortune_bonus") > 0) {
+        if (stack.getOrDefault(DataComponents.MINE_MODE, false)
+                && stack.getOrDefault(DataComponents.SILK_TOUCH_BONUS, false)
+                && stack.getOrDefault(DataComponents.FORTUNE_BONUS, 0) > 0) {
             // Only show mode if it has both enchantments
-            String mode = EnchantmentUtils.hasEnchantment(itemStack, Enchantments.SILK_TOUCH) ? "Silk Touch" : "Fortune";
+            String mode = EnchantmentUtils.hasEnchantment(stack, Enchantments.SILK_TOUCH) ? "Silk Touch" : "Fortune";
             String changeKey = KeyBindings.modeSwitch == null ? "" : " (" + KeyBindings.modeSwitch.getKey().getDisplayName().getString() + " to change)";
             components.add(Component.literal("\u00A79" + "Mine Mode: " + mode + changeKey));
         }
 
-        if (NBTUtils.getFloatOrAddKey(itemStack, "mine_mode") > 0 && NBTUtils.getFloatOrAddKey(itemStack, "3x3") > 0) {
-            String mode = NBTUtils.getBoolean(itemStack, "disable_3x3") ? "1x1" : "3x3";
+        if (stack.getOrDefault(DataComponents.MINE_MODE, false) && stack.getOrDefault(DataComponents.HAS_3x3, false)) {
+            String mode = stack.getOrDefault(DataComponents.DISABLE_3x3, false) ? "1x1" : "3x3";
             String changeKey = KeyBindings.modeSwitch == null ? "" : " (Shift + " + KeyBindings.modeSwitch.getKey().getDisplayName().getString() + " to change)";
             components.add(Component.literal("\u00A79" + "Break Mode: " + mode + changeKey));
         }
 
-        if (NBTUtils.getFloatOrAddKey(itemStack, "mine_mode") > 0 && NBTUtils.getFloatOrAddKey(itemStack, "auto_smelt") > 0) {
-            boolean enabled = !NBTUtils.getBoolean(itemStack, "disable_auto_smelt");
+        if (stack.getOrDefault(DataComponents.MINE_MODE, false) && stack.getOrDefault(DataComponents.AUTO_SMELT, false)) {
+            boolean enabled = !stack.getOrDefault(DataComponents.DISABLE_AUTO_SMELT, false);
             String changeKey = KeyBindings.modeSwitch == null ? "" : " (Ctrl + " + KeyBindings.modeSwitch.getKey().getDisplayName().getString() + " to toggle)";
             components.add(Component.literal("\u00A79" + "Auto Smelt " + (enabled ? "Enabled" : "Disabled") + changeKey));
         }
 
         if (item instanceof AIOLevelableTool) {
-            String toolTip = "\u00A79" + "Use Mode: " + StringUtils.capitalize(NBTUtils.getString(itemStack, "use_mode", "hoe").toLowerCase(Locale.ROOT));
+            String toolTip = "\u00A79" + "Use Mode: " + StringUtils.capitalize(stack.getOrDefault(DataComponents.USE_MODE, "hoe").toLowerCase(Locale.ROOT));
             if (KeyBindings.modeSwitch != null) {
                 toolTip = toolTip + " (alt + " + KeyBindings.modeSwitch.getKey().getDisplayName().getString() + " to change)";
             }
@@ -79,7 +87,7 @@ public class ToolUtils {
         } else {
             Map<String, Float> skills = new HashMap<>();
             components.add(Component.literal("Skills:"));
-            SkillData toolData = getSkillData(itemStack);
+            SkillData toolData = getSkillData(stack);
             for (SkillDataNode dataNode : toolData.getAllNodes()) {
                 if (dataNode.isComplete() || (dataNode.getType().equals(SkillNodeType.INFINITE) && dataNode.getPoints() > 0)) {
                     skills.compute(dataNode.getKey(), (key, value) -> value != null ? value + dataNode.getValue() * dataNode.getPoints() : dataNode.getValue() * dataNode.getPoints());
@@ -108,20 +116,20 @@ public class ToolUtils {
         inventoryTick(itemStack, level, entity, inventorySlot, inHand, 1);
     }
 
-    public static void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand, double modifier) {
+    public static void inventoryTick(ItemStack stack, Level level, Entity entity, int inventorySlot, boolean inHand, double modifier) {
         if (!inHand || CrystalToolsConfig.REPAIR_IN_HAND.get()) {
-            if (NBTUtils.getBoolean(itemStack, "auto_repair", false)) {
-                if (NBTUtils.addValueToTag(itemStack, "auto_repair_counter", 1) > CrystalToolsConfig.TOOL_REPAIR_COOLDOWN.get() * modifier) {
-                    NBTUtils.setValue(itemStack, "auto_repair_counter", 0);
-                    int repairAmount = Math.min((int) NBTUtils.getFloatOrAddKey(itemStack, "auto_repair"), itemStack.getDamageValue());
-                    itemStack.setDamageValue(itemStack.getDamageValue() - repairAmount);
+            if (stack.getOrDefault(DataComponents.AUTO_REPAIR, 0) > 0) {
+                if (DataComponents.addToComponent(stack, DataComponents.AUTO_REPAIR_COUNTER, 1) > CrystalToolsConfig.TOOL_REPAIR_COOLDOWN.get() * modifier) {
+                    stack.set(DataComponents.AUTO_REPAIR_COUNTER, 0);
+                    int repairAmount = Math.min(stack.getOrDefault(DataComponents.AUTO_REPAIR, 0), stack.getDamageValue());
+                    stack.setDamageValue(stack.getDamageValue() - repairAmount);
                 }
             }
         }
     }
 
     public static boolean isBroken(ItemStack stack) {
-        int durability = stack.getItem().getMaxDamage(stack) - (int) NBTUtils.getFloatOrAddKey(stack, "Damage");
+        int durability = stack.getItem().getMaxDamage(stack) - stack.getDamageValue();
         return durability <= 1;
     }
 
@@ -133,7 +141,7 @@ public class ToolUtils {
         if (stack.getItem() instanceof LevelableItem item) {
             int experienceCap = item.getExperienceCap(stack);
             int newCap = getNewCap(experienceCap, levelIncrease);
-            NBTUtils.setValue(stack, "experience_cap", newCap);
+            stack.set(DataComponents.EXPERIENCE_CAP, newCap);
         }
     }
 
@@ -142,26 +150,39 @@ public class ToolUtils {
     }
 
     public static void resetPoints(ItemStack stack) {
-        if (stack.hasTag()) {
-            // Things to keep
-            int damage = stack.getTag().getInt("Damage");
-            int repairCost = stack.getTag().getInt("RepairCost");
-            int skillPoints = (int) NBTUtils.getFloatOrAddKey(stack, "skill_points");
-
-            // Total points
-            int[] points = NBTUtils.getIntArray(stack, "points");
-
-            skillPoints += Arrays.stream(points).sum();
-
-            stack.setTag(new CompoundTag());
-            stack.getTag().putInt("Damage", damage);
-            stack.getTag().putInt("RepairCost", repairCost);
-            NBTUtils.setValue(stack, "skill_points", (float) skillPoints);
+        // TODO: Might work?
+        List<ResourceLocation> resourceLocations = new ArrayList<>(DataComponents.FLOAT_COMPONENTS.values());
+        resourceLocations.addAll(DataComponents.INT_COMPONENTS.values());
+        resourceLocations.addAll(DataComponents.BOOLEAN_COMPONENTS.values());
+        for (ResourceLocation resourceLocation : resourceLocations) {
+            DataComponentType<?> dataComponent = BuiltInRegistries.DATA_COMPONENT_TYPE.get(resourceLocation);
+            if (dataComponent == null) {
+                continue;
+            }
+            stack.remove(dataComponent);
         }
+
+//        if (stack.hasTag()) {
+//            // Things to keep
+//            int damage = stack.getTag().getInt("Damage");
+//            int repairCost = stack.getTag().getInt("RepairCost");
+//            int skillPoints = (int) NBTUtils.getFloatOrAddKey(stack, "skill_points");
+//
+//            // Total points
+//            int[] points = NBTUtils.getIntArray(stack, "points");
+//
+//            skillPoints += Arrays.stream(points).sum();
+//
+//            stack.setTag(new CompoundTag());
+//            stack.getTag().putInt("Damage", damage);
+//            stack.getTag().putInt("RepairCost", repairCost);
+//            NBTUtils.setValue(stack, "skill_points", (float) skillPoints);
+//        }
     }
 
     public static SkillData getSkillData(ItemStack stack) {
-        int[] points = NBTUtils.getIntArray(stack, "points");
+        List<Integer> points = stack.getOrDefault(DataComponents.POINTS_ARRAY, Collections.emptyList());
+//        int[] points = NBTUtils.getIntArray(stack, "points");
         if (stack.getItem() instanceof LevelableItem) {
             String toolType = ((LevelableItem) stack.getItem()).getItemType();
             SkillData data = SkillTreeRegistry.SKILL_TREES.get(toolType);

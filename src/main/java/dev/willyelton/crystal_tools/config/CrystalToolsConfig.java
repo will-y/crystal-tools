@@ -1,91 +1,91 @@
 package dev.willyelton.crystal_tools.config;
 
 import dev.willyelton.crystal_tools.inventory.CrystalBackpackInventory;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class CrystalToolsConfig {
-    public static final ForgeConfigSpec GENERAL_SPEC;
+    public static final ModConfigSpec GENERAL_SPEC;
 
     // Config things, basic tool things
-    public static ForgeConfigSpec.IntValue BASE_EXPERIENCE_CAP;
-    public static ForgeConfigSpec.IntValue MAX_EXP;
-    public static ForgeConfigSpec.DoubleValue EXPERIENCE_MULTIPLIER;
+    public static ModConfigSpec.IntValue BASE_EXPERIENCE_CAP;
+    public static ModConfigSpec.IntValue MAX_EXP;
+    public static ModConfigSpec.DoubleValue EXPERIENCE_MULTIPLIER;
 
     // Exp Boosts
-    public static ForgeConfigSpec.DoubleValue ARMOR_EXPERIENCE_BOOST;
-    public static ForgeConfigSpec.DoubleValue BOW_EXPERIENCE_BOOST;
-    public static ForgeConfigSpec.DoubleValue SWORD_EXPERIENCE_BOOST;
-    public static ForgeConfigSpec.IntValue ROCKET_EXPERIENCE_BOOST;
-    public static ForgeConfigSpec.DoubleValue APPLE_EXPERIENCE_BOOST;
-    public static ForgeConfigSpec.DoubleValue FURNACE_EXPERIENCE_BOOST;
-    public static ForgeConfigSpec.DoubleValue TRIDENT_EXPERIENCE_BOOST;
-    public static ForgeConfigSpec.IntValue FISHING_ROD_EXP;
+    public static ModConfigSpec.DoubleValue ARMOR_EXPERIENCE_BOOST;
+    public static ModConfigSpec.DoubleValue BOW_EXPERIENCE_BOOST;
+    public static ModConfigSpec.DoubleValue SWORD_EXPERIENCE_BOOST;
+    public static ModConfigSpec.IntValue ROCKET_EXPERIENCE_BOOST;
+    public static ModConfigSpec.DoubleValue APPLE_EXPERIENCE_BOOST;
+    public static ModConfigSpec.DoubleValue FURNACE_EXPERIENCE_BOOST;
+    public static ModConfigSpec.DoubleValue TRIDENT_EXPERIENCE_BOOST;
+    public static ModConfigSpec.IntValue FISHING_ROD_EXP;
 
     // Repair
-    public static ForgeConfigSpec.IntValue TOOL_REPAIR_COOLDOWN;
-    public static ForgeConfigSpec.BooleanValue REPAIR_IN_HAND;
-    public static ForgeConfigSpec.DoubleValue ROCKET_REPAIR_MODIFIER;
-    public static ForgeConfigSpec.DoubleValue APPLE_REPAIR_MODIFIER;
+    public static ModConfigSpec.IntValue TOOL_REPAIR_COOLDOWN;
+    public static ModConfigSpec.BooleanValue REPAIR_IN_HAND;
+    public static ModConfigSpec.DoubleValue ROCKET_REPAIR_MODIFIER;
+    public static ModConfigSpec.DoubleValue APPLE_REPAIR_MODIFIER;
 
     // Vein Mining
-    public static ForgeConfigSpec.IntValue VEIN_MINER_DEFAULT_RANGE;
-    public static ForgeConfigSpec.IntValue AXE_VEIN_MINER_DEFAULT_RANGE;
+    public static ModConfigSpec.IntValue VEIN_MINER_DEFAULT_RANGE;
+    public static ModConfigSpec.IntValue AXE_VEIN_MINER_DEFAULT_RANGE;
 
-    public static ForgeConfigSpec.ConfigValue<String> UPGRADE_SCREEN_BACKGROUND;
+    public static ModConfigSpec.ConfigValue<String> UPGRADE_SCREEN_BACKGROUND;
 
     // Misc
-    public static ForgeConfigSpec.BooleanValue ENABLE_ITEM_REQUIREMENTS;
-    public static ForgeConfigSpec.DoubleValue BACKGROUND_OPACITY;
-    public static ForgeConfigSpec.BooleanValue PAUSE_SCREEN;
-    public static ForgeConfigSpec.BooleanValue REQUIRE_CRYSTAL_FOR_RESET;
-    public static ForgeConfigSpec.BooleanValue DISABLE_BLOCK_TARGET_RENDERING;
-    public static ForgeConfigSpec.DoubleValue REACH_INCREASE;
-    public static ForgeConfigSpec.BooleanValue ENCHANT_TOOLS;
-    public static ForgeConfigSpec.IntValue EXPERIENCE_LEVELING_SCALING;
-    public static ForgeConfigSpec.IntValue EXPERIENCE_PER_SKILL_LEVEL;
+    public static ModConfigSpec.BooleanValue ENABLE_ITEM_REQUIREMENTS;
+    public static ModConfigSpec.DoubleValue BACKGROUND_OPACITY;
+    public static ModConfigSpec.BooleanValue PAUSE_SCREEN;
+    public static ModConfigSpec.BooleanValue REQUIRE_CRYSTAL_FOR_RESET;
+    public static ModConfigSpec.BooleanValue DISABLE_BLOCK_TARGET_RENDERING;
+    public static ModConfigSpec.DoubleValue REACH_INCREASE;
+    public static ModConfigSpec.BooleanValue ENCHANT_TOOLS;
+    public static ModConfigSpec.IntValue EXPERIENCE_LEVELING_SCALING;
+    public static ModConfigSpec.IntValue EXPERIENCE_PER_SKILL_LEVEL;
 
     // Disable Tools
-    public static ForgeConfigSpec.BooleanValue DISABLE_PICKAXE;
-    public static ForgeConfigSpec.BooleanValue DISABLE_SHOVEL;
-    public static ForgeConfigSpec.BooleanValue DISABLE_AXE;
-    public static ForgeConfigSpec.BooleanValue DISABLE_SWORD;
-    public static ForgeConfigSpec.BooleanValue DISABLE_HOE;
-    public static ForgeConfigSpec.BooleanValue DISABLE_AIOT;
-    public static ForgeConfigSpec.BooleanValue DISABLE_BOW;
-    public static ForgeConfigSpec.BooleanValue DISABLE_ROCKET;
-    public static ForgeConfigSpec.BooleanValue DISABLE_TRIDENT;
-    public static ForgeConfigSpec.BooleanValue DISABLE_FISHING_ROD;
+    public static ModConfigSpec.BooleanValue DISABLE_PICKAXE;
+    public static ModConfigSpec.BooleanValue DISABLE_SHOVEL;
+    public static ModConfigSpec.BooleanValue DISABLE_AXE;
+    public static ModConfigSpec.BooleanValue DISABLE_SWORD;
+    public static ModConfigSpec.BooleanValue DISABLE_HOE;
+    public static ModConfigSpec.BooleanValue DISABLE_AIOT;
+    public static ModConfigSpec.BooleanValue DISABLE_BOW;
+    public static ModConfigSpec.BooleanValue DISABLE_ROCKET;
+    public static ModConfigSpec.BooleanValue DISABLE_TRIDENT;
+    public static ModConfigSpec.BooleanValue DISABLE_FISHING_ROD;
 
     // Disable Armor
-    public static ForgeConfigSpec.BooleanValue DISABLE_ELYTRA;
-    public static ForgeConfigSpec.BooleanValue DISABLE_HELMET;
-    public static ForgeConfigSpec.BooleanValue DISABLE_CHESTPLATE;
-    public static ForgeConfigSpec.BooleanValue DISABLE_LEGGINGS;
-    public static ForgeConfigSpec.BooleanValue DISABLE_BOOTS;
+    public static ModConfigSpec.BooleanValue DISABLE_ELYTRA;
+    public static ModConfigSpec.BooleanValue DISABLE_HELMET;
+    public static ModConfigSpec.BooleanValue DISABLE_CHESTPLATE;
+    public static ModConfigSpec.BooleanValue DISABLE_LEGGINGS;
+    public static ModConfigSpec.BooleanValue DISABLE_BOOTS;
 
     // Disable Other
-    public static ForgeConfigSpec.BooleanValue DISABLE_APPLE;
-    public static ForgeConfigSpec.BooleanValue DISABLE_BACKPACK;
+    public static ModConfigSpec.BooleanValue DISABLE_APPLE;
+    public static ModConfigSpec.BooleanValue DISABLE_BACKPACK;
 
     // Furnace
-    public static ForgeConfigSpec.IntValue FUEL_EFFICIENCY_ADDED_TICKS;
-    public static ForgeConfigSpec.IntValue SPEED_UPGRADE_SUBTRACT_TICKS;
-    public static ForgeConfigSpec.DoubleValue EXPERIENCE_BOOST_PERCENTAGE;
+    public static ModConfigSpec.IntValue FUEL_EFFICIENCY_ADDED_TICKS;
+    public static ModConfigSpec.IntValue SPEED_UPGRADE_SUBTRACT_TICKS;
+    public static ModConfigSpec.DoubleValue EXPERIENCE_BOOST_PERCENTAGE;
 
     // Backpack
-    public static ForgeConfigSpec.EnumValue<CrystalBackpackInventory.SortType> BACKPACK_SORT_TYPE;
-    public static ForgeConfigSpec.IntValue BACKPACK_BASE_EXPERIENCE_CAP;
+    public static ModConfigSpec.EnumValue<CrystalBackpackInventory.SortType> BACKPACK_SORT_TYPE;
+    public static ModConfigSpec.IntValue BACKPACK_BASE_EXPERIENCE_CAP;
 
     // Trident
-    public static ForgeConfigSpec.BooleanValue ALWAYS_CHANNEL;
+    public static ModConfigSpec.BooleanValue ALWAYS_CHANNEL;
 
     static {
-        ForgeConfigSpec.Builder configBuilder = new ForgeConfigSpec.Builder();
+        ModConfigSpec.Builder configBuilder = new ModConfigSpec.Builder();
         setupConfig(configBuilder);
         GENERAL_SPEC = configBuilder.build();
     }
 
-    private static void setupConfig(ForgeConfigSpec.Builder builder) {
+    private static void setupConfig(ModConfigSpec.Builder builder) {
         // EXP
         BASE_EXPERIENCE_CAP = builder.comment("Starting EXP Value for Tools and Armor")
                 .defineInRange("base_experience_cap", 75, 1, 10000);

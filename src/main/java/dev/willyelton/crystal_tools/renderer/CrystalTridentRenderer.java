@@ -14,10 +14,7 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class CrystalTridentRenderer extends EntityRenderer<CrystalTridentEntity> {
     public static final ResourceLocation CRYSTAL_TRIDENT_LOCATION = new ResourceLocation(CrystalTools.MODID, "textures/entity/crystal_trident.png");
 

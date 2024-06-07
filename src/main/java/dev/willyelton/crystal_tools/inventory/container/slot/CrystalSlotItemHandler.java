@@ -1,8 +1,8 @@
 package dev.willyelton.crystal_tools.inventory.container.slot;
 
 import net.minecraft.world.inventory.Slot;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.SlotItemHandler;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.SlotItemHandler;
 
 public class CrystalSlotItemHandler extends SlotItemHandler {
     public CrystalSlotItemHandler(IItemHandler itemHandler, int index, int xPosition, int yPosition) {
@@ -11,8 +11,7 @@ public class CrystalSlotItemHandler extends SlotItemHandler {
 
     // Not sure why this is commented out in Forge
     @Override
-    public boolean isSameInventory(Slot other)
-    {
+    public boolean isSameInventory(Slot other) {
         return other instanceof SlotItemHandler && ((SlotItemHandler) other).getItemHandler() == this.getItemHandler();
     }
 }

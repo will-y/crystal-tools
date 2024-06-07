@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.FurnaceResultSlot;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.event.EventHooks;
 
 public class CrystalFurnaceOutputSlot extends FurnaceResultSlot {
     private final CrystalFurnaceContainerMenu crystalFurnaceContainerMenu;
@@ -31,7 +32,8 @@ public class CrystalFurnaceOutputSlot extends FurnaceResultSlot {
         }
 
         this.removeCount = 0;
-        net.minecraftforge.event.ForgeEventFactory.firePlayerSmeltedEvent(this.player, pStack);
+
+        EventHooks.firePlayerSmeltedEvent(this.player, pStack);
     }
 
     @Override

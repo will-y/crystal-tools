@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.levelable.tool;
 
+import dev.willyelton.crystal_tools.DataComponents;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
@@ -10,11 +10,11 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.common.ToolAction;
+import net.neoforged.neoforge.common.ToolActions;
 import org.jetbrains.annotations.NotNull;
 
 public class SwordLevelableTool extends LevelableTool {
@@ -50,15 +50,16 @@ public class SwordLevelableTool extends LevelableTool {
             return false;
         }
 
-        tool.hurtAndBreak(1, attacker, (p_43296_) -> p_43296_.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+        tool.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
 
         if (!ToolUtils.isBroken(tool)) {
-            if (NBTUtils.getFloatOrAddKey(tool, "fire") > 0) {
-                target.setSecondsOnFire(5);
+            // TODO: Is this actually what fire aspect does? Seems really short
+            if (tool.getOrDefault(DataComponents.FIRE, false)) {
+                target.setRemainingFireTicks(5);
             }
 
             if (ToolUtils.isValidEntity(target)) {
-                int heal = (int) NBTUtils.getFloatOrAddKey(tool, "lifesteal");
+                int heal = tool.getOrDefault(DataComponents.LIFESTEAL, 0);
 
                 if (heal > 0) {
                     attacker.heal(heal);
@@ -72,19 +73,13 @@ public class SwordLevelableTool extends LevelableTool {
     }
 
     @Override
-    public boolean canPerformAction(ItemStack stack, net.minecraftforge.common.ToolAction toolAction) {
-        return net.minecraftforge.common.ToolActions.DEFAULT_SWORD_ACTIONS.contains(toolAction);
+    public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
+        return ToolActions.DEFAULT_SWORD_ACTIONS.contains(toolAction);
     }
 
     @Override
     public boolean isDisabled() {
         return CrystalToolsConfig.DISABLE_SWORD.get();
-    }
-
-    @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-        return CrystalToolsConfig.ENCHANT_TOOLS.get() &&
-                (super.canApplyAtEnchantingTable(stack, enchantment) || enchantment.category.equals(EnchantmentCategory.WEAPON));
     }
 
     protected double getExperienceBoost() {

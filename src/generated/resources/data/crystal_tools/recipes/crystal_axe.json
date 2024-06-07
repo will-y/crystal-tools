@@ -1,37 +1,30 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "neoforge:conditions": [
     {
-      "conditions": [
-        {
-          "type": "forge:not",
-          "value": {
-            "type": "crystal_tools:item_disabled",
-            "item": "crystal_tools:crystal_axe"
-          }
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "category": "equipment",
-        "key": {
-          "c": {
-            "item": "crystal_tools:crystal"
-          },
-          "s": {
-            "item": "crystal_tools:netherite_stick"
-          }
-        },
-        "pattern": [
-          "cc",
-          "cs",
-          " s"
-        ],
-        "result": {
-          "item": "crystal_tools:crystal_axe"
-        },
-        "show_notification": true
+      "type": "neoforge:not",
+      "value": {
+        "type": "crystal_tools:item_disabled",
+        "itemLocation": "crystal_tools:crystal_axe"
       }
     }
-  ]
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "c": {
+      "item": "crystal_tools:crystal"
+    },
+    "s": {
+      "item": "crystal_tools:netherite_stick"
+    }
+  },
+  "pattern": [
+    "cc",
+    "cs",
+    " s"
+  ],
+  "result": {
+    "count": 1,
+    "id": "crystal_tools:crystal_axe"
+  }
 }

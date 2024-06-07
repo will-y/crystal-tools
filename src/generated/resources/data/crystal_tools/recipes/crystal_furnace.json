@@ -15,7 +15,7 @@
     "ccc"
   ],
   "result": {
-    "item": "crystal_tools:crystal_furnace"
-  },
-  "show_notification": true
+    "count": 1,
+    "id": "crystal_tools:crystal_furnace"
+  }
 }

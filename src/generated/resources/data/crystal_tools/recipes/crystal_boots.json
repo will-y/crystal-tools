@@ -1,33 +1,26 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "neoforge:conditions": [
     {
-      "conditions": [
-        {
-          "type": "forge:not",
-          "value": {
-            "type": "crystal_tools:item_disabled",
-            "item": "crystal_tools:crystal_boots"
-          }
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "category": "equipment",
-        "key": {
-          "c": {
-            "item": "crystal_tools:crystal"
-          }
-        },
-        "pattern": [
-          "c c",
-          "c c"
-        ],
-        "result": {
-          "item": "crystal_tools:crystal_boots"
-        },
-        "show_notification": true
+      "type": "neoforge:not",
+      "value": {
+        "type": "crystal_tools:item_disabled",
+        "itemLocation": "crystal_tools:crystal_boots"
       }
     }
-  ]
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "c": {
+      "item": "crystal_tools:crystal"
+    }
+  },
+  "pattern": [
+    "c c",
+    "c c"
+  ],
+  "result": {
+    "count": 1,
+    "id": "crystal_tools:crystal_boots"
+  }
 }

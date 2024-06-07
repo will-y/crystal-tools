@@ -1,19 +1,13 @@
 package dev.willyelton.crystal_tools.levelable.skill.requirement;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.JsonOps;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.willyelton.crystal_tools.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.utils.CodecUtils;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.entity.player.Player;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public interface SkillDataRequirement {
     boolean canLevel(SkillData data, Player player);

@@ -1,7 +1,11 @@
 package dev.willyelton.crystal_tools.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.gui.component.XpButton;
@@ -12,9 +16,8 @@ import dev.willyelton.crystal_tools.levelable.skill.requirement.RequirementType;
 import dev.willyelton.crystal_tools.levelable.skill.requirement.SkillDataNodeRequirement;
 import dev.willyelton.crystal_tools.levelable.skill.requirement.SkillDataRequirement;
 import dev.willyelton.crystal_tools.levelable.skill.requirement.SkillItemRequirement;
-import dev.willyelton.crystal_tools.network.PacketHandler;
-import dev.willyelton.crystal_tools.network.packet.RemoveItemPacket;
-import dev.willyelton.crystal_tools.network.packet.RemoveXpPacket;
+import dev.willyelton.crystal_tools.common.network.data.RemoveItemPayload;
+import dev.willyelton.crystal_tools.common.network.data.RemoveXpPayload;
 import dev.willyelton.crystal_tools.utils.Colors;
 import dev.willyelton.crystal_tools.utils.InventoryUtils;
 import dev.willyelton.crystal_tools.utils.XpUtils;
@@ -25,6 +28,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 
@@ -85,7 +89,7 @@ public abstract class BaseUpgradeScreen extends Screen {
                 int xpCost = XpUtils.getXPForLevel(getXpLevelCost());
                 if (XpUtils.getPlayerTotalXp(player) >= xpCost) {
                     player.giveExperiencePoints(-xpCost);
-                    PacketHandler.sendToServer(new RemoveXpPacket(xpCost));
+                    PacketDistributor.sendToServer(new RemoveXpPayload(xpCost));
                     changeSkillPoints(1);
                     updateButtons();
                 }
@@ -169,7 +173,7 @@ public abstract class BaseUpgradeScreen extends Screen {
             if (CrystalToolsConfig.ENABLE_ITEM_REQUIREMENTS.get() && requirement.getRequirementType() == RequirementType.ITEM) {
                 SkillItemRequirement itemRequirement = (SkillItemRequirement) (requirement);
                 itemRequirement.getItems().forEach(item -> {
-                    PacketHandler.sendToServer(new RemoveItemPacket(item.getDefaultInstance()));
+                    PacketDistributor.sendToServer(new RemoveItemPayload(item.getDefaultInstance()));
                     InventoryUtils.removeItemFromInventory(this.player.getInventory(), item.getDefaultInstance());
                 });
             }
@@ -231,10 +235,11 @@ public abstract class BaseUpgradeScreen extends Screen {
         return false;
     }
 
+    //TODO: Check
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
         for (SkillButton skillButton : this.skillButtons.values()) {
-            skillButton.yOffset += (int) delta * 10;
+            skillButton.yOffset += (int) scrollY * 10;
         }
 
         return true;

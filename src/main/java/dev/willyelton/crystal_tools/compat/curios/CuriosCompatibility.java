@@ -3,14 +3,14 @@ package dev.willyelton.crystal_tools.compat.curios;
 import dev.willyelton.crystal_tools.Registration;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fml.ModList;
+import net.neoforged.fml.ModList;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class CuriosCompatibility {
     public static List<ItemStack> getCrystalBackpacksInCurios(Player player) {
@@ -19,11 +19,10 @@ public class CuriosCompatibility {
         }
 
         List<ItemStack> toReturn = new ArrayList<>();
+        Optional<ICuriosItemHandler> optionalInventory = CuriosApi.getCuriosInventory(player);
 
-        LazyOptional<ICuriosItemHandler> optionalInventory = CuriosApi.getCuriosInventory(player);
-
-        if (optionalInventory.isPresent() && optionalInventory.resolve().isPresent()) {
-            ICuriosItemHandler curiosInventory = optionalInventory.resolve().get();
+        if (optionalInventory.isPresent()) {
+            ICuriosItemHandler curiosInventory = optionalInventory.get();
             curiosInventory.getCurios().forEach((identifier, curioStacksHandler) -> {
                 IDynamicStackHandler handler = curioStacksHandler.getStacks();
                 if (handler != null) {

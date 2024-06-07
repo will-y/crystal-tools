@@ -2,13 +2,14 @@ package dev.willyelton.crystal_tools.keybinding;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import net.minecraft.client.KeyMapping;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import org.lwjgl.glfw.GLFW;
 
-@Mod.EventBusSubscriber(modid=CrystalTools.MODID, bus=Mod.EventBusSubscriber.Bus.MOD, value= Dist.CLIENT)
+// TODO: Move to client events
+@EventBusSubscriber(modid=CrystalTools.MODID, bus=EventBusSubscriber.Bus.MOD, value= Dist.CLIENT)
 public class KeyBindings {
     public static KeyMapping upgradeMenu;
     public static KeyMapping veinMine;

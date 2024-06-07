@@ -1,16 +1,14 @@
 package dev.willyelton.crystal_tools.levelable;
 
 import dev.willyelton.crystal_tools.CrystalTools;
+import dev.willyelton.crystal_tools.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
-import dev.willyelton.crystal_tools.capability.CrystalBackpackCapabilityProvider;
 import dev.willyelton.crystal_tools.compat.curios.CuriosCompatibility;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.inventory.container.CrystalBackpackContainerMenu;
-import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -24,20 +22,16 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -58,13 +52,14 @@ public class CrystalBackpack extends Item implements LevelableItem {
     }
 
     public void openBackpack(ServerPlayer serverPlayer, ItemStack backpackStack) {
-        NetworkHooks.openScreen(serverPlayer,
+        serverPlayer.openMenu(
                 new CrystalBackpackMenuSupplier(this, backpackStack),
                 friendlyByteBuf -> {
-                    friendlyByteBuf.writeInt((int) NBTUtils.getFloatOrAddKey(backpackStack, "capacity", 1));
-                    friendlyByteBuf.writeInt((int) NBTUtils.getFloatOrAddKey(backpackStack, "filter_capacity", 0));
-                    friendlyByteBuf.writeBoolean(NBTUtils.getBoolean(backpackStack, "whitelist", true));
-                    friendlyByteBuf.writeBoolean(NBTUtils.getBoolean(backpackStack, "sort_enabled", false));
+                    // TODO: Maybe want to actually set here?
+                    friendlyByteBuf.writeInt(backpackStack.getOrDefault(DataComponents.CAPACITY, 1));
+                    friendlyByteBuf.writeInt(backpackStack.getOrDefault(DataComponents.FILTER_CAPACITY, 0));
+                    friendlyByteBuf.writeBoolean(backpackStack.getOrDefault(DataComponents.WHITELIST, false));
+                    friendlyByteBuf.writeBoolean(backpackStack.getOrDefault(DataComponents.SORT_ENABLED, false));
                 });
     }
 
@@ -74,15 +69,16 @@ public class CrystalBackpack extends Item implements LevelableItem {
         BlockEntity blockEntity = level.getBlockEntity(context.getClickedPos());
         ItemStack backpackStack = context.getItemInHand();
 
-        if (NBTUtils.getBoolean(backpackStack, "inventory_store")) {
+        if (backpackStack.getOrDefault(DataComponents.INVENTORY_STORE, false)) {
             CrystalBackpackInventory backpackInventory = getInventory(backpackStack);
 
             if (blockEntity != null && backpackInventory != null) {
-                blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, context.getClickedFace()).ifPresent(itemHandler -> {
+                IItemHandler itemHandler = level.getCapability(Capabilities.ItemHandler.BLOCK, context.getClickedPos(), context.getClickedFace());
+                if (itemHandler != null) {
                     for (int i = 0; i < backpackInventory.getSlots(); i++) {
                         backpackInventory.setStackInSlot(i, ItemHandlerHelper.insertItem(itemHandler, backpackInventory.getStackInSlot(i),false));
                     }
-                });
+                }
 
                 return InteractionResult.SUCCESS;
             }
@@ -117,22 +113,23 @@ public class CrystalBackpack extends Item implements LevelableItem {
         return CrystalToolsConfig.DISABLE_BACKPACK.get();
     }
 
-    @Override
-    public @Nullable ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-        return new CrystalBackpackCapabilityProvider(stack);
-    }
+//    @Override
+//    public @Nullable ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
+//        return new CrystalBackpackCapabilityProvider(stack);
+//    }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack itemStack, @javax.annotation.Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
         components.add(Component.literal("\u00A7d\u00A7l" + "The backpack is currently a WIP. Please report any issues or make suggestions."));
-        String toolTip = "\u00A79" + "Auto Pickup " + (NBTUtils.getBoolean(itemStack, "pickup_disabled", false) ? "Disabled" : "Enabled");
+        String toolTip = "\u00A79" + "Auto Pickup " + (itemStack.getOrDefault(DataComponents.PICKUP_DISABLED, false) ? "Disabled" : "Enabled");
         components.add(Component.literal(toolTip));
-        ToolUtils.appendHoverText(itemStack, level, components, flag, this);
+        ToolUtils.appendHoverText(itemStack, components, flag, this);
     }
 
+    // TODO: This should be a default method in the interface? New method for base experience?
     @Override
     public int getExperienceCap(ItemStack tool) {
-        return (int) NBTUtils.getFloatOrAddKey(tool, "experience_cap", CrystalToolsConfig.BACKPACK_BASE_EXPERIENCE_CAP.get());
+        return tool.getOrDefault(DataComponents.EXPERIENCE_CAP, CrystalToolsConfig.BACKPACK_BASE_EXPERIENCE_CAP.get());
     }
 
     private record CrystalBackpackMenuSupplier(CrystalBackpack backpackItem, ItemStack stack) implements MenuProvider {
@@ -145,9 +142,9 @@ public class CrystalBackpack extends Item implements LevelableItem {
             public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
                 // Server side constructor
                 return new CrystalBackpackContainerMenu(containerId, playerInventory, getInventory(stack), stack,
-                        (int) NBTUtils.getFloatOrAddKey(stack, "filter_capacity", 0),
-                        NBTUtils.getBoolean(stack, "whitelist", true),
-                        NBTUtils.getBoolean(stack, "can_sort", false));
+                        stack.getOrDefault(DataComponents.FILTER_CAPACITY, 0),
+                        stack.getOrDefault(DataComponents.WHITELIST, true),
+                        stack.getOrDefault(DataComponents.SORT_ENABLED, false));
             }
         }
 
@@ -159,12 +156,11 @@ public class CrystalBackpack extends Item implements LevelableItem {
     }
 
     public static CrystalBackpackInventory getInventory(ItemStack stack) {
-        IItemHandler inventory = stack.getCapability(ForgeCapabilities.ITEM_HANDLER).orElseGet(() -> {
+        IItemHandler inventory = stack.getCapability(Capabilities.ItemHandler.ITEM);
+        if (inventory == null) {
             CrystalTools.LOGGER.error("Crystal Backpack cannot find capability");
             return new CrystalBackpackInventory(0);
-        });
-
-        if (inventory instanceof CrystalBackpackInventory crystalBackpackInventory) {
+        } else if (inventory instanceof CrystalBackpackInventory crystalBackpackInventory) {
             return crystalBackpackInventory;
         } else {
             CrystalTools.LOGGER.error("Different inventory capability found on crystal backpack");
@@ -177,33 +173,13 @@ public class CrystalBackpack extends Item implements LevelableItem {
             throw new IllegalArgumentException("Cannot get filter items on  " + stack.getItem());
         }
 
-        CompoundTag tag = stack.getTag();
+        ItemContainerContents filterContents = stack.get(DataComponents.FILTER_INVENTORY);
 
-        if (tag == null || tag.isEmpty()) {
+        if (filterContents == null) {
             return Collections.emptyList();
         }
 
-        CompoundTag filterTag = tag.getCompound("filter");
-
-        if (filterTag.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        int filterSize = filterTag.getInt("Size");
-
-        ItemStackHandler filterInventory = new ItemStackHandler(filterSize);
-        filterInventory.deserializeNBT(filterTag);
-
-        List<ItemStack> results = new ArrayList<>();
-
-        for (int i = 0; i < filterSize; i++) {
-            ItemStack stackInSlot = filterInventory.getStackInSlot(i);
-            if (!stackInSlot.isEmpty()) {
-                results.add(stackInSlot.copy());
-            }
-        }
-
-        return results;
+        return filterContents.stream().filter(stack1 -> !stack1.isEmpty()).toList();
     }
 
     /**

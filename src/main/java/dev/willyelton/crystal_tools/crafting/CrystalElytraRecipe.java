@@ -1,30 +1,27 @@
 package dev.willyelton.crystal_tools.crafting;
 
+import dev.willyelton.crystal_tools.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
-import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 public class CrystalElytraRecipe extends CrystalToolsRecipe {
 
-    public CrystalElytraRecipe(ResourceLocation pId, CraftingBookCategory category) {
-        super(pId, category);
+    public CrystalElytraRecipe(CraftingBookCategory category) {
+        super(category);
     }
 
     @Override
@@ -54,7 +51,7 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
     }
 
     @Override
-    public @NotNull ItemStack assemble(@NotNull CraftingContainer container, @NotNull RegistryAccess registryAccess) {
+    public @NotNull ItemStack assemble(@NotNull CraftingContainer container, @NotNull HolderLookup.Provider registryAccess) {
         ItemStack stack = new ItemStack(Registration.CRYSTAL_ELYTRA.get());
         List<ItemStack> items = this.getItems(container);
 
@@ -65,27 +62,28 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
             return crystalChestPlateItem;
         }
 
-        int[] points = NBTUtils.getIntArray(crystalChestPlateItem, "points");
+        List<Integer> points = crystalChestPlateItem.getOrDefault(DataComponents.POINTS_ARRAY, Collections.emptyList());
 
         // points in chestplate
-        int spentPoints = Arrays.stream(points).sum();
+        int spentPoints = points.stream().mapToInt(Integer::intValue).sum();
         // unspent points in chestplate
-        int unspentPoints = (int) NBTUtils.getFloatOrAddKey(crystalChestPlateItem, "skill_points");
+        int unspentPoints = crystalChestPlateItem.getOrDefault(DataComponents.SKILL_POINTS, 0);
 
         // points from enchantments on elytra
-        Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(elytraItem);
-        int enchantmentPoints = enchantments.values().stream().mapToInt(Integer::intValue).sum();
+//        Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(elytraItem);
+//        int enchantmentPoints = enchantments.values().stream().mapToInt(Integer::intValue).sum();
+        // TODO: Check
+        int enchantmentPoints = EnchantmentHelper.getEnchantmentsForCrafting(stack).entrySet().stream().mapToInt(Object2IntMap.Entry::getIntValue).sum();
 
         int totalPoints = spentPoints + unspentPoints + enchantmentPoints;
 
         // Set skill points
-        NBTUtils.setValue(stack, "skill_points", totalPoints);
+        stack.set(DataComponents.SKILL_POINTS, totalPoints);
 
         // Set exp cap
         ToolUtils.increaseExpCap(stack, totalPoints);
 
-        // Set exp
-        NBTUtils.setValue(stack, "experience", NBTUtils.getFloatOrAddKey(crystalChestPlateItem, "experience"));
+        stack.set(DataComponents.SKILL_EXPERIENCE, crystalChestPlateItem.getOrDefault(DataComponents.SKILL_EXPERIENCE, 0));
 
         return stack;
     }

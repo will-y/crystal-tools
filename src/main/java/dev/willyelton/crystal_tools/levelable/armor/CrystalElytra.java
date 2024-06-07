@@ -1,30 +1,31 @@
 package dev.willyelton.crystal_tools.levelable.armor;
 
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
+import dev.willyelton.crystal_tools.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
-import dev.willyelton.crystal_tools.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.utils.NBTUtils;
+import dev.willyelton.crystal_tools.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterials;
+import net.minecraft.world.item.ElytraItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Consumer;
 
 public class CrystalElytra extends ElytraItem implements LevelableItem {
     private static final UUID ELYTRA_UUID = UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D");
@@ -40,17 +41,17 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
 
     @Override
     public int getMaxDamage(ItemStack stack) {
-        int bonusDurability = (int) NBTUtils.getFloatOrAddKey(stack, "durability_bonus");
+        int bonusDurability = stack.getOrDefault(DataComponents.DURABILITY_BONUS, 0);
         return INITIAL_TIER.getUses() + bonusDurability;
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
-        ToolUtils.appendHoverText(itemStack, level, components, flag, this);
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
+        ToolUtils.appendHoverText(stack, components, flag, this);
     }
 
     @Override
-    public boolean isValidRepairItem(@NotNull ItemStack tool, @NotNull ItemStack repairItem) {
+    public boolean isValidRepairItem(ItemStack tool, ItemStack repairItem) {
         return repairItem.is(Registration.CRYSTAL.get());
     }
 
@@ -60,21 +61,14 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
     }
 
     @Override
-    public void onArmorTick(ItemStack stack, Level world, Player player) {
-        if (this.isDisabled()) {
-            stack.shrink(1);
-        }
-    }
-
-    @Override
     public boolean elytraFlightTick(@NotNull ItemStack stack, net.minecraft.world.entity.LivingEntity entity, int flightTicks) {
         if (!entity.level().isClientSide) {
             int nextFlightTick = flightTicks + 1;
             if (nextFlightTick % 10 == 0) {
                 if (nextFlightTick % 20 == 0) {
-                    float unbreakingLevel = NBTUtils.getFloatOrAddKey(stack, "durability_bonus") / 200 + 1;
+                    float unbreakingLevel = stack.getOrDefault(DataComponents.DURABILITY_BONUS, 0) / 200F + 1;
                     if (1 / unbreakingLevel > Math.random()) {
-                        stack.hurtAndBreak(1, entity, e -> e.broadcastBreakEvent(net.minecraft.world.entity.EquipmentSlot.CHEST));
+                        stack.hurtAndBreak(1, entity, EquipmentSlot.CHEST);
                     }
 
                     this.addExp(stack, entity.level(), entity.getOnPos(), entity);
@@ -86,8 +80,8 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
     }
 
     @Override
-    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<T> onBroken) {
-        int durability = this.getMaxDamage(stack) - (int) NBTUtils.getFloatOrAddKey(stack, "Damage");
+    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Runnable onBroken) {
+        int durability = this.getMaxDamage(stack) - stack.getDamageValue();
 
         if (durability - amount <= 0) {
             return 0;
@@ -99,37 +93,33 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
 
     // Armor things
     @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-        if (slot == EquipmentSlot.CHEST) {
-            ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-            if (!ToolUtils.isBroken(stack)) {
-                builder.put(Attributes.ARMOR, new AttributeModifier(ELYTRA_UUID, "Armor modifier", this.getDefense(stack), AttributeModifier.Operation.ADDITION));
-                builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(ELYTRA_UUID, "Armor toughness", this.getToughness(stack), AttributeModifier.Operation.ADDITION));
-                int health = (int) NBTUtils.getFloatOrAddKey(stack, "health_bonus");
+    public ItemAttributeModifiers getAttributeModifiers(ItemStack stack) {
+        ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
+        if (!ToolUtils.isBroken(stack)) {
+            builder.add(Attributes.ARMOR, new AttributeModifier(ELYTRA_UUID, "Armor modifier", this.getDefense(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST);
+            builder.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(ELYTRA_UUID, "Armor toughness", this.getToughness(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST);
+            int health = stack.getOrDefault(DataComponents.HEALTH_BONUS, 0);
+            if (health > 0) {
+                builder.add(Attributes.MAX_HEALTH, new AttributeModifier(ELYTRA_UUID, "Health modifier", health, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST);
+            }
 
-                if (health > 0) {
-                    builder.put(Attributes.MAX_HEALTH, new AttributeModifier(ELYTRA_UUID, "Health modifier", health, AttributeModifier.Operation.ADDITION));
-                }
-
-                float speedBonus = NBTUtils.getFloatOrAddKey(stack, "speed_bonus") / 5;
-
-                if (speedBonus > 0) {
-                    builder.put(Attributes.MOVEMENT_SPEED, new AttributeModifier(ELYTRA_UUID, "Speed modifier", speedBonus, AttributeModifier.Operation.MULTIPLY_BASE));
-                }
+            float speedBonus = stack.getOrDefault(DataComponents.SPEED_BONUS, 0F) / 5;
+            if (speedBonus > 0) {
+                builder.add(Attributes.MOVEMENT_SPEED, new AttributeModifier(ELYTRA_UUID, "Speed modifier", speedBonus, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), EquipmentSlotGroup.CHEST);
             }
 
             return builder.build();
         } else {
-            return super.getAttributeModifiers(slot, stack);
+            return super.getAttributeModifiers(stack);
         }
     }
 
     public int getDefense(ItemStack stack) {
-        return ArmorMaterials.NETHERITE.getDefenseForType(ArmorItem.Type.CHESTPLATE) + (int) NBTUtils.getFloatOrAddKey(stack, "armor_bonus");
+        return ArmorMaterials.NETHERITE.value().getDefense(ArmorItem.Type.CHESTPLATE) + stack.getOrDefault(DataComponents.ARMOR_BONUS, 0);
     }
 
     public float getToughness(ItemStack stack) {
-        return ArmorMaterials.NETHERITE.getToughness() + NBTUtils.getFloatOrAddKey(stack, "toughness_bonus");
+        return ArmorMaterials.NETHERITE.value().toughness() + stack.getOrDefault(DataComponents.TOUGHNESS_BONUS, 0F);
     }
 
     @Override
@@ -144,8 +134,12 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
     }
 
     @Override
-    public void inventoryTick(@NotNull ItemStack itemStack, @NotNull Level level, @NotNull Entity entity, int inventorySlot, boolean inHand) {
-        ToolUtils.inventoryTick(itemStack, level, entity, inventorySlot, inHand);
+    public void inventoryTick(@NotNull ItemStack stack, @NotNull Level level, @NotNull Entity entity, int inventorySlot, boolean inHand) {
+        if (this.isDisabled()) {
+            stack.shrink(1);
+        }
+
+        ToolUtils.inventoryTick(stack, level, entity, inventorySlot, inHand);
     }
 
     @Override

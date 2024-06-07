@@ -15,7 +15,8 @@ import net.minecraft.world.entity.player.Player;
  * Button to require xp costs
  */
 public class XpButton extends Button {
-    private static ResourceLocation TEXTURE = new ResourceLocation(CrystalTools.MODID, "textures/gui/xp_button.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(CrystalTools.MODID, "textures/gui/xp_button.png");
+
     protected final CrystalToolsButton.OnTooltip onTooltip;
 
     public XpButton(int x, int y, int width, int height, OnPress onPress, CrystalToolsButton.OnTooltip onToolTip, int levelCost) {
@@ -37,7 +38,6 @@ public class XpButton extends Button {
     @Override
     public void renderString(GuiGraphics guiGraphics, Font font, int pColor) {
         int color = this.active ? Colors.fromRGB(200, 255, 143) : Colors.fromRGB(140, 96, 93);
-        int textWidth = font.width(this.getMessage());
         guiGraphics.drawString(font, this.getMessage(), this.getX() + 16, this.getY() + (getHeight() - font.lineHeight) / 2 + 1, color);
     }
 

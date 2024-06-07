@@ -1,9 +1,9 @@
 package dev.willyelton.crystal_tools.levelable.tool;
 
+import dev.willyelton.crystal_tools.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.levelable.LevelableItem;
-import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -12,28 +12,30 @@ import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.Arrow;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.ArrowItem;
+import net.minecraft.world.item.BowItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ProjectileWeaponItem;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.ForgeHooks;
+import net.neoforged.neoforge.common.CommonHooks;
+import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class BowLevelableItem extends BowItem implements LevelableItem {
     public BowLevelableItem() {
-        super(new Properties().defaultDurability(INITIAL_TIER.getUses()).fireResistant());
+        super(new Properties().durability(INITIAL_TIER.getUses()).fireResistant());
     }
 
     @Override
@@ -43,14 +45,16 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
 
             ItemStack itemstack;
 
-            if (NBTUtils.getFloatOrAddKey(stack, "infinity") > 0) {
+            if (stack.getOrDefault(DataComponents.INFINITY, false)) {
                 itemstack = new ItemStack(Items.ARROW);
             } else {
                 itemstack = getProjectile(stack, player);
             }
 
             int timeUsed = this.getUseDuration(stack) - timeLeft;
-            timeUsed = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, level, player, timeUsed, !itemstack.isEmpty() || flag);
+
+            // TODO: Forge hasn't patched this in yet, BowItem might have slightly different logic
+            timeUsed = EventHooks.onArrowLoose(stack, level, player, timeUsed, !itemstack.isEmpty() || flag);
             if (timeUsed < 0) return;
 
             if (!itemstack.isEmpty() || flag) {
@@ -66,39 +70,42 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
                         AbstractArrow abstractarrow = arrowitem.createArrow(level, itemstack, player);
                         abstractarrow = customArrow(abstractarrow);
                         //TODO: TOO Random
-                        abstractarrow.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, power * 3.0F + NBTUtils.getFloatOrAddKey(stack, "arrow_speed_bonus") / 4.0F, 0.0F);
+                        abstractarrow.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, power * 3.0F + stack.getOrDefault(DataComponents.ARROW_SPEED, 0F) / 4.0F, 0.0F);
                         if (power == 1.0F) {
                             abstractarrow.setCritArrow(true);
                         }
 
-                        float j = NBTUtils.getFloatOrAddKey(stack, "arrow_damage");
+                        float j = stack.getOrDefault(DataComponents.ARROW_DAMAGE.get(), 0F);
                         if (j > 0) {
                             abstractarrow.setBaseDamage(abstractarrow.getBaseDamage() + (double)j + 0.5D);
                         }
 
-                        int k = (int) NBTUtils.getFloatOrAddKey(stack, "arrow_knockback");
+                        int k = stack.getOrDefault(DataComponents.ARROW_KNOCKBACK, 0);
                         if (k > 0) {
                             abstractarrow.setKnockback(k);
                         }
 
-                        if (NBTUtils.getFloatOrAddKey(stack, "flame") > 0) {
-                            abstractarrow.setSecondsOnFire(100);
+                        if (stack.getOrDefault(DataComponents.FLAME, false)) {
+                            abstractarrow.setRemainingFireTicks(100);
                         }
 
-                        if (abstractarrow instanceof Arrow arrow && stack.getTag() != null) {
-                            for (int i = 1; i < 34; i++) {
-                                if (stack.getTag().contains("effect_" + i)) {
-                                    MobEffect effect = MobEffect.byId(i);
-                                    if (effect != null) {
-                                        MobEffectInstance instance = new MobEffectInstance(effect, (int) NBTUtils.getFloatOrAddKey(stack, "effect_" + i) * 20, 1, false, true);
-                                        arrow.addEffect(instance);
-                                    }
-                                }
-                            }
-                        }
+                        // TODO: Effects here and on apple will have to be redone
+                        // List<Integer> dataComponent to store all of them?
+                        // Packet handler will have to change to specifically allow that but here should be similar
+//                        if (abstractarrow instanceof Arrow arrow && stack.getTag() != null) {
+//                            for (int i = 1; i < 34; i++) {
+//                                if (stack.getTag().contains("effect_" + i)) {
+//                                    MobEffect effect = MobEffect.byId(i);
+//                                    if (effect != null) {
+//                                        MobEffectInstance instance = new MobEffectInstance(effect, (int) NBTUtils.getFloatOrAddKey(stack, "effect_" + i) * 20, 1, false, true);
+//                                        arrow.addEffect(instance);
+//                                    }
+//                                }
+//                            }
+//                        }
 
-                        stack.hurtAndBreak(1, player, (p_40665_) -> p_40665_.broadcastBreakEvent(player.getUsedItemHand()));
-                        if (flag1 || player.getAbilities().instabuild && (itemstack.is(Items.SPECTRAL_ARROW) || itemstack.is(Items.TIPPED_ARROW)) || NBTUtils.getFloatOrAddKey(stack, "infinity") > 0) {
+                        stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(player.getUsedItemHand()));
+                        if (flag1 || player.getAbilities().instabuild && (itemstack.is(Items.SPECTRAL_ARROW) || itemstack.is(Items.TIPPED_ARROW)) || stack.getOrDefault(DataComponents.INFINITY, false)) {
                             abstractarrow.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                         }
 
@@ -120,15 +127,16 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pHand) {
+    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
         if (this.isDisabled()) {
             itemstack.shrink(1);
             return InteractionResultHolder.fail(itemstack);
         }
-        boolean flag = !getProjectile(itemstack, pPlayer).isEmpty() || NBTUtils.getFloatOrAddKey(itemstack, "infinity") > 0;
+        boolean flag = !getProjectile(itemstack, pPlayer).isEmpty() || itemstack.getOrDefault(DataComponents.INFINITY, false);
 
-        InteractionResultHolder<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemstack, pLevel, pPlayer, pHand, flag);
+        InteractionResultHolder<ItemStack> ret = EventHooks.onArrowNock(itemstack, pLevel, pPlayer, pHand, flag);
+        // TODO: I don't think this is actually always true?
         if (ret != null) return ret;
 
         if (ToolUtils.isBroken(itemstack) || (!pPlayer.getAbilities().instabuild && !flag)) {
@@ -148,23 +156,23 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
         return arrow;
     }
 
-    public ItemStack getProjectile(ItemStack pShootable, Player player) {
-        if (!(pShootable.getItem() instanceof BowLevelableItem)) {
+    public ItemStack getProjectile(ItemStack shootable, Player player) {
+        if (!(shootable.getItem() instanceof BowLevelableItem)) {
             return ItemStack.EMPTY;
         } else {
             Predicate<ItemStack> predicate = getAllSupportedProjectiles();
             ItemStack itemstack = ProjectileWeaponItem.getHeldProjectile(player, predicate);
             if (!itemstack.isEmpty()) {
-                return ForgeHooks.getProjectile(player, pShootable, itemstack);
+                return CommonHooks.getProjectile(player, shootable, itemstack);
             } else {
                 for(int i = 0; i < player.getInventory().getContainerSize(); ++i) {
                     ItemStack itemstack1 = player.getInventory().getItem(i);
                     if (predicate.test(itemstack1)) {
-                        return ForgeHooks.getProjectile(player, pShootable, itemstack1);
+                        return CommonHooks.getProjectile(player, shootable, itemstack1);
                     }
                 }
 
-                return ForgeHooks.getProjectile(player, pShootable, player.getAbilities().instabuild ? new ItemStack(Items.ARROW) : ItemStack.EMPTY);
+                return CommonHooks.getProjectile(player, shootable, player.getAbilities().instabuild ? new ItemStack(Items.ARROW) : ItemStack.EMPTY);
             }
         }
     }
@@ -176,7 +184,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
 
     @Override
     public int getMaxDamage(ItemStack stack) {
-        int bonusDurability = (int) NBTUtils.getFloatOrAddKey(stack, "durability_bonus");
+        int bonusDurability = stack.getOrDefault(DataComponents.DURABILITY_BONUS, 0);
         return INITIAL_TIER.getUses() + bonusDurability;
     }
 
@@ -213,13 +221,13 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
-        ToolUtils.appendHoverText(itemStack, level, components, flag, this);
+    public void appendHoverText(@NotNull ItemStack itemStack, Item.TooltipContext context, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
+        ToolUtils.appendHoverText(itemStack, components, flag, this);
     }
 
     @Override
-    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<T> onBroken) {
-        int durability = this.getMaxDamage(stack) - (int) NBTUtils.getFloatOrAddKey(stack, "Damage");
+    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Runnable onBroken) {
+        int durability = this.getMaxDamage(stack) - stack.getDamageValue();
 
         if (durability - amount <= 0) {
             return 0;
@@ -245,11 +253,11 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
         return CrystalToolsConfig.ENCHANT_TOOLS.get() &&
-                (super.canApplyAtEnchantingTable(stack, enchantment) || enchantment.category.equals(EnchantmentCategory.BOW));
+                (super.canApplyAtEnchantingTable(stack, enchantment) || stack.is(enchantment.getSupportedItems()));
     }
 
     public float getChargeTime(ItemStack stack) {
-        return Math.max(1F, 20F - NBTUtils.getFloatOrAddKey(stack, "draw_speed"));
+        return Math.max(1F, 20F - stack.getOrDefault(DataComponents.DRAW_SPEED, 0F));
     }
 
     private float getPower(int charge, ItemStack stack) {

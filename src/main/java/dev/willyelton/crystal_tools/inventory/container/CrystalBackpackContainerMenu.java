@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.inventory.container;
 
-import dev.willyelton.crystal_tools.CrystalTools;
+import dev.willyelton.crystal_tools.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.gui.ScrollableMenu;
@@ -8,11 +8,8 @@ import dev.willyelton.crystal_tools.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.inventory.container.slot.CrystalSlotItemHandler;
 import dev.willyelton.crystal_tools.inventory.container.slot.ReadOnlySlot;
 import dev.willyelton.crystal_tools.inventory.container.slot.ScrollableSlot;
-import dev.willyelton.crystal_tools.network.PacketHandler;
-import dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket;
-import dev.willyelton.crystal_tools.utils.InventoryUtils;
+import dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload;
 import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
@@ -20,9 +17,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
-import org.apache.logging.log4j.Level;
+import net.neoforged.neoforge.items.ComponentItemHandler;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -35,7 +33,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
     public static final int FILTER_SLOTS_PER_ROW = 5;
     private final CrystalBackpackInventory inventory;
     @Nullable
-    private final ItemStackHandler filterInventory;
+    private final IItemHandlerModifiable filterInventory;
     private final ItemStack stack;
     private final int rows;
     private final int filterRows;
@@ -161,11 +159,13 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
     @Override
     public void removed(Player pPlayer) {
         super.removed(pPlayer);
-        if (Objects.nonNull(filterInventory)) {
-            stack.getOrCreateTag().put("filter", filterInventory.serializeNBT());
-        }
-
-        stack.getOrCreateTag().putBoolean("whitelist", whitelist);
+        // TODO: Does it save automatically?
+//        if (Objects.nonNull(filterInventory)) {
+//            ItemContainerContents.fromItems(filterInventory.g);
+//            stack.getOrCreateTag().put("filter", filterInventory.serializeNBT());
+//        }
+//
+//        stack.getOrCreateTag().putBoolean("whitelist", whitelist);
     }
 
     @Override
@@ -212,8 +212,8 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         this.whitelist = whitelist;
     }
 
-    public void sendUpdatePacket(BackpackScreenPacket.Type type) {
-        PacketHandler.sendToServer(new BackpackScreenPacket(type));
+    public void sendUpdatePacket(BackpackScreenPayload.PickupType type) {
+        PacketDistributor.sendToServer(new BackpackScreenPayload(type));
     }
 
     public void sort() {
@@ -228,21 +228,25 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         return filterInventory.getSlots();
     }
 
-    private ItemStackHandler createFilterInventory(ItemStack stack) {
+    private IItemHandlerModifiable createFilterInventory(ItemStack stack) {
         if (filterRows == 0) {
             return null;
         }
 
-        ItemStackHandler itemStackHandler = new ItemStackHandler(filterRows * FILTER_SLOTS_PER_ROW);
-        ItemStackHandler storedItems = new ItemStackHandler(0);
-        CompoundTag tag = stack.getOrCreateTagElement("filter");
-        if (!tag.isEmpty()) {
-            storedItems.deserializeNBT(tag);
-        }
+        ComponentItemHandler componentItemHandler = new ComponentItemHandler(stack, DataComponents.FILTER_INVENTORY.get(), filterRows * FILTER_SLOTS_PER_ROW);
 
-        InventoryUtils.copyTo(storedItems, itemStackHandler);
+        return componentItemHandler;
 
-        return itemStackHandler;
+//        ItemStackHandler itemStackHandler = new ItemStackHandler(filterRows * FILTER_SLOTS_PER_ROW);
+//        ItemStackHandler storedItems = new ItemStackHandler(0);
+//        CompoundTag tag = stack.getOrCreateTagElement("filter");
+//        if (!tag.isEmpty()) {
+//            storedItems.deserializeNBT(tag);
+//        }
+//
+//        InventoryUtils.copyTo(storedItems, itemStackHandler);
+//
+//        return itemStackHandler;
     }
 
     private boolean isFilterSlot(int index) {

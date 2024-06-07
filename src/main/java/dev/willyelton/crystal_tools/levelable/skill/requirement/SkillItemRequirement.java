@@ -1,18 +1,16 @@
 package dev.willyelton.crystal_tools.levelable.skill.requirement;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.utils.CodecUtils;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +21,7 @@ public class SkillItemRequirement implements SkillDataRequirement {
         List<Item> itemList = new ArrayList<>();
         for (String item : items) {
             ResourceLocation r = new ResourceLocation(item);
-            itemList.add(ForgeRegistries.ITEMS.getValue(r));
+            itemList.add(BuiltInRegistries.ITEM.get(r));
         }
 
         this.items = itemList;
@@ -68,6 +66,6 @@ public class SkillItemRequirement implements SkillDataRequirement {
     }
 
     public static final Codec<SkillItemRequirement> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            ForgeRegistries.ITEMS.getCodec().listOf().fieldOf("item").forGetter(SkillItemRequirement::getItems)
+            BuiltInRegistries.ITEM.byNameCodec().listOf().fieldOf("item").forGetter(SkillItemRequirement::getItems)
     ).apply(instance, SkillItemRequirement::new));
 }

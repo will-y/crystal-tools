@@ -180,7 +180,7 @@
         "requirements": [
           {"or_node": [10, 11, 27]}
         ],
-        "key": "tree_chop",
+        "key": "vein_miner",
         "value": 1
       },
       {

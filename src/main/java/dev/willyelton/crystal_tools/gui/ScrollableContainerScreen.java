@@ -1,8 +1,7 @@
 package dev.willyelton.crystal_tools.gui;
 
-import dev.willyelton.crystal_tools.network.PacketHandler;
-import dev.willyelton.crystal_tools.network.packet.ContainerRowsPacket;
-import dev.willyelton.crystal_tools.network.packet.ScrollPacket;
+import dev.willyelton.crystal_tools.common.network.data.ContainerRowsPayload;
+import dev.willyelton.crystal_tools.common.network.data.ScrollPayload;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -11,6 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public abstract class ScrollableContainerScreen<T extends AbstractContainerMenu & ScrollableMenu> extends AbstractContainerScreen<T> {
     private static final ResourceLocation TEXTURE = new ResourceLocation("crystal_tools:textures/gui/scroll_bar.png");
@@ -40,7 +40,7 @@ public abstract class ScrollableContainerScreen<T extends AbstractContainerMenu 
         super.init();
         // Might need to go in resize
         this.menu.setMaxRows(getMaxDisplayRows());
-        PacketHandler.sendToServer(new ContainerRowsPacket(getMaxDisplayRows()));
+        PacketDistributor.sendToServer(new ContainerRowsPayload(getMaxDisplayRows()));
     }
 
     @Override
@@ -50,7 +50,7 @@ public abstract class ScrollableContainerScreen<T extends AbstractContainerMenu 
         this.scrollOffset = this.menu.getScrollForRowIndex(i);
         if (i != currentRow) {
             currentRow = i;
-            PacketHandler.sendToServer(new ScrollPacket(i));
+            PacketDistributor.sendToServer(new ScrollPayload(i));
         }
     }
 
@@ -74,14 +74,14 @@ public abstract class ScrollableContainerScreen<T extends AbstractContainerMenu 
     }
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
         // Positive delta is up, negative is down
         if (!this.canScroll()) {
             return false;
         } else {
-            currentRow = Mth.clamp(currentRow - (int) delta, 0, this.menu.getRows() - this.getMaxDisplayRows());
+            currentRow = Mth.clamp(currentRow - (int) scrollY, 0, this.menu.getRows() - this.getMaxDisplayRows());
             this.scrollOffset = this.menu.getScrollForRowIndex(currentRow);
-            PacketHandler.sendToServer(new ScrollPacket(currentRow));
+            PacketDistributor.sendToServer(new ScrollPayload(currentRow));
             return true;
         }
     }
@@ -96,7 +96,7 @@ public abstract class ScrollableContainerScreen<T extends AbstractContainerMenu 
             int i = this.menu.getRowIndexForScroll(this.scrollOffset);
             if (i != currentRow) {
                 currentRow = i;
-                PacketHandler.sendToServer(new ScrollPacket(i));
+                PacketDistributor.sendToServer(new ScrollPayload(i));
             }
             return true;
         }

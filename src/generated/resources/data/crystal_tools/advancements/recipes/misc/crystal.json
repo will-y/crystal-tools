@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "crystal_tools:crystal_block"
-            ]
+            "items": "crystal_tools:crystal_block"
           }
         ]
       },
@@ -22,14 +20,13 @@
   },
   "requirements": [
     [
-      "has_crystal_block",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_crystal_block"
     ]
   ],
   "rewards": {
     "recipes": [
       "crystal_tools:crystal"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

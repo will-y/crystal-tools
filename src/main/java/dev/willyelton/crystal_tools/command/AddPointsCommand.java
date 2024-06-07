@@ -5,11 +5,12 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import dev.willyelton.crystal_tools.DataComponents;
 import dev.willyelton.crystal_tools.levelable.LevelableItem;
-import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 
 public class AddPointsCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -25,10 +26,10 @@ public class AddPointsCommand {
     static int addPointsToTool(CommandContext<CommandSourceStack> commandContext, int points) throws CommandSyntaxException {
         Entity entity = commandContext.getSource().getEntity();
 
-        if (entity != null) {
-            entity.getHandSlots().forEach(itemStack -> {
+        if (entity instanceof LivingEntity livingEntity) {
+            livingEntity.getHandSlots().forEach(itemStack -> {
                 if (itemStack.getItem() instanceof LevelableItem) {
-                    NBTUtils.addValueToTag(itemStack, "skill_points", points);
+                    DataComponents.addToComponent(itemStack, DataComponents.SKILL_POINTS, points);
                 }
             });
         }

@@ -1,16 +1,14 @@
 package dev.willyelton.crystal_tools.levelable.block.entity;
 
-import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.NotNull;
 
+// TODO: Apparently unused will need to redo when I do generator
 public abstract class LevelableBlockEntity extends BlockEntity {
     // Number of current points
     protected int skillPoints;
@@ -40,19 +38,20 @@ public abstract class LevelableBlockEntity extends BlockEntity {
         }
     }
 
+    // TODO: Are these not components?
     @Override
-    public void load(@NotNull CompoundTag nbt) {
-        super.load(nbt);
-        this.skillPoints = (int) NBTUtils.getFloatOrAddKey(nbt, "skill_points");
-        this.exp = (int) NBTUtils.getFloatOrAddKey(nbt, "experience");
-        this.expCap = (int) NBTUtils.getFloatOrAddKey(nbt, "experience_cap", CrystalToolsConfig.BASE_EXPERIENCE_CAP.get());
-        this.points = NBTUtils.getIntArray(nbt, "points");
+    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+        super.loadAdditional(nbt, registries);
+//        this.skillPoints = (int) NBTUtils.getFloatOrAddKey(nbt, "skill_points");
+//        this.exp = (int) NBTUtils.getFloatOrAddKey(nbt, "experience");
+//        this.expCap = (int) NBTUtils.getFloatOrAddKey(nbt, "experience_cap", CrystalToolsConfig.BASE_EXPERIENCE_CAP.get());
+//        this.points = NBTUtils.getIntArray(nbt, "points");
     }
 
 
     @Override
-    protected void saveAdditional(@NotNull CompoundTag nbt) {
-        super.saveAdditional(nbt);
+    protected void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+        super.saveAdditional(nbt, registries);
         nbt.putInt("skill_points", this.skillPoints);
         nbt.putInt("experience", this.exp);
         nbt.putInt("experience_cap", this.expCap);
@@ -89,7 +88,7 @@ public abstract class LevelableBlockEntity extends BlockEntity {
     }
 
     @Override
-    public @NotNull CompoundTag getUpdateTag() {
-        return this.saveWithoutMetadata();
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        return this.saveWithoutMetadata(registries);
     }
 }

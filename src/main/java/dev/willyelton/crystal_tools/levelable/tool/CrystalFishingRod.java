@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.levelable.tool;
 
+import dev.willyelton.crystal_tools.DataComponents;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -18,8 +18,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraftforge.common.ToolAction;
-import net.minecraftforge.common.ToolActions;
+import net.neoforged.neoforge.common.ToolAction;
+import net.neoforged.neoforge.common.ToolActions;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -50,8 +50,8 @@ public class CrystalFishingRod extends LevelableTool {
         } else {
             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.FISHING_BOBBER_THROW, SoundSource.NEUTRAL, 0.5F, getRandomPitch(level));
             if (!level.isClientSide) {
-                int fishingSpeedBonus = (int) NBTUtils.getFloatOrAddKey(stack, "lure");
-                int luckBonus = (int) NBTUtils.getFloatOrAddKey(stack, "luck_of_the_sea");
+                int fishingSpeedBonus = stack.getOrDefault(DataComponents.LURE, 0);
+                int luckBonus = stack.getOrDefault(DataComponents.LUCK_OF_THE_SEA, 0);
                 FishingHook fishingHook = new FishingHook(player, level, fishingSpeedBonus, luckBonus);
                 if (hand == InteractionHand.MAIN_HAND) {
                     fishingHook.addTag(CRYSTAL_TOOLS_FISHING_MAIN_TAG);

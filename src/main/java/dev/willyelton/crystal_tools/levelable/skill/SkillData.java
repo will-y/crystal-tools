@@ -3,6 +3,9 @@ package dev.willyelton.crystal_tools.levelable.skill;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.willyelton.crystal_tools.utils.ListUtils;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +28,16 @@ public class SkillData {
         }
 
         this.totalPoints = Arrays.stream(points).sum();
+    }
+
+    public void applyPoints(List<Integer> points) {
+        List<SkillDataNode> nodes = getAllNodes();
+
+        for (SkillDataNode node : nodes) {
+            node.setPoints(points.get(node.getId()));
+        }
+
+        this.totalPoints = points.stream().mapToInt(Integer::intValue).sum();
     }
 
     public List<List<SkillDataNode>> getAllNodesByTier() {
@@ -51,4 +64,6 @@ public class SkillData {
     public static final Codec<SkillData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         SkillDataNode.CODEC.listOf().listOf().fieldOf("tiers").forGetter(SkillData::getAllNodesByTier)
     ).apply(instance, SkillData::new));
+    // TODO: Probably better to write from scratch I think, not too important because only fires on datapack load
+    public static final StreamCodec<ByteBuf, SkillData> STREAM_CODEC = ByteBufCodecs.fromCodec(CODEC);
 }

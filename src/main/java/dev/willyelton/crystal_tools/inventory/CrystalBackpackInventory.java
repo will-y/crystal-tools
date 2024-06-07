@@ -1,28 +1,30 @@
 package dev.willyelton.crystal_tools.inventory;
 
+import dev.willyelton.crystal_tools.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.utils.InventoryUtils;
-import dev.willyelton.crystal_tools.utils.NBTUtils;
 import it.unimi.dsi.fastutil.ints.Int2IntArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.ItemStackHandler;
+import net.neoforged.neoforge.items.ComponentItemHandler;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
-public class CrystalBackpackInventory extends ItemStackHandler {
+public class CrystalBackpackInventory extends ComponentItemHandler {
     private ItemStack backpackStack;
 
     public CrystalBackpackInventory(int size) {
-        super(size);
+        super(ItemStack.EMPTY, DataComponents.INVENTORY.get(), size);
         this.backpackStack = ItemStack.EMPTY;
     }
 
     public CrystalBackpackInventory(ItemStack stack) {
-        super((int) NBTUtils.getFloatOrAddKey(stack, "capacity", 1) * 9);
+        super(stack, DataComponents.INVENTORY.get(), stack.getOrDefault(DataComponents.CAPACITY, 1) * 9);
         this.backpackStack = stack;
     }
 

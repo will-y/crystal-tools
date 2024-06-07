@@ -16,7 +16,7 @@
         "description": "Items matching the backpack's filter will automatically go into the backpack when picked up",
         "type": "normal",
         "requirements": [],
-        "key": "auto_pickup",
+        "key": "backpack_auto_pickup",
         "value": 1
       },
       {

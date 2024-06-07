@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.levelable.tool;
 
-import dev.willyelton.crystal_tools.utils.NBTUtils;
+import dev.willyelton.crystal_tools.DataComponents;
 import net.minecraft.world.item.ItemStack;
 
 public enum UseMode {
@@ -32,7 +32,7 @@ public enum UseMode {
                 return AXE;
             }
             case AXE -> {
-                if (NBTUtils.getFloatOrAddKey(tool, "torch") > 0) {
+                if (tool.getOrDefault(DataComponents.TORCH, false)) {
                     return TORCH;
                 } else {
                     return HOE;

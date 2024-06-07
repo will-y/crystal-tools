@@ -10,7 +10,7 @@ public class CodecUtils {
     public static <T> T parseOrThrow(Codec<T> codec, JsonElement jsonElement) {
         DataResult<T> dataResult = codec.parse(JsonOps.INSTANCE, jsonElement);
 
-        return dataResult.getOrThrow(false, s -> {
+        return dataResult.getOrThrow(s -> {
             throw new JsonParseException(s);
         });
     }
@@ -18,7 +18,7 @@ public class CodecUtils {
     public static <T> JsonElement encodeOrThrow(Codec<T> codec, T object) {
         DataResult<JsonElement> dataResult = codec.encodeStart(JsonOps.INSTANCE, object);
 
-        return dataResult.getOrThrow(false, s -> {
+        return dataResult.getOrThrow(s -> {
             throw new JsonParseException(s);
         });
     }

@@ -3,8 +3,7 @@ package dev.willyelton.crystal_tools.utils;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-
-import java.util.Map;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 
 public class EnchantmentUtils {
     /**
@@ -14,22 +13,25 @@ public class EnchantmentUtils {
      * @param level - The enchantment level to add
      */
     public static void addEnchantment(ItemStack stack, Enchantment enchantment, int level) {
-        Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(stack);
+        ItemEnchantments itemEnchantments = EnchantmentHelper.getEnchantmentsForCrafting(stack);
 
-        enchantments.put(enchantment, level);
+        ItemEnchantments.Mutable mutable = new ItemEnchantments.Mutable(itemEnchantments);
+        mutable.set(enchantment, level);
 
-        EnchantmentHelper.setEnchantments(enchantments, stack);
+        EnchantmentHelper.setEnchantments(stack, mutable.toImmutable());
     }
 
     public static void removeEnchantment(ItemStack stack, Enchantment enchantment) {
-        Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(stack);
+        ItemEnchantments itemEnchantments = EnchantmentHelper.getEnchantmentsForCrafting(stack);
 
-        enchantments.remove(enchantment);
+        ItemEnchantments.Mutable mutable = new ItemEnchantments.Mutable(itemEnchantments);
 
-        EnchantmentHelper.setEnchantments(enchantments, stack);
+        mutable.removeIf(enchantmentHolder -> enchantmentHolder.value().equals(enchantment));
+
+        EnchantmentHelper.setEnchantments(stack, mutable.toImmutable());
     }
 
     public static boolean hasEnchantment(ItemStack stack, Enchantment enchantment) {
-        return EnchantmentHelper.getEnchantments(stack).containsKey(enchantment);
+        return EnchantmentHelper.getEnchantmentsForCrafting(stack).keySet().stream().anyMatch(enchantmentHolder -> enchantmentHolder.value().equals(enchantment));
     }
 }

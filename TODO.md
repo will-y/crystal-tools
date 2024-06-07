@@ -55,3 +55,4 @@
 - Event / code client / server organization
 - Limit to infinite nodes (breaking json change so wait until 1.21)
   - Require x points in infinite node as requirement?
+- Add correct enchantment tags

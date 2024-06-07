@@ -5,12 +5,12 @@ import dev.willyelton.crystal_tools.inventory.container.CrystalFurnaceContainerM
 import dev.willyelton.crystal_tools.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.levelable.skill.SkillDataNode;
 import dev.willyelton.crystal_tools.levelable.skill.SkillTreeRegistry;
-import dev.willyelton.crystal_tools.network.packet.BlockAttributePacket;
-import dev.willyelton.crystal_tools.network.PacketHandler;
+import dev.willyelton.crystal_tools.common.network.data.BlockAttributePayload;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class FurnaceUpgradeScreen extends BaseUpgradeScreen {
     private final CrystalFurnaceContainerMenu container;
@@ -38,8 +38,10 @@ public class FurnaceUpgradeScreen extends BaseUpgradeScreen {
 
     @Override
     public void onClose() {
-        this.minecraft.popGuiLayer();
-        this.minecraft.setScreen(this.screen);
+        if (minecraft != null) {
+            minecraft.popGuiLayer();
+            minecraft.setScreen(this.screen);
+        }
     }
 
     @Override
@@ -51,7 +53,7 @@ public class FurnaceUpgradeScreen extends BaseUpgradeScreen {
             // Idk if this is a problem that this is int because it is just to sync client
             this.container.addToPoints(node.getId(), (int) node.getValue());
 
-            PacketHandler.sendToServer(new BlockAttributePacket(node.getKey(), node.getValue(), node.getId()));
+            PacketDistributor.sendToServer(new BlockAttributePayload(node.getKey(), node.getValue(), node.getId()));
             node.addPoint();
             if (node.isComplete()) {
                 ((SkillButton) button).setComplete();
@@ -64,7 +66,7 @@ public class FurnaceUpgradeScreen extends BaseUpgradeScreen {
     @Override
     protected void changeSkillPoints(int change) {
         this.container.addSkillPoints(change);
-        PacketHandler.sendToServer(new BlockAttributePacket("skill_points", change, -1));
+        PacketDistributor.sendToServer(new BlockAttributePayload("skill_points", change, -1));
     }
 
     @Override

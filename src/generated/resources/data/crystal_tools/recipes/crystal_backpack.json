@@ -1,40 +1,33 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "neoforge:conditions": [
     {
-      "conditions": [
-        {
-          "type": "forge:not",
-          "value": {
-            "type": "crystal_tools:item_disabled",
-            "item": "crystal_tools:crystal_backpack"
-          }
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "category": "equipment",
-        "key": {
-          "c": {
-            "item": "crystal_tools:crystal"
-          },
-          "h": {
-            "item": "minecraft:chest"
-          },
-          "l": {
-            "item": "minecraft:leather"
-          }
-        },
-        "pattern": [
-          "lcl",
-          "chc",
-          "lcl"
-        ],
-        "result": {
-          "item": "crystal_tools:crystal_backpack"
-        },
-        "show_notification": true
+      "type": "neoforge:not",
+      "value": {
+        "type": "crystal_tools:item_disabled",
+        "itemLocation": "crystal_tools:crystal_backpack"
       }
     }
-  ]
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "c": {
+      "item": "crystal_tools:crystal"
+    },
+    "h": {
+      "item": "minecraft:chest"
+    },
+    "l": {
+      "item": "minecraft:leather"
+    }
+  },
+  "pattern": [
+    "lcl",
+    "chc",
+    "lcl"
+  ],
+  "result": {
+    "count": 1,
+    "id": "crystal_tools:crystal_backpack"
+  }
 }

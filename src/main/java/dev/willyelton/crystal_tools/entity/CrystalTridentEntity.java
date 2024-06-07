@@ -1,9 +1,9 @@
 package dev.willyelton.crystal_tools.entity;
 
+import dev.willyelton.crystal_tools.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.levelable.tool.CrystalTrident;
-import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -40,15 +40,15 @@ public class CrystalTridentEntity extends AbstractArrow {
     }
 
     public CrystalTridentEntity(Level level, LivingEntity shooter, ItemStack stack) {
-        super(Registration.CRYSTAL_TRIDENT_ENTITY.get(), shooter, level);
+        super(Registration.CRYSTAL_TRIDENT_ENTITY.get(), shooter, level, stack);
         this.tridentStack = stack;
-        this.entityData.set(ID_LOYALTY, (byte) NBTUtils.getFloatOrAddKey(stack, "loyalty"));
+        this.entityData.set(ID_LOYALTY, stack.getOrDefault(DataComponents.LOYALTY, 0).byteValue());
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(ID_LOYALTY, (byte) 0);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(ID_LOYALTY, (byte) 0);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class CrystalTridentEntity extends AbstractArrow {
 
                 this.discard();
             } else {
-                if (NBTUtils.getBoolean(tridentStack, "instant_loyalty") && entity instanceof Player player) {
+                if (tridentStack.getOrDefault(DataComponents.INSTANT_LOYALTY, false) && entity instanceof Player player) {
                     if (player.getInventory().add(this.getPickupItem())) {
                         this.discard();
                     }
@@ -99,6 +99,11 @@ public class CrystalTridentEntity extends AbstractArrow {
     }
 
     @Override
+    protected ItemStack getDefaultPickupItem() {
+        return new ItemStack(Registration.CRYSTAL_TRIDENT.get());
+    }
+
+    @Override
     protected EntityHitResult findHitEntity(Vec3 pStartVec, Vec3 pEndVec) {
         return this.dealtDamage ? null : super.findHitEntity(pStartVec, pEndVec);
     }
@@ -106,9 +111,9 @@ public class CrystalTridentEntity extends AbstractArrow {
     @Override
     protected void onHitEntity(EntityHitResult pResult) {
         Entity hitEntity = pResult.getEntity();
-        float damage = 8.0F + NBTUtils.getFloatOrAddKey(tridentStack, "projectile_damage");
+        float damage = 8.0F + tridentStack.getOrDefault(DataComponents.PROJECTILE_DAMAGE, 0F);
         if (hitEntity instanceof LivingEntity livingEntity) {
-            damage += EnchantmentHelper.getDamageBonus(this.tridentStack, livingEntity.getMobType());
+            damage += EnchantmentHelper.getDamageBonus(this.tridentStack, livingEntity.getType());
         }
 
         Entity damagingEntity = this.getOwner();
@@ -168,18 +173,20 @@ public class CrystalTridentEntity extends AbstractArrow {
     @Override
     public void readAdditionalSaveData(CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
-        if (pCompound.contains("Trident", 10)) {
-            this.tridentStack = ItemStack.of(pCompound.getCompound("Trident"));
-        }
+        // TODO: I think super saves this by default now
+//        if (pCompound.contains("Trident", 10)) {
+//            this.tridentStack = ItemStack.of(pCompound.getCompound("Trident"));
+//        }
 
         this.dealtDamage = pCompound.getBoolean("DealtDamage");
-        this.entityData.set(ID_LOYALTY, (byte) NBTUtils.getFloatOrAddKey(tridentStack, "loyalty"));
+        this.entityData.set(ID_LOYALTY, (byte) tridentStack.getOrDefault(DataComponents.LOYALTY, 0).byteValue());
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
-        pCompound.put("Trident", this.tridentStack.save(new CompoundTag()));
+        // TODO: I think super saves this by default now
+//        pCompound.put("Trident", this.tridentStack.save(new CompoundTag()));
         pCompound.putBoolean("DealtDamage", this.dealtDamage);
     }
 
@@ -202,7 +209,7 @@ public class CrystalTridentEntity extends AbstractArrow {
     }
 
     private boolean isChanneling() {
-        return NBTUtils.getBoolean(tridentStack, "channeling");
+        return tridentStack.getOrDefault(DataComponents.CHANNELING, 0) > 0;
     }
 
     private boolean isAcceptableReturnOwner() {
@@ -220,7 +227,7 @@ public class CrystalTridentEntity extends AbstractArrow {
             if (this.level().canSeeSky(blockPos)) {
                 LightningBolt lightningbolt = EntityType.LIGHTNING_BOLT.create(this.level());
                 if (lightningbolt != null) {
-                    int damage = 5 + (int) NBTUtils.getFloatOrAddKey(tridentStack, "channeling");
+                    int damage = 5 + tridentStack.getOrDefault(DataComponents.CHANNELING, 0);
                     lightningbolt.setDamage(damage);
                     lightningbolt.moveTo(Vec3.atBottomCenterOf(blockPos));
                     lightningbolt.setCause(this.getOwner() instanceof ServerPlayer ? (ServerPlayer) this.getOwner() : null);
