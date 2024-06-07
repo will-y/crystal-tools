@@ -11,7 +11,7 @@ import net.minecraft.world.item.component.ItemContainerContents;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,13 +24,13 @@ public class DataComponents {
     public static final Map<String, ResourceLocation> BOOLEAN_COMPONENTS = new HashMap<>();
 
     // Skill Things
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> SKILL_POINTS = COMPONENTS.register("skill_points", () -> DataComponentType.<Integer>builder().persistent(Codec.INT).build());
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> SKILL_EXPERIENCE = COMPONENTS.register("skill_experience", () -> DataComponentType.<Integer>builder().persistent(Codec.INT).build());
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> EXPERIENCE_CAP = COMPONENTS.register("experience_cap", () -> DataComponentType.<Integer>builder().persistent(Codec.INT).build());
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<Integer>>> POINTS_ARRAY = COMPONENTS.register("points", () -> DataComponentType.<List<Integer>>builder().persistent(Codec.INT.listOf()).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> SKILL_POINTS = register("skill_points", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> SKILL_EXPERIENCE = register("skill_experience", Codec.INT, ByteBufCodecs.VAR_INT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> EXPERIENCE_CAP = register("experience_cap", Codec.INT, ByteBufCodecs.VAR_INT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<Integer>>> POINTS_ARRAY = COMPONENTS.register("points", () -> DataComponentType.<List<Integer>>builder().persistent(Codec.INT.listOf()).networkSynchronized(ByteBufCodecs.INT.apply(ByteBufCodecs.list())).build());
 
     // All tools
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> RANGE = register("range", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> REACH = register("reach", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> DURABILITY_BONUS = register("durability_bonus", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> UNBREAKING = register("unbreaking", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> TORCH = register("torch", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
@@ -69,7 +69,7 @@ public class DataComponents {
 
     // Armor
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> HEALTH_BONUS = register("health_bonus", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> SPEED_BONUS = register("speed_bonus", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> SPEED_BONUS = register("move_speed_bonus", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> ARMOR_BONUS = register("armor_bonus", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> TOUGHNESS_BONUS = register("toughness_bonus", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> NIGHT_VISION = register("night_vision", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
@@ -85,7 +85,7 @@ public class DataComponents {
 
     // Food Things
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> NUTRITION_BONUS = register("nutrition_bonus", Codec.INT, ByteBufCodecs.INT, SkillType.INT);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> SATURATION_BONUS = register("nutrition_bonus", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> SATURATION_BONUS = register("saturation_bonus", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> ALWAYS_EAT = register("always_eat", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> EAT_SPEED_BONUS = register("eat_speed_bonus", Codec.INT, ByteBufCodecs.INT, SkillType.INT);
 
@@ -163,13 +163,14 @@ public class DataComponents {
         return newValue;
     }
 
-    public static void addToComponent(ItemStack stack, String componentKey, Object value) {
+    // TODO: Value should always be a float probably
+    public static void addToComponent(ItemStack stack, String componentKey, float value) {
         ResourceLocation resourceLocation = FLOAT_COMPONENTS.get(componentKey);
 
         if (resourceLocation != null) {
             DataComponentType<Float> dataComponent = (DataComponentType<Float>) COMPONENTS.getRegistry().get().get(resourceLocation);
             if (dataComponent != null) {
-                stack.set(dataComponent, stack.getOrDefault(dataComponent, 0F) + (Float) value);
+                stack.set(dataComponent, stack.getOrDefault(dataComponent, 0F) + value);
             }
         }
 
@@ -178,18 +179,18 @@ public class DataComponents {
         if (resourceLocation != null) {
             DataComponentType<Integer> dataComponent = (DataComponentType<Integer>) COMPONENTS.getRegistry().get().get(resourceLocation);
             if (dataComponent != null) {
-                stack.set(dataComponent, stack.getOrDefault(dataComponent, 0) + (Integer) value);
+                stack.set(dataComponent, stack.getOrDefault(dataComponent, 0) + (int) value);
             }
         }
     }
 
-    public static void setValue(ItemStack stack, String componentKey, Object value) {
+    public static void setValue(ItemStack stack, String componentKey, float value) {
         ResourceLocation resourceLocation = FLOAT_COMPONENTS.get(componentKey);
 
         if (resourceLocation != null) {
             DataComponentType<Float> dataComponent = (DataComponentType<Float>) COMPONENTS.getRegistry().get().get(resourceLocation);
             if (dataComponent != null) {
-                stack.set(dataComponent, (Float) value);
+                stack.set(dataComponent, value);
             }
         }
 
@@ -198,7 +199,7 @@ public class DataComponents {
         if (resourceLocation != null) {
             DataComponentType<Integer> dataComponent = (DataComponentType<Integer>) COMPONENTS.getRegistry().get().get(resourceLocation);
             if (dataComponent != null) {
-                stack.set(dataComponent, (Integer) value);
+                stack.set(dataComponent, (int) value);
             }
         }
 
@@ -206,18 +207,18 @@ public class DataComponents {
         if (resourceLocation != null) {
             DataComponentType<Boolean> dataComponent = (DataComponentType<Boolean>) COMPONENTS.getRegistry().get().get(resourceLocation);
             if (dataComponent != null) {
-                stack.set(dataComponent, (Boolean) value);
+                stack.set(dataComponent, value > 0);
             }
         }
     }
 
     public static void addValueToArray(ItemStack stack,  DeferredHolder<DataComponentType<?>, DataComponentType<List<Integer>>> component, int index, int value) {
-        List<Integer> points = stack.getOrDefault(component, Collections.emptyList());
+        List<Integer> points = new ArrayList<>(stack.getOrDefault(component, new ArrayList<>()));
 
         if (points.size() > index) {
             points.set(index, points.get(index) + value);
         } else {
-            while (points.size() <= index) {
+            while (points.size() < index) {
                 points.add(0);
             }
             points.add(value);

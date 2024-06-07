@@ -12,7 +12,6 @@ public class SkillCacheUpdateHandler {
     public void handle(final SkillCacheUpdatePayload payload, final IPayloadContext context) {
         context.enqueueWork(() -> {
             CrystalTools.LOGGER.log(Level.TRACE, "Adding tool to cache: " + payload.tool());
-
             SkillTreeRegistry.SKILL_TREES.put(payload.tool(), payload.data());
         });
     }

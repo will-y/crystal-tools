@@ -10,6 +10,7 @@ import net.neoforged.neoforge.event.level.BlockEvent;
 
 @EventBusSubscriber(modid = CrystalTools.MODID)
 public class BlockEvents {
+    // TODO: I think this is only fired on server :(
     @SubscribeEvent
     public static void breakEvent(BlockEvent.BreakEvent event) {
         // Backpack levels

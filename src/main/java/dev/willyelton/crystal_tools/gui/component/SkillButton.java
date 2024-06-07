@@ -57,7 +57,7 @@ public class SkillButton extends CrystalToolsButton {
     public void renderWidget(@NotNull GuiGraphics guiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         if (this.visible) {
             this.isHovered = pMouseX >= this.getX() + xOffset && pMouseY >= this.getY() + yOffset && pMouseX < this.getX() + xOffset + this.width && pMouseY < this.getY() + yOffset + this.height;
-            this.renderWidget(guiGraphics, pMouseX, pMouseY, pPartialTick);
+            super.renderWidget(guiGraphics, pMouseX, pMouseY, pPartialTick);
             if (CrystalToolsConfig.ENABLE_ITEM_REQUIREMENTS.get() && !this.isComplete)
                 this.renderItems(guiGraphics);
         }

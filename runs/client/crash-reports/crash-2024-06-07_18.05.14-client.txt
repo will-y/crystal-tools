@@ -1,0 +1,213 @@
+---- Minecraft Crash Report ----
+// Daisy, daisy...
+
+Time: 2024-06-07 18:05:14
+Description: mouseClicked event handler
+
+com.google.gson.JsonParseException: Not a json array: 25
+	at TRANSFORMER/crystal_tools@1.20.6-2.0.0/dev.willyelton.crystal_tools.utils.CodecUtils.lambda$parseOrThrow$0(CodecUtils.java:16) ~[%23191!/:?] {re:classloading}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.DataResult$Error.getOrThrow(DataResult.java:275) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at TRANSFORMER/crystal_tools@1.20.6-2.0.0/dev.willyelton.crystal_tools.utils.CodecUtils.parseOrThrow(CodecUtils.java:14) ~[%23191!/:?] {re:classloading}
+	at TRANSFORMER/crystal_tools@1.20.6-2.0.0/dev.willyelton.crystal_tools.levelable.skill.requirement.SkillDataRequirement.fromJson(SkillDataRequirement.java:25) ~[%23191!/:?] {re:classloading}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.datafixers.util.Pair.mapFirst(Pair.java:64) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.Decoder$2.lambda$decode$0(Decoder.java:63) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.DataResult$Success.map(DataResult.java:168) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.Decoder$2.decode(Decoder.java:63) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.Codec$2.decode(Codec.java:75) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.codecs.ListCodec$DecoderState.accept(ListCodec.java:74) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.JsonOps.lambda$getList$21(JsonOps.java:283) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.codecs.ListCodec.lambda$decode$2(ListCodec.java:45) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.DataResult$Success.flatMap(DataResult.java:194) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.codecs.ListCodec.decode(ListCodec.java:43) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.Decoder.parse(Decoder.java:18) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.codecs.FieldDecoder.decode(FieldDecoder.java:29) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.MapCodec$2.decode(MapCodec.java:77) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.codecs.RecordCodecBuilder$Instance$7.decode(RecordCodecBuilder.java:409) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.codecs.RecordCodecBuilder$2.decode(RecordCodecBuilder.java:107) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.MapDecoder.lambda$compressedDecode$1(MapDecoder.java:52) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.DataResult$Success.flatMap(DataResult.java:194) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.MapDecoder.compressedDecode(MapDecoder.java:52) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.MapCodec$MapCodecCodec.decode(MapCodec.java:158) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.codecs.ListCodec$DecoderState.accept(ListCodec.java:74) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.JsonOps.lambda$getList$21(JsonOps.java:283) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.codecs.ListCodec.lambda$decode$2(ListCodec.java:45) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.DataResult$Success.flatMap(DataResult.java:194) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.codecs.ListCodec.decode(ListCodec.java:43) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.codecs.ListCodec$DecoderState.accept(ListCodec.java:74) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.JsonOps.lambda$getList$21(JsonOps.java:283) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.codecs.ListCodec.lambda$decode$2(ListCodec.java:45) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.DataResult$Success.flatMap(DataResult.java:194) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.codecs.ListCodec.decode(ListCodec.java:43) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.Decoder.parse(Decoder.java:18) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.codecs.FieldDecoder.decode(FieldDecoder.java:29) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.MapCodec$2.decode(MapCodec.java:77) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.codecs.RecordCodecBuilder$Instance$1.decode(RecordCodecBuilder.java:183) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.codecs.RecordCodecBuilder$2.decode(RecordCodecBuilder.java:107) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.MapDecoder.lambda$compressedDecode$1(MapDecoder.java:52) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.DataResult$Success.flatMap(DataResult.java:194) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.MapDecoder.compressedDecode(MapDecoder.java:52) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.MapCodec$MapCodecCodec.decode(MapCodec.java:158) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.Decoder.parse(Decoder.java:18) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at TRANSFORMER/crystal_tools@1.20.6-2.0.0/dev.willyelton.crystal_tools.common.events.ReloadListenerEvent$ReloadListener.deserializeSkillData(ReloadListenerEvent.java:91) ~[%23191!/:?] {re:classloading}
+	at TRANSFORMER/crystal_tools@1.20.6-2.0.0/dev.willyelton.crystal_tools.common.events.ReloadListenerEvent$ReloadListener.prepare(ReloadListenerEvent.java:67) ~[%23191!/:?] {re:classloading}
+	at TRANSFORMER/crystal_tools@1.20.6-2.0.0/dev.willyelton.crystal_tools.common.events.ReloadListenerEvent$ReloadListener.prepare(ReloadListenerEvent.java:59) ~[%23191!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.20.6/net.minecraft.server.packs.resources.SimplePreparableReloadListener.lambda$reload$0(SimplePreparableReloadListener.java:17) ~[neoforge-20.6.100-beta.jar%23189!/:?] {re:classloading}
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1768) ~[?:?] {}
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.exec(CompletableFuture.java:1760) ~[?:?] {}
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:507) ~[?:?] {}
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1491) ~[?:?] {}
+	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:2073) ~[?:?] {}
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:2035) ~[?:?] {}
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:187) ~[?:?] {}
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Thread: Render thread
+Stacktrace:
+	at TRANSFORMER/crystal_tools@1.20.6-2.0.0/dev.willyelton.crystal_tools.utils.CodecUtils.lambda$parseOrThrow$0(CodecUtils.java:16) ~[%23191!/:?] {re:classloading}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.DataResult$Error.getOrThrow(DataResult.java:275) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at TRANSFORMER/crystal_tools@1.20.6-2.0.0/dev.willyelton.crystal_tools.utils.CodecUtils.parseOrThrow(CodecUtils.java:14) ~[%23191!/:?] {re:classloading}
+	at TRANSFORMER/crystal_tools@1.20.6-2.0.0/dev.willyelton.crystal_tools.levelable.skill.requirement.SkillDataRequirement.fromJson(SkillDataRequirement.java:25) ~[%23191!/:?] {re:classloading}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.datafixers.util.Pair.mapFirst(Pair.java:64) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.Decoder$2.lambda$decode$0(Decoder.java:63) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.DataResult$Success.map(DataResult.java:168) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.Decoder$2.decode(Decoder.java:63) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.Codec$2.decode(Codec.java:75) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.codecs.ListCodec$DecoderState.accept(ListCodec.java:74) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.JsonOps.lambda$getList$21(JsonOps.java:283) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.codecs.ListCodec.lambda$decode$2(ListCodec.java:45) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.DataResult$Success.flatMap(DataResult.java:194) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.codecs.ListCodec.decode(ListCodec.java:43) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.Decoder.parse(Decoder.java:18) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.codecs.FieldDecoder.decode(FieldDecoder.java:29) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.MapCodec$2.decode(MapCodec.java:77) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.codecs.RecordCodecBuilder$Instance$7.decode(RecordCodecBuilder.java:409) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.codecs.RecordCodecBuilder$2.decode(RecordCodecBuilder.java:107) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.MapDecoder.lambda$compressedDecode$1(MapDecoder.java:52) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.DataResult$Success.flatMap(DataResult.java:194) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.MapDecoder.compressedDecode(MapDecoder.java:52) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.MapCodec$MapCodecCodec.decode(MapCodec.java:158) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.codecs.ListCodec$DecoderState.accept(ListCodec.java:74) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+	at MC-BOOTSTRAP/datafixerupper@7.0.14/com.mojang.serialization.JsonOps.lambda$getList$21(JsonOps.java:283) ~[datafixerupper-7.0.14.jar%23114!/:?] {}
+-- Affected screen --
+Details:
+	Screen name: net.minecraft.client.gui.screens.TitleScreen
+Stacktrace:
+	at TRANSFORMER/minecraft@1.20.6/net.minecraft.client.gui.screens.Screen.wrapScreenError(Screen.java:501) ~[neoforge-20.6.100-beta.jar%23189!/:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at TRANSFORMER/minecraft@1.20.6/net.minecraft.client.MouseHandler.onPress(MouseHandler.java:95) ~[neoforge-20.6.100-beta.jar%23189!/:?] {re:classloading,pl:runtimedistcleaner:A}
+	at TRANSFORMER/minecraft@1.20.6/net.minecraft.client.MouseHandler.lambda$setup$4(MouseHandler.java:203) ~[neoforge-20.6.100-beta.jar%23189!/:?] {re:classloading,pl:runtimedistcleaner:A}
+	at TRANSFORMER/minecraft@1.20.6/net.minecraft.util.thread.BlockableEventLoop.execute(BlockableEventLoop.java:98) ~[neoforge-20.6.100-beta.jar%23189!/:?] {re:classloading,pl:accesstransformer:B}
+	at TRANSFORMER/minecraft@1.20.6/net.minecraft.client.MouseHandler.lambda$setup$5(MouseHandler.java:203) ~[neoforge-20.6.100-beta.jar%23189!/:?] {re:classloading,pl:runtimedistcleaner:A}
+	at MC-BOOTSTRAP/org.lwjgl.glfw@3.3.3+5/org.lwjgl.glfw.GLFWMouseButtonCallbackI.callback(GLFWMouseButtonCallbackI.java:43) ~[lwjgl-glfw-3.3.3.jar%23170!/:build 5] {}
+	at MC-BOOTSTRAP/org.lwjgl@3.3.3+5/org.lwjgl.system.JNI.invokeV(Native Method) ~[lwjgl-3.3.3.jar%23182!/:build 5] {}
+	at MC-BOOTSTRAP/org.lwjgl.glfw@3.3.3+5/org.lwjgl.glfw.GLFW.glfwPollEvents(GLFW.java:3438) ~[lwjgl-glfw-3.3.3.jar%23170!/:build 5] {}
+	at TRANSFORMER/minecraft@1.20.6/com.mojang.blaze3d.systems.RenderSystem.pollEvents(RenderSystem.java:173) ~[neoforge-20.6.100-beta.jar%23189!/:?] {re:classloading,pl:runtimedistcleaner:A}
+	at TRANSFORMER/minecraft@1.20.6/com.mojang.blaze3d.systems.RenderSystem.flipFrame(RenderSystem.java:182) ~[neoforge-20.6.100-beta.jar%23189!/:?] {re:classloading,pl:runtimedistcleaner:A}
+	at TRANSFORMER/minecraft@1.20.6/com.mojang.blaze3d.platform.Window.updateDisplay(Window.java:282) ~[neoforge-20.6.100-beta.jar%23189!/:?] {re:classloading,pl:runtimedistcleaner:A}
+	at TRANSFORMER/minecraft@1.20.6/net.minecraft.client.Minecraft.runTick(Minecraft.java:1285) ~[neoforge-20.6.100-beta.jar%23189!/:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at TRANSFORMER/minecraft@1.20.6/net.minecraft.client.Minecraft.run(Minecraft.java:821) ~[neoforge-20.6.100-beta.jar%23189!/:?] {re:classloading,pl:accesstransformer:B,pl:runtimedistcleaner:A}
+	at TRANSFORMER/minecraft@1.20.6/net.minecraft.client.main.Main.main(Main.java:244) ~[neoforge-20.6.100-beta.jar%23189!/:?] {re:classloading,pl:runtimedistcleaner:A}
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[?:?] {}
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[?:?] {}
+	at MC-BOOTSTRAP/fml_loader@3.0.37/net.neoforged.fml.loading.targets.CommonLaunchHandler.runTarget(CommonLaunchHandler.java:136) ~[loader-3.0.37.jar%23142!/:3.0] {}
+	at MC-BOOTSTRAP/fml_loader@3.0.37/net.neoforged.fml.loading.targets.CommonLaunchHandler.clientService(CommonLaunchHandler.java:124) ~[loader-3.0.37.jar%23142!/:3.0] {}
+	at MC-BOOTSTRAP/fml_loader@3.0.37/net.neoforged.fml.loading.targets.NeoForgeClientUserdevLaunchHandler.runService(NeoForgeClientUserdevLaunchHandler.java:23) ~[loader-3.0.37.jar%23142!/:3.0] {}
+	at MC-BOOTSTRAP/fml_loader@3.0.37/net.neoforged.fml.loading.targets.CommonLaunchHandler.lambda$launchService$4(CommonLaunchHandler.java:118) ~[loader-3.0.37.jar%23142!/:3.0] {}
+	at MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.2/cpw.mods.modlauncher.LaunchServiceHandlerDecorator.launch(LaunchServiceHandlerDecorator.java:30) [modlauncher-11.0.2.jar%23121!/:?] {}
+	at MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.2/cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:53) [modlauncher-11.0.2.jar%23121!/:?] {}
+	at MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.2/cpw.mods.modlauncher.LaunchServiceHandler.launch(LaunchServiceHandler.java:71) [modlauncher-11.0.2.jar%23121!/:?] {}
+	at MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.2/cpw.mods.modlauncher.Launcher.run(Launcher.java:103) [modlauncher-11.0.2.jar%23121!/:?] {}
+	at MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.2/cpw.mods.modlauncher.Launcher.main(Launcher.java:74) [modlauncher-11.0.2.jar%23121!/:?] {}
+	at MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.2/cpw.mods.modlauncher.BootstrapLaunchConsumer.accept(BootstrapLaunchConsumer.java:26) [modlauncher-11.0.2.jar%23121!/:?] {}
+	at MC-BOOTSTRAP/cpw.mods.modlauncher@11.0.2/cpw.mods.modlauncher.BootstrapLaunchConsumer.accept(BootstrapLaunchConsumer.java:23) [modlauncher-11.0.2.jar%23121!/:?] {}
+	at cpw.mods.bootstraplauncher@2.0.0/cpw.mods.bootstraplauncher.BootstrapLauncher.run(BootstrapLauncher.java:176) [bootstraplauncher-2.0.0.jar:?] {}
+	at cpw.mods.bootstraplauncher@2.0.0/cpw.mods.bootstraplauncher.BootstrapLauncher.main(BootstrapLauncher.java:65) [bootstraplauncher-2.0.0.jar:?] {}
+
+
+-- Uptime --
+Details:
+	JVM uptime: 42.527s
+	Wall uptime: 29.493s
+	High-res time: 39.709s
+	Client ticks: 515 ticks / 25.750s
+
+-- Last reload --
+Details:
+	Reload number: 1
+	Reload reason: initial
+	Finished: Yes
+	Packs: vanilla, mod_resources, mod/crystal_tools, mod/neoforge
+
+-- System Details --
+Details:
+	Minecraft Version: 1.20.6
+	Minecraft Version ID: 1.20.6
+	Operating System: Linux (amd64) version 6.8.0-31-generic
+	Java Version: 21.0.3, JetBrains s.r.o.
+	Java VM Version: OpenJDK 64-Bit Server VM (mixed mode, sharing), JetBrains s.r.o.
+	Memory: 249194616 bytes (237 MiB) / 675282944 bytes (644 MiB) up to 4160749568 bytes (3968 MiB)
+	CPUs: 8
+	Processor Vendor: GenuineIntel
+	Processor Name: Intel(R) Core(TM) i7-7820HQ CPU @ 2.90GHz
+	Identifier: Intel64 Family 6 Model 158 Stepping 9
+	Microarchitecture: Kaby Lake
+	Frequency (GHz): 2.90
+	Number of physical packages: 1
+	Number of physical CPUs: 4
+	Number of logical CPUs: 8
+	Graphics card #0 name: HD Graphics 630
+	Graphics card #0 vendor: Intel Corporation (0x8086)
+	Graphics card #0 VRAM (MB): 256.00
+	Graphics card #0 deviceId: 0x591b
+	Graphics card #0 versionInfo: unknown
+	Graphics card #1 name: GM107GLM [Quadro M1200 Mobile]
+	Graphics card #1 vendor: NVIDIA Corporation (0x10de)
+	Graphics card #1 VRAM (MB): 288.00
+	Graphics card #1 deviceId: 0x13b6
+	Graphics card #1 versionInfo: unknown
+	Virtual memory max (MB): 8447.69
+	Virtual memory used (MB): 13409.42
+	Swap memory total (MB): 512.00
+	Swap memory used (MB): 512.00
+	JVM Flags: 0 total; 
+	Launched Version: 20.6.100-beta
+	Backend library: LWJGL version 3.3.3+5
+	Backend API: Mesa Intel(R) HD Graphics 630 (KBL GT2) GL version 4.6 (Core Profile) Mesa 24.0.5-1ubuntu1, Intel
+	Window size: 854x480
+	GL Caps: Using framebuffer using OpenGL 3.2
+	GL debug messages: 
+	Using VBOs: Yes
+	Is Modded: Definitely; Client brand changed to 'neoforge'
+	Universe: 400921fb54442d18
+	Type: Client (map_client.txt)
+	Graphics mode: fancy
+	Render Distance: 12/12 chunks
+	Resource Packs: vanilla, mod_resources, mod/crystal_tools (incompatible), mod/neoforge
+	Current Language: en_us
+	Locale: en_US
+	CPU: 8x Intel(R) Core(TM) i7-7820HQ CPU @ 2.90GHz
+	ModLauncher: 11.0.2+main.4612c65f
+	ModLauncher launch target: forgeclientuserdev
+	ModLauncher services: 
+		sponge-mixin-0.13.4+mixin.0.8.5.jar mixin PLUGINSERVICE 
+		loader-3.0.37.jar slf4jfixer PLUGINSERVICE 
+		loader-3.0.37.jar runtime_enum_extender PLUGINSERVICE 
+		at-modlauncher-10.0.1.jar accesstransformer PLUGINSERVICE 
+		loader-3.0.37.jar runtimedistcleaner PLUGINSERVICE 
+		modlauncher-11.0.2.jar mixin TRANSFORMATIONSERVICE 
+		modlauncher-11.0.2.jar mixin-synthetic-package TRANSFORMATIONSERVICE 
+		modlauncher-11.0.2.jar fml TRANSFORMATIONSERVICE 
+	FML Language Providers: 
+		javafml@3.0
+		lowcodefml@3.0
+		minecraft@3.0
+	Mod List: 
+		neoforge-20.6.100-beta.jar                        |Minecraft                     |minecraft                     |1.20.6              |Manifest: a1:d4:5e:04:4f:d3:d6:e0:7b:37:97:cf:77:b0:de:ad:4a:47:ce:8c:96:49:5f:0a:cf:8c:ae:b2:6d:4b:8a:3f
+		main                                              |Crystal Tools                 |crystal_tools                 |1.20.6-2.0.0        |Manifest: NOSIGNATURE
+		neoforge-20.6.100-beta.jar                        |NeoForge                      |neoforge                      |20.6.100-beta       |Manifest: NOSIGNATURE
+	Crash Report UUID: 5d562165-04c5-483f-9b2c-db29005b0218
+	FML: 3.0.37
+	NeoForge: 20.6.100-beta

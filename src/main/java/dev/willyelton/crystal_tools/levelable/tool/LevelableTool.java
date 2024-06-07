@@ -333,7 +333,7 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
                 builder.add(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(KNOCKBACK_RESISTANCE_UUID, "Weapon modifier", knockbackResistance, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
             }
 
-            float reach = stack.getOrDefault(DataComponents.RANGE, 0F);
+            float reach = stack.getOrDefault(DataComponents.REACH, 0F);
             if (reach > 0) {
                 builder.add(Attributes.BLOCK_INTERACTION_RANGE, new AttributeModifier(REACH_UUID, "Tool modifier", reach, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
                 builder.add(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(ATTACK_RANGE_UUID, "Weapon modifier", reach, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);

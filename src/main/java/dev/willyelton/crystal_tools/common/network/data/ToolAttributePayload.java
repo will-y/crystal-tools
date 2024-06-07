@@ -8,7 +8,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 
 public record ToolAttributePayload(String key, float value, int id) implements CustomPacketPayload {
-    public static final Type<ToolAttributePayload> TYPE = new Type<>(new ResourceLocation(CrystalTools.MODID, "block_attribute"));
+    public static final Type<ToolAttributePayload> TYPE = new Type<>(new ResourceLocation(CrystalTools.MODID, "tool_attribute"));
     public static final StreamCodec<RegistryFriendlyByteBuf, ToolAttributePayload> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.STRING_UTF8, ToolAttributePayload::key,
             ByteBufCodecs.FLOAT, ToolAttributePayload::value,

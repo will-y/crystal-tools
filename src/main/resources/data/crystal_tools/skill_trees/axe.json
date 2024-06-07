@@ -99,7 +99,7 @@
         "requirements": [
           {
             "not_node":  [7],
-            "unless": 25
+            "unless": [25]
           },
           {"or_node": [4, 5, 26]}
         ],

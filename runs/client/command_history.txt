@@ -1,0 +1,44 @@
+/gamemode survival
+/add_points 10
+/data get entity @e[type=minecraft:item,limit=1]
+/give Dev minecraft:stone 100
+/data get entity @e[type=minecraft:item,limit=1]
+/give Dev crystal_tools:crystal_pick
+/give Dev crystal_tools:crystal_pickaxe
+/add_points 100
+/give Dev crystal_tools:crystal_pickaxe
+/add_points 100
+/give Dev crystal_tools:crystal_pickaxe
+//clear
+/clear
+/give Dev crystal_tools:crystal_pickaxe
+/clear
+/give Dev crystal_tools:crystal_pickaxe
+/add_points 100
+/give Dev crystal_tools:crystal_pickaxe
+/gamerule doDaylightCycle false
+/time set noon
+/data get entity @e[type=minecraft:item,limit=1]
+/clear
+/give Dev crystal_tools:crystal_pickaxe
+/add_points 100
+/clear
+/give Dev crystal_tools:crystal_pickaxe
+/add_points 100
+/clear
+/give Dev crystal_tools:crystal_pickaxe
+/clear
+/give Dev crystal_tools:crystal_pickaxe
+/add_points 100
+/give Dev crystal_tools:crystal_pickaxe
+/clear
+/give Dev crystal_tools:crystal_pickaxe
+/add_points 100
+/give Dev minecraft:oak_sapling
+/give Dev minecraft:bone_meal 10
+/give Dev crystal_tools:crystal_pickaxe
+//clear
+/clear
+/give Dev crystal_tools:crystal_pickaxe
+/add_points 100
+/give Dev minecraft:iron_ore 10

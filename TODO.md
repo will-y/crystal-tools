@@ -56,3 +56,10 @@
 - Limit to infinite nodes (breaking json change so wait until 1.21)
   - Require x points in infinite node as requirement?
 - Add correct enchantment tags
+- Text and lines in upgrade UI are blurry?
+- Skills that don't work:
+  - Reach (probably all attributes)
+  - Auto Pickup
+  - Any breaking ones (Event only fired on server, not sure how to handle that)
+  - Mine mode key does nothing
+  - Torch

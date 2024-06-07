@@ -33,8 +33,13 @@ public class SkillData {
     public void applyPoints(List<Integer> points) {
         List<SkillDataNode> nodes = getAllNodes();
 
+        // TODO: Can probably short circuit here if I need to
         for (SkillDataNode node : nodes) {
-            node.setPoints(points.get(node.getId()));
+            if (points.size() > node.getId()) {
+                node.setPoints(points.get(node.getId()));
+            } else {
+                node.setPoints(0);
+            }
         }
 
         this.totalPoints = points.stream().mapToInt(Integer::intValue).sum();

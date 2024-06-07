@@ -185,6 +185,7 @@ public class ToolUtils {
 //        int[] points = NBTUtils.getIntArray(stack, "points");
         if (stack.getItem() instanceof LevelableItem) {
             String toolType = ((LevelableItem) stack.getItem()).getItemType();
+            // TODO: Should probably copy this object. Most likely should be fine since its client side and clients should only have one screen open at a tine
             SkillData data = SkillTreeRegistry.SKILL_TREES.get(toolType);
             data.applyPoints(points);
             return data;

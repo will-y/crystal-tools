@@ -143,5 +143,6 @@ public class Registration {
         BLOCK_ENTITIES.register(modEventBus);
         CONTAINERS.register(modEventBus);
         TABS.register(modEventBus);
+        DataComponents.COMPONENTS.register(modEventBus);
     }
 }

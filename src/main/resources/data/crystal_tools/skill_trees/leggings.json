@@ -115,7 +115,7 @@
         "requirements": [
           {"or_node": [4, 5, 6, 7]}
         ],
-        "key": "speed_bonus",
+        "key": "move_speed_bonus",
         "value": 1
       }
     ],
@@ -203,7 +203,7 @@
           {"or_node": [11, 12, 13, 14]},
           {"node": [10]}
         ],
-        "key": "speed_bonus",
+        "key": "move_speed_bonus",
         "value": 1
       },
       {
@@ -302,7 +302,7 @@
           {"or_node": [19, 20, 21, 22]},
           {"node": [17]}
         ],
-        "key": "speed_bonus",
+        "key": "move_speed_bonus",
         "value": 4
       },
       {
