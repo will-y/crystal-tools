@@ -1,14 +1,16 @@
 package dev.willyelton.crystal_tools.client.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
+import dev.willyelton.crystal_tools.common.network.data.ModeSwitchPayload;
+import dev.willyelton.crystal_tools.common.network.data.OpenBackpackPayload;
+import dev.willyelton.crystal_tools.common.network.data.VeinMiningPayload;
 import dev.willyelton.crystal_tools.gui.ModGUIs;
 import dev.willyelton.crystal_tools.gui.UpgradeScreen;
 import dev.willyelton.crystal_tools.keybinding.KeyBindings;
-import dev.willyelton.crystal_tools.common.network.data.ModeSwitchPayload;
-import dev.willyelton.crystal_tools.common.network.data.OpenBackpackPayload;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
@@ -22,12 +24,13 @@ public class KeyPressEvent {
     @SubscribeEvent
     public static void handleEventInput(ClientTickEvent.Post event) {
         Minecraft mc = Minecraft.getInstance();
-        if (mc.player == null)
+        ClientLevel level = mc.level;
+
+        if (mc.player == null || level == null)
             return;
 
-        ItemStack levelableTool = ItemStackUtils.getHeldLevelableTool(mc.player);
-
         if (KeyBindings.upgradeMenu.consumeClick()) {
+            ItemStack levelableTool = ItemStackUtils.getHeldLevelableTool(mc.player);
             handleUpgradeMenu(levelableTool, mc.player);
         }
 
@@ -38,6 +41,13 @@ public class KeyPressEvent {
         if (KeyBindings.openBackpack.consumeClick()) {
             handleOpenBackpack();
         }
+
+        // TODO: See if theres a better way to do this
+        // Send vein mining state every 5 ticks
+        if (level.getGameTime() % 5 == 0) {
+            PacketDistributor.sendToServer(new VeinMiningPayload(KeyBindings.veinMine.isDown()));
+        }
+
     }
 
     public static void handleUpgradeMenu(ItemStack levelableTool, Player player) {

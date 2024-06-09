@@ -59,7 +59,5 @@
 - Text and lines in upgrade UI are blurry?
 - Skills that don't work:
   - Reach (probably all attributes)
-  - Auto Pickup
-  - Any breaking ones (Event only fired on server, not sure how to handle that)
   - Mine mode key does nothing
   - Torch

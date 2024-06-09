@@ -1,7 +1,6 @@
 package dev.willyelton.crystal_tools.common.network;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.common.network.handler.ToolAttributeHandler;
 import dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload;
 import dev.willyelton.crystal_tools.common.network.data.BlockAttributePayload;
 import dev.willyelton.crystal_tools.common.network.data.BlockBreakPayload;
@@ -16,6 +15,7 @@ import dev.willyelton.crystal_tools.common.network.data.ScrollPayload;
 import dev.willyelton.crystal_tools.common.network.data.SkillCacheUpdatePayload;
 import dev.willyelton.crystal_tools.common.network.data.ToolAttributePayload;
 import dev.willyelton.crystal_tools.common.network.data.ToolHealPayload;
+import dev.willyelton.crystal_tools.common.network.data.VeinMiningPayload;
 import dev.willyelton.crystal_tools.common.network.handler.BackpackScreenHandler;
 import dev.willyelton.crystal_tools.common.network.handler.BlockAttributeHandler;
 import dev.willyelton.crystal_tools.common.network.handler.BlockBreakHandler;
@@ -28,7 +28,9 @@ import dev.willyelton.crystal_tools.common.network.handler.RemoveXpHandler;
 import dev.willyelton.crystal_tools.common.network.handler.ResetSkillsHandler;
 import dev.willyelton.crystal_tools.common.network.handler.ScrollHandler;
 import dev.willyelton.crystal_tools.common.network.handler.SkillCacheUpdateHandler;
+import dev.willyelton.crystal_tools.common.network.handler.ToolAttributeHandler;
 import dev.willyelton.crystal_tools.common.network.handler.ToolHealHandler;
+import dev.willyelton.crystal_tools.common.network.handler.VeinMiningHandler;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -55,6 +57,7 @@ public class PacketHandler {
         registrar.playToServer(BlockStripPayload.TYPE, BlockStripPayload.STREAM_CODEC, BlockStripHandler.INSTANCE::handle);
         registrar.playToServer(OpenBackpackPayload.TYPE, OpenBackpackPayload.STREAM_CODEC, OpenBackpackHandler.INSTANCE::handle);
         registrar.playToServer(RemoveXpPayload.TYPE, RemoveXpPayload.STREAM_CODEC, RemoveXpHandler.INSTANCE::handle);
+        registrar.playToServer(VeinMiningPayload.TYPE, VeinMiningPayload.STREAM_CODEC, VeinMiningHandler.INSTANCE::handle);
 
         // Server to Client
         registrar.playToClient(SkillCacheUpdatePayload.TYPE, SkillCacheUpdatePayload.STREAM_CODEC, SkillCacheUpdateHandler.INSTANCE::handle);

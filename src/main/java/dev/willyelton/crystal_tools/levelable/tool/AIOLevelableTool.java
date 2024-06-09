@@ -4,12 +4,10 @@ import dev.willyelton.crystal_tools.DataComponents;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.ToolUseUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
-import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.state.BlockState;
@@ -55,11 +53,6 @@ public class AIOLevelableTool extends DiggerLevelableTool {
         }
 
         return true;
-    }
-
-    @Override
-    public boolean onBlockStartBreak(ItemStack tool, BlockPos pos, Player player) {
-        return super.onBlockStartBreak(tool, pos, player);
     }
 
     @Override

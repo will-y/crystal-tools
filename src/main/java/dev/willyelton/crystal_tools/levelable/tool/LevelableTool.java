@@ -36,6 +36,7 @@ import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
@@ -107,7 +108,11 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
     }
 
     /**
-     * Called from {@link dev.willyelton.crystal_tools.common.events.BlockEvents}
+     * Called from {@link dev.willyelton.crystal_tools.common.events.BlockEvents#breakEvent(BlockEvent.BreakEvent)}
+     * <p>
+     * Should try to use {@link this#mineBlock(ItemStack, Level, BlockState, BlockPos, LivingEntity)} instead if possible.
+     * <p>
+     * This should only be needed for modifying drops, ex: Auto smelt and Auto Pickup
      * @param tool Stack used for breaking the block (player mainhand item)
      * @param pos Position of the block
      * @param player Player breaking the block
@@ -117,19 +122,20 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
         Level level = player.level();
 
         boolean autoPickup = tool.getOrDefault(DataComponents.AUTO_PICKUP, false);
-
+        BlockState originalState = level.getBlockState(pos);
         if (shouldAutoSmelt(tool)) {
             if (!level.isClientSide) {
-                dropSmeltedItem(tool, level, level.getBlockState(pos), pos, player, autoPickup);
+                dropSmeltedItem(tool, level, originalState, pos, player, autoPickup);
             }
-            this.mineBlock(tool, level, level.getBlockState(pos), pos, player);
+            this.mineBlock(tool, level, originalState, pos, player);
             return true;
         }
 
         // Could just call LevelUtils.destroyBlock, but I don't completely trust it so might as well use default behavior when I can
         if (autoPickup) {
             if (!level.isClientSide) {
-                LevelUtils.destroyBlock(level, pos, true, player, 512, tool, true);
+                LevelUtils.destroyBlock(level, pos, true, player, 512, tool, true, false);
+                this.mineBlock(tool, level, originalState, pos, player);
             }
             return true;
         }
@@ -163,7 +169,7 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
                 if (shouldAutoSmelt(tool)) {
                     dropSmeltedItem(tool, level, blockState, blockPos, entity, autoPickup);
                 } else {
-                    LevelUtils.destroyBlock(level, blockPos, true, entity, 512, tool, autoPickup);
+                    LevelUtils.destroyBlock(level, blockPos, true, entity, 512, tool, autoPickup, false);
                 }
 
                 tool.hurtAndBreak(1, entity, EquipmentSlot.MAINHAND);
@@ -200,7 +206,7 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
             }
         }
 
-        LevelUtils.destroyBlock(level, pos, toDrop.isEmpty(), entity, 512, tool, false);
+        LevelUtils.destroyBlock(level, pos, toDrop.isEmpty(), entity, 512, tool, false, false);
 
         if (autoPickup && entity instanceof ServerPlayer player) {
             LevelUtils.addToInventoryOrDrop(toDrop, player, level, pos);

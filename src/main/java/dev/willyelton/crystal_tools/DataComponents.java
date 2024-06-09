@@ -171,6 +171,7 @@ public class DataComponents {
             DataComponentType<Float> dataComponent = (DataComponentType<Float>) COMPONENTS.getRegistry().get().get(resourceLocation);
             if (dataComponent != null) {
                 stack.set(dataComponent, stack.getOrDefault(dataComponent, 0F) + value);
+                return;
             }
         }
 
@@ -180,8 +181,21 @@ public class DataComponents {
             DataComponentType<Integer> dataComponent = (DataComponentType<Integer>) COMPONENTS.getRegistry().get().get(resourceLocation);
             if (dataComponent != null) {
                 stack.set(dataComponent, stack.getOrDefault(dataComponent, 0) + (int) value);
+                return;
             }
         }
+
+        resourceLocation = BOOLEAN_COMPONENTS.get(componentKey);
+
+        if (resourceLocation != null) {
+            DataComponentType<Boolean> dataComponent = (DataComponentType<Boolean>) COMPONENTS.getRegistry().get().get(resourceLocation);
+            if (dataComponent != null && value > 0) {
+                stack.set(dataComponent, true);
+                return;
+            }
+        }
+
+        throw new IllegalArgumentException("Skill " + componentKey + " not registered correctly");
     }
 
     public static void setValue(ItemStack stack, String componentKey, float value) {
@@ -191,6 +205,7 @@ public class DataComponents {
             DataComponentType<Float> dataComponent = (DataComponentType<Float>) COMPONENTS.getRegistry().get().get(resourceLocation);
             if (dataComponent != null) {
                 stack.set(dataComponent, value);
+                return;
             }
         }
 
@@ -200,6 +215,7 @@ public class DataComponents {
             DataComponentType<Integer> dataComponent = (DataComponentType<Integer>) COMPONENTS.getRegistry().get().get(resourceLocation);
             if (dataComponent != null) {
                 stack.set(dataComponent, (int) value);
+                return;
             }
         }
 
@@ -208,8 +224,11 @@ public class DataComponents {
             DataComponentType<Boolean> dataComponent = (DataComponentType<Boolean>) COMPONENTS.getRegistry().get().get(resourceLocation);
             if (dataComponent != null) {
                 stack.set(dataComponent, value > 0);
+                return;
             }
         }
+
+        throw new IllegalArgumentException("Skill " + componentKey + " not registered correctly");
     }
 
     public static void addValueToArray(ItemStack stack,  DeferredHolder<DataComponentType<?>, DataComponentType<List<Integer>>> component, int index, int value) {

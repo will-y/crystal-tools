@@ -9,6 +9,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseFireBlock;
@@ -24,7 +25,8 @@ import java.util.List;
 
 public class LevelUtils {
     // I stole this from Level.java because it is bad and I need to make it better
-    public static boolean destroyBlock(Level level, BlockPos pos, boolean dropBlock, @Nullable Entity entity, int recursionLeft, ItemStack tool, boolean autoPickup) {
+    // TODO: Eventually want to make the event fire event sometimes, when it can be done
+    public static boolean destroyBlock(Level level, BlockPos pos, boolean dropBlock, @Nullable Entity entity, int recursionLeft, ItemStack tool, boolean autoPickup, boolean fireBreakEvent) {
         BlockState blockState = level.getBlockState(pos);
         if (blockState.isAir()) {
             return false;
@@ -38,14 +40,22 @@ public class LevelUtils {
                 BlockEntity blockentity = blockState.hasBlockEntity() ? level.getBlockEntity(pos) : null;
 
                 if (entity instanceof ServerPlayer player && level instanceof ServerLevel serverLevel) {
-                    List<ItemStack> drops = Block.getDrops(blockState, (ServerLevel) level, pos, null, entity, tool);
+                    List<ItemStack> drops = Block.getDrops(blockState, (ServerLevel) level, pos, blockentity, entity, tool);
                     if (autoPickup) {
                         addToInventoryOrDrop(drops, player, level, pos);
                     } else {
                         Block.dropResources(blockState, level, pos, blockentity, entity, tool);
                     }
 
-                    int exp = CommonHooks.fireBlockBreak(level, GameType.SURVIVAL, player, pos, blockState);
+                    int exp;
+
+                    if (fireBreakEvent) {
+                        exp = CommonHooks.fireBlockBreak(level, GameType.SURVIVAL, player, pos, blockState);
+                    } else {
+                        int fortuneLevel = player.getMainHandItem().getEnchantmentLevel(Enchantments.FORTUNE);
+                        int silkTouchLevel = player.getMainHandItem().getEnchantmentLevel(Enchantments.SILK_TOUCH);
+                        exp = blockState.getExpDrop(level, level.random, pos, fortuneLevel, silkTouchLevel);
+                    }
 
                     if (exp > 0) {
                         blockState.getBlock().popExperience(serverLevel, pos, exp);
@@ -55,6 +65,7 @@ public class LevelUtils {
                 }
             }
 
+            // TODO: Probably want to change this back to 3 for non autopickups
             boolean flag = level.setBlock(pos, fluidstate.createLegacyBlock(), 3, recursionLeft);
             if (flag) {
                 level.gameEvent(entity, GameEvent.BLOCK_DESTROY, pos);
