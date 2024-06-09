@@ -1,8 +1,8 @@
 package dev.willyelton.crystal_tools.common.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.levelable.CrystalBackpack;
-import dev.willyelton.crystal_tools.levelable.tool.LevelableTool;
+import dev.willyelton.crystal_tools.common.levelable.CrystalBackpack;
+import dev.willyelton.crystal_tools.common.levelable.tool.LevelableTool;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;

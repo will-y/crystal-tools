@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.common.network.data;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.levelable.skill.SkillData;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;

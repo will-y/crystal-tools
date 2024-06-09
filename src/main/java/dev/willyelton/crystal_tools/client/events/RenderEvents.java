@@ -2,11 +2,10 @@ package dev.willyelton.crystal_tools.client.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.DataComponents;
-import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.keybinding.KeyBindings;
-import dev.willyelton.crystal_tools.levelable.tool.LevelableTool;
-import dev.willyelton.crystal_tools.levelable.tool.VeinMinerLevelableTool;
-import dev.willyelton.crystal_tools.renderer.BlockOverlayRenderer;
+import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
+import dev.willyelton.crystal_tools.common.levelable.tool.LevelableTool;
+import dev.willyelton.crystal_tools.common.levelable.tool.VeinMinerLevelableTool;
+import dev.willyelton.crystal_tools.client.renderer.BlockOverlayRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
@@ -31,7 +30,7 @@ public class RenderEvents {
         if (player != null) {
             ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
 
-            if (KeyBindings.veinMine.isDown()
+            if (RegisterKeyBindingsEvent.veinMine.isDown()
                     && stack.getItem() instanceof VeinMinerLevelableTool veinMinerLevelableTool
                     && stack.getOrDefault(DataComponents.VEIN_MINER, 0) > 0) {
                 BlockOverlayRenderer.renderVeinMiner(event, veinMinerLevelableTool, stack);

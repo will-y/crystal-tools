@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.common.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.entity.CrystalTridentEntity;
+import dev.willyelton.crystal_tools.common.entity.CrystalTridentEntity;
 import net.minecraft.world.entity.LightningBolt;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;

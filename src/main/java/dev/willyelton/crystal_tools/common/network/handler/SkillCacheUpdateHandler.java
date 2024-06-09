@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.common.network.handler;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.levelable.skill.SkillTreeRegistry;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillTreeRegistry;
 import dev.willyelton.crystal_tools.common.network.data.SkillCacheUpdatePayload;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.apache.logging.log4j.Level;

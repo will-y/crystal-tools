@@ -2,14 +2,14 @@ package dev.willyelton.crystal_tools.utils;
 
 import dev.willyelton.crystal_tools.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
-import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.keybinding.KeyBindings;
-import dev.willyelton.crystal_tools.levelable.LevelableItem;
-import dev.willyelton.crystal_tools.levelable.skill.SkillData;
-import dev.willyelton.crystal_tools.levelable.skill.SkillDataNode;
-import dev.willyelton.crystal_tools.levelable.skill.SkillNodeType;
-import dev.willyelton.crystal_tools.levelable.skill.SkillTreeRegistry;
-import dev.willyelton.crystal_tools.levelable.tool.AIOLevelableTool;
+import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
+import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
+import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillDataNode;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillNodeType;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillTreeRegistry;
+import dev.willyelton.crystal_tools.common.levelable.tool.AIOLevelableTool;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -58,26 +58,26 @@ public class ToolUtils {
                 && stack.getOrDefault(DataComponents.FORTUNE_BONUS, 0) > 0) {
             // Only show mode if it has both enchantments
             String mode = EnchantmentUtils.hasEnchantment(stack, Enchantments.SILK_TOUCH) ? "Silk Touch" : "Fortune";
-            String changeKey = KeyBindings.modeSwitch == null ? "" : " (" + KeyBindings.modeSwitch.getKey().getDisplayName().getString() + " to change)";
+            String changeKey = RegisterKeyBindingsEvent.modeSwitch == null ? "" : " (" + RegisterKeyBindingsEvent.modeSwitch.getKey().getDisplayName().getString() + " to change)";
             components.add(Component.literal("\u00A79" + "Mine Mode: " + mode + changeKey));
         }
 
         if (stack.getOrDefault(DataComponents.MINE_MODE, false) && stack.getOrDefault(DataComponents.HAS_3x3, false)) {
             String mode = stack.getOrDefault(DataComponents.DISABLE_3x3, false) ? "1x1" : "3x3";
-            String changeKey = KeyBindings.modeSwitch == null ? "" : " (Shift + " + KeyBindings.modeSwitch.getKey().getDisplayName().getString() + " to change)";
+            String changeKey = RegisterKeyBindingsEvent.modeSwitch == null ? "" : " (Shift + " + RegisterKeyBindingsEvent.modeSwitch.getKey().getDisplayName().getString() + " to change)";
             components.add(Component.literal("\u00A79" + "Break Mode: " + mode + changeKey));
         }
 
         if (stack.getOrDefault(DataComponents.MINE_MODE, false) && stack.getOrDefault(DataComponents.AUTO_SMELT, false)) {
             boolean enabled = !stack.getOrDefault(DataComponents.DISABLE_AUTO_SMELT, false);
-            String changeKey = KeyBindings.modeSwitch == null ? "" : " (Ctrl + " + KeyBindings.modeSwitch.getKey().getDisplayName().getString() + " to toggle)";
+            String changeKey = RegisterKeyBindingsEvent.modeSwitch == null ? "" : " (Ctrl + " + RegisterKeyBindingsEvent.modeSwitch.getKey().getDisplayName().getString() + " to toggle)";
             components.add(Component.literal("\u00A79" + "Auto Smelt " + (enabled ? "Enabled" : "Disabled") + changeKey));
         }
 
         if (item instanceof AIOLevelableTool) {
             String toolTip = "\u00A79" + "Use Mode: " + StringUtils.capitalize(stack.getOrDefault(DataComponents.USE_MODE, "hoe").toLowerCase(Locale.ROOT));
-            if (KeyBindings.modeSwitch != null) {
-                toolTip = toolTip + " (alt + " + KeyBindings.modeSwitch.getKey().getDisplayName().getString() + " to change)";
+            if (RegisterKeyBindingsEvent.modeSwitch != null) {
+                toolTip = toolTip + " (alt + " + RegisterKeyBindingsEvent.modeSwitch.getKey().getDisplayName().getString() + " to change)";
             }
             components.add(Component.literal(toolTip));
         }

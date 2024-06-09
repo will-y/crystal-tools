@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.network.handler;
 
-import dev.willyelton.crystal_tools.levelable.tool.LevelableTool;
+import dev.willyelton.crystal_tools.common.levelable.tool.LevelableTool;
 import dev.willyelton.crystal_tools.common.network.data.BlockStripPayload;
 import dev.willyelton.crystal_tools.utils.ToolUseUtils;
 import net.minecraft.world.InteractionHand;

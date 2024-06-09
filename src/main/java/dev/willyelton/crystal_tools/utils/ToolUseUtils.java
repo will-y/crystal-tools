@@ -3,10 +3,10 @@ package dev.willyelton.crystal_tools.utils;
 import com.mojang.datafixers.util.Pair;
 import dev.willyelton.crystal_tools.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
-import dev.willyelton.crystal_tools.keybinding.KeyBindings;
-import dev.willyelton.crystal_tools.levelable.block.CrystalTorch;
-import dev.willyelton.crystal_tools.levelable.tool.LevelableTool;
-import dev.willyelton.crystal_tools.levelable.tool.VeinMinerLevelableTool;
+import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
+import dev.willyelton.crystal_tools.common.levelable.block.CrystalTorch;
+import dev.willyelton.crystal_tools.common.levelable.tool.LevelableTool;
+import dev.willyelton.crystal_tools.common.levelable.tool.VeinMinerLevelableTool;
 import dev.willyelton.crystal_tools.common.network.data.BlockStripPayload;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -95,7 +95,7 @@ public class ToolUseUtils {
 
             // TODO: remove tree_chop
             if (itemStack.getOrDefault(DataComponents.VEIN_MINER, 0) > 0
-                    && level.isClientSide && KeyBindings.veinMine.isDown()) {
+                    && level.isClientSide && RegisterKeyBindingsEvent.veinMine.isDown()) {
                 Collection<BlockPos> blocksToStrip = BlockCollectors.collectVeinMine(blockPos, level, tool.getVeinMinerPredicate(initialState), tool.getMaxBlocks(itemStack));
 
                 for (BlockPos pos : blocksToStrip) {

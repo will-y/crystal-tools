@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.common.network.handler;
 
-import dev.willyelton.crystal_tools.inventory.container.CrystalFurnaceContainerMenu;
-import dev.willyelton.crystal_tools.levelable.block.entity.CrystalFurnaceBlockEntity;
+import dev.willyelton.crystal_tools.common.inventory.container.CrystalFurnaceContainerMenu;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalFurnaceBlockEntity;
 import dev.willyelton.crystal_tools.common.network.data.BlockAttributePayload;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;

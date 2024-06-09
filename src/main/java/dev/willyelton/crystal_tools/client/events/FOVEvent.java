@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.client.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.levelable.tool.BowLevelableItem;
+import dev.willyelton.crystal_tools.common.levelable.tool.BowLevelableItem;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;

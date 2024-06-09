@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.common.network.handler;
 
 import dev.willyelton.crystal_tools.Registration;
-import dev.willyelton.crystal_tools.levelable.CrystalBackpack;
+import dev.willyelton.crystal_tools.common.levelable.CrystalBackpack;
 import dev.willyelton.crystal_tools.common.network.data.OpenBackpackPayload;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;

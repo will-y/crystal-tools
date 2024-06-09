@@ -1,10 +1,10 @@
 package dev.willyelton.crystal_tools;
 
-import dev.willyelton.crystal_tools.command.RegisterCommandEvent;
-import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.crafting.ItemDisabledCondition;
-import dev.willyelton.crystal_tools.crafting.ModRecipes;
-import dev.willyelton.crystal_tools.datagen.DataGeneration;
+import dev.willyelton.crystal_tools.common.command.RegisterCommandEvent;
+import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
+import dev.willyelton.crystal_tools.common.crafting.ItemDisabledCondition;
+import dev.willyelton.crystal_tools.common.crafting.ModRecipes;
+import dev.willyelton.crystal_tools.common.datagen.DataGeneration;
 import net.minecraft.core.Registry;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;

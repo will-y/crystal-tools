@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.network.handler;
 
-import dev.willyelton.crystal_tools.levelable.tool.LevelableTool;
+import dev.willyelton.crystal_tools.common.levelable.tool.LevelableTool;
 import dev.willyelton.crystal_tools.common.network.data.BlockBreakPayload;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;

@@ -2,8 +2,8 @@ package dev.willyelton.crystal_tools.client.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
-import dev.willyelton.crystal_tools.gui.CrystalBackpackScreen;
-import dev.willyelton.crystal_tools.gui.CrystalFurnaceScreen;
+import dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen;
+import dev.willyelton.crystal_tools.client.gui.CrystalFurnaceScreen;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;

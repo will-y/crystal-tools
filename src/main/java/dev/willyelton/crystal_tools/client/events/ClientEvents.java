@@ -3,9 +3,9 @@ package dev.willyelton.crystal_tools.client.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
-import dev.willyelton.crystal_tools.levelable.tool.BowLevelableItem;
-import dev.willyelton.crystal_tools.model.CrystalElytraLayer;
-import dev.willyelton.crystal_tools.renderer.CrystalTridentRenderer;
+import dev.willyelton.crystal_tools.common.levelable.tool.BowLevelableItem;
+import dev.willyelton.crystal_tools.client.model.CrystalElytraLayer;
+import dev.willyelton.crystal_tools.client.renderer.CrystalTridentRenderer;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.entity.ArmorStandRenderer;
