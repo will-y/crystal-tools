@@ -36,16 +36,13 @@ public class ToolAttributeHandler {
                         EnchantmentUtils.addEnchantment(heldTool, enchantment, (int) payload.value());
                     }
                     // also add it like normal
-
                     DataComponents.setValue(heldTool, payload.key(), payload.value());
                 } else {
                     DataComponents.addToComponent(heldTool, payload.key(), payload.value());
-//                    NBTUtils.addValueToTag(heldTool, payload.key(), payload.value());
                 }
 
                 // update the skill points array
                 if (payload.id() != -1) {
-//                    NBTUtils.addValueToArray(heldTool, "points", payload.id(), 1);
                     DataComponents.addValueToArray(heldTool, DataComponents.POINTS_ARRAY, payload.id(), 1);
                 }
             }

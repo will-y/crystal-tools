@@ -49,7 +49,7 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Equipabl
     }
 
     @Override
-    public ItemAttributeModifiers getAttributeModifiers(ItemStack stack) {
+    public ItemAttributeModifiers getLevelableAttributeModifiers(ItemStack stack) {
         ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
         if (!ToolUtils.isBroken(stack)) {
             UUID uuid = ARMOR_MODIFIER_UUID_PER_TYPE.get(getType());

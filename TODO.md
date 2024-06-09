@@ -42,6 +42,7 @@
 - Furnace skill screen doesn't fully refresh when open when point is gained
 - Block break event triggers 10 times instead of 9 on 3x3
 - Items picked up with autopickup don't go into backpacks
+- Can instamine things by breaking torches (maybe check if can mine the original block?)
 
 ## Code Improvements
 - Packet interface
@@ -58,6 +59,3 @@
 - Add correct enchantment tags
 - Text and lines in upgrade UI are blurry?
 - Skills that don't work:
-  - Reach (probably all attributes)
-  - Mine mode key does nothing
-  - Torch

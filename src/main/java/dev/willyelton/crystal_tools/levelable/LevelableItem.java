@@ -12,6 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 
 public interface LevelableItem {
@@ -54,4 +55,8 @@ public interface LevelableItem {
     int getMaxDamage(ItemStack itemStack);
 
     boolean isDisabled();
+
+    default ItemAttributeModifiers getLevelableAttributeModifiers(ItemStack stack) {
+        return ItemAttributeModifiers.EMPTY;
+    }
 }

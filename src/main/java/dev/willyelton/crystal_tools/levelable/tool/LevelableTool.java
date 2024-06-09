@@ -47,7 +47,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public abstract class LevelableTool extends TieredItem implements LevelableItem {
-    protected static final UUID ATTACK_DAMAGE_UUID = UUID.randomUUID();
+    public static final UUID ATTACK_DAMAGE_UUID = UUID.randomUUID();
     protected static final UUID ATTACK_SPEED_UUID = UUID.randomUUID();
     protected static final UUID ATTACK_KNOCKBACK_UUID = UUID.randomUUID();
     protected static final UUID KNOCKBACK_RESISTANCE_UUID = UUID.randomUUID();
@@ -314,7 +314,7 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
     }
 
     @Override
-    public @NotNull ItemAttributeModifiers getAttributeModifiers(@NotNull ItemStack stack) {
+    public ItemAttributeModifiers getLevelableAttributeModifiers(ItemStack stack) {
         // TODO: Make sure default attributes are still applied, I assume they should be
         if (!ToolUtils.isBroken(stack)) {
             ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
