@@ -31,7 +31,6 @@ public class UpgradeScreen extends BaseUpgradeScreen {
         this.data = ToolUtils.getSkillData(itemStack);
     }
 
-
     /**
      * Used to init things differently from the default item implementation of the upgrade screen
      */

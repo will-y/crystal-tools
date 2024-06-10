@@ -1,4 +1,4 @@
-package dev.willyelton.crystal_tools.common.datagen;
+package dev.willyelton.crystal_tools.datagen;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
@@ -22,6 +22,9 @@ public class DataGeneration {
 
         CrystalToolsBlockTags blockTags = new CrystalToolsBlockTags(packOutput, lookupProvider, event.getExistingFileHelper());
         generator.addProvider(event.includeServer(), blockTags);
+
+        CrystalToolsItemTags itemTags = new CrystalToolsItemTags(packOutput, lookupProvider, blockTags.contentsGetter(), event.getExistingFileHelper());
+        generator.addProvider(event.includeServer(), itemTags);
 
         CrystalToolsEntityTypeTags entityTypeTags = new CrystalToolsEntityTypeTags(packOutput, lookupProvider, event.getExistingFileHelper());
         generator.addProvider(event.includeServer(), entityTypeTags);

@@ -53,16 +53,16 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Equipabl
         ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
         if (!ToolUtils.isBroken(stack)) {
             UUID uuid = ARMOR_MODIFIER_UUID_PER_TYPE.get(getType());
-            builder.add(Attributes.ARMOR, new AttributeModifier(uuid, "Armor modifier", this.getDefense(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST);
-            builder.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uuid, "Armor toughness", this.getToughness(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST);
+            builder.add(Attributes.ARMOR, new AttributeModifier(uuid, "Armor modifier", this.getDefense(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(getEquipmentSlot()));
+            builder.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uuid, "Armor toughness", this.getToughness(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(getEquipmentSlot()));
             int health = stack.getOrDefault(DataComponents.HEALTH_BONUS, 0);
             if (health > 0) {
-                builder.add(Attributes.MAX_HEALTH, new AttributeModifier(uuid, "Health modifier", health, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST);
+                builder.add(Attributes.MAX_HEALTH, new AttributeModifier(uuid, "Health modifier", health, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(getEquipmentSlot()));
             }
 
             float speedBonus = stack.getOrDefault(DataComponents.SPEED_BONUS, 0F) / 5;
             if (speedBonus > 0) {
-                builder.add(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid, "Speed modifier", speedBonus, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), EquipmentSlotGroup.CHEST);
+                builder.add(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid, "Speed modifier", speedBonus, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), EquipmentSlotGroup.bySlot(getEquipmentSlot()));
             }
 
             return builder.build();
@@ -138,7 +138,8 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Equipabl
             return;
         }
 
-        if (!ToolUtils.isBroken(stack) && entity instanceof LivingEntity livingEntity && stack.getOrDefault(DataComponents.NIGHT_VISION, false)) {
+        if (!ToolUtils.isBroken(stack) && entity instanceof LivingEntity livingEntity&& stack.getOrDefault(DataComponents.NIGHT_VISION, false)
+                && livingEntity.getItemBySlot(EquipmentSlot.HEAD).equals(stack)) {
             livingEntity.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 400, 0, false, false));
         }
 

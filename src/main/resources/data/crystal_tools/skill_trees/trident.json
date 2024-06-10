@@ -349,7 +349,7 @@
         "requirements": [
           {"or_node": [21, 22, 23]}
         ],
-        "key": "mode_switch",
+        "key": "mine_mode",
         "value": 1
       }
     ],

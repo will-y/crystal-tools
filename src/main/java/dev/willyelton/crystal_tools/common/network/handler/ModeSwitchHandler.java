@@ -70,8 +70,7 @@ public class ModeSwitchHandler {
             }
 
             // Trident
-            // TODO: Same as above
-            if (tool.is(Registration.CRYSTAL_TRIDENT.get())) {
+            if (tool.getOrDefault(DataComponents.MINE_MODE, false) && tool.is(Registration.CRYSTAL_TRIDENT.get())) {
                 boolean riptideDisabled = tool.getOrDefault(DataComponents.RIPTIDE_DISABLED, false);
                 tool.set(DataComponents.RIPTIDE_DISABLED, !riptideDisabled);
                 player.displayClientMessage(Component.literal("Riptide " + (riptideDisabled ? "Enabled" : "Disabled")), true);

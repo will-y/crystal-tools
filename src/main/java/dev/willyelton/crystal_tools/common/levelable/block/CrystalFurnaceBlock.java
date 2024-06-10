@@ -4,7 +4,6 @@ import com.mojang.serialization.MapCodec;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalFurnaceBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -105,11 +104,6 @@ public class CrystalFurnaceBlock extends BaseEntityBlock {
         if (!pState.is(pNewState.getBlock())) {
             BlockEntity blockentity = pLevel.getBlockEntity(pPos);
             if (blockentity instanceof CrystalFurnaceBlockEntity) {
-                if (pLevel instanceof ServerLevel serverLevel) {
-//                    Containers.dropContents(pLevel, pPos, (CrystalFurnaceBlockEntity) blockentity);
-//                    ((CrystalFurnaceBlockEntity) blockentity).popExp(serverLevel, Vec3.atCenterOf(pPos));
-                }
-
                 pLevel.updateNeighbourForOutputSignal(pPos, this);
             }
 

@@ -56,6 +56,5 @@
 - Limit to infinite nodes (breaking json change so wait until 1.21)
   - Require x points in infinite node as requirement?
 - Add correct enchantment tags
-- Text and lines in upgrade UI are blurry?
 - Sometimes leveling skills scrolls to the top of the menu
 - Skills that don't work:

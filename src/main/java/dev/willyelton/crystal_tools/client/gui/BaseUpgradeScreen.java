@@ -121,7 +121,6 @@ public abstract class BaseUpgradeScreen extends Screen {
         guiGraphics.drawString(font, "Skill Points: " + this.getSkillPoints(), 5, 5, Colors.TEXT_LIGHT);
         super.render(guiGraphics, mouseX, mouseY, particleTicks);
 
-
         ANIMATION_COUNTER++;
 
         if (ANIMATION_COUNTER > ANIMATION_COUNTER_MAX) {
@@ -129,6 +128,11 @@ public abstract class BaseUpgradeScreen extends Screen {
             if (ANIMATION_FRAME < ANIMATION_FRAME_MIN) ANIMATION_FRAME = 11;
             ANIMATION_FRAME--;
         }
+    }
+
+    @Override
+    public void renderBackground(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+
     }
 
     protected abstract int getSkillPoints();
@@ -300,7 +304,5 @@ public abstract class BaseUpgradeScreen extends Screen {
         bufferbuilder.vertex((double)this.width, 0.0D, 0.0D).uv((float)this.width / 32.0F, (float)pVOffset).color(64, 64, 64, 255).endVertex();
         bufferbuilder.vertex(0.0D, 0.0D, 0.0D).uv(0.0F, (float)pVOffset).color(64, 64, 64, 255).endVertex();
         tesselator.end();
-        // Might still need this?
-//        net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.ScreenEvent.BackgroundDrawnEvent(this, new PoseStack()));
     }
 }

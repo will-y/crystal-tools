@@ -1,4 +1,4 @@
-package dev.willyelton.crystal_tools.common.datagen;
+package dev.willyelton.crystal_tools.datagen;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;

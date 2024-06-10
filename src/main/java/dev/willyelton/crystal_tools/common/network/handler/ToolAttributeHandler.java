@@ -28,15 +28,17 @@ public class ToolAttributeHandler {
                         if (heldTool.getOrDefault(DataComponents.FORTUNE_BONUS, 0) == 0) {
                             EnchantmentUtils.addEnchantment(heldTool, enchantment, (int) payload.value());
                         }
+                        // also add it like normal, only for silk touch and fortune?
+                        DataComponents.setValue(heldTool, payload.key(), payload.value());
                     } else if (enchantment.equals(Enchantments.FORTUNE)) {
                         if (!heldTool.getOrDefault(DataComponents.SILK_TOUCH_BONUS, false)) {
                             EnchantmentUtils.addEnchantment(heldTool, enchantment, (int) payload.value());
                         }
+                        // also add it like normal, only for silk touch and fortune?
+                        DataComponents.setValue(heldTool, payload.key(), payload.value());
                     } else {
                         EnchantmentUtils.addEnchantment(heldTool, enchantment, (int) payload.value());
                     }
-                    // also add it like normal
-                    DataComponents.setValue(heldTool, payload.key(), payload.value());
                 } else {
                     DataComponents.addToComponent(heldTool, payload.key(), payload.value());
                 }
@@ -64,6 +66,7 @@ public class ToolAttributeHandler {
             case "aqua_affinity_bonus" -> Enchantments.AQUA_AFFINITY;
             case "respiration_bonus" -> Enchantments.RESPIRATION;
             case "thorns_bonus" -> Enchantments.THORNS;
+            case "depth_strider_bonus" -> Enchantments.DEPTH_STRIDER;
             default -> null;
         };
     }

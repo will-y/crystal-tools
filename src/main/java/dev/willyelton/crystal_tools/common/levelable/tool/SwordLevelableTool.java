@@ -53,9 +53,8 @@ public class SwordLevelableTool extends LevelableTool {
         tool.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
 
         if (!ToolUtils.isBroken(tool)) {
-            // TODO: Is this actually what fire aspect does? Seems really short
             if (tool.getOrDefault(DataComponents.FIRE, false)) {
-                target.setRemainingFireTicks(5);
+                target.igniteForSeconds(2);
             }
 
             if (ToolUtils.isValidEntity(target)) {

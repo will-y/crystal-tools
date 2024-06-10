@@ -62,7 +62,7 @@ public class DataComponents {
 
     // Weapons
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> DAMAGE_BONUS = register("damage_bonus", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> ATTACK_SPEED = register("attack_speed", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> ATTACK_SPEED = register("attack_speed_bonus", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> KNOCKBACK = register("knockback", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> KNOCKBACK_RESISTANCE = register("knockback_resistance", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> FIRE = register("fire", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
