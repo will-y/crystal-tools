@@ -6,7 +6,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -25,7 +24,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -108,9 +106,8 @@ public class CrystalFurnaceBlock extends BaseEntityBlock {
             BlockEntity blockentity = pLevel.getBlockEntity(pPos);
             if (blockentity instanceof CrystalFurnaceBlockEntity) {
                 if (pLevel instanceof ServerLevel serverLevel) {
-                    // TODO: Figure out how to save items to block, might want to change how I use capabilities
-                    Containers.dropContents(pLevel, pPos, (CrystalFurnaceBlockEntity) blockentity);
-                    ((CrystalFurnaceBlockEntity) blockentity).popExp(serverLevel, Vec3.atCenterOf(pPos));
+//                    Containers.dropContents(pLevel, pPos, (CrystalFurnaceBlockEntity) blockentity);
+//                    ((CrystalFurnaceBlockEntity) blockentity).popExp(serverLevel, Vec3.atCenterOf(pPos));
                 }
 
                 pLevel.updateNeighbourForOutputSignal(pPos, this);

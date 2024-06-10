@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools;
 
-import dev.willyelton.crystal_tools.common.command.RegisterCommandEvent;
+import dev.willyelton.crystal_tools.common.events.RegisterCommandEvent;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.crafting.ItemDisabledCondition;
 import dev.willyelton.crystal_tools.common.crafting.ModRecipes;

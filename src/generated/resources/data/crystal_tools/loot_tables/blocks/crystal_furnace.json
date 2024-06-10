@@ -10,6 +10,16 @@
             {
               "function": "minecraft:copy_name",
               "source": "block_entity"
+            },
+            {
+              "function": "minecraft:copy_components",
+              "include": [
+                "crystal_tools:furnace_data",
+                "crystal_tools:furnace_upgrades",
+                "crystal_tools:levelable_block_entity_data",
+                "crystal_tools:furnace_inventory"
+              ],
+              "source": "block_entity"
             }
           ],
           "name": "crystal_tools:crystal_furnace"

@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.utils;
 
 import com.mojang.datafixers.util.Pair;
-import dev.willyelton.crystal_tools.DataComponents;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalTorch;
@@ -93,7 +93,6 @@ public class ToolUseUtils {
         if (result == InteractionResult.SUCCESS || result == InteractionResult.sidedSuccess(context.getLevel().isClientSide)) {
             ItemStack itemStack = context.getItemInHand();
 
-            // TODO: remove tree_chop
             if (itemStack.getOrDefault(DataComponents.VEIN_MINER, 0) > 0
                     && level.isClientSide && RegisterKeyBindingsEvent.veinMine.isDown()) {
                 Collection<BlockPos> blocksToStrip = BlockCollectors.collectVeinMine(blockPos, level, tool.getVeinMinerPredicate(initialState), tool.getMaxBlocks(itemStack));

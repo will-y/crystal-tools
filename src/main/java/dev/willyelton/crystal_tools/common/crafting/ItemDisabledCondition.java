@@ -32,7 +32,6 @@ public class ItemDisabledCondition implements ICondition {
         }
     }
 
-    // TODO: No way this works. Need to register this codec
     @Override
     public @NotNull MapCodec<? extends ICondition> codec() {
         return ITEM_DISABLED_CODEC;
@@ -41,21 +40,4 @@ public class ItemDisabledCondition implements ICondition {
     public ResourceLocation getItemLocation() {
         return itemLocation;
     }
-
-//    public static class Serializer implements IConditionSerializer<ItemDisabledCondition> {
-//        @Override
-//        public void write(JsonObject json, ItemDisabledCondition value) {
-//            json.addProperty("item", value.itemLocation.toString());
-//        }
-//
-//        @Override
-//        public ItemDisabledCondition read(JsonObject json) {
-//            return new ItemDisabledCondition(new ResourceLocation(GsonHelper.getAsString(json, "item")));
-//        }
-//
-//        @Override
-//        public ResourceLocation getID() {
-//            return NAME;
-//        }
-//    }
 }

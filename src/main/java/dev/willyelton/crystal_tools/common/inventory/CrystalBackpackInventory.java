@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.inventory;
 
-import dev.willyelton.crystal_tools.DataComponents;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.utils.InventoryUtils;
 import it.unimi.dsi.fastutil.ints.Int2IntArrayMap;

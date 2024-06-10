@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.common.levelable;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.DataComponents;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.compat.curios.CuriosCompatibility;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;

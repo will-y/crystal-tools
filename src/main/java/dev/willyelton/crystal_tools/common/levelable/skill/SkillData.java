@@ -61,7 +61,7 @@ public class SkillData {
         return totalPoints;
     }
 
-    // TODO: This should be temporary, maybe include this whole class in the 1.21 redesign
+    // TODO: This should be temporary, maybe include this whole class in the 1.21 redesign. Might not be included in CODECS, check for sync issues
     public void addPoint() {
         this.totalPoints++;
     }

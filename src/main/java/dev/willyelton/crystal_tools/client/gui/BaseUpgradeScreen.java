@@ -235,7 +235,6 @@ public abstract class BaseUpgradeScreen extends Screen {
         return false;
     }
 
-    //TODO: Check
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
         for (SkillButton skillButton : this.skillButtons.values()) {

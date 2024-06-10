@@ -1,11 +1,12 @@
-package dev.willyelton.crystal_tools.common.command;
+package dev.willyelton.crystal_tools.common.events;
 
 import com.mojang.brigadier.CommandDispatcher;
+import dev.willyelton.crystal_tools.common.command.AddPointsBlockCommand;
+import dev.willyelton.crystal_tools.common.command.AddPointsCommand;
 import net.minecraft.commands.CommandSourceStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 
-// TODO: Event refactor
 public class RegisterCommandEvent {
     @SubscribeEvent
     public static void onRegisterCommandEvent(RegisterCommandsEvent event) {

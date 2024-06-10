@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.network.handler;
 
-import dev.willyelton.crystal_tools.DataComponents;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.network.data.ToolAttributePayload;
 import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;

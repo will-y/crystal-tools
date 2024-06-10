@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.common.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.DataComponents;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;

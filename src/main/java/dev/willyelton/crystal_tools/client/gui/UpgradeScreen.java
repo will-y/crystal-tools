@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.client.gui;
 
-import dev.willyelton.crystal_tools.DataComponents;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;

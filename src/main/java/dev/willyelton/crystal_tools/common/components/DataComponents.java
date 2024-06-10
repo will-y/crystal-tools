@@ -1,6 +1,7 @@
-package dev.willyelton.crystal_tools;
+package dev.willyelton.crystal_tools.common.components;
 
 import com.mojang.serialization.Codec;
+import dev.willyelton.crystal_tools.CrystalTools;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -94,7 +95,7 @@ public class DataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> FLIGHT_TIME = register("flight_time", Codec.INT, ByteBufCodecs.INT, SkillType.INT);
 
     // Backpack
-    // TODO: Should this be one data component? Probably doesn't need to be but could be
+    // TODO: Make this a list of ItemContainerContents
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ItemContainerContents>> INVENTORY = register("inventory", ItemContainerContents.CODEC, ItemContainerContents.STREAM_CODEC);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ItemContainerContents>> FILTER_INVENTORY = register("filter_inventory", ItemContainerContents.CODEC, ItemContainerContents.STREAM_CODEC);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> CAPACITY = register("capacity", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
@@ -121,6 +122,11 @@ public class DataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> LUCK_OF_THE_SEA = register("luck_of_the_sea", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> DOUBLE_DROPS = register("double_drops", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
 
+    // Furnace
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<FurnaceData>> FURNACE_DATA = register("furnace_data", FurnaceData.CODEC, FurnaceData.STREAM_CODEC);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<FurnaceUpgrades>> FURNACE_UPGRADES = register("furnace_upgrades", FurnaceUpgrades.CODEC, FurnaceUpgrades.STREAM_CODEC);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ItemContainerContents>> FURNACE_INVENTORY = register("furnace_inventory", ItemContainerContents.CODEC, ItemContainerContents.STREAM_CODEC);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<LevelableBlockEntityData>> LEVELABLE_BLOCK_ENTITY_DATA = register("levelable_block_entity_data", LevelableBlockEntityData.CODEC, LevelableBlockEntityData.STREAM_CODEC);
 
     // Utilities
     private static <T> DeferredHolder<DataComponentType<?>, DataComponentType<T>> register(String key, Codec<T> codec, StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec) {

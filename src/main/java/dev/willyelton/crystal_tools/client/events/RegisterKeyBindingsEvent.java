@@ -8,7 +8,6 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import org.lwjgl.glfw.GLFW;
 
-// TODO: Move to client events
 @EventBusSubscriber(modid=CrystalTools.MODID, bus=EventBusSubscriber.Bus.MOD, value= Dist.CLIENT)
 public class RegisterKeyBindingsEvent {
     public static KeyMapping upgradeMenu;

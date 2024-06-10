@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.network.handler;
 
-import dev.willyelton.crystal_tools.DataComponents;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.network.data.ToolHealPayload;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import net.minecraft.world.entity.player.Player;

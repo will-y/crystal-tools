@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
-import dev.willyelton.crystal_tools.DataComponents;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
 import net.minecraft.world.item.ItemStack;
 
 public enum UseMode {

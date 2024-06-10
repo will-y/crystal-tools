@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.common.datagen;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalTorch;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalFurnaceBlockEntity;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
@@ -13,6 +14,7 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer;
+import net.minecraft.world.level.storage.loot.functions.CopyComponentsFunction;
 import net.minecraft.world.level.storage.loot.functions.CopyNameFunction;
 import net.minecraft.world.level.storage.loot.predicates.AnyOfCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
@@ -44,9 +46,11 @@ public class CrystalToolsLootTables extends VanillaBlockLoot {
         LootPoolSingletonContainer.Builder<?> lti = LootItem.lootTableItem(block);
         lti.apply(CopyNameFunction.copyName(CopyNameFunction.NameSource.BLOCK_ENTITY));
         // TODO: Copy data components
-//        for (String tag : tags) {
-//            lti.apply(CopyComponentsFunction.copyComponents(ContextNbtProvider.BLOCK_ENTITY).copy(tag, "BlockEntityTag." + tag, CopyNbtFunction.MergeStrategy.REPLACE));
-//        }
+        lti.apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
+                .include(DataComponents.FURNACE_DATA.get())
+                .include(DataComponents.FURNACE_UPGRADES.get())
+                .include(DataComponents.LEVELABLE_BLOCK_ENTITY_DATA.get())
+                .include(DataComponents.FURNACE_INVENTORY.get()));
 //        lti.apply(SetContainerContents.setContents(type).withEntry(DynamicLoot.dynamicEntry(new ResourceLocation("minecraft", "contents"))));
 
         LootPool.Builder builder = LootPool.lootPool()

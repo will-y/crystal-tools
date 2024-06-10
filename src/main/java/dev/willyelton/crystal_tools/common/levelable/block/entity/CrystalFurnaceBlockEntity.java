@@ -1,19 +1,21 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity;
 
 import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
+import dev.willyelton.crystal_tools.common.components.FurnaceData;
+import dev.willyelton.crystal_tools.common.components.FurnaceUpgrades;
+import dev.willyelton.crystal_tools.common.components.LevelableBlockEntityData;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalFurnaceContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalFurnaceBlock;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
-import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -31,6 +33,7 @@ import net.minecraft.world.item.AirItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -115,7 +118,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     }
 
     @Override
-    public int @NotNull [] getSlotsForFace(Direction face) {
+    public int[] getSlotsForFace(Direction face) {
         switch (face) {
             case DOWN -> {
                 return OUTPUT_SLOTS;
@@ -132,11 +135,11 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     }
 
     @Override
-    public boolean canPlaceItemThroughFace(int pIndex, @NotNull ItemStack pItemStack, @org.jetbrains.annotations.Nullable Direction pDirection) {
+    public boolean canPlaceItemThroughFace(int pIndex, ItemStack pItemStack, Direction pDirection) {
         return canPlaceItem(pIndex, pItemStack);
     }
 
-    public boolean canPlaceItem(int index, @NotNull ItemStack stack) {
+    public boolean canPlaceItem(int index, ItemStack stack) {
         if (ArrayUtils.arrayContains(INPUT_SLOTS, index)) {
             return index <= INPUT_SLOTS[this.bonusSlots];
         } else if (ArrayUtils.arrayContains(OUTPUT_SLOTS, index)) {
@@ -160,7 +163,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
 
     @Override
     public boolean isEmpty() {
-        for(ItemStack itemstack : this.items) {
+        for (ItemStack itemstack : this.items) {
             if (!itemstack.isEmpty()) {
                 return false;
             }
@@ -232,61 +235,121 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         return new CrystalFurnaceContainerMenu(pContainerId, pPlayer.level(), this.getBlockPos(), pPlayerInventory, this.dataAccess);
     }
 
-    @Override
-    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
-        super.loadAdditional(nbt, registries);
-        this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(nbt, this.items, registries);
-        this.litTime = nbt.getInt("LitTime");
-        this.litDuration = nbt.getInt("LitDuration");
-        this.cookingProgress = NBTUtils.getIntArray(nbt, "CookingProgress", 5);
-        this.cookingTotalTime = NBTUtils.getIntArray(nbt, "CookingTotalTime", 5);
-        this.expHeld = nbt.getFloat("ExpHeld");
+//    @Override
+//    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+//        super.loadAdditional(nbt, registries);
+//        this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
+//        ContainerHelper.loadAllItems(nbt, this.items, registries);
+//
+//        this.litTime = nbt.getInt("LitTime");
+//        this.litDuration = nbt.getInt("LitDuration");
+//        this.cookingProgress = NBTUtils.getIntArray(nbt, "CookingProgress", 5);
+//        this.cookingTotalTime = NBTUtils.getIntArray(nbt, "CookingTotalTime", 5);
+//        this.expHeld = nbt.getFloat("ExpHeld");
+//
+//        // Levelable things TODO: Super class
+//        this.skillPoints = nbt.getInt("SkillPoints");
+//        this.points = NBTUtils.getIntArray(nbt, "Points", 100);
+//        this.exp = nbt.getInt("Exp");
+//        this.expCap = nbt.getInt("ExpCap");
+//
+//        if (this.expCap == 0) this.expCap = CrystalToolsConfig.BASE_EXPERIENCE_CAP.get();
+//
+//        // Upgrade things
+//        this.speedUpgrade = nbt.getFloat("SpeedUpgrade");
+//        this.fuelEfficiencyUpgrade = nbt.getInt("FuelEfficiencyUpgrade");
+//        this.bonusSlots = nbt.getInt("Slots");
+//        this.bonusFuelSlots = nbt.getInt("FuelSlots");
+//        this.balance = nbt.getBoolean("Balance");
+//        this.autoOutput = nbt.getBoolean("AutoOutput");
+//        this.expModifier = nbt.getFloat("ExpModifier");
+//        this.saveFuel = nbt.getBoolean("SaveFuel");
+//    }
 
-        // Levelable things TODO: Super class
-        this.skillPoints = nbt.getInt("SkillPoints");
-        this.points = NBTUtils.getIntArray(nbt, "Points", 100);
-        this.exp = nbt.getInt("Exp");
-        this.expCap = nbt.getInt("ExpCap");
+    @Override
+    protected void applyImplicitComponents(BlockEntity.DataComponentInput componentInput) {
+        ItemContainerContents contents = componentInput.get(DataComponents.FURNACE_INVENTORY);
+        this.items = NonNullList.withSize(SIZE, ItemStack.EMPTY);
+        if (contents != null) {
+            contents.copyInto(this.items);
+        }
+
+        FurnaceData furnaceData = componentInput.get(DataComponents.FURNACE_DATA);
+        if (furnaceData != null) {
+            this.litTime = furnaceData.litTime();
+            this.litDuration = furnaceData.litDuration();
+            this.cookingProgress = furnaceData.cookingProgress().stream().mapToInt(Integer::intValue).toArray();
+            this.cookingTotalTime = furnaceData.cookingTime().stream().mapToInt(Integer::intValue).toArray();
+            this.expHeld = furnaceData.expHeld();
+        }
+
+        LevelableBlockEntityData levelableBlockEntityData = componentInput.get(DataComponents.LEVELABLE_BLOCK_ENTITY_DATA);
+        if (levelableBlockEntityData != null) {
+            this.skillPoints = levelableBlockEntityData.skillPoints();
+            this.points = levelableBlockEntityData.points().stream().mapToInt(Integer::intValue).toArray();
+            this.exp = levelableBlockEntityData.exp();
+            this.expCap = levelableBlockEntityData.expCap();
+        }
 
         if (this.expCap == 0) this.expCap = CrystalToolsConfig.BASE_EXPERIENCE_CAP.get();
 
-        // Upgrade things
-        this.speedUpgrade = nbt.getFloat("SpeedUpgrade");
-        this.fuelEfficiencyUpgrade = nbt.getInt("FuelEfficiencyUpgrade");
-        this.bonusSlots = nbt.getInt("Slots");
-        this.bonusFuelSlots = nbt.getInt("FuelSlots");
-        this.balance = nbt.getBoolean("Balance");
-        this.autoOutput = nbt.getBoolean("AutoOutput");
-        this.expModifier = nbt.getFloat("ExpModifier");
-        this.saveFuel = nbt.getBoolean("SaveFuel");
+        FurnaceUpgrades furnaceUpgrades = componentInput.get(DataComponents.FURNACE_UPGRADES);
+        if (furnaceUpgrades != null) {
+            this.speedUpgrade = furnaceUpgrades.speed();
+            this.fuelEfficiencyUpgrade = furnaceUpgrades.fuelEfficiency();
+            this.bonusSlots = furnaceUpgrades.slots();
+            this.bonusFuelSlots = furnaceUpgrades.fuelSlots();
+            this.balance = furnaceUpgrades.balance();
+            this.autoOutput = furnaceUpgrades.autoOutput();
+            this.expModifier = furnaceUpgrades.expModifier();
+            this.saveFuel = furnaceUpgrades.saveFuel();
+        }
     }
 
+//    @Override
+//    protected void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+//        super.saveAdditional(nbt, registries);
+//        ContainerHelper.saveAllItems(nbt, this.items, registries);
+//        nbt.putInt("LitTime", this.litTime);
+//        nbt.putInt("LitDuration", this.litDuration);
+//        nbt.putIntArray("CookingProgress", this.cookingProgress);
+//        nbt.putIntArray("CookingTotalTime", this.cookingTotalTime);
+//        nbt.putFloat("ExpHeld", this.expHeld);
+//
+//        // Levelable things
+//        nbt.putInt("SkillPoints", this.skillPoints);
+//        nbt.putIntArray("Points", this.points);
+//        nbt.putInt("Exp", this.exp);
+//        nbt.putInt("ExpCap", this.expCap);
+//
+//        // Upgrade things
+//        nbt.putFloat("SpeedUpgrade", this.speedUpgrade);
+//        nbt.putInt("FuelEfficiencyUpgrade", this.fuelEfficiencyUpgrade);
+//        nbt.putInt("Slots", this.bonusSlots);
+//        nbt.putInt("FuelSlots", this.bonusFuelSlots);
+//        nbt.putBoolean("Balance", this.balance);
+//        nbt.putBoolean("AutoOutput", this.autoOutput);
+//        nbt.putFloat("ExpModifier", this.expModifier);
+//        nbt.putBoolean("SaveFuel", this.saveFuel);
+//    }
+
     @Override
-    protected void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
-        super.saveAdditional(nbt, registries);
-        ContainerHelper.saveAllItems(nbt, this.items, registries);
-        nbt.putInt("LitTime", this.litTime);
-        nbt.putInt("LitDuration", this.litDuration);
-        nbt.putIntArray("CookingProgress", this.cookingProgress);
-        nbt.putIntArray("CookingTotalTime", this.cookingTotalTime);
-        nbt.putFloat("ExpHeld", this.expHeld);
+    protected void collectImplicitComponents(DataComponentMap.Builder components) {
+        super.collectImplicitComponents(components);
+        FurnaceData furnaceData = new FurnaceData(litTime, litDuration, Arrays.stream(cookingProgress).boxed().toList(),
+                Arrays.stream(cookingTotalTime).boxed().toList(), expHeld);
+        components.set(DataComponents.FURNACE_DATA, furnaceData);
 
-        // Levelable things
-        nbt.putInt("SkillPoints", this.skillPoints);
-        nbt.putIntArray("Points", this.points);
-        nbt.putInt("Exp", this.exp);
-        nbt.putInt("ExpCap", this.expCap);
+        LevelableBlockEntityData levelableBlockEntityData = new LevelableBlockEntityData(skillPoints,
+                Arrays.stream(points).boxed().toList(), exp, expCap);
+        components.set(DataComponents.LEVELABLE_BLOCK_ENTITY_DATA, levelableBlockEntityData);
 
-        // Upgrade things
-        nbt.putFloat("SpeedUpgrade", this.speedUpgrade);
-        nbt.putInt("FuelEfficiencyUpgrade", this.fuelEfficiencyUpgrade);
-        nbt.putInt("Slots", this.bonusSlots);
-        nbt.putInt("FuelSlots", this.bonusFuelSlots);
-        nbt.putBoolean("Balance", this.balance);
-        nbt.putBoolean("AutoOutput", this.autoOutput);
-        nbt.putFloat("ExpModifier", this.expModifier);
-        nbt.putBoolean("SaveFuel", this.saveFuel);
+        FurnaceUpgrades furnaceUpgrades = new FurnaceUpgrades(speedUpgrade, fuelEfficiencyUpgrade, bonusSlots,
+                bonusFuelSlots, balance, autoOutput, expModifier, saveFuel);
+        components.set(DataComponents.FURNACE_UPGRADES, furnaceUpgrades);
+
+        ItemContainerContents contents = ItemContainerContents.fromItems(this.items);
+        components.set(DataComponents.FURNACE_INVENTORY, contents);
     }
 
     protected final ContainerData dataAccess = new ContainerData() {

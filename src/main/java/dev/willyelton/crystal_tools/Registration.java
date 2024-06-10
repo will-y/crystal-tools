@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools;
 
+import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.entity.CrystalTridentEntity;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalBackpackContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalFurnaceContainerMenu;

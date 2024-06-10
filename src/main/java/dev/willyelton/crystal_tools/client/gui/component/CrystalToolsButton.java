@@ -6,8 +6,6 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class CrystalToolsButton extends Button {
@@ -45,8 +43,6 @@ public abstract class CrystalToolsButton extends Button {
         return this.active ? 16777215 : 10526880;
     }
 
-    // TODO: Apparently this is bad and I shouldn't use it, just try removing and seeing what happens
-    @OnlyIn(Dist.CLIENT)
     public interface OnTooltip {
         void onTooltip(Button pButton, GuiGraphics guiGraphics, int mouseX, int mouseY);
     }

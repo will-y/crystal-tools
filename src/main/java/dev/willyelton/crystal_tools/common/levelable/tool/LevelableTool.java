@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
-import dev.willyelton.crystal_tools.DataComponents;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
@@ -182,7 +182,7 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
      * Only Called on Server
      */
     protected void dropSmeltedItem(ItemStack tool, Level level, BlockState blockState, BlockPos pos, LivingEntity entity, boolean autoPickup) {
-        List<ItemStack> drops = Block.getDrops(blockState, (ServerLevel) level, pos, null, entity, tool);
+        List<ItemStack> drops = Block.getDrops(blockState, (ServerLevel) level, pos, level.getBlockEntity(pos), entity, tool);
         List<ItemStack> toDrop = new ArrayList<>();
 
         for (ItemStack stack : drops) {
