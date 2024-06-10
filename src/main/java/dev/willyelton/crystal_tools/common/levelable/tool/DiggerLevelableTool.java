@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
-import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.VeinMiners;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.BlockCollectors;
 import dev.willyelton.crystal_tools.utils.RayTraceUtils;
@@ -41,16 +41,23 @@ public abstract class DiggerLevelableTool extends LevelableTool implements VeinM
                 Collection<BlockPos> toMine = BlockCollectors.collectVeinMine(pos, level, this.getVeinMinerPredicate(blockState), this.getMaxBlocks(tool));
                 this.breakBlockCollection(tool, level, toMine, player, blockState.getDestroySpeed(level, pos), false);
             }
-
-            if (tool.getOrDefault(DataComponents.HAS_3x3, false) && !tool.getOrDefault(DataComponents.DISABLE_3x3, false)) {
-                BlockHitResult result = RayTraceUtils.rayTrace(player);
-                Direction direction = result.getDirection();
-                float firstBlockSpeed = blockState.getDestroySpeed(level, pos);
-                this.breakBlockCollection(tool, level, BlockCollectors.collect3x3(pos, direction), player, firstBlockSpeed);
-            }
         }
 
         return super.mineBlock(tool, level, blockState, pos, entity);
+    }
+
+    @Override
+    public boolean onBlockStartBreak(ItemStack tool, BlockPos pos, Player player, BlockState blockState) {
+        if (tool.getOrDefault(DataComponents.HAS_3x3, false) && !tool.getOrDefault(DataComponents.DISABLE_3x3, false)) {
+            Level level = player.level();
+            BlockHitResult result = RayTraceUtils.rayTrace(player);
+            Direction direction = result.getDirection();
+            float firstBlockSpeed = blockState.getDestroySpeed(level, pos);
+            this.breakBlockCollection(tool, level, BlockCollectors.collect3x3(pos, direction), player, firstBlockSpeed);
+            return false;
+        }
+
+        return super.onBlockStartBreak(tool,pos, player, blockState);
     }
 
     @Override

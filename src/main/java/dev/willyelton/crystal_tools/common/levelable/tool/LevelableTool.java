@@ -118,7 +118,7 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
      * @param player Player breaking the block
      * @return Return true to cancel the original break event
      */
-    public boolean onBlockStartBreak(ItemStack tool, BlockPos pos, Player player) {
+    public boolean onBlockStartBreak(ItemStack tool, BlockPos pos, Player player, BlockState blockState) {
         Level level = player.level();
 
         boolean autoPickup = tool.getOrDefault(DataComponents.AUTO_PICKUP, false);
@@ -134,7 +134,7 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
         // Could just call LevelUtils.destroyBlock, but I don't completely trust it so might as well use default behavior when I can
         if (autoPickup) {
             if (!level.isClientSide) {
-                LevelUtils.destroyBlock(level, pos, true, player, 512, tool, true, false);
+                LevelUtils.destroyBlock(level, pos, true, player, 512, tool, true);
                 this.mineBlock(tool, level, originalState, pos, player);
             }
             return true;
@@ -169,7 +169,7 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
                 if (shouldAutoSmelt(tool)) {
                     dropSmeltedItem(tool, level, blockState, blockPos, entity, autoPickup);
                 } else {
-                    LevelUtils.destroyBlock(level, blockPos, true, entity, 512, tool, autoPickup, false);
+                    LevelUtils.destroyBlock(level, blockPos, true, entity, 512, tool, autoPickup);
                 }
 
                 tool.hurtAndBreak(1, entity, EquipmentSlot.MAINHAND);
@@ -206,7 +206,7 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
             }
         }
 
-        LevelUtils.destroyBlock(level, pos, toDrop.isEmpty(), entity, 512, tool, false, false);
+        LevelUtils.destroyBlock(level, pos, toDrop.isEmpty(), entity, 512, tool, false);
 
         if (autoPickup && entity instanceof ServerPlayer player) {
             LevelUtils.addToInventoryOrDrop(toDrop, player, level, pos);

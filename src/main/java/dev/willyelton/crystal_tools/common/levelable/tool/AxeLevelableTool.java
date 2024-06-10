@@ -60,11 +60,6 @@ public class AxeLevelableTool extends DiggerLevelableTool {
     }
 
     @Override
-    public boolean onBlockStartBreak(ItemStack tool, BlockPos pos, Player player) {
-        return super.onBlockStartBreak(tool, pos, player);
-    }
-
-    @Override
     public boolean correctTool(ItemStack tool, BlockState blockState) {
         return super.correctTool(tool, blockState) || (tool.getOrDefault(DataComponents.LEAF_MINE, false) && blockState.is(BlockTags.LEAVES));
     }

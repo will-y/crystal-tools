@@ -10,7 +10,6 @@ import net.neoforged.neoforge.event.level.BlockEvent;
 
 @EventBusSubscriber(modid = CrystalTools.MODID)
 public class BlockEvents {
-    // TODO: I think this is only fired on server :(
     @SubscribeEvent
     public static void breakEvent(BlockEvent.BreakEvent event) {
         // Backpack levels
@@ -19,7 +18,7 @@ public class BlockEvents {
         // onBlockStartBreak replacement
         ItemStack stack = event.getPlayer().getMainHandItem();
         if (stack.getItem() instanceof LevelableTool levelableTool) {
-            boolean result = levelableTool.onBlockStartBreak(stack, event.getPos(), event.getPlayer());
+            boolean result = levelableTool.onBlockStartBreak(stack, event.getPos(), event.getPlayer(), event.getState());
 
             if (result) {
                 event.setCanceled(true);

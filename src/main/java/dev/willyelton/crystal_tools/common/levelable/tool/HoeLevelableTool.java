@@ -13,8 +13,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.neoforged.neoforge.common.IShearable;
 import net.neoforged.neoforge.common.ToolAction;
 import net.neoforged.neoforge.common.ToolActions;
@@ -52,9 +50,9 @@ public class HoeLevelableTool extends DiggerLevelableTool {
         if (stack.getOrDefault(DataComponents.SHEAR, false) && entity instanceof IShearable target) {
             if (entity.level().isClientSide) return net.minecraft.world.InteractionResult.SUCCESS;
             BlockPos pos = BlockPos.containing(entity.position());
-            if (target.isShearable(stack, entity.level(), pos)) {
-                List<ItemStack> drops = target.onSheared(player, stack, entity.level(), pos,
-                        EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, player));
+            if (target.isShearable(player, stack, entity.level(), pos)) {
+                // TODO: Fortune remove?
+                List<ItemStack> drops = target.onSheared(player, stack, entity.level(), pos);
                 Random rand = new java.util.Random();
                 drops.forEach(d -> {
                     ItemEntity ent = entity.spawnAtLocation(d, 1.0F);

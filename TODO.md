@@ -57,4 +57,5 @@
   - Require x points in infinite node as requirement?
 - Add correct enchantment tags
 - Sometimes leveling skills scrolls to the top of the menu
-- Skills that don't work:
+- Use BlockDropsEvent for handling smelting and auto pickup
+  - Should remove the need for LevelUtils

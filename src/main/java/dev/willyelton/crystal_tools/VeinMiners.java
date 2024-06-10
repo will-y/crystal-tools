@@ -6,13 +6,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+// TODO: Add something to remove players that have been vein mining for a while
 public class VeinMiners {
     private static final Set<UUID> VEIN_MINING_PLAYERS = new HashSet<>();
 
-    private VeinMiners() {
-        ServerPlayer player;
-
-    }
+    private VeinMiners() {}
 
     public static void startVeinMining(ServerPlayer player) {
         VEIN_MINING_PLAYERS.add(player.getUUID());

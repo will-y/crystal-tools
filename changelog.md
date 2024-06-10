@@ -1,4 +1,10 @@
 # Crystal Tools Change Log
+## 2.0.0-beta-1
+### Changes
+- Updates to Minecraft 1.20.6
+- Changes from Forge to NeoForge (Will most likely be a Forge version for 1.21)
+- Most things should work, the Backpack crafting recipe was disabled because it is very broken (will return in 1.21)
+
 ## 1.7.0
 ### Additions
 - Adds the Crystal Trident
