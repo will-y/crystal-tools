@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 2.0.0-beta-2
+### Fixes
+- Fixes Trident renderer crashing on servers
+
 ## 2.0.0-beta-1
 ### Changes
 - Updates to Minecraft 1.20.6
