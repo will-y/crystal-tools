@@ -1,10 +1,10 @@
 package dev.willyelton.crystal_tools.inventory.container;
 
-import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.gui.ScrollableMenu;
 import dev.willyelton.crystal_tools.inventory.CrystalBackpackInventory;
+import dev.willyelton.crystal_tools.inventory.container.slot.CompressionInputSlot;
 import dev.willyelton.crystal_tools.inventory.container.slot.CrystalSlotItemHandler;
 import dev.willyelton.crystal_tools.inventory.container.slot.ReadOnlySlot;
 import dev.willyelton.crystal_tools.inventory.container.slot.ScrollableSlot;
@@ -22,7 +22,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
-import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -170,26 +169,28 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
 
     @Override
     public void clicked(int slotId, int button, ClickType clickType, Player player) {
-        if (!this.isFilterSlot(slotId)) {
-            super.clicked(slotId, button, clickType, player);
-            return;
-        }
+        // TODO: Do something similar with filter slots
+        if (getSlot(slotId) instanceof CompressionInputSlot compressionInputSlot) {
+            compressionInputSlot.onClicked(getCarried());
+        } else if (this.isFilterSlot(slotId)) {
+            if (Objects.isNull(filterInventory) || clickType == ClickType.THROW || clickType == ClickType.CLONE) {
+                return;
+            }
 
-        if (Objects.isNull(filterInventory) || clickType == ClickType.THROW || clickType == ClickType.CLONE) {
-            return;
-        }
-
-        ItemStack held = getCarried();
-        int filterIndex = slotId - getNonFilterSlots();
-        ItemStack toInsert;
-        if (held.isEmpty()) {
-            toInsert = ItemStack.EMPTY;
+            ItemStack held = getCarried();
+            int filterIndex = slotId - getNonFilterSlots();
+            ItemStack toInsert;
+            if (held.isEmpty()) {
+                toInsert = ItemStack.EMPTY;
+            } else {
+                toInsert = held.copy();
+                toInsert.setCount(1);
+            }
+            filterInventory.setStackInSlot(filterIndex, toInsert);
+            getSlot(slotId).setChanged();
         } else {
-            toInsert = held.copy();
-            toInsert.setCount(1);
+            super.clicked(slotId, button, clickType, player);
         }
-        filterInventory.setStackInSlot(filterIndex, toInsert);
-        getSlot(slotId).setChanged();
     }
 
     public int getRows() {
@@ -293,5 +294,9 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
     @Override
     public boolean canScroll() {
         return rows > maxRows;
+    }
+
+    public Inventory getPlayerInventory() {
+        return (Inventory) playerInventory.getInv();
     }
 }

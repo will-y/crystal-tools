@@ -1,31 +1,30 @@
 package dev.willyelton.crystal_tools.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.willyelton.crystal_tools.gui.component.ScrollBar;
 import dev.willyelton.crystal_tools.gui.component.SortButton;
 import dev.willyelton.crystal_tools.gui.component.WhitelistToggleButton;
 import dev.willyelton.crystal_tools.inventory.container.CrystalBackpackContainerMenu;
+import dev.willyelton.crystal_tools.inventory.container.slot.ScrollableSlot;
 import dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 
-import static dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket.Type.*;
+import static dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket.Type.PICKUP_BLACKLIST;
+import static dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket.Type.PICKUP_WHITELIST;
+import static dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket.Type.SORT;
 
 public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBackpackContainerMenu> {
     public static final ResourceLocation TEXTURE = new ResourceLocation("crystal_tools:textures/gui/crystal_backpack.png");
 
-    private static final int TEXTURE_SIZE = 512;
-    private static final int INVENTORY_WIDTH = 176;
-    private static final int INVENTORY_HEIGHT = 96;
-    private static final int TOP_BAR_HEIGHT = 17;
-    private static final int ROW_HEIGHT = 18;
+    public static final int TEXTURE_SIZE = 512;
+    public static final int INVENTORY_WIDTH = 176;
+    public static final int INVENTORY_HEIGHT = 96;
+    public static final int TOP_BAR_HEIGHT = 17;
+    public static final int ROW_HEIGHT = 18;
 
     private final CrystalBackpackContainerMenu container;
 
@@ -145,6 +144,22 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
                         guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalBackpackScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
                     }));
         }
+
+        this.addRenderableWidget(new WhitelistToggleButton(this.leftPos + INVENTORY_WIDTH, this.topPos + 4,
+                button -> {
+                    // TODO: Maybe we just override isActive and have an enum or something for active screen
+                    menu.slots.forEach(slot -> {
+                        if (slot instanceof ScrollableSlot scrollableSlot) {
+                            scrollableSlot.setActive(false);
+                        }
+                    });
+                    ModGUIs.openScreen(new CompressConfigScreen(menu, menu.getPlayerInventory(), this));
+                },
+                (button, guiGraphics, mouseX, mouseY) -> {
+                    Component textComponent = Component.literal("Test Compression");
+                    guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalBackpackScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
+                },
+                whitelist));
     }
 
     private void drawFilter(GuiGraphics guiGraphics, int x, int y, int rows) {

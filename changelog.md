@@ -1,4 +1,10 @@
 # Crystal Tools Change Log
+## 1.7.3 (or 1.8)
+### Fixes
+- Fixes Elyta skill tree issue
+- Fixes depth strider upgrade not working
+- Fixes being able to disable Riptide on the Tridnet without the upgrade
+
 ## 1.7.2
 ### Additions
 - Adds Russian Translation (credit to https://github.com/Alexander317)

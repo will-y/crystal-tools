@@ -47,7 +47,7 @@ public class CrystalBackpack extends Item implements LevelableItem {
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand usedHand) {
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         ItemStack stack = player.getItemInHand(usedHand);
 
         if (player instanceof ServerPlayer serverPlayer) {
@@ -92,7 +92,7 @@ public class CrystalBackpack extends Item implements LevelableItem {
     }
 
     @Override
-    public boolean mineBlock(@NotNull ItemStack tool, Level level, @NotNull BlockState blockState, @NotNull BlockPos blockPos, @NotNull LivingEntity entity) {
+    public boolean mineBlock(ItemStack tool, Level level, BlockState blockState, BlockPos blockPos, LivingEntity entity) {
         // If this tool is disabled break on use
         if (this.isDisabled()) {
             tool.shrink(1);
@@ -137,19 +137,19 @@ public class CrystalBackpack extends Item implements LevelableItem {
 
     private record CrystalBackpackMenuSupplier(CrystalBackpack backpackItem, ItemStack stack) implements MenuProvider {
         @Override
-            public Component getDisplayName() {
-                return stack.getHoverName();
-            }
-
-            @Override
-            public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
-                // Server side constructor
-                return new CrystalBackpackContainerMenu(containerId, playerInventory, getInventory(stack), stack,
-                        (int) NBTUtils.getFloatOrAddKey(stack, "filter_capacity", 0),
-                        NBTUtils.getBoolean(stack, "whitelist", true),
-                        NBTUtils.getBoolean(stack, "can_sort", false));
-            }
+        public Component getDisplayName() {
+            return stack.getHoverName();
         }
+
+        @Override
+        public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
+            // Server side constructor
+            return new CrystalBackpackContainerMenu(containerId, playerInventory, getInventory(stack), stack,
+                    (int) NBTUtils.getFloatOrAddKey(stack, "filter_capacity", 0),
+                    NBTUtils.getBoolean(stack, "whitelist", true),
+                    NBTUtils.getBoolean(stack, "can_sort", false));
+        }
+    }
 
     public static List<ItemStack> findBackpackStacks(Player player) {
         List<ItemStack> backpackStacks = CuriosCompatibility.getCrystalBackpacksInCurios(player);
