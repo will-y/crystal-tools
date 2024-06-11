@@ -86,6 +86,7 @@ public class ToolAttributePacket {
             case "aqua_affinity_bonus" -> Enchantments.AQUA_AFFINITY;
             case "respiration_bonus" -> Enchantments.RESPIRATION;
             case "thorns_bonus" -> Enchantments.THORNS;
+            case "depth_strider_bonus" -> Enchantments.DEPTH_STRIDER;
             default -> null;
         };
     }

@@ -91,7 +91,7 @@ public class ModeSwitchPacket {
         }
 
         // Trident
-        if (tool.is(Registration.CRYSTAL_TRIDENT.get())) {
+        if (NBTUtils.getBoolean(tool, "mode_switch") && tool.is(Registration.CRYSTAL_TRIDENT.get())) {
             boolean riptideDisabled = NBTUtils.getBoolean(tool, "riptide_disabled");
             NBTUtils.setValue(tool, "riptide_disabled", !riptideDisabled);
             playerEntity.displayClientMessage(Component.literal("Riptide " + (riptideDisabled ? "Enabled" : "Disabled")), true);
