@@ -8,7 +8,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 
 public record ScrollPayload(int row) implements CustomPacketPayload {
-    public static final Type<ScrollPayload> TYPE = new Type<>(new ResourceLocation(CrystalTools.MODID, "scroll"));
+    public static final Type<ScrollPayload> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "scroll"));
     public static final StreamCodec<RegistryFriendlyByteBuf, ScrollPayload> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT, ScrollPayload::row,
             ScrollPayload::new);

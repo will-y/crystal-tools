@@ -40,7 +40,7 @@ public abstract class BaseUpgradeScreen extends Screen {
     protected static final int X_SIZE = 100;
     protected static final int Y_SIZE = 20;
     protected static final int MIN_X_PADDING = 5;
-    private static final ResourceLocation DEPENDENCY_LINE_LOCATION = new ResourceLocation("crystal_tools", "textures/gui/dependency_line.png");
+    private static final ResourceLocation DEPENDENCY_LINE_LOCATION = ResourceLocation.fromNamespaceAndPath("crystal_tools", "textures/gui/dependency_line.png");
     private static final float DEPENDENCY_LINE_WIDTH = 9;
     private static final int DEPENDENCY_LINE_IMAGE_WIDTH = 252;
     private static final int DEPENDENCY_LINE_IMAGE_HEIGHT = 256;
@@ -116,7 +116,7 @@ public abstract class BaseUpgradeScreen extends Screen {
 
     @Override
     public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float particleTicks) {
-        this.renderBlockBackground(0, CrystalToolsConfig.UPGRADE_SCREEN_BACKGROUND.get());
+        this.renderBlockBackground(guiGraphics, CrystalToolsConfig.UPGRADE_SCREEN_BACKGROUND.get());
         drawDependencyLines(guiGraphics);
         guiGraphics.drawString(font, "Skill Points: " + this.getSkillPoints(), 5, 5, Colors.TEXT_LIGHT);
         super.render(guiGraphics, mouseX, mouseY, particleTicks);
@@ -256,7 +256,7 @@ public abstract class BaseUpgradeScreen extends Screen {
         RenderSystem.setShaderTexture(0, DEPENDENCY_LINE_LOCATION);
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         Matrix4f matrix4f = guiGraphics.pose().last().pose();
-        BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
+        BufferBuilder bufferbuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 
 
         float yImageStart = active ? DEPENDENCY_LINE_WIDTH : 0;
@@ -275,12 +275,12 @@ public abstract class BaseUpgradeScreen extends Screen {
         float x4F = x2 - xOffset;
         float y4F = y2 + yOffset;
 
-        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-        bufferbuilder.vertex(matrix4f, x2F, y2F, 0).uv((float) ANIMATION_FRAME / DEPENDENCY_LINE_IMAGE_WIDTH, yImageStart / DEPENDENCY_LINE_IMAGE_HEIGHT).endVertex();
-        bufferbuilder.vertex(matrix4f, x1F, y1F, 0).uv((float) ANIMATION_FRAME / DEPENDENCY_LINE_IMAGE_WIDTH, yImageEnd / DEPENDENCY_LINE_IMAGE_HEIGHT).endVertex();
-        bufferbuilder.vertex(matrix4f, x4F, y4F, 0).uv((length + ANIMATION_FRAME) / DEPENDENCY_LINE_IMAGE_WIDTH, yImageEnd / DEPENDENCY_LINE_IMAGE_HEIGHT).endVertex();
-        bufferbuilder.vertex(matrix4f, x3F, y3F, 0).uv((length + ANIMATION_FRAME) / DEPENDENCY_LINE_IMAGE_WIDTH, yImageStart / DEPENDENCY_LINE_IMAGE_HEIGHT).endVertex();
-        BufferUploader.drawWithShader(bufferbuilder.end());
+//        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        bufferbuilder.addVertex(matrix4f, x2F, y2F, 0).setUv((float) ANIMATION_FRAME / DEPENDENCY_LINE_IMAGE_WIDTH, yImageStart / DEPENDENCY_LINE_IMAGE_HEIGHT);
+        bufferbuilder.addVertex(matrix4f, x1F, y1F, 0).setUv((float) ANIMATION_FRAME / DEPENDENCY_LINE_IMAGE_WIDTH, yImageEnd / DEPENDENCY_LINE_IMAGE_HEIGHT);
+        bufferbuilder.addVertex(matrix4f, x4F, y4F, 0).setUv((length + ANIMATION_FRAME) / DEPENDENCY_LINE_IMAGE_WIDTH, yImageEnd / DEPENDENCY_LINE_IMAGE_HEIGHT);
+        bufferbuilder.addVertex(matrix4f, x3F, y3F, 0).setUv((length + ANIMATION_FRAME) / DEPENDENCY_LINE_IMAGE_WIDTH, yImageStart / DEPENDENCY_LINE_IMAGE_HEIGHT);
+        BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
     }
 
     private int[] getButtonCenter(SkillButton button) {
@@ -290,19 +290,9 @@ public abstract class BaseUpgradeScreen extends Screen {
         return new int[] {x, y};
     }
 
-    public void renderBlockBackground(int pVOffset, String block) {
-        ResourceLocation blockResource = new ResourceLocation("textures/block/" + block + ".png");
-        // just vanilla stuff from renderDirtBackground()
-        Tesselator tesselator = Tesselator.getInstance();
-        BufferBuilder bufferbuilder = tesselator.getBuilder();
-        RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
-        RenderSystem.setShaderTexture(0, blockResource);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, (float) CrystalToolsConfig.BACKGROUND_OPACITY.get().doubleValue());
-        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
-        bufferbuilder.vertex(0.0D, (double)this.height, 0.0D).uv(0.0F, (float)this.height / 32.0F + (float)pVOffset).color(64, 64, 64, 255).endVertex();
-        bufferbuilder.vertex((double)this.width, (double)this.height, 0.0D).uv((float)this.width / 32.0F, (float)this.height / 32.0F + (float)pVOffset).color(64, 64, 64, 255).endVertex();
-        bufferbuilder.vertex((double)this.width, 0.0D, 0.0D).uv((float)this.width / 32.0F, (float)pVOffset).color(64, 64, 64, 255).endVertex();
-        bufferbuilder.vertex(0.0D, 0.0D, 0.0D).uv(0.0F, (float)pVOffset).color(64, 64, 64, 255).endVertex();
-        tesselator.end();
+    public void renderBlockBackground(GuiGraphics guiGraphics, String block) {
+        // TODO: Allow modded blocks
+        ResourceLocation blockResource = ResourceLocation.withDefaultNamespace("textures/block/" + block + ".png");
+        renderMenuBackgroundTexture(guiGraphics, blockResource, 0, 0, 0, 0, width, height);
     }
 }

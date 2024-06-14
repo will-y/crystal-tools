@@ -20,7 +20,7 @@ public class SkillItemRequirement implements SkillDataRequirement {
     public SkillItemRequirement(String[] items) {
         List<Item> itemList = new ArrayList<>();
         for (String item : items) {
-            ResourceLocation r = new ResourceLocation(item);
+            ResourceLocation r = ResourceLocation.parse(item);
             itemList.add(BuiltInRegistries.ITEM.get(r));
         }
 

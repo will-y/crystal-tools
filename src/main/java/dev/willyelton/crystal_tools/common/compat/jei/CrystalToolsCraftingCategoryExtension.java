@@ -24,7 +24,7 @@ public class CrystalToolsCraftingCategoryExtension implements ICraftingCategoryE
     @Override
     public Optional<ResourceLocation> getRegistryName(RecipeHolder<CrystalToolsRecipe> recipe) {
         return Optional.of(recipe.id());
-//        return Optional.of(new ResourceLocation(CrystalTools.MODID, "crystal_aiot"));
+//        return Optional.of(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "crystal_aiot"));
     }
 
     @Override

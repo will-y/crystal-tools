@@ -25,7 +25,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Inventory;
@@ -38,9 +37,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -199,7 +198,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
 
         if (ArrayUtils.arrayContains(INPUT_SLOTS, slot) && !(!stack.isEmpty() && ItemStack.isSameItemSameComponents(stack, current))) {
             int index = ArrayUtils.indexOf(INPUT_SLOTS, slot);
-            AbstractCookingRecipe recipe = this.getRecipe(stack);
+            RecipeHolder<AbstractCookingRecipe> recipe = this.getRecipe(stack);
             if (recipe != null) {
                 this.cookingTotalTime[index] = getTotalCookTime(recipe, index);
                 this.cookingProgress[index] = 0;
@@ -431,12 +430,12 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         return getRecipe(stack) != null;
     }
 
-    protected AbstractCookingRecipe getRecipe(ItemStack item) {
+    protected RecipeHolder<AbstractCookingRecipe> getRecipe(ItemStack item) {
         Optional<RecipeHolder<AbstractCookingRecipe>> recipeHolderOptional = (item.getItem() instanceof AirItem)
                 ? Optional.empty()
-                : this.level.getRecipeManager().getRecipeFor((RecipeType<AbstractCookingRecipe>) recipeType, new SimpleContainer(item), this.level);
+                : this.level.getRecipeManager().getRecipeFor((RecipeType<AbstractCookingRecipe>) recipeType, new SingleRecipeInput(item), this.level);
 
-        return recipeHolderOptional.map(RecipeHolder::value).orElse(null);
+        return recipeHolderOptional.orElse(null);
     }
 
     private int autoOutputCounter = 0;
@@ -471,7 +470,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
             boolean hasItemToSmelt = !items.get(slot).isEmpty();
 
             if (this.isLit() || hasFuel && hasItemToSmelt) {
-                AbstractCookingRecipe recipe = this.getRecipe(this.getItem(slot));
+                RecipeHolder<AbstractCookingRecipe> recipe = this.getRecipe(this.getItem(slot));
 
                 if (!this.isLit() && this.canBurn(level.registryAccess(), recipe, slot)) {
                     this.litTime = this.getBurnDuration(fuelItemStack);
@@ -531,10 +530,11 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         return this.litTime > 0;
     }
 
-    private boolean canBurn(RegistryAccess registryAccess, Object recipe, int slot) {
+    private boolean canBurn(RegistryAccess registryAccess, RecipeHolder<?> recipe, int slot) {
         int outputSlot = slot + 5;
         if (!this.getItem(slot).isEmpty() && recipe != null) {
-            ItemStack recipeOutput = ((Recipe<WorldlyContainer>) recipe).assemble(this, registryAccess);
+            ItemStack recipeOutput = ((RecipeHolder<? extends AbstractCookingRecipe>) recipe).value().assemble(new SingleRecipeInput(this.getItem(slot)), registryAccess);
+
             if (!recipeOutput.isEmpty()) {
                 ItemStack output = this.getItem(outputSlot);
                 if (output.isEmpty()) return true;
@@ -545,11 +545,12 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         return false;
     }
 
-    private boolean burn(RegistryAccess registryAccess, Object recipe, int slot) {
-        if (recipe != null && this.canBurn(registryAccess, recipe, slot) && recipe instanceof AbstractCookingRecipe cookingRecipe) {
+    private boolean burn(RegistryAccess registryAccess, RecipeHolder<?> recipe, int slot) {
+        if (recipe != null && this.canBurn(registryAccess, recipe, slot)) {
+            AbstractCookingRecipe castedRecipe = ((RecipeHolder<? extends AbstractCookingRecipe>) recipe).value();
             ItemStack input = this.items.get(slot);
             ItemStack output = this.items.get(slot + 5);
-            ItemStack recipeOutput = cookingRecipe.assemble(this, registryAccess);
+            ItemStack recipeOutput = castedRecipe.assemble(new SingleRecipeInput(this.getItem(slot)), registryAccess);
             if (output.isEmpty()) {
                 this.items.set(slot + 5, recipeOutput.copy());
             } else if (output.is(recipeOutput.getItem())) {
@@ -561,8 +562,8 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
             }
 
             input.shrink(1);
-            this.expHeld += cookingRecipe.getExperience();
-            this.addExp(cookingRecipe.getExperience());
+            this.expHeld += castedRecipe.getExperience();
+            this.addExp(castedRecipe.getExperience());
             return true;
         } else {
             return false;
@@ -577,9 +578,9 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         }
     }
 
-    private int getTotalCookTime(AbstractCookingRecipe recipe, int slot) {
+    private int getTotalCookTime(RecipeHolder<AbstractCookingRecipe> recipe, int slot) {
         if (!this.getItem(slot).isEmpty() && recipe != null) {
-            return Math.max(recipe.getCookingTime() - (int) (this.speedUpgrade * speedUpgradeSubtractTicks), 1);
+            return Math.max(recipe.value().getCookingTime() - (int) (this.speedUpgrade * speedUpgradeSubtractTicks), 1);
         }
 
         return 0;

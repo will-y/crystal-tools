@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
-import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
@@ -24,13 +24,13 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class BowLevelableItem extends BowItem implements LevelableItem {
@@ -39,7 +39,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     }
 
     @Override
-    public void releaseUsing(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity entity, int timeLeft) {
+    public void releaseUsing(ItemStack stack, Level level, LivingEntity entity, int timeLeft) {
         if (entity instanceof Player player) {
             boolean flag = player.getAbilities().instabuild;
 
@@ -51,7 +51,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
                 itemstack = getProjectile(stack, player);
             }
 
-            int timeUsed = this.getUseDuration(stack) - timeLeft;
+            int timeUsed = this.getUseDuration(stack, entity) - timeLeft;
 
             // TODO: Forge hasn't patched this in yet, BowItem might have slightly different logic
             timeUsed = EventHooks.onArrowLoose(stack, level, player, timeUsed, !itemstack.isEmpty() || flag);
@@ -67,7 +67,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
                     boolean flag1 = player.getAbilities().instabuild || (itemstack.getItem() instanceof ArrowItem && ((ArrowItem)itemstack.getItem()).isInfinite(itemstack, stack, player));
                     if (!level.isClientSide) {
                         ArrowItem arrowitem = (ArrowItem) (itemstack.getItem() instanceof ArrowItem ? itemstack.getItem() : Items.ARROW);
-                        AbstractArrow abstractarrow = arrowitem.createArrow(level, itemstack, player);
+                        AbstractArrow abstractarrow = arrowitem.createArrow(level, itemstack, player, stack);
                         abstractarrow = customArrow(abstractarrow);
                         //TODO: TOO Random
                         abstractarrow.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, power * 3.0F + stack.getOrDefault(DataComponents.ARROW_SPEED, 0F) / 4.0F, 0.0F);
@@ -80,10 +80,11 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
                             abstractarrow.setBaseDamage(abstractarrow.getBaseDamage() + (double)j + 0.5D);
                         }
 
-                        int k = stack.getOrDefault(DataComponents.ARROW_KNOCKBACK, 0);
-                        if (k > 0) {
-                            abstractarrow.setKnockback(k);
-                        }
+                        // TODO: Fix this, not sure if possible unless neo adds an event
+//                        int k = stack.getOrDefault(DataComponents.ARROW_KNOCKBACK, 0);
+//                        if (k > 0) {
+//                            abstractarrow.setKnockback(k);
+//                        }
 
                         if (stack.getOrDefault(DataComponents.FLAME, false)) {
                             abstractarrow.setRemainingFireTicks(100);
@@ -226,7 +227,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     }
 
     @Override
-    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Runnable onBroken) {
+    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<Item> onBroken) {
         int durability = this.getMaxDamage(stack) - stack.getDamageValue();
 
         if (durability - amount <= 0) {
@@ -248,12 +249,6 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     @Override
     public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
         return CrystalToolsConfig.ENCHANT_TOOLS.get();
-    }
-
-    @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-        return CrystalToolsConfig.ENCHANT_TOOLS.get() &&
-                (super.canApplyAtEnchantingTable(stack, enchantment) || stack.is(enchantment.getSupportedItems()));
     }
 
     public float getChargeTime(ItemStack stack) {

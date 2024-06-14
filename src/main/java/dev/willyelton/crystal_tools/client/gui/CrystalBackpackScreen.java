@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.client.gui.component.SortButton;
 import dev.willyelton.crystal_tools.client.gui.component.WhitelistToggleButton;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalBackpackContainerMenu;
@@ -12,10 +13,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
 
-import static dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload.PickupType.*;
+import static dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload.PickupType.PICKUP_BLACKLIST;
+import static dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload.PickupType.PICKUP_WHITELIST;
+import static dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload.PickupType.SORT;
 
 public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBackpackContainerMenu> {
-    public static final ResourceLocation TEXTURE = new ResourceLocation("crystal_tools:textures/gui/crystal_backpack.png");
+    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/gui/crystal_backpack.png");
 
     private static final int TEXTURE_SIZE = 512;
     private static final int INVENTORY_WIDTH = 176;

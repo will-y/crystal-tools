@@ -6,6 +6,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 
+import java.util.Collections;
 import java.util.List;
 
 public record FurnaceData(int litTime, int litDuration, List<Integer> cookingProgress, List<Integer> cookingTime, float expHeld) {
@@ -24,4 +25,8 @@ public record FurnaceData(int litTime, int litDuration, List<Integer> cookingPro
             ByteBufCodecs.INT.apply(ByteBufCodecs.list()), FurnaceData::cookingTime,
             ByteBufCodecs.FLOAT, FurnaceData::expHeld,
             FurnaceData::new);
+
+    public FurnaceData() {
+        this(0, 0, Collections.emptyList(), Collections.emptyList(), 0F);
+    }
 }

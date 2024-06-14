@@ -1,15 +1,15 @@
 package dev.willyelton.crystal_tools.common.crafting;
 
-import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
@@ -25,13 +25,13 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
     }
 
     @Override
-    public boolean matches(@NotNull CraftingContainer container, @NotNull Level level) {
+    public boolean matches(CraftingInput container, Level level) {
         if (CrystalToolsConfig.DISABLE_ELYTRA.get()) return false;
 
         boolean foundElytra = false;
         boolean foundChestplate = false;
 
-        for (int i = 0; i < container.getContainerSize(); i++) {
+        for (int i = 0; i < container.size(); i++) {
             ItemStack itemStack = container.getItem(i);
 
             if (itemStack.is(Registration.CRYSTAL_CHESTPLATE.get())) {
@@ -51,7 +51,7 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
     }
 
     @Override
-    public @NotNull ItemStack assemble(@NotNull CraftingContainer container, @NotNull HolderLookup.Provider registryAccess) {
+    public @NotNull ItemStack assemble(CraftingInput container, HolderLookup.Provider registryAccess) {
         ItemStack stack = new ItemStack(Registration.CRYSTAL_ELYTRA.get());
         List<ItemStack> items = this.getItems(container);
 
@@ -98,12 +98,12 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
         return ModRecipes.CRYSTAL_ELYTRA_RECIPE.get();
     }
 
-    private List<ItemStack> getItems(CraftingContainer container) {
+    private List<ItemStack> getItems(CraftingInput container) {
         ItemStack elytraItem = ItemStack.EMPTY;
         ItemStack crystalChestPlateItem = ItemStack.EMPTY;
 
 
-        for (int i = 0; i < container.getContainerSize(); i++) {
+        for (int i = 0; i < container.size(); i++) {
             ItemStack itemStack = container.getItem(i);
 
             if (itemStack.is(Registration.CRYSTAL_CHESTPLATE.get())) {

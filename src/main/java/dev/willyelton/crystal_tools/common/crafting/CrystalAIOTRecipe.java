@@ -1,17 +1,17 @@
 package dev.willyelton.crystal_tools.common.crafting;
 
-import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
@@ -36,13 +36,13 @@ public class CrystalAIOTRecipe extends CrystalToolsRecipe {
     }
 
     @Override
-    public boolean matches(@NotNull CraftingContainer container, @NotNull Level level) {
+    public boolean matches(CraftingInput container, @NotNull Level level) {
         if (CrystalToolsConfig.DISABLE_AIOT.get()) return false;
 
         Boolean[] itemsFound = new Boolean[requiredItems.length];
         Arrays.fill(itemsFound, false);
 
-        for (int i = 0; i < container.getContainerSize(); i++) {
+        for (int i = 0; i < container.size(); i++) {
             ItemStack itemStack = container.getItem(i);
             boolean foundItem = false;
 
@@ -65,7 +65,7 @@ public class CrystalAIOTRecipe extends CrystalToolsRecipe {
     }
 
     @Override
-    public @NotNull ItemStack assemble(@NotNull CraftingContainer container, @NotNull HolderLookup.Provider registryAccess) {
+    public @NotNull ItemStack assemble(CraftingInput container, HolderLookup.Provider registryAccess) {
         ItemStack result = new ItemStack(Registration.CRYSTAL_AIOT.get());
 
         List<ItemStack> levelableItems = this.getLevelableItems(container);
@@ -94,10 +94,10 @@ public class CrystalAIOTRecipe extends CrystalToolsRecipe {
         return ModRecipes.CRYSTAL_AIOT_RECIPE.get();
     }
 
-    private List<ItemStack> getLevelableItems(CraftingContainer container) {
+    private List<ItemStack> getLevelableItems(CraftingInput container) {
         List<ItemStack> result = new ArrayList<>();
 
-        for (int i = 0; i < container.getContainerSize(); i++) {
+        for (int i = 0; i < container.size(); i++) {
             ItemStack stack = container.getItem(i);
 
             if (stack.getItem() instanceof LevelableItem) {

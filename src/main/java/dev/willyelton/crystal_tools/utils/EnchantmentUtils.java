@@ -1,5 +1,10 @@
 package dev.willyelton.crystal_tools.utils;
 
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -12,26 +17,31 @@ public class EnchantmentUtils {
      * @param enchantment - The enchantment to add
      * @param level - The enchantment level to add
      */
-    public static void addEnchantment(ItemStack stack, Enchantment enchantment, int level) {
+    public static void addEnchantment(ItemStack stack, ResourceKey<Enchantment> enchantment, int level, Player player) {
+        HolderLookup.RegistryLookup<Enchantment> lookup = player.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
         ItemEnchantments itemEnchantments = EnchantmentHelper.getEnchantmentsForCrafting(stack);
 
         ItemEnchantments.Mutable mutable = new ItemEnchantments.Mutable(itemEnchantments);
-        mutable.set(enchantment, level);
+        mutable.set(lookup.getOrThrow(enchantment), level);
 
         EnchantmentHelper.setEnchantments(stack, mutable.toImmutable());
     }
 
-    public static void removeEnchantment(ItemStack stack, Enchantment enchantment) {
+    public static void removeEnchantment(ItemStack stack, ResourceKey<Enchantment> enchantment) {
         ItemEnchantments itemEnchantments = EnchantmentHelper.getEnchantmentsForCrafting(stack);
 
         ItemEnchantments.Mutable mutable = new ItemEnchantments.Mutable(itemEnchantments);
 
-        mutable.removeIf(enchantmentHolder -> enchantmentHolder.value().equals(enchantment));
+        mutable.removeIf(enchantmentHolder -> enchantmentMatches(enchantmentHolder, enchantment));
 
         EnchantmentHelper.setEnchantments(stack, mutable.toImmutable());
     }
 
-    public static boolean hasEnchantment(ItemStack stack, Enchantment enchantment) {
-        return EnchantmentHelper.getEnchantmentsForCrafting(stack).keySet().stream().anyMatch(enchantmentHolder -> enchantmentHolder.value().equals(enchantment));
+    public static boolean hasEnchantment(ItemStack stack, ResourceKey<Enchantment> enchantment) {
+        return EnchantmentHelper.getEnchantmentsForCrafting(stack).keySet().stream().anyMatch(enchantmentHolder -> enchantmentMatches(enchantmentHolder, enchantment));
+    }
+
+    private static boolean enchantmentMatches(Holder<Enchantment> holder, ResourceKey<Enchantment> enchantment) {
+        return holder.unwrapKey().isPresent() && holder.unwrapKey().get().equals(enchantment);
     }
 }

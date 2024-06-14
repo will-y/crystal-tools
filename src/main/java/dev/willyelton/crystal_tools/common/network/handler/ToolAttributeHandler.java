@@ -4,6 +4,7 @@ import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.network.data.ToolAttributePayload;
 import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -20,24 +21,24 @@ public class ToolAttributeHandler {
             ItemStack heldTool = ItemStackUtils.getHeldLevelableTool(player);
 
             if (!heldTool.isEmpty()) {
-                Enchantment enchantment = enchantmentFromString(payload.key());
+                ResourceKey<Enchantment> enchantment = enchantmentFromString(payload.key());
 
                 if (enchantment != null) {
                     // Special cases for silk touch and fortune because mode switch upgrade
                     if (enchantment.equals(Enchantments.SILK_TOUCH)) {
                         if (heldTool.getOrDefault(DataComponents.FORTUNE_BONUS, 0) == 0) {
-                            EnchantmentUtils.addEnchantment(heldTool, enchantment, (int) payload.value());
+                            EnchantmentUtils.addEnchantment(heldTool, enchantment, (int) payload.value(), player);
                         }
                         // also add it like normal, only for silk touch and fortune?
                         DataComponents.setValue(heldTool, payload.key(), payload.value());
                     } else if (enchantment.equals(Enchantments.FORTUNE)) {
                         if (!heldTool.getOrDefault(DataComponents.SILK_TOUCH_BONUS, false)) {
-                            EnchantmentUtils.addEnchantment(heldTool, enchantment, (int) payload.value());
+                            EnchantmentUtils.addEnchantment(heldTool, enchantment, (int) payload.value(), player);
                         }
                         // also add it like normal, only for silk touch and fortune?
                         DataComponents.setValue(heldTool, payload.key(), payload.value());
                     } else {
-                        EnchantmentUtils.addEnchantment(heldTool, enchantment, (int) payload.value());
+                        EnchantmentUtils.addEnchantment(heldTool, enchantment, (int) payload.value(), player);
                     }
                 } else {
                     DataComponents.addToComponent(heldTool, payload.key(), payload.value());
@@ -51,7 +52,7 @@ public class ToolAttributeHandler {
         });
     }
 
-    private static Enchantment enchantmentFromString(String string) {
+    private static ResourceKey<Enchantment> enchantmentFromString(String string) {
         return switch (string) {
             case "silk_touch_bonus" -> Enchantments.SILK_TOUCH;
             case "fortune_bonus" -> Enchantments.FORTUNE;

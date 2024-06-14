@@ -70,7 +70,7 @@ public class CrystalTrident extends SwordLevelableTool {
     }
 
     @Override
-    public int getUseDuration(ItemStack pStack) {
+    public int getUseDuration(ItemStack pStack, LivingEntity entity) {
         return 72000;
     }
 
@@ -94,7 +94,7 @@ public class CrystalTrident extends SwordLevelableTool {
     @Override
     public void releaseUsing(ItemStack stack, Level level, LivingEntity entityLiving, int timeLeft) {
         if (entityLiving instanceof Player player) {
-            int timeUsed = this.getUseDuration(stack) - timeLeft;
+            int timeUsed = this.getUseDuration(stack, entityLiving) - timeLeft;
             if (timeUsed >= 10) {
                 int riptideLevel = stack.getOrDefault(DataComponents.RIPTIDE, 0);
                 if (!level.isClientSide) {
@@ -109,7 +109,7 @@ public class CrystalTrident extends SwordLevelableTool {
                         }
 
                         level.addFreshEntity(tridentEntity);
-                        level.playSound(null, tridentEntity, SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
+                        level.playSound(null, tridentEntity, SoundEvents.TRIDENT_THROW.value(), SoundSource.PLAYERS, 1.0F, 1.0F);
                         if (!player.getAbilities().instabuild) {
                             player.getInventory().removeItem(stack);
                         }
@@ -130,18 +130,19 @@ public class CrystalTrident extends SwordLevelableTool {
                     playerPushY *= playerPushMagnitude / playerSpeed;
                     playerPushZ *= playerPushMagnitude / playerSpeed;
                     player.push(playerPushX, playerPushY, playerPushZ);
-                    player.startAutoSpinAttack(20);
+                    // TODO: Can increase this attack damage now
+                    player.startAutoSpinAttack(20, 8.0F, stack);
                     if (player.onGround()) {
                         player.move(MoverType.SELF, new Vec3(0.0D, 1.1999999F, 0.0D));
                     }
 
                     SoundEvent soundevent;
                     if (riptideLevel >= 3) {
-                        soundevent = SoundEvents.TRIDENT_RIPTIDE_3;
+                        soundevent = SoundEvents.TRIDENT_RIPTIDE_3.value();
                     } else if (riptideLevel == 2) {
-                        soundevent = SoundEvents.TRIDENT_RIPTIDE_2;
+                        soundevent = SoundEvents.TRIDENT_RIPTIDE_2.value();
                     } else {
-                        soundevent = SoundEvents.TRIDENT_RIPTIDE_1;
+                        soundevent = SoundEvents.TRIDENT_RIPTIDE_1.value();
                     }
 
                     level.playSound(null, player, soundevent, SoundSource.PLAYERS, 1.0F, 1.0F);

@@ -59,3 +59,6 @@
 - Sometimes leveling skills scrolls to the top of the menu
 - Use BlockDropsEvent for handling smelting and auto pickup
   - Should remove the need for LevelUtils
+- Effects
+- Arrow knockback (probably going to need to add punch to the bow unless they add an event)
+- Attributes don't show up on items. Still works though

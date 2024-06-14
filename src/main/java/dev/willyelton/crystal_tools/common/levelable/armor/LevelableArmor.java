@@ -1,12 +1,11 @@
 package dev.willyelton.crystal_tools.common.levelable.armor;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
-import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -29,19 +28,11 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.EnumMap;
 import java.util.List;
-import java.util.UUID;
+import java.util.function.Consumer;
 
 public class LevelableArmor extends ArmorItem implements LevelableItem, Equipable {
     protected final String itemType;
-    private static final EnumMap<Type, UUID> ARMOR_MODIFIER_UUID_PER_TYPE = Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-        map.put(ArmorItem.Type.BOOTS, UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"));
-        map.put(ArmorItem.Type.LEGGINGS, UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"));
-        map.put(ArmorItem.Type.CHESTPLATE, UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"));
-        map.put(ArmorItem.Type.HELMET, UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150"));
-        map.put(ArmorItem.Type.BODY, UUID.fromString("C1C72771-8B8E-BA4A-ACE0-81A93C8928B2"));
-    });
 
     public LevelableArmor(String itemType, ArmorItem.Type type) {
         super(ArmorMaterials.NETHERITE, type, new Properties().fireResistant().durability(INITIAL_TIER.getUses()));
@@ -52,17 +43,17 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Equipabl
     public ItemAttributeModifiers getLevelableAttributeModifiers(ItemStack stack) {
         ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
         if (!ToolUtils.isBroken(stack)) {
-            UUID uuid = ARMOR_MODIFIER_UUID_PER_TYPE.get(getType());
-            builder.add(Attributes.ARMOR, new AttributeModifier(uuid, "Armor modifier", this.getDefense(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(getEquipmentSlot()));
-            builder.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uuid, "Armor toughness", this.getToughness(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(getEquipmentSlot()));
+            ResourceLocation resourceLocation = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "armor." + getItemType());
+            builder.add(Attributes.ARMOR, new AttributeModifier(resourceLocation, this.getDefense(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(getEquipmentSlot()));
+            builder.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(resourceLocation, this.getToughness(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(getEquipmentSlot()));
             int health = stack.getOrDefault(DataComponents.HEALTH_BONUS, 0);
             if (health > 0) {
-                builder.add(Attributes.MAX_HEALTH, new AttributeModifier(uuid, "Health modifier", health, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(getEquipmentSlot()));
+                builder.add(Attributes.MAX_HEALTH, new AttributeModifier(resourceLocation, health, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(getEquipmentSlot()));
             }
 
             float speedBonus = stack.getOrDefault(DataComponents.SPEED_BONUS, 0F) / 5;
             if (speedBonus > 0) {
-                builder.add(Attributes.MOVEMENT_SPEED, new AttributeModifier(uuid, "Speed modifier", speedBonus, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), EquipmentSlotGroup.bySlot(getEquipmentSlot()));
+                builder.add(Attributes.MOVEMENT_SPEED, new AttributeModifier(resourceLocation, speedBonus, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), EquipmentSlotGroup.bySlot(getEquipmentSlot()));
             }
 
             return builder.build();
@@ -83,7 +74,7 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Equipabl
     @Override
     public ResourceLocation getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, ArmorMaterial.Layer layer, boolean innerModel) {
         // TODO: Do I need the type thing too? Maybe
-        return new ResourceLocation(CrystalTools.MODID, String.format("textures/models/armor/crystal_layer_%d.png", (slot == EquipmentSlot.LEGS ? 2 : 1)));
+        return ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, String.format("textures/models/armor/crystal_layer_%d.png", (slot == EquipmentSlot.LEGS ? 2 : 1)));
 //        return String.format("crystal_tools:textures/models/armor/%s_layer_%d%s.png", "crystal", (slot == EquipmentSlot.LEGS ? 2 : 1), type == null ? "" : String.format("_%s", type));
     }
 
@@ -104,7 +95,7 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Equipabl
     }
 
     @Override
-    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Runnable onBroken) {
+    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<Item> onBroken) {
         int durability = this.getMaxDamage(stack) - stack.getDamageValue();
 
         if (durability - amount <= 0) {

@@ -113,40 +113,40 @@ public class BlockOverlayRenderer {
         Matrix4f matrix = pose.last().pose();
 
         //down
-        builder.vertex(matrix, startX, startY, startZ).color(red, green, blue, alpha).endVertex();
-        builder.vertex(matrix, endX, startY, startZ).color(red, green, blue, alpha).endVertex();
-        builder.vertex(matrix, endX, startY, endZ).color(red, green, blue, alpha).endVertex();
-        builder.vertex(matrix, startX, startY, endZ).color(red, green, blue, alpha).endVertex();
+        builder.addVertex(matrix, startX, startY, startZ).setColor(red, green, blue, alpha);
+        builder.addVertex(matrix, endX, startY, startZ).setColor(red, green, blue, alpha);
+        builder.addVertex(matrix, endX, startY, endZ).setColor(red, green, blue, alpha);
+        builder.addVertex(matrix, startX, startY, endZ).setColor(red, green, blue, alpha);
 
         //up
-        builder.vertex(matrix, startX, endY, startZ).color(red, green, blue, alpha).endVertex();
-        builder.vertex(matrix, startX, endY, endZ).color(red, green, blue, alpha).endVertex();
-        builder.vertex(matrix, endX, endY, endZ).color(red, green, blue, alpha).endVertex();
-        builder.vertex(matrix, endX, endY, startZ).color(red, green, blue, alpha).endVertex();
+        builder.addVertex(matrix, startX, endY, startZ).setColor(red, green, blue, alpha);
+        builder.addVertex(matrix, startX, endY, endZ).setColor(red, green, blue, alpha);
+        builder.addVertex(matrix, endX, endY, endZ).setColor(red, green, blue, alpha);
+        builder.addVertex(matrix, endX, endY, startZ).setColor(red, green, blue, alpha);
 
         //east
-        builder.vertex(matrix, startX, startY, startZ).color(red, green, blue, alpha).endVertex();
-        builder.vertex(matrix, startX, endY, startZ).color(red, green, blue, alpha).endVertex();
-        builder.vertex(matrix, endX, endY, startZ).color(red, green, blue, alpha).endVertex();
-        builder.vertex(matrix, endX, startY, startZ).color(red, green, blue, alpha).endVertex();
+        builder.addVertex(matrix, startX, startY, startZ).setColor(red, green, blue, alpha);
+        builder.addVertex(matrix, startX, endY, startZ).setColor(red, green, blue, alpha);
+        builder.addVertex(matrix, endX, endY, startZ).setColor(red, green, blue, alpha);
+        builder.addVertex(matrix, endX, startY, startZ).setColor(red, green, blue, alpha);
 
         //west
-        builder.vertex(matrix, startX, startY, endZ).color(red, green, blue, alpha).endVertex();
-        builder.vertex(matrix, endX, startY, endZ).color(red, green, blue, alpha).endVertex();
-        builder.vertex(matrix, endX, endY, endZ).color(red, green, blue, alpha).endVertex();
-        builder.vertex(matrix, startX, endY, endZ).color(red, green, blue, alpha).endVertex();
+        builder.addVertex(matrix, startX, startY, endZ).setColor(red, green, blue, alpha);
+        builder.addVertex(matrix, endX, startY, endZ).setColor(red, green, blue, alpha);
+        builder.addVertex(matrix, endX, endY, endZ).setColor(red, green, blue, alpha);
+        builder.addVertex(matrix, startX, endY, endZ).setColor(red, green, blue, alpha);
 
         //south
-        builder.vertex(matrix, endX, startY, startZ).color(red, green, blue, alpha).endVertex();
-        builder.vertex(matrix, endX, endY, startZ).color(red, green, blue, alpha).endVertex();
-        builder.vertex(matrix, endX, endY, endZ).color(red, green, blue, alpha).endVertex();
-        builder.vertex(matrix, endX, startY, endZ).color(red, green, blue, alpha).endVertex();
+        builder.addVertex(matrix, endX, startY, startZ).setColor(red, green, blue, alpha);
+        builder.addVertex(matrix, endX, endY, startZ).setColor(red, green, blue, alpha);
+        builder.addVertex(matrix, endX, endY, endZ).setColor(red, green, blue, alpha);
+        builder.addVertex(matrix, endX, startY, endZ).setColor(red, green, blue, alpha);
 
         //north
-        builder.vertex(matrix, startX, startY, startZ).color(red, green, blue, alpha).endVertex();
-        builder.vertex(matrix, startX, startY, endZ).color(red, green, blue, alpha).endVertex();
-        builder.vertex(matrix, startX, endY, endZ).color(red, green, blue, alpha).endVertex();
-        builder.vertex(matrix, startX, endY, startZ).color(red, green, blue, alpha).endVertex();
+        builder.addVertex(matrix, startX, startY, startZ).setColor(red, green, blue, alpha);
+        builder.addVertex(matrix, startX, startY, endZ).setColor(red, green, blue, alpha);
+        builder.addVertex(matrix, startX, endY, endZ).setColor(red, green, blue, alpha);
+        builder.addVertex(matrix, startX, endY, startZ).setColor(red, green, blue, alpha);
 
         pose.popPose();
     }

@@ -1,11 +1,12 @@
 package dev.willyelton.crystal_tools.common.network.handler;
 
-import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.tool.UseMode;
 import dev.willyelton.crystal_tools.common.network.data.ModeSwitchPayload;
 import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -42,11 +43,11 @@ public class ModeSwitchHandler {
                     // silk touch or fortune
                     if (EnchantmentUtils.hasEnchantment(tool, Enchantments.SILK_TOUCH) && tool.getOrDefault(DataComponents.FORTUNE_BONUS, 0) > 0) {
                         EnchantmentUtils.removeEnchantment(tool, Enchantments.SILK_TOUCH);
-                        EnchantmentUtils.addEnchantment(tool, Enchantments.FORTUNE, 3);
+                        EnchantmentUtils.addEnchantment(tool, Enchantments.FORTUNE, 3, player);
                         player.displayClientMessage(Component.literal("Mine Mode: Fortune"), true);
                     } else if (EnchantmentUtils.hasEnchantment(tool, Enchantments.FORTUNE) && tool.getOrDefault(DataComponents.SILK_TOUCH_BONUS, false)) {
                         EnchantmentUtils.removeEnchantment(tool, Enchantments.FORTUNE);
-                        EnchantmentUtils.addEnchantment(tool, Enchantments.SILK_TOUCH, 1);
+                        EnchantmentUtils.addEnchantment(tool, Enchantments.SILK_TOUCH, 1, player);
                         player.displayClientMessage(Component.literal("Mine Mode: Silk Touch"), true);
                     }
                 }

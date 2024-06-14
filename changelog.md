@@ -1,13 +1,9 @@
 # Crystal Tools Change Log
-## 2.0.0-beta-2
-### Fixes
-- Fixes Trident renderer crashing on servers
-
-## 2.0.0-beta-1
+## 2.0.0-beta1
 ### Changes
-- Updates to Minecraft 1.20.6
-- Changes from Forge to NeoForge (Will most likely be a Forge version for 1.21)
-- Most things should work, the Backpack crafting recipe was disabled because it is very broken (will return in 1.21)
+- Updates to Minecraft 1.21
+- Most things should work, the Backpack crafting recipe was disabled because it is very broken (will return soon)
+- Effects on the Crystal Apple and Crystal Bow are broken (will return soon)
 
 ## 1.7.0
 ### Additions

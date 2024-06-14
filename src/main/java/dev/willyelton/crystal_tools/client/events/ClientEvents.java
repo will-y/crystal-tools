@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.entity.ArmorStandRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.decoration.ArmorStand;
@@ -29,25 +30,25 @@ public class ClientEvents {
     @SubscribeEvent
     public static void setModelProperties(FMLClientSetupEvent event) {
         // Bow things
-        ItemProperties.register(Registration.CRYSTAL_BOW.get(), new ResourceLocation("pull"), (stack, level, entity, seed) -> {
+        ItemProperties.register(Registration.CRYSTAL_BOW.get(), ResourceLocation.withDefaultNamespace("pull"), (stack, level, entity, seed) -> {
             if (entity == null) {
                 return 0.0F;
             } else {
                 if (stack.getItem() instanceof BowLevelableItem bowItem) {
-                    return entity.getUseItem() != stack ? 0.0F : (float)(stack.getUseDuration() - entity.getUseItemRemainingTicks()) / bowItem.getChargeTime(stack);
+                    return entity.getUseItem() != stack ? 0.0F : (float)(stack.getUseDuration(entity) - entity.getUseItemRemainingTicks()) / bowItem.getChargeTime(stack);
                 }
                 return 0;
             }
         });
-        ItemProperties.register(Registration.CRYSTAL_BOW.get(), new ResourceLocation("pulling"),
+        ItemProperties.register(Registration.CRYSTAL_BOW.get(), ResourceLocation.withDefaultNamespace("pulling"),
                 (stack, level, entity, seed) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
 
         // Trident things
-        ItemProperties.register(Registration.CRYSTAL_TRIDENT.get(), new ResourceLocation("throwing"),
+        ItemProperties.register(Registration.CRYSTAL_TRIDENT.get(), ResourceLocation.withDefaultNamespace("throwing"),
                 (pStack, pLevel, pEntity, pSeed) -> pEntity != null && pEntity.isUsingItem() && pEntity.getUseItem() == pStack ? 1.0F : 0.0F);
 
         // Fishing Rod
-        ItemProperties.register(Registration.CRYSTAL_FISHING_ROD.get(), new ResourceLocation("cast"),
+        ItemProperties.register(Registration.CRYSTAL_FISHING_ROD.get(), ResourceLocation.withDefaultNamespace("cast"),
                 (stack, level, entity, seed) -> {
                     if (entity == null) {
                         return 0.0F;
@@ -82,6 +83,6 @@ public class ClientEvents {
 
     @SubscribeEvent
     public static void loadModels(ModelEvent.RegisterAdditional event) {
-        event.register(new ResourceLocation(CrystalTools.MODID, "item/crystal_trident_inventory"));
+        event.register(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "item/crystal_trident_inventory")));
     }
 }

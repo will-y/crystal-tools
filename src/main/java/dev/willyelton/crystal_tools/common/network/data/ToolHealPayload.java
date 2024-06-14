@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public record ToolHealPayload() implements CustomPacketPayload {
     public static ToolHealPayload INSTANCE = new ToolHealPayload();
-    public static final Type<ToolHealPayload> TYPE = new Type<>(new ResourceLocation(CrystalTools.MODID, "tool_heal"));
+    public static final Type<ToolHealPayload> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "tool_heal"));
     public static final StreamCodec<RegistryFriendlyByteBuf, ToolHealPayload> STREAM_CODEC = StreamCodec.unit(INSTANCE);
 
     @Override

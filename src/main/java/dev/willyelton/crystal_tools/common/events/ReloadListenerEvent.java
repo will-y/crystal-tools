@@ -81,7 +81,7 @@ public class ReloadListenerEvent {
 
         private SkillData deserializeSkillData(String tool, ResourceManager resourceManager) {
             try {
-                Optional<Resource> resourceOptional = resourceManager.getResource(new ResourceLocation("crystal_tools", "skill_trees/" + tool + ".json"));
+                Optional<Resource> resourceOptional = resourceManager.getResource(ResourceLocation.fromNamespaceAndPath("crystal_tools", "skill_trees/" + tool + ".json"));
 
                 if (resourceOptional.isPresent()) {
                     Resource resource = resourceOptional.get();

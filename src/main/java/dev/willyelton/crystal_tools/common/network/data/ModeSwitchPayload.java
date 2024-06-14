@@ -8,7 +8,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 
 public record ModeSwitchPayload(boolean hasShiftDown, boolean hasCtrlDown, boolean hasAltDown) implements CustomPacketPayload {
-    public static final Type<ModeSwitchPayload> TYPE = new Type<>(new ResourceLocation(CrystalTools.MODID, "mode_switch"));
+    public static final Type<ModeSwitchPayload> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "mode_switch"));
     public static final StreamCodec<RegistryFriendlyByteBuf, ModeSwitchPayload> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.BOOL, ModeSwitchPayload::hasShiftDown,
             ByteBufCodecs.BOOL, ModeSwitchPayload::hasCtrlDown,

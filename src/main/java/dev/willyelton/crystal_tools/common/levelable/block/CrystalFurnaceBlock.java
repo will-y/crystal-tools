@@ -1,6 +1,8 @@
 package dev.willyelton.crystal_tools.common.levelable.block;
 
 import com.mojang.serialization.MapCodec;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
+import dev.willyelton.crystal_tools.common.components.FurnaceData;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalFurnaceBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -90,8 +92,9 @@ public class CrystalFurnaceBlock extends BaseEntityBlock {
     }
 
     @Override
-    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
-        return this.defaultBlockState().setValue(FACING, pContext.getHorizontalDirection().getOpposite());
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite())
+                .setValue(LIT, context.getItemInHand().getOrDefault(DataComponents.FURNACE_DATA, new FurnaceData()).litDuration() > 0);
     }
 
     @Override

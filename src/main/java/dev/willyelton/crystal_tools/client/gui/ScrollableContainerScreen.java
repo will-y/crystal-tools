@@ -1,8 +1,9 @@
 package dev.willyelton.crystal_tools.client.gui;
 
+import dev.willyelton.crystal_tools.CrystalTools;
+import dev.willyelton.crystal_tools.common.inventory.container.ScrollableMenu;
 import dev.willyelton.crystal_tools.common.network.data.ContainerRowsPayload;
 import dev.willyelton.crystal_tools.common.network.data.ScrollPayload;
-import dev.willyelton.crystal_tools.common.inventory.container.ScrollableMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -14,7 +15,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 public abstract class ScrollableContainerScreen<T extends AbstractContainerMenu & ScrollableMenu> extends AbstractContainerScreen<T> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("crystal_tools:textures/gui/scroll_bar.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/gui/scroll_bar.png");
     protected static final int SCROLL_WIDTH = 14;
     protected static final int HANDLE_WIDTH = 12;
     protected static final int HANDLE_HEIGHT = 15;

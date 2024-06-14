@@ -15,7 +15,7 @@ import net.minecraft.world.entity.player.Player;
  * Button to require xp costs
  */
 public class XpButton extends Button {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(CrystalTools.MODID, "textures/gui/xp_button.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/gui/xp_button.png");
 
     protected final CrystalToolsButton.OnTooltip onTooltip;
 

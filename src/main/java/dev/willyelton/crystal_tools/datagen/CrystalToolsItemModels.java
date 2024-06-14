@@ -55,7 +55,7 @@ public class CrystalToolsItemModels extends ItemModelProvider {
         ModelFile[] bowModels = new ModelFile[3];
 
         for (int i = 0; i < 3; i++) {
-            ResourceLocation resourceLocation = new ResourceLocation(CrystalTools.MODID, "item/crystal_bow_pulling_" + i);
+            ResourceLocation resourceLocation = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "item/crystal_bow_pulling_" + i);
             bowModels[i] = getBuilder(resourceLocation.toString())
                     .parent(new ModelFile.UncheckedModelFile(CrystalTools.MODID + ":item/crystal_bow"))
                     .texture("layer0", resourceLocation);
@@ -103,7 +103,7 @@ public class CrystalToolsItemModels extends ItemModelProvider {
     private void registerTrident() {
         // Inventory Model
         ResourceLocation tridentLocation = Registration.CRYSTAL_TRIDENT.getId();
-        ResourceLocation tridentTextureLocation = new ResourceLocation(tridentLocation.getNamespace(), "item/" + tridentLocation.getPath());
+        ResourceLocation tridentTextureLocation = ResourceLocation.fromNamespaceAndPath(tridentLocation.getNamespace(), "item/" + tridentLocation.getPath());
         getBuilder(tridentLocation + "_inventory")
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0", tridentTextureLocation);

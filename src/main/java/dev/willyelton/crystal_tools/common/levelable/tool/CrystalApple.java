@@ -83,7 +83,7 @@ public class CrystalApple extends LevelableTool {
     }
 
     @Override
-    public int getUseDuration(ItemStack stack) {
+    public int getUseDuration(ItemStack stack, LivingEntity entity) {
         int eatSpeed = BASE_EAT_SPEED - stack.getOrDefault(DataComponents.EAT_SPEED_BONUS, 0);
         // TODO: Let this be less than 4?
         return Math.max(eatSpeed, 4);

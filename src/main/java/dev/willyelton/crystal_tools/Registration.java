@@ -109,7 +109,7 @@ public class Registration {
             () -> IMenuTypeExtension.create(CrystalBackpackContainerMenu::new));
 
     // Tags
-    public static final TagKey<EntityType<?>> ENTITY_BLACKLIST = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(CrystalTools.MODID, "entity_blacklist"));
+    public static final TagKey<EntityType<?>> ENTITY_BLACKLIST = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "entity_blacklist"));
 
     // Conditions
 

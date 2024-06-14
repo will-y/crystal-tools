@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public record ResetSkillsPayload() implements CustomPacketPayload {
     public static final ResetSkillsPayload INSTANCE = new ResetSkillsPayload();
-    public static final Type<ResetSkillsPayload> TYPE = new Type<>(new ResourceLocation(CrystalTools.MODID, "reset_skills"));
+    public static final Type<ResetSkillsPayload> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "reset_skills"));
     public static final StreamCodec<RegistryFriendlyByteBuf, ResetSkillsPayload> STREAM_CODEC = StreamCodec.unit(INSTANCE);
 
     @Override

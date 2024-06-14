@@ -22,7 +22,7 @@ public class CrystalToolsJeiPlugin implements IModPlugin {
     @Nonnull
     @Override
     public ResourceLocation getPluginUid() {
-        return new ResourceLocation(CrystalTools.MODID, "jeiplugin");
+        return ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "jeiplugin");
     }
 
     @Override

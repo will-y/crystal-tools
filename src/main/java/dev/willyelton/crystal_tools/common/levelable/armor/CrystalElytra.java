@@ -1,11 +1,13 @@
 package dev.willyelton.crystal_tools.common.levelable.armor;
 
-import dev.willyelton.crystal_tools.common.components.DataComponents;
+import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -25,10 +27,10 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.function.Consumer;
 
 public class CrystalElytra extends ElytraItem implements LevelableItem {
-    private static final UUID ELYTRA_UUID = UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D");
+    private static final ResourceLocation ELYTRA_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "elytra");
 
     public CrystalElytra(Properties pProperties) {
         super(pProperties.fireResistant());
@@ -80,7 +82,7 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
     }
 
     @Override
-    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Runnable onBroken) {
+    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<Item> onBroken) {
         int durability = this.getMaxDamage(stack) - stack.getDamageValue();
 
         if (durability - amount <= 0) {
@@ -96,16 +98,16 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
     public ItemAttributeModifiers getLevelableAttributeModifiers(ItemStack stack) {
         ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
         if (!ToolUtils.isBroken(stack)) {
-            builder.add(Attributes.ARMOR, new AttributeModifier(ELYTRA_UUID, "Armor modifier", this.getDefense(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST);
-            builder.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(ELYTRA_UUID, "Armor toughness", this.getToughness(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST);
+            builder.add(Attributes.ARMOR, new AttributeModifier(ELYTRA_ID, this.getDefense(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST);
+            builder.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(ELYTRA_ID, this.getToughness(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST);
             int health = stack.getOrDefault(DataComponents.HEALTH_BONUS, 0);
             if (health > 0) {
-                builder.add(Attributes.MAX_HEALTH, new AttributeModifier(ELYTRA_UUID, "Health modifier", health, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST);
+                builder.add(Attributes.MAX_HEALTH, new AttributeModifier(ELYTRA_ID, health, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST);
             }
 
             float speedBonus = stack.getOrDefault(DataComponents.SPEED_BONUS, 0F) / 5;
             if (speedBonus > 0) {
-                builder.add(Attributes.MOVEMENT_SPEED, new AttributeModifier(ELYTRA_UUID, "Speed modifier", speedBonus, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), EquipmentSlotGroup.CHEST);
+                builder.add(Attributes.MOVEMENT_SPEED, new AttributeModifier(ELYTRA_ID, speedBonus, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), EquipmentSlotGroup.CHEST);
             }
 
             return builder.build();

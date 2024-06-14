@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 
 public record BackpackScreenPayload(PickupType pickupType) implements CustomPacketPayload {
-    public static final Type<BackpackScreenPayload> TYPE = new Type<>(new ResourceLocation(CrystalTools.MODID, "backpack_screen"));
+    public static final Type<BackpackScreenPayload> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "backpack_screen"));
     public static final StreamCodec<RegistryFriendlyByteBuf, BackpackScreenPayload> STREAM_CODEC = StreamCodec.composite(
             NeoForgeStreamCodecs.enumCodec(PickupType.class), BackpackScreenPayload::pickupType,
             BackpackScreenPayload::new);

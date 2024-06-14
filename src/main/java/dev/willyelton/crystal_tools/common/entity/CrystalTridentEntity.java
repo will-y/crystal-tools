@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.common.entity;
 
-import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.tool.CrystalTrident;
 import net.minecraft.core.BlockPos;
@@ -9,6 +9,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -31,7 +32,7 @@ public class CrystalTridentEntity extends AbstractArrow {
     private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(CrystalTridentEntity.class, EntityDataSerializers.BYTE);
 
     protected ItemStack tridentStack = new ItemStack(Registration.CRYSTAL_TRIDENT.get());
-    protected CrystalTrident tridentItem = (CrystalTrident) Registration.CRYSTAL_TRIDENT.get();
+    protected CrystalTrident tridentItem = Registration.CRYSTAL_TRIDENT.get();
     protected boolean dealtDamage;
     protected int clientSideReturnTridentTickCount;
 
@@ -40,7 +41,7 @@ public class CrystalTridentEntity extends AbstractArrow {
     }
 
     public CrystalTridentEntity(Level level, LivingEntity shooter, ItemStack stack) {
-        super(Registration.CRYSTAL_TRIDENT_ENTITY.get(), shooter, level, stack);
+        super(Registration.CRYSTAL_TRIDENT_ENTITY.get(), shooter, level, stack, null);
         this.tridentStack = stack;
         this.entityData.set(ID_LOYALTY, stack.getOrDefault(DataComponents.LOYALTY, 0).byteValue());
     }
@@ -109,15 +110,15 @@ public class CrystalTridentEntity extends AbstractArrow {
     }
 
     @Override
-    protected void onHitEntity(EntityHitResult pResult) {
-        Entity hitEntity = pResult.getEntity();
+    protected void onHitEntity(EntityHitResult result) {
+        Entity hitEntity = result.getEntity();
         float damage = 8.0F + tridentStack.getOrDefault(DataComponents.PROJECTILE_DAMAGE, 0F);
-        if (hitEntity instanceof LivingEntity livingEntity) {
-            damage += EnchantmentHelper.getDamageBonus(this.tridentStack, livingEntity.getType());
+        DamageSource damagesource = this.damageSources().trident(this, (this.getOwner() == null ? this : this.getOwner()));
+        if (level() instanceof ServerLevel level) {
+            damage += EnchantmentHelper.modifyDamage(level, tridentStack, hitEntity, damagesource, damage);
         }
 
         Entity damagingEntity = this.getOwner();
-        DamageSource damagesource = this.damageSources().trident(this, (damagingEntity == null ? this : damagingEntity));
         this.dealtDamage = true;
         if (hitEntity.hurt(damagesource, damage)) {
             if (hitEntity.getType() == EntityType.ENDERMAN) {
@@ -125,9 +126,8 @@ public class CrystalTridentEntity extends AbstractArrow {
             }
 
             if (hitEntity instanceof LivingEntity livingEntity) {
-                if (damagingEntity instanceof LivingEntity) {
-                    EnchantmentHelper.doPostHurtEffects(livingEntity, damagingEntity);
-                    EnchantmentHelper.doPostDamageEffects((LivingEntity)damagingEntity, livingEntity);
+                if (damagingEntity instanceof LivingEntity && level() instanceof ServerLevel level) {
+                    EnchantmentHelper.doPostAttackEffectsWithItemSource(level, livingEntity, damagesource, tridentStack);
                 }
 
                 this.doPostHurtEffects(livingEntity);
@@ -233,7 +233,7 @@ public class CrystalTridentEntity extends AbstractArrow {
                     lightningbolt.setCause(this.getOwner() instanceof ServerPlayer ? (ServerPlayer) this.getOwner() : null);
                     lightningbolt.addTag(CRYSTAL_TOOLS_TRIDENT_LIGHTNING_TAG);
                     this.level().addFreshEntity(lightningbolt);
-                    this.playSound(SoundEvents.TRIDENT_THUNDER, 5.0F, 1.0F);
+                    this.playSound(SoundEvents.TRIDENT_THUNDER.value(), 5.0F, 1.0F);
                     return true;
                 }
             }

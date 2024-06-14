@@ -17,7 +17,7 @@ public record BlockStripPayload(BlockPos blockPos, InteractionHand hand, BlockSt
     // Probably not that big of a deal since these packets are rare
     private static final StreamCodec<ByteBuf, BlockState> BLOCKSTATE_STREAM_CODEC = ByteBufCodecs.fromCodec(BlockState.CODEC);
 
-    public static final Type<BlockStripPayload> TYPE = new Type<>(new ResourceLocation(CrystalTools.MODID, "block_strip"));
+    public static final Type<BlockStripPayload> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "block_strip"));
     public static final StreamCodec<RegistryFriendlyByteBuf, BlockStripPayload> STREAM_CODEC = StreamCodec.composite(
             BlockPos.STREAM_CODEC, BlockStripPayload::blockPos,
             NeoForgeStreamCodecs.enumCodec(InteractionHand.class), BlockStripPayload::hand,

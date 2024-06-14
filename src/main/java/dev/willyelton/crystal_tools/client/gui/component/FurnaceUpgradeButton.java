@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 public class FurnaceUpgradeButton extends CrystalToolsButton {
-    public static final ResourceLocation FURNACE_BUTTON_LOCATION = new ResourceLocation(CrystalTools.MODID, "textures/gui/furnace_button.png");
+    public static final ResourceLocation FURNACE_BUTTON_LOCATION = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/gui/furnace_button.png");
     private final boolean hasSkillPoints;
 
     public FurnaceUpgradeButton(int x, int y, int width, int height, Component message, OnPress onPress, SkillButton.OnTooltip onTooltip, boolean hasSkillPoints) {

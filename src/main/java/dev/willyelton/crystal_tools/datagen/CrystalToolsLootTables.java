@@ -6,6 +6,7 @@ import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalTorch;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalFurnaceBlockEntity;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.packs.VanillaBlockLoot;
 import net.minecraft.world.level.block.Block;
@@ -25,6 +26,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class CrystalToolsLootTables extends VanillaBlockLoot {
+    public CrystalToolsLootTables(HolderLookup.Provider provider) {
+        super(provider);
+    }
+
     @Override
     protected void generate() {
         dropSelf(Registration.CRYSTAL_BLOCK.get());
@@ -51,7 +56,7 @@ public class CrystalToolsLootTables extends VanillaBlockLoot {
                 .include(DataComponents.FURNACE_UPGRADES.get())
                 .include(DataComponents.LEVELABLE_BLOCK_ENTITY_DATA.get())
                 .include(DataComponents.FURNACE_INVENTORY.get()));
-//        lti.apply(SetContainerContents.setContents(type).withEntry(DynamicLoot.dynamicEntry(new ResourceLocation("minecraft", "contents"))));
+//        lti.apply(SetContainerContents.setContents(type).withEntry(DynamicLoot.dynamicEntry(ResourceLocation.fromNamespaceAndPath("minecraft", "contents"))));
 
         LootPool.Builder builder = LootPool.lootPool()
                 .setRolls(ConstantValue.exactly(1))

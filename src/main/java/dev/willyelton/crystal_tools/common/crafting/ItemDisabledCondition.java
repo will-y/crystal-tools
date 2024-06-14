@@ -10,7 +10,7 @@ import net.neoforged.neoforge.common.conditions.ICondition;
 import org.jetbrains.annotations.NotNull;
 
 public class ItemDisabledCondition implements ICondition {
-    public static final ResourceLocation NAME = new ResourceLocation("crystal_tools", "item_disabled");
+    public static final ResourceLocation NAME = ResourceLocation.fromNamespaceAndPath("crystal_tools", "item_disabled");
     public static final MapCodec<? extends ICondition> ITEM_DISABLED_CODEC = MapCodec.assumeMapUnsafe(RecordCodecBuilder.<ItemDisabledCondition>create(instance -> instance.group(
             ResourceLocation.CODEC.fieldOf("itemLocation").forGetter(ItemDisabledCondition::getItemLocation)
     ).apply(instance, ItemDisabledCondition::new)));

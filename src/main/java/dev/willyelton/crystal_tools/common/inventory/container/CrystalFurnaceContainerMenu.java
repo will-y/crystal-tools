@@ -7,13 +7,13 @@ import dev.willyelton.crystal_tools.common.inventory.container.slot.CrystalFurna
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalFurnaceBlockEntity;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
@@ -168,7 +168,7 @@ public class CrystalFurnaceContainerMenu extends BaseContainerMenu {
     }
 
     protected boolean canSmelt(ItemStack pStack) {
-        return this.level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, new SimpleContainer(pStack), this.level).isPresent();
+        return this.level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, new SingleRecipeInput(pStack), this.level).isPresent();
     }
 
     protected boolean isFuel(ItemStack stack) {

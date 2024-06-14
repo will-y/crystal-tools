@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.client.gui.component.FurnaceUpgradeButton;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalFurnaceContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.CrystalFurnaceFuelSlot;
@@ -18,7 +19,7 @@ import net.minecraft.world.inventory.Slot;
 import org.jetbrains.annotations.NotNull;
 
 public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnaceContainerMenu> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("crystal_tools:textures/gui/crystal_furnace.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID ,"textures/gui/crystal_furnace.png");
     private static final int SLOT_TEXTURE_X = 176;
     private static final int SLOT_TEXTURE_Y = 27;
     private static final int SLOT_TEXTURE_SIZE = 18;
