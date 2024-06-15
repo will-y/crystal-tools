@@ -1,6 +1,8 @@
 package dev.willyelton.crystal_tools.gui;
 
 import dev.willyelton.crystal_tools.inventory.container.CrystalBackpackContainerMenu;
+import dev.willyelton.crystal_tools.network.PacketHandler;
+import dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -16,6 +18,8 @@ public abstract class BackpackSubScreen<T extends CrystalBackpackContainerMenu> 
 
     @Override
     public void onClose() {
+        menu.closeSubScreen();
+        PacketHandler.sendToServer(new BackpackScreenPacket(BackpackScreenPacket.Type.CLOSE_SUB_SCREEN));
         this.minecraft.popGuiLayer();
         this.minecraft.setScreen(this.returnScreen);
     }

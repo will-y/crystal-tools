@@ -147,7 +147,7 @@ public class CrystalBackpack extends Item implements LevelableItem {
             return new CrystalBackpackContainerMenu(containerId, playerInventory, getInventory(stack), stack,
                     (int) NBTUtils.getFloatOrAddKey(stack, "filter_capacity", 0),
                     NBTUtils.getBoolean(stack, "whitelist", true),
-                    NBTUtils.getBoolean(stack, "can_sort", false));
+                    NBTUtils.getBoolean(stack, "can_sort", false), player);
         }
     }
 

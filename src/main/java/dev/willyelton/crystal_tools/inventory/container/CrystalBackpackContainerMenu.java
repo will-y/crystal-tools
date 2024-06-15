@@ -5,12 +5,14 @@ import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.gui.ScrollableMenu;
 import dev.willyelton.crystal_tools.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.inventory.container.slot.CompressionInputSlot;
+import dev.willyelton.crystal_tools.inventory.container.slot.CompressionOutputSlot;
 import dev.willyelton.crystal_tools.inventory.container.slot.CrystalSlotItemHandler;
 import dev.willyelton.crystal_tools.inventory.container.slot.ReadOnlySlot;
 import dev.willyelton.crystal_tools.inventory.container.slot.ScrollableSlot;
 import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket;
 import dev.willyelton.crystal_tools.utils.InventoryUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -35,6 +37,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
     private final CrystalBackpackInventory inventory;
     @Nullable
     private final ItemStackHandler filterInventory;
+    private final ItemStackHandler compressionInventory;
     private final ItemStack stack;
     private final int rows;
     private final int filterRows;
@@ -42,25 +45,30 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
     private int maxRows;
     private boolean canSort;
     private final NonNullList<ScrollableSlot> backpackSlots;
+    private final Player player;
+    private boolean hasSubScreenOpen = false;
 
     // Client constructor
     public CrystalBackpackContainerMenu(int containerId, Inventory playerInventory, FriendlyByteBuf data) {
         this(containerId, playerInventory, new CrystalBackpackInventory(data.readInt() * 9), ItemStack.EMPTY,
-                data.readInt(), data.readBoolean(), data.readBoolean());
+                // TODO: this ok?
+                data.readInt(), data.readBoolean(), data.readBoolean(), Minecraft.getInstance().player);
     }
 
     // Server constructor
     public CrystalBackpackContainerMenu(int containerId, Inventory playerInventory, CrystalBackpackInventory backpackInventory,
-                                        ItemStack stack, int filterRows, boolean whitelist, boolean canSort) {
+                                        ItemStack stack, int filterRows, boolean whitelist, boolean canSort, Player player) {
         super(Registration.CRYSTAL_BACKPACK_CONTAINER.get(), containerId, playerInventory);
         this.inventory = backpackInventory;
         this.stack = stack;
         this.rows = backpackInventory.getSlots() / SLOTS_PER_ROW;
         this.filterRows = filterRows;
         this.filterInventory = createFilterInventory(stack);
+        this.compressionInventory = createCompressionInventory(stack);
         this.backpackSlots = NonNullList.createWithCapacity(rows * SLOTS_PER_ROW);
         this.whitelist = whitelist;
         this.canSort = canSort;
+        this.player = player;
     }
 
     @Override
@@ -98,18 +106,35 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         }
     }
 
+    private void setUpCompressionSlots() {
+        // TODO: Going to want to be able to add a lot of these (in columns probably)
+        // Infinite upgrade
+        CompressionOutputSlot outputSlot = new CompressionOutputSlot(compressionInventory, 1, 30, -10);
+        CompressionInputSlot inputSlot = new CompressionInputSlot(compressionInventory, 0, 10, -10, outputSlot, player.level());
+
+        outputSlot.setActive(false);
+        inputSlot.setActive(false);
+
+        addSlot(inputSlot);
+        addSlot(outputSlot);
+    }
+
     @Override
     public void setUpSlots() {
         setUpPlayerSlots();
         setUpBackpackSlots();
         setUpFilterSlots();
+        setUpCompressionSlots();
     }
 
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
+        // TODO: Going to need to probably account for compression slots somewhere
+        // TODO: For some reason shift click goes into slot even though its disabled (maybe not always??? server desync?)
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = slots.get(index);
-        if (slot.hasItem() && !isFilterSlot(index)) {
+        // TODO: We do want some shift click behavior for subscreens eventually
+        if (slot.hasItem() && !isFilterSlot(index) && !hasSubScreenOpen) {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
             // if you clicked in played inventory
@@ -164,13 +189,15 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
             stack.getOrCreateTag().put("filter", filterInventory.serializeNBT());
         }
 
+        stack.getOrCreateTag().put("compression", compressionInventory.serializeNBT());
+
         stack.getOrCreateTag().putBoolean("whitelist", whitelist);
     }
 
     @Override
     public void clicked(int slotId, int button, ClickType clickType, Player player) {
         // TODO: Do something similar with filter slots
-        if (getSlot(slotId) instanceof CompressionInputSlot compressionInputSlot) {
+        if (slotId >= 0 && getSlot(slotId) instanceof CompressionInputSlot compressionInputSlot) {
             compressionInputSlot.onClicked(getCarried());
         } else if (this.isFilterSlot(slotId)) {
             if (Objects.isNull(filterInventory) || clickType == ClickType.THROW || clickType == ClickType.CLONE) {
@@ -246,6 +273,19 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         return itemStackHandler;
     }
 
+    private ItemStackHandler createCompressionInventory(ItemStack stack) {
+        ItemStackHandler itemStackHandler = new ItemStackHandler(2);
+        ItemStackHandler storedItems = new ItemStackHandler(0);
+        CompoundTag tag = stack.getOrCreateTagElement("compression");
+        if (!tag.isEmpty()) {
+            storedItems.deserializeNBT(tag);
+        }
+
+        InventoryUtils.copyTo(storedItems, itemStackHandler);
+
+        return itemStackHandler;
+    }
+
     private boolean isFilterSlot(int index) {
         return index >= getNonFilterSlots();
     }
@@ -298,5 +338,66 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
 
     public Inventory getPlayerInventory() {
         return (Inventory) playerInventory.getInv();
+    }
+
+    // TODO: Abstract and maybe screen enum
+    public void openCompressionScreen() {
+        // TODO: Maybe we just override isActive and have an enum or something for active screen
+        this.hasSubScreenOpen = true;
+        slots.forEach(slot -> {
+            if (slot instanceof ScrollableSlot scrollableSlot) {
+                scrollableSlot.setActive(false);
+            } else if (slot instanceof CompressionInputSlot compressionInputSlot) {
+                compressionInputSlot.setActive(true);
+            } else if (slot instanceof CompressionOutputSlot compressionOutputSlot) {
+                compressionOutputSlot.setActive(true);
+            }
+        });
+    }
+
+    public void closeSubScreen() {
+        this.hasSubScreenOpen = false;
+        slots.forEach(slot -> {
+            if (slot instanceof ScrollableSlot scrollableSlot) {
+                scrollableSlot.setActive(true);
+            } else if (slot instanceof CompressionInputSlot compressionInputSlot) {
+                compressionInputSlot.setActive(false);
+            } else if (slot instanceof CompressionOutputSlot compressionOutputSlot) {
+                compressionOutputSlot.setActive(false);
+            }
+        });
+    }
+
+    public void compress() {
+        ItemStack inputItem = compressionInventory.getStackInSlot(0);
+        ItemStack outputItem = compressionInventory.getStackInSlot(1);
+        if (inputItem.isEmpty() || outputItem.isEmpty()) return;
+
+        int count = 0;
+
+        for (int i = 0; i < inventory.getSlots(); i++) {
+            ItemStack stack = inventory.getStackInSlot(i);
+            if (stack.is(inputItem.getItem())) {
+                count += stack.getCount();
+                // If any item has tags or anything this will delete them but that's probably fine
+                inventory.setStackInSlot(i, ItemStack.EMPTY);
+            }
+        }
+
+        // TODO: Eventually could be 4
+        int outputCount = count / 9;
+        int inputCount = count % 9;
+
+        ItemStack inputStack = new ItemStack(inputItem.getItem(), inputCount);
+        inventory.insertStack(inputStack);
+
+        int outputStackCount = outputCount / outputItem.getMaxStackSize();
+        int outputRemainder = outputCount % outputItem.getMaxStackSize();
+
+        for (int i = 0; i < outputStackCount; i++) {
+            inventory.insertStack(new ItemStack(outputItem.getItem(), outputItem.getMaxStackSize()));
+        }
+
+        inventory.insertStack(new ItemStack(outputItem.getItem(), outputRemainder));
     }
 }

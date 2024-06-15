@@ -10,7 +10,6 @@ import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
-import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -22,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 public class CrystalElytraRecipe extends CrystalToolsRecipe {
-
     public CrystalElytraRecipe(ResourceLocation pId, CraftingBookCategory category) {
         super(pId, category);
     }

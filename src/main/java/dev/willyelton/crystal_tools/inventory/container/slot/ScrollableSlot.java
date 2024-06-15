@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class ScrollableSlot extends CrystalSlotItemHandler {
     private int actualSlotIndex;
-    private boolean active = true;
 
     public ScrollableSlot(IItemHandler itemHandler, int index, int xPosition, int yPosition) {
         super(itemHandler, index, xPosition, yPosition);
@@ -85,14 +84,5 @@ public class ScrollableSlot extends CrystalSlotItemHandler {
     @NotNull
     public ItemStack remove(int amount) {
         return this.getItemHandler().extractItem(actualSlotIndex, amount, false);
-    }
-
-    @Override
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
     }
 }

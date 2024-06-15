@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import dev.willyelton.crystal_tools.gui.component.SortButton;
 import dev.willyelton.crystal_tools.gui.component.WhitelistToggleButton;
 import dev.willyelton.crystal_tools.inventory.container.CrystalBackpackContainerMenu;
-import dev.willyelton.crystal_tools.inventory.container.slot.ScrollableSlot;
+import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -13,6 +13,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
 
+import static dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket.Type.COMPRESS;
+import static dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket.Type.OPEN_COMPRESSION;
 import static dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket.Type.PICKUP_BLACKLIST;
 import static dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket.Type.PICKUP_WHITELIST;
 import static dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket.Type.SORT;
@@ -147,16 +149,22 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
 
         this.addRenderableWidget(new WhitelistToggleButton(this.leftPos + INVENTORY_WIDTH, this.topPos + 4,
                 button -> {
-                    // TODO: Maybe we just override isActive and have an enum or something for active screen
-                    menu.slots.forEach(slot -> {
-                        if (slot instanceof ScrollableSlot scrollableSlot) {
-                            scrollableSlot.setActive(false);
-                        }
-                    });
-                    ModGUIs.openScreen(new CompressConfigScreen(menu, menu.getPlayerInventory(), this));
+                    PacketHandler.sendToServer(new BackpackScreenPacket(COMPRESS));
                 },
                 (button, guiGraphics, mouseX, mouseY) -> {
                     Component textComponent = Component.literal("Test Compression");
+                    guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalBackpackScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
+                },
+                whitelist));
+
+        this.addRenderableWidget(new WhitelistToggleButton(this.leftPos + INVENTORY_WIDTH, this.topPos - 10,
+                button -> {
+                    menu.openCompressionScreen();
+                    PacketHandler.sendToServer(new BackpackScreenPacket(OPEN_COMPRESSION));
+                    ModGUIs.openScreen(new CompressConfigScreen(menu, menu.getPlayerInventory(), this));
+                },
+                (button, guiGraphics, mouseX, mouseY) -> {
+                    Component textComponent = Component.literal("Test Compression Screen");
                     guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalBackpackScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
                 },
                 whitelist));
