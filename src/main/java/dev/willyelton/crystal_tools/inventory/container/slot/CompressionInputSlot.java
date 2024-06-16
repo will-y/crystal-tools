@@ -17,14 +17,19 @@ public class CompressionInputSlot extends CrystalSlotItemHandler {
     private final CompressionOutputSlot outputSlot;
     private final Level level;
 
-    public CompressionInputSlot(IItemHandler itemHandler, int slot, int x, int y, CompressionOutputSlot outputSlot, Level level) {
-        super(itemHandler, slot, x, y);
+    public CompressionInputSlot(IItemHandler itemHandler, int index, int x, int y, CompressionOutputSlot outputSlot, Level level) {
+        super(itemHandler, index, x, y);
         this.outputSlot = outputSlot;
         this.level = level;
     }
 
     @Override
     public boolean mayPlace(ItemStack stack) {
+        return false;
+    }
+
+    @Override
+    public boolean mayPickup(Player playerIn) {
         return false;
     }
 

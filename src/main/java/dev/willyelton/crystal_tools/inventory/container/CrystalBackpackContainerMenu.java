@@ -108,15 +108,22 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
 
     private void setUpCompressionSlots() {
         // TODO: Going to want to be able to add a lot of these (in columns probably)
-        // Infinite upgrade
-        CompressionOutputSlot outputSlot = new CompressionOutputSlot(compressionInventory, 1, 30, -10);
-        CompressionInputSlot inputSlot = new CompressionInputSlot(compressionInventory, 0, 10, -10, outputSlot, player.level());
+        // Infinite upgrade. Or just go by rows in backpack up to 6. Too annoying to change screen size
+        int compressionRows = Math.max(this.getRows(), CrystalToolsConfig.MAX_COMPRESSION_SLOT_ROWS.get());
 
-        outputSlot.setActive(false);
-        inputSlot.setActive(false);
+        for (int i = 0; i < compressionRows; i++) {
+            for (int j = 0; j < 3; j++) {
+                CompressionOutputSlot outputSlot = new CompressionOutputSlot(compressionInventory, compressionRows * 3 + i * 3 + j, START_X + j * 54 + 32, START_Y + SLOT_SIZE * i);
+                CompressionInputSlot inputSlot = new CompressionInputSlot(compressionInventory, i * 3 + j, START_X + j * 54, START_Y + SLOT_SIZE * i, outputSlot, player.level());
+                outputSlot.setInputSlot(inputSlot);
 
-        addSlot(inputSlot);
-        addSlot(outputSlot);
+                outputSlot.setActive(false);
+                inputSlot.setActive(false);
+
+                addSlot(inputSlot);
+                addSlot(outputSlot);
+            }
+        }
     }
 
     @Override
@@ -139,7 +146,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
             itemstack = itemstack1.copy();
             // if you clicked in played inventory
             if (index < 36) {
-               if (!this.moveItemStackTo(itemstack1, 36, slots.size() - getFilterSlots(), false)) {
+               if (!this.moveItemStackTo(itemstack1, 36, slots.size() - getFilterSlots() - getCompressionSlots(), false)) {
                    // Need to check if there is room in inventory off-screen
                    // TODO: Works, little bit of a client desync though
                    itemstack1 = inventory.insertStack(itemstack);
@@ -196,25 +203,32 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
 
     @Override
     public void clicked(int slotId, int button, ClickType clickType, Player player) {
-        // TODO: Do something similar with filter slots
-        if (slotId >= 0 && getSlot(slotId) instanceof CompressionInputSlot compressionInputSlot) {
-            compressionInputSlot.onClicked(getCarried());
-        } else if (this.isFilterSlot(slotId)) {
-            if (Objects.isNull(filterInventory) || clickType == ClickType.THROW || clickType == ClickType.CLONE) {
-                return;
-            }
+        // TODO: Move onClicked to my slot class and then do all on clicked stuff in slots
+        if (slotId >= 0) {
+            Slot slot = getSlot(slotId);
+            if (slot instanceof CompressionInputSlot compressionInputSlot) {
+                compressionInputSlot.onClicked(getCarried());
+            } else if (slot instanceof CompressionOutputSlot compressionOutputSlot) {
+                compressionOutputSlot.onClicked(getCarried());
+            } else if (this.isFilterSlot(slotId)) {
+                if (Objects.isNull(filterInventory) || clickType == ClickType.THROW || clickType == ClickType.CLONE) {
+                    return;
+                }
 
-            ItemStack held = getCarried();
-            int filterIndex = slotId - getNonFilterSlots();
-            ItemStack toInsert;
-            if (held.isEmpty()) {
-                toInsert = ItemStack.EMPTY;
+                ItemStack held = getCarried();
+                int filterIndex = slotId - getNonFilterSlots();
+                ItemStack toInsert;
+                if (held.isEmpty()) {
+                    toInsert = ItemStack.EMPTY;
+                } else {
+                    toInsert = held.copy();
+                    toInsert.setCount(1);
+                }
+                filterInventory.setStackInSlot(filterIndex, toInsert);
+                getSlot(slotId).setChanged();
             } else {
-                toInsert = held.copy();
-                toInsert.setCount(1);
+                super.clicked(slotId, button, clickType, player);
             }
-            filterInventory.setStackInSlot(filterIndex, toInsert);
-            getSlot(slotId).setChanged();
         } else {
             super.clicked(slotId, button, clickType, player);
         }
@@ -256,6 +270,10 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         return filterInventory.getSlots();
     }
 
+    private int getCompressionSlots() {
+        return Math.max(this.getRows(), CrystalToolsConfig.MAX_COMPRESSION_SLOT_ROWS.get()) * 6;
+    }
+
     private ItemStackHandler createFilterInventory(ItemStack stack) {
         if (filterRows == 0) {
             return null;
@@ -274,7 +292,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
     }
 
     private ItemStackHandler createCompressionInventory(ItemStack stack) {
-        ItemStackHandler itemStackHandler = new ItemStackHandler(2);
+        ItemStackHandler itemStackHandler = new ItemStackHandler(getCompressionSlots());
         ItemStackHandler storedItems = new ItemStackHandler(0);
         CompoundTag tag = stack.getOrCreateTagElement("compression");
         if (!tag.isEmpty()) {
@@ -369,35 +387,39 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
     }
 
     public void compress() {
-        ItemStack inputItem = compressionInventory.getStackInSlot(0);
-        ItemStack outputItem = compressionInventory.getStackInSlot(1);
-        if (inputItem.isEmpty() || outputItem.isEmpty()) return;
+        int compressionSlots = getCompressionSlots() / 2;
 
-        int count = 0;
+        for (int i = 0; i < compressionSlots; i++) {
+            ItemStack inputItem = compressionInventory.getStackInSlot(i);
+            ItemStack outputItem = compressionInventory.getStackInSlot(i + compressionSlots);
+            if (inputItem.isEmpty() || outputItem.isEmpty()) continue;
 
-        for (int i = 0; i < inventory.getSlots(); i++) {
-            ItemStack stack = inventory.getStackInSlot(i);
-            if (stack.is(inputItem.getItem())) {
-                count += stack.getCount();
-                // If any item has tags or anything this will delete them but that's probably fine
-                inventory.setStackInSlot(i, ItemStack.EMPTY);
+            int count = 0;
+
+            for (int j = 0; j < inventory.getSlots(); j++) {
+                ItemStack stack = inventory.getStackInSlot(j);
+                if (stack.is(inputItem.getItem())) {
+                    count += stack.getCount();
+                    // If any item has tags or anything this will delete them but that's probably fine
+                    inventory.setStackInSlot(j, ItemStack.EMPTY);
+                }
             }
+
+            // TODO: Eventually could be 4
+            int outputCount = count / 9;
+            int inputCount = count % 9;
+
+            ItemStack inputStack = new ItemStack(inputItem.getItem(), inputCount);
+            inventory.insertStack(inputStack);
+
+            int outputStackCount = outputCount / outputItem.getMaxStackSize();
+            int outputRemainder = outputCount % outputItem.getMaxStackSize();
+
+            for (int j = 0; j < outputStackCount; j++) {
+                inventory.insertStack(new ItemStack(outputItem.getItem(), outputItem.getMaxStackSize()));
+            }
+
+            inventory.insertStack(new ItemStack(outputItem.getItem(), outputRemainder));
         }
-
-        // TODO: Eventually could be 4
-        int outputCount = count / 9;
-        int inputCount = count % 9;
-
-        ItemStack inputStack = new ItemStack(inputItem.getItem(), inputCount);
-        inventory.insertStack(inputStack);
-
-        int outputStackCount = outputCount / outputItem.getMaxStackSize();
-        int outputRemainder = outputCount % outputItem.getMaxStackSize();
-
-        for (int i = 0; i < outputStackCount; i++) {
-            inventory.insertStack(new ItemStack(outputItem.getItem(), outputItem.getMaxStackSize()));
-        }
-
-        inventory.insertStack(new ItemStack(outputItem.getItem(), outputRemainder));
     }
 }

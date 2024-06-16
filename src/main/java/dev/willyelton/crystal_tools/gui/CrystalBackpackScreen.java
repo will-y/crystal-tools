@@ -41,14 +41,7 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
 
     private void setHeights() {
         // Sets up all of the variables, needs to be able to be re called on resize
-        // TODO: Method for this somewhere, needed everywhere
-        int rowsToDraw;
-
-        if (getMaxDisplayRows() <= 0) {
-            rowsToDraw = menu.getRows();
-        } else {
-            rowsToDraw = Math.min(menu.getRows(), getMaxDisplayRows());
-        }
+        int rowsToDraw = getDisplayRows();
 
         this.inventoryLabelY = rowsToDraw * ROW_HEIGHT + CrystalBackpackContainerMenu.START_Y + 2;
         this.imageHeight = TOP_BAR_HEIGHT + INVENTORY_HEIGHT + rowsToDraw * ROW_HEIGHT;
@@ -75,13 +68,7 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
 
-        int rowsToDraw;
-
-        if (getMaxDisplayRows() <= 0) {
-            rowsToDraw = menu.getRows();
-        } else {
-            rowsToDraw = Math.min(menu.getRows(), getMaxDisplayRows());
-        }
+        int rowsToDraw = getDisplayRows();
 
         // Backpack top bar
         guiGraphics.blit(TEXTURE, leftPos, topPos, 0, 0, INVENTORY_WIDTH, TOP_BAR_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
@@ -100,6 +87,14 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
         if (container.getFilterRows() > 0) {
             int leftOffset = canScroll() ? SCROLL_WIDTH + 4 : 0;
             drawFilter(guiGraphics, leftPos + INVENTORY_WIDTH + leftOffset - 3, topPos, container.getFilterRows());
+        }
+    }
+
+    public int getDisplayRows() {
+        if (getMaxDisplayRows() <= 0) {
+            return menu.getRows();
+        } else {
+            return Math.min(menu.getRows(), getMaxDisplayRows());
         }
     }
 

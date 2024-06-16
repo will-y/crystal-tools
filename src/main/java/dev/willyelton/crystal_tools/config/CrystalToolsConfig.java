@@ -75,6 +75,7 @@ public class CrystalToolsConfig {
     // Backpack
     public static ForgeConfigSpec.EnumValue<CrystalBackpackInventory.SortType> BACKPACK_SORT_TYPE;
     public static ForgeConfigSpec.IntValue BACKPACK_BASE_EXPERIENCE_CAP;
+    public static ForgeConfigSpec.IntValue MAX_COMPRESSION_SLOT_ROWS;
 
     // Trident
     public static ForgeConfigSpec.BooleanValue ALWAYS_CHANNEL;
@@ -205,6 +206,8 @@ public class CrystalToolsConfig {
                 .defineEnum("backpack_sort_type", CrystalBackpackInventory.SortType.QUANTITY);
         BACKPACK_BASE_EXPERIENCE_CAP = builder.comment("Starting EXP Value for the Backpack")
                 .defineInRange("backpack_base_experience_cap", 150, 1, 10000);
+        MAX_COMPRESSION_SLOT_ROWS = builder.comment("Maximum number of rows of compression slots. These slots will not currently scroll so don't set it to larger than your gui scale can render")
+                .defineInRange("max_compression_slot_rows", 6, 1, 20);
 
         ALWAYS_CHANNEL = builder.comment("If true, channeling Crystal Tridents will summon lightning even if they don't hit an entity")
                 .define("always_channel", true);
