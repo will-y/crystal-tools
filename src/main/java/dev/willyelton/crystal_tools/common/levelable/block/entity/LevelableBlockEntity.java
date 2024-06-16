@@ -31,7 +31,7 @@ public abstract class LevelableBlockEntity extends BlockEntity {
         this.exp += amount;
 
         if (this.exp >= this.expCap) {
-            // level up
+            // duration up
             this.skillPoints++;
             this.exp -= this.expCap;
             this.expCap = ToolUtils.getNewCap(this.expCap, 1);

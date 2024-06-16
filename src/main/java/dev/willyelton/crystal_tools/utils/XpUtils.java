@@ -4,10 +4,10 @@ import net.minecraft.world.entity.player.Player;
 
 public class XpUtils {
     /**
-     * Gets the total experience to get to a level.
+     * Gets the total experience to get to a duration.
      * Formula: <a href="https://minecraft.fandom.com/wiki/Experience#Leveling_up">Minecraft Wiki</a>
      * @param level Experience Level
-     * @return Total number of experience points to get to that level
+     * @return Total number of experience points to get to that duration
      */
     public static int getXPForLevel(int level) {
         if (level <= 15) {

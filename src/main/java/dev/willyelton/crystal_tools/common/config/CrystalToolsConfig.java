@@ -90,10 +90,10 @@ public class CrystalToolsConfig {
         BASE_EXPERIENCE_CAP = builder.comment("Starting EXP Value for Tools and Armor")
                 .defineInRange("base_experience_cap", 75, 1, 10000);
 
-        MAX_EXP = builder.comment("Max exp that can be required to get to the next level")
+        MAX_EXP = builder.comment("Max exp that can be required to get to the next duration")
                 .defineInRange("max_exp", 1000, 1, 100000);
 
-        EXPERIENCE_MULTIPLIER = builder.comment("Multiplier for the experience to the next level")
+        EXPERIENCE_MULTIPLIER = builder.comment("Multiplier for the experience to the next duration")
                 .defineInRange("experience_multiplier", 1.1D, 1D, 5);
 
         ARMOR_EXPERIENCE_BOOST = builder.comment("Multiplies how much experience Armor gets. (EXP_GAINED = DAMAGE_TAKEN * ARMOR_EXPERIENCE_BOOST)")
@@ -163,10 +163,10 @@ public class CrystalToolsConfig {
         ENCHANT_TOOLS = builder.comment("If true, Crystal Tools will be enchantable. Note: There could be some weird interactions / it might break some things")
                 .define("enchant_tools", false);
 
-        EXPERIENCE_LEVELING_SCALING = builder.comment("Number of levels in a tool before the experience level costs increases. Set to 0 to disable scaling")
+        EXPERIENCE_LEVELING_SCALING = builder.comment("Number of levels in a tool before the experience duration costs increases. Set to 0 to disable scaling")
                 .defineInRange("experience_leveling_scaling", 10, 0, 100);
 
-        EXPERIENCE_PER_SKILL_LEVEL = builder.comment("Determines the number of experience levels you need to gain a level on a tool. Set to 0 to disable")
+        EXPERIENCE_PER_SKILL_LEVEL = builder.comment("Determines the number of experience levels you need to gain a duration on a tool. Set to 0 to disable")
                 .defineInRange("experience_per_skill_level", 10, 0, 100);
 
         // Disable Tools
@@ -193,9 +193,9 @@ public class CrystalToolsConfig {
         DISABLE_BACKPACK = builder.comment("Disables Crystal Backpack").define("disable_backpack", false);
 
         // Furnace
-        FUEL_EFFICIENCY_ADDED_TICKS = builder.comment("Ticks added to fuel sources per level of fuel efficiency")
+        FUEL_EFFICIENCY_ADDED_TICKS = builder.comment("Ticks added to fuel sources per duration of fuel efficiency")
                 .defineInRange("fuel_efficiency_added_ticks", 100, 1, 1000);
-        SPEED_UPGRADE_SUBTRACT_TICKS = builder.comment("Ticks subtracted from the smelting time per level of furnace speed")
+        SPEED_UPGRADE_SUBTRACT_TICKS = builder.comment("Ticks subtracted from the smelting time per duration of furnace speed")
                 .defineInRange("speed_upgrade_subtract_ticks", 10, 1, 1000);
         EXPERIENCE_BOOST_PERCENTAGE = builder.comment("Percentage increase for experience gained from smelting items. EXP_GAINED = EXP_IN_FURNACE * (1 + EXPERIENCE_BOOST_PERCENTAGE * EXPERIENCE BOOST LEVELS)")
                 .defineInRange("experience_boost_percentage", 0.1F, 0, 1000);

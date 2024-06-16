@@ -2,20 +2,27 @@ package dev.willyelton.crystal_tools.common.levelable.tool;
 
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
+import dev.willyelton.crystal_tools.common.components.EffectData;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
@@ -29,7 +36,9 @@ import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -69,7 +78,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
                         ArrowItem arrowitem = (ArrowItem) (itemstack.getItem() instanceof ArrowItem ? itemstack.getItem() : Items.ARROW);
                         AbstractArrow abstractarrow = arrowitem.createArrow(level, itemstack, player, stack);
                         abstractarrow = customArrow(abstractarrow);
-                        //TODO: TOO Random
+                        //TODO: Too Random
                         abstractarrow.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, power * 3.0F + stack.getOrDefault(DataComponents.ARROW_SPEED, 0F) / 4.0F, 0.0F);
                         if (power == 1.0F) {
                             abstractarrow.setCritArrow(true);
@@ -80,7 +89,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
                             abstractarrow.setBaseDamage(abstractarrow.getBaseDamage() + (double)j + 0.5D);
                         }
 
-                        // TODO: Fix this, not sure if possible unless neo adds an event
+                        // TODO: Fix this, not sure if possible unless neo adds an event or just add punch to bow
 //                        int k = stack.getOrDefault(DataComponents.ARROW_KNOCKBACK, 0);
 //                        if (k > 0) {
 //                            abstractarrow.setKnockback(k);
@@ -90,20 +99,17 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
                             abstractarrow.setRemainingFireTicks(100);
                         }
 
-                        // TODO: Effects here and on apple will have to be redone
-                        // List<Integer> dataComponent to store all of them?
-                        // Packet handler will have to change to specifically allow that but here should be similar
-//                        if (abstractarrow instanceof Arrow arrow && stack.getTag() != null) {
-//                            for (int i = 1; i < 34; i++) {
-//                                if (stack.getTag().contains("effect_" + i)) {
-//                                    MobEffect effect = MobEffect.byId(i);
-//                                    if (effect != null) {
-//                                        MobEffectInstance instance = new MobEffectInstance(effect, (int) NBTUtils.getFloatOrAddKey(stack, "effect_" + i) * 20, 1, false, true);
-//                                        arrow.addEffect(instance);
-//                                    }
-//                                }
-//                            }
-//                        }
+                        if (abstractarrow instanceof Arrow arrow) {
+                            List<EffectData> effects = stack.getOrDefault(DataComponents.EFFECTS, Collections.emptyList());
+
+                            for (EffectData effect : effects) {
+                                Optional<Holder.Reference<MobEffect>> mobEffect = BuiltInRegistries.MOB_EFFECT.getHolder(ResourceLocation.withDefaultNamespace(effect.resourceLocation()));
+                                if (mobEffect.isPresent()) {
+                                    MobEffectInstance instance = new MobEffectInstance(mobEffect.get(), effect.duration() * 20, 1, false, false);
+                                    arrow.addEffect(instance);
+                                }
+                            }
+                        }
 
                         stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(player.getUsedItemHand()));
                         if (flag1 || player.getAbilities().instabuild && (itemstack.is(Items.SPECTRAL_ARROW) || itemstack.is(Items.TIPPED_ARROW)) || stack.getOrDefault(DataComponents.INFINITY, false)) {

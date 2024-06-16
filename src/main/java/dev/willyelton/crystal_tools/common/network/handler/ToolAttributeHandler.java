@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.common.network.handler;
 
 import dev.willyelton.crystal_tools.common.components.DataComponents;
+import dev.willyelton.crystal_tools.common.components.EffectData;
 import dev.willyelton.crystal_tools.common.network.data.ToolAttributePayload;
 import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
@@ -10,6 +11,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ToolAttributeHandler {
     public static ToolAttributeHandler INSTANCE = new ToolAttributeHandler();
@@ -40,6 +44,8 @@ public class ToolAttributeHandler {
                     } else {
                         EnchantmentUtils.addEnchantment(heldTool, enchantment, (int) payload.value(), player);
                     }
+                } else if (payload.key().contains("effect_")) {
+                    addEffectToList(heldTool, payload.key(), payload.value());
                 } else {
                     DataComponents.addToComponent(heldTool, payload.key(), payload.value());
                 }
@@ -50,6 +56,29 @@ public class ToolAttributeHandler {
                 }
             }
         });
+    }
+
+    private void addEffectToList(ItemStack stack, String key, float value) {
+        String effectKey = key.substring(7);
+
+        List<EffectData> currentEffects = stack.getOrDefault(DataComponents.EFFECTS, new ArrayList<>());
+        List<EffectData> newEffects = new ArrayList<>();
+        boolean added = false;
+
+        for (EffectData effect : currentEffects) {
+            if (effect.resourceLocation().equals(effectKey)) {
+                newEffects.add(new EffectData(effectKey, effect.duration() + (int) value));
+                added = true;
+            } else {
+                newEffects.add(new EffectData(effect.resourceLocation(), effect.duration()));
+            }
+        }
+
+        if (!added) {
+            newEffects.add(new EffectData(effectKey, (int) value));
+        }
+
+        stack.set(DataComponents.EFFECTS, newEffects);
     }
 
     private static ResourceKey<Enchantment> enchantmentFromString(String string) {
@@ -68,6 +97,7 @@ public class ToolAttributeHandler {
             case "respiration_bonus" -> Enchantments.RESPIRATION;
             case "thorns_bonus" -> Enchantments.THORNS;
             case "depth_strider_bonus" -> Enchantments.DEPTH_STRIDER;
+            case "arrow_knockback" -> Enchantments.PUNCH;
             default -> null;
         };
     }

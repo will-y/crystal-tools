@@ -260,7 +260,7 @@
           {"or_node": [18, 19, 20, 21]},
           {"item": ["minecraft:nether_wart", "minecraft:sugar", "minecraft:glowstone_dust"]}
         ],
-        "key": "effect_1",
+        "key": "effect_speed",
         "value": 10
       },
       {
@@ -272,7 +272,7 @@
           {"or_node": [18, 19, 20, 21]},
           {"item": ["minecraft:nether_wart", "minecraft:gold_ingot", "minecraft:glowstone_dust"]}
         ],
-        "key": "effect_3",
+        "key": "effect_haste",
         "value": 10
       },
       {
@@ -284,7 +284,7 @@
           {"or_node": [18, 19, 20, 21]},
           {"item": ["minecraft:nether_wart", "minecraft:blaze_powder", "minecraft:glowstone_dust"]}
         ],
-        "key": "effect_5",
+        "key": "effect_strength",
         "value": 10
       }
     ],
@@ -298,7 +298,7 @@
           {"or_node": [18, 19, 20, 21]},
           {"item": ["minecraft:nether_wart", "minecraft:rabbit_foot", "minecraft:glowstone_dust"]}
         ],
-        "key": "effect_8",
+        "key": "effect_jump_boost",
         "value": 10
       },
       {
@@ -310,7 +310,7 @@
           {"or_node": [18, 19, 20, 21]},
           {"item": ["minecraft:nether_wart", "minecraft:ghast_tear", "minecraft:glowstone_dust"]}
         ],
-        "key": "effect_10",
+        "key": "effect_regeneration",
         "value": 2
       },
       {
@@ -322,7 +322,7 @@
           {"or_node": [18, 19, 20, 21]},
           {"item": ["minecraft:nether_wart", "minecraft:iron_ingot", "minecraft:glowstone_dust"]}
         ],
-        "key": "effect_11",
+        "key": "effect_resistance",
         "value": 10
       }
     ],
@@ -336,7 +336,7 @@
           {"or_node": [18, 19, 20, 21]},
           {"item": ["minecraft:nether_wart", "minecraft:magma_cream"]}
         ],
-        "key": "effect_12",
+        "key": "effect_fire_resistance",
         "value": 10
       },
       {
@@ -348,7 +348,7 @@
           {"or_node": [18, 19, 20, 21]},
           {"item": ["minecraft:nether_wart", "minecraft:pufferfish"]}
         ],
-        "key": "effect_13",
+        "key": "effect_water_breathing",
         "value": 10
       },
       {
@@ -360,7 +360,7 @@
           {"or_node": [18, 19, 20, 21]},
           {"item": ["minecraft:nether_wart", "minecraft:golden_carrot", "minecraft:fermented_spider_eye"]}
         ],
-        "key": "effect_14",
+        "key": "effect_invisibility",
         "value": 10
       }
     ],
@@ -374,7 +374,7 @@
           {"or_node": [18, 19, 20, 21]},
           {"item": ["minecraft:nether_wart", "minecraft:golden_carrot"]}
         ],
-        "key": "effect_16",
+        "key": "effect_night_vision",
         "value": 10
       },
       {
@@ -386,7 +386,7 @@
           {"or_node": [18, 19, 20, 21]},
           {"item": ["minecraft:nether_wart", "minecraft:glistering_melon_slice", "minecraft:glowstone_dust"]}
         ],
-        "key": "effect_22",
+        "key": "effect_absorption",
         "value": 10
       },
       {
@@ -398,7 +398,7 @@
           {"or_node": [18, 19, 20, 21]},
           {"item": ["minecraft:nether_wart", "minecraft:cooked_beef", "minecraft:glowstone_dust"]}
         ],
-        "key": "effect_23",
+        "key": "effect_saturation",
         "value": 2
       }
     ],
@@ -412,7 +412,7 @@
           {"or_node": [18, 19, 20, 21]},
           {"item": ["minecraft:nether_wart", "minecraft:phantom_membrane"]}
         ],
-        "key": "effect_28",
+        "key": "effect_slow_falling",
         "value": 10
       }
     ]

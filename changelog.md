@@ -1,4 +1,14 @@
 # Crystal Tools Change Log
+## 2.0.0-beta2
+### Changes
+- Updates to Neo 21.0.10-beta
+
+### Fixes
+- Fixes upgrade screen not drawing the shaded background correctly
+- Crystal Apple effects work again
+- Crystal Bow effects work again
+- Crystal Bow Punch upgrades work again
+
 ## 2.0.0-beta1
 ### Changes
 - Updates to Minecraft 1.21

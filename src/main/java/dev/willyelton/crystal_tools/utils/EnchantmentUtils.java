@@ -15,7 +15,7 @@ public class EnchantmentUtils {
      * Adds the given enchantment to the item, removing all lower levels of that enchantment
      * @param stack - ItemStack to add the enchantment to
      * @param enchantment - The enchantment to add
-     * @param level - The enchantment level to add
+     * @param level - The enchantment duration to add
      */
     public static void addEnchantment(ItemStack stack, ResourceKey<Enchantment> enchantment, int level, Player player) {
         HolderLookup.RegistryLookup<Enchantment> lookup = player.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);

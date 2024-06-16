@@ -90,6 +90,9 @@ public class DataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> ALWAYS_EAT = register("always_eat", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> EAT_SPEED_BONUS = register("eat_speed_bonus", Codec.INT, ByteBufCodecs.INT, SkillType.INT);
 
+    // Effects
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<EffectData>>> EFFECTS = register("effects", EffectData.CODEC.listOf(), EffectData.STREAM_CODEC.apply(ByteBufCodecs.list()));
+
     // Firework
     // TODO: Refactor to just use vanilla firework component?
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> FLIGHT_TIME = register("flight_time", Codec.INT, ByteBufCodecs.INT, SkillType.INT);

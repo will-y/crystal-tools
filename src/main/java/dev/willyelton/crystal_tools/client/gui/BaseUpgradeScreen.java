@@ -115,7 +115,8 @@ public abstract class BaseUpgradeScreen extends Screen {
     }
 
     @Override
-    public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float particleTicks) {
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float particleTicks) {
+        this.renderBackground(guiGraphics, mouseX, mouseY, particleTicks);
         this.renderBlockBackground(guiGraphics, CrystalToolsConfig.UPGRADE_SCREEN_BACKGROUND.get());
         drawDependencyLines(guiGraphics);
         guiGraphics.drawString(font, "Skill Points: " + this.getSkillPoints(), 5, 5, Colors.TEXT_LIGHT);
@@ -131,8 +132,8 @@ public abstract class BaseUpgradeScreen extends Screen {
     }
 
     @Override
-    public void renderBackground(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-
+    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.renderTransparentBackground(guiGraphics);
     }
 
     protected abstract int getSkillPoints();

@@ -27,9 +27,9 @@ public interface LevelableItem {
         int experienceCap = getExperienceCap(tool);
 
         if (newExperience >= experienceCap) {
-            // level up
+            // duration up
             DataComponents.addToComponent(tool, DataComponents.SKILL_POINTS, 1);
-            // play level up sound
+            // play duration up sound
             level.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.PLAYER_LEVELUP, SoundSource.NEUTRAL, 0.8F, 1.0F);
             if (livingEntity instanceof Player player) {
                 if (tool.getItem() instanceof LevelableItem item) {
