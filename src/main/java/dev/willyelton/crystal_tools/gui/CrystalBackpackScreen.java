@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import dev.willyelton.crystal_tools.gui.component.CompressButton;
 import dev.willyelton.crystal_tools.gui.component.SortButton;
 import dev.willyelton.crystal_tools.gui.component.WhitelistToggleButton;
 import dev.willyelton.crystal_tools.inventory.container.CrystalBackpackContainerMenu;
@@ -13,11 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
 
-import static dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket.Type.COMPRESS;
-import static dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket.Type.OPEN_COMPRESSION;
-import static dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket.Type.PICKUP_BLACKLIST;
-import static dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket.Type.PICKUP_WHITELIST;
-import static dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket.Type.SORT;
+import static dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket.Type.*;
 
 public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBackpackContainerMenu> {
     public static final ResourceLocation TEXTURE = new ResourceLocation("crystal_tools:textures/gui/crystal_backpack.png");
@@ -30,13 +27,10 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
 
     private final CrystalBackpackContainerMenu container;
 
-    private boolean whitelist;
-
     public CrystalBackpackScreen(CrystalBackpackContainerMenu container, Inventory inventory, Component name) {
         super(container, inventory, name, INVENTORY_WIDTH - 3, TOP_BAR_HEIGHT, 128);
         this.container = container;
         this.inventoryLabelX = 8;
-        this.whitelist = container.getWhitelist();
     }
 
     private void setHeights() {
@@ -46,12 +40,13 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
         this.inventoryLabelY = rowsToDraw * ROW_HEIGHT + CrystalBackpackContainerMenu.START_Y + 2;
         this.imageHeight = TOP_BAR_HEIGHT + INVENTORY_HEIGHT + rowsToDraw * ROW_HEIGHT;
         this.imageWidth = INVENTORY_WIDTH;
+        // TODO: incorporate this into submenus?
         if (rowsToDraw > menu.getRows()) {
             this.imageWidth += SCROLL_WIDTH + 4;
         }
-        if (menu.getFilterRows() > 0) {
-            this.imageWidth += 100;
-        }
+//        if (menu.getFilterRows() > 0) {
+//            this.imageWidth += 100;
+//        }
 
         this.setScrollHeight(rowsToDraw * ROW_HEIGHT);
     }
@@ -84,10 +79,10 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
         super.renderBg(guiGraphics, partialTick, mouseX, mouseY);
 
         // Filter
-        if (container.getFilterRows() > 0) {
-            int leftOffset = canScroll() ? SCROLL_WIDTH + 4 : 0;
-            drawFilter(guiGraphics, leftPos + INVENTORY_WIDTH + leftOffset - 3, topPos, container.getFilterRows());
-        }
+//        if (container.getFilterRows() > 0) {
+//            int leftOffset = canScroll() ? SCROLL_WIDTH + 4 : 0;
+//            drawFilter(guiGraphics, leftPos + INVENTORY_WIDTH + leftOffset - 3, topPos, container.getFilterRows());
+//        }
     }
 
     public int getDisplayRows() {
@@ -114,55 +109,53 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
     protected void init() {
         setHeights();
         super.init();
-        if (this.menu.getFilterRows() > 0) {
-            int xOffset = this.menu.canScroll() ? SCROLL_WIDTH + 4 : 0;
-            this.addRenderableWidget(new WhitelistToggleButton(this.leftPos + INVENTORY_WIDTH + 82 + xOffset, this.topPos + 4,
-                    button -> {
-                        whitelist = !whitelist;
-                        if (button instanceof WhitelistToggleButton toggleButton) {
-                            toggleButton.setWhitelist(whitelist);
-                            container.setWhitelist(whitelist);
-                            BackpackScreenPacket.Type type = whitelist ? PICKUP_WHITELIST : PICKUP_BLACKLIST;
-                            container.sendUpdatePacket(type);
-                        }
-                    },
-                    (button, guiGraphics, mouseX, mouseY) -> {
-                        Component textComponent = Component.literal(whitelist ? "Whitelist" : "Blacklist");
-                        guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalBackpackScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
-                    },
-                    whitelist));
-        }
+
+        int actionButtonX = this.leftPos + 157;
 
         if (this.menu.canSort()) {
-            this.addRenderableWidget(new SortButton(this.leftPos + 157, this.topPos + 4,
+            this.addRenderableWidget(new SortButton(actionButtonX, this.topPos + 4,
                     button -> container.sendUpdatePacket(SORT),
                     (button, guiGraphics, mouseX, mouseY) -> {
                         Component textComponent = Component.literal("Sort");
                         guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalBackpackScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
                     }));
+            actionButtonX -= 14;
         }
 
-        this.addRenderableWidget(new WhitelistToggleButton(this.leftPos + INVENTORY_WIDTH, this.topPos + 4,
-                button -> {
-                    PacketHandler.sendToServer(new BackpackScreenPacket(COMPRESS));
-                },
-                (button, guiGraphics, mouseX, mouseY) -> {
-                    Component textComponent = Component.literal("Test Compression");
-                    guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalBackpackScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
-                },
-                whitelist));
+        if (this.menu.canCompress()) {
+            this.addRenderableWidget(new CompressButton(actionButtonX, this.topPos + 4,
+                    button -> container.sendUpdatePacket(COMPRESS),
+                    (button, guiGraphics, mouseX, mouseY) -> {
+                        Component textComponent = Component.literal("Compress");
+                        guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalBackpackScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
+                    }));
+            actionButtonX -= 14;
+        }
 
-        this.addRenderableWidget(new WhitelistToggleButton(this.leftPos + INVENTORY_WIDTH, this.topPos - 10,
+        // TODO: Put these somewhere
+        this.addRenderableWidget(new WhitelistToggleButton(this.leftPos + INVENTORY_WIDTH, this.topPos,
                 button -> {
                     menu.openCompressionScreen();
                     PacketHandler.sendToServer(new BackpackScreenPacket(OPEN_COMPRESSION));
                     ModGUIs.openScreen(new CompressConfigScreen(menu, menu.getPlayerInventory(), this));
                 },
                 (button, guiGraphics, mouseX, mouseY) -> {
-                    Component textComponent = Component.literal("Test Compression Screen");
+                    Component textComponent = Component.literal("Compression Screen");
                     guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalBackpackScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
                 },
-                whitelist));
+                true));
+
+        this.addRenderableWidget(new WhitelistToggleButton(this.leftPos + INVENTORY_WIDTH + 14, this.topPos,
+                button -> {
+                    menu.openFilterScreen();
+                    PacketHandler.sendToServer(new BackpackScreenPacket(OPEN_FILTER));
+                    ModGUIs.openScreen(new FilterConfigScreen(menu, menu.getPlayerInventory(), this));
+                },
+                (button, guiGraphics, mouseX, mouseY) -> {
+                    Component textComponent = Component.literal("Filter Screen");
+                    guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalBackpackScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
+                },
+                true));
     }
 
     private void drawFilter(GuiGraphics guiGraphics, int x, int y, int rows) {

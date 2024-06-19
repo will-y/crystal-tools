@@ -65,6 +65,7 @@ public class CrystalBackpack extends Item implements LevelableItem {
                     friendlyByteBuf.writeInt((int) NBTUtils.getFloatOrAddKey(backpackStack, "filter_capacity", 0));
                     friendlyByteBuf.writeBoolean(NBTUtils.getBoolean(backpackStack, "whitelist", true));
                     friendlyByteBuf.writeBoolean(NBTUtils.getBoolean(backpackStack, "sort_enabled", false));
+                    friendlyByteBuf.writeBoolean(NBTUtils.getBoolean(backpackStack, "compress_enabled", false));
                 });
     }
 
@@ -147,7 +148,8 @@ public class CrystalBackpack extends Item implements LevelableItem {
             return new CrystalBackpackContainerMenu(containerId, playerInventory, getInventory(stack), stack,
                     (int) NBTUtils.getFloatOrAddKey(stack, "filter_capacity", 0),
                     NBTUtils.getBoolean(stack, "whitelist", true),
-                    NBTUtils.getBoolean(stack, "can_sort", false), player);
+                    NBTUtils.getBoolean(stack, "sort_enabled", false),
+                    NBTUtils.getBoolean(stack, "compress_enabled", false), player);
         }
     }
 

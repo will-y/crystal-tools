@@ -137,7 +137,42 @@
       },
       {
         "id": 12,
-        "name": "Filter Slots IV",
+        "name": "Filter Slots V",
+        "description": "Adds 5 filter slots to the backpack",
+        "type": "normal",
+        "requirements": [
+          {"node": [9]}
+        ],
+        "key": "filter_capacity",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 14,
+        "name": "Capacity VI",
+        "description": "Increases the number of slots in the backpack by 9",
+        "type": "normal",
+        "requirements": [
+          {"node": [10]}
+        ],
+        "key": "capacity",
+        "value": 1
+      },
+      {
+        "id": 15,
+        "name": "Compress",
+        "description": "Allows you to compress certain items (gold nuggets into gold ingots)",
+        "type": "normal",
+        "requirements": [
+          {"or_node": [10, 11, 12]}
+        ],
+        "key": "compress_enabled",
+        "value": 1
+      },
+      {
+        "id": 16,
+        "name": "Filter Slots VI",
         "description": "Adds 5 filter slots to the backpack",
         "type": "normal",
         "requirements": [
@@ -154,7 +189,7 @@
         "description": "Infinite Capacity",
         "type": "infinite",
         "requirements": [
-          {"node": [10]}
+          {"node": [14, 15, 16]}
         ],
         "key": "capacity",
         "value": 1
