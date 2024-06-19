@@ -87,7 +87,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
             backpackSlots.add((ScrollableSlot) slot);
             addSlot(slot);
         } else if (handler == filterInventory) {
-            slot = new CrystalSlotItemHandler(handler, index, x, y);
+            slot = new BackpackFilterSlot(handler, index, x, y);
             filterSlots.add(slot);
             addSlot(slot);
         } else {
@@ -249,22 +249,12 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
                 compressionInputSlot.onClicked(getCarried());
             } else if (slot instanceof CompressionOutputSlot compressionOutputSlot) {
                 compressionOutputSlot.onClicked(getCarried());
-            } else if (this.isFilterSlot(slotId)) {
+            } else if (slot instanceof BackpackFilterSlot filterSlot) {
                 if (Objects.isNull(filterInventory) || clickType == ClickType.THROW || clickType == ClickType.CLONE) {
                     return;
                 }
 
-                ItemStack held = getCarried();
-                int filterIndex = slotId - getNonFilterSlots();
-                ItemStack toInsert;
-                if (held.isEmpty()) {
-                    toInsert = ItemStack.EMPTY;
-                } else {
-                    toInsert = held.copy();
-                    toInsert.setCount(1);
-                }
-                filterInventory.setStackInSlot(filterIndex, toInsert);
-                getSlot(slotId).setChanged();
+                filterSlot.onClicked(getCarried());
             } else {
                 super.clicked(slotId, button, clickType, player);
             }

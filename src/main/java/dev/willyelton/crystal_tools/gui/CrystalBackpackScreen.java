@@ -132,7 +132,7 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
             actionButtonX -= 14;
         }
 
-        // TODO: Put these somewhere
+        // TODO: Put these somewhere and add upgrade screen + icons
         this.addRenderableWidget(new WhitelistToggleButton(this.leftPos + INVENTORY_WIDTH, this.topPos,
                 button -> {
                     menu.openCompressionScreen();
