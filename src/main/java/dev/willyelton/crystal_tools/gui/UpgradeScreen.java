@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.gui;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.gui.component.SkillButton;
+import dev.willyelton.crystal_tools.levelable.CrystalBackpack;
 import dev.willyelton.crystal_tools.levelable.skill.SkillDataNode;
 import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.network.packet.RemoveItemPacket;
@@ -26,14 +27,25 @@ public class UpgradeScreen extends BaseUpgradeScreen {
     private Button resetButton;
     private final ItemStack stack;
     final CompoundTag tag;
+    private final Runnable onClose;
+    private int slotIndex = -1;
 
     public UpgradeScreen(ItemStack itemStack, Player player) {
+        this(itemStack, player, null);
+    }
+
+    public UpgradeScreen(int slotIndex, Player player, Runnable onClose) {
+        this(CrystalBackpack.getBackpackFromSlotIndex(player, slotIndex), player, onClose);
+        this.slotIndex = slotIndex;
+    }
+
+    public UpgradeScreen(ItemStack itemStack, Player player, Runnable onClose) {
         super(player, Component.literal("Upgrade Screen"));
         this.stack = itemStack;
         this.data = ToolUtils.getSkillData(itemStack);
         this.tag = itemStack.getTag();
+        this.onClose = onClose;
     }
-
 
     /**
      * Used to init things differently from the default item implementation of the upgrade screen
@@ -94,7 +106,7 @@ public class UpgradeScreen extends BaseUpgradeScreen {
 
         if (skillPoints > 0) {
             changeSkillPoints(-1);
-            PacketHandler.sendToServer(new ToolAttributePacket(node.getKey(), node.getValue(), node.getId()));
+            PacketHandler.sendToServer(new ToolAttributePacket(node.getKey(), node.getValue(), node.getId(), slotIndex));
             node.addPoint();
             if (node.isComplete()) {
                 ((SkillButton) button).setComplete();
@@ -107,11 +119,19 @@ public class UpgradeScreen extends BaseUpgradeScreen {
     @Override
     protected void changeSkillPoints(int change) {
         NBTUtils.addValueToTag(tag, "skill_points", change);
-        PacketHandler.sendToServer(new ToolAttributePacket("skill_points", change, -1));
+        PacketHandler.sendToServer(new ToolAttributePacket("skill_points", change, -1, slotIndex));
     }
 
     @Override
     protected int getXpButtonY() {
         return 35;
+    }
+
+    @Override
+    public void onClose() {
+        super.onClose();
+        if (this.onClose != null) {
+            this.onClose.run();
+        }
     }
 }

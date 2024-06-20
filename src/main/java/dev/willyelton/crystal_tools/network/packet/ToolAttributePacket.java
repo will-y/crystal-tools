@@ -5,6 +5,7 @@ import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -17,11 +18,17 @@ public class ToolAttributePacket {
     private final String key;
     private final float value;
     private final int id;
+    private final int slotIndex;
 
     public ToolAttributePacket(String key, float value, int id) {
+        this(key, value, id, -1);
+    }
+
+    public ToolAttributePacket(String key, float value, int id, int slotIndex) {
         this.key = key;
         this.value = value;
         this.id = id;
+        this.slotIndex = slotIndex;
     }
 
     public ToolAttributePacket(FriendlyByteBuf buffer) {
@@ -29,6 +36,7 @@ public class ToolAttributePacket {
         this.key = buffer.readCharSequence(keyLen, Charset.defaultCharset()).toString();
         this.value = buffer.readFloat();
         this.id = buffer.readInt();
+        this.slotIndex = buffer.readInt();
     }
 
     public void encode(FriendlyByteBuf buffer) {
@@ -36,11 +44,12 @@ public class ToolAttributePacket {
         buffer.writeCharSequence(this.key, Charset.defaultCharset());
         buffer.writeFloat(this.value);
         buffer.writeInt(this.id);
+        buffer.writeInt(this.slotIndex);
     }
 
     public void handle(Supplier<NetworkEvent.Context> ctx) {
         ServerPlayer playerEntity = ctx.get().getSender();
-        ItemStack heldTool = ItemStackUtils.getHeldLevelableTool(playerEntity);
+        ItemStack heldTool = getItemStack(playerEntity, this.slotIndex);
 
         if (!heldTool.isEmpty()) {
             Enchantment enchantment = enchantmentFromString(this.key);
@@ -69,6 +78,14 @@ public class ToolAttributePacket {
                 NBTUtils.addValueToArray(heldTool, "points", this.id, 1);
             }
         }
+    }
+
+    private ItemStack getItemStack(Player player, int slotIndex) {
+        if (slotIndex == -1) {
+            return ItemStackUtils.getHeldLevelableTool(player);
+        }
+
+        return player.getInventory().getItem(slotIndex);
     }
 
     private static Enchantment enchantmentFromString(String string) {

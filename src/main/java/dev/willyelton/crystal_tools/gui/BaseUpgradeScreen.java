@@ -131,7 +131,7 @@ public abstract class BaseUpgradeScreen extends Screen {
 
     @Override
     public boolean isPauseScreen() {
-        return CrystalToolsConfig.PAUSE_SCREEN.get();
+        return false;
     }
 
     private void addButtonsFromTier(List<SkillDataNode> nodes, int y) {

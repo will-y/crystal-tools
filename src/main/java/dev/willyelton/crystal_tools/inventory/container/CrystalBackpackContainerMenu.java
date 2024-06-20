@@ -5,6 +5,7 @@ import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.gui.ScrollableMenu;
 import dev.willyelton.crystal_tools.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.inventory.container.slot.*;
+import dev.willyelton.crystal_tools.levelable.CrystalBackpack;
 import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket;
 import dev.willyelton.crystal_tools.utils.InventoryUtils;
@@ -12,6 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -48,18 +50,20 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
     private final NonNullList<CompressionOutputSlot> compressionOutputSlots;
     private final NonNullList<CrystalSlotItemHandler> filterSlots;
     private final Player player;
+    private final int slotIndex;
     private SubScreenType openSubScreen = NONE;
 
     // Client constructor
     public CrystalBackpackContainerMenu(int containerId, Inventory playerInventory, FriendlyByteBuf data) {
         this(containerId, playerInventory, new CrystalBackpackInventory(data.readInt() * 9), ItemStack.EMPTY,
-                // TODO: this ok?
-                data.readInt(), data.readBoolean(), data.readBoolean(), data.readBoolean(), Minecraft.getInstance().player);
+                data.readInt(), data.readBoolean(), data.readBoolean(), data.readBoolean(),
+                data.readInt(), Minecraft.getInstance().player);
     }
 
     // Server constructor
     public CrystalBackpackContainerMenu(int containerId, Inventory playerInventory, CrystalBackpackInventory backpackInventory,
-                                        ItemStack stack, int filterRows, boolean whitelist, boolean canSort, boolean canCompress, Player player) {
+                                        ItemStack stack, int filterRows, boolean whitelist, boolean canSort, boolean canCompress,
+                                        int slotIndex, Player player) {
         super(Registration.CRYSTAL_BACKPACK_CONTAINER.get(), containerId, playerInventory);
         this.inventory = backpackInventory;
         this.stack = stack;
@@ -74,6 +78,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         this.whitelist = whitelist;
         this.canSort = canSort;
         this.canCompress = canCompress;
+        this.slotIndex = slotIndex;
         this.player = player;
     }
 
@@ -89,6 +94,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         } else if (handler == filterInventory) {
             slot = new BackpackFilterSlot(handler, index, x, y);
             filterSlots.add(slot);
+            slot.setActive(false);
             addSlot(slot);
         } else {
             slot = new CrystalSlotItemHandler(handler, index, x, y);
@@ -408,6 +414,15 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         this.filterSlots.forEach(filterSlot -> filterSlot.setActive(true));
     }
 
+    // Closes and reopens container
+    public void reopenBackpack() {
+        if (player instanceof ServerPlayer serverPlayer) {
+            player.closeContainer();
+            CrystalBackpack backpack = (CrystalBackpack) stack.getItem();
+            backpack.openBackpack(serverPlayer, stack, slotIndex);
+        }
+    }
+
     public void closeSubScreen() {
         this.openSubScreen = NONE;
         this.backpackSlots.forEach(scrollableSlot -> scrollableSlot.setActive(true));
@@ -451,6 +466,18 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
 
             inventory.insertStack(new ItemStack(outputItem.getItem(), outputRemainder));
         }
+    }
+
+    public ItemStack getBackpackStack() {
+        return stack;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public int getSlotIndex() {
+        return slotIndex;
     }
 
     protected enum SubScreenType {

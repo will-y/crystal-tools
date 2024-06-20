@@ -51,21 +51,23 @@ public class CrystalBackpack extends Item implements LevelableItem {
         ItemStack stack = player.getItemInHand(usedHand);
 
         if (player instanceof ServerPlayer serverPlayer) {
-            openBackpack(serverPlayer, stack);
+            // TODO: Test
+            openBackpack(serverPlayer, stack, serverPlayer.getInventory().findSlotMatchingItem(stack));
         }
 
         return InteractionResultHolder.success(stack);
     }
 
-    public void openBackpack(ServerPlayer serverPlayer, ItemStack backpackStack) {
+    public void openBackpack(ServerPlayer serverPlayer, ItemStack backpackStack, int slotIndex) {
         NetworkHooks.openScreen(serverPlayer,
-                new CrystalBackpackMenuSupplier(this, backpackStack),
+                new CrystalBackpackMenuSupplier(this, backpackStack, slotIndex),
                 friendlyByteBuf -> {
                     friendlyByteBuf.writeInt((int) NBTUtils.getFloatOrAddKey(backpackStack, "capacity", 1));
                     friendlyByteBuf.writeInt((int) NBTUtils.getFloatOrAddKey(backpackStack, "filter_capacity", 0));
                     friendlyByteBuf.writeBoolean(NBTUtils.getBoolean(backpackStack, "whitelist", true));
                     friendlyByteBuf.writeBoolean(NBTUtils.getBoolean(backpackStack, "sort_enabled", false));
                     friendlyByteBuf.writeBoolean(NBTUtils.getBoolean(backpackStack, "compress_enabled", false));
+                    friendlyByteBuf.writeInt(slotIndex);
                 });
     }
 
@@ -136,7 +138,7 @@ public class CrystalBackpack extends Item implements LevelableItem {
         return (int) NBTUtils.getFloatOrAddKey(tool, "experience_cap", CrystalToolsConfig.BACKPACK_BASE_EXPERIENCE_CAP.get());
     }
 
-    private record CrystalBackpackMenuSupplier(CrystalBackpack backpackItem, ItemStack stack) implements MenuProvider {
+    private record CrystalBackpackMenuSupplier(CrystalBackpack backpackItem, ItemStack stack, int slotIndex) implements MenuProvider {
         @Override
         public Component getDisplayName() {
             return stack.getHoverName();
@@ -149,7 +151,8 @@ public class CrystalBackpack extends Item implements LevelableItem {
                     (int) NBTUtils.getFloatOrAddKey(stack, "filter_capacity", 0),
                     NBTUtils.getBoolean(stack, "whitelist", true),
                     NBTUtils.getBoolean(stack, "sort_enabled", false),
-                    NBTUtils.getBoolean(stack, "compress_enabled", false), player);
+                    NBTUtils.getBoolean(stack, "compress_enabled", false),
+                    slotIndex, player);
         }
     }
 
@@ -158,6 +161,40 @@ public class CrystalBackpack extends Item implements LevelableItem {
         backpackStacks.addAll(player.getInventory().items.stream().filter(stack -> stack.is(Registration.CRYSTAL_BACKPACK.get())).toList());
 
         return backpackStacks;
+    }
+
+    public static int findNextBackpackSlot(Player player) {
+        List<ItemStack> curiosStacks = CuriosCompatibility.getCrystalBackpacksInCurios(player);
+
+        if (!curiosStacks.isEmpty()) {
+            // TODO: Won't work if you have multiple backpacks in curios
+            return -2;
+        }
+
+        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+            if (player.getInventory().getItem(i).is(Registration.CRYSTAL_BACKPACK.get())) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    public static ItemStack getBackpackFromSlotIndex(Player player, int slotIndex) {
+        if (slotIndex == -1) {
+            return ItemStack.EMPTY;
+        }
+
+        if (slotIndex == -2) {
+            List<ItemStack> curiosStacks = CuriosCompatibility.getCrystalBackpacksInCurios(player);
+            if (curiosStacks.isEmpty()) {
+                return ItemStack.EMPTY;
+            } else {
+                return curiosStacks.get(0);
+            }
+        }
+
+        return player.getInventory().getItem(slotIndex);
     }
 
     public static CrystalBackpackInventory getInventory(ItemStack stack) {

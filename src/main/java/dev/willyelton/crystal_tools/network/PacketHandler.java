@@ -14,7 +14,7 @@ public class PacketHandler {
 
     public static final SimpleChannel HANDLER = NetworkRegistry.ChannelBuilder
             .named(new ResourceLocation(CrystalTools.MODID, "messages"))
-            .networkProtocolVersion(() -> "1.0")
+            .networkProtocolVersion(() -> "1.1")
             .clientAcceptedVersions(s -> true)
             .serverAcceptedVersions(s -> true)
             .simpleChannel();
@@ -88,8 +88,8 @@ public class PacketHandler {
                 .add();
 
         HANDLER.messageBuilder(OpenBackpackPacket.class, index++)
-                .decoder(friendlyByteBuf -> new OpenBackpackPacket())
-                .encoder((openBackpackPacket, friendlyByteBuf) -> {})
+                .decoder(OpenBackpackPacket::new)
+                .encoder(OpenBackpackPacket::encode)
                 .consumerMainThread(OpenBackpackPacket::handle)
                 .add();
 

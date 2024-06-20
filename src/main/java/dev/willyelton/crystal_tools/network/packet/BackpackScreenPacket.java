@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 
 public class BackpackScreenPacket {
     public enum Type {
-        PICKUP_WHITELIST, PICKUP_BLACKLIST, SORT, COMPRESS, OPEN_COMPRESSION, OPEN_FILTER, CLOSE_SUB_SCREEN
+        PICKUP_WHITELIST, PICKUP_BLACKLIST, SORT, COMPRESS, OPEN_COMPRESSION, OPEN_FILTER, CLOSE_SUB_SCREEN, REOPEN_BACKPACK
     }
 
     private final Type type;
@@ -42,6 +42,7 @@ public class BackpackScreenPacket {
                 case OPEN_COMPRESSION -> menu.openCompressionScreen();
                 case OPEN_FILTER -> menu.openFilterScreen();
                 case CLOSE_SUB_SCREEN -> menu.closeSubScreen();
+                case REOPEN_BACKPACK -> menu.reopenBackpack();
             }
         }
     }

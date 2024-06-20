@@ -1,26 +1,44 @@
 package dev.willyelton.crystal_tools.network.packet;
 
-import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.levelable.CrystalBackpack;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 
-import java.util.List;
 import java.util.function.Supplier;
 
 public class OpenBackpackPacket {
+    private final int slotId;
+
+    public OpenBackpackPacket() {
+        this(-1);
+    }
+
+    public OpenBackpackPacket(int slotId) {
+        this.slotId = slotId;
+    }
+
+    public OpenBackpackPacket(FriendlyByteBuf buffer) {
+        this.slotId = buffer.readInt();
+    }
+
+    public void encode(FriendlyByteBuf buffer) {
+        buffer.writeInt(slotId);
+    }
+
     public void handle(Supplier<NetworkEvent.Context> ctx) {
         ServerPlayer player = ctx.get().getSender();
 
-        List<ItemStack> backpacks = CrystalBackpack.findBackpackStacks(player);
+        if (player == null) return;
 
-        if (!backpacks.isEmpty()) {
-            ItemStack backpackStack = backpacks.get(0);
-            if (backpackStack.is(Registration.CRYSTAL_BACKPACK.get())) {
-                CrystalBackpack backpackItem = (CrystalBackpack) backpackStack.getItem();
-                backpackItem.openBackpack(player, backpackStack);
-            }
+        int slot = slotId == -1 ? CrystalBackpack.findNextBackpackSlot(player) : slotId;
+        if (slot == -1) return;
+
+        ItemStack backpackStack = player.getInventory().getItem(slot);
+
+        if (backpackStack.getItem() instanceof CrystalBackpack backpackItem) {
+            backpackItem.openBackpack(player, backpackStack, slot);
         }
     }
 }

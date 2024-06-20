@@ -1,12 +1,13 @@
 package dev.willyelton.crystal_tools.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import dev.willyelton.crystal_tools.gui.component.BackpackScreenButton;
 import dev.willyelton.crystal_tools.gui.component.CompressButton;
 import dev.willyelton.crystal_tools.gui.component.SortButton;
-import dev.willyelton.crystal_tools.gui.component.WhitelistToggleButton;
 import dev.willyelton.crystal_tools.inventory.container.CrystalBackpackContainerMenu;
 import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket;
+import dev.willyelton.crystal_tools.network.packet.OpenBackpackPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -44,9 +45,6 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
         if (rowsToDraw > menu.getRows()) {
             this.imageWidth += SCROLL_WIDTH + 4;
         }
-//        if (menu.getFilterRows() > 0) {
-//            this.imageWidth += 100;
-//        }
 
         this.setScrollHeight(rowsToDraw * ROW_HEIGHT);
     }
@@ -111,6 +109,7 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
         super.init();
 
         int actionButtonX = this.leftPos + 157;
+        int screenButtonY = this.topPos + 17;
 
         if (this.menu.canSort()) {
             this.addRenderableWidget(new SortButton(actionButtonX, this.topPos + 4,
@@ -132,45 +131,43 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
             actionButtonX -= 14;
         }
 
-        // TODO: Put these somewhere and add upgrade screen + icons
-        this.addRenderableWidget(new WhitelistToggleButton(this.leftPos + INVENTORY_WIDTH, this.topPos,
+        this.addRenderableWidget(new BackpackScreenButton(this.leftPos - 21, screenButtonY, Component.literal("Open Skill Tree"),
                 button -> {
-                    menu.openCompressionScreen();
-                    PacketHandler.sendToServer(new BackpackScreenPacket(OPEN_COMPRESSION));
-                    ModGUIs.openScreen(new CompressConfigScreen(menu, menu.getPlayerInventory(), this));
+                    this.onClose();
+                    ModGUIs.openScreen(new UpgradeScreen(menu.getSlotIndex(), menu.getPlayer(), () -> PacketHandler.sendToServer(new OpenBackpackPacket(menu.getSlotIndex()))));
                 },
                 (button, guiGraphics, mouseX, mouseY) -> {
-                    Component textComponent = Component.literal("Compression Screen");
+                    Component textComponent = Component.literal("Open Skill Tree");
                     guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalBackpackScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
-                },
-                true));
+                }, 40));
+        screenButtonY += 21;
 
-        this.addRenderableWidget(new WhitelistToggleButton(this.leftPos + INVENTORY_WIDTH + 14, this.topPos,
-                button -> {
-                    menu.openFilterScreen();
-                    PacketHandler.sendToServer(new BackpackScreenPacket(OPEN_FILTER));
-                    ModGUIs.openScreen(new FilterConfigScreen(menu, menu.getPlayerInventory(), this));
-                },
-                (button, guiGraphics, mouseX, mouseY) -> {
-                    Component textComponent = Component.literal("Filter Screen");
-                    guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalBackpackScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
-                },
-                true));
-    }
-
-    private void drawFilter(GuiGraphics guiGraphics, int x, int y, int rows) {
-        // Draw top
-        guiGraphics.blit(TEXTURE, x, y, 0, 240, 103, 17, TEXTURE_SIZE, TEXTURE_SIZE);
-
-        // Draw rows
-        for (int i = 0; i < rows; i++) {
-            guiGraphics.blit(TEXTURE, x, y + 17 + 18 * i, 0, 257, 103, 18, TEXTURE_SIZE, TEXTURE_SIZE);
+        if (this.menu.getFilterRows() > 0) {
+            this.addRenderableWidget(new BackpackScreenButton(this.leftPos - 21, screenButtonY, Component.literal("Configure Filters"),
+                    button -> {
+                        menu.openFilterScreen();
+                        PacketHandler.sendToServer(new BackpackScreenPacket(OPEN_FILTER));
+                        ModGUIs.openScreen(new FilterConfigScreen(menu, menu.getPlayerInventory(), this));
+                    },
+                    (button, guiGraphics, mouseX, mouseY) -> {
+                        Component textComponent = Component.literal("Configure Filters");
+                        guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalBackpackScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
+                    }, 0));
+            screenButtonY += 21;
         }
 
-        // Draw bottom
-        guiGraphics.blit(TEXTURE, x, y + 17 + 18 * rows, 0, 275, 103, 6, TEXTURE_SIZE, TEXTURE_SIZE);
-
-        // Draw text
-        guiGraphics.drawString(this.font, Component.literal("Pickup Filter"), x + 8, topPos + this.titleLabelY, 4210752, false);
+        if (this.menu.canCompress()) {
+            this.addRenderableWidget(new BackpackScreenButton(this.leftPos - 21, screenButtonY, Component.literal("Configure Compressions"),
+                    button -> {
+                        menu.openCompressionScreen();
+                        PacketHandler.sendToServer(new BackpackScreenPacket(OPEN_COMPRESSION));
+                        ModGUIs.openScreen(new CompressConfigScreen(menu, menu.getPlayerInventory(), this));
+                    },
+                    (button, guiGraphics, mouseX, mouseY) -> {
+                        Component textComponent = Component.literal("Configure Compressions");
+                        guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalBackpackScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
+                    }, 20));
+            screenButtonY += 21;
+        }
     }
 }
