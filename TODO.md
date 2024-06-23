@@ -13,8 +13,7 @@
   - Match backpack items filter
   - Nerf skill gain
   - 2x2 compressions
-  - Right click item into in inventory (bundle)
-  - Quark integration
+  - Quark integration (no idea how to do this)
   - Shift right click into other mods (ae2 terminal)
   - Maybe toggle buttons in gui (on right maybe)
     - Pickup

@@ -44,6 +44,16 @@ public class CrystalBackpackInventory extends ItemStackHandler {
         stacks.forEach(this::insertStack);
     }
 
+    public int getLastStack() {
+        for (int i = getSlots() - 1; i >= 0; i--) {
+            if (!getStackInSlot(i).isEmpty()) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
     private Comparator<ItemStack> getComparator(SortType type, List<ItemStack> stacks) {
         return switch (type) {
             case QUANTITY -> quantityComparator(stacks).thenComparing(idComparator());

@@ -1,4 +1,22 @@
 # Crystal Tools Change Log
+## 1.7.4
+### Additions
+- Adds a new backpack upgrade: Compression
+  - You can configure which items you want to compress and the press a button to compress all of them (gold nugget -> gold ingot)
+- Adds new backpack sub menus
+  - Filter configuration screen
+  - Compression configuration screen
+- Adds ability to take items in and out of the backpack while you are in your inventory like the bundle
+  - Right-click an empty slot to take the last stack out of the backpack
+  - Right-click another item to insert it into the backpack
+  - Right-click the backpack to take the last stack out of it
+  - Right-click the backpack holding an item to insert that item
+
+### Changes
+- Changes to the backpack interface
+  - Added a button to go to the skill tree
+  - Removed the filters from the base backpack screen and moved them to a new screen
+
 ## 1.7.3
 ### Fixes
 - Fixes Elyta skill tree issue

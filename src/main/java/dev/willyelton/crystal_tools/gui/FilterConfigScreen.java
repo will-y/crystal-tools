@@ -50,7 +50,7 @@ public class FilterConfigScreen extends BackpackSubScreen<CrystalBackpackContain
     protected void init() {
         super.init();
 
-        // TODO: Button that copies backpack contents
+        // TODO: Button that copies backpack contents as filter
         if (this.menu.getFilterRows() > 0) {
             this.addRenderableWidget(new WhitelistToggleButton(this.leftPos + 157, this.topPos + 4,
                     button -> {

@@ -13,14 +13,19 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ClickAction;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -134,8 +139,79 @@ public class CrystalBackpack extends Item implements LevelableItem {
     }
 
     @Override
+    public boolean overrideStackedOnOther(ItemStack backpackStack, Slot slot, ClickAction action, Player player) {
+        if (action != ClickAction.SECONDARY) return false;
+
+        CrystalBackpackInventory inventory = getInventory(backpackStack);
+        ItemStack toInsert = slot.getItem();
+
+        if (toInsert.isEmpty()) {
+            // Take item out of backpack and put in player inventory
+            int lastSlotIndex = inventory.getLastStack();
+            if (lastSlotIndex != -1) {
+                ItemStack toGiveToPlayer = inventory.getStackInSlot(lastSlotIndex);
+                ItemStack result = slot.safeInsert(toGiveToPlayer);
+                inventory.setStackInSlot(lastSlotIndex, result);
+                playRemoveOneSound(player);
+                return true;
+            }
+        } else {
+            // Take item from player's inventory and add it to backpack
+            if (toInsert.getItem().canFitInsideContainerItems()) {
+                ItemStack result = inventory.insertStack(toInsert);
+                slot.set(result);
+                playInsertSound(player);
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean overrideOtherStackedOnMe(ItemStack backpackStack, ItemStack toInsert, Slot slot, ClickAction action, Player player, SlotAccess access) {
+        if (action != ClickAction.SECONDARY) return false;
+
+        CrystalBackpackInventory inventory = getInventory(backpackStack);
+
+        if (toInsert.isEmpty()) {
+            // Take item out of backpack
+            int lastSlotIndex = inventory.getLastStack();
+            if (lastSlotIndex != -1) {
+                ItemStack toGiveToPlayer = inventory.getStackInSlot(lastSlotIndex);
+                access.set(toGiveToPlayer);
+                playRemoveOneSound(player);
+                return true;
+            }
+        } else {
+            // Put held item into backpack
+            ItemStack result = inventory.insertStack(toInsert.copy());
+            toInsert.setCount(result.getCount());
+            playInsertSound(player);
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    // TODO: Call this when inserting into backpack
+    public boolean canFitInsideContainerItems() {
+        return false;
+    }
+
+    @Override
     public int getExperienceCap(ItemStack tool) {
         return (int) NBTUtils.getFloatOrAddKey(tool, "experience_cap", CrystalToolsConfig.BACKPACK_BASE_EXPERIENCE_CAP.get());
+    }
+
+    private void playRemoveOneSound(Entity entity) {
+        entity.playSound(SoundEvents.BUNDLE_REMOVE_ONE, 0.8F, 0.8F + entity.level().getRandom().nextFloat() * 0.4F);
+    }
+
+    private void playInsertSound(Entity entity) {
+        entity.playSound(SoundEvents.BUNDLE_INSERT, 0.8F, 0.8F + entity.level().getRandom().nextFloat() * 0.4F);
     }
 
     private record CrystalBackpackMenuSupplier(CrystalBackpack backpackItem, ItemStack stack, int slotIndex) implements MenuProvider {
