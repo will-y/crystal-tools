@@ -3,7 +3,7 @@
 ### New Levelable Things
 - Shield
 - Backpack
-  - Trash (separate filters?)
+  - Trash (separate screen)
   - Exp Storage ? (mode switch to turn on and off)
   - Transparency on filter slots
   - NBT Matching filter
@@ -11,6 +11,14 @@
   - Limit rows, will be easy with the limit to infinite nodes item below
   - Prio for multiple backpacks / pickup order
   - Match backpack items filter
+  - Nerf skill gain
+  - 2x2 compressions
+  - Right click item into in inventory (bundle)
+  - Quark integration
+  - Shift right click into other mods (ae2 terminal)
+  - Maybe toggle buttons in gui (on right maybe)
+    - Pickup
+    - Trash
 - Crystal Generator
 - Spawner
 - Quarry

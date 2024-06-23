@@ -33,7 +33,6 @@ public class CompressConfigScreen extends BackpackSubScreen<CrystalBackpackConta
         // TODO: move to super
         for (int row = 0; row < containerRows - compressionRows; row++) {
             guiGraphics.blit(TEXTURE, leftPos, topPos + TOP_BAR_HEIGHT + ROW_HEIGHT * (row + compressionRows), 0, 8, INVENTORY_WIDTH, ROW_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
-
         }
 
         // Inventory
