@@ -49,6 +49,6 @@ public abstract class BackpackSubScreen<T extends CrystalBackpackContainerMenu> 
     }
 
     public int getContainerRows() {
-        return  getReturnScreen().getDisplayRows();
+        return getReturnScreen().getDisplayRows();
     }
 }

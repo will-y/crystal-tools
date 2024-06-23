@@ -26,8 +26,8 @@ public class FilterConfigScreen extends BackpackSubScreen<CrystalBackpackContain
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
 
-        int filterRows = menu.getFilterRows();
         int containerRows = getContainerRows();
+        int filterRows = Math.min(menu.getFilterRows(), containerRows);
 
         // Top Bar
         guiGraphics.blit(TEXTURE, leftPos, topPos, 0, 0, INVENTORY_WIDTH, TOP_BAR_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);

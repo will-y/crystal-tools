@@ -37,18 +37,18 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
     private final CrystalBackpackInventory inventory;
     @Nullable
     private final ItemStackHandler filterInventory;
-    private final ItemStackHandler compressionInventory;
+    private ItemStackHandler compressionInventory;
     private final ItemStack stack;
     private final int rows;
     private final int filterRows;
     private boolean whitelist;
     private int maxRows;
-    private boolean canSort;
-    private boolean canCompress;
+    private final boolean canSort;
+    private final boolean canCompress;
     private final NonNullList<ScrollableSlot> backpackSlots;
-    private final NonNullList<CompressionInputSlot> compressionInputSlots;
-    private final NonNullList<CompressionOutputSlot> compressionOutputSlots;
-    private final NonNullList<CrystalSlotItemHandler> filterSlots;
+    private NonNullList<CompressionInputSlot> compressionInputSlots;
+    private NonNullList<CompressionOutputSlot> compressionOutputSlots;
+    private final NonNullList<BackpackFilterSlot> filterSlots;
     private final Player player;
     private final int slotIndex;
     private SubScreenType openSubScreen = NONE;
@@ -70,10 +70,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         this.rows = backpackInventory.getSlots() / SLOTS_PER_ROW;
         this.filterRows = filterRows;
         this.filterInventory = createFilterInventory(stack);
-        this.compressionInventory = createCompressionInventory(stack);
         this.backpackSlots = NonNullList.createWithCapacity(rows * SLOTS_PER_ROW);
-        this.compressionInputSlots = NonNullList.createWithCapacity(getCompressionSlots() / 2);
-        this.compressionOutputSlots = NonNullList.createWithCapacity(getCompressionSlots() / 2);
         this.filterSlots = NonNullList.createWithCapacity(filterRows * FILTER_SLOTS_PER_ROW);
         this.whitelist = whitelist;
         this.canSort = canSort;
@@ -84,21 +81,18 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
 
     @Override
     protected void addSlot(IItemHandler handler, int index, int x, int y) {
-        CrystalSlotItemHandler slot;
-
         // TODO 1.21: Fix this in BaseContainerMenu
         if (handler == inventory) {
-            slot = new ScrollableSlot(handler, index, x, y);
-            backpackSlots.add((ScrollableSlot) slot);
+            ScrollableSlot slot = new ScrollableSlot(handler, index, x, y);
+            backpackSlots.add(slot);
             addSlot(slot);
         } else if (handler == filterInventory) {
-            slot = new BackpackFilterSlot(handler, index, x, y);
+            BackpackFilterSlot slot = new BackpackFilterSlot(handler, index, x, y);
             filterSlots.add(slot);
             slot.setActive(false);
             addSlot(slot);
         } else {
-            slot = new CrystalSlotItemHandler(handler, index, x, y);
-            addSlot(slot);
+            addSlot(new CrystalSlotItemHandler(handler, index, x, y));
         }
     }
 
@@ -120,17 +114,22 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
 
     private void setUpFilterSlots() {
         if (Objects.nonNull(filterInventory)) {
+            int filterRows = Math.min(rows, getFilterRows());
             this.addSlotBox(filterInventory, 0, START_X, START_Y, FILTER_SLOTS_PER_ROW, SLOT_SIZE, filterRows, SLOT_SIZE);
         }
     }
 
     private void setUpCompressionSlots() {
-        int compressionRows = Math.max(this.getRows(), CrystalToolsConfig.MAX_COMPRESSION_SLOT_ROWS.get());
+        this.compressionInputSlots = NonNullList.createWithCapacity(getCompressionSlots() / 2);
+        this.compressionOutputSlots = NonNullList.createWithCapacity(getCompressionSlots() / 2);
+        this.compressionInventory = createCompressionInventory(stack);
+
+        int compressionRows = getCompressionRows();
 
         for (int i = 0; i < compressionRows; i++) {
             for (int j = 0; j < 3; j++) {
-                CompressionOutputSlot outputSlot = new CompressionOutputSlot(compressionInventory, compressionRows * 3 + i * 3 + j, START_X + j * 54 + 32, START_Y + SLOT_SIZE * i);
-                CompressionInputSlot inputSlot = new CompressionInputSlot(compressionInventory, i * 3 + j, START_X + j * 54, START_Y + SLOT_SIZE * i, outputSlot, player.level());
+                CompressionOutputSlot outputSlot = new CompressionOutputSlot(compressionInventory, i * 6 + j * 2 + 1, START_X + j * 54 + 32, START_Y + SLOT_SIZE * i);
+                CompressionInputSlot inputSlot = new CompressionInputSlot(compressionInventory, i * 6 + j * 2, START_X + j * 54, START_Y + SLOT_SIZE * i, outputSlot, player.level());
                 outputSlot.setInputSlot(inputSlot);
 
                 outputSlot.setActive(false);
@@ -197,12 +196,12 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
     }
 
     private ItemStack quickMoveToCompression(ItemStack stack) {
-        if (stack.isEmpty()) return ItemStack.EMPTY;
-
-        for (CompressionInputSlot inputSlot : compressionInputSlots) {
-            if (inputSlot.getItem().isEmpty()) {
-                inputSlot.onClicked(stack);
-                return ItemStack.EMPTY;
+        if (!stack.isEmpty()) {
+            for (CompressionInputSlot inputSlot : compressionInputSlots) {
+                if (inputSlot.getItem().isEmpty()) {
+                    inputSlot.onClicked(stack);
+                    break;
+                }
             }
         }
 
@@ -210,7 +209,15 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
     }
 
     private ItemStack quickMoveFilter(ItemStack stack) {
-        // TODO: Filter slot with onClick behavior
+        if (!stack.isEmpty()) {
+            for (BackpackFilterSlot filterSlot : filterSlots) {
+                if (filterSlot.getItem().isEmpty()) {
+                    filterSlot.onClicked(stack);
+                    break;
+                }
+            }
+        }
+
         return ItemStack.EMPTY;
     }
 
@@ -237,12 +244,22 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
     @Override
     public void removed(Player pPlayer) {
         super.removed(pPlayer);
+        saveFilters();
+        saveCompressions();
+        saveWhitelist();
+    }
+
+    private void saveFilters() {
         if (Objects.nonNull(filterInventory)) {
             stack.getOrCreateTag().put("filter", filterInventory.serializeNBT());
         }
+    }
 
+    private void saveCompressions() {
         stack.getOrCreateTag().put("compression", compressionInventory.serializeNBT());
+    }
 
+    private void saveWhitelist() {
         stack.getOrCreateTag().putBoolean("whitelist", whitelist);
     }
 
@@ -253,14 +270,17 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
             Slot slot = getSlot(slotId);
             if (slot instanceof CompressionInputSlot compressionInputSlot) {
                 compressionInputSlot.onClicked(getCarried());
+                saveCompressions();
             } else if (slot instanceof CompressionOutputSlot compressionOutputSlot) {
                 compressionOutputSlot.onClicked(getCarried());
+                saveCompressions();
             } else if (slot instanceof BackpackFilterSlot filterSlot) {
                 if (Objects.isNull(filterInventory) || clickType == ClickType.THROW || clickType == ClickType.CLONE) {
                     return;
                 }
 
                 filterSlot.onClicked(getCarried());
+                saveFilters();
             } else {
                 super.clicked(slotId, button, clickType, player);
             }
@@ -291,6 +311,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
 
     public void setWhitelist(boolean whitelist) {
         this.whitelist = whitelist;
+        saveWhitelist();
     }
 
     public void sendUpdatePacket(BackpackScreenPacket.Type type) {
@@ -309,8 +330,16 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         return filterInventory.getSlots();
     }
 
+    public int getCompressionRows() {
+        if (canScroll()) {
+           return Math.min(maxRows, CrystalToolsConfig.MAX_COMPRESSION_SLOT_ROWS.get());
+        } else {
+            return Math.min(rows, CrystalToolsConfig.MAX_COMPRESSION_SLOT_ROWS.get());
+        }
+    }
+
     private int getCompressionSlots() {
-        return Math.max(this.getRows(), CrystalToolsConfig.MAX_COMPRESSION_SLOT_ROWS.get()) * 6;
+        return getCompressionRows() * 6;
     }
 
     private ItemStackHandler createFilterInventory(ItemStack stack) {
@@ -319,26 +348,31 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         }
 
         ItemStackHandler itemStackHandler = new ItemStackHandler(filterRows * FILTER_SLOTS_PER_ROW);
-        ItemStackHandler storedItems = new ItemStackHandler(0);
-        CompoundTag tag = stack.getOrCreateTagElement("filter");
-        if (!tag.isEmpty()) {
-            storedItems.deserializeNBT(tag);
-        }
+        if (!stack.isEmpty()) {
+            ItemStackHandler storedItems = new ItemStackHandler(0);
+            CompoundTag tag = stack.getOrCreateTagElement("filter");
+            if (!tag.isEmpty()) {
+                storedItems.deserializeNBT(tag);
+            }
 
-        InventoryUtils.copyTo(storedItems, itemStackHandler);
+            InventoryUtils.copyTo(storedItems, itemStackHandler);
+        }
 
         return itemStackHandler;
     }
 
     private ItemStackHandler createCompressionInventory(ItemStack stack) {
         ItemStackHandler itemStackHandler = new ItemStackHandler(getCompressionSlots());
-        ItemStackHandler storedItems = new ItemStackHandler(0);
-        CompoundTag tag = stack.getOrCreateTagElement("compression");
-        if (!tag.isEmpty()) {
-            storedItems.deserializeNBT(tag);
+        if (!stack.isEmpty()) {
+            ItemStackHandler storedItems = new ItemStackHandler(0);
+            CompoundTag tag = stack.getOrCreateTagElement("compression");
+            if (!tag.isEmpty()) {
+                storedItems.deserializeNBT(tag);
+            }
+
+            InventoryUtils.copyTo(storedItems, itemStackHandler);
         }
 
-        InventoryUtils.copyTo(storedItems, itemStackHandler);
 
         return itemStackHandler;
     }
@@ -432,11 +466,11 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
     }
 
     public void compress() {
-        int compressionSlots = getCompressionSlots() / 2;
+        int compressionSlots = getCompressionSlots();
 
-        for (int i = 0; i < compressionSlots; i++) {
+        for (int i = 0; i < compressionSlots; i+=2) {
             ItemStack inputItem = compressionInventory.getStackInSlot(i);
-            ItemStack outputItem = compressionInventory.getStackInSlot(i + compressionSlots);
+            ItemStack outputItem = compressionInventory.getStackInSlot(i + 1);
             if (inputItem.isEmpty() || outputItem.isEmpty()) continue;
 
             int count = 0;
