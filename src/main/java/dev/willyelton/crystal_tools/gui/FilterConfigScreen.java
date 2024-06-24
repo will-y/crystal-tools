@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import dev.willyelton.crystal_tools.gui.component.MatchContentsButton;
 import dev.willyelton.crystal_tools.gui.component.WhitelistToggleButton;
 import dev.willyelton.crystal_tools.inventory.container.CrystalBackpackContainerMenu;
 import dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket;
@@ -10,8 +11,7 @@ import net.minecraft.world.entity.player.Inventory;
 
 import static dev.willyelton.crystal_tools.gui.CrystalBackpackScreen.*;
 import static dev.willyelton.crystal_tools.gui.CrystalBackpackScreen.TEXTURE_SIZE;
-import static dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket.Type.PICKUP_BLACKLIST;
-import static dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket.Type.PICKUP_WHITELIST;
+import static dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket.Type.*;
 
 public class FilterConfigScreen extends BackpackSubScreen<CrystalBackpackContainerMenu> {
     private boolean whitelist;
@@ -50,7 +50,6 @@ public class FilterConfigScreen extends BackpackSubScreen<CrystalBackpackContain
     protected void init() {
         super.init();
 
-        // TODO: Button that copies backpack contents as filter
         if (this.menu.getFilterRows() > 0) {
             this.addRenderableWidget(new WhitelistToggleButton(this.leftPos + 157, this.topPos + 4,
                     button -> {
@@ -67,6 +66,17 @@ public class FilterConfigScreen extends BackpackSubScreen<CrystalBackpackContain
                         guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(FilterConfigScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
                     },
                     whitelist));
+
+            this.addRenderableWidget(new MatchContentsButton(this.leftPos + 143, this.topPos + 4,
+                    button -> {
+//                        menu.matchContentsFilter(hasShiftDown());
+                        menu.sendUpdatePacket(MATCH_CONTENTS, hasShiftDown());
+                    },
+                    (button, guiGraphics, mouseX, mouseY) -> {
+                        Component textComponent = hasShiftDown() ? Component.literal("Match Backpack Contents (Replacing Existing Filters)") :
+                                Component.literal("Match Backpack Contents (Hold Shift to replace existing filters)");
+                        guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(FilterConfigScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
+                    }));
         }
     }
 }

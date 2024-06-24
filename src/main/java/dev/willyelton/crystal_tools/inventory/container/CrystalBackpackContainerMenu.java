@@ -20,12 +20,15 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import static dev.willyelton.crystal_tools.inventory.container.CrystalBackpackContainerMenu.SubScreenType.*;
 
@@ -316,7 +319,11 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
     }
 
     public void sendUpdatePacket(BackpackScreenPacket.Type type) {
-        PacketHandler.sendToServer(new BackpackScreenPacket(type));
+        this.sendUpdatePacket(type, false);
+    }
+
+    public void sendUpdatePacket(BackpackScreenPacket.Type type, boolean hasShiftDown) {
+        PacketHandler.sendToServer(new BackpackScreenPacket(type, hasShiftDown));
     }
 
     public void sort() {
@@ -505,6 +512,34 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
 
             inventory.insertStack(new ItemStack(outputItem.getItem(), outputRemainder));
         }
+    }
+
+    public void matchContentsFilter(boolean shiftDown) {
+        if (filterInventory == null) return;
+
+        if (shiftDown) {
+            InventoryUtils.clear(filterInventory);
+        }
+
+        int filterIndex = 0;
+        for (int i = 0; i < inventory.getSlots(); i++) {
+            if (filterIndex >= getFilterSlots()) break;
+            ItemStack stack = inventory.getStackInSlot(i).copy();
+            stack.setCount(1);
+            // Would like to use set but stack doesn't implement equals and hashcode
+            if (!InventoryUtils.contains(filterInventory, stack)) {
+                while (!filterInventory.getStackInSlot(filterIndex).isEmpty()) {
+                    filterIndex++;
+                    if (filterIndex >= getFilterSlots()) {
+                        saveFilters();
+                        return;
+                    }
+                }
+                filterInventory.setStackInSlot(filterIndex++, stack);
+            }
+        }
+
+        saveFilters();
     }
 
     public ItemStack getBackpackStack() {

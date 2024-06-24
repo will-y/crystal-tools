@@ -12,7 +12,6 @@
   - Prio for multiple backpacks / pickup order
   - Match backpack items filter
   - Nerf skill gain
-  - 2x2 compressions
   - Quark integration (no idea how to do this)
   - Shift right click into other mods (ae2 terminal)
   - Maybe toggle buttons in gui (on right maybe)

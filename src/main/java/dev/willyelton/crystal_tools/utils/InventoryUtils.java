@@ -32,4 +32,12 @@ public class InventoryUtils {
             inv.setStackInSlot(i, ItemStack.EMPTY);
         }
     }
+
+    public static boolean contains(ItemStackHandler inv, ItemStack itemStack) {
+        for (int i = 0; i < inv.getSlots(); i++) {
+            if (inv.getStackInSlot(i).equals(itemStack, false)) return true;
+        }
+
+        return false;
+    }
 }
