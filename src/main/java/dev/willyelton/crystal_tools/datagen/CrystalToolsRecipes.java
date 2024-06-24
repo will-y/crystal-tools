@@ -39,14 +39,14 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Registration. NETHERITE_STICK.get(), 4)
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Registration.NETHERITE_STICK.get(), 4)
                 .pattern("n")
                 .pattern("n")
                 .define('n', Tags.Items.INGOTS_NETHERITE)
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Registration. CRYSTAL_TORCH.get(), 4)
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Registration.CRYSTAL_TORCH.get(), 4)
                 .pattern("c")
                 .pattern("s")
                 .define('c', Registration.CRYSTAL.get())

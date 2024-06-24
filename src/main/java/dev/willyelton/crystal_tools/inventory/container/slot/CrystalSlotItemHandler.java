@@ -6,9 +6,11 @@ import net.minecraftforge.items.SlotItemHandler;
 
 public class CrystalSlotItemHandler extends SlotItemHandler {
     private boolean active = true;
+    private final int index;
 
     public CrystalSlotItemHandler(IItemHandler itemHandler, int index, int xPosition, int yPosition) {
         super(itemHandler, index, xPosition, yPosition);
+        this.index = index;
     }
 
     // Not sure why this is commented out in Forge
@@ -24,5 +26,9 @@ public class CrystalSlotItemHandler extends SlotItemHandler {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public int getIndex() {
+        return index;
     }
 }

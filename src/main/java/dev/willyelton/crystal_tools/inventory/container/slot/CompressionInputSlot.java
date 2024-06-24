@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.inventory.container.slot;
 
+import dev.willyelton.crystal_tools.inventory.CompressionItemStackHandler;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.inventory.CraftingContainer;
@@ -7,20 +8,23 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.items.IItemHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static dev.willyelton.crystal_tools.inventory.CompressionItemStackHandler.CompressionMode.*;
+
 public class CompressionInputSlot extends CrystalSlotItemHandler {
     private final CompressionOutputSlot outputSlot;
     private final Level level;
+    private final CompressionItemStackHandler compressionHandler;
 
-    public CompressionInputSlot(IItemHandler itemHandler, int index, int x, int y, CompressionOutputSlot outputSlot, Level level) {
+    public CompressionInputSlot(CompressionItemStackHandler itemHandler, int index, int x, int y, CompressionOutputSlot outputSlot, Level level) {
         super(itemHandler, index, x, y);
         this.outputSlot = outputSlot;
         this.level = level;
+        this.compressionHandler = itemHandler;
     }
 
     @Override
@@ -34,25 +38,61 @@ public class CompressionInputSlot extends CrystalSlotItemHandler {
     }
 
     public void onClicked(ItemStack stack) {
+        Optional<CraftingRecipe> threeOptional = getRecipe(stack, 3);
+        Optional<CraftingRecipe> twoOptional = getRecipe(stack, 2);
+        CompressionItemStackHandler.CompressionMode compressionMode = compressionHandler.getMode(getIndex());
+
+        if (stack.is(this.getItem().getItem())) {
+            if (compressionMode == THREE_BY_THREE && twoOptional.isPresent()) {
+                setSlots(stack, twoOptional.get());
+                this.compressionHandler.setMode(TWO_BY_TWO, getIndex());
+                return;
+            } else if (compressionMode == TWO_BY_TWO && threeOptional.isPresent()) {
+                setSlots(stack, threeOptional.get());
+                this.compressionHandler.setMode(THREE_BY_THREE, getIndex());
+                return;
+            }
+        }
+
+        // TODO: Check for uncrafting and show warning if not
+        if (threeOptional.isPresent()) {
+            setSlots(stack, threeOptional.get());
+            this.compressionHandler.setMode(THREE_BY_THREE, getIndex());
+        } else {
+            if (twoOptional.isPresent()) {
+                setSlots(stack, twoOptional.get());
+
+                this.compressionHandler.setMode(TWO_BY_TWO, getIndex());
+            } else {
+                set(ItemStack.EMPTY);
+                setChanged();
+
+                outputSlot.set(ItemStack.EMPTY);
+                outputSlot.setChanged();
+            }
+        }
+    }
+
+    private Optional<CraftingRecipe> getRecipe(ItemStack stack, int size) {
+        if (stack.isEmpty()) return Optional.empty();
         // 1.21: CraftingInput
         CraftingContainer craftingContainer = new CraftingContainer() {
             @Override
             public int getWidth() {
-                return 3;
+                return size;
             }
 
             @Override
             public int getHeight() {
-                return 3;
+                return size;
             }
 
             @Override
             public List<ItemStack> getItems() {
-                // TODO: 1.21 allow 2x2 compression
                 ItemStack copy = stack.copy();
                 copy.setCount(1);
                 List<ItemStack> items = new ArrayList<>();
-                for (int i = 0; i < 9; i++) {
+                for (int i = 0; i < getContainerSize(); i++) {
                     items.add(copy.copy());
                 }
 
@@ -61,7 +101,7 @@ public class CompressionInputSlot extends CrystalSlotItemHandler {
 
             @Override
             public int getContainerSize() {
-                return 9;
+                return size * size;
             }
 
             @Override
@@ -110,24 +150,17 @@ public class CompressionInputSlot extends CrystalSlotItemHandler {
             }
         };
 
-        Optional<CraftingRecipe> optional = level.getRecipeManager().getRecipeFor(RecipeType.CRAFTING, craftingContainer, level);
+        return level.getRecipeManager().getRecipeFor(RecipeType.CRAFTING, craftingContainer, level);
+    }
 
-        // TODO: Check for uncrafting and show warning if not
-        if (optional.isPresent()) {
-            ItemStack inputStack = stack.copy();
-            inputStack.setCount(1);
-            set(inputStack);
-            setChanged();
+    private void setSlots(ItemStack stack, CraftingRecipe recipe) {
+        ItemStack inputStack = stack.copy();
+        inputStack.setCount(1);
+        set(inputStack);
+        setChanged();
 
-            ItemStack outputStack = optional.get().getResultItem(level.registryAccess()).copy();
-            outputSlot.set(outputStack);
-            outputSlot.setChanged();
-        } else {
-            set(ItemStack.EMPTY);
-            setChanged();
-
-            outputSlot.set(ItemStack.EMPTY);
-            outputSlot.setChanged();
-        }
+        ItemStack outputStack = recipe.getResultItem(level.registryAccess()).copy();
+        outputSlot.set(outputStack);
+        outputSlot.setChanged();
     }
 }

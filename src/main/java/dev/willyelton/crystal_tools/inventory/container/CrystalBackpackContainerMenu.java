@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.inventory.container;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.gui.ScrollableMenu;
+import dev.willyelton.crystal_tools.inventory.CompressionItemStackHandler;
 import dev.willyelton.crystal_tools.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.inventory.container.slot.*;
 import dev.willyelton.crystal_tools.levelable.CrystalBackpack;
@@ -37,7 +38,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
     private final CrystalBackpackInventory inventory;
     @Nullable
     private final ItemStackHandler filterInventory;
-    private ItemStackHandler compressionInventory;
+    private CompressionItemStackHandler compressionInventory;
     private final ItemStack stack;
     private final int rows;
     private final int filterRows;
@@ -361,16 +362,17 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         return itemStackHandler;
     }
 
-    private ItemStackHandler createCompressionInventory(ItemStack stack) {
-        ItemStackHandler itemStackHandler = new ItemStackHandler(getCompressionSlots());
+    private CompressionItemStackHandler createCompressionInventory(ItemStack stack) {
+        CompressionItemStackHandler itemStackHandler = new CompressionItemStackHandler(getCompressionSlots());
         if (!stack.isEmpty()) {
-            ItemStackHandler storedItems = new ItemStackHandler(0);
+            CompressionItemStackHandler storedItems = new CompressionItemStackHandler(getCompressionSlots());
             CompoundTag tag = stack.getOrCreateTagElement("compression");
             if (!tag.isEmpty()) {
                 storedItems.deserializeNBT(tag);
             }
 
             InventoryUtils.copyTo(storedItems, itemStackHandler);
+            itemStackHandler.setModes(storedItems.getModes());
         }
 
 
@@ -484,9 +486,12 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
                 }
             }
 
-            // TODO: Eventually could be 4
-            int outputCount = count / 9;
-            int inputCount = count % 9;
+            int requiredCount = compressionInventory.getMode(i).getCount();
+
+            if (requiredCount == 0) continue;
+
+            int outputCount = count / requiredCount;
+            int inputCount = count % requiredCount;
 
             ItemStack inputStack = new ItemStack(inputItem.getItem(), inputCount);
             inventory.insertStack(inputStack);
