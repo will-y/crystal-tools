@@ -10,8 +10,7 @@
   - Change screen size so you need or don't need a scroll bar breaks things
   - Limit rows, will be easy with the limit to infinite nodes item below
   - Prio for multiple backpacks / pickup order
-  - Match backpack items filter
-  - Nerf skill gain
+  - Nerf skill gain (add ability for tools to create custom level scaling, move ToolUtils#increaseCap or something to tool interface)
   - Quark integration (no idea how to do this)
   - Shift right click into other mods (ae2 terminal)
   - Maybe toggle buttons in gui (on right maybe)

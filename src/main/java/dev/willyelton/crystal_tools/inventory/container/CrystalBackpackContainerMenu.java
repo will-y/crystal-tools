@@ -5,12 +5,16 @@ import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.gui.ScrollableMenu;
 import dev.willyelton.crystal_tools.inventory.CompressionItemStackHandler;
 import dev.willyelton.crystal_tools.inventory.CrystalBackpackInventory;
-import dev.willyelton.crystal_tools.inventory.container.slot.*;
+import dev.willyelton.crystal_tools.inventory.container.slot.BackpackFilterSlot;
+import dev.willyelton.crystal_tools.inventory.container.slot.CompressionInputSlot;
+import dev.willyelton.crystal_tools.inventory.container.slot.CompressionOutputSlot;
+import dev.willyelton.crystal_tools.inventory.container.slot.CrystalSlotItemHandler;
+import dev.willyelton.crystal_tools.inventory.container.slot.ReadOnlySlot;
+import dev.willyelton.crystal_tools.inventory.container.slot.ScrollableSlot;
 import dev.willyelton.crystal_tools.levelable.CrystalBackpack;
 import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.network.packet.BackpackScreenPacket;
 import dev.willyelton.crystal_tools.utils.InventoryUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -20,17 +24,16 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
-import static dev.willyelton.crystal_tools.inventory.container.CrystalBackpackContainerMenu.SubScreenType.*;
+import static dev.willyelton.crystal_tools.inventory.container.CrystalBackpackContainerMenu.SubScreenType.COMPRESS;
+import static dev.willyelton.crystal_tools.inventory.container.CrystalBackpackContainerMenu.SubScreenType.FILTER;
+import static dev.willyelton.crystal_tools.inventory.container.CrystalBackpackContainerMenu.SubScreenType.NONE;
 
 public class CrystalBackpackContainerMenu extends BaseContainerMenu implements ScrollableMenu {
     public static final int START_Y = 18;
@@ -61,7 +64,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
     public CrystalBackpackContainerMenu(int containerId, Inventory playerInventory, FriendlyByteBuf data) {
         this(containerId, playerInventory, new CrystalBackpackInventory(data.readInt() * 9), ItemStack.EMPTY,
                 data.readInt(), data.readBoolean(), data.readBoolean(), data.readBoolean(),
-                data.readInt(), Minecraft.getInstance().player);
+                data.readInt(), playerInventory.player);
     }
 
     // Server constructor
