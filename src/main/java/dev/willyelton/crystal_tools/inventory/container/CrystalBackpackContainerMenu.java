@@ -542,6 +542,13 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         saveFilters();
     }
 
+    public void clearFilters() {
+        if (filterInventory != null) {
+            InventoryUtils.clear(filterInventory);
+            saveFilters();
+        }
+    }
+
     public ItemStack getBackpackStack() {
         return stack;
     }

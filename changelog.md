@@ -11,6 +11,8 @@
   - Right-click another item to insert it into the backpack
   - Right-click the backpack to take the last stack out of it
   - Right-click the backpack holding an item to insert that item
+- Adds button to create filters matching the backpack's contents
+- Adds button to clear current filters
 
 ### Changes
 - Changes to the backpack interface

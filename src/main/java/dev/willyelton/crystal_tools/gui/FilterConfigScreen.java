@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import dev.willyelton.crystal_tools.gui.component.ClearFilterButton;
 import dev.willyelton.crystal_tools.gui.component.MatchContentsButton;
 import dev.willyelton.crystal_tools.gui.component.WhitelistToggleButton;
 import dev.willyelton.crystal_tools.inventory.container.CrystalBackpackContainerMenu;
@@ -67,9 +68,17 @@ public class FilterConfigScreen extends BackpackSubScreen<CrystalBackpackContain
                     },
                     whitelist));
 
-            this.addRenderableWidget(new MatchContentsButton(this.leftPos + 143, this.topPos + 4,
+            this.addRenderableWidget(new ClearFilterButton(this.leftPos + 143, this.topPos + 4,
                     button -> {
-//                        menu.matchContentsFilter(hasShiftDown());
+                        menu.sendUpdatePacket(CLEAR_FILTERS);
+                    },
+                    (button, guiGraphics, mouseX, mouseY) -> {
+                        Component textComponent = Component.literal("Clear Filters");
+                        guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(FilterConfigScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
+                    }));
+
+            this.addRenderableWidget(new MatchContentsButton(this.leftPos + 129, this.topPos + 4,
+                    button -> {
                         menu.sendUpdatePacket(MATCH_CONTENTS, hasShiftDown());
                     },
                     (button, guiGraphics, mouseX, mouseY) -> {
