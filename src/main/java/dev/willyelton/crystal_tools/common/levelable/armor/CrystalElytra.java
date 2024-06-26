@@ -112,7 +112,7 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
 
             return builder.build();
         } else {
-            return stack.getAttributeModifiers();
+            return ItemAttributeModifiers.builder().build();
         }
     }
 

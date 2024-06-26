@@ -1,7 +1,11 @@
 # Crystal Tools Change Log
 ## 2.0.0-beta3
+### Changes
 - Updates to Neo 21.0.37-beta
+
+### Fixes
 - Fixes JEI Integration
+- Fixes ore generation
 
 ## 2.0.0-beta2
 ### Changes
