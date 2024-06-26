@@ -58,7 +58,7 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Equipabl
 
             return builder.build();
         } else {
-            return super.getAttributeModifiers(stack);
+            return stack.getAttributeModifiers();
         }
     }
 

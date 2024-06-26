@@ -13,9 +13,7 @@ public class ItemAttributeModifierEvent {
         if (event.getItemStack().getItem() instanceof LevelableItem levelableItem) {
             ItemAttributeModifiers modifiers = levelableItem.getLevelableAttributeModifiers(event.getItemStack());
             modifiers.modifiers().forEach(entry -> {
-                if (entry.slot().test(event.getSlotType())) {
-                    event.addModifier(entry.attribute(), entry.modifier());
-                }
+                event.addModifier(entry.attribute(), entry.modifier(), entry.slot());
             });
         }
     }

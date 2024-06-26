@@ -62,3 +62,4 @@
 - Effects
 - Arrow knockback (probably going to need to add punch to the bow unless they add an event)
 - Attributes don't show up on items. Still works though
+- Remove JEI access transformers

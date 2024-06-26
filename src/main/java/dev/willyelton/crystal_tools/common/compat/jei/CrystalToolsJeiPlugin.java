@@ -5,6 +5,7 @@ import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.crafting.CrystalAIOTRecipe;
 import dev.willyelton.crystal_tools.common.crafting.CrystalElytraRecipe;
 import dev.willyelton.crystal_tools.common.crafting.CrystalToolsRecipe;
+import dev.willyelton.crystal_tools.common.crafting.ModRecipes;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
@@ -27,9 +28,7 @@ public class CrystalToolsJeiPlugin implements IModPlugin {
 
     @Override
     public void registerVanillaCategoryExtensions(IVanillaCategoryExtensionRegistration registration) {
-        // TODO: not sure if this works
-        registration.getCraftingCategory().addExtension(CrystalToolsRecipe.class, new CrystalToolsCraftingCategoryExtension(new CrystalAIOTRecipe(CraftingBookCategory.EQUIPMENT)));
-        registration.getCraftingCategory().addExtension(CrystalToolsRecipe.class, new CrystalToolsCraftingCategoryExtension(new CrystalElytraRecipe(CraftingBookCategory.EQUIPMENT)));
+        registration.getCraftingCategory().addExtension(CrystalToolsRecipe.class, new CrystalToolsCraftingCategoryExtension());
     }
 
     @Override

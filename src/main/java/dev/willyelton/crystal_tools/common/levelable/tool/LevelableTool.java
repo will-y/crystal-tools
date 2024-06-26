@@ -347,7 +347,7 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
 
             return builder.build();
         } else {
-            return super.getAttributeModifiers(stack);
+            return stack.getAttributeModifiers();
         }
     }
 

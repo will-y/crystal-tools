@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 2.0.0-beta3
+- Updates to Neo 21.0.37-beta
+- Fixes JEI Integration
+
 ## 2.0.0-beta2
 ### Changes
 - Updates to Neo 21.0.10-beta

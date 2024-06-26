@@ -51,10 +51,10 @@ public class CrystalToolsItemTags extends ItemTagsProvider {
         tag(ItemTags.TRIDENT_ENCHANTABLE).add(
                 Registration.CRYSTAL_TRIDENT.get());
 
-        tag(Tags.Items.TOOLS_SPEARS).add(
+        tag(Tags.Items.TOOLS_SPEAR).add(
                 Registration.CRYSTAL_TRIDENT.get());
 
-        tag(Tags.Items.TOOLS_FISHING_RODS).add(
+        tag(Tags.Items.TOOLS_FISHING_ROD).add(
                 Registration.CRYSTAL_FISHING_ROD.get());
 
         tag(ItemTags.HEAD_ARMOR).add(

@@ -14,23 +14,15 @@ import java.util.List;
 import java.util.Optional;
 
 public class CrystalToolsCraftingCategoryExtension implements ICraftingCategoryExtension<CrystalToolsRecipe> {
-    private final CrystalToolsRecipe recipe;
-
-    public CrystalToolsCraftingCategoryExtension(CrystalToolsRecipe recipe) {
-        this.recipe = recipe;
-    }
-
-    // TODO: Not sure if I actually need this? aiot doesn't seem right
     @Override
     public Optional<ResourceLocation> getRegistryName(RecipeHolder<CrystalToolsRecipe> recipe) {
         return Optional.of(recipe.id());
-//        return Optional.of(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "crystal_aiot"));
     }
 
     @Override
     public void setRecipe(RecipeHolder<CrystalToolsRecipe> recipeHolder, IRecipeLayoutBuilder builder, ICraftingGridHelper craftingGridHelper, IFocusGroup focuses) {
-        List<List<ItemStack>> inputs = recipe.getInputs().stream().map(List::of).toList();
-        craftingGridHelper.createAndSetOutputs(builder, List.of(recipe.getOutput()));
+        List<List<ItemStack>> inputs = recipeHolder.value().getInputs().stream().map(List::of).toList();
+        craftingGridHelper.createAndSetOutputs(builder, List.of(recipeHolder.value().getOutput()));
         craftingGridHelper.createAndSetInputs(builder, inputs, 3, 3);
     }
 }

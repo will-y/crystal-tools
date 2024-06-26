@@ -8,15 +8,16 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 
 @EventBusSubscriber(modid = CrystalTools.MODID)
 public class LivingHurtEvent {
     @SubscribeEvent
-    public static void handleLivingHurtEvent(net.neoforged.neoforge.event.entity.living.LivingHurtEvent event) {
+    public static void handleLivingHurtEvent(LivingDamageEvent.Post event) {
         LivingEntity entity = event.getEntity();
 
         if (entity instanceof Player player) {
-            float damageAmount = event.getAmount();
+            float damageAmount = event.getOriginalDamage();
 
             for (ItemStack armor : player.getArmorSlots()) {
                 if (armor.getItem() instanceof LevelableItem item) {
