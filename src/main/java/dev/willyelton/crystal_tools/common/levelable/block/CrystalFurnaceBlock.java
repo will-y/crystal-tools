@@ -97,6 +97,7 @@ public class CrystalFurnaceBlock extends BaseEntityBlock {
                 .setValue(LIT, context.getItemInHand().getOrDefault(DataComponents.FURNACE_DATA, new FurnaceData()).litDuration() > 0);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public RenderShape getRenderShape(BlockState pState) {
         return RenderShape.MODEL;

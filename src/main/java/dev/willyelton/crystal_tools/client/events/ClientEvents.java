@@ -23,7 +23,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
-import net.neoforged.neoforge.common.ToolActions;
+import net.neoforged.neoforge.common.ItemAbilities;
 
 @EventBusSubscriber(modid = CrystalTools.MODID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public class ClientEvents {
@@ -54,7 +54,7 @@ public class ClientEvents {
                         return 0.0F;
                     } else {
                         boolean flag = entity.getMainHandItem() == stack;
-                        boolean flag1 = entity.getOffhandItem() == stack && !entity.getMainHandItem().getItem().canPerformAction(stack, ToolActions.FISHING_ROD_CAST);
+                        boolean flag1 = entity.getOffhandItem() == stack && !entity.getMainHandItem().getItem().canPerformAction(stack, ItemAbilities.FISHING_ROD_CAST);
 
                         return (flag || flag1) && entity instanceof Player && ((Player) entity).fishing != null ? 1.0F : 0.0F;
                     }

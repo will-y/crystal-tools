@@ -14,8 +14,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.neoforged.neoforge.common.IShearable;
-import net.neoforged.neoforge.common.ToolAction;
-import net.neoforged.neoforge.common.ToolActions;
+import net.neoforged.neoforge.common.ItemAbilities;
+import net.neoforged.neoforge.common.ItemAbility;
 
 import java.util.List;
 import java.util.Random;
@@ -36,8 +36,9 @@ public class HoeLevelableTool extends DiggerLevelableTool {
     }
 
     @Override
-    public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
-        return ToolActions.DEFAULT_HOE_ACTIONS.contains(toolAction) || (stack.getOrDefault(DataComponents.SHEAR, false) && ToolActions.DEFAULT_SHEARS_ACTIONS.contains(toolAction));
+    public boolean canPerformAction(ItemStack stack, ItemAbility itemAbility) {
+        return ItemAbilities.DEFAULT_HOE_ACTIONS.contains(itemAbility) ||
+                (stack.getOrDefault(DataComponents.SHEAR, false) && ItemAbilities.DEFAULT_SHEARS_ACTIONS.contains(itemAbility));
     }
 
     @Override

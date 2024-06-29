@@ -25,7 +25,7 @@ import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.neoforged.neoforge.common.ToolActions;
+import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.Collection;
@@ -47,9 +47,9 @@ public class ToolUseUtils {
         if (durability <= 1) {
             return InteractionResult.PASS;
         }
-        Optional<BlockState> optional = Optional.ofNullable(blockstate.getToolModifiedState(pContext, ToolActions.AXE_STRIP, false));
-        Optional<BlockState> optional1 = Optional.ofNullable(blockstate.getToolModifiedState(pContext, ToolActions.AXE_SCRAPE, false));
-        Optional<BlockState> optional2 = Optional.ofNullable(blockstate.getToolModifiedState(pContext, ToolActions.AXE_WAX_OFF, false));
+        Optional<BlockState> optional = Optional.ofNullable(blockstate.getToolModifiedState(pContext, ItemAbilities.AXE_STRIP, false));
+        Optional<BlockState> optional1 = Optional.ofNullable(blockstate.getToolModifiedState(pContext, ItemAbilities.AXE_SCRAPE, false));
+        Optional<BlockState> optional2 = Optional.ofNullable(blockstate.getToolModifiedState(pContext, ItemAbilities.AXE_WAX_OFF, false));
         Optional<BlockState> optional3 = Optional.empty();
         if (optional.isPresent()) {
             level.playSound(player, blockpos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -99,7 +99,7 @@ public class ToolUseUtils {
 
                 for (BlockPos pos : blocksToStrip) {
                     BlockState blockState = level.getBlockState(pos);
-                    Optional<BlockState> optional = Optional.ofNullable(blockState.getToolModifiedState(context, ToolActions.AXE_STRIP, false));
+                    Optional<BlockState> optional = Optional.ofNullable(blockState.getToolModifiedState(context, ItemAbilities.AXE_STRIP, false));
                     if (optional.isPresent()) {
                         stripBlock(tool, level, itemStack, player, pos, context.getHand(), optional.get());
                         PacketDistributor.sendToServer(new BlockStripPayload(pos, context.getHand(), optional.get()));
@@ -137,7 +137,7 @@ public class ToolUseUtils {
             return InteractionResult.PASS;
         } else {
             Player player = pContext.getPlayer();
-            BlockState blockstate1 = blockstate.getToolModifiedState(pContext, ToolActions.SHOVEL_FLATTEN, false);
+            BlockState blockstate1 = blockstate.getToolModifiedState(pContext, ItemAbilities.SHOVEL_FLATTEN, false);
             BlockState blockstate2 = null;
             if (blockstate1 != null && level.isEmptyBlock(blockpos.above())) {
                 level.playSound(player, blockpos, SoundEvents.SHOVEL_FLATTEN, SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -238,7 +238,7 @@ public class ToolUseUtils {
         }
 
         Level level = context.getLevel();
-        BlockState toolModifiedState = level.getBlockState(blockPos).getToolModifiedState(context, ToolActions.HOE_TILL, false);
+        BlockState toolModifiedState = level.getBlockState(blockPos).getToolModifiedState(context, ItemAbilities.HOE_TILL, false);
         Pair<Predicate<UseOnContext>, Consumer<UseOnContext>> pair = toolModifiedState == null ? null : Pair.of(ctx -> true, changeIntoState(toolModifiedState, blockPos));
         if (pair == null) {
             return InteractionResult.PASS;

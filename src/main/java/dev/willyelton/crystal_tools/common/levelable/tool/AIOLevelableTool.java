@@ -11,13 +11,30 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.common.ItemAbility;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.ToolAction;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import static net.neoforged.neoforge.common.ItemAbilities.DEFAULT_AXE_ACTIONS;
+import static net.neoforged.neoforge.common.ItemAbilities.DEFAULT_HOE_ACTIONS;
+import static net.neoforged.neoforge.common.ItemAbilities.DEFAULT_PICKAXE_ACTIONS;
+import static net.neoforged.neoforge.common.ItemAbilities.DEFAULT_SHEARS_ACTIONS;
+import static net.neoforged.neoforge.common.ItemAbilities.DEFAULT_SHOVEL_ACTIONS;
+import static net.neoforged.neoforge.common.ItemAbilities.DEFAULT_SWORD_ACTIONS;
+
 public class AIOLevelableTool extends DiggerLevelableTool {
+    public static final Set<ItemAbility> AIOT_ACTIONS = new HashSet<>();
+
     public AIOLevelableTool() {
         super(new Properties(), BlockTags.MINEABLE_WITH_PICKAXE, "aiot", 3, -2.4F);
+        AIOT_ACTIONS.addAll(DEFAULT_AXE_ACTIONS);
+        AIOT_ACTIONS.addAll(DEFAULT_HOE_ACTIONS);
+        AIOT_ACTIONS.addAll(DEFAULT_SHOVEL_ACTIONS);
+        AIOT_ACTIONS.addAll(DEFAULT_PICKAXE_ACTIONS);
+        AIOT_ACTIONS.addAll(DEFAULT_SWORD_ACTIONS);
     }
 
     @Override
@@ -85,8 +102,8 @@ public class AIOLevelableTool extends DiggerLevelableTool {
     }
 
     @Override
-    public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
-        return true;
+    public boolean canPerformAction(ItemStack stack, ItemAbility itemAbility) {
+        return AIOT_ACTIONS.contains(itemAbility);
     }
 
     public InteractionResult useOnTorch(UseOnContext context) {
