@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 1.7.5
+### Fixes
+- Fixes not being able to open backpacks in curios slots with the hotkey
+
 ## 1.7.4
 ### Additions
 - Adds a new backpack upgrade: Compression

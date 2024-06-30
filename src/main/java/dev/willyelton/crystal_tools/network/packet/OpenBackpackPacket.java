@@ -1,11 +1,13 @@
 package dev.willyelton.crystal_tools.network.packet;
 
+import dev.willyelton.crystal_tools.compat.curios.CuriosCompatibility;
 import dev.willyelton.crystal_tools.levelable.CrystalBackpack;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 public class OpenBackpackPacket {
@@ -35,7 +37,19 @@ public class OpenBackpackPacket {
         int slot = slotId == -1 ? CrystalBackpack.findNextBackpackSlot(player) : slotId;
         if (slot == -1) return;
 
-        ItemStack backpackStack = player.getInventory().getItem(slot);
+        ItemStack backpackStack;
+
+        if (slot == -2) {
+            List<ItemStack> curiosStacks = CuriosCompatibility.getCrystalBackpacksInCurios(player);
+
+            if (!curiosStacks.isEmpty()) {
+                backpackStack = curiosStacks.get(0);
+            } else {
+                backpackStack = ItemStack.EMPTY;
+            }
+        } else {
+            backpackStack = player.getInventory().getItem(slot);
+        }
 
         if (backpackStack.getItem() instanceof CrystalBackpack backpackItem) {
             backpackItem.openBackpack(player, backpackStack, slot);

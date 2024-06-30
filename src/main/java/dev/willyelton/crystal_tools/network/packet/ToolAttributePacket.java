@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.network.packet;
 
+import dev.willyelton.crystal_tools.compat.curios.CuriosCompatibility;
 import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
@@ -12,6 +13,7 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class ToolAttributePacket {
@@ -83,6 +85,14 @@ public class ToolAttributePacket {
     private ItemStack getItemStack(Player player, int slotIndex) {
         if (slotIndex == -1) {
             return ItemStackUtils.getHeldLevelableTool(player);
+        } else if (slotIndex == -2) {
+            // Special case for curios backpacks
+            List<ItemStack> curiosStacks = CuriosCompatibility.getCrystalBackpacksInCurios(player);
+            if (!curiosStacks.isEmpty()) {
+                return curiosStacks.get(0);
+            } else {
+                return ItemStack.EMPTY.copy();
+            }
         }
 
         return player.getInventory().getItem(slotIndex);
