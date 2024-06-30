@@ -26,7 +26,6 @@ public class ScrollableSlot extends CrystalSlotItemHandler {
     }
 
     @Override
-    @NotNull
     public ItemStack getItem() {
         return this.getItemHandler().getStackInSlot(actualSlotIndex);
     }
@@ -39,7 +38,7 @@ public class ScrollableSlot extends CrystalSlotItemHandler {
     }
 
     // Override if your IItemHandler does not implement IItemHandlerModifiable
-    // @Override
+    @Override
     public void initialize(ItemStack stack) {
         ((IItemHandlerModifiable) this.getItemHandler()).setStackInSlot(actualSlotIndex, stack);
         this.setChanged();
@@ -81,7 +80,6 @@ public class ScrollableSlot extends CrystalSlotItemHandler {
     }
 
     @Override
-    @NotNull
     public ItemStack remove(int amount) {
         return this.getItemHandler().extractItem(actualSlotIndex, amount, false);
     }

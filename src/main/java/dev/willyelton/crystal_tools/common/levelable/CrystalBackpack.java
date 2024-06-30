@@ -41,7 +41,7 @@ public class CrystalBackpack extends Item implements LevelableItem {
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand usedHand) {
+    public InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand usedHand) {
         ItemStack stack = player.getItemInHand(usedHand);
 
         if (player instanceof ServerPlayer serverPlayer) {
@@ -55,11 +55,8 @@ public class CrystalBackpack extends Item implements LevelableItem {
         serverPlayer.openMenu(
                 new CrystalBackpackMenuSupplier(this, backpackStack),
                 friendlyByteBuf -> {
-                    // TODO: Maybe want to actually set here?
-                    friendlyByteBuf.writeInt(backpackStack.getOrDefault(DataComponents.CAPACITY, 1));
-                    friendlyByteBuf.writeInt(backpackStack.getOrDefault(DataComponents.FILTER_CAPACITY, 0));
-                    friendlyByteBuf.writeBoolean(backpackStack.getOrDefault(DataComponents.WHITELIST, false));
-                    friendlyByteBuf.writeBoolean(backpackStack.getOrDefault(DataComponents.SORT_ENABLED, false));
+                    // TODO: Maybe want to actually set defaults here?
+                    ItemStack.OPTIONAL_STREAM_CODEC.encode(friendlyByteBuf, backpackStack);
                 });
     }
 
@@ -113,11 +110,6 @@ public class CrystalBackpack extends Item implements LevelableItem {
         return CrystalToolsConfig.DISABLE_BACKPACK.get();
     }
 
-//    @Override
-//    public @Nullable ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-//        return new CrystalBackpackCapabilityProvider(stack);
-//    }
-
     @Override
     public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
 //        components.add(Component.literal("\u00A7d\u00A7l" + "The backpack is currently a WIP. Please report any issues or make suggestions."));
@@ -142,10 +134,7 @@ public class CrystalBackpack extends Item implements LevelableItem {
             @Override
             public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
                 // Server side constructor
-                return new CrystalBackpackContainerMenu(containerId, playerInventory, getInventory(stack), stack,
-                        stack.getOrDefault(DataComponents.FILTER_CAPACITY, 0),
-                        stack.getOrDefault(DataComponents.WHITELIST, true),
-                        stack.getOrDefault(DataComponents.SORT_ENABLED, false));
+                return new CrystalBackpackContainerMenu(containerId, playerInventory, stack);
             }
         }
 

@@ -7,15 +7,18 @@ import dev.willyelton.crystal_tools.common.inventory.container.slot.ReadOnlySlot
 import dev.willyelton.crystal_tools.common.inventory.container.slot.ScrollableSlot;
 import dev.willyelton.crystal_tools.common.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.CrystalSlotItemHandler;
+import dev.willyelton.crystal_tools.common.levelable.CrystalBackpack;
 import dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemContainerContents;
 import net.neoforged.neoforge.items.ComponentItemHandler;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
@@ -38,27 +41,25 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
     private final int filterRows;
     private boolean whitelist;
     private int maxRows;
-    private boolean canSort;
+    private final boolean canSort;
     private final NonNullList<ScrollableSlot> backpackSlots;
 
     // Client constructor
-    public CrystalBackpackContainerMenu(int containerId, Inventory playerInventory, FriendlyByteBuf data) {
-        this(containerId, playerInventory, new CrystalBackpackInventory(data.readInt() * 9), ItemStack.EMPTY,
-                data.readInt(), data.readBoolean(), data.readBoolean());
+    public CrystalBackpackContainerMenu(int containerId, Inventory playerInventory, RegistryFriendlyByteBuf data) {
+        this(containerId, playerInventory, ItemStack.OPTIONAL_STREAM_CODEC.decode(data));
     }
 
     // Server constructor
-    public CrystalBackpackContainerMenu(int containerId, Inventory playerInventory, CrystalBackpackInventory backpackInventory,
-                                        ItemStack stack, int filterRows, boolean whitelist, boolean canSort) {
+    public CrystalBackpackContainerMenu(int containerId, Inventory playerInventory, ItemStack stack) {
         super(Registration.CRYSTAL_BACKPACK_CONTAINER.get(), containerId, playerInventory);
-        this.inventory = backpackInventory;
+        this.inventory = CrystalBackpack.getInventory(stack);
         this.stack = stack;
-        this.rows = backpackInventory.getSlots() / SLOTS_PER_ROW;
-        this.filterRows = filterRows;
+        this.rows = inventory.getSlots() / SLOTS_PER_ROW;
+        this.filterRows = stack.getOrDefault(DataComponents.FILTER_CAPACITY, 0);
         this.filterInventory = createFilterInventory(stack);
         this.backpackSlots = NonNullList.createWithCapacity(rows * SLOTS_PER_ROW);
-        this.whitelist = whitelist;
-        this.canSort = canSort;
+        this.whitelist = stack.getOrDefault(DataComponents.WHITELIST, true);
+        this.canSort = stack.getOrDefault(DataComponents.SORT_ENABLED, false);
     }
 
     @Override
@@ -160,7 +161,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         super.removed(pPlayer);
         // TODO: Does it save automatically?
 //        if (Objects.nonNull(filterInventory)) {
-//            ItemContainerContents.fromItems(filterInventory.g);
+//            ItemContainerContents.fromItems(filterInventory.);
 //            stack.getOrCreateTag().put("filter", filterInventory.serializeNBT());
 //        }
 //
@@ -296,5 +297,70 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
     @Override
     public boolean canScroll() {
         return rows > maxRows;
+    }
+
+    @Override
+    protected boolean moveItemStackTo(ItemStack stack, int startIndex, int endIndex, boolean reverseDirection) {
+        boolean flag = false;
+        int i = startIndex;
+        if (reverseDirection) {
+            i = endIndex - 1;
+        }
+
+        if (stack.isStackable()) {
+            while (!stack.isEmpty() && (reverseDirection ? i >= startIndex : i < endIndex)) {
+                Slot slot = this.slots.get(i);
+                ItemStack itemstack = slot.getItem();
+                if (!itemstack.isEmpty() && ItemStack.isSameItemSameComponents(stack, itemstack)) {
+                    int j = itemstack.getCount() + stack.getCount();
+                    int k = slot.getMaxStackSize(itemstack);
+                    if (j <= k) {
+                        stack.setCount(0);
+                        itemstack.setCount(j);
+                        slot.set(itemstack);
+                        flag = true;
+                    } else if (itemstack.getCount() < k) {
+                        stack.shrink(k - itemstack.getCount());
+                        itemstack.setCount(k);
+                        slot.set(itemstack);
+                        flag = true;
+                    }
+                }
+
+                if (reverseDirection) {
+                    i--;
+                } else {
+                    i++;
+                }
+            }
+        }
+
+        if (!stack.isEmpty()) {
+            if (reverseDirection) {
+                i = endIndex - 1;
+            } else {
+                i = startIndex;
+            }
+
+            while (reverseDirection ? i >= startIndex : i < endIndex) {
+                Slot slot1 = this.slots.get(i);
+                ItemStack itemstack1 = slot1.getItem();
+                if (itemstack1.isEmpty() && slot1.mayPlace(stack)) {
+                    int l = slot1.getMaxStackSize(stack);
+                    slot1.setByPlayer(stack.split(Math.min(stack.getCount(), l)));
+                    slot1.setChanged();
+                    flag = true;
+                    break;
+                }
+
+                if (reverseDirection) {
+                    i--;
+                } else {
+                    i++;
+                }
+            }
+        }
+
+        return flag;
     }
 }
