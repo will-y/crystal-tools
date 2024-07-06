@@ -63,6 +63,6 @@ public class KeyPressEvent {
     }
 
     public static void handleOpenBackpack() {
-        PacketDistributor.sendToServer(new OpenBackpackPayload());
+        PacketDistributor.sendToServer(new OpenBackpackPayload(-1));
     }
 }

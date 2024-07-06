@@ -1,4 +1,4 @@
-package dev.willyelton.crystal_tools.common.inventory.container.slot;
+package dev.willyelton.crystal_tools.common.inventory.container.slot.furnace;
 
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalFurnaceContainerMenu;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;

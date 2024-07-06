@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.common.network.handler;
 
+import dev.willyelton.crystal_tools.common.compat.curios.CuriosCompatibility;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.components.EffectData;
 import dev.willyelton.crystal_tools.common.network.data.ToolAttributePayload;
@@ -22,7 +23,7 @@ public class ToolAttributeHandler {
         context.enqueueWork(() -> {
             Player player = context.player();
 
-            ItemStack heldTool = ItemStackUtils.getHeldLevelableTool(player);
+            ItemStack heldTool = getItemStack(player, payload.slotIndex());
 
             if (!heldTool.isEmpty()) {
                 ResourceKey<Enchantment> enchantment = enchantmentFromString(payload.key());
@@ -56,6 +57,22 @@ public class ToolAttributeHandler {
                 }
             }
         });
+    }
+
+    private ItemStack getItemStack(Player player, int slotIndex) {
+        if (slotIndex == -1) {
+            return ItemStackUtils.getHeldLevelableTool(player);
+        } else if (slotIndex == -2) {
+            // Special case for curios backpacks
+            List<ItemStack> curiosStacks = CuriosCompatibility.getCrystalBackpacksInCurios(player);
+            if (!curiosStacks.isEmpty()) {
+                return curiosStacks.getFirst();
+            } else {
+                return ItemStack.EMPTY.copy();
+            }
+        }
+
+        return player.getInventory().getItem(slotIndex);
     }
 
     private void addEffectToList(ItemStack stack, String key, float value) {

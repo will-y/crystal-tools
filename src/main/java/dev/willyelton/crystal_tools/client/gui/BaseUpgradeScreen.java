@@ -23,13 +23,13 @@ import dev.willyelton.crystal_tools.utils.InventoryUtils;
 import dev.willyelton.crystal_tools.utils.XpUtils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
-import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 
 import java.util.HashMap;
@@ -115,12 +115,17 @@ public abstract class BaseUpgradeScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float particleTicks) {
-        this.renderBackground(guiGraphics, mouseX, mouseY, particleTicks);
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        this.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
         this.renderBlockBackground(guiGraphics, CrystalToolsConfig.UPGRADE_SCREEN_BACKGROUND.get());
+        this.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+
         drawDependencyLines(guiGraphics);
         guiGraphics.drawString(font, "Skill Points: " + this.getSkillPoints(), 5, 5, Colors.TEXT_LIGHT);
-        super.render(guiGraphics, mouseX, mouseY, particleTicks);
+
+        for (Renderable renderable : this.renderables) {
+            renderable.render(guiGraphics, mouseX, mouseY, partialTick);
+        }
 
         ANIMATION_COUNTER++;
 
@@ -140,7 +145,7 @@ public abstract class BaseUpgradeScreen extends Screen {
 
     @Override
     public boolean isPauseScreen() {
-        return CrystalToolsConfig.PAUSE_SCREEN.get();
+        return false;
     }
 
     private void addButtonsFromTier(List<SkillDataNode> nodes, int y) {

@@ -16,6 +16,7 @@ import java.util.List;
 public class PlayerEvents {
     @SubscribeEvent
     public static void handleItemPickupEvent(ItemEntityPickupEvent.Pre event) {
+        if (event.getItemEntity().hasPickUpDelay()) return;
         List<ItemStack> backpackStacks = CrystalBackpack.findBackpackStacks(event.getPlayer());
         ItemStack stackToInsert = event.getItemEntity().getItem();
         ItemStack original = event.getItemEntity().getItem().copy();
@@ -35,9 +36,8 @@ public class PlayerEvents {
             stackToInsert = inventory.insertStack(stackToInsert);
 
             if (stackToInsert.isEmpty()) {
-                event.getItemEntity().setItem(stackToInsert);
+                event.getItemEntity().getItem().setCount(stackToInsert.getCount());
                 event.setCanPickup(TriState.TRUE);
-//                event.setResult(Event.Result.ALLOW);
                 return;
             }
         }
@@ -59,7 +59,7 @@ public class PlayerEvents {
         if (backpackStack.getOrDefault(DataComponents.FILTER_CAPACITY, 0) == 0) {
             return true;
         }
-        boolean whiteList = backpackStack.getOrDefault(DataComponents.WHITELIST, false);
+        boolean whiteList = backpackStack.getOrDefault(DataComponents.WHITELIST, true);
         for (ItemStack filterStack : filter) {
             if (filterStack.is(pickupStack.getItem())) {
                 return whiteList;

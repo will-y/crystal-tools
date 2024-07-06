@@ -17,6 +17,13 @@ public class BackpackScreenHandler {
                     case PICKUP_WHITELIST -> menu.setWhitelist(true);
                     case PICKUP_BLACKLIST -> menu.setWhitelist(false);
                     case SORT -> menu.sort();
+                    case COMPRESS -> menu.compress();
+                    case OPEN_COMPRESSION -> menu.openCompressionScreen();
+                    case OPEN_FILTER -> menu.openFilterScreen();
+                    case MATCH_CONTENTS -> menu.matchContentsFilter(payload.hasShiftDown());
+                    case CLEAR_FILTERS -> menu.clearFilters();
+                    case CLOSE_SUB_SCREEN -> menu.closeSubScreen();
+                    case REOPEN_BACKPACK -> menu.reopenBackpack();
                 }
             }
         });

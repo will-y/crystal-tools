@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.network.handler;
 
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.common.compat.curios.CuriosCompatibility;
 import dev.willyelton.crystal_tools.common.levelable.CrystalBackpack;
 import dev.willyelton.crystal_tools.common.network.data.OpenBackpackPayload;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,14 +18,25 @@ public class OpenBackpackHandler {
             Player player = context.player();
 
             if (player instanceof ServerPlayer serverPlayer) {
-                List<ItemStack> backpacks = CrystalBackpack.findBackpackStacks(player);
+                int slot = payload.slotId() == -1 ? CrystalBackpack.findNextBackpackSlot(player) : payload.slotId();
+                if (slot == -1) return;
 
-                if (!backpacks.isEmpty()) {
-                    ItemStack backpackStack = backpacks.getFirst();
-                    if (backpackStack.is(Registration.CRYSTAL_BACKPACK.get())) {
-                        CrystalBackpack backpackItem = (CrystalBackpack) backpackStack.getItem();
-                        backpackItem.openBackpack(serverPlayer, backpackStack);
+                ItemStack backpackStack;
+
+                if (slot == -2) {
+                    List<ItemStack> curiosStacks = CuriosCompatibility.getCrystalBackpacksInCurios(player);
+
+                    if (!curiosStacks.isEmpty()) {
+                        backpackStack = curiosStacks.getFirst();
+                    } else {
+                        backpackStack = ItemStack.EMPTY;
                     }
+                } else {
+                    backpackStack = player.getInventory().getItem(slot);
+                }
+
+                if (backpackStack.getItem() instanceof CrystalBackpack backpackItem) {
+                    backpackItem.openBackpack(serverPlayer, backpackStack, slot);
                 }
             }
         });

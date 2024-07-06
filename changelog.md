@@ -2,6 +2,11 @@
 ## 2.0.0-beta4
 ### Changes
 - Updates to Neo 21.0.42-beta
+- Removes pause screen config option
+
+### Fixes
+- Fixes dependency lines in the upgrade screen being dark
+- Re-enables the Crystal Backpack
 
 ## 2.0.0-beta3
 ### Changes

@@ -1,9 +1,9 @@
 package dev.willyelton.crystal_tools.common.inventory.container;
 
 import dev.willyelton.crystal_tools.Registration;
-import dev.willyelton.crystal_tools.common.inventory.container.slot.CrystalFurnaceFuelSlot;
-import dev.willyelton.crystal_tools.common.inventory.container.slot.CrystalFurnaceInputSlot;
-import dev.willyelton.crystal_tools.common.inventory.container.slot.CrystalFurnaceOutputSlot;
+import dev.willyelton.crystal_tools.common.inventory.container.slot.furnace.CrystalFurnaceFuelSlot;
+import dev.willyelton.crystal_tools.common.inventory.container.slot.furnace.CrystalFurnaceInputSlot;
+import dev.willyelton.crystal_tools.common.inventory.container.slot.furnace.CrystalFurnaceOutputSlot;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalFurnaceBlockEntity;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
 import net.minecraft.core.BlockPos;

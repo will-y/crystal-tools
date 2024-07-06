@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.utils;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.items.ItemStackHandler;
 
 public class InventoryUtils {
     public static boolean removeItemFromInventory(Inventory inv, ItemStack itemStack) {
@@ -27,5 +28,13 @@ public class InventoryUtils {
         for (int i = 0; i < inv.getSlots(); i++) {
             inv.setStackInSlot(i, ItemStack.EMPTY);
         }
+    }
+
+    public static boolean contains(IItemHandlerModifiable inv, ItemStack itemStack) {
+        for (int i = 0; i < inv.getSlots(); i++) {
+            if (ItemStack.isSameItemSameComponents(inv.getStackInSlot(i), itemStack)) return true;
+        }
+
+        return false;
     }
 }

@@ -36,7 +36,6 @@ public class CrystalToolsConfig {
     // Misc
     public static ModConfigSpec.BooleanValue ENABLE_ITEM_REQUIREMENTS;
     public static ModConfigSpec.DoubleValue BACKGROUND_OPACITY;
-    public static ModConfigSpec.BooleanValue PAUSE_SCREEN;
     public static ModConfigSpec.BooleanValue REQUIRE_CRYSTAL_FOR_RESET;
     public static ModConfigSpec.BooleanValue DISABLE_BLOCK_TARGET_RENDERING;
     public static ModConfigSpec.DoubleValue REACH_INCREASE;
@@ -75,6 +74,7 @@ public class CrystalToolsConfig {
     // Backpack
     public static ModConfigSpec.EnumValue<CrystalBackpackInventory.SortType> BACKPACK_SORT_TYPE;
     public static ModConfigSpec.IntValue BACKPACK_BASE_EXPERIENCE_CAP;
+    public static ModConfigSpec.IntValue MAX_COMPRESSION_SLOT_ROWS;
 
     // Trident
     public static ModConfigSpec.BooleanValue ALWAYS_CHANNEL;
@@ -148,9 +148,6 @@ public class CrystalToolsConfig {
         BACKGROUND_OPACITY = builder.comment("Controls the opacity of the skill tree background")
                 .defineInRange("background_opacity", 1.0, 0, 1.0);
 
-        PAUSE_SCREEN = builder.comment("If it is true then the skill tree screen pauses the game (in single-player), if false then it doesn't")
-                .define("pause_screen", true);
-
         REQUIRE_CRYSTAL_FOR_RESET = builder.comment("Require a crystal item in your inventory for resetting skill points")
                 .define("require_crystal_for_reset", true);
 
@@ -204,7 +201,9 @@ public class CrystalToolsConfig {
         BACKPACK_SORT_TYPE = builder.comment("Method used for sorting the Crystal Backpack")
                 .defineEnum("backpack_sort_type", CrystalBackpackInventory.SortType.QUANTITY);
         BACKPACK_BASE_EXPERIENCE_CAP = builder.comment("Starting EXP Value for the Backpack")
-                .defineInRange("backpack_base_experience_cap", 150, 1, 10000);
+                .defineInRange("backpack_base_experience_cap", 200, 1, 10000);
+        MAX_COMPRESSION_SLOT_ROWS = builder.comment("Maximum number of rows of compression slots. These slots will not currently scroll so don't set it to larger than your gui scale can render")
+                .defineInRange("max_compression_slot_rows", 6, 1, 20);
 
         ALWAYS_CHANNEL = builder.comment("If true, channeling Crystal Tridents will summon lightning even if they don't hit an entity")
                 .define("always_channel", true);

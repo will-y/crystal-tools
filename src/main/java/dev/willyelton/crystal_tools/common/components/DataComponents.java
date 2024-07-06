@@ -101,10 +101,12 @@ public class DataComponents {
     // TODO: Make this a list of ItemContainerContents
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ItemContainerContents>> INVENTORY = register("inventory", ItemContainerContents.CODEC, ItemContainerContents.STREAM_CODEC);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ItemContainerContents>> FILTER_INVENTORY = register("filter_inventory", ItemContainerContents.CODEC, ItemContainerContents.STREAM_CODEC);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ItemContainerContents>> COMPRESSION_INVENTORY = register("compression_inventory", ItemContainerContents.CODEC, ItemContainerContents.STREAM_CODEC);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> CAPACITY = register("capacity", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> FILTER_CAPACITY = register("filter_capacity", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> WHITELIST = register("whitelist", Codec.BOOL, ByteBufCodecs.BOOL);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> SORT_ENABLED = register("sort_enabled", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> COMPRESSION_ENABLED = register("compression_enabled", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> BACKPACK_AUTO_PICKUP = register("backpack_auto_pickup", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> PICKUP_DISABLED = register("pickup_disabled", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> INVENTORY_STORE = register("inventory_store", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);

@@ -1,32 +1,27 @@
 package dev.willyelton.crystal_tools.common.inventory;
 
-import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.utils.InventoryUtils;
 import it.unimi.dsi.fastutil.ints.Int2IntArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.ItemContainerContents;
 import net.neoforged.neoforge.items.ComponentItemHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 public class CrystalBackpackInventory extends ComponentItemHandler {
-    private ItemStack backpackStack;
 
     public CrystalBackpackInventory(int size) {
         super(ItemStack.EMPTY, DataComponents.INVENTORY.get(), size);
-        this.backpackStack = ItemStack.EMPTY;
     }
 
     public CrystalBackpackInventory(ItemStack stack) {
-        super(stack, DataComponents.INVENTORY.get(), stack.getOrDefault(DataComponents.CAPACITY, 1) * 9);
-        this.backpackStack = stack;
+        super(stack, DataComponents.INVENTORY.get(), (stack.getOrDefault(DataComponents.CAPACITY, 0) + 1) * 9);
     }
 
     @Override
@@ -45,6 +40,16 @@ public class CrystalBackpackInventory extends ComponentItemHandler {
         InventoryUtils.clear(this);
 
         stacks.forEach(this::insertStack);
+    }
+
+    public int getLastStack() {
+        for (int i = getSlots() - 1; i >= 0; i--) {
+            if (!getStackInSlot(i).isEmpty()) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 
     private Comparator<ItemStack> getComparator(SortType type, List<ItemStack> stacks) {
