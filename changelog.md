@@ -1,7 +1,7 @@
 # Crystal Tools Change Log
 ## 2.0.0-beta4
 ### Changes
-- Updates to Neo 21.0.42-beta
+- Updates to Neo 21.0.61-beta
 - Removes pause screen config option
 
 ### Fixes
