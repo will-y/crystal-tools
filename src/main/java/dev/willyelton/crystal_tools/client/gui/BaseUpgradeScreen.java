@@ -118,7 +118,6 @@ public abstract class BaseUpgradeScreen extends Screen {
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         this.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
         this.renderBlockBackground(guiGraphics, CrystalToolsConfig.UPGRADE_SCREEN_BACKGROUND.get());
-        this.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
 
         drawDependencyLines(guiGraphics);
         guiGraphics.drawString(font, "Skill Points: " + this.getSkillPoints(), 5, 5, Colors.TEXT_LIGHT);
@@ -297,8 +296,13 @@ public abstract class BaseUpgradeScreen extends Screen {
     }
 
     public void renderBlockBackground(GuiGraphics guiGraphics, String block) {
-        // TODO: Allow modded blocks
-        ResourceLocation blockResource = ResourceLocation.withDefaultNamespace("textures/block/" + block + ".png");
+        ResourceLocation blockResource;
+        String[] split = block.split(":");
+        if (split.length == 1) {
+            blockResource = ResourceLocation.withDefaultNamespace("textures/block/" + block + ".png");
+        } else {
+            blockResource = ResourceLocation.fromNamespaceAndPath(split[0], "textures/block/" + split[1] + ".png");
+        }
         renderMenuBackgroundTexture(guiGraphics, blockResource, 0, 0, 0, 0, width, height);
     }
 }

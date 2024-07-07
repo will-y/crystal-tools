@@ -1,6 +1,5 @@
 package dev.willyelton.crystal_tools.client.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import dev.willyelton.crystal_tools.client.gui.component.backpack.ClearFilterButton;
 import dev.willyelton.crystal_tools.client.gui.component.backpack.MatchContentsButton;
 import dev.willyelton.crystal_tools.client.gui.component.backpack.WhitelistToggleButton;
@@ -10,7 +9,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.INVENTORY_HEIGHT;
 import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.INVENTORY_WIDTH;
 import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.ROW_HEIGHT;
 import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.TEXTURE;
@@ -25,31 +23,6 @@ public class FilterConfigScreen extends BackpackSubScreen<CrystalBackpackContain
     public FilterConfigScreen(CrystalBackpackContainerMenu menu, Inventory playerInventory, CrystalBackpackScreen returnScreen) {
         super(menu, playerInventory, Component.literal("Filter"), returnScreen);
         this.whitelist = menu.getWhitelist();
-    }
-
-    @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
-
-        int containerRows = getContainerRows();
-        int filterRows = Math.min(menu.getFilterRows(), containerRows);
-
-        // Top Bar
-        guiGraphics.blit(TEXTURE, leftPos, topPos, 0, 0, INVENTORY_WIDTH, TOP_BAR_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
-
-        for (int row = 0; row < filterRows; row++) {
-            // Filter row
-            guiGraphics.blit(TEXTURE, leftPos, topPos + TOP_BAR_HEIGHT + ROW_HEIGHT * row, 0, 222, INVENTORY_WIDTH, ROW_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
-        }
-
-        for (int row = 0; row < containerRows - filterRows; row++) {
-            guiGraphics.blit(TEXTURE, leftPos, topPos + TOP_BAR_HEIGHT + ROW_HEIGHT * (row + filterRows), 0, 8, INVENTORY_WIDTH, ROW_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
-        }
-
-        // Inventory
-        // TODO: 1.21 this part and top part can be in base class
-        guiGraphics.blit(TEXTURE, leftPos, topPos + TOP_BAR_HEIGHT + ROW_HEIGHT * containerRows, 0, 125, INVENTORY_WIDTH, INVENTORY_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
     }
 
     @Override
@@ -73,5 +46,16 @@ public class FilterConfigScreen extends BackpackSubScreen<CrystalBackpackContain
 
             this.addRenderableWidget(new MatchContentsButton(this.leftPos + 129, this.topPos + 4, this, menu));
         }
+    }
+
+    @Override
+    protected int getRowsToDraw() {
+        return Math.min(menu.getFilterRows(), getContainerRows());
+    }
+
+    @Override
+    protected void drawContentRow(GuiGraphics guiGraphics, int row) {
+        guiGraphics.blit(TEXTURE, leftPos, topPos + TOP_BAR_HEIGHT + ROW_HEIGHT * row, 0, 222, INVENTORY_WIDTH, ROW_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
+
     }
 }

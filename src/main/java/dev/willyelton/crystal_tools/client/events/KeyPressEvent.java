@@ -41,7 +41,6 @@ public class KeyPressEvent {
             handleOpenBackpack();
         }
 
-        // TODO: See if theres a better way to do this
         // Send vein mining state every 5 ticks
         if (level.getGameTime() % 5 == 0) {
             PacketDistributor.sendToServer(new VeinMiningPayload(RegisterKeyBindingsEvent.veinMine.isDown()));

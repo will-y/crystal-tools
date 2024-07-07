@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.client.gui;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalBackpackContainerMenu;
 import dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload;
 import net.minecraft.client.gui.GuiGraphics;
@@ -9,7 +10,10 @@ import net.minecraft.world.entity.player.Inventory;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.INVENTORY_HEIGHT;
+import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.INVENTORY_WIDTH;
 import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.ROW_HEIGHT;
+import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.TEXTURE;
+import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.TEXTURE_SIZE;
 import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.TOP_BAR_HEIGHT;
 
 public abstract class BackpackSubScreen<T extends CrystalBackpackContainerMenu> extends AbstractContainerScreen<T> {
@@ -22,9 +26,33 @@ public abstract class BackpackSubScreen<T extends CrystalBackpackContainerMenu> 
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-//        this.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
         super.render(guiGraphics, mouseX, mouseY, partialTick);
         this.renderTooltip(guiGraphics, mouseX, mouseY);
+    }
+
+    @Override
+    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, TEXTURE);
+
+        int containerRows = getContainerRows();
+        // Either filter rows or compression rows
+        int contentRows = getRowsToDraw();
+
+        // Top Bar
+        guiGraphics.blit(TEXTURE, leftPos, topPos, 0, 0, INVENTORY_WIDTH, TOP_BAR_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
+
+        for (int row = 0; row < contentRows; row++) {
+            drawContentRow(guiGraphics, row);
+        }
+
+        // Empty rows at end
+        for (int row = 0; row < containerRows - contentRows; row++) {
+            guiGraphics.blit(TEXTURE, leftPos, topPos + TOP_BAR_HEIGHT + ROW_HEIGHT * (row + contentRows), 0, 8, INVENTORY_WIDTH, ROW_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
+        }
+
+        // Player inventory
+        guiGraphics.blit(TEXTURE, leftPos, topPos + TOP_BAR_HEIGHT + ROW_HEIGHT * containerRows, 0, 125, INVENTORY_WIDTH, INVENTORY_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
     }
 
     @Override
@@ -52,4 +80,8 @@ public abstract class BackpackSubScreen<T extends CrystalBackpackContainerMenu> 
     public int getContainerRows() {
         return getReturnScreen().getDisplayRows();
     }
+
+    protected abstract int getRowsToDraw();
+
+    protected abstract void drawContentRow(GuiGraphics guiGraphics, int row);
 }

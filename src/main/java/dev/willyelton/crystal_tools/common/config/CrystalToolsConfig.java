@@ -138,7 +138,7 @@ public class CrystalToolsConfig {
         AXE_VEIN_MINER_DEFAULT_RANGE = builder.comment("Determines the range of the tree chopper and tree stripper upgrade on the axe. It will mine logs up to this range away from the log broken.")
                 .defineInRange("tree_chopper_range", 10, 1, 100);
 
-        UPGRADE_SCREEN_BACKGROUND = builder.comment("The block texture to use for the background of the upgrade screen. Must be a vanilla block name.")
+        UPGRADE_SCREEN_BACKGROUND = builder.comment("The block texture to use for the background of the upgrade screen. Can either be a vanilla block name (Ex: cracked_deepslate_tiles), or a modded block name (Ex: crystal_tools:crystal_block)")
                 .define("upgrade_screen_background", "cracked_deepslate_tiles");
 
         // MISC

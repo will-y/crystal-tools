@@ -1,4 +1,9 @@
 # Crystal Tools Change Log
+## 2.0.0-beta5
+### Changes
+- Allows modded blocks to be set as the background to the upgrade screen in the config option `UPGRADE_SCREEN_BACKGROUND`
+- Removes the dark background on the upgrade screen
+
 ## 2.0.0-beta4
 ### Changes
 - Updates to Neo 21.0.61-beta
