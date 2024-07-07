@@ -3,16 +3,16 @@ package dev.willyelton.crystal_tools.client.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
-import dev.willyelton.crystal_tools.common.levelable.tool.BowLevelableItem;
 import dev.willyelton.crystal_tools.client.model.CrystalElytraLayer;
+import dev.willyelton.crystal_tools.client.renderer.CrystalTridentBlockEntityWithoutLevelRenderer;
 import dev.willyelton.crystal_tools.client.renderer.CrystalTridentRenderer;
+import dev.willyelton.crystal_tools.common.levelable.tool.BowLevelableItem;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.entity.ArmorStandRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.decoration.ArmorStand;
@@ -83,6 +83,6 @@ public class ClientEvents {
 
     @SubscribeEvent
     public static void loadModels(ModelEvent.RegisterAdditional event) {
-        event.register(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "item/crystal_trident_inventory")));
+        event.register(CrystalTridentBlockEntityWithoutLevelRenderer.CRYSTAL_TRIDENT_MODEL_RESOURCE_LOCATION);
     }
 }

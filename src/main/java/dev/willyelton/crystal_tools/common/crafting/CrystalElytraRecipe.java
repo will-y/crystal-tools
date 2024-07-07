@@ -95,7 +95,7 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
 
     @Override
     public @NotNull RecipeSerializer<?> getSerializer() {
-        return ModRecipes.CRYSTAL_ELYTRA_RECIPE.get();
+        return Registration.CRYSTAL_ELYTRA_RECIPE.get();
     }
 
     private List<ItemStack> getItems(CraftingInput container) {

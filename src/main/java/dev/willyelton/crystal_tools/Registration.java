@@ -1,6 +1,9 @@
 package dev.willyelton.crystal_tools;
 
 import dev.willyelton.crystal_tools.common.components.DataComponents;
+import dev.willyelton.crystal_tools.common.crafting.CrystalAIOTRecipe;
+import dev.willyelton.crystal_tools.common.crafting.CrystalElytraRecipe;
+import dev.willyelton.crystal_tools.common.crafting.ItemDisabledCondition;
 import dev.willyelton.crystal_tools.common.entity.CrystalTridentEntity;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalBackpackContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalFurnaceContainerMenu;
@@ -23,6 +26,7 @@ import dev.willyelton.crystal_tools.common.levelable.tool.PickaxeLevelableTool;
 import dev.willyelton.crystal_tools.common.levelable.tool.ShovelLevelableTool;
 import dev.willyelton.crystal_tools.common.levelable.tool.SwordLevelableTool;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -33,6 +37,8 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DropExperienceBlock;
@@ -43,6 +49,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 public class Registration {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registries.ITEM, CrystalTools.MODID);
@@ -51,6 +58,7 @@ public class Registration {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, CrystalTools.MODID);
     public static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(Registries.MENU, CrystalTools.MODID);
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, CrystalTools.MODID);
+    public static final DeferredRegister<RecipeSerializer<?>> RECIPES = DeferredRegister.create(Registries.RECIPE_SERIALIZER, CrystalTools.MODID);
 
     // Items
     public static final DeferredHolder<Item, Item> CRYSTAL = ITEMS.register("crystal", () -> new Item(new Item.Properties()));
@@ -146,8 +154,15 @@ public class Registration {
                     })
                     .build());
 
+    // Recipes
+    public static final DeferredHolder<RecipeSerializer<?>, SimpleCraftingRecipeSerializer<CrystalElytraRecipe>> CRYSTAL_ELYTRA_RECIPE = RECIPES.register("crystal_elytra_recipe", () -> new SimpleCraftingRecipeSerializer<>(CrystalElytraRecipe::new));
+    public static final DeferredHolder<RecipeSerializer<?>, SimpleCraftingRecipeSerializer<CrystalAIOTRecipe>> CRYSTAL_AIOT_RECIPE = RECIPES.register("crystal_aiot_recipe", () -> new SimpleCraftingRecipeSerializer<>(CrystalAIOTRecipe::new));
+
 
     public static void init(IEventBus modEventBus) {
+        // Conditions
+        Registry.register(NeoForgeRegistries.CONDITION_SERIALIZERS, ItemDisabledCondition.NAME, ItemDisabledCondition.ITEM_DISABLED_CODEC);
+
         ITEMS.register(modEventBus);
         BLOCKS.register(modEventBus);
         ENTITIES.register(modEventBus);
@@ -155,5 +170,6 @@ public class Registration {
         CONTAINERS.register(modEventBus);
         TABS.register(modEventBus);
         DataComponents.COMPONENTS.register(modEventBus);
+        RECIPES.register(modEventBus);
     }
 }

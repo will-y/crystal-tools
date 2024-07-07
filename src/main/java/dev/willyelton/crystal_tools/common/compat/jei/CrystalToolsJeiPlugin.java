@@ -2,10 +2,7 @@ package dev.willyelton.crystal_tools.common.compat.jei;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
-import dev.willyelton.crystal_tools.common.crafting.CrystalAIOTRecipe;
-import dev.willyelton.crystal_tools.common.crafting.CrystalElytraRecipe;
 import dev.willyelton.crystal_tools.common.crafting.CrystalToolsRecipe;
-import dev.willyelton.crystal_tools.common.crafting.ModRecipes;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
@@ -13,7 +10,6 @@ import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;

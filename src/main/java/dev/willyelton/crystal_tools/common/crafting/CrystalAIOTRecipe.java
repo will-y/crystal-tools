@@ -91,7 +91,7 @@ public class CrystalAIOTRecipe extends CrystalToolsRecipe {
 
     @Override
     public @NotNull RecipeSerializer<?> getSerializer() {
-        return ModRecipes.CRYSTAL_AIOT_RECIPE.get();
+        return Registration.CRYSTAL_AIOT_RECIPE.get();
     }
 
     private List<ItemStack> getLevelableItems(CraftingInput container) {

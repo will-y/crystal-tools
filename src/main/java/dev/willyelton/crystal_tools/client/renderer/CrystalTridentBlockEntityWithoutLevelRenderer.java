@@ -19,6 +19,8 @@ import net.minecraft.world.item.ItemStack;
 
 public class CrystalTridentBlockEntityWithoutLevelRenderer extends BlockEntityWithoutLevelRenderer {
     public static final CrystalTridentBlockEntityWithoutLevelRenderer INSTANCE = new CrystalTridentBlockEntityWithoutLevelRenderer();
+    public static final ModelResourceLocation CRYSTAL_TRIDENT_MODEL_RESOURCE_LOCATION = ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "item/crystal_trident_inventory"));
+
     // Copy this  because they are private in super
     private final EntityModelSet entityModelSet;
 
@@ -49,8 +51,7 @@ public class CrystalTridentBlockEntityWithoutLevelRenderer extends BlockEntityWi
             }
             poseStack.translate(-0.5F, -0.5F, -0.5F);
             ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
-            // TODO: Same as in client events, store in static var
-            BakedModel inventoryModel = Minecraft.getInstance().getModelManager().getModel(ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "item/crystal_trident_inventory")));
+            BakedModel inventoryModel = Minecraft.getInstance().getModelManager().getModel(CRYSTAL_TRIDENT_MODEL_RESOURCE_LOCATION);
             for (var model : inventoryModel.getRenderPasses(stack, false)) {
                 for (var renderType : model.getRenderTypes(stack, false)) {
                     VertexConsumer vertexConsumer = ItemRenderer.getFoilBufferDirect(buffer, renderType,true, stack.hasFoil());
