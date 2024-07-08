@@ -70,10 +70,7 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
         int unspentPoints = crystalChestPlateItem.getOrDefault(DataComponents.SKILL_POINTS, 0);
 
         // points from enchantments on elytra
-//        Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(elytraItem);
-//        int enchantmentPoints = enchantments.values().stream().mapToInt(Integer::intValue).sum();
-        // TODO: Check
-        int enchantmentPoints = EnchantmentHelper.getEnchantmentsForCrafting(stack).entrySet().stream().mapToInt(Object2IntMap.Entry::getIntValue).sum();
+        int enchantmentPoints = EnchantmentHelper.getEnchantmentsForCrafting(elytraItem).entrySet().stream().mapToInt(Object2IntMap.Entry::getIntValue).sum();
 
         int totalPoints = spentPoints + unspentPoints + enchantmentPoints;
 

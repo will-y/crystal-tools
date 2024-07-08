@@ -50,13 +50,11 @@ public class CrystalToolsLootTables extends VanillaBlockLoot {
     private void createStandardTable(Block block, BlockEntityType<?> type, String... tags) {
         LootPoolSingletonContainer.Builder<?> lti = LootItem.lootTableItem(block);
         lti.apply(CopyNameFunction.copyName(CopyNameFunction.NameSource.BLOCK_ENTITY));
-        // TODO: Copy data components
         lti.apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
                 .include(DataComponents.FURNACE_DATA.get())
                 .include(DataComponents.FURNACE_UPGRADES.get())
                 .include(DataComponents.LEVELABLE_BLOCK_ENTITY_DATA.get())
                 .include(DataComponents.FURNACE_INVENTORY.get()));
-//        lti.apply(SetContainerContents.setContents(type).withEntry(DynamicLoot.dynamicEntry(ResourceLocation.fromNamespaceAndPath("minecraft", "contents"))));
 
         LootPool.Builder builder = LootPool.lootPool()
                 .setRolls(ConstantValue.exactly(1))

@@ -150,7 +150,6 @@ public class ToolUtils {
     }
 
     public static void resetPoints(ItemStack stack) {
-        // TODO: Might work?
         List<ResourceLocation> resourceLocations = new ArrayList<>(DataComponents.FLOAT_COMPONENTS.values());
         resourceLocations.addAll(DataComponents.INT_COMPONENTS.values());
         resourceLocations.addAll(DataComponents.BOOLEAN_COMPONENTS.values());
@@ -161,31 +160,12 @@ public class ToolUtils {
             }
             stack.remove(dataComponent);
         }
-
-//        if (stack.hasTag()) {
-//            // Things to keep
-//            int damage = stack.getTag().getInt("Damage");
-//            int repairCost = stack.getTag().getInt("RepairCost");
-//            int skillPoints = (int) NBTUtils.getFloatOrAddKey(stack, "skill_points");
-//
-//            // Total points
-//            int[] points = NBTUtils.getIntArray(stack, "points");
-//
-//            skillPoints += Arrays.stream(points).sum();
-//
-//            stack.setTag(new CompoundTag());
-//            stack.getTag().putInt("Damage", damage);
-//            stack.getTag().putInt("RepairCost", repairCost);
-//            NBTUtils.setValue(stack, "skill_points", (float) skillPoints);
-//        }
     }
 
     public static SkillData getSkillData(ItemStack stack) {
         List<Integer> points = stack.getOrDefault(DataComponents.POINTS_ARRAY, Collections.emptyList());
-//        int[] points = NBTUtils.getIntArray(stack, "points");
         if (stack.getItem() instanceof LevelableItem) {
             String toolType = ((LevelableItem) stack.getItem()).getItemType();
-            // TODO: Should probably copy this object. Most likely should be fine since its client side and clients should only have one screen open at a tine
             SkillData data = SkillTreeRegistry.SKILL_TREES.get(toolType);
             data.applyPoints(points);
             return data;

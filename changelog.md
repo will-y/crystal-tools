@@ -4,6 +4,9 @@
 - Allows modded blocks to be set as the background to the upgrade screen in the config option `UPGRADE_SCREEN_BACKGROUND`
 - Removes the dark background on the upgrade screen
 
+### Fixes
+- Fixes Crystal Elytra not getting experience from enchantments on the Elytra used
+
 ## 2.0.0-beta4
 ### Changes
 - Updates to Neo 21.0.61-beta
