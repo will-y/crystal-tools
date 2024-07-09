@@ -38,7 +38,6 @@ public class CrystalRocket extends LevelableTool {
             if (!pLevel.isClientSide) {
                 int flightTime = itemstack.getOrDefault(DataComponents.FLIGHT_TIME, 1);
                 Fireworks fireworks = new Fireworks(flightTime, Collections.emptyList());
-                // TODO: just set this in the skill tree directly
                 itemstack.set(net.minecraft.core.component.DataComponents.FIREWORKS, fireworks);
                 FireworkRocketEntity fireworkrocketentity = new FireworkRocketEntity(pLevel, itemstack, pPlayer);
                 pLevel.addFreshEntity(fireworkrocketentity);

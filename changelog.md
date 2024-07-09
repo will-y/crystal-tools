@@ -1,5 +1,5 @@
 # Crystal Tools Change Log
-## 2.0.0-beta5
+## 2.0.0-beta5 (Check Trident and 2x2 compression (pretty sure it works))
 ### Changes
 - Allows modded blocks to be set as the background to the upgrade screen in the config option `UPGRADE_SCREEN_BACKGROUND`
 - Removes the dark background on the upgrade screen

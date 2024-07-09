@@ -69,6 +69,6 @@ public class SkillData {
     public static final Codec<SkillData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         SkillDataNode.CODEC.listOf().listOf().fieldOf("tiers").forGetter(SkillData::getAllNodesByTier)
     ).apply(instance, SkillData::new));
-    // TODO: Probably better to write from scratch I think, not too important because only fires on datapack load
+
     public static final StreamCodec<ByteBuf, SkillData> STREAM_CODEC = ByteBufCodecs.fromCodec(CODEC);
 }

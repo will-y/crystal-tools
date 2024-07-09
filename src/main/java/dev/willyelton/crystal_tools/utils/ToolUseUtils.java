@@ -33,7 +33,6 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-// TODO make this better, idc right now though
 public class ToolUseUtils {
     public static InteractionResult useOnAxe(UseOnContext pContext, LevelableTool tool) {
         Level level = pContext.getLevel();

@@ -35,6 +35,4 @@ public class CompressionOutputSlot extends CrystalSlotItemHandler {
     public void setInputSlot(CompressionInputSlot inputSlot) {
         this.inputSlot = inputSlot;
     }
-
-    // TODO: Override methods so you can't take anything out or put anything in
 }

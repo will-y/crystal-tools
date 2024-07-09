@@ -89,12 +89,6 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
                             abstractarrow.setBaseDamage(abstractarrow.getBaseDamage() + (double)j + 0.5D);
                         }
 
-                        // TODO: Fix this, not sure if possible unless neo adds an event or just add punch to bow
-//                        int k = stack.getOrDefault(DataComponents.ARROW_KNOCKBACK, 0);
-//                        if (k > 0) {
-//                            abstractarrow.setKnockback(k);
-//                        }
-
                         if (stack.getOrDefault(DataComponents.FLAME, false)) {
                             abstractarrow.setRemainingFireTicks(100);
                         }
@@ -143,7 +137,6 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
         boolean flag = !getProjectile(itemstack, pPlayer).isEmpty() || itemstack.getOrDefault(DataComponents.INFINITY, false);
 
         InteractionResultHolder<ItemStack> ret = EventHooks.onArrowNock(itemstack, pLevel, pPlayer, pHand, flag);
-        // TODO: I don't think this is actually always true?
         if (ret != null) return ret;
 
         if (ToolUtils.isBroken(itemstack) || (!pPlayer.getAbilities().instabuild && !flag)) {
@@ -155,11 +148,11 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     }
 
     @Override
-    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack pStack) {
+    public @NotNull UseAnim getUseAnimation(ItemStack pStack) {
         return UseAnim.BOW;
     }
 
-    public @NotNull AbstractArrow customArrow(@NotNull AbstractArrow arrow) {
+    public @NotNull AbstractArrow customArrow(AbstractArrow arrow) {
         return arrow;
     }
 

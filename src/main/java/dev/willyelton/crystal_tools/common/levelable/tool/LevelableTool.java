@@ -294,7 +294,6 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
     // TODO: These that I have to override the same in armor / bow ... should probably be a default method I can call
     @Override
     public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<Item> onBroken) {
-        // TODO: Check this, new vanilla method getDamageValue
         int durability = this.getMaxDamage(stack) - stack.getDamageValue();
         float unbreakingLevel = stack.getOrDefault(DataComponents.UNBREAKING, 0F);
         int damageToTake = 0;
@@ -315,7 +314,6 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
 
     @Override
     public ItemAttributeModifiers getLevelableAttributeModifiers(ItemStack stack) {
-        // TODO: Make sure default attributes are still applied, I assume they should be
         if (!ToolUtils.isBroken(stack)) {
             ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
 

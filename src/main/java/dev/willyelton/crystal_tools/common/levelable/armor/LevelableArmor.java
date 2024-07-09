@@ -73,9 +73,7 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Equipabl
 
     @Override
     public ResourceLocation getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, ArmorMaterial.Layer layer, boolean innerModel) {
-        // TODO: Do I need the type thing too? Maybe
         return ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, String.format("textures/models/armor/crystal_layer_%d.png", (slot == EquipmentSlot.LEGS ? 2 : 1)));
-//        return String.format("crystal_tools:textures/models/armor/%s_layer_%d%s.png", "crystal", (slot == EquipmentSlot.LEGS ? 2 : 1), type == null ? "" : String.format("_%s", type));
     }
 
     @Override

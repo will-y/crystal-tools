@@ -52,7 +52,6 @@ public class HoeLevelableTool extends DiggerLevelableTool {
             if (entity.level().isClientSide) return net.minecraft.world.InteractionResult.SUCCESS;
             BlockPos pos = BlockPos.containing(entity.position());
             if (target.isShearable(player, stack, entity.level(), pos)) {
-                // TODO: Fortune remove?
                 List<ItemStack> drops = target.onSheared(player, stack, entity.level(), pos);
                 Random rand = new java.util.Random();
                 drops.forEach(d -> {

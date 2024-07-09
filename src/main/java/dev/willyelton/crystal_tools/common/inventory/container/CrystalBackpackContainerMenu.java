@@ -250,31 +250,20 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
     @Override
     public void removed(Player pPlayer) {
         super.removed(pPlayer);
-        // TODO: If i make these component handlers, they should save
-//        if (Objects.nonNull(filterInventory)) {
-//            ItemContainerContents.fromItems(filterInventory.);
-//            stack.getOrCreateTag().put("filter", filterInventory.serializeNBT());
-//        }
-//
-//        stack.getOrCreateTag().putBoolean("whitelist", whitelist);
     }
 
     @Override
     public void clicked(int slotId, int button, ClickType clickType, Player player) {
-        // TODO: Move onClicked to my slot class and then do all on clicked stuff in slots
         if (slotId >= 0) {
             Slot slot = getSlot(slotId);
             switch (slot) {
                 case CompressionInputSlot compressionInputSlot -> compressionInputSlot.onClicked(getCarried());
-//                saveCompressions(); Shouldn't need
                 case CompressionOutputSlot compressionOutputSlot -> compressionOutputSlot.onClicked(getCarried());
-//                saveCompressions();  Shouldn't need
                 case BackpackFilterSlot filterSlot -> {
                     if (Objects.isNull(filterInventory) || clickType == ClickType.THROW || clickType == ClickType.CLONE) {
                         return;
                     }
                     filterSlot.onClicked(getCarried());
-//                saveFilters();  Shouldn't need
                 }
                 default -> super.clicked(slotId, button, clickType, player);
             }

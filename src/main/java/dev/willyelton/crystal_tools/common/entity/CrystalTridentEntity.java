@@ -173,20 +173,15 @@ public class CrystalTridentEntity extends AbstractArrow {
     @Override
     public void readAdditionalSaveData(CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
-        // TODO: I think super saves this by default now
-//        if (pCompound.contains("Trident", 10)) {
-//            this.tridentStack = ItemStack.of(pCompound.getCompound("Trident"));
-//        }
 
         this.dealtDamage = pCompound.getBoolean("DealtDamage");
-        this.entityData.set(ID_LOYALTY, (byte) tridentStack.getOrDefault(DataComponents.LOYALTY, 0).byteValue());
+        this.entityData.set(ID_LOYALTY, tridentStack.getOrDefault(DataComponents.LOYALTY, 0).byteValue());
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
-        // TODO: I think super saves this by default now
-//        pCompound.put("Trident", this.tridentStack.save(new CompoundTag()));
+
         pCompound.putBoolean("DealtDamage", this.dealtDamage);
     }
 

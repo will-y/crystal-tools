@@ -52,7 +52,6 @@ public class CrystalApple extends LevelableTool {
 
         if (alwaysEat) builder.alwaysEdible();
 
-        // TODO: Effect refactor
         List<EffectData> effects = stack.getOrDefault(DataComponents.EFFECTS, Collections.emptyList());
 
         for (EffectData effect : effects) {
