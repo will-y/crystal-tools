@@ -8,6 +8,7 @@
   - You can now set a limit greater than 1 to how many points can be put into a node
   - Infinite unbreaking nodes now have a limit (still allows for 100% unbreaking)
   - Backpack capacity is limited right now due to a change in how inventories are stored in 1.21. Will be fixed soon
+- Changes the texture of NOT and OR dependency lines to be different from the AND dependency lines
 
 ### Fixes
 - Fixes Crystal Elytra not getting skill points from enchantments on the Elytra used

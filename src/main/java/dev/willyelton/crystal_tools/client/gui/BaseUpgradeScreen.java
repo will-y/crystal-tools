@@ -11,6 +11,9 @@ import dev.willyelton.crystal_tools.client.gui.component.XpButton;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillDataNode;
+import dev.willyelton.crystal_tools.common.levelable.skill.requirement.NodeOrSkillDataRequirement;
+import dev.willyelton.crystal_tools.common.levelable.skill.requirement.NodeSkillDataRequirement;
+import dev.willyelton.crystal_tools.common.levelable.skill.requirement.NotNodeSkillDataRequirement;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.RequirementType;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataNodeRequirement;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirement;
@@ -218,11 +221,35 @@ public abstract class BaseUpgradeScreen extends Screen {
             SkillDataNode node = button.getDataNode();
             for (SkillDataRequirement requirement : node.getRequirements()) {
                 if (requirement instanceof SkillDataNodeRequirement nodeRequirement) {
+                    int textureY = 0;
+                    boolean not = false;
+                    switch (nodeRequirement) {
+                        case NotNodeSkillDataRequirement n -> {
+                            textureY = 27;
+                            not = true;
+                            if (!n.getUnlessNodes().isEmpty()) {
+                                int unlessNode = n.getUnlessNodes().getFirst();
+                                if (this.skillButtons.get(unlessNode).isComplete) {
+                                    continue;
+                                }
+                            }
+                        }
+                        case NodeSkillDataRequirement ignored -> textureY = 9;
+                        case NodeOrSkillDataRequirement ignored -> textureY = 18;
+                        default -> {}
+                    }
+
                     List<Integer> nodes = nodeRequirement.getRequiredNodes();
 
                     for (int j : nodes) {
                         if (this.skillButtons.containsKey(j) && this.skillButtons.get(j).isHovered() || button.isHovered()) {
-                            drawDependencyLine(guiGraphics, getButtonCenter(this.skillButtons.get(j)), getButtonCenter(button), this.skillButtons.get(j).getDataNode().getPoints() > 0);
+                            boolean active = this.skillButtons.get(j).getDataNode().getPoints() > 0;
+
+                            if (!active && !not) {
+                                textureY = 0;
+                            }
+
+                            drawDependencyLine(guiGraphics, getButtonCenter(this.skillButtons.get(j)), getButtonCenter(button), textureY);
                         }
                     }
                 }
@@ -253,19 +280,17 @@ public abstract class BaseUpgradeScreen extends Screen {
         return true;
     }
 
-    private void drawDependencyLine(GuiGraphics guiGraphics, int[] p1, int[] p2, boolean active) {
-        drawDependencyLine(guiGraphics, p1[0], p1[1], p2[0], p2[1], active);
+    private void drawDependencyLine(GuiGraphics guiGraphics, int[] p1, int[] p2, int textureY) {
+        drawDependencyLine(guiGraphics, p1[0], p1[1], p2[0], p2[1], textureY);
     }
 
-    private void drawDependencyLine(GuiGraphics guiGraphics, int x1, int y1, int x2, int y2, boolean active) {
+    private void drawDependencyLine(GuiGraphics guiGraphics, int x1, int y1, int x2, int y2, int yImageStart) {
         RenderSystem.setShaderTexture(0, DEPENDENCY_LINE_LOCATION);
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         Matrix4f matrix4f = guiGraphics.pose().last().pose();
         BufferBuilder bufferbuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 
-
-        float yImageStart = active ? DEPENDENCY_LINE_WIDTH : 0;
-        float yImageEnd = active ? DEPENDENCY_LINE_WIDTH * 2 : DEPENDENCY_LINE_WIDTH;
+        float yImageEnd = yImageStart + DEPENDENCY_LINE_WIDTH;
         float length = (float) Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
         float angle = (float) Math.atan2((x2 - x1), (y2 - y1));
         float xOffset = DEPENDENCY_LINE_WIDTH / 3 * (float) Math.cos(angle);
@@ -280,11 +305,10 @@ public abstract class BaseUpgradeScreen extends Screen {
         float x4F = x2 - xOffset;
         float y4F = y2 + yOffset;
 
-//        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-        bufferbuilder.addVertex(matrix4f, x2F, y2F, 0).setUv((float) ANIMATION_FRAME / DEPENDENCY_LINE_IMAGE_WIDTH, yImageStart / DEPENDENCY_LINE_IMAGE_HEIGHT);
+        bufferbuilder.addVertex(matrix4f, x2F, y2F, 0).setUv((float) ANIMATION_FRAME / DEPENDENCY_LINE_IMAGE_WIDTH, (float) yImageStart / DEPENDENCY_LINE_IMAGE_HEIGHT);
         bufferbuilder.addVertex(matrix4f, x1F, y1F, 0).setUv((float) ANIMATION_FRAME / DEPENDENCY_LINE_IMAGE_WIDTH, yImageEnd / DEPENDENCY_LINE_IMAGE_HEIGHT);
         bufferbuilder.addVertex(matrix4f, x4F, y4F, 0).setUv((length + ANIMATION_FRAME) / DEPENDENCY_LINE_IMAGE_WIDTH, yImageEnd / DEPENDENCY_LINE_IMAGE_HEIGHT);
-        bufferbuilder.addVertex(matrix4f, x3F, y3F, 0).setUv((length + ANIMATION_FRAME) / DEPENDENCY_LINE_IMAGE_WIDTH, yImageStart / DEPENDENCY_LINE_IMAGE_HEIGHT);
+        bufferbuilder.addVertex(matrix4f, x3F, y3F, 0).setUv((length + ANIMATION_FRAME) / DEPENDENCY_LINE_IMAGE_WIDTH, (float) yImageStart / DEPENDENCY_LINE_IMAGE_HEIGHT);
         BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
     }
 

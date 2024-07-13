@@ -13,6 +13,10 @@ public class NotNodeSkillDataRequirement extends NodeSkillDataRequirement {
         super(requiredNodes, true, unless);
     }
 
+    public List<Integer> getUnlessNodes() {
+        return unless;
+    }
+
     @Override
     public JsonElement toJson() {
         return CodecUtils.encodeOrThrow(CODEC, this);

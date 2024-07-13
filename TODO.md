@@ -30,7 +30,6 @@
 - Crystal glass (conn texture)
 
 ### Other
-- Make or / not / unless node connections look different somehow
 - Pressing k with no tools will go to equipped items, buttons at the top of the screen to arrow between equipped / held items
 - Breaking animation on multibreaks
 - Configure color of highlight?
