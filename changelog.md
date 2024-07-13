@@ -1,6 +1,7 @@
 # Crystal Tools Change Log
 ## 2.0.0-beta5 (Check Trident and 2x2 compression (pretty sure it works))
 ### Changes
+- Updates to Neo 21.0.87-beta
 - Allows modded blocks to be set as the background to the upgrade screen in the config option `UPGRADE_SCREEN_BACKGROUND`
 - Removes the dark background on the upgrade screen
 - **BREAKING DATAPACK CHANGE** : `type` in nodes was changed to `limit`. Old normal nodes are equivalent to `limit=1` and old infinite nodes are equivalent to `limit=0`
@@ -9,7 +10,7 @@
   - Backpack capacity is limited right now due to a change in how inventories are stored in 1.21. Will be fixed soon
 
 ### Fixes
-- Fixes Crystal Elytra not getting experience from enchantments on the Elytra used
+- Fixes Crystal Elytra not getting skill points from enchantments on the Elytra used
 
 ## 2.0.0-beta4
 ### Changes
