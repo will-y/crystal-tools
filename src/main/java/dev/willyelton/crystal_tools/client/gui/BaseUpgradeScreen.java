@@ -11,7 +11,6 @@ import dev.willyelton.crystal_tools.client.gui.component.XpButton;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillDataNode;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillNodeType;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.RequirementType;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataNodeRequirement;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirement;
@@ -164,10 +163,11 @@ public abstract class BaseUpgradeScreen extends Screen {
             this.onSkillButtonPress(node, button);
         }, (button, guiGraphics, mouseX, mouseY) -> {
             String text;
-            if (node.getType().equals(SkillNodeType.INFINITE) && node.getPoints() > 0) {
-                text = node.getDescription() + "\n" + node.getPoints() + " Points";
+
+            if (node.getLimit() == 0) {
+                text = String.format("%s\n%d Points", node.getDescription(), node.getPoints());
             } else {
-                text = node.getDescription();
+                text = String.format("%s\n%d/%d Points", node.getDescription(), node.getPoints(), node.getLimit());
             }
 
             Component textComponent = Component.literal(text);

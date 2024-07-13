@@ -5,7 +5,7 @@
         "id": 0,
         "name": "Attack Damage I",
         "description": "Increases the Trident's Attack Damage",
-        "type": "normal",
+        "limit": 1,
         "requirements": [],
         "key": "damage_bonus",
         "value": 1
@@ -14,7 +14,7 @@
         "id": 1,
         "name": "Projectile Damage I",
         "description": "Increases the Trident's Projectile Damage",
-        "type": "normal",
+        "limit": 1,
         "requirements": [],
         "key": "projectile_damage",
         "value": 1
@@ -23,7 +23,7 @@
         "id": 2,
         "name": "Durability I",
         "description": "Increases Sword's Durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [],
         "key": "durability_bonus",
         "value": 200
@@ -34,7 +34,7 @@
         "id": 3,
         "name": "Unbreaking I",
         "description": "Adds 10% to the chance not use durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [0, 1, 2]}
         ],
@@ -45,7 +45,7 @@
         "id": 4,
         "name": "Projectile Speed I",
         "description": "Increases the Trident's Projectile Speed",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [0, 1, 2]}
         ],
@@ -56,7 +56,7 @@
         "id": 5,
         "name": "Reach I",
         "description": "Increases Trident's Reach Distance",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [0, 1, 2]}
         ],
@@ -69,7 +69,7 @@
         "id": 6,
         "name": "Riptide I",
         "description": "Increases the Trident's Riptide Level",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [3, 4, 5]},
           {
@@ -84,7 +84,7 @@
         "id": 7,
         "name": "Loyalty I",
         "description": "Increases the Trident's Loyalty Level",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [3, 4, 5]},
           {
@@ -99,7 +99,7 @@
         "id": 8,
         "name": "Channeling",
         "description": "Adds Channeling to the Trident. Does not have to be during a thunderstorm. The more points added, the more damage the lightning does. Lightning created by this will not hurt you",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {"or_node": [3, 4, 5]},
           {
@@ -116,7 +116,7 @@
         "id": 9,
         "name": "Attack Damage II",
         "description": "Increases the Trident's Attack Damage",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [0]},
           {"or_node": [6, 7, 8]}
@@ -128,7 +128,7 @@
         "id": 10,
         "name": "Projectile Damage II",
         "description": "Increases the Trident's Projectile Damage",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [1]},
           {"or_node": [6, 7, 8]}
@@ -140,7 +140,7 @@
         "id": 11,
         "name": "Durability II",
         "description": "Increases Sword's Durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [2]},
           {"or_node": [6, 7, 8]}
@@ -154,7 +154,7 @@
         "id": 12,
         "name": "Unbreaking II",
         "description": "Adds 10% to the chance not use durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [3]},
           {"or_node": [9, 10, 11]}
@@ -166,7 +166,7 @@
         "id": 13,
         "name": "Projectile Speed II",
         "description": "Increases the Trident's Projectile Speed",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [4]},
           {"or_node": [9, 10, 11]}
@@ -178,7 +178,7 @@
         "id": 14,
         "name": "Reach II",
         "description": "Increases Trident's Reach Distance",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [5]},
           {"or_node": [9, 10, 11]}
@@ -192,7 +192,7 @@
         "id": 15,
         "name": "Riptide II",
         "description": "Increases the Trident's Riptide Level",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [6]},
           {"or_node": [12, 13, 14]},
@@ -208,7 +208,7 @@
         "id": 16,
         "name": "Loyalty II",
         "description": "Increases the Trident's Loyalty Level",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [7]},
           {"or_node": [12, 13, 14]},
@@ -224,7 +224,7 @@
         "id": 17,
         "name": "Auto Repair",
         "description": "Automatically Repairs Your Tool Over Time!",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {"or_node": [12, 13, 14]}
         ],
@@ -237,7 +237,7 @@
         "id": 18,
         "name": "Attack Damage III",
         "description": "Increases the Trident's Attack Damage",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [9]},
           {"or_node": [15, 16, 17]}
@@ -249,7 +249,7 @@
         "id": 19,
         "name": "Projectile Damage III",
         "description": "Increases the Trident's Projectile Damage",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [10]},
           {"or_node": [15, 16, 17]}
@@ -261,7 +261,7 @@
         "id": 20,
         "name": "Durability III",
         "description": "Increases Sword's Durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [11]},
           {"or_node": [15, 16, 17]}
@@ -275,7 +275,7 @@
         "id": 21,
         "name": "Unbreaking III",
         "description": "Adds 10% to the chance not use durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [12]},
           {"or_node": [18, 19, 20]}
@@ -287,7 +287,7 @@
         "id": 22,
         "name": "Projectile Speed III",
         "description": "Increases the Trident's Projectile Speed",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [13]},
           {"or_node": [18, 19, 20]}
@@ -299,7 +299,7 @@
         "id": 23,
         "name": "Reach III",
         "description": "Increases Trident's Reach Distance",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [14]},
           {"or_node": [18, 19, 20]}
@@ -313,7 +313,7 @@
         "id": 24,
         "name": "Riptide III",
         "description": "Increases the Trident's Riptide Level",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [15]},
           {"or_node": [21, 22, 23]},
@@ -329,7 +329,7 @@
         "id": 25,
         "name": "Loyalty III",
         "description": "Increases the Trident's Loyalty Level",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [16]},
           {"or_node": [21, 22, 23]},
@@ -345,7 +345,7 @@
         "id": 26,
         "name": "Riptide Toggle",
         "description": "Allows you to toggle Riptide off",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [21, 22, 23]}
         ],
@@ -358,7 +358,7 @@
         "id": 27,
         "name": "Infinite Attack Damage",
         "description": "Add As Many Points To Attack Damage Here As You Want",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {"node": [18]},
           {"or_node": [24, 25, 26]}
@@ -370,7 +370,7 @@
         "id": 28,
         "name": "Infinite Projectile Damage",
         "description": "Add As Many Points To Projectile Damage Here As You Want",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {"node": [19]},
           {"or_node": [24, 25, 26]}
@@ -382,7 +382,7 @@
         "id": 29,
         "name": "Infinite Durability",
         "description": "Add As Many Points To Durability here as you want",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {"node": [20]},
           {"or_node": [24, 25, 26]}
@@ -396,7 +396,7 @@
         "id": 30,
         "name": "Infinite Unbreaking",
         "description": "Add as many points to Unbreaking here as you want (1% per level)",
-        "type": "infinite",
+        "limit": 70,
         "requirements": [
           {"node": [21]},
           {"or_node": [24, 25, 26]}
@@ -408,7 +408,7 @@
         "id": 31,
         "name": "Infinite Projectile Speed",
         "description": "Add as many points to Projectile Speed here as you want",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {"node": [21]},
           {"or_node": [24, 25, 26]}
@@ -420,7 +420,7 @@
         "id": 32,
         "name": "Infinite Reach",
         "description": "Add as many points to Reach here as you want",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {"node": [22]},
           {"or_node": [24, 25, 26]}
@@ -432,7 +432,7 @@
         "id": 33,
         "name": "Infinite Riptide",
         "description": "Add as many points to Riptide here as you want",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {"node": [24]}
         ],
@@ -445,7 +445,7 @@
         "id": 34,
         "name": "Always Riptide",
         "description": "Allows you to Riptide even when it isn't raining",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [24, 27, 28 , 29, 30, 31, 32, 33]}
         ],
@@ -456,7 +456,7 @@
         "id": 35,
         "name": "Instant Loyalty",
         "description": "The Trident instantly comes back to you",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [25, 27, 28 , 29, 30, 31, 32, 33]}
         ],

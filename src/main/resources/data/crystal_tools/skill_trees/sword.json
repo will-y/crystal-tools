@@ -5,7 +5,7 @@
         "id": 0,
         "name": "Attack Damage I",
         "description": "Increases Sword's Attack Damage",
-        "type": "normal",
+        "limit": 1,
         "requirements": [],
         "key": "damage_bonus",
         "value": 1
@@ -14,7 +14,7 @@
         "id": 1,
         "name": "Attack Speed I",
         "description": "Increases Sword's Attack Speed",
-        "type": "normal",
+        "limit": 1,
         "requirements": [],
         "key": "attack_speed_bonus",
         "value": 1
@@ -23,7 +23,7 @@
         "id": 2,
         "name": "Durability I",
         "description": "Increases Sword's Durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [],
         "key": "durability_bonus",
         "value": 200
@@ -34,7 +34,7 @@
         "id": 3,
         "name": "Attack Damage II",
         "description": "Increases Sword's Attack Damage",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [0]}
         ],
@@ -45,7 +45,7 @@
         "id": 4,
         "name": "Attack Speed II",
         "description": "Increases Sword's Attack Speed",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [1]}
         ],
@@ -56,7 +56,7 @@
         "id": 5,
         "name": "Durability II",
         "description": "Increases Sword's Durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [2]}
         ],
@@ -69,7 +69,7 @@
         "id": 6,
         "name": "Fire Aspect",
         "description": "Sets anything you hit on fire",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [3, 4, 5]}
         ],
@@ -80,7 +80,7 @@
         "id": 7,
         "name": "Knockback Res I",
         "description": "Adds Knockback Resistance when holding the sword",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [3, 4, 5]}
         ],
@@ -91,7 +91,7 @@
         "id": 8,
         "name": "Knockback I",
         "description": "Adds Knockback to the Sword",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [3, 4, 5]}
         ],
@@ -102,7 +102,7 @@
         "id": 26,
         "name": "Unbreaking I",
         "description": "Adds 10% to the chance not use durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [3, 4, 5]}
         ],
@@ -115,7 +115,7 @@
         "id": 9,
         "name": "Attack Damage III",
         "description": "Increases Sword's Attack Damage",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [6, 7, 8, 26]},
           {"node": [3]}
@@ -127,7 +127,7 @@
         "id": 10,
         "name": "Attack Speed III",
         "description": "Increases Sword's Attack Speed",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [6, 7, 8, 26]},
           {"node": [4]}
@@ -139,7 +139,7 @@
         "id": 11,
         "name": "Durability III",
         "description": "Increases Sword's Durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [6, 7, 8, 26]},
           {"node": [5]}
@@ -151,7 +151,7 @@
         "id": 30,
         "name": "Reach I",
         "description": "Increases Sword's Reach Distance",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [6, 7, 8, 26]}
         ],
@@ -164,7 +164,7 @@
         "id": 12,
         "name": "Knockback Res II",
         "description": "Adds Knockback Resistance when holding the sword",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [9, 10, 11, 30]},
           {"node": [7]}
@@ -176,7 +176,7 @@
         "id": 13,
         "name": "Lifesteal I",
         "description": "You gain 1 heart back on each attack",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [9, 10, 11, 30]}
         ],
@@ -187,7 +187,7 @@
         "id": 14,
         "name": "Knockback II",
         "description": "Adds Knockback to the Sword",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [9, 10, 11, 30]},
           {"node": [8]}
@@ -199,7 +199,7 @@
         "id": 27,
         "name": "Unbreaking II",
         "description": "Adds 10% to the chance not use durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [9, 10, 11]},
           {"node": [26]}
@@ -213,7 +213,7 @@
         "id": 15,
         "name": "Attack Damage IV",
         "description": "Increases Sword's Attack Damage",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [12, 13, 14, 27]},
           {"node": [9]}
@@ -225,7 +225,7 @@
         "id": 16,
         "name": "Attack Speed IV",
         "description": "Increases Sword's Attack Speed",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [12, 13, 14, 27]},
           {"node": [10]}
@@ -237,7 +237,7 @@
         "id": 17,
         "name": "Durability IV",
         "description": "Increases Sword's Durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [12, 13, 14, 27]},
           {"node": [11]}
@@ -249,7 +249,7 @@
         "id": 31,
         "name": "Reach II",
         "description": "Increases Sword's Reach Distance",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [12, 13, 14, 27]},
           {"node": [30]}
@@ -263,7 +263,7 @@
         "id": 18,
         "name": "Looting III",
         "description": "Gives this sword Looting III",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [15, 16, 17, 31]}
         ],
@@ -274,7 +274,7 @@
         "id": 19,
         "name": "Auto Repair",
         "description": "Automatically Repairs Your Tool Over Time!",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {"or_node": [15, 16, 17, 31]}
         ],
@@ -285,7 +285,7 @@
         "id": 28,
         "name": "Unbreaking III",
         "description": "Adds 10% to the chance not use durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [15, 16, 17, 31]},
           {"node": [27]}
@@ -299,7 +299,7 @@
         "id": 20,
         "name": "Attack Damage V",
         "description": "Increases Sword's Attack Damage",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [18, 19, 28]},
           {"node": [15]}
@@ -311,7 +311,7 @@
         "id": 21,
         "name": "Attack Speed V",
         "description": "Increases Sword's Attack Speed",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [18, 19, 28]},
           {"node": [16]}
@@ -323,7 +323,7 @@
         "id": 22,
         "name": "Durability V",
         "description": "Increases Sword's Durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [18, 19, 28]},
           {"node": [17]}
@@ -335,7 +335,7 @@
         "id": 32,
         "name": "Reach III",
         "description": "Increases Sword's Reach Distance",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [18, 19, 28]},
           {"node": [31]}
@@ -349,7 +349,7 @@
         "id": 23,
         "name": "Infinite Damage",
         "description": "Add As Many Points To Attack Damage Here As You Want",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {"node": [20]}
         ],
@@ -360,7 +360,7 @@
         "id": 24,
         "name": "Infinite Speed",
         "description": "Add As Many Points To Attack Speed Here As You Want",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {"node": [21]}
         ],
@@ -371,7 +371,7 @@
         "id": 25,
         "name": "Infinite Durability",
         "description": "Add As Many Points To Durability Here As You Want",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {"node": [22]}
         ],
@@ -382,7 +382,7 @@
         "id": 29,
         "name": "Infinite Unbreaking",
         "description": "Add as many points to Unbreaking here as you want (1% per level)",
-        "type": "infinite",
+        "limit": 70,
         "requirements": [
           {"node": [28]},
           {"or_node": [20, 21, 22, 32]}
@@ -394,7 +394,7 @@
         "id": 33,
         "name": "Infinite Reach",
         "description": "Add as many points to Reach here as you want",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {"node": [32]}
         ],

@@ -5,7 +5,7 @@
         "id": 0,
         "name": "Mining Speed I",
         "description": "Increases Pickaxe's Mining Speed",
-        "type": "normal",
+        "limit": 1,
         "requirements": [],
         "key": "speed_bonus",
         "value": 0.25
@@ -14,7 +14,7 @@
         "id": 1,
         "name": "Durability I",
         "description": "Increases Pickaxe's Durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [],
         "key": "durability_bonus",
         "value": 200
@@ -25,7 +25,7 @@
         "id": 2,
         "name": "Mining Speed II",
         "description": "Increases Pickaxe's Mining Speed",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node":  [0]}
         ],
@@ -36,7 +36,7 @@
         "id": 3,
         "name": "Durability II",
         "description": "Increases Pickaxe's Durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [1]}
         ],
@@ -47,7 +47,7 @@
         "id": 22,
         "name": "Unbreaking I",
         "description": "Adds 10% to the chance not use durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [0, 1]}
         ],
@@ -60,7 +60,7 @@
         "id": 4,
         "name": "Mining Speed III",
         "description": "Increases Pickaxe's Mining Speed",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [2]}
         ],
@@ -71,7 +71,7 @@
         "id": 5,
         "name": "Durability III",
         "description": "Increases Pickaxe's Durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [3]}
         ],
@@ -82,7 +82,7 @@
         "id": 26,
         "name": "Reach I",
         "description": "Increases Pickaxe's Reach Distance",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [2, 3]}
         ],
@@ -95,7 +95,7 @@
         "id": 6,
         "name": "Silk Touch",
         "description": "Gives Silk Touch To The Pickaxe",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {
             "not_node": [7],
@@ -110,7 +110,7 @@
         "id": 7,
         "name": "Fortune III",
         "description": "Gives Fortune III To The Pickaxe",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {
             "not_node": [6],
@@ -125,7 +125,7 @@
         "id": 23,
         "name": "Unbreaking II",
         "description": "Adds 10% to the chance not use durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [4, 5, 26]},
           {"node": [22]}
@@ -139,7 +139,7 @@
         "id": 10,
         "name": "Mining Speed IV",
         "description": "Increases Pickaxe's Mining Speed",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node":  [6, 7, 23]},
           {"node": [4]}
@@ -151,7 +151,7 @@
         "id": 11,
         "name": "Durability IV",
         "description": "Increases Pickaxe's Durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [6, 7, 23]},
           {"node": [5]}
@@ -165,7 +165,7 @@
         "id": 12,
         "name": "Mining Speed V",
         "description": "Increases Pickaxe's Mining Speed",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [10]}
         ],
@@ -176,7 +176,7 @@
         "id": 13,
         "name": "Durability V",
         "description": "Increases Pickaxe's Durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [11]}
         ],
@@ -187,7 +187,7 @@
         "id": 27,
         "name": "Reach II",
         "description": "Increases Pickaxe's Reach Distance",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [10, 11]},
           {"node": [26]}
@@ -199,7 +199,7 @@
         "id": 30,
         "name": "Auto Pickup",
         "description": "When you break blocks, the drops will automatically go into your inventory if there is space.",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [10, 11]}
         ],
@@ -212,7 +212,7 @@
         "id": 14,
         "name": "Auto Repair",
         "description": "Automatically Repairs Your Tool Over Time!",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {"or_node": [12, 13, 27, 30]}
         ],
@@ -223,7 +223,7 @@
         "id": 17,
         "name": "3x3 Mining",
         "description": "Mines in a 3x3 area.",
-        "type": "normal",
+        "limit": 1,
         "requirements":[
           {"or_node": [12, 13, 27, 30]}
         ],
@@ -234,7 +234,7 @@
         "id": 18,
         "name": "Vein Mining",
         "description": "Mines all ores in a vein when pressing the vein mining key. Adding more points increases the range. (+1 block range per level)",
-        "type": "infinite",
+        "limit": 0,
         "requirements":[
           {"or_node": [12, 13, 27, 30]}
         ],
@@ -245,7 +245,7 @@
         "id": 19,
         "name": "Auto Smelting",
         "description": "Automatically smelts the blocks that you mine.",
-        "type": "normal",
+        "limit": 1,
         "requirements":[
           {"or_node": [12, 13, 27, 30]}
         ],
@@ -258,7 +258,7 @@
         "id": 20,
         "name": "Torch",
         "description": "Right-Click to place a torch. Uses 10 durability.",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {
             "or_node": [14, 17, 18, 19]
@@ -271,7 +271,7 @@
         "id": 21,
         "name": "Mine Mode",
         "description": "Press mode_switch key to change the mining mode between unlocked modes (Silk Touch or Fortune). Press shift + mode_switch to change the breaking mode (3x3 or 1x1)",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {
             "or_node": [14, 17, 18, 19]
@@ -284,7 +284,7 @@
         "id": 24,
         "name": "Unbreaking III",
         "description": "Adds 10% to the chance not use durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [14, 17, 18, 19]},
           {"node": [23]}
@@ -296,7 +296,7 @@
         "id": 28,
         "name": "Reach III",
         "description": "Increases Pickaxe's Reach Distance",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [14, 17, 18, 19]},
           {"node": [27]}
@@ -310,7 +310,7 @@
         "id":  15,
         "name": "Infinite Speed",
         "description": "Add As Many Points To Speed Here As You Want",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {"or_node": [20, 21, 24, 28]},
           {"node": [12]}
@@ -322,7 +322,7 @@
         "id": 16,
         "name": "Infinite Durability",
         "description": "Add As Many Points To Durability Here As You Want",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {"or_node": [20, 21, 24, 28]},
           {"node": [13]}
@@ -334,7 +334,7 @@
         "id": 25,
         "name": "Infinite Unbreaking",
         "description": "Add as many points to Unbreaking here as you want (1% per level)",
-        "type": "infinite",
+        "limit": 70,
         "requirements": [
           {"node": [24]}
         ],
@@ -345,7 +345,7 @@
         "id": 29,
         "name": "Infinite Reach",
         "description": "Add as many points to Reach here as you want",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {"node": [28]}
         ],

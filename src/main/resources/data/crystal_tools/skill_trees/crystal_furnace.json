@@ -5,7 +5,7 @@
         "id": 0,
         "name": "Furnace Speed I",
         "description": "Increases smelting speed",
-        "type": "normal",
+        "limit": 1,
         "requirements": [],
         "key": "speed_bonus",
         "value": 1
@@ -14,7 +14,7 @@
         "id": 1,
         "name": "Fuel Efficiency I",
         "description": "Increases time that fuel burns",
-        "type": "normal",
+        "limit": 1,
         "requirements": [],
         "key": "fuel_bonus",
         "value": 1
@@ -23,7 +23,7 @@
         "id": 20,
         "name": "Exp. Boost I",
         "description": "Increases experience gained from smelting",
-        "type": "normal",
+        "limit": 1,
         "requirements": [],
         "key": "exp_boost",
         "value": 1
@@ -34,7 +34,7 @@
         "id": 2,
         "name": "Furnace Speed II",
         "description": "Increases smelting speed",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [0]}
         ],
@@ -45,7 +45,7 @@
         "id": 3,
         "name": "Fuel Efficiency II",
         "description": "Increases time that fuel burns",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [1]}
         ],
@@ -56,7 +56,7 @@
         "id": 21,
         "name": "Exp. Boost II",
         "description": "Increases experience gained from smelting",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [20]}
         ],
@@ -69,7 +69,7 @@
         "id": 4,
         "name": "Slot I",
         "description": "Adds another input and output slot that works in parallel",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [2, 3, 21]}
         ],
@@ -80,7 +80,7 @@
         "id": 5,
         "name": "Fuel Slot I",
         "description": "Adds another fuel slot",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [2, 3, 21]}
         ],
@@ -93,7 +93,7 @@
         "id": 6,
         "name": "Furnace Speed III",
         "description": "Increases smelting speed",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [4, 5]},
           {"node": [2]}
@@ -105,7 +105,7 @@
         "id": 7,
         "name": "Fuel Efficiency III",
         "description": "Increases time that fuel burns",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [4, 5]},
           {"node": [3]}
@@ -117,7 +117,7 @@
         "id": 22,
         "name": "Exp. Boost III",
         "description": "Increases experience gained from smelting",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [4, 5]},
           {"node": [21]}
@@ -131,7 +131,7 @@
         "id": 8,
         "name": "Slot II",
         "description": "Adds another input and output slot that works in parallel",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [6, 7, 22]},
           {"node": [4]}
@@ -143,7 +143,7 @@
         "id": 9,
         "name": "Auto Split",
         "description": "Automatically splits the input stacks over all available slots",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [6, 7, 22]}
         ],
@@ -156,7 +156,7 @@
         "id": 10,
         "name": "Furnace Speed IV",
         "description": "Increases smelting speed",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [8, 9]},
           {"node": [6]}
@@ -168,7 +168,7 @@
         "id": 11,
         "name": "Fuel Efficiency IV",
         "description": "Increases time that fuel burns",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [8, 9]},
           {"node": [7]}
@@ -180,7 +180,7 @@
         "id": 23,
         "name": "Exp. Boost IV",
         "description": "Increases experience gained from smelting",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [8, 9]},
           {"node": [22]}
@@ -194,7 +194,7 @@
         "id": 12,
         "name": "Slot III",
         "description": "Adds another input and output slot that works in parallel",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [10, 11, 23]},
           {"node": [8]}
@@ -206,7 +206,7 @@
         "id": 13,
         "name": "Fuel Slot II",
         "description": "Adds another fuel slot",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [10, 11, 23]},
           {"node": [5]}
@@ -220,7 +220,7 @@
         "id": 14,
         "name": "Furnace Speed V",
         "description": "Increases smelting speed",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [12, 13]},
           {"node": [10]}
@@ -232,7 +232,7 @@
         "id": 15,
         "name": "Fuel Efficiency V",
         "description": "Increases time that fuel burns",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [12, 13]},
           {"node": [11]}
@@ -244,7 +244,7 @@
         "id": 24,
         "name": "Exp. Boost V",
         "description": "Increases experience gained from smelting",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [12, 13]},
           {"node": [23]}
@@ -258,7 +258,7 @@
         "id": 16,
         "name": "Slot IV",
         "description": "Adds another input and output slot that works in parallel",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [14, 15, 24]},
           {"node": [12]}
@@ -270,7 +270,7 @@
         "id": 17,
         "name": "Auto Output",
         "description": "Automatically outputs to inventories next to or below the furnace",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [14, 15, 24]}
         ],
@@ -281,7 +281,7 @@
         "id": 26,
         "name": "Save Fuel",
         "description": "No longer consumes fuel when not burning an item",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [14, 15, 24]}
         ],
@@ -294,7 +294,7 @@
         "id": 18,
         "name": "Infinite Furnace Speed",
         "description": "Increases smelting speed",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {"or_node": [16, 17]},
           {"node": [14]}
@@ -306,7 +306,7 @@
         "id": 19,
         "name": "Infinite Fuel Efficiency",
         "description": "Increases time that fuel burns",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {"or_node": [16, 17]},
           {"node": [15]}
@@ -318,7 +318,7 @@
         "id": 25,
         "name": "Infinite Exp. Boost",
         "description": "Increases experience gained from smelting",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {"or_node":  [16, 17]},
           {"node": [24]}

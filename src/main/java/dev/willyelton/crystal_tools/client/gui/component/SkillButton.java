@@ -3,7 +3,6 @@ package dev.willyelton.crystal_tools.client.gui.component;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillDataNode;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillNodeType;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.RequirementType;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillItemRequirement;
 import dev.willyelton.crystal_tools.utils.Colors;
@@ -78,11 +77,11 @@ public class SkillButton extends CrystalToolsButton {
 
     @Override
     public int getTextureY(boolean hovered) {
-        boolean isInfinite = this.dataNode.getType() == SkillNodeType.INFINITE;
+        boolean isInfinite = this.dataNode.getLimit() != 1;
         int points = this.dataNode.getPoints();
         if (isInfinite && points > 0) {
             if (!this.isActive()) {
-                return 4;
+                return 3;
             } else if (hovered) {
                 return 6;
             } else {

@@ -1,13 +1,12 @@
 package dev.willyelton.crystal_tools.utils;
 
-import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
-import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
+import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillDataNode;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillNodeType;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillTreeRegistry;
 import dev.willyelton.crystal_tools.common.levelable.tool.AIOLevelableTool;
 import net.minecraft.client.gui.screens.Screen;
@@ -32,7 +31,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ToolUtils {
-    // I hate this but needed because armor needs to actually be an ArmorItem
+    // TODO: To interface
     public static void appendHoverText(ItemStack stack, List<Component> components, TooltipFlag flag, LevelableItem item) {
         if (item.isDisabled()) {
             components.add(Component.literal("\u00A7c\u00A7l" + "Disabled"));
@@ -88,15 +87,18 @@ public class ToolUtils {
             Map<String, Float> skills = new HashMap<>();
             components.add(Component.literal("Skills:"));
             SkillData toolData = getSkillData(stack);
-            for (SkillDataNode dataNode : toolData.getAllNodes()) {
-                if (dataNode.isComplete() || (dataNode.getType().equals(SkillNodeType.INFINITE) && dataNode.getPoints() > 0)) {
-                    skills.compute(dataNode.getKey(), (key, value) -> value != null ? value + dataNode.getValue() * dataNode.getPoints() : dataNode.getValue() * dataNode.getPoints());
-                }
-            }
 
-            skills.forEach((s, aFloat) -> {
-                components.add(Component.literal(String.format("     %s: %s", formatKey(s), formatFloat(aFloat))));
-            });
+            if (toolData != null) {
+                for (SkillDataNode dataNode : toolData.getAllNodes()) {
+                    if (dataNode.getPoints() > 0) {
+                        skills.compute(dataNode.getKey(), (key, value) -> value != null ? value + dataNode.getValue() * dataNode.getPoints() : dataNode.getValue() * dataNode.getPoints());
+                    }
+                }
+
+                skills.forEach((s, aFloat) -> {
+                    components.add(Component.literal(String.format("     %s: %s", formatKey(s), formatFloat(aFloat))));
+                });
+            }
         }
     }
 

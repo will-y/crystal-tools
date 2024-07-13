@@ -5,7 +5,7 @@
         "id": 0,
         "name": "Arrow Damage I",
         "description": "Increased the Damage Done (equal to power II)",
-        "type": "normal",
+        "limit": 1,
         "requirements": [],
         "key": "arrow_damage",
         "value": 1
@@ -14,7 +14,7 @@
         "id": 1,
         "name": "Arrow Speed I",
         "description": "Increases the speed of fired arrows",
-        "type": "normal",
+        "limit": 1,
         "requirements": [],
         "key": "arrow_speed_bonus",
         "value": 1
@@ -23,7 +23,7 @@
         "id": 2,
         "name": "Durability I",
         "description": "Increases Bow's Durability",
-        "type": "normal",
+        "limit": 1,
         "requirements":[],
         "key": "durability_bonus",
         "value": 200
@@ -32,7 +32,7 @@
         "id": 27,
         "name": "Draw Speed I",
         "description": "Increases Bow's Draw Speed",
-        "type": "normal",
+        "limit": 1,
         "requirements":[],
         "key": "draw_speed",
         "value": 2
@@ -43,7 +43,7 @@
         "id": 3,
         "name": "Arrow Damage II",
         "description": "Increased the Damage Done (equal to power IV)",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [0]}
         ],
@@ -54,7 +54,7 @@
         "id": 4,
         "name": "Arrow Speed II",
         "description": "Increases the speed of fired arrows",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [1]}
         ],
@@ -65,7 +65,7 @@
         "id": 5,
         "name": "Durability II",
         "description": "Increases Bow's Durability",
-        "type": "normal",
+        "limit": 1,
         "requirements":[
           {"node": [2]}
         ],
@@ -76,7 +76,7 @@
         "id": 28,
         "name": "Draw Speed II",
         "description": "Increases Bow's Draw Speed",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [27]}
         ],
@@ -89,7 +89,7 @@
         "id": 6,
         "name": "Punch I",
         "description": "Adds Punch I to the bow",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [3, 4, 5, 28]}
         ],
@@ -100,7 +100,7 @@
         "id": 8,
         "name": "Flame",
         "description": "Gives the bow flame",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [3, 4, 5, 28]}
         ],
@@ -113,7 +113,7 @@
         "id": 9,
         "name": "Arrow Damage III",
         "description": "Increased the Damage Done (equal to power VI)",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [3]},
           {"or_node": [6, 8]}
@@ -125,7 +125,7 @@
         "id": 10,
         "name": "Arrow Speed III",
         "description": "Increases the speed of fired arrows",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [4]},
           {"or_node": [6, 8]}
@@ -137,7 +137,7 @@
         "id": 11,
         "name": "Durability III",
         "description": "Increases Bow's Durability",
-        "type": "normal",
+        "limit": 1,
         "requirements":[
           {"node": [5]},
           {"or_node": [6, 8]}
@@ -149,7 +149,7 @@
         "id": 29,
         "name": "Draw Speed III",
         "description": "Increases Bow's Draw Speed",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [28]},
           {"or_node":  [6, 8]}
@@ -163,7 +163,7 @@
         "id": 12,
         "name": "Punch II",
         "description": "Adds Punch II to the bow",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [9, 10, 11, 29]},
           {"node": [6]}
@@ -175,7 +175,7 @@
         "id": 14,
         "name": "Infinity",
         "description": "Gives the bow infinity. (Doesn't require 1 arrow in your inventory)",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [9, 10, 11, 29]}
         ],
@@ -188,7 +188,7 @@
         "id": 15,
         "name": "Arrow Damage IV",
         "description": "Increased the Damage Done (equal to power VI)",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [9]},
           {"or_node": [12, 14]}
@@ -200,7 +200,7 @@
         "id": 16,
         "name": "Arrow Speed IV",
         "description": "Increases the speed of fired arrows",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [10]},
           {"or_node": [12, 14]}
@@ -212,7 +212,7 @@
         "id": 17,
         "name": "Durability IV",
         "description": "Increases Bow's Durability",
-        "type": "normal",
+        "limit": 1,
         "requirements":[
           {"node": [11]},
           {"or_node": [12, 14]}
@@ -224,7 +224,7 @@
         "id": 30,
         "name": "Draw Speed IV",
         "description": "Increases Bow's Draw Speed",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [29]},
           {"or_node":  [12, 14]}
@@ -238,7 +238,7 @@
         "id": 18,
         "name": "Punch III",
         "description": "Adds Punch III to the bow",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [15, 16, 17, 30]},
           {"node": [12]}
@@ -250,7 +250,7 @@
         "id": 20,
         "name": "Auto Repair",
         "description": "Automatically Repairs Your Tool Over Time!",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {"or_node": [15, 16, 17, 30]}
         ],
@@ -263,7 +263,7 @@
         "id": 21,
         "name": "Arrow Damage V",
         "description": "Increased the Damage Done (equal to power VIII)",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [15]},
           {"or_node": [18, 20]}
@@ -275,7 +275,7 @@
         "id": 22,
         "name": "Arrow Speed V",
         "description": "Increases the speed of fired arrows",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [16]},
           {"or_node": [18, 20]}
@@ -287,7 +287,7 @@
         "id": 23,
         "name": "Durability V",
         "description": "Increases Bow's Durability",
-        "type": "normal",
+        "limit": 1,
         "requirements":[
           {"node": [17]},
           {"or_node": [18, 20]}
@@ -299,7 +299,7 @@
         "id": 31,
         "name": "Draw Speed V",
         "description": "Increases Bow's Draw Speed",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [30]},
           {"or_node":  [18, 20]}
@@ -313,7 +313,7 @@
         "id": 24,
         "name": "Infinite Damage",
         "description": "Put as many points into arrow damage as you want!",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {"node": [21]}
         ],
@@ -324,7 +324,7 @@
         "id": 25,
         "name": "Infinite Speed",
         "description": "Put as many points into arrow speed as you want!",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {"node": [22]}
         ],
@@ -335,7 +335,7 @@
         "id": 26,
         "name": "Infinite Durability",
         "description": "Put as many points into durability as you want!",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {"node": [23]}
         ],
@@ -346,7 +346,7 @@
         "id": 32,
         "name": "Infinite Draw Speed",
         "description": "Increases Bow's Draw Speed. Will max out at 18 points.",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {"node": [31]}
         ],
@@ -359,7 +359,7 @@
         "id": 33,
         "name": "Tipped: Poison",
         "description": "Adds Poison Effect to shot arrows",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [24, 25, 26, 32]},
           {"item": ["minecraft:nether_wart", "minecraft:spider_eye" ,"minecraft:fermented_spider_eye", "minecraft:glowstone_dust"]}
@@ -371,7 +371,7 @@
         "id": 34,
         "name": "Tipped: Weakness",
         "description": "Adds Weakness Effect to shot arrows",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [24, 25, 26, 32]},
           {"item": ["minecraft:nether_wart", "minecraft:blaze_powder", "minecraft:fermented_spider_eye", "minecraft:glowstone_dust"]}
@@ -383,7 +383,7 @@
         "id": 35,
         "name": "Tipped: Slowness",
         "description": "Adds Slowness Effect to shot arrows",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [24, 25, 26, 32]},
           {"item": ["minecraft:nether_wart", "minecraft:sugar", "minecraft:fermented_spider_eye", "minecraft:glowstone_dust"]}
@@ -395,7 +395,7 @@
         "id": 36,
         "name": "Tipped: Wither",
         "description": "Adds Wither Effect to shot arrows",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [24, 25, 26, 32]},
           {"item": ["minecraft:nether_wart", "minecraft:bone", "minecraft:fermented_spider_eye", "minecraft:glowstone_dust"]}

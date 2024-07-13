@@ -3,7 +3,6 @@ package dev.willyelton.crystal_tools.common.levelable.skill;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirement;
-import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
@@ -12,17 +11,19 @@ public class SkillDataNode {
     private final int id;
     private final String name;
     private final String description;
-    private final SkillNodeType type;
+    // If 0 = infinite, 1 = normal, 2+ = amount of points you can put in
+    private final int limit;
     private int points;
     private final List<SkillDataRequirement> requirements;
     private final String key;
     private final float value;
 
-    public SkillDataNode(int id, String name, String description, SkillNodeType type, String key, float value, List<SkillDataRequirement> requirements) {
+    public SkillDataNode(int id, String name, String description, int limit, String key, float value,
+                         List<SkillDataRequirement> requirements) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.type = type;
+        this.limit = limit;
         this.points = 0;
         this.key = key;
         this.value = value;
@@ -41,8 +42,8 @@ public class SkillDataNode {
         return description;
     }
 
-    public SkillNodeType getType() {
-        return type;
+    public int getLimit() {
+        return limit;
     }
 
     public int getPoints() {
@@ -88,7 +89,9 @@ public class SkillDataNode {
     }
 
     public boolean isComplete() {
-        return this.points >= 1 && this.type.equals(SkillNodeType.NORMAL);
+        if (limit == 0) return false;
+
+        return this.points >= this.limit;
     }
 
     @Override
@@ -97,7 +100,7 @@ public class SkillDataNode {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", type=" + type +
+                ", limit=" + limit +
                 ", points=" + points +
                 ", requirements=" + requirements +
                 ", key='" + key + '\'' +
@@ -109,7 +112,7 @@ public class SkillDataNode {
             Codec.INT.fieldOf("id").forGetter(SkillDataNode::getId),
             Codec.STRING.fieldOf("name").forGetter(SkillDataNode::getName),
             Codec.STRING.fieldOf("description").forGetter(SkillDataNode::getDescription),
-            StringRepresentable.fromEnum(SkillNodeType::values).fieldOf("type").forGetter(SkillDataNode::getType),
+            Codec.INT.fieldOf("limit").forGetter(SkillDataNode::getLimit),
             Codec.STRING.fieldOf("key").forGetter(SkillDataNode::getKey),
             Codec.FLOAT.fieldOf("value").forGetter(SkillDataNode::getValue),
             SkillDataRequirement.CODEC.listOf().fieldOf("requirements").forGetter(SkillDataNode::getRequirements)

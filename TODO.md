@@ -47,8 +47,6 @@
 - Data gen ore gen
 
 ### 1.21 Things
-- Limit to infinite nodes (breaking json change so wait until 1.21)
-  - Require x points in infinite node as requirement?
 - Sometimes leveling skills scrolls to the top of the menu
 - Use BlockDropsEvent for handling smelting and auto pickup
   - Should remove the need for LevelUtils
