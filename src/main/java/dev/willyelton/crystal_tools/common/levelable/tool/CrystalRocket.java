@@ -56,7 +56,7 @@ public class CrystalRocket extends LevelableTool {
 
     @Override
     public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand) {
-        ToolUtils.inventoryTick(itemStack, level, entity, inventorySlot, inHand, CrystalToolsConfig.ROCKET_REPAIR_MODIFIER.get());
+        levelableInventoryTick(itemStack, level, entity, inventorySlot, inHand, CrystalToolsConfig.ROCKET_REPAIR_MODIFIER.get());
     }
 
     @Override

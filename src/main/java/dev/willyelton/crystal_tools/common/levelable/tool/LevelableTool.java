@@ -69,9 +69,8 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
         this.initialAttackDamage = INITIAL_TIER.getAttackDamageBonus() + attackDamageModifier;
     }
 
-    // From DiggerItem.java
     @Override
-    public float getDestroySpeed(@NotNull ItemStack tool, @NotNull BlockState blockState) {
+    public float getDestroySpeed(ItemStack tool, BlockState blockState) {
         float bonus = tool.getOrDefault(DataComponents.MINING_SPEED, 0F);
         if (ToolUtils.isBroken(tool)) {
             // broken
@@ -85,13 +84,30 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
     }
 
     @Override
-    public boolean hurtEnemy(ItemStack tool, @NotNull LivingEntity target, @NotNull LivingEntity attacker) {
+    public boolean hurtEnemy(ItemStack tool, LivingEntity target, LivingEntity attacker) {
         if (this.isDisabled()) {
             tool.shrink(1);
             return false;
         }
 
-        tool.hurtAndBreak(2, attacker, EquipmentSlot.MAINHAND);
+        tool.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
+
+        if (!ToolUtils.isBroken(tool)) {
+            if (tool.getOrDefault(DataComponents.FIRE, false)) {
+                target.setRemainingFireTicks(5);
+            }
+
+            if (ToolUtils.isValidEntity(target)) {
+                int heal = tool.getOrDefault(DataComponents.LIFESTEAL, 0);
+
+                if (heal > 0) {
+                    attacker.heal(heal);
+                }
+
+                addExp(tool, target.level(), attacker.getOnPos(), attacker, (int) (getAttackDamage(tool) * getAttackExperienceBoost()));
+            }
+        }
+
         return true;
     }
 
@@ -156,7 +172,7 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
     }
 
     @Override
-    public boolean isFoil(@NotNull ItemStack stack) {
+    public boolean isFoil(ItemStack stack) {
         return false;
     }
 
@@ -168,23 +184,23 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
 
     @Override
     public int getBarColor(ItemStack itemStack) {
-        float f = Math.max(0.0F, ((float)itemStack.getMaxDamage() - (float)itemStack.getDamageValue()) / (float) itemStack.getMaxDamage());
+        float f = Math.max(0.0F, ((float) itemStack.getMaxDamage() - (float) itemStack.getDamageValue()) / (float) itemStack.getMaxDamage());
         return Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
     }
 
     @Override
-    public void inventoryTick(@NotNull ItemStack itemStack, @NotNull Level level, @NotNull Entity entity, int inventorySlot, boolean inHand) {
-        ToolUtils.inventoryTick(itemStack, level, entity, inventorySlot, inHand);
+    public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand) {
+        levelableInventoryTick(itemStack, level, entity, inventorySlot, inHand, 1);
     }
 
     @Override
-    public boolean isValidRepairItem(@NotNull ItemStack tool, @NotNull ItemStack repairItem) {
+    public boolean isValidRepairItem(ItemStack tool, ItemStack repairItem) {
         return repairItem.is(Registration.CRYSTAL.get());
     }
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag flag) {
-        ToolUtils.appendHoverText(stack, tooltipComponents, flag, this);
+        appendLevelableHoverText(stack, tooltipComponents, this);
     }
 
     // TODO: These that I have to override the same in armor / bow ... should probably be a default method I can call
@@ -259,7 +275,7 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
         return initialAttackDamage + stack.getOrDefault(DataComponents.DAMAGE_BONUS, 0F);
     }
 
-    private boolean shouldAutoSmelt(ItemStack stack) {
-        return stack.getOrDefault(DataComponents.AUTO_SMELT, false) && !stack.getOrDefault(DataComponents.DISABLE_AUTO_SMELT, false);
+    protected double getAttackExperienceBoost() {
+        return 1D;
     }
 }

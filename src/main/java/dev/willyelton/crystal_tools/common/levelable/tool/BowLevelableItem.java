@@ -189,7 +189,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     }
 
     @Override
-    public boolean isFoil(@NotNull ItemStack stack) {
+    public boolean isFoil(ItemStack stack) {
         return false;
     }
 
@@ -206,12 +206,12 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     }
 
     @Override
-    public void inventoryTick(@NotNull ItemStack itemStack, @NotNull Level level, @NotNull Entity entity, int inventorySlot, boolean inHand) {
-        ToolUtils.inventoryTick(itemStack, level, entity, inventorySlot, inHand);
+    public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand) {
+        levelableInventoryTick(itemStack, level, entity, inventorySlot, inHand, 1);
     }
 
     @Override
-    public boolean isValidRepairItem(@NotNull ItemStack tool, @NotNull ItemStack repairItem) {
+    public boolean isValidRepairItem(ItemStack tool, ItemStack repairItem) {
         return repairItem.is(Registration.CRYSTAL.get());
     }
 
@@ -221,8 +221,8 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack itemStack, Item.TooltipContext context, @NotNull List<Component> components, @NotNull TooltipFlag flag) {
-        ToolUtils.appendHoverText(itemStack, components, flag, this);
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
+        appendLevelableHoverText(itemStack, components, this);
     }
 
     @Override
@@ -241,7 +241,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     }
 
     @Override
-    public boolean isEnchantable(@NotNull ItemStack stack) {
+    public boolean isEnchantable(ItemStack stack) {
         return CrystalToolsConfig.ENCHANT_TOOLS.get();
     }
 

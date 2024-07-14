@@ -35,12 +35,12 @@ public class CrystalTrident extends SwordLevelableTool {
     }
 
     @Override
-    public float getDestroySpeed(@NotNull ItemStack pStack, @NotNull BlockState pState) {
+    public float getDestroySpeed(ItemStack pStack, BlockState pState) {
         return 1.0F;
     }
 
     @Override
-    public boolean isCorrectToolForDrops(BlockState block) {
+    public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
         return false;
     }
 
@@ -152,7 +152,7 @@ public class CrystalTrident extends SwordLevelableTool {
     }
 
     @Override
-    protected double getExperienceBoost() {
+    protected double getAttackExperienceBoost() {
         return CrystalToolsConfig.TRIDENT_EXPERIENCE_BOOST.get();
     }
 

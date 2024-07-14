@@ -89,7 +89,6 @@ public class CrystalApple extends LevelableTool {
     @Override
     public int getUseDuration(ItemStack stack, LivingEntity entity) {
         int eatSpeed = BASE_EAT_SPEED - stack.getOrDefault(DataComponents.EAT_SPEED_BONUS, 0);
-        // TODO: Let this be less than 4?
         return Math.max(eatSpeed, 4);
     }
 
@@ -110,7 +109,7 @@ public class CrystalApple extends LevelableTool {
 
     @Override
     public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand) {
-        ToolUtils.inventoryTick(itemStack, level, entity, inventorySlot, inHand, CrystalToolsConfig.APPLE_REPAIR_MODIFIER.get());
+        levelableInventoryTick(itemStack, level, entity, inventorySlot, inHand, CrystalToolsConfig.APPLE_REPAIR_MODIFIER.get());
     }
 
     @Override

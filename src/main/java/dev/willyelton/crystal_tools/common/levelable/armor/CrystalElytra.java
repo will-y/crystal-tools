@@ -49,7 +49,7 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
-        ToolUtils.appendHoverText(stack, components, flag, this);
+        appendLevelableHoverText(stack, components, this);
     }
 
     @Override
@@ -141,7 +141,7 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
             stack.shrink(1);
         }
 
-        ToolUtils.inventoryTick(stack, level, entity, inventorySlot, inHand);
+        levelableInventoryTick(stack, level, entity, inventorySlot, inHand, 1);
     }
 
     @Override

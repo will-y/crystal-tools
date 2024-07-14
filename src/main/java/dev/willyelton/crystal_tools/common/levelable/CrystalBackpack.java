@@ -7,7 +7,6 @@ import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalBackpackContainerMenu;
-import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -118,7 +117,7 @@ public class CrystalBackpack extends Item implements LevelableItem {
     public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
         String toolTip = "\u00A79" + "Auto Pickup " + (itemStack.getOrDefault(DataComponents.PICKUP_DISABLED, false) ? "Disabled" : "Enabled");
         components.add(Component.literal(toolTip));
-        ToolUtils.appendHoverText(itemStack, components, flag, this);
+        appendLevelableHoverText(itemStack, components, this);
     }
 
     @Override

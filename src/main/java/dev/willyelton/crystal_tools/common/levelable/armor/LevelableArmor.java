@@ -83,7 +83,7 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Equipabl
 
     @Override
     public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
-        ToolUtils.appendHoverText(itemStack, components, flag, this);
+        appendLevelableHoverText(itemStack, components, this);
     }
 
     @Override
@@ -127,12 +127,12 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Equipabl
             return;
         }
 
-        if (!ToolUtils.isBroken(stack) && entity instanceof LivingEntity livingEntity&& stack.getOrDefault(DataComponents.NIGHT_VISION, false)
+        if (!ToolUtils.isBroken(stack) && entity instanceof LivingEntity livingEntity && stack.getOrDefault(DataComponents.NIGHT_VISION, false)
                 && livingEntity.getItemBySlot(EquipmentSlot.HEAD).equals(stack)) {
             livingEntity.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 400, 0, false, false));
         }
 
-        ToolUtils.inventoryTick(stack, level, entity, inventorySlot, inHand);
+        levelableInventoryTick(stack, level, entity, inventorySlot, inHand, 1);
     }
 
     @Override
