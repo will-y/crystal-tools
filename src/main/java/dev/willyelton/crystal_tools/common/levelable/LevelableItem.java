@@ -142,7 +142,7 @@ public interface LevelableItem {
         if (!inHand || CrystalToolsConfig.REPAIR_IN_HAND.get()) {
             if (stack.getOrDefault(DataComponents.AUTO_REPAIR, 0) > 0) {
                 // TODO: Just store game time where you should repair again?
-                if (DataComponents.addToComponent(stack, DataComponents.AUTO_REPAIR_COUNTER, 1) > CrystalToolsConfig.TOOL_REPAIR_COOLDOWN.get() * modifier) {
+                if (DataComponents.addToComponent(stack, DataComponents.AUTO_REPAIR_COUNTER, 1) > CrystalToolsConfig.TOOL_REPAIR_COOLDOWN.get() * repairModifier) {
                     stack.set(DataComponents.AUTO_REPAIR_COUNTER, 0);
                     int repairAmount = Math.min(stack.getOrDefault(DataComponents.AUTO_REPAIR, 0), stack.getDamageValue());
                     stack.setDamageValue(stack.getDamageValue() - repairAmount);
