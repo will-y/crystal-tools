@@ -1,14 +1,11 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.components.EffectData;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -22,7 +19,6 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -35,7 +31,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.event.EventHooks;
 
@@ -53,7 +48,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     @Override
     public void releaseUsing(ItemStack stack, Level level, LivingEntity entity, int timeLeft) {
         if (entity instanceof Player player) {
-            boolean flag = player.getAbilities().instabuild;
+            boolean creative = player.getAbilities().instabuild;
 
             ItemStack itemstack;
 
@@ -65,18 +60,17 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
 
             int timeUsed = this.getUseDuration(stack, entity) - timeLeft;
 
-            // TODO: Forge hasn't patched this in yet, BowItem might have slightly different logic
-            timeUsed = EventHooks.onArrowLoose(stack, level, player, timeUsed, !itemstack.isEmpty() || flag);
+            timeUsed = EventHooks.onArrowLoose(stack, level, player, timeUsed, !itemstack.isEmpty() || creative);
             if (timeUsed < 0) return;
 
-            if (!itemstack.isEmpty() || flag) {
+            if (!itemstack.isEmpty() || creative) {
                 if (itemstack.isEmpty()) {
                     itemstack = new ItemStack(Items.ARROW);
                 }
 
                 float power = getPower(timeUsed, stack);
                 if (((double) power >= 0.1D)) {
-                    boolean flag1 = player.getAbilities().instabuild || (itemstack.getItem() instanceof ArrowItem && ((ArrowItem)itemstack.getItem()).isInfinite(itemstack, stack, player));
+                    boolean infinity = creative || (itemstack.getItem() instanceof ArrowItem && ((ArrowItem) itemstack.getItem()).isInfinite(itemstack, stack, player));
                     if (!level.isClientSide) {
                         ArrowItem arrowitem = (ArrowItem) (itemstack.getItem() instanceof ArrowItem ? itemstack.getItem() : Items.ARROW);
                         AbstractArrow abstractarrow = arrowitem.createArrow(level, itemstack, player, stack);
@@ -109,7 +103,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
                         }
 
                         stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(player.getUsedItemHand()));
-                        if (flag1 || player.getAbilities().instabuild && (itemstack.is(Items.SPECTRAL_ARROW) || itemstack.is(Items.TIPPED_ARROW)) || stack.getOrDefault(DataComponents.INFINITY, false)) {
+                        if (infinity || stack.getOrDefault(DataComponents.INFINITY, false)) {
                             abstractarrow.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                         }
 
@@ -117,7 +111,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
                     }
 
                     level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + power * 0.5F);
-                    if (!flag1 && !player.getAbilities().instabuild) {
+                    if (!infinity) {
                         itemstack.shrink(1);
                         if (itemstack.isEmpty()) {
                             player.getInventory().removeItem(itemstack);
@@ -261,40 +255,4 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
 
         return f;
     }
-
-    @Override
-    public void initializeClient(java.util.function.Consumer<net.neoforged.neoforge.client.extensions.common.IClientItemExtensions> consumer) {
-        consumer.accept(new IClientItemExtensions() {
-            public boolean applyForgeHandTransform(PoseStack poseStack, LocalPlayer player, HumanoidArm arm, ItemStack stack, float partialTick, float equipProcess, float swingProcess) {
-                boolean isRight = arm == HumanoidArm.RIGHT;
-                int i = arm == HumanoidArm.RIGHT ? 1 : -1;
-                poseStack.translate((float)i * 0.56F, -0.52F + equipProcess * -0.6F, -0.72F);
-                int k = isRight ? 1 : -1;
-
-                poseStack.translate((float)k * -0.2785682F, 0.18344387F, 0.15731531F);
-                poseStack.mulPose(Axis.XP.rotationDegrees(-13.935F));
-                poseStack.mulPose(Axis.YP.rotationDegrees((float)k * 35.3F));
-                poseStack.mulPose(Axis.ZP.rotationDegrees((float)k * -9.785F));
-                float f8 = (float)stack.getUseDuration(player) - ((float)player.getUseItemRemainingTicks() - partialTick + 1.0F);
-                float f12 = f8 / getChargeTime(stack);
-                f12 = (f12 * f12 + f12 * 2.0F) / 3.0F;
-                if (f12 > 1.0F) {
-                    f12 = 1.0F;
-                }
-
-                if (f12 > 0.1F) {
-                    float f15 = Mth.sin((f8 - 0.1F) * 1.3F);
-                    float f18 = f12 - 0.1F;
-                    float f20 = f15 * f18;
-                    poseStack.translate(f20 * 0.0F, f20 * 0.004F, f20 * 0.0F);
-                }
-
-                poseStack.translate(f12 * 0.0F, f12 * 0.0F, f12 * 0.04F);
-                poseStack.scale(1.0F, 1.0F, 1.0F + f12 * 0.2F);
-                poseStack.mulPose(Axis.YN.rotationDegrees((float)k * 45.0F));
-                return true;
-            }
-        });
-    }
-
 }
