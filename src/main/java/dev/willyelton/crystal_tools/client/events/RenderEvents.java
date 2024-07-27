@@ -1,11 +1,11 @@
 package dev.willyelton.crystal_tools.client.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
+import dev.willyelton.crystal_tools.client.config.CrystalToolsClientConfig;
+import dev.willyelton.crystal_tools.client.renderer.BlockOverlayRenderer;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.tool.LevelableTool;
 import dev.willyelton.crystal_tools.common.levelable.tool.VeinMinerLevelableTool;
-import dev.willyelton.crystal_tools.client.renderer.BlockOverlayRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
@@ -22,7 +22,7 @@ import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 public class RenderEvents {
     @SubscribeEvent
     public static void handleRenderLevelStageEvent(RenderLevelStageEvent event) {
-        if (CrystalToolsConfig.DISABLE_BLOCK_TARGET_RENDERING.get() || event.getStage() != RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS) {
+        if (CrystalToolsClientConfig.DISABLE_BLOCK_TARGET_RENDERING.get() || event.getStage() != RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS) {
             return;
         }
 
@@ -44,7 +44,7 @@ public class RenderEvents {
 
     @SubscribeEvent
     public static void handleHighlightEvent(RenderHighlightEvent.Block event) {
-        if (CrystalToolsConfig.DISABLE_BLOCK_TARGET_RENDERING.get()) return;
+        if (CrystalToolsClientConfig.DISABLE_BLOCK_TARGET_RENDERING.get()) return;
 
         Player player = Minecraft.getInstance().player;
 
