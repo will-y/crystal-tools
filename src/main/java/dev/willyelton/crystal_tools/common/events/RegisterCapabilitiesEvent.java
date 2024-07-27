@@ -4,6 +4,7 @@ import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalFurnaceBlockEntity;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalGeneratorBlockEntity;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -20,6 +21,12 @@ public class RegisterCapabilitiesEvent {
                 Capabilities.ItemHandler.BLOCK,
                 Registration.CRYSTAL_FURNACE_BLOCK_ENTITY.get(),
                 CrystalFurnaceBlockEntity::getCapForSide
+        );
+
+        event.registerBlockEntity(
+                Capabilities.ItemHandler.BLOCK,
+                Registration.CRYSTAL_GENERATOR_BLOCK_ENTITY.get(),
+                CrystalGeneratorBlockEntity::getItemHandlerCapForSide
         );
     }
 }

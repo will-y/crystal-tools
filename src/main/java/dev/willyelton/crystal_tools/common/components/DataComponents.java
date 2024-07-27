@@ -130,6 +130,7 @@ public class DataComponents {
     // Furnace
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<FurnaceData>> FURNACE_DATA = register("furnace_data", FurnaceData.CODEC, FurnaceData.STREAM_CODEC);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<FurnaceUpgrades>> FURNACE_UPGRADES = register("furnace_upgrades", FurnaceUpgrades.CODEC, FurnaceUpgrades.STREAM_CODEC);
+    // TODO (breaking): Probably no reason not to use vanilla's
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ItemContainerContents>> FURNACE_INVENTORY = register("furnace_inventory", ItemContainerContents.CODEC, ItemContainerContents.STREAM_CODEC);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<LevelableBlockEntityData>> LEVELABLE_BLOCK_ENTITY_DATA = register("levelable_block_entity_data", LevelableBlockEntityData.CODEC, LevelableBlockEntityData.STREAM_CODEC);
 

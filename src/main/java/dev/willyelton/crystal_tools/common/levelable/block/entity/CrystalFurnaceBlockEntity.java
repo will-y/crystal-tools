@@ -4,14 +4,12 @@ import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.components.FurnaceData;
 import dev.willyelton.crystal_tools.common.components.FurnaceUpgrades;
-import dev.willyelton.crystal_tools.common.components.LevelableBlockEntityData;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalFurnaceContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalFurnaceBlock;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
-import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -48,8 +46,8 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
-import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -58,7 +56,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 // TODO: Audit / comment code, don't use WordlyContainer, extract out things that will be common to a generator / other
-public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyContainer, MenuProvider {
+public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements WorldlyContainer, MenuProvider {
     public static final int[] INPUT_SLOTS = new int[] {0, 1, 2, 3, 4};
     public static final int[] OUTPUT_SLOTS = new int[] {5, 6, 7, 8, 9};
     public static final int[] FUEL_SLOTS = new int[] {10, 11, 12};
@@ -68,7 +66,11 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     public static final int SIZE = 13;
     public static final int DATA_SIZE = 200;
 
-    public static final List<String> NBT_TAGS = List.of("SkillPoints", "Points", "Exp", "ExpCap", "SpeedUpgrade", "FuelEfficiencyUpgrade", "Slots", "FuelSlots", "Balance", "AutoOutput", "ExpModifier", "Items");
+    public static final List<String> NBT_TAGS = new ArrayList<>(List.of("SpeedUpgrade", "FuelEfficiencyUpgrade", "Slots", "FuelSlots", "Balance", "AutoOutput", "ExpModifier", "Items"));
+
+    static {
+        NBT_TAGS.addAll(LevelableBlockEntity.NBT_TAGS);
+    }
 
     // Config
     public final int fuelEfficiencyAddedTicks;
@@ -82,16 +84,10 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
 
     // Furnace related fields
     private int litTime = 0;
-    private int litDuration = 0;
+    private int litTotalTime = 0;
     private int[] cookingProgress = new int[5];
     private int[] cookingTotalTime = new int[5];
     private float expHeld = 0;
-
-    // Levelable things
-    private int skillPoints = 0;
-    private int[] points = new int[100];
-    private int exp = 0;
-    private int expCap = CrystalToolsConfig.BASE_EXPERIENCE_CAP.get();
 
     // Things that can be upgraded
     private float speedUpgrade = 0;
@@ -103,8 +99,8 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     private float expModifier;
     private boolean saveFuel = false;
 
-    public CrystalFurnaceBlockEntity(BlockPos pPos, BlockState pBlockState) {
-        super(Registration.CRYSTAL_FURNACE_BLOCK_ENTITY.get(), pPos, pBlockState);
+    public CrystalFurnaceBlockEntity(BlockPos pPos, BlockState state) {
+        super(Registration.CRYSTAL_FURNACE_BLOCK_ENTITY.get(), pPos, state);
         items = NonNullList.withSize(SIZE, ItemStack.EMPTY);
 
         fuelEfficiencyAddedTicks = CrystalToolsConfig.FUEL_EFFICIENCY_ADDED_TICKS.get();
@@ -154,7 +150,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     }
 
     @Override
-    public boolean canTakeItemThroughFace(int pIndex, @NotNull ItemStack pStack, @NotNull Direction pDirection) {
+    public boolean canTakeItemThroughFace(int pIndex, ItemStack pStack, Direction pDirection) {
         return pDirection != Direction.DOWN || pIndex != 1;
     }
 
@@ -174,22 +170,22 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     }
 
     @Override
-    public @NotNull ItemStack getItem(int pSlot) {
+    public ItemStack getItem(int pSlot) {
         return this.items.get(pSlot);
     }
 
     @Override
-    public @NotNull ItemStack removeItem(int pSlot, int pAmount) {
+    public ItemStack removeItem(int pSlot, int pAmount) {
         return ContainerHelper.removeItem(items, pSlot, pAmount);
     }
 
     @Override
-    public @NotNull ItemStack removeItemNoUpdate(int pSlot) {
+    public ItemStack removeItemNoUpdate(int pSlot) {
         return ContainerHelper.takeItem(items, pSlot);
     }
 
     @Override
-    public void setItem(int slot, @NotNull ItemStack stack) {
+    public void setItem(int slot, ItemStack stack) {
         ItemStack current = this.items.get(slot);
         this.items.set(slot, stack);
         if (stack.getCount() > this.getMaxStackSize()) {
@@ -214,11 +210,11 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     }
 
     @Override
-    public boolean stillValid(@NotNull Player pPlayer) {
+    public boolean stillValid(Player player) {
         if (level != null && level.getBlockEntity(this.worldPosition) != this) {
             return false;
         } else {
-            return pPlayer.distanceToSqr((double)this.worldPosition.getX() + 0.5D, (double)this.worldPosition.getY() + 0.5D, (double)this.worldPosition.getZ() + 0.5D) <= 64.0D;
+            return player.distanceToSqr((double)this.worldPosition.getX() + 0.5D, (double)this.worldPosition.getY() + 0.5D, (double)this.worldPosition.getZ() + 0.5D) <= 64.0D;
         }
     }
 
@@ -228,7 +224,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     }
 
     @Override
-    public @NotNull Component getDisplayName() {
+    public Component getDisplayName() {
         return Component.translatable("container.crystal_tools.crystal_furnace");
     }
 
@@ -238,38 +234,31 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     }
 
     @Override
-    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
-        super.loadAdditional(nbt, registries);
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
         this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(nbt, this.items, registries);
+        ContainerHelper.loadAllItems(tag, this.items, registries);
 
-        this.litTime = nbt.getInt("LitTime");
-        this.litDuration = nbt.getInt("LitDuration");
-        this.cookingProgress = NBTUtils.getIntArray(nbt, "CookingProgress", 5);
-        this.cookingTotalTime = NBTUtils.getIntArray(nbt, "CookingTotalTime", 5);
-        this.expHeld = nbt.getFloat("ExpHeld");
-
-        // Levelable things TODO: Super class
-        this.skillPoints = nbt.getInt("SkillPoints");
-        this.points = NBTUtils.getIntArray(nbt, "Points", 100);
-        this.exp = nbt.getInt("Exp");
-        this.expCap = nbt.getInt("ExpCap");
-
-        if (this.expCap == 0) this.expCap = CrystalToolsConfig.BASE_EXPERIENCE_CAP.get();
+        this.litTime = tag.getInt("LitTime");
+        this.litTotalTime = tag.getInt("LitDuration");
+        this.cookingProgress = NBTUtils.getIntArray(tag, "CookingProgress", 5);
+        this.cookingTotalTime = NBTUtils.getIntArray(tag, "CookingTotalTime", 5);
+        this.expHeld = tag.getFloat("ExpHeld");
 
         // Upgrade things
-        this.speedUpgrade = nbt.getFloat("SpeedUpgrade");
-        this.fuelEfficiencyUpgrade = nbt.getInt("FuelEfficiencyUpgrade");
-        this.bonusSlots = nbt.getInt("Slots");
-        this.bonusFuelSlots = nbt.getInt("FuelSlots");
-        this.balance = nbt.getBoolean("Balance");
-        this.autoOutput = nbt.getBoolean("AutoOutput");
-        this.expModifier = nbt.getFloat("ExpModifier");
-        this.saveFuel = nbt.getBoolean("SaveFuel");
+        this.speedUpgrade = tag.getFloat("SpeedUpgrade");
+        this.fuelEfficiencyUpgrade = tag.getInt("FuelEfficiencyUpgrade");
+        this.bonusSlots = tag.getInt("Slots");
+        this.bonusFuelSlots = tag.getInt("FuelSlots");
+        this.balance = tag.getBoolean("Balance");
+        this.autoOutput = tag.getBoolean("AutoOutput");
+        this.expModifier = tag.getFloat("ExpModifier");
+        this.saveFuel = tag.getBoolean("SaveFuel");
     }
 
     @Override
     protected void applyImplicitComponents(BlockEntity.DataComponentInput componentInput) {
+        super.applyImplicitComponents(componentInput);
         ItemContainerContents contents = componentInput.get(DataComponents.FURNACE_INVENTORY);
         this.items = NonNullList.withSize(SIZE, ItemStack.EMPTY);
         if (contents != null) {
@@ -279,21 +268,11 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         FurnaceData furnaceData = componentInput.get(DataComponents.FURNACE_DATA);
         if (furnaceData != null) {
             this.litTime = furnaceData.litTime();
-            this.litDuration = furnaceData.litDuration();
+            this.litTotalTime = furnaceData.litDuration();
             this.cookingProgress = furnaceData.cookingProgress().stream().mapToInt(Integer::intValue).toArray();
             this.cookingTotalTime = furnaceData.cookingTime().stream().mapToInt(Integer::intValue).toArray();
             this.expHeld = furnaceData.expHeld();
         }
-
-        LevelableBlockEntityData levelableBlockEntityData = componentInput.get(DataComponents.LEVELABLE_BLOCK_ENTITY_DATA);
-        if (levelableBlockEntityData != null) {
-            this.skillPoints = levelableBlockEntityData.skillPoints();
-            this.points = levelableBlockEntityData.points().stream().mapToInt(Integer::intValue).toArray();
-            this.exp = levelableBlockEntityData.exp();
-            this.expCap = levelableBlockEntityData.expCap();
-        }
-
-        if (this.expCap == 0) this.expCap = CrystalToolsConfig.BASE_EXPERIENCE_CAP.get();
 
         FurnaceUpgrades furnaceUpgrades = componentInput.get(DataComponents.FURNACE_UPGRADES);
         if (furnaceUpgrades != null) {
@@ -309,42 +288,33 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
     }
 
     @Override
-    protected void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
-        super.saveAdditional(nbt, registries);
-        ContainerHelper.saveAllItems(nbt, this.items, registries);
-        nbt.putInt("LitTime", this.litTime);
-        nbt.putInt("LitDuration", this.litDuration);
-        nbt.putIntArray("CookingProgress", this.cookingProgress);
-        nbt.putIntArray("CookingTotalTime", this.cookingTotalTime);
-        nbt.putFloat("ExpHeld", this.expHeld);
-
-        // Levelable things
-        nbt.putInt("SkillPoints", this.skillPoints);
-        nbt.putIntArray("Points", this.points);
-        nbt.putInt("Exp", this.exp);
-        nbt.putInt("ExpCap", this.expCap);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        ContainerHelper.saveAllItems(tag, this.items, registries);
+        tag.putInt("LitTime", this.litTime);
+        // TODO (Breaking): Rename
+        tag.putInt("LitDuration", this.litTotalTime);
+        tag.putIntArray("CookingProgress", this.cookingProgress);
+        tag.putIntArray("CookingTotalTime", this.cookingTotalTime);
+        tag.putFloat("ExpHeld", this.expHeld);
 
         // Upgrade things
-        nbt.putFloat("SpeedUpgrade", this.speedUpgrade);
-        nbt.putInt("FuelEfficiencyUpgrade", this.fuelEfficiencyUpgrade);
-        nbt.putInt("Slots", this.bonusSlots);
-        nbt.putInt("FuelSlots", this.bonusFuelSlots);
-        nbt.putBoolean("Balance", this.balance);
-        nbt.putBoolean("AutoOutput", this.autoOutput);
-        nbt.putFloat("ExpModifier", this.expModifier);
-        nbt.putBoolean("SaveFuel", this.saveFuel);
+        tag.putFloat("SpeedUpgrade", this.speedUpgrade);
+        tag.putInt("FuelEfficiencyUpgrade", this.fuelEfficiencyUpgrade);
+        tag.putInt("Slots", this.bonusSlots);
+        tag.putInt("FuelSlots", this.bonusFuelSlots);
+        tag.putBoolean("Balance", this.balance);
+        tag.putBoolean("AutoOutput", this.autoOutput);
+        tag.putFloat("ExpModifier", this.expModifier);
+        tag.putBoolean("SaveFuel", this.saveFuel);
     }
 
     @Override
     protected void collectImplicitComponents(DataComponentMap.Builder components) {
         super.collectImplicitComponents(components);
-        FurnaceData furnaceData = new FurnaceData(litTime, litDuration, Arrays.stream(cookingProgress).boxed().toList(),
+        FurnaceData furnaceData = new FurnaceData(litTime, litTotalTime, Arrays.stream(cookingProgress).boxed().toList(),
                 Arrays.stream(cookingTotalTime).boxed().toList(), expHeld);
         components.set(DataComponents.FURNACE_DATA, furnaceData);
-
-        LevelableBlockEntityData levelableBlockEntityData = new LevelableBlockEntityData(skillPoints,
-                Arrays.stream(points).boxed().toList(), exp, expCap);
-        components.set(DataComponents.LEVELABLE_BLOCK_ENTITY_DATA, levelableBlockEntityData);
 
         FurnaceUpgrades furnaceUpgrades = new FurnaceUpgrades(speedUpgrade, fuelEfficiencyUpgrade, bonusSlots,
                 bonusFuelSlots, balance, autoOutput, expModifier, saveFuel);
@@ -354,54 +324,59 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         components.set(DataComponents.FURNACE_INVENTORY, contents);
     }
 
-    protected final ContainerData dataAccess = new ContainerData() {
-        public int get(int dataIndex) {
-            return switch (dataIndex) {
-                case 0 -> CrystalFurnaceBlockEntity.this.litTime;
-                case 1 -> CrystalFurnaceBlockEntity.this.litDuration;
-                case 2 -> CrystalFurnaceBlockEntity.this.bonusSlots;
-                case 3 -> CrystalFurnaceBlockEntity.this.bonusFuelSlots;
-                case 4 -> CrystalFurnaceBlockEntity.this.cookingProgress[0];
-                case 5 -> CrystalFurnaceBlockEntity.this.cookingProgress[1];
-                case 6 -> CrystalFurnaceBlockEntity.this.cookingProgress[2];
-                case 7 -> CrystalFurnaceBlockEntity.this.cookingProgress[3];
-                case 8 -> CrystalFurnaceBlockEntity.this.cookingProgress[4];
-                case 9 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[0];
-                case 10 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[1];
-                case 11 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[2];
-                case 12 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[3];
-                case 13 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[4];
-                case 14 -> CrystalFurnaceBlockEntity.this.skillPoints;
-                case 15 -> CrystalFurnaceBlockEntity.this.exp;
-                case 16 -> CrystalFurnaceBlockEntity.this.expCap;
-                default -> (dataIndex >= 100 && dataIndex < 200) ? CrystalFurnaceBlockEntity.this.points[dataIndex - 100] : 0;
+    @Override
+    protected void addToExtraData(String key, float value) {
+        switch (key) {
+            case "speed_bonus" -> this.speedUpgrade += value;
+            case "fuel_bonus" -> this.fuelEfficiencyUpgrade += (int) value;
+            case "slot_bonus" -> this.bonusSlots += (int) value;
+            case "fuel_slot_bonus" -> this.bonusFuelSlots += (int) value;
+            case "auto_balance" -> this.balance = value == 1;
+            case "auto_output" -> this.autoOutput = value == 1;
+            case "exp_boost" -> this.expModifier += value;
+            case "save_fuel" -> this.saveFuel = value == 1;
+        }
+    }
+
+    protected final ContainerData dataAccess = new LevelableContainerData(this) {
+        @Override
+        int getExtra(int index) {
+            return switch (index) {
+                case 3 -> litTime;
+                case 4 -> litTotalTime;
+                case 5 -> bonusSlots;
+                case 6 -> bonusFuelSlots;
+                case 7 -> cookingProgress[0];
+                case 8 -> cookingProgress[1];
+                case 9 -> cookingProgress[2];
+                case 10 -> cookingProgress[3];
+                case 11 -> cookingProgress[4];
+                case 12 -> cookingTotalTime[0];
+                case 13 -> cookingTotalTime[1];
+                case 14 -> cookingTotalTime[2];
+                case 15 -> cookingTotalTime[3];
+                case 16 -> cookingTotalTime[4];
+                default -> 0;
             };
         }
 
-        public void set(int dataIndex, int value) {
-            switch (dataIndex) {
-                case 0 -> CrystalFurnaceBlockEntity.this.litTime = value;
-                case 1 -> CrystalFurnaceBlockEntity.this.litDuration = value;
-                case 2 -> CrystalFurnaceBlockEntity.this.bonusSlots = value;
-                case 3 -> CrystalFurnaceBlockEntity.this.bonusFuelSlots = value;
-                case 4 -> CrystalFurnaceBlockEntity.this.cookingProgress[0] = value;
-                case 5 -> CrystalFurnaceBlockEntity.this.cookingProgress[1] = value;
-                case 6 -> CrystalFurnaceBlockEntity.this.cookingProgress[2] = value;
-                case 7 -> CrystalFurnaceBlockEntity.this.cookingProgress[3] = value;
-                case 8 -> CrystalFurnaceBlockEntity.this.cookingProgress[4] = value;
-                case 9 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[0] = value;
-                case 10 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[1] = value;
-                case 11 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[2] = value;
-                case 12 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[3] = value;
-                case 13 -> CrystalFurnaceBlockEntity.this.cookingTotalTime[4] = value;
-                case 14 -> CrystalFurnaceBlockEntity.this.skillPoints = value;
-                case 15 -> CrystalFurnaceBlockEntity.this.exp = value;
-                case 16 -> CrystalFurnaceBlockEntity.this.expCap = value;
-                default -> {
-                    if (dataIndex >= 100 && dataIndex < 200) {
-                        CrystalFurnaceBlockEntity.this.points[dataIndex - 100] = value;
-                    }
-                }
+        @Override
+        void setExtra(int index, int value) {
+            switch (index) {
+                case 3 -> litTime = value;
+                case 4 -> litTotalTime = value;
+                case 5 -> bonusSlots = value;
+                case 6 -> bonusFuelSlots = value;
+                case 7 -> cookingProgress[0] = value;
+                case 8 -> cookingProgress[1] = value;
+                case 9 -> cookingProgress[2] = value;
+                case 10 -> cookingProgress[3] = value;
+                case 11 -> cookingProgress[4] = value;
+                case 12 -> cookingTotalTime[0] = value;
+                case 13 -> cookingTotalTime[1] = value;
+                case 14 -> cookingTotalTime[2] = value;
+                case 15 -> cookingTotalTime[3] = value;
+                case 16 -> cookingTotalTime[4] = value;
             }
         }
 
@@ -474,7 +449,7 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
 
                 if (!this.isLit() && this.canBurn(level.registryAccess(), recipe, slot)) {
                     this.litTime = this.getBurnDuration(fuelItemStack);
-                    this.litDuration = this.litTime;
+                    this.litTotalTime = this.litTime;
 
                     if (this.isLit()) {
                         needChange = true;
@@ -563,7 +538,8 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
 
             input.shrink(1);
             this.expHeld += castedRecipe.getExperience();
-            this.addExp(castedRecipe.getExperience());
+            int skillExp = (int) Math.ceil(castedRecipe.getExperience() * 10 * CrystalToolsConfig.FURNACE_EXPERIENCE_BOOST.get());
+            this.addExp(skillExp);
             return true;
         } else {
             return false;
@@ -606,10 +582,6 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
         combineStacks(fuel1, fuel2);
         combineStacks(fuel1, fuel3);
         combineStacks(fuel2, fuel3);
-
-//        this.items.set(FUEL_SLOTS[0], fuel1);
-//        this.items.set(FUEL_SLOTS[1], fuel2);
-//        this.items.set(FUEL_SLOTS[2], fuel3);
     }
 
     private void combineStacks(ItemStack stackInto, ItemStack stackFrom) {
@@ -670,7 +642,6 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
                     ItemStack outputStack = this.getItem(slotIndex);
                     for (Direction dir : POSSIBLE_INVENTORIES) {
                         IItemHandler handler = level.getCapability(Capabilities.ItemHandler.BLOCK, getBlockPos().relative(dir), dir.getOpposite());
-//                            Optional<IItemHandler> optional  = blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER, dir.getOpposite()).resolve();
 
                         if (handler != null) {
                             for (int i = 0; i < handler.getSlots(); i++) {
@@ -684,45 +655,6 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
                     this.setItem(slotIndex, outputStack);
                 }
             }
-        }
-    }
-
-    // Levelable things
-    public void addSkillPoints(int points) {
-        this.skillPoints += points;
-        this.setChanged();
-    }
-
-    public void addToData(String key, float value) {
-        switch(key) {
-            case "skill_points" -> this.skillPoints += (int) value;
-            case "experience" -> this.exp += (int) value;
-            case "experience_cap" -> this.expCap += (int) value;
-            case "speed_bonus" -> this.speedUpgrade += value;
-            case "fuel_bonus" -> this.fuelEfficiencyUpgrade += (int) value;
-            case "slot_bonus" -> this.bonusSlots += (int) value;
-            case "fuel_slot_bonus" -> this.bonusFuelSlots += (int) value;
-            case "auto_balance" -> this.balance = value == 1;
-            case "auto_output" -> this.autoOutput = value == 1;
-            case "exp_boost" -> this.expModifier += value;
-            case "save_fuel" -> this.saveFuel = value == 1;
-        }
-        this.setChanged();
-    }
-
-    public void addToPoints(int id, int value) {
-        this.points[id] += value;
-        this.setChanged();
-    }
-
-    private void addExp(float recipeExp) {
-        int expToGain = (int) Math.ceil(recipeExp * 10 * CrystalToolsConfig.FURNACE_EXPERIENCE_BOOST.get());
-        this.exp += expToGain;
-
-        while (this.exp > this.expCap) {
-            this.exp = this.exp - this.expCap;
-            this.expCap = ToolUtils.getNewCap(this.expCap, 1);
-            this.skillPoints++;
         }
     }
 

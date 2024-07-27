@@ -15,15 +15,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
 public class CrystalFurnaceContainerMenu extends BaseContainerMenu {
     private final CrystalFurnaceBlockEntity te;
-    private final Player player;
-    private final ContainerData data;
-    private final Level level;
 
     private final int fuelSlotsX = 21;
     private final int[] fuelSlotsPos = new int[] {69, 44, 19};
@@ -36,18 +32,14 @@ public class CrystalFurnaceContainerMenu extends BaseContainerMenu {
     private static final int INPUT_START = CrystalFurnaceBlockEntity.INPUT_SLOTS[0];
     private static final int FUEL_START = CrystalFurnaceBlockEntity.FUEL_SLOTS[0];
 
-    public CrystalFurnaceContainerMenu(int pContainerId, Level level, BlockPos pos, Inventory playerInventory, ContainerData data) {
-        super(Registration.CRYSTAL_FURNACE_CONTAINER.get(), pContainerId, playerInventory);
+    public CrystalFurnaceContainerMenu(int containerId, Level level, BlockPos pos, Inventory playerInventory, ContainerData data) {
+        super(Registration.CRYSTAL_FURNACE_CONTAINER.get(), containerId, playerInventory, data);
         te = (CrystalFurnaceBlockEntity) level.getBlockEntity(pos);
-        this.player = playerInventory.player;
-        this.data = data;
-        this.level = playerInventory.player.level();
 
         this.addFurnaceSlots(5, 5);
         this.addFuelSlots(3, 3);
 
         this.layoutPlayerInventorySlots(8, 109);
-        this.addDataSlots(data);
     }
 
     /**
@@ -57,7 +49,7 @@ public class CrystalFurnaceContainerMenu extends BaseContainerMenu {
      * Pretty much copied from AbstractFurnaceMenu
      */
     @Override
-    public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
+    public ItemStack quickMoveStack(Player player, int index) {
         ItemStack itemStack;
         Slot slot = this.slots.get(index);
         if (slot.hasItem()) {
@@ -110,7 +102,7 @@ public class CrystalFurnaceContainerMenu extends BaseContainerMenu {
     }
 
     @Override
-    public boolean stillValid(@NotNull Player pPlayer) {
+    public boolean stillValid(Player pPlayer) {
         return te.stillValid(pPlayer);
     }
 
@@ -135,28 +127,28 @@ public class CrystalFurnaceContainerMenu extends BaseContainerMenu {
     }
 
     public float getLitProgress() {
-        if (this.data.get(1) == 0) return 0;
+        if (this.data.get(4) == 0) return 0;
 
-        return this.data.get(0) / (float) this.data.get(1);
+        return this.data.get(3) / (float) this.data.get(4);
     }
 
     public boolean isLit() {
-        return this.data.get(0) > 0;
+        return this.data.get(3) > 0;
     }
 
     public float getBurnProgress(int slot) {
         int index = ArrayUtils.indexOf(CrystalFurnaceBlockEntity.INPUT_SLOTS, slot);
-        int i = this.data.get(index + 4);
-        int j = this.data.get(index + 9);
-        return j != 0 && i != 0 ? i / (float) j : 0;
+        int cookingProgress = this.data.get(index + 7);
+        int cookingTotalTime = this.data.get(index + 12);
+        return cookingTotalTime != 0 && cookingProgress != 0 ? cookingProgress / (float) cookingTotalTime : 0;
     }
 
     public int getNumActiveSlots() {
-        return this.data.get(2) + 1;
+        return this.data.get(5) + 1;
     }
 
     public int getNumActiveFuelSlots() {
-        return this.data.get(3) + 1;
+        return this.data.get(6) + 1;
     }
 
     public CrystalFurnaceBlockEntity getBlockEntity() {
@@ -178,11 +170,11 @@ public class CrystalFurnaceContainerMenu extends BaseContainerMenu {
     // Levelable things
 
     public int getSkillPoints() {
-        return this.data.get(14);
+        return this.data.get(0);
     }
 
     public void addSkillPoints(int points) {
-        this.data.set(14, this.getSkillPoints() + points);
+        this.data.set(0, this.getSkillPoints() + points);
     }
 
     public void addToPoints(int nodeId, int value) {
@@ -190,11 +182,11 @@ public class CrystalFurnaceContainerMenu extends BaseContainerMenu {
     }
 
     public int getExp() {
-        return this.data.get(15);
+        return this.data.get(1);
     }
 
     public int getExpCap() {
-        return this.data.get(16);
+        return this.data.get(2);
     }
 
     public int[] getPoints() {

@@ -11,6 +11,15 @@
   - Limit rows, will be easy with the limit to infinite nodes item below
   - Prio for multiple backpacks / pickup order
 - Crystal Generator
+  - Add more fuels (gems, metals, foods ...)
+  - Supercharge (burns crystals)
+  - Increase rf/tick (generation and output)
+  - Increase burn time
+  - Redstone to disable (might not need upgrade?)
+  - RF storage
+  - Add crystal fuel? Upgrade to turn generator into fuel maker for fuel generator?
+    - Maybe solid fuel too?
+  - Don't waste power upgrade
 - Spawner
 - Quarry
 - Hopper
