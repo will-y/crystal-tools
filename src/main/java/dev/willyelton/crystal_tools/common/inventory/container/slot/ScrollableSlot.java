@@ -4,10 +4,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.items.ItemHandlerCopySlot;
 import org.jetbrains.annotations.NotNull;
 
-public class ScrollableSlot extends CrystalSlotItemHandler {
+public class ScrollableSlot extends ItemHandlerCopySlot {
     private int actualSlotIndex;
+    private boolean active = true;
 
     public ScrollableSlot(IItemHandler itemHandler, int index, int xPosition, int yPosition) {
         super(itemHandler, index, xPosition, yPosition);
@@ -26,22 +28,13 @@ public class ScrollableSlot extends CrystalSlotItemHandler {
     }
 
     @Override
-    public ItemStack getItem() {
+    public ItemStack getStackCopy() {
         return this.getItemHandler().getStackInSlot(actualSlotIndex);
     }
 
-    // Override if your IItemHandler does not implement IItemHandlerModifiable
     @Override
-    public void set(@NotNull ItemStack stack) {
+    public void setStackCopy(@NotNull ItemStack stack) {
         ((IItemHandlerModifiable) this.getItemHandler()).setStackInSlot(actualSlotIndex, stack);
-        this.setChanged();
-    }
-
-    // Override if your IItemHandler does not implement IItemHandlerModifiable
-    @Override
-    public void initialize(ItemStack stack) {
-        ((IItemHandlerModifiable) this.getItemHandler()).setStackInSlot(actualSlotIndex, stack);
-        this.setChanged();
     }
 
     @Override
@@ -80,7 +73,11 @@ public class ScrollableSlot extends CrystalSlotItemHandler {
     }
 
     @Override
-    public ItemStack remove(int amount) {
-        return this.getItemHandler().extractItem(actualSlotIndex, amount, false);
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
