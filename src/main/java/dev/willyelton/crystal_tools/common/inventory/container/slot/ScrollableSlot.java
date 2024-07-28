@@ -32,6 +32,7 @@ public class ScrollableSlot extends ItemHandlerCopySlot {
         return this.getItemHandler().getStackInSlot(actualSlotIndex);
     }
 
+    // TODO: This is getting called when scrolling? Probably shouldn't be
     @Override
     public void setStackCopy(@NotNull ItemStack stack) {
         ((IItemHandlerModifiable) this.getItemHandler()).setStackInSlot(actualSlotIndex, stack);
