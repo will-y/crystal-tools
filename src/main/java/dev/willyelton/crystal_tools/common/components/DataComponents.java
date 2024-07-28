@@ -102,6 +102,7 @@ public class DataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ItemContainerContents>>> BACKPACK_INVENTORY = register("backpack_inventory", ItemContainerContents.CODEC.listOf(), ItemContainerContents.STREAM_CODEC.apply(ByteBufCodecs.list()));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ItemContainerContents>> FILTER_INVENTORY = register("filter_inventory", ItemContainerContents.CODEC, ItemContainerContents.STREAM_CODEC);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ItemContainerContents>> COMPRESSION_INVENTORY = register("compression_inventory", ItemContainerContents.CODEC, ItemContainerContents.STREAM_CODEC);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<Integer>>> COMPRESSION_MODES = register("compression_modes", Codec.INT.listOf(), ByteBufCodecs.INT.apply(ByteBufCodecs.list()));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> CAPACITY = register("capacity", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> FILTER_CAPACITY = register("filter_capacity", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> WHITELIST = register("whitelist", Codec.BOOL, ByteBufCodecs.BOOL);
