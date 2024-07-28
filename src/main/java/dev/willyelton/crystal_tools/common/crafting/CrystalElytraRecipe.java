@@ -99,7 +99,6 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
         ItemStack elytraItem = ItemStack.EMPTY;
         ItemStack crystalChestPlateItem = ItemStack.EMPTY;
 
-
         for (int i = 0; i < container.size(); i++) {
             ItemStack itemStack = container.getItem(i);
 
