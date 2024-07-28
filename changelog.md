@@ -1,11 +1,11 @@
 # Crystal Tools Change Log
-## 2.0.0-beta5 (Check Trident and 2x2 compression (pretty sure it works))
+## 2.0.0 (Check Trident and 2x2 compression (pretty sure it works))
 ### Additions
 - Adds the config screen
   - Also moves some config options around and changes some names
 
 ### Changes
-- Updates to Neo 21.0.139-beta
+- Updates to Neo 21.0.143
 - Allows modded blocks to be set as the background to the upgrade screen in the config option `UPGRADE_SCREEN_BACKGROUND`
 - Removes the dark background on the upgrade screen
 - **BREAKING DATAPACK CHANGE** : `type` in nodes was changed to `limit`. Old normal nodes are equivalent to `limit=1` and old infinite nodes are equivalent to `limit=0`
