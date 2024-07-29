@@ -146,9 +146,9 @@ public class ListComponentItemHandler implements IItemHandlerModifiable {
         int thisContentsSlots = (this.size - index * MAX_CONTENTS_SIZE) % MAX_CONTENTS_SIZE;
         NonNullList<ItemStack> list = NonNullList.withSize(Math.max(contents.getSlots(), thisContentsSlots), ItemStack.EMPTY);
         contents.copyInto(list);
-        list.set(slot, stack);
+        list.set(slot % MAX_CONTENTS_SIZE, stack);
         ItemContainerContents newContents = ItemContainerContents.fromItems(list);
-        List<ItemContainerContents> oldContents = this.parent.getOrDefault(this.component, new ArrayList<>());
+        List<ItemContainerContents> oldContents = deepCopy(this.parent.getOrDefault(this.component, new ArrayList<>()));
         // TODO: We might have to copy all of the components?
         if (oldContents.size() > index) {
             oldContents.set(index, newContents);
@@ -163,5 +163,17 @@ public class ListComponentItemHandler implements IItemHandlerModifiable {
         if (slot < 0 || slot >= getSlots()) {
             throw new RuntimeException("Slot " + slot + " not in valid range - [0," + getSlots() + ")");
         }
+    }
+
+    private List<ItemContainerContents> deepCopy(List<ItemContainerContents> containerContents) {
+        List<ItemContainerContents> newContainerContents = new ArrayList<>();
+
+        for (ItemContainerContents contents : containerContents) {
+            NonNullList<ItemStack> newStacks = NonNullList.withSize(contents.getSlots(), ItemStack.EMPTY);
+            contents.copyInto(newStacks);
+            newContainerContents.add(ItemContainerContents.fromItems(newStacks));
+        }
+
+        return newContainerContents;
     }
 }

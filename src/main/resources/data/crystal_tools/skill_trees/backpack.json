@@ -187,7 +187,7 @@
         "id": 13,
         "name": "Infinite Capacity",
         "description": "Infinite Capacity. Limit is temporary, will fix to allow more soon",
-        "limit": 20,
+        "limit": 0,
         "requirements": [
           {"node": [14, 15, 16]}
         ],

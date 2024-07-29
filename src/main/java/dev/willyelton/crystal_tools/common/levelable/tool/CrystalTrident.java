@@ -4,8 +4,6 @@ package dev.willyelton.crystal_tools.common.levelable.tool;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.entity.CrystalTridentEntity;
-import dev.willyelton.crystal_tools.client.renderer.CrystalTridentBlockEntityWithoutLevelRenderer;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -23,11 +21,8 @@ import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.function.Consumer;
 
 public class CrystalTrident extends SwordLevelableTool {
     public CrystalTrident() {
@@ -52,16 +47,6 @@ public class CrystalTrident extends SwordLevelableTool {
     @Override
     public boolean isDisabled() {
         return CrystalToolsConfig.DISABLE_TRIDENT.get();
-    }
-
-    @Override
-    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        consumer.accept(new IClientItemExtensions() {
-            @Override
-            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
-                return CrystalTridentBlockEntityWithoutLevelRenderer.INSTANCE;
-            }
-        });
     }
 
     @Override
