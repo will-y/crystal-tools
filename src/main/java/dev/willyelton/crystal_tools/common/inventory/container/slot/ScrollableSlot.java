@@ -7,6 +7,7 @@ import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.ItemHandlerCopySlot;
 import org.jetbrains.annotations.NotNull;
 
+// TODO: Look at ScrollPanel, maybe we don't need all of this
 public class ScrollableSlot extends ItemHandlerCopySlot {
     private int actualSlotIndex;
     private boolean active = true;
