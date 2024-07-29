@@ -5,7 +5,7 @@
         "id": 0,
         "name": "Capacity I",
         "description": "Increases the number of slots in the backpack by 9",
-        "type": "normal",
+        "limit": 1,
         "requirements": [],
         "key": "capacity",
         "value": 1
@@ -14,16 +14,16 @@
         "id": 1,
         "name": "Auto Pickup",
         "description": "Items matching the backpack's filter will automatically go into the backpack when picked up",
-        "type": "normal",
+        "limit": 1,
         "requirements": [],
-        "key": "auto_pickup",
+        "key": "backpack_auto_pickup",
         "value": 1
       },
       {
         "id": 2,
         "name": "Filter Slots I",
         "description": "Adds 5 filter slots to the backpack",
-        "type": "normal",
+        "limit": 1,
         "requirements": [],
         "key": "filter_capacity",
         "value": 1
@@ -34,7 +34,7 @@
         "id": 3,
         "name": "Capacity II",
         "description": "Increases the number of slots in the backpack by 9",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [0]}
         ],
@@ -45,7 +45,7 @@
         "id": 4,
         "name": "Filter Slots II",
         "description": "Adds 5 filter slots to the backpack",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [2]}
         ],
@@ -58,7 +58,7 @@
         "id": 5,
         "name": "Capacity III",
         "description": "Increases the number of slots in the backpack by 9",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [3]}
         ],
@@ -69,7 +69,7 @@
         "id": 6,
         "name": "Sort",
         "description": "Adds the option sort the backpack's contents",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [3, 4]}
         ],
@@ -80,7 +80,7 @@
         "id": 7,
         "name": "Filter Slots III",
         "description": "Adds 5 filter slots to the backpack",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [4]}
         ],
@@ -93,7 +93,7 @@
         "id": 8,
         "name": "Capacity IV",
         "description": "Increases the number of slots in the backpack by 9",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [5]}
         ],
@@ -104,7 +104,7 @@
         "id": 9,
         "name": "Filter Slots IV",
         "description": "Adds 5 filter slots to the backpack",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [7]}
         ],
@@ -117,7 +117,7 @@
         "id": 10,
         "name": "Capacity V",
         "description": "Increases the number of slots in the backpack by 9",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [8]}
         ],
@@ -128,7 +128,7 @@
         "id": 11,
         "name": "Store in Inventory",
         "description": "Shift right click on an inventory to store all items in that inventory",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [8, 9]}
         ],
@@ -139,7 +139,7 @@
         "id": 12,
         "name": "Filter Slots V",
         "description": "Adds 5 filter slots to the backpack",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [9]}
         ],
@@ -152,7 +152,7 @@
         "id": 14,
         "name": "Capacity VI",
         "description": "Increases the number of slots in the backpack by 9",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [10]}
         ],
@@ -163,18 +163,18 @@
         "id": 15,
         "name": "Compress",
         "description": "Allows you to compress certain items (gold nuggets into gold ingots)",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [10, 11, 12]}
         ],
-        "key": "compress_enabled",
+        "key": "compression_enabled",
         "value": 1
       },
       {
         "id": 16,
         "name": "Filter Slots VI",
         "description": "Adds 5 filter slots to the backpack",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [9]}
         ],
@@ -186,8 +186,8 @@
       {
         "id": 13,
         "name": "Infinite Capacity",
-        "description": "Infinite Capacity",
-        "type": "infinite",
+        "description": "Infinite Capacity. Limit is temporary, will fix to allow more soon",
+        "limit": 0,
         "requirements": [
           {"node": [14, 15, 16]}
         ],

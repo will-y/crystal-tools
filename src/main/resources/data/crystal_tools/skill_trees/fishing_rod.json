@@ -5,7 +5,7 @@
         "id": 0,
         "name": "Lure I",
         "description": "Increases the Fishing Rod's Lure Level",
-        "type": "normal",
+        "limit": 1,
         "requirements": [],
         "key": "lure",
         "value": 1
@@ -14,7 +14,7 @@
         "id": 1,
         "name": "Luck of the Sea I",
         "description": "Increases the Fishing Rod's Luck of the Sea Level",
-        "type": "normal",
+        "limit": 1,
         "requirements": [],
         "key": "luck_of_the_sea",
         "value": 1
@@ -23,7 +23,7 @@
         "id": 2,
         "name": "Durability I",
         "description": "Increases the Fishing Rod's Durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [],
         "key": "durability_bonus",
         "value": 50
@@ -34,7 +34,7 @@
         "id": 3,
         "name": "Lure II",
         "description": "Increases the Fishing Rod's Lure Level",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [0]}
         ],
@@ -45,7 +45,7 @@
         "id": 4,
         "name": "Luck of the Sea II",
         "description": "Increases the Fishing Rod's Luck of the Sea Level",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [1]}
         ],
@@ -56,7 +56,7 @@
         "id": 5,
         "name": "Durability II",
         "description": "Increases the Fishing Rod's Durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [2]}
         ],
@@ -69,7 +69,7 @@
         "id": 6,
         "name": "Unbreaking I",
         "description": "Adds 10% to the chance not use durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [3, 4, 5]}
         ],
@@ -80,7 +80,7 @@
         "id": 7,
         "name": "Double Items I",
         "description": "Adds a chance to double drops",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"or_node": [3, 4, 5]}
         ],
@@ -93,7 +93,7 @@
         "id": 8,
         "name": "Lure III",
         "description": "Increases the Fishing Rod's Lure Level",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [3]},
           {"or_node": [6, 7]}
@@ -105,7 +105,7 @@
         "id": 9,
         "name": "Luck of the Sea III",
         "description": "Increases the Fishing Rod's Luck of the Sea Level",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [4]},
           {"or_node": [6, 7]}
@@ -117,7 +117,7 @@
         "id": 10,
         "name": "Durability III",
         "description": "Increases the Fishing Rod's Durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [5]},
           {"or_node": [6, 7]}
@@ -131,7 +131,7 @@
         "id": 11,
         "name": "Unbreaking II",
         "description": "Adds 10% to the chance not use durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [6]},
           {"or_node": [8, 9, 10]}
@@ -143,7 +143,7 @@
         "id": 12,
         "name": "Double Items II",
         "description": "Adds a chance to double drops",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [6]},
           {"or_node": [8, 9, 10]}
@@ -157,7 +157,7 @@
         "id": 13,
         "name": "Lure IV",
         "description": "Increases the Fishing Rod's Lure Level",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [6]},
           {"or_node": [11, 12]}
@@ -169,7 +169,7 @@
         "id": 14,
         "name": "Luck of the Sea IV",
         "description": "Increases the Fishing Rod's Luck of the Sea Level",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [9]},
           {"or_node": [11, 12]}
@@ -181,7 +181,7 @@
         "id": 15,
         "name": "Durability IV",
         "description": "Increases the Fishing Rod's Durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [10]},
           {"or_node": [11, 12]}
@@ -195,7 +195,7 @@
         "id": 16,
         "name": "Unbreaking III",
         "description": "Adds 10% to the chance not use durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [11]},
           {"or_node": [13, 14, 15]}
@@ -207,7 +207,7 @@
         "id": 17,
         "name": "Double Items III",
         "description": "Adds a chance to double drops",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [12]},
           {"or_node": [13, 14, 15]}
@@ -219,7 +219,7 @@
         "id": 18,
         "name": "Auto Repair",
         "description": "Automatically Repairs Your Tool Over Time!",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {"or_node": [13, 14, 15]}
         ],
@@ -232,7 +232,7 @@
         "id": 19,
         "name": "Lure V",
         "description": "Increases the Fishing Rod's Lure Level",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [13]},
           {"or_node": [16, 17, 18]}
@@ -244,7 +244,7 @@
         "id": 20,
         "name": "Luck of the Sea V",
         "description": "Increases the Fishing Rod's Luck of the Sea Level",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [14]},
           {"or_node": [16, 17, 18]}
@@ -256,7 +256,7 @@
         "id": 21,
         "name": "Durability V",
         "description": "Increases the Fishing Rod's Durability",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {"node": [15]},
           {"or_node": [16, 17, 18]}

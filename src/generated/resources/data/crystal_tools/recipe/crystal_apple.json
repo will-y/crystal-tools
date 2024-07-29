@@ -1,0 +1,30 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "crystal_tools:item_disabled",
+        "itemLocation": "crystal_tools:crystal_apple"
+      }
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "a": {
+      "item": "minecraft:enchanted_golden_apple"
+    },
+    "c": {
+      "item": "crystal_tools:crystal"
+    }
+  },
+  "pattern": [
+    "ccc",
+    "cac",
+    "ccc"
+  ],
+  "result": {
+    "count": 1,
+    "id": "crystal_tools:crystal_apple"
+  }
+}

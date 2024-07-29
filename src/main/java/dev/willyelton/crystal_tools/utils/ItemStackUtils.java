@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.utils;
 
-import dev.willyelton.crystal_tools.levelable.LevelableItem;
+import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 

@@ -1,38 +1,55 @@
 # Crystal Tools Change Log
-## 1.7.4
+## 2.0.0
 ### Additions
-- Adds a new backpack upgrade: Compression
-  - You can configure which items you want to compress and the press a button to compress all of them (gold nugget -> gold ingot)
-- Adds new backpack sub menus
-  - Filter configuration screen
-  - Compression configuration screen
-- Adds ability to take items in and out of the backpack while you are in your inventory like the bundle
-  - Right-click an empty slot to take the last stack out of the backpack
-  - Right-click another item to insert it into the backpack
-  - Right-click the backpack to take the last stack out of it
-  - Right-click the backpack holding an item to insert that item
-- Adds button to create filters matching the backpack's contents
-- Adds button to clear current filters
+- Adds the config screen
+  - Also moves some config options around and changes some names
 
 ### Changes
-- Changes to the backpack interface
-  - Added a button to go to the skill tree
-  - Removed the filters from the base backpack screen and moved them to a new screen
+- Updates to Neo 21.0.143
+- Allows modded blocks to be set as the background to the upgrade screen in the config option `UPGRADE_SCREEN_BACKGROUND`
+- Removes the dark background on the upgrade screen
+- **BREAKING DATAPACK CHANGE** : `type` in nodes was changed to `limit`. Old normal nodes are equivalent to `limit=1` and old infinite nodes are equivalent to `limit=0`
+  - You can now set a limit greater than 1 to how many points can be put into a node
+  - Infinite unbreaking nodes now have a limit (still allows for 100% unbreaking)
+  - Backpack capacity is limited right now due to a change in how inventories are stored in 1.21. Will be fixed soon
+- Changes the texture of NOT and OR dependency lines to be different from the AND dependency lines
 
-## 1.7.3
 ### Fixes
-- Fixes Elyta skill tree issue
-- Fixes depth strider upgrade not working
-- Fixes being able to disable Riptide on the Trident without the upgrade
-- Fixes Trident renderer still sometimes crashing on servers
+- Fixes Crystal Elytra not getting skill points from enchantments on the Elytra used
+- Fixes backpack compressions not working and voiding items
 
-## 1.7.2
-### Additions
-- Adds Russian Translation (credit to https://github.com/Alexander317)
+## 2.0.0-beta4
+### Changes
+- Updates to Neo 21.0.61-beta
+- Removes pause screen config option
 
-## 1.7.1
 ### Fixes
-- Fixes server crashing on load due to trident model
+- Fixes dependency lines in the upgrade screen being dark
+- Re-enables the Crystal Backpack
+
+## 2.0.0-beta3
+### Changes
+- Updates to Neo 21.0.37-beta
+
+### Fixes
+- Fixes JEI Integration
+- Fixes ore generation
+
+## 2.0.0-beta2
+### Changes
+- Updates to Neo 21.0.10-beta
+
+### Fixes
+- Fixes upgrade screen not drawing the shaded background correctly
+- Crystal Apple effects work again
+- Crystal Bow effects work again
+- Crystal Bow Punch upgrades work again
+
+## 2.0.0-beta1
+### Changes
+- Updates to Minecraft 1.21
+- Most things should work, the Backpack crafting recipe was disabled because it is very broken (will return soon)
+- Effects on the Crystal Apple and Crystal Bow are broken (will return soon)
 
 ## 1.7.0
 ### Additions

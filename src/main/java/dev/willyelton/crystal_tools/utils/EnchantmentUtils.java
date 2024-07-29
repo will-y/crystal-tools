@@ -1,35 +1,47 @@
 package dev.willyelton.crystal_tools.utils;
 
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-
-import java.util.Map;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 
 public class EnchantmentUtils {
     /**
      * Adds the given enchantment to the item, removing all lower levels of that enchantment
      * @param stack - ItemStack to add the enchantment to
      * @param enchantment - The enchantment to add
-     * @param level - The enchantment level to add
+     * @param level - The enchantment duration to add
      */
-    public static void addEnchantment(ItemStack stack, Enchantment enchantment, int level) {
-        Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(stack);
+    public static void addEnchantment(ItemStack stack, ResourceKey<Enchantment> enchantment, int level, Player player) {
+        HolderLookup.RegistryLookup<Enchantment> lookup = player.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
+        ItemEnchantments itemEnchantments = EnchantmentHelper.getEnchantmentsForCrafting(stack);
 
-        enchantments.put(enchantment, level);
+        ItemEnchantments.Mutable mutable = new ItemEnchantments.Mutable(itemEnchantments);
+        mutable.set(lookup.getOrThrow(enchantment), level);
 
-        EnchantmentHelper.setEnchantments(enchantments, stack);
+        EnchantmentHelper.setEnchantments(stack, mutable.toImmutable());
     }
 
-    public static void removeEnchantment(ItemStack stack, Enchantment enchantment) {
-        Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(stack);
+    public static void removeEnchantment(ItemStack stack, ResourceKey<Enchantment> enchantment) {
+        ItemEnchantments itemEnchantments = EnchantmentHelper.getEnchantmentsForCrafting(stack);
 
-        enchantments.remove(enchantment);
+        ItemEnchantments.Mutable mutable = new ItemEnchantments.Mutable(itemEnchantments);
 
-        EnchantmentHelper.setEnchantments(enchantments, stack);
+        mutable.removeIf(enchantmentHolder -> enchantmentMatches(enchantmentHolder, enchantment));
+
+        EnchantmentHelper.setEnchantments(stack, mutable.toImmutable());
     }
 
-    public static boolean hasEnchantment(ItemStack stack, Enchantment enchantment) {
-        return EnchantmentHelper.getEnchantments(stack).containsKey(enchantment);
+    public static boolean hasEnchantment(ItemStack stack, ResourceKey<Enchantment> enchantment) {
+        return EnchantmentHelper.getEnchantmentsForCrafting(stack).keySet().stream().anyMatch(enchantmentHolder -> enchantmentMatches(enchantmentHolder, enchantment));
+    }
+
+    private static boolean enchantmentMatches(Holder<Enchantment> holder, ResourceKey<Enchantment> enchantment) {
+        return holder.unwrapKey().isPresent() && holder.unwrapKey().get().equals(enchantment);
     }
 }

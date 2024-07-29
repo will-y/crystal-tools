@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:copy_name",
+              "source": "block_entity"
+            },
+            {
+              "function": "minecraft:copy_components",
+              "include": [
+                "crystal_tools:furnace_data",
+                "crystal_tools:furnace_upgrades",
+                "crystal_tools:levelable_block_entity_data",
+                "crystal_tools:furnace_inventory"
+              ],
+              "source": "block_entity"
+            }
+          ],
+          "name": "crystal_tools:crystal_furnace"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "crystal_tools:blocks/crystal_furnace"
+}

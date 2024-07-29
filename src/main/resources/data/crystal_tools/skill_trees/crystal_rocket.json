@@ -5,7 +5,7 @@
         "id": 0,
         "name": "Durability I",
         "description": "Increases uses of the rocket",
-        "type": "normal",
+        "limit": 1,
         "requirements": [],
         "key": "durability_bonus",
         "value": 25
@@ -14,7 +14,7 @@
         "id": 1,
         "name": "Flight Duration I",
         "description": "Increases flight time (equal to firework duration 2)",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {
             "item": ["minecraft:gunpowder"]
@@ -29,7 +29,7 @@
         "id": 2,
         "name": "Durability II",
         "description": "Increases uses of the rocket",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {
             "node": [0]
@@ -42,7 +42,7 @@
         "id": 3,
         "name": "Flight Duration II",
         "description": "Increases flight time (equal to firework duration 3)",
-        "type": "normal",
+        "limit": 1,
         "requirements": [
           {
             "item": ["minecraft:gunpowder"]
@@ -60,7 +60,7 @@
         "id": 4,
         "name": "Infinite Durability",
         "description": "Put as many points into durability as you want!",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {
             "node": [2]
@@ -73,7 +73,7 @@
         "id": 5,
         "name": "Auto Repair",
         "description": "Automatically repairs your rocket over time!",
-        "type": "infinite",
+        "limit": 0,
         "requirements": [
           {
             "or_node": [2, 3]
