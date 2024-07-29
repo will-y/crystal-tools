@@ -1,5 +1,5 @@
 # Crystal Tools Change Log
-## 2.0.0 (Check Trident and 2x2 compression (pretty sure it works))
+## 2.0.0
 ### Additions
 - Adds the config screen
   - Also moves some config options around and changes some names
@@ -16,6 +16,7 @@
 
 ### Fixes
 - Fixes Crystal Elytra not getting skill points from enchantments on the Elytra used
+- Fixes backpack compressions not working and voiding items
 
 ## 2.0.0-beta4
 ### Changes
