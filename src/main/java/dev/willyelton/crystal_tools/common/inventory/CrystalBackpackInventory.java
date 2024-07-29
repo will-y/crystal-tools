@@ -7,21 +7,20 @@ import it.unimi.dsi.fastutil.ints.Int2IntArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.ComponentItemHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class CrystalBackpackInventory extends ComponentItemHandler {
+public class CrystalBackpackInventory extends ListComponentItemHandler {
 
     public CrystalBackpackInventory(int size) {
-        super(ItemStack.EMPTY, DataComponents.INVENTORY.get(), size);
+        super(ItemStack.EMPTY.copy(), DataComponents.BACKPACK_INVENTORY.get(), size);
     }
 
     public CrystalBackpackInventory(ItemStack stack) {
-        super(stack, DataComponents.INVENTORY.get(), (stack.getOrDefault(DataComponents.CAPACITY, 0) + 1) * 9);
+        super(stack, DataComponents.BACKPACK_INVENTORY.get(), (stack.getOrDefault(DataComponents.CAPACITY, 0) + 1) * 9);
     }
 
     @Override

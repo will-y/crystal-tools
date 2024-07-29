@@ -332,7 +332,7 @@ You can change these values in `config/crystal_tools/toml`.
 
 ### Backpack
 - `backpack_sort_type` (QUANTITY): Sort method that the backpack uses. Can be one of: `QUANTITY`, `NAME`, `MOD`, or `ID`
-- `backpack_base_experience_cap` (150): Starting EXP requirements for the Backpack. Range: 1 - 10000.
+- `backpack_base_experience_cap` (200): Starting EXP requirements for the Backpack. Range: 1 - 10000.
 
 ### Trident
 - `always_channel` (true): If true, channeling Crystal Tridents will summon lightning even if they don't hit an entity

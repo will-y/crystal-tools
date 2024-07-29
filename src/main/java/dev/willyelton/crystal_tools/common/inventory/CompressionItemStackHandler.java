@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.common.inventory;
 
+import dev.willyelton.crystal_tools.common.components.DataComponents;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
@@ -14,8 +15,12 @@ public class CompressionItemStackHandler extends ComponentItemHandler {
     public CompressionItemStackHandler(ItemStack stack, DataComponentType<ItemContainerContents> component, int size) {
         super(stack, component, size);
         slotModes = new ArrayList<>(size / 2);
+        List<Integer> storedSlotModes = stack.getOrDefault(DataComponents.COMPRESSION_MODES, new ArrayList<>());
+        for (Integer storedSlotMode : storedSlotModes) {
+            slotModes.add(CompressionMode.fromInt(storedSlotMode));
+        }
 
-        for (int i = 0; i < size / 2; i++) {
+        for (int i = storedSlotModes.size(); i < size / 2; i++) {
             slotModes.add(CompressionMode.NONE);
         }
     }
@@ -26,6 +31,7 @@ public class CompressionItemStackHandler extends ComponentItemHandler {
 
     public void setMode(CompressionMode mode, int slot) {
         this.slotModes.set(slot / 2, mode);
+        this.parent.set(DataComponents.COMPRESSION_MODES, this.slotModes.stream().map(CompressionMode::toInt).toList());
     }
 
     public enum CompressionMode {

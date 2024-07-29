@@ -22,6 +22,15 @@
   - Don't waste power upgrade
 - Spawner
 - Quarry
+  - Model off of build craft quarry
+  - Laser barriers and breaking animations?
+  - Things to level:
+    - Speed
+    - Reduce energy cost?
+    - Remove liquids (put in tank / void options?)
+    - Trash filters
+    - Auto output to inventories?
+- Pump
 - Hopper
   - Inventory space
   - Speed
@@ -56,8 +65,5 @@
 
 ### 1.21 Things
 - Sometimes leveling skills scrolls to the top of the menu
-- Use BlockDropsEvent for handling smelting and auto pickup
-  - Should remove the need for LevelUtils
 - Attributes don't show up on items. Still works though
 - Remove JEI access transformers
-- Split config into client and common
