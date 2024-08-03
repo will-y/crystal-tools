@@ -7,7 +7,6 @@ import dev.willyelton.crystal_tools.common.inventory.container.CrystalFurnaceCon
 import dev.willyelton.crystal_tools.common.inventory.container.slot.furnace.CrystalFurnaceFuelSlot;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.furnace.CrystalFurnaceInputSlot;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.furnace.CrystalFurnaceOutputSlot;
-import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalFurnaceBlockEntity;
 import dev.willyelton.crystal_tools.utils.IntegerUtils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -16,7 +15,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
-import org.jetbrains.annotations.NotNull;
 
 public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnaceContainerMenu> {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID ,"textures/gui/crystal_furnace.png");
@@ -62,7 +60,6 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
     private static final int FUEL_INSERT_HEIGHT = 5;
 
     private final NonNullList<Slot> slots;
-    private final CrystalFurnaceBlockEntity blockEntity;
     private FurnaceUpgradeButton upgradeButton;
     private final float expLabelX;
 
@@ -74,7 +71,6 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
     public CrystalFurnaceScreen(CrystalFurnaceContainerMenu container, Inventory inventory, Component name) {
         super(container, inventory, name);
         this.slots = container.slots;
-        this.blockEntity = container.getBlockEntity();
 
         this.imageHeight = 191;
         this.inventoryLabelY = this.imageHeight - 94;
@@ -82,19 +78,16 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
     }
 
     @Override
-    protected void renderBg(@NotNull GuiGraphics guiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
+    protected void renderBg(GuiGraphics guiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
-        int i = this.leftPos;
-        int j = this.topPos;
-        guiGraphics.blit(TEXTURE, i, j, 0, 0, this.imageWidth, this.imageHeight);
+        guiGraphics.blit(TEXTURE, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
         this.renderSlots(guiGraphics);
         this.renderFuelBar(guiGraphics);
     }
 
     @Override
-    public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        this.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
         this.renderTooltip(guiGraphics, mouseX, mouseY);
     }
@@ -116,7 +109,7 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
                     // Draw lit progress
                     if (this.menu.isLit()) {
                         float litProgress = this.menu.getLitProgress();
-                        int height = (int) (litProgress * 13);
+                        int height = (int) (litProgress * FIRE_TEXTURE_HEIGHT);
                         guiGraphics.blit(TEXTURE, slot.x + 2 + this.leftPos, slot.y + SLOT_TEXTURE_SIZE + this.topPos + FIRE_TEXTURE_HEIGHT - height + 2, FIRE_TEXTURE_ON_X, FIRE_TEXTURE_Y + FIRE_TEXTURE_HEIGHT - height, FIRE_TEXTURE_WIDTH, height);
                     }
                 } else if (slot instanceof CrystalFurnaceFuelSlot && slot.index != 10) {
@@ -148,7 +141,7 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
     }
 
     @Override
-    protected void renderLabels(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         super.renderLabels(guiGraphics, mouseX, mouseY);
         int xOffset = (IntegerUtils.getDigits(this.menu.getExp()) - 1) * 6 + (IntegerUtils.getDigits(this.menu.getExpCap()) - 2) * 6;
         guiGraphics.drawString(this.font,

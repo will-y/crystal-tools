@@ -102,6 +102,7 @@ public class Registration {
     public static final DeferredHolder<Item, BlockItem> CRYSTAL_DEEPSLATE_ORE_ITEM = ITEMS.register("crystal_deepslate_ore", () -> new BlockItem(CRYSTAL_DEEPSLATE_ORE.get(), new Item.Properties()));
     public static final DeferredHolder<Item, BlockItem> CRYSTAL_BLOCK_ITEM = ITEMS.register("crystal_block", () -> new BlockItem(CRYSTAL_BLOCK.get(), new Item.Properties()));
     public static final DeferredHolder<Item, BlockItem> CRYSTAL_FURNACE_ITEM = ITEMS.register("crystal_furnace", () -> new BlockItem(CRYSTAL_FURNACE.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, BlockItem> CRYSTAL_GENERATOR_ITEM = ITEMS.register("crystal_generator", () -> new BlockItem(CRYSTAL_GENERATOR.get(), new Item.Properties()));
     public static final DeferredHolder<Item, StandingAndWallBlockItem> CRYSTAL_TORCH_ITEM = ITEMS.register("crystal_torch", () -> new StandingAndWallBlockItem(CRYSTAL_TORCH.get(), CRYSTAL_WALL_TORCH.get(), new Item.Properties(), Direction.DOWN));
 
     // Entities
@@ -113,7 +114,7 @@ public class Registration {
 
     // Block Entities
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CrystalFurnaceBlockEntity>> CRYSTAL_FURNACE_BLOCK_ENTITY = BLOCK_ENTITIES.register("crystal_furnace", () -> BlockEntityType.Builder.of(CrystalFurnaceBlockEntity::new, CRYSTAL_FURNACE.get()).build(null));
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CrystalGeneratorBlockEntity>> CRYSTAL_GENERATOR_BLOCK_ENTITY = BLOCK_ENTITIES.register("crystal_generator", () -> BlockEntityType.Builder.of(CrystalGeneratorBlockEntity::new, CRYSTAL_FURNACE.get()).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CrystalGeneratorBlockEntity>> CRYSTAL_GENERATOR_BLOCK_ENTITY = BLOCK_ENTITIES.register("crystal_generator", () -> BlockEntityType.Builder.of(CrystalGeneratorBlockEntity::new, CRYSTAL_GENERATOR.get()).build(null));
 
     // Containers
     public static final DeferredHolder<MenuType<?>, MenuType<CrystalFurnaceContainerMenu>> CRYSTAL_FURNACE_CONTAINER = CONTAINERS.register("crystal_furnace",
@@ -152,6 +153,7 @@ public class Registration {
                         output.accept(CRYSTAL_DEEPSLATE_ORE_ITEM.get());
                         output.accept(CRYSTAL_BLOCK_ITEM.get());
                         output.accept(CRYSTAL_FURNACE_ITEM.get());
+                        output.accept(CRYSTAL_GENERATOR_ITEM.get());
                         output.accept(CRYSTAL_TORCH_ITEM.get());
                         output.accept(CRYSTAL_BACKPACK.get());
                         output.accept(CRYSTAL_TRIDENT.get());

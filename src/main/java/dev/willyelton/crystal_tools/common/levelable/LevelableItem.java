@@ -115,6 +115,7 @@ public interface LevelableItem {
 
         addAdditionalTooltips(stack, components, item);
 
+        // TODO: This can actually get called on the server, neo is adding this to the context though soon
         if (!Screen.hasShiftDown()) {
             components.add(Component.literal("<Hold Shift For Skills>"));
         } else {

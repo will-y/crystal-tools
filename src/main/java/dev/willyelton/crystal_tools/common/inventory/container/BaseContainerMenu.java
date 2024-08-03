@@ -23,7 +23,9 @@ public abstract class BaseContainerMenu extends AbstractContainerMenu {
         this.data = data;
         this.level = player.level();
 
-        this.addDataSlots(data);
+        if (data != null) {
+            this.addDataSlots(data);
+        }
     }
 
     protected int addSlotRange(IItemHandler handler, int index, int x, int y, int amount, int dx) {

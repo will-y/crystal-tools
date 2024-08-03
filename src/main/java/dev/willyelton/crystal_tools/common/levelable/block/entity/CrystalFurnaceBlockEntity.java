@@ -64,7 +64,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     private static final Direction[] POSSIBLE_INVENTORIES = new Direction[] {Direction.DOWN, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
 
     public static final int SIZE = 13;
-    public static final int DATA_SIZE = 200;
+    public static final int DATA_SIZE = 117;
 
     public static final List<String> NBT_TAGS = new ArrayList<>(List.of("SpeedUpgrade", "FuelEfficiencyUpgrade", "Slots", "FuelSlots", "Balance", "AutoOutput", "ExpModifier", "Items"));
 
@@ -73,9 +73,9 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     }
 
     // Config
-    public final int fuelEfficiencyAddedTicks;
-    public final int speedUpgradeSubtractTicks;
-    public final double expBoostPercentage;
+    private final int fuelEfficiencyAddedTicks;
+    private final int speedUpgradeSubtractTicks;
+    private final double expBoostPercentage;
 
     private NonNullList<ItemStack> items;
 
@@ -229,8 +229,8 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     }
 
     @Override
-    public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
-        return new CrystalFurnaceContainerMenu(pContainerId, pPlayer.level(), this.getBlockPos(), pPlayerInventory, this.dataAccess);
+    public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
+        return new CrystalFurnaceContainerMenu(containerId, player.level(), this.getBlockPos(), playerInventory, this.dataAccess);
     }
 
     @Override
@@ -380,8 +380,9 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
             }
         }
 
-        public int getCount() {
-            return DATA_SIZE;
+        @Override
+        int getExtraDataSize() {
+            return 14;
         }
     };
 

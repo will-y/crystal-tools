@@ -42,5 +42,11 @@ public class RegisterCapabilitiesEvent {
                 Registration.CRYSTAL_GENERATOR_BLOCK_ENTITY.get(),
                 CrystalGeneratorBlockEntity::getItemHandlerCapForSide
         );
+
+        event.registerBlockEntity(
+                Capabilities.EnergyStorage.BLOCK,
+                Registration.CRYSTAL_GENERATOR_BLOCK_ENTITY.get(),
+                CrystalGeneratorBlockEntity::getEnergyStorageCapForSide
+        );
     }
 }

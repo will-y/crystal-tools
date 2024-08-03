@@ -25,9 +25,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
-import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nullable;
 
 public class CrystalFurnaceBlock extends BaseEntityBlock {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
@@ -44,34 +41,35 @@ public class CrystalFurnaceBlock extends BaseEntityBlock {
         return CODEC;
     }
 
-    @Nullable
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState pState, @NotNull BlockEntityType<T> pBlockEntityType) {
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> entityType) {
         if (level.isClientSide()) {
             return null;
         }
+
         return (lvl, pos, blockState, t) -> {
-            if (t instanceof CrystalFurnaceBlockEntity tile) {
-                tile.serverTick(level, tile.getBlockPos(), blockState);
+            if (t instanceof CrystalFurnaceBlockEntity blockEntity) {
+                blockEntity.serverTick(level, blockEntity.getBlockPos(), blockState);
             }
         };
     }
 
     @Override
     public int getLightEmission(BlockState state, BlockGetter world, BlockPos pos) {
-        return state.getValue(BlockStateProperties.LIT) ? 14 : 0;
+        return state.getValue(LIT) ? 14 : 0;
     }
 
     @Override
-    public InteractionResult useWithoutItem(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, BlockHitResult pHitResult) {
-        if (pLevel.isClientSide) {
+    public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        if (level.isClientSide()) {
             return InteractionResult.SUCCESS;
         } else {
-            this.openContainer(pLevel, pPos, pPlayer);
+            this.openContainer(level, pos, player);
             return InteractionResult.CONSUME;
         }
     }
 
-    protected void openContainer(Level level, @NotNull BlockPos pos, @NotNull Player player) {
+    protected void openContainer(Level level, BlockPos pos, Player player) {
         BlockEntity be = level.getBlockEntity(pos);
         if (be instanceof CrystalFurnaceBlockEntity crystalFurnaceBlockEntity && player instanceof ServerPlayer serverPlayer) {
             serverPlayer.openMenu(crystalFurnaceBlockEntity, registryFriendlyByteBuf -> registryFriendlyByteBuf.writeBlockPos(pos));
@@ -81,12 +79,12 @@ public class CrystalFurnaceBlock extends BaseEntityBlock {
     }
 
     @Override
-    public BlockEntity newBlockEntity(@NotNull BlockPos pPos, @NotNull BlockState pState) {
-        return new CrystalFurnaceBlockEntity(pPos, pState);
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new CrystalFurnaceBlockEntity(pos, state);
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
         builder.add(FACING, LIT);
     }
@@ -99,19 +97,19 @@ public class CrystalFurnaceBlock extends BaseEntityBlock {
 
     @SuppressWarnings("deprecation")
     @Override
-    public RenderShape getRenderShape(BlockState pState) {
+    public RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
     }
 
     @Override
-    public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
-        if (!pState.is(pNewState.getBlock())) {
-            BlockEntity blockentity = pLevel.getBlockEntity(pPos);
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (!state.is(newState.getBlock())) {
+            BlockEntity blockentity = level.getBlockEntity(pos);
             if (blockentity instanceof CrystalFurnaceBlockEntity) {
-                pLevel.updateNeighbourForOutputSignal(pPos, this);
+                level.updateNeighbourForOutputSignal(pos, this);
             }
 
-            super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
+            super.onRemove(state, level, pos, newState, isMoving);
         }
     }
 }

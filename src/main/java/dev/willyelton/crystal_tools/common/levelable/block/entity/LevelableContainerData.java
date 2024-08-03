@@ -11,13 +11,14 @@ public abstract class LevelableContainerData implements ContainerData {
     public LevelableContainerData(LevelableBlockEntity levelableBlockEntity) {
         this.levelableBlockEntity = levelableBlockEntity;
     }
+
     @Override
     public int get(int index) {
         return switch (index) {
             case 0 -> levelableBlockEntity.getSkillPoints();
             case 1 -> levelableBlockEntity.getExp();
             case 2 -> levelableBlockEntity.getExpCap();
-            default -> (index >= 100 && index < 200) ? levelableBlockEntity.getPoint(index - 100) : getExtra(index);
+            default -> (index >= getNonSkillDataSize() && index < getCount()) ? levelableBlockEntity.getPoint(index - getNonSkillDataSize()) : getExtra(index);
         };
     }
 
@@ -30,8 +31,8 @@ public abstract class LevelableContainerData implements ContainerData {
             case 1 -> levelableBlockEntity.setExp(value);
             case 2 -> levelableBlockEntity.setExpCap(value);
             default -> {
-                if (index >= getDataSize() && index < getDataSize() + 100) {
-                    levelableBlockEntity.setPoints(index - getDataSize(), value);
+                if (index >= getNonSkillDataSize() && index < getCount()) {
+                    levelableBlockEntity.setPoints(index - getNonSkillDataSize(), value);
                 } else {
                     setExtra(index, value);
                 }
@@ -39,13 +40,18 @@ public abstract class LevelableContainerData implements ContainerData {
         }
     }
 
+    @Override
+    public int getCount() {
+        return getNonSkillDataSize() + 100;
+    }
+
     // TODO: OVerride get size, use abstract method to get number of fields it has and then just do the actual amount of points not just 200
 
     abstract void setExtra(int index, int value);
 
-    abstract int getDataSize();
+    abstract int getExtraDataSize();
 
-    private int getTotalDataSize() {
-        return DATA_SIZE + getDataSize();
+    private int getNonSkillDataSize() {
+        return getExtraDataSize() + DATA_SIZE;
     }
 }

@@ -69,7 +69,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
 
     // Server constructor
     public CrystalBackpackContainerMenu(int containerId, Inventory playerInventory, ItemStack stack, int slotIndex) {
-        super(Registration.CRYSTAL_BACKPACK_CONTAINER.get(), containerId, playerInventory);
+        super(Registration.CRYSTAL_BACKPACK_CONTAINER.get(), containerId, playerInventory, null);
         this.inventory = CrystalBackpack.getInventory(stack);
         this.stack = stack;
         this.player = playerInventory.player;
