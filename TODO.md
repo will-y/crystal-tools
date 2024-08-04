@@ -52,6 +52,7 @@
 - Breaking animation on multibreaks
 - Configure color of highlight?
 - Advancements
+- https://jademc.readthedocs.io/en/latest/plugins20/getting-started/
 
 ## Bugs
 - Furnace skill screen doesn't fully refresh when open when point is gained

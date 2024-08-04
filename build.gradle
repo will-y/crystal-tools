@@ -81,11 +81,13 @@ repositories {
     maven { // Curseforge
         url "https://cursemaven.com"
     }
+    maven { // MEK
+        url 'https://modmaven.dev/'
+    }
 }
 
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
-//    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     compileOnly "mezz.jei:jei-1.21-common-api:${jei_version}"
     compileOnly "mezz.jei:jei-1.21-neoforge-api:${jei_version}"
     runtimeOnly "mezz.jei:jei-1.21-neoforge:${jei_version}"
@@ -93,6 +95,14 @@ dependencies {
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
     // Use the full Curios API jar at runtime
 //    runtimeOnly(fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}"))
+
+    compileOnly "curse.maven:jade-api-324717:${jade_api_id}"
+    runtimeOnly "curse.maven:jade-324717:${jade_id}"
+
+    runtimeOnly "mekanism:Mekanism:${mekanism_version}"// Mekanism
+    runtimeOnly "mekanism:Mekanism:${mekanism_version}:additions"// Mekanism: Additions
+    runtimeOnly "mekanism:Mekanism:${mekanism_version}:generators"// Mekanism: Generators
+    runtimeOnly "mekanism:Mekanism:${mekanism_version}:tools"// Mekanism: Tools
 }
 
 minecraft {

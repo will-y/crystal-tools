@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity;
 
 import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.common.energy.CrystalEnergyStorage;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalGeneratorContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalFurnaceBlock;
 import net.minecraft.core.BlockPos;
@@ -21,15 +22,19 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.energy.EnergyStorage;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 // TODO: Superclass with just furnace
 // TODO: Override EnergyStorage, add setters
 // TODO: Persist energy
-// TODO: Send energy out (directions round robin probabl)
+// TODO: Send energy out (directions round robin probably)
 public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements MenuProvider {
     public static final int DATA_SIZE = 107;
     private static final int SIZE = 1;
@@ -39,11 +44,16 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
     private IItemHandler fuelHandler;
 
     // Energy storage
-    private IEnergyStorage energyStorage;
+    private CrystalEnergyStorage energyStorage;
 
     // Config TODO
-    private final int baseFePerTick = 40;
+    private final int baseFEGeneration = 40;
+    private final int baseFEStorage = 10000;
+    private final int baseFETransfer = 80;
 
+    // Upgrades
+
+    // Base generator things
     private int litTime;
     private int litTotalTime;
 
@@ -51,7 +61,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         super(Registration.CRYSTAL_GENERATOR_BLOCK_ENTITY.get(), pos, state);
         fuelItems = NonNullList.withSize(SIZE, ItemStack.EMPTY);
         fuelHandler = new ItemStackHandler(fuelItems);
-        energyStorage = new EnergyStorage(10000, 40, 80, 0);
+        energyStorage = new CrystalEnergyStorage(baseFEStorage, 0, baseFETransfer, 0);
     }
 
     public IItemHandler getItemHandlerCapForSide(Direction side) {
@@ -80,6 +90,10 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
 
         this.litTime = tag.getInt("LitTime");
         this.litTotalTime = tag.getInt("LitTotalTime");
+
+        int energy = tag.getInt("Energy");
+
+        energyStorage = new CrystalEnergyStorage(baseFEStorage, 0, baseFETransfer, energy);
     }
 
     @Override
@@ -91,6 +105,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         if (contents != null) {
             contents.copyInto(this.fuelItems);
         }
+        // TODO: Get everything
     }
 
     @Override
@@ -99,6 +114,8 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         ContainerHelper.saveAllItems(tag, this.fuelItems, registries);
         tag.putInt("LitTime", this.litTime);
         tag.putInt("LitTotalTime", this.litTotalTime);
+
+        tag.putInt("Energy", this.energyStorage.getEnergyStored());
     }
 
     @Override
@@ -107,6 +124,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
 
         ItemContainerContents contents = ItemContainerContents.fromItems(this.fuelItems);
         components.set(DataComponents.CONTAINER, contents);
+        // TODO: Store everything
     }
 
     @Override
@@ -141,12 +159,11 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
     };
 
     public void serverTick(Level level, BlockPos pos, BlockState state) {
-        boolean isLit = this.isLit();
+        boolean wasLit = this.isLit();
         boolean needsChange = false;
 
-        if (isLit) {
+        if (wasLit) {
             litTime--;
-            energyStorage.receiveEnergy(baseFePerTick, false);
         }
 
         ItemStack fuelItemStack = this.fuelItems.getFirst();
@@ -169,7 +186,15 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
             }
         }
 
-        if (isLit != this.isLit()) {
+        if (this.isLit()) {
+            if (energyStorage.canAdd(baseFEGeneration)) {
+                energyStorage.addEnergy(baseFEGeneration);
+            }
+        }
+
+        distributeEnergy(level, pos);
+
+        if (wasLit != this.isLit()) {
             needsChange = true;
             state = state.setValue(CrystalFurnaceBlock.LIT, this.isLit());
             level.setBlock(pos, state, 3);
@@ -178,6 +203,54 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         if (needsChange) {
             setChanged(level, pos, state);
         }
+    }
+
+    private void distributeEnergy(Level level, BlockPos pos) {
+        List<IEnergyStorage> possibleDestinations = new ArrayList<>();
+
+        for (Direction direction : Direction.values()) {
+            IEnergyStorage energyStorage = level.getCapability(Capabilities.EnergyStorage.BLOCK, pos.relative(direction), direction.getOpposite());
+            if (energyStorage != null && energyStorage.canReceive()) {
+                possibleDestinations.add(energyStorage);
+            }
+        }
+
+        if (possibleDestinations.isEmpty()) {
+            return;
+        }
+
+        int amountToTransfer = Math.min(this.baseFETransfer, energyStorage.getEnergyStored());
+        int amountAdded = 0;
+        boolean didTransfer = true;
+
+        while (amountAdded < amountToTransfer && !possibleDestinations.isEmpty() && didTransfer) {
+            int amountPerBlock = (amountToTransfer - amountAdded) / possibleDestinations.size();
+            if (amountPerBlock == 0) {
+                amountPerBlock = (amountToTransfer - amountAdded) % possibleDestinations.size();
+                if (amountPerBlock == 0) {
+                    break;
+                }
+            }
+            didTransfer = false;
+            Iterator<IEnergyStorage> itr = possibleDestinations.iterator();
+            while (itr.hasNext() && amountAdded < amountToTransfer) {
+                IEnergyStorage storage = itr.next();
+                int added = storage.receiveEnergy(amountPerBlock, false);
+                if (added > 0) {
+                    didTransfer = true;
+                }
+                amountAdded += added;
+                if (added != amountPerBlock) {
+                    itr.remove();
+                }
+            }
+        }
+
+        energyStorage.extractEnergy(amountAdded, false);
+    }
+
+    private void tryInsertToNeighbors(List<IEnergyStorage> storages) {
+
     }
 
     private boolean isLit() {

@@ -1,0 +1,25 @@
+package dev.willyelton.crystal_tools.common.energy;
+
+import net.neoforged.neoforge.energy.EnergyStorage;
+
+public class CrystalEnergyStorage extends EnergyStorage {
+    public CrystalEnergyStorage(int capacity, int maxReceive, int maxExtract, int energy) {
+        super(capacity, maxReceive, maxExtract, energy);
+    }
+
+    public boolean canAdd(int toAdd) {
+        return capacity - energy >= toAdd;
+    }
+
+    /**
+     * Outside of capability interface, don't want other people adding to generator but need to generate it ourselves
+     */
+    public void addEnergy(int toAdd) {
+        energy += toAdd;
+        if (energy > capacity) {
+            energy = capacity;
+        }
+    }
+
+    // TODO: Setters for upgrades later
+}
