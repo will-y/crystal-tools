@@ -10,6 +10,7 @@
   - Change screen size so you need or don't need a scroll bar breaks things
   - Limit rows, will be easy with the limit to infinite nodes item below
   - Prio for multiple backpacks / pickup order
+  - Client indexes don't get updated on scroll. Might cause problems but doesn't seem to
 - Crystal Generator
 - Spawner
 - Quarry

@@ -14,7 +14,7 @@ public class CrystalSlotItemHandler extends SlotItemHandler {
     // Not sure why this is commented out in Forge
     @Override
     public boolean isSameInventory(Slot other) {
-        return other instanceof CrystalSlotItemHandler && ((CrystalSlotItemHandler) other).getItemHandler() == this.getItemHandler();
+        return other instanceof CrystalSlotItemHandler crystalSlotItemHandler && crystalSlotItemHandler.getItemHandler() == this.getItemHandler();
     }
 
     @Override
