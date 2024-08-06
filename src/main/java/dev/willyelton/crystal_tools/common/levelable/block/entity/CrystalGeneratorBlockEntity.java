@@ -32,9 +32,6 @@ import java.util.Iterator;
 import java.util.List;
 
 // TODO: Superclass with just furnace
-// TODO: Override EnergyStorage, add setters
-// TODO: Persist energy
-// TODO: Send energy out (directions round robin probably)
 public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements MenuProvider {
     public static final int DATA_SIZE = 107;
     private static final int SIZE = 1;
@@ -52,6 +49,14 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
     private final int baseFETransfer = 80;
 
     // Upgrades
+    private float addedFEGeneration = 0;
+    private float fuelEfficiency = 0;
+    private float addedFEStorage = 0;
+    private boolean redstoneControl = false;
+    private boolean saveFuel = false;
+    private boolean metalGenerator = false;
+    private boolean foodGenerator = false;
+    private boolean gemGenerator = false;
 
     // Base generator things
     private int litTime;
@@ -65,7 +70,6 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
     }
 
     public IItemHandler getItemHandlerCapForSide(Direction side) {
-        // TODO: Catalyst different side?
         return fuelHandler;
     }
 
@@ -91,9 +95,18 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         this.litTime = tag.getInt("LitTime");
         this.litTotalTime = tag.getInt("LitTotalTime");
 
-        int energy = tag.getInt("Energy");
+        // Upgrades
+        this.addedFEGeneration = tag.getFloat("AddedFEGeneration");
+        this.fuelEfficiency = tag.getFloat("FuelEfficiency");
+        this.addedFEStorage = tag.getFloat("AddedFEStorage");
+        this.redstoneControl = tag.getBoolean("RedstoneControl");
+        this.saveFuel = tag.getBoolean("SaveFuel");
+        this.metalGenerator = tag.getBoolean("MetalGenerator");
+        this.foodGenerator = tag.getBoolean("FoodGenerator");
+        this.gemGenerator = tag.getBoolean("GemGenerator");
 
-        energyStorage = new CrystalEnergyStorage(baseFEStorage, 0, baseFETransfer, energy);
+        int energy = tag.getInt("Energy");
+        energyStorage = new CrystalEnergyStorage(baseFEStorage + (int) addedFEStorage, 0, baseFETransfer + (int) addedFEGeneration * 2, energy);
     }
 
     @Override
@@ -115,6 +128,15 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         tag.putInt("LitTime", this.litTime);
         tag.putInt("LitTotalTime", this.litTotalTime);
 
+        tag.putFloat("AddedFEGeneration", this.addedFEGeneration);
+        tag.putFloat("FuelEfficiency", this.fuelEfficiency);
+        tag.putFloat("AddedFEStorage", this.addedFEStorage);
+        tag.putBoolean("RedstoneControl", this.redstoneControl);
+        tag.putBoolean("SaveFuel", this.saveFuel);
+        tag.putBoolean("MetalGenerator", this.metalGenerator);
+        tag.putBoolean("FoodGenerator", this.foodGenerator);
+        tag.putBoolean("GemGenerator", this.gemGenerator);
+
         tag.putInt("Energy", this.energyStorage.getEnergyStored());
     }
 
@@ -129,7 +151,23 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
 
     @Override
     protected void addToExtraData(String key, float value) {
-
+        switch (key) {
+            case "fe_generation" -> {
+                this.addedFEGeneration += value;
+                this.energyStorage.setMaxExtract(this.energyStorage.getMaxExtract() + (int) (value * 2));
+            }
+            case "fuel_efficiency" -> this.fuelEfficiency += value;
+            case "fe_capacity" -> {
+                // TODO: Don't really need this variable
+                this.addedFEStorage += value;
+                this.energyStorage.setCapacity(this.energyStorage.getMaxEnergyStored() + (int) value);
+            }
+            case "redstone_control" -> this.redstoneControl = value == 1F;
+            case "save_fuel" -> this.saveFuel = value == 1F;
+            case "metal_generator" -> this.metalGenerator = value == 1F;
+            case "food_generator" -> this.foodGenerator = value == 1F;
+            case "gem_generator" -> this.gemGenerator = value == 1F;
+        }
     }
 
     protected final ContainerData dataAccess = new LevelableContainerData(this) {
@@ -187,8 +225,10 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         }
 
         if (this.isLit()) {
-            if (energyStorage.canAdd(baseFEGeneration)) {
-                energyStorage.addEnergy(baseFEGeneration);
+            // TODO: Store the currently burning fuel (needed for non furnace fuel stacks)
+            int generation = getGeneration(ItemStack.EMPTY);
+            if (energyStorage.canAdd(generation)) {
+                energyStorage.addEnergy(generation);
             }
         }
 
@@ -249,10 +289,6 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         energyStorage.extractEnergy(amountAdded, false);
     }
 
-    private void tryInsertToNeighbors(List<IEnergyStorage> storages) {
-
-    }
-
     private boolean isLit() {
         return this.litTime > 0;
     }
@@ -261,8 +297,13 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         if (stack.isEmpty()) {
             return 0;
         } else {
-            return stack.getBurnTime(null);
+            // TODO: Some config for this?
+            return (int) (stack.getBurnTime(null) * (1 + fuelEfficiency));
         }
+    }
+
+    private int getGeneration(ItemStack burnedStack) {
+        return this.baseFEGeneration + (int) this.addedFEGeneration;
     }
 
     public IItemHandler getFuelHandler() {

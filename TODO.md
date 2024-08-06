@@ -12,14 +12,14 @@
   - Prio for multiple backpacks / pickup order
 - Crystal Generator
   - Add more fuels (gems, metals, foods ...)
-  - Supercharge (burns crystals)
+  - Don't waste power upgrade
+  - Redstone to disable (might not need upgrade?)
   - Increase rf/tick (generation and output)
   - Increase burn time
-  - Redstone to disable (might not need upgrade?)
   - RF storage
   - Add crystal fuel? Upgrade to turn generator into fuel maker for fuel generator?
     - Maybe solid fuel too?
-  - Don't waste power upgrade
+  - JEI Plugin things
 - Spawner
 - Quarry
   - Model off of build craft quarry
@@ -53,6 +53,7 @@
 - Configure color of highlight?
 - Advancements
 - https://jademc.readthedocs.io/en/latest/plugins20/getting-started/
+- Rename furnace and rocket skill trees to be consistent (I guess breaking)
 
 ## Bugs
 - Furnace skill screen doesn't fully refresh when open when point is gained
@@ -61,7 +62,6 @@
 - Can instamine things by breaking torches (maybe check if can mine the original block?)
 
 ## Code Improvements
-- Do something better with tooltips
 - Data gen ore gen
 
 ### 1.21 Things
