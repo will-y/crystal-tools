@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.common.inventory.container.slot;
 
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
@@ -77,6 +78,11 @@ public class ScrollableSlot extends ItemHandlerCopySlot {
     @Override
     public boolean isActive() {
         return active;
+    }
+
+    @Override
+    public boolean isSameInventory(Slot other) {
+        return other instanceof ItemHandlerCopySlot itemHandlerCopySlot && itemHandlerCopySlot.getItemHandler() == this.getItemHandler();
     }
 
     public void setActive(boolean active) {

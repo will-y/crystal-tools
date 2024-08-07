@@ -115,8 +115,11 @@ public class CrystalBackpack extends Item implements LevelableItem {
 
     @Override
     public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
-        String toolTip = "\u00A79" + "Auto Pickup " + (itemStack.getOrDefault(DataComponents.PICKUP_DISABLED, false) ? "Disabled" : "Enabled");
-        components.add(Component.literal(toolTip));
+        if (itemStack.getOrDefault(DataComponents.BACKPACK_AUTO_PICKUP, false)) {
+            String toolTip = "\u00A79" + "Auto Pickup " + (itemStack.getOrDefault(DataComponents.PICKUP_DISABLED, false) ? "Disabled" : "Enabled");
+            components.add(Component.literal(toolTip));
+        }
+
         appendLevelableHoverText(itemStack, components, this);
     }
 

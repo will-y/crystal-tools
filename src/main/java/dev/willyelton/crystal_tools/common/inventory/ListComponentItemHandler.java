@@ -143,13 +143,12 @@ public class ListComponentItemHandler implements IItemHandlerModifiable {
     protected void updateContents(ItemContainerContents contents, ItemStack stack, int slot) {
         this.validateSlotIndex(slot);
         int index = slot / MAX_CONTENTS_SIZE;
-        int thisContentsSlots = (this.size - index * MAX_CONTENTS_SIZE) % MAX_CONTENTS_SIZE;
+        int thisContentsSlots = Math.clamp((this.size - index * MAX_CONTENTS_SIZE), 0, MAX_CONTENTS_SIZE);
         NonNullList<ItemStack> list = NonNullList.withSize(Math.max(contents.getSlots(), thisContentsSlots), ItemStack.EMPTY);
         contents.copyInto(list);
         list.set(slot % MAX_CONTENTS_SIZE, stack);
         ItemContainerContents newContents = ItemContainerContents.fromItems(list);
         List<ItemContainerContents> oldContents = deepCopy(this.parent.getOrDefault(this.component, new ArrayList<>()));
-        // TODO: We might have to copy all of the components?
         if (oldContents.size() > index) {
             oldContents.set(index, newContents);
         } else {

@@ -1,4 +1,13 @@
 # Crystal Tools Change Log
+## 2.0.1
+### Changes
+- Updates to Neo 21.0.163
+
+### Fixes
+- Fixes backpack crash when inserting into a backpack with a lot of slots
+- Fixes double shift clicking many of the same type of item into a backpack
+- Fixes auto pickup tooltip displaying before you have the upgrade on the backpack
+
 ## 2.0.0
 ### Additions
 - Adds the config screen
