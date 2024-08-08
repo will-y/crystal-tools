@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.client.gui;
 
 import dev.willyelton.crystal_tools.client.gui.component.SkillButton;
-import dev.willyelton.crystal_tools.common.inventory.container.CrystalFurnaceContainerMenu;
+import dev.willyelton.crystal_tools.common.inventory.container.LevelableContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillDataNode;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillTreeRegistry;
@@ -12,11 +12,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-public class FurnaceUpgradeScreen extends BaseUpgradeScreen {
-    private final CrystalFurnaceContainerMenu container;
+public class BlockEntityUpgradeScreen extends BaseUpgradeScreen {
+    private final LevelableContainerMenu container;
     private final Screen screen;
 
-    public FurnaceUpgradeScreen(CrystalFurnaceContainerMenu container, Player player, Screen toOpen) {
+    public BlockEntityUpgradeScreen(LevelableContainerMenu container, Player player, Screen toOpen) {
         super(player, Component.literal("Upgrade Furnace"));
         this.container = container;
         this.data = this.getSkillData();
@@ -29,11 +29,6 @@ public class FurnaceUpgradeScreen extends BaseUpgradeScreen {
         SkillData data = SkillTreeRegistry.SKILL_TREES.get(blockType);
         data.applyPoints(points);
         return data;
-    }
-
-    @Override
-    public boolean isPauseScreen() {
-        return false;
     }
 
     @Override

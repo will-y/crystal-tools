@@ -7,6 +7,7 @@ import dev.willyelton.crystal_tools.common.components.FurnaceUpgrades;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalFurnaceContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalFurnaceBlock;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.data.LevelableContainerData;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
@@ -64,7 +65,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     private static final Direction[] POSSIBLE_INVENTORIES = new Direction[] {Direction.DOWN, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
 
     public static final int SIZE = 13;
-    public static final int DATA_SIZE = 117;
+    public static final int DATA_SIZE = 14;
 
     public static final List<String> NBT_TAGS = new ArrayList<>(List.of("SpeedUpgrade", "FuelEfficiencyUpgrade", "Slots", "FuelSlots", "Balance", "AutoOutput", "ExpModifier", "Items"));
 
@@ -340,7 +341,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
 
     protected final ContainerData dataAccess = new LevelableContainerData(this) {
         @Override
-        int getExtra(int index) {
+        protected int getExtra(int index) {
             return switch (index) {
                 case 3 -> litTime;
                 case 4 -> litTotalTime;
@@ -361,7 +362,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         }
 
         @Override
-        void setExtra(int index, int value) {
+        protected void setExtra(int index, int value) {
             switch (index) {
                 case 3 -> litTime = value;
                 case 4 -> litTotalTime = value;
@@ -381,8 +382,8 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         }
 
         @Override
-        int getExtraDataSize() {
-            return 14;
+        protected int getExtraDataSize() {
+            return CrystalFurnaceBlockEntity.DATA_SIZE;
         }
     };
 

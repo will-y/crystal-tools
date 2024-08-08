@@ -18,7 +18,7 @@ import net.minecraft.world.level.Level;
 
 import java.util.Arrays;
 
-public class CrystalFurnaceContainerMenu extends BaseContainerMenu {
+public class CrystalFurnaceContainerMenu extends LevelableContainerMenu {
     private final CrystalFurnaceBlockEntity te;
 
     private final int fuelSlotsX = 21;
@@ -155,10 +155,6 @@ public class CrystalFurnaceContainerMenu extends BaseContainerMenu {
         return this.te;
     }
 
-    public Player getPlayer() {
-        return this.player;
-    }
-
     protected boolean canSmelt(ItemStack pStack) {
         return this.level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, new SingleRecipeInput(pStack), this.level).isPresent();
     }
@@ -167,38 +163,7 @@ public class CrystalFurnaceContainerMenu extends BaseContainerMenu {
         return stack.getBurnTime(RecipeType.SMELTING) > 0;
     }
 
-    // Levelable things
-
-    public int getSkillPoints() {
-        return this.data.get(0);
-    }
-
-    public void addSkillPoints(int points) {
-        this.data.set(0, this.getSkillPoints() + points);
-    }
-
-    public void addToPoints(int nodeId, int value) {
-        this.data.set(nodeId + 100, this.data.get(nodeId + 100) + value);
-    }
-
-    public int getExp() {
-        return this.data.get(1);
-    }
-
-    public int getExpCap() {
-        return this.data.get(2);
-    }
-
-    public int[] getPoints() {
-        int[] result = new int[100];
-
-        for (int i = 0; i < 100; i++) {
-            result[i] = this.data.get(i + 100);
-        }
-
-        return result;
-    }
-
+    @Override
     public String getBlockType() {
         return "crystal_furnace";
     }

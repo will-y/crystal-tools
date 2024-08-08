@@ -4,6 +4,7 @@ import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.energy.CrystalEnergyStorage;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalGeneratorContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalFurnaceBlock;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.data.LevelableContainerData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -33,7 +34,7 @@ import java.util.List;
 
 // TODO: Superclass with just furnace
 public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements MenuProvider {
-    public static final int DATA_SIZE = 107;
+    public static final int DATA_SIZE = 4;
     private static final int SIZE = 1;
 
     // Item storage
@@ -172,7 +173,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
 
     protected final ContainerData dataAccess = new LevelableContainerData(this) {
         @Override
-        int getExtra(int index) {
+        protected int getExtra(int index) {
             return switch (index) {
                 case 3 -> litTime;
                 case 4 -> litTotalTime;
@@ -183,7 +184,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         }
 
         @Override
-        void setExtra(int index, int value) {
+        protected void setExtra(int index, int value) {
             switch (index) {
                 case 3 -> litTime = value;
                 case 4 -> litTotalTime = value;
@@ -191,8 +192,8 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         }
 
         @Override
-        int getExtraDataSize() {
-            return 4;
+        protected int getExtraDataSize() {
+            return CrystalGeneratorBlockEntity.DATA_SIZE;
         }
     };
 

@@ -1,10 +1,13 @@
-package dev.willyelton.crystal_tools.common.levelable.block.entity;
+package dev.willyelton.crystal_tools.common.levelable.block.entity.data;
 
-import net.minecraft.world.inventory.ContainerData;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.LevelableBlockEntity;
 
-// TODO: Getters and setters for levelable things?
-public abstract class LevelableContainerData implements ContainerData {
-    private static final int DATA_SIZE = 3;
+// TODO: Make a simple version or add stuff in LevelableContainer to sometimes use data instead?
+// What does the data actually do on the client?
+// Make an interface and make a simple one that implements?
+// Might actually remove the datasize static variable that we have to keep around now
+public abstract class LevelableContainerData implements ILevelableContainerData {
+    protected static final int DATA_SIZE = 3;
 
     private final LevelableBlockEntity levelableBlockEntity;
 
@@ -22,7 +25,7 @@ public abstract class LevelableContainerData implements ContainerData {
         };
     }
 
-    abstract int getExtra(int index);
+    protected abstract int getExtra(int index);
 
     @Override
     public void set(int index, int value) {
@@ -40,16 +43,45 @@ public abstract class LevelableContainerData implements ContainerData {
         }
     }
 
+    protected abstract void setExtra(int index, int value);
+
     @Override
     public int getCount() {
         return getNonSkillDataSize() + 100;
     }
 
-    // TODO: OVerride get size, use abstract method to get number of fields it has and then just do the actual amount of points not just 200
+    public int getSkillPoints() {
+        return get(0);
+    }
 
-    abstract void setExtra(int index, int value);
+    public void addSkillPoints(int points) {
+        set(0, this.getSkillPoints() + points);
+    }
 
-    abstract int getExtraDataSize();
+    public void addToPoints(int nodeId, int value) {
+        int index = nodeId + getNonSkillDataSize();
+        set(index, get(index) + value);
+    }
+
+    public int getExp() {
+        return get(1);
+    }
+
+    public int getExpCap() {
+        return get(2);
+    }
+
+    public int[] getPoints() {
+        int[] result = new int[100];
+
+        for (int i = 0; i < 100; i++) {
+            result[i] = get(i + getNonSkillDataSize());
+        }
+
+        return result;
+    }
+
+    protected abstract int getExtraDataSize();
 
     private int getNonSkillDataSize() {
         return getExtraDataSize() + DATA_SIZE;

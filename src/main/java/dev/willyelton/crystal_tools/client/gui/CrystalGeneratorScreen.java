@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.willyelton.crystal_tools.CrystalTools;
+import dev.willyelton.crystal_tools.client.gui.component.FurnaceUpgradeButton;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalGeneratorContainerMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -9,7 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
-// TODO: Superclass for this and furnace could be useful. Drawing fire + animations?
+// TODO: Superclass for this and furnace could be useful. Drawing fire + animations + upgrade button?
 public class CrystalGeneratorScreen extends AbstractContainerScreen<CrystalGeneratorContainerMenu> {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID ,"textures/gui/crystal_generator.png");
 
@@ -27,6 +28,11 @@ public class CrystalGeneratorScreen extends AbstractContainerScreen<CrystalGener
     private static final int FIRE_TEXTURE_ON_X = 176;
     private static final int FIRE_TEXTURE_OFF_X = 190;
     private static final int FIRE_TEXTURE_Y = 0;
+
+    private static final int UPGRADE_BUTTON_X = 155;
+    private static final int UPGRADE_BUTTON_Y = 6;
+    private static final int UPGRADE_BUTTON_WIDTH = 12;
+    private static final int UPGRADE_BUTTON_HEIGHT = 12;
 
     public CrystalGeneratorScreen(CrystalGeneratorContainerMenu container, Inventory inventory, Component title) {
         super(container, inventory, title);
@@ -63,6 +69,23 @@ public class CrystalGeneratorScreen extends AbstractContainerScreen<CrystalGener
             String tooltipString = String.format("%d/%d FE", (int) menu.getCurrentEnergy(), (int) menu.getMaxEnergy());
             guiGraphics.renderTooltip(this.font, Component.literal(tooltipString), mouseX, mouseY);
         }
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        this.addRenderableWidget(
+                new FurnaceUpgradeButton(UPGRADE_BUTTON_X + this.leftPos,
+                        UPGRADE_BUTTON_Y + this.topPos,
+                        UPGRADE_BUTTON_WIDTH,
+                        UPGRADE_BUTTON_HEIGHT,
+                        Component.literal("+"),
+                        pButton -> ModGUIs.openScreen(new BlockEntityUpgradeScreen(this.menu, this.menu.getPlayer(), this)),
+                        (button, guiGraphics, mouseX, mouseY) -> {
+                            Component textComponent = Component.literal(this.menu.getSkillPoints() + " Points Available");
+                            guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalGeneratorScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
+                        },
+                        false));
     }
 
     private void renderEnergyBar(GuiGraphics guiGraphics) {

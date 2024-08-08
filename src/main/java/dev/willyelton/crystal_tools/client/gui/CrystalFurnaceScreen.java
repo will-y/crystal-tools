@@ -60,7 +60,6 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
     private static final int FUEL_INSERT_HEIGHT = 5;
 
     private final NonNullList<Slot> slots;
-    private FurnaceUpgradeButton upgradeButton;
     private final float expLabelX;
 
     private int counter = 0;
@@ -154,13 +153,13 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
     @Override
     protected void init() {
         super.init();
-        this.upgradeButton = this.addRenderableWidget(
+        this.addRenderableWidget(
                 new FurnaceUpgradeButton(UPGRADE_BUTTON_X + this.leftPos,
                         UPGRADE_BUTTON_Y + this.topPos,
                         UPGRADE_BUTTON_WIDTH,
                         UPGRADE_BUTTON_HEIGHT,
                         Component.literal("+"),
-                        pButton -> ModGUIs.openScreen(new FurnaceUpgradeScreen(this.menu, this.menu.getPlayer(), this)),
+                        pButton -> ModGUIs.openScreen(new BlockEntityUpgradeScreen(this.menu, this.menu.getPlayer(), this)),
                         (button, guiGraphics, mouseX, mouseY) -> {
                             Component textComponent = Component.literal(this.menu.getSkillPoints() + " Points Available");
                             guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalFurnaceScreen.this.width / 2 - 43, 170)), mouseX, mouseY);

@@ -17,6 +17,7 @@ import dev.willyelton.crystal_tools.common.levelable.block.CrystalTorch;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalWallTorch;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalFurnaceBlockEntity;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalGeneratorBlockEntity;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.data.SimpleLevelableContainerData;
 import dev.willyelton.crystal_tools.common.levelable.tool.AIOLevelableTool;
 import dev.willyelton.crystal_tools.common.levelable.tool.AxeLevelableTool;
 import dev.willyelton.crystal_tools.common.levelable.tool.BowLevelableItem;
@@ -118,9 +119,9 @@ public class Registration {
 
     // Containers
     public static final DeferredHolder<MenuType<?>, MenuType<CrystalFurnaceContainerMenu>> CRYSTAL_FURNACE_CONTAINER = CONTAINERS.register("crystal_furnace",
-            () -> IMenuTypeExtension.create((windowId, inv, data) -> new CrystalFurnaceContainerMenu(windowId, inv.player.level(), data.readBlockPos(), inv, new SimpleContainerData(CrystalFurnaceBlockEntity.DATA_SIZE))));
+            () -> IMenuTypeExtension.create((windowId, inv, data) -> new CrystalFurnaceContainerMenu(windowId, inv.player.level(), data.readBlockPos(), inv, new SimpleLevelableContainerData(CrystalFurnaceBlockEntity.DATA_SIZE))));
     public static final DeferredHolder<MenuType<?>, MenuType<CrystalGeneratorContainerMenu>> CRYSTAL_GENERATOR_CONTAINER = CONTAINERS.register("crystal_generator",
-            () -> IMenuTypeExtension.create((windowId, inv, data) -> new CrystalGeneratorContainerMenu(windowId, inv.player.level(), data.readBlockPos(), inv, new SimpleContainerData(CrystalGeneratorBlockEntity.DATA_SIZE))));
+            () -> IMenuTypeExtension.create((windowId, inv, data) -> new CrystalGeneratorContainerMenu(windowId, inv.player.level(), data.readBlockPos(), inv, new SimpleLevelableContainerData(CrystalGeneratorBlockEntity.DATA_SIZE))));
     public static final DeferredHolder<MenuType<?>, MenuType<CrystalBackpackContainerMenu>> CRYSTAL_BACKPACK_CONTAINER = CONTAINERS.register("crystal_backpack",
             () -> IMenuTypeExtension.create(CrystalBackpackContainerMenu::new));
 
