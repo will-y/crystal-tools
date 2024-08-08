@@ -47,10 +47,10 @@ public class ReloadListenerEvent {
     public static void handleDataPackSync(OnDatapackSyncEvent onDatapackSyncEvent) {
         for (Map.Entry<String, SkillData> entry : skillDataMap.entrySet()) {
             if (onDatapackSyncEvent.getPlayer() != null) {
-                CrystalTools.LOGGER.log(Level.TRACE, "Syncing Tool " + entry.getKey() + " with player " + onDatapackSyncEvent.getPlayer().getDisplayName().getString());
+                CrystalTools.LOGGER.log(Level.TRACE, "Syncing Tool {} with player {}", entry.getKey(), onDatapackSyncEvent.getPlayer().getDisplayName().getString());
                 PacketDistributor.sendToPlayer(onDatapackSyncEvent.getPlayer(), new SkillCacheUpdatePayload(entry.getKey(), entry.getValue()));
             } else {
-                CrystalTools.LOGGER.log(Level.TRACE, "Syncing Tool" + entry.getKey() + " with all players");
+                CrystalTools.LOGGER.log(Level.TRACE, "Syncing Tool {} with all players", entry.getKey());
                 PacketDistributor.sendToAllPlayers(new SkillCacheUpdatePayload(entry.getKey(), entry.getValue()));
             }
         }

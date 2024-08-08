@@ -151,10 +151,6 @@ public class CrystalFurnaceContainerMenu extends LevelableContainerMenu {
         return this.data.get(6) + 1;
     }
 
-    public CrystalFurnaceBlockEntity getBlockEntity() {
-        return this.te;
-    }
-
     protected boolean canSmelt(ItemStack pStack) {
         return this.level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, new SingleRecipeInput(pStack), this.level).isPresent();
     }
@@ -166,6 +162,11 @@ public class CrystalFurnaceContainerMenu extends LevelableContainerMenu {
     @Override
     public String getBlockType() {
         return "crystal_furnace";
+    }
+
+    @Override
+    public CrystalFurnaceBlockEntity getBlockEntity() {
+        return this.te;
     }
 
     public int[] getActiveInputSlots() {

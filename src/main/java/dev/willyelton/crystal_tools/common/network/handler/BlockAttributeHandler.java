@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.common.network.handler;
 
-import dev.willyelton.crystal_tools.common.inventory.container.CrystalFurnaceContainerMenu;
-import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalFurnaceBlockEntity;
+import dev.willyelton.crystal_tools.common.inventory.container.LevelableContainerMenu;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.LevelableBlockEntity;
 import dev.willyelton.crystal_tools.common.network.data.BlockAttributePayload;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -15,8 +15,8 @@ public class BlockAttributeHandler {
             Player player = context.player();
             AbstractContainerMenu container = player.containerMenu;
 
-            if (container instanceof CrystalFurnaceContainerMenu crystalFurnaceContainerMenu) {
-                CrystalFurnaceBlockEntity blockEntity = crystalFurnaceContainerMenu.getBlockEntity();
+            if (container instanceof LevelableContainerMenu levelableContainerMenu) {
+                LevelableBlockEntity blockEntity = levelableContainerMenu.getBlockEntity();
 
                 blockEntity.addToData(payload.key(), payload.value());
                 if (payload.id() != -1) {

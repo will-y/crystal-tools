@@ -63,4 +63,9 @@ public class CrystalGeneratorContainerMenu extends LevelableContainerMenu {
     public String getBlockType() {
         return "generator";
     }
+
+    @Override
+    public CrystalGeneratorBlockEntity getBlockEntity() {
+        return blockEntity;
+    }
 }

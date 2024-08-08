@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.common.inventory.container;
 
+import dev.willyelton.crystal_tools.common.levelable.block.entity.LevelableBlockEntity;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.data.ILevelableContainerData;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -43,4 +44,6 @@ public abstract class LevelableContainerMenu extends BaseContainerMenu {
     }
 
     public abstract String getBlockType();
+
+    public abstract LevelableBlockEntity getBlockEntity();
 }
