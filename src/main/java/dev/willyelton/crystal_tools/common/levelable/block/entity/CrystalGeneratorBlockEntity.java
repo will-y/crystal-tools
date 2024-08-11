@@ -202,6 +202,11 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
     };
 
     public void serverTick(Level level, BlockPos pos, BlockState state) {
+        boolean hasRedstone = level.hasNeighborSignal(pos);
+        if (hasRedstone && redstoneControl) {
+            return;
+        }
+
         boolean wasLit = this.isLit();
         boolean needsChange = false;
 

@@ -92,6 +92,7 @@ public class CrystalGeneratorBlock extends BaseEntityBlock {
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite())
+                // TODO generator data
                 .setValue(LIT, context.getItemInHand().getOrDefault(DataComponents.FURNACE_DATA, new FurnaceData()).litDuration() > 0);
     }
 
