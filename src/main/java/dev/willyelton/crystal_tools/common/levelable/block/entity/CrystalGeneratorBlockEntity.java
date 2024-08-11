@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity;
 
 import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.energy.CrystalEnergyStorage;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalGeneratorContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalFurnaceBlock;
@@ -32,7 +33,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-// TODO: Superclass with just furnace
 public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements MenuProvider {
     public static final int DATA_SIZE = 4;
     private static final int SIZE = 1;
@@ -44,10 +44,9 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
     // Energy storage
     private CrystalEnergyStorage energyStorage;
 
-    // Config TODO
-    private final int baseFEGeneration = 40;
-    private final int baseFEStorage = 10000;
-    private final int baseFETransfer = 80;
+    // Config
+    private final int baseFEStorage;
+    private final int baseFETransfer;
 
     // Upgrades
     private float addedFEGeneration = 0;
@@ -67,6 +66,10 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         super(Registration.CRYSTAL_GENERATOR_BLOCK_ENTITY.get(), pos, state);
         fuelItems = NonNullList.withSize(SIZE, ItemStack.EMPTY);
         fuelHandler = new ItemStackHandler(fuelItems);
+
+        baseFEStorage = CrystalToolsConfig.BASE_FE_STORAGE.get();
+        baseFETransfer = CrystalToolsConfig.BASE_FE_TRANSFER.get();
+
         energyStorage = new CrystalEnergyStorage(baseFEStorage, 0, baseFETransfer, 0);
     }
 
@@ -154,14 +157,15 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
     protected void addToExtraData(String key, float value) {
         switch (key) {
             case "fe_generation" -> {
-                this.addedFEGeneration += value;
-                this.energyStorage.setMaxExtract(this.energyStorage.getMaxExtract() + (int) (value * 2));
+                int generationToAdd = (int) value * CrystalToolsConfig.FE_GENERATION_PER_LEVEL.get();
+                this.addedFEGeneration += generationToAdd;
+                this.energyStorage.setMaxExtract(this.energyStorage.getMaxExtract() + generationToAdd * 2);
             }
             case "fuel_efficiency" -> this.fuelEfficiency += value;
             case "fe_capacity" -> {
-                // TODO: Don't really need this variable
-                this.addedFEStorage += value;
-                this.energyStorage.setCapacity(this.energyStorage.getMaxEnergyStored() + (int) value);
+                int storageToAdd = (int) value * CrystalToolsConfig.FE_STORAGE_PER_LEVEL.get();
+                this.addedFEStorage += storageToAdd;
+                this.energyStorage.setCapacity(this.energyStorage.getMaxEnergyStored() + storageToAdd);
             }
             case "redstone_control" -> this.redstoneControl = value == 1F;
             case "save_fuel" -> this.saveFuel = value == 1F;
@@ -202,7 +206,10 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         boolean needsChange = false;
 
         if (wasLit) {
-            litTime--;
+            boolean canFitEnergy = energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored() >= getGeneration(ItemStack.EMPTY);
+            if (canFitEnergy || !saveFuel) {
+                litTime--;
+            }
         }
 
         ItemStack fuelItemStack = this.fuelItems.getFirst();
@@ -304,7 +311,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
     }
 
     private int getGeneration(ItemStack burnedStack) {
-        return this.baseFEGeneration + (int) this.addedFEGeneration;
+        return CrystalToolsConfig.BASE_FE_GENERATION.get() + (int) this.addedFEGeneration;
     }
 
     public IItemHandler getFuelHandler() {

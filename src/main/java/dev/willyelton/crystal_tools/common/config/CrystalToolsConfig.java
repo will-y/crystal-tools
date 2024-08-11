@@ -68,6 +68,13 @@ public class CrystalToolsConfig {
     public static ModConfigSpec.IntValue SPEED_UPGRADE_SUBTRACT_TICKS;
     public static ModConfigSpec.DoubleValue EXPERIENCE_BOOST_PERCENTAGE;
 
+    // Generator
+    public static ModConfigSpec.IntValue BASE_FE_GENERATION;
+    public static ModConfigSpec.IntValue BASE_FE_STORAGE;
+    public static ModConfigSpec.IntValue BASE_FE_TRANSFER;
+    public static ModConfigSpec.IntValue FE_GENERATION_PER_LEVEL;
+    public static ModConfigSpec.IntValue FE_STORAGE_PER_LEVEL;
+
     // Backpack
     public static ModConfigSpec.EnumValue<CrystalBackpackInventory.SortType> BACKPACK_SORT_TYPE;
     public static ModConfigSpec.IntValue BACKPACK_BASE_EXPERIENCE_CAP;
@@ -164,6 +171,20 @@ public class CrystalToolsConfig {
                 .defineInRange("speed_upgrade_subtract_ticks", 10, 1, 1000);
         EXPERIENCE_BOOST_PERCENTAGE = builder.comment("Percentage increase for experience gained from smelting items. EXP_GAINED = EXP_IN_FURNACE * (1 + EXPERIENCE_BOOST_PERCENTAGE * EXPERIENCE BOOST LEVELS)")
                 .defineInRange("experience_boost_percentage", 0.1F, 0, 1000);
+        builder.pop();
+
+        // Generator
+        builder.comment("Crystal generator options").push("generator");
+        BASE_FE_GENERATION = builder.comment("Base FE generation per tick")
+                .defineInRange("base_fe_generation", 40, 1, 1000000);
+        BASE_FE_STORAGE = builder.comment("Base FE the crystal generator can store")
+                .defineInRange("base_fe_storage", 10000, 1, 1000000);
+        BASE_FE_TRANSFER = builder.comment("Base FE transfer per tick")
+                .defineInRange("base_fe_transfer", 80, 1, 1000000);
+        FE_GENERATION_PER_LEVEL = builder.comment("FE gained per level of FE Generation")
+                .defineInRange("fe_generation_per_level", 10, 1, 1000000);
+        FE_STORAGE_PER_LEVEL = builder.comment("FE gained per level of FE Capacity")
+                .defineInRange("fe_storage_per_level", 2000, 1, 1000000);
         builder.pop();
 
         // Backpack

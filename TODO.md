@@ -1,6 +1,8 @@
 # TODO List
 ## Features
 ### New Levelable Things
+- Bow
+  - Add looting (IItemExtension#supportsEnchantment)
 - Shield
 - Backpack
   - Trash (separate filters?)
