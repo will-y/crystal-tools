@@ -14,7 +14,10 @@
             {
               "function": "minecraft:copy_components",
               "include": [
-                "crystal_tools:levelable_block_entity_data"
+                "crystal_tools:levelable_block_entity_data",
+                "crystal_tools:generator_data",
+                "crystal_tools:generator_upgrades",
+                "minecraft:container"
               ],
               "source": "block_entity"
             }

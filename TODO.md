@@ -57,6 +57,7 @@
 - Advancements
 - https://jademc.readthedocs.io/en/latest/plugins20/getting-started/
 - Rename furnace and rocket skill trees to be consistent (I guess breaking)
+- Look at mekanism vein mining, might want to call playerBreak.
 
 ## Bugs
 - Furnace skill screen doesn't fully refresh when open when point is gained

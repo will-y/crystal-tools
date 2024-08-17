@@ -39,7 +39,11 @@ public class CrystalToolsLootTables extends VanillaBlockLoot {
                 DataComponents.FURNACE_UPGRADES.get(),
                 DataComponents.LEVELABLE_BLOCK_ENTITY_DATA.get(),
                 DataComponents.FURNACE_INVENTORY.get());
-        createComponentSavingTable(Registration.CRYSTAL_GENERATOR.get(), DataComponents.LEVELABLE_BLOCK_ENTITY_DATA.get());
+        createComponentSavingTable(Registration.CRYSTAL_GENERATOR.get(),
+                DataComponents.LEVELABLE_BLOCK_ENTITY_DATA.get(),
+                DataComponents.GENERATOR_DATA.get(),
+                DataComponents.GENERATOR_UPGRADES.get(),
+                net.minecraft.core.component.DataComponents.CONTAINER);
     }
 
     @Override

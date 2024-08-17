@@ -1,0 +1,76 @@
+{
+  "values": {
+    "crystal_tools:crystal": {
+      "bonusGeneration": 100,
+      "burnTime": 10800
+    },
+    "crystal_tools:crystal_block": {
+      "bonusGeneration": 100,
+      "burnTime": 97200
+    },
+    "minecraft:amethyst_block": {
+      "bonusGeneration": 20,
+      "burnTime": 16200
+    },
+    "minecraft:amethyst_shard": {
+      "bonusGeneration": 20,
+      "burnTime": 1800
+    },
+    "minecraft:dark_prismarine": {
+      "bonusGeneration": 20,
+      "burnTime": 14400
+    },
+    "minecraft:diamond": {
+      "bonusGeneration": 80,
+      "burnTime": 5400
+    },
+    "minecraft:diamond_block": {
+      "bonusGeneration": 80,
+      "burnTime": 48600
+    },
+    "minecraft:emerald": {
+      "bonusGeneration": 40,
+      "burnTime": 3600
+    },
+    "minecraft:emerald_block": {
+      "bonusGeneration": 40,
+      "burnTime": 32400
+    },
+    "minecraft:lapis_block": {
+      "bonusGeneration": 20,
+      "burnTime": 16200
+    },
+    "minecraft:lapis_lazuli": {
+      "bonusGeneration": 20,
+      "burnTime": 1800
+    },
+    "minecraft:prismarine": {
+      "bonusGeneration": 20,
+      "burnTime": 7200
+    },
+    "minecraft:prismarine_bricks": {
+      "bonusGeneration": 20,
+      "burnTime": 16200
+    },
+    "minecraft:prismarine_crystals": {
+      "bonusGeneration": 20,
+      "burnTime": 1800
+    },
+    "minecraft:prismarine_shard": {
+      "bonusGeneration": 20,
+      "burnTime": 1800
+    },
+    "minecraft:quartz": {
+      "bonusGeneration": 20,
+      "burnTime": 1800
+    },
+    "minecraft:quartz_bricks": {
+      "bonusGeneration": 20,
+      "burnTime": 7200
+    },
+    "minecraft:quartz_pillar": {
+      "bonusGeneration": 20,
+      "burnTime": 7200
+    }
+  }
+}

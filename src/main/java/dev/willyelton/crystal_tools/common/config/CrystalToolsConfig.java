@@ -74,6 +74,8 @@ public class CrystalToolsConfig {
     public static ModConfigSpec.IntValue BASE_FE_TRANSFER;
     public static ModConfigSpec.IntValue FE_GENERATION_PER_LEVEL;
     public static ModConfigSpec.IntValue FE_STORAGE_PER_LEVEL;
+    public static ModConfigSpec.DoubleValue FOOD_BURN_TIME_MULTIPLIER;
+    public static ModConfigSpec.DoubleValue SKILL_POINTS_PER_BURN_TIME;
 
     // Backpack
     public static ModConfigSpec.EnumValue<CrystalBackpackInventory.SortType> BACKPACK_SORT_TYPE;
@@ -185,6 +187,10 @@ public class CrystalToolsConfig {
                 .defineInRange("fe_generation_per_level", 10, 1, 1000000);
         FE_STORAGE_PER_LEVEL = builder.comment("FE gained per level of FE Capacity")
                 .defineInRange("fe_storage_per_level", 2000, 1, 1000000);
+        FOOD_BURN_TIME_MULTIPLIER = builder.comment("The formula for food burn time is: (Nutrition + Saturation) * FOOD_BURN_TIME_MULTIPLIER")
+                .defineInRange("food_burn_time_multiplier", 20F, 0.01F, 10000F);
+        SKILL_POINTS_PER_BURN_TIME = builder.comment("Determines how much skill experience you get from burning items. Skill Exp = Fuel Burn Time * SKILL_POINTS_PER_BURN_TIME (Rounded Up)")
+                        .defineInRange("skill_points_per_burn_time", 0.00625F, 0F, 1F);
         builder.pop();
 
         // Backpack

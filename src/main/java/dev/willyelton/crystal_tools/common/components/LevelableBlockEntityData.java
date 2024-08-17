@@ -6,6 +6,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 
+import java.util.Arrays;
 import java.util.List;
 
 public record LevelableBlockEntityData(int skillPoints, List<Integer> points, int exp, int expCap) {
@@ -22,4 +23,8 @@ public record LevelableBlockEntityData(int skillPoints, List<Integer> points, in
             ByteBufCodecs.INT, LevelableBlockEntityData::exp,
             ByteBufCodecs.INT, LevelableBlockEntityData::expCap,
             LevelableBlockEntityData::new);
+
+    public LevelableBlockEntityData(int skillPoints) {
+        this(skillPoints, Arrays.stream(new int[100]).boxed().toList(), 0,0);
+    }
 }

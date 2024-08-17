@@ -13,13 +13,11 @@ import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
 
 public class CrystalElytraRecipe extends CrystalToolsRecipe {
-
     public CrystalElytraRecipe(CraftingBookCategory category) {
         super(category);
     }
@@ -43,15 +41,15 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
                     return false;
                 foundElytra = true;
             } else if (!itemStack.isEmpty()) {
-            return false;
-        }
+                return false;
+            }
         }
 
         return foundChestplate && foundElytra;
     }
 
     @Override
-    public @NotNull ItemStack assemble(CraftingInput container, HolderLookup.Provider registryAccess) {
+    public ItemStack assemble(CraftingInput container, HolderLookup.Provider registryAccess) {
         ItemStack stack = new ItemStack(Registration.CRYSTAL_ELYTRA.get());
         List<ItemStack> items = this.getItems(container);
 
@@ -91,7 +89,7 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
     }
 
     @Override
-    public @NotNull RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return Registration.CRYSTAL_ELYTRA_RECIPE.get();
     }
 

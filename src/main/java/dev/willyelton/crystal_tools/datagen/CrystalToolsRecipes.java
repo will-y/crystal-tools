@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.datagen;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.crafting.CrystalAIOTRecipe;
 import dev.willyelton.crystal_tools.common.crafting.CrystalElytraRecipe;
+import dev.willyelton.crystal_tools.common.crafting.CrystalGeneratorRecipe;
 import dev.willyelton.crystal_tools.common.crafting.ItemDisabledCondition;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
@@ -226,6 +227,10 @@ public class CrystalToolsRecipes extends RecipeProvider {
         SpecialRecipeBuilder
                 .special(CrystalElytraRecipe::new)
                 .save(recipeOutput, Registration.CRYSTAL_ELYTRA.getId().toString());
+
+        SpecialRecipeBuilder
+                .special(CrystalGeneratorRecipe::new)
+                .save(recipeOutput, Registration.CRYSTAL_GENERATOR_ITEM.getId().toString());
     }
 
     private void buildConditionalRecipe(RecipeOutput recipeOutput, ShapedRecipeBuilder builder, ResourceLocation conditionItem) {

@@ -1,7 +1,11 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity;
 
 import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.common.components.GeneratorData;
+import dev.willyelton.crystal_tools.common.components.GeneratorUpgrades;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
+import dev.willyelton.crystal_tools.common.datamap.DataMaps;
+import dev.willyelton.crystal_tools.common.datamap.GeneratorFuelData;
 import dev.willyelton.crystal_tools.common.energy.CrystalEnergyStorage;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalGeneratorContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalFurnaceBlock;
@@ -18,6 +22,7 @@ import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
@@ -28,13 +33,14 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements MenuProvider {
-    public static final int DATA_SIZE = 4;
+    public static final int DATA_SIZE = 5;
     private static final int SIZE = 1;
 
     // Item storage
@@ -61,6 +67,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
     // Base generator things
     private int litTime;
     private int litTotalTime;
+    private ItemStack burnedItem = ItemStack.EMPTY;
 
     public CrystalGeneratorBlockEntity(BlockPos pos, BlockState state) {
         super(Registration.CRYSTAL_GENERATOR_BLOCK_ENTITY.get(), pos, state);
@@ -98,6 +105,9 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
 
         this.litTime = tag.getInt("LitTime");
         this.litTotalTime = tag.getInt("LitTotalTime");
+        if (tag.contains("BurnedItem")) {
+            this.burnedItem = ItemStack.parse(registries, tag.get("BurnedItem")).orElse(ItemStack.EMPTY);
+        }
 
         // Upgrades
         this.addedFEGeneration = tag.getFloat("AddedFEGeneration");
@@ -122,7 +132,31 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         if (contents != null) {
             contents.copyInto(this.fuelItems);
         }
-        // TODO: Get everything
+
+        GeneratorUpgrades generatorUpgrades = componentInput.get(dev.willyelton.crystal_tools.common.components.DataComponents.GENERATOR_UPGRADES);
+
+        if (generatorUpgrades != null) {
+            this.addedFEGeneration = generatorUpgrades.feGeneration();
+            this.fuelEfficiency = generatorUpgrades.fuelEfficiency();
+            this.addedFEStorage = generatorUpgrades.feStorage();
+            this.redstoneControl = generatorUpgrades.redstoneControl();
+            this.saveFuel = generatorUpgrades.saveFuel();
+            this.metalGenerator = generatorUpgrades.metalGenerator();
+            this.foodGenerator = generatorUpgrades.foodGenerator();
+            this.gemGenerator = generatorUpgrades.gemGenerator();
+        }
+
+        GeneratorData generatorData = componentInput.get(dev.willyelton.crystal_tools.common.components.DataComponents.GENERATOR_DATA);
+        if (generatorData != null) {
+            this.litTime = generatorData.litTime();
+            this.litTotalTime = generatorData.litTotalTime();
+            this.burnedItem = generatorData.burnedItem();
+
+            int energy = generatorData.energy();
+            this.energyStorage = new CrystalEnergyStorage(baseFEStorage + (int) addedFEStorage, 0, baseFETransfer + (int) addedFEGeneration * 2, energy);
+        } else {
+            this.energyStorage = new CrystalEnergyStorage(baseFEStorage + (int) addedFEStorage, 0, baseFETransfer + (int) addedFEGeneration * 2, 0);
+        }
     }
 
     @Override
@@ -131,6 +165,10 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         ContainerHelper.saveAllItems(tag, this.fuelItems, registries);
         tag.putInt("LitTime", this.litTime);
         tag.putInt("LitTotalTime", this.litTotalTime);
+
+        if (!burnedItem.isEmpty()) {
+            tag.put("BurnedItem", burnedItem.save(registries));
+        }
 
         tag.putFloat("AddedFEGeneration", this.addedFEGeneration);
         tag.putFloat("FuelEfficiency", this.fuelEfficiency);
@@ -150,7 +188,13 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
 
         ItemContainerContents contents = ItemContainerContents.fromItems(this.fuelItems);
         components.set(DataComponents.CONTAINER, contents);
-        // TODO: Store everything
+
+        GeneratorUpgrades generatorUpgrades = new GeneratorUpgrades((int) addedFEGeneration, fuelEfficiency, (int) addedFEStorage,
+                redstoneControl, saveFuel, metalGenerator, foodGenerator, gemGenerator);
+        components.set(dev.willyelton.crystal_tools.common.components.DataComponents.GENERATOR_UPGRADES, generatorUpgrades);
+
+        GeneratorData generatorData = new GeneratorData(litTime, litTotalTime, burnedItem, energyStorage.getEnergyStored());
+        components.set(dev.willyelton.crystal_tools.common.components.DataComponents.GENERATOR_DATA, generatorData);
     }
 
     @Override
@@ -183,6 +227,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
                 case 4 -> litTotalTime;
                 case 5 -> energyStorage.getEnergyStored();
                 case 6 -> energyStorage.getMaxEnergyStored();
+                case 7 -> litTime > 0 ? getGeneration(burnedItem) : 0;
                 default -> 0;
             };
         }
@@ -214,6 +259,11 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
             boolean canFitEnergy = energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored() >= getGeneration(ItemStack.EMPTY);
             if (canFitEnergy || !saveFuel) {
                 litTime--;
+
+                if (litTime <= 0) {
+                    this.burnedItem = ItemStack.EMPTY;
+                    needsChange = true;
+                }
             }
         }
 
@@ -223,9 +273,12 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         if (!this.isLit() && hasFuel) {
             this.litTime = this.getBurnDuration(fuelItemStack);
             this.litTotalTime = this.litTime;
+            this.burnedItem = fuelItemStack.copy();
 
+            // TODO: Something here to do the food leftover item?
             if (this.isLit()) {
                 needsChange = true;
+                addSkillExpFromBurn(this.litTotalTime);
                 if (fuelItemStack.hasCraftingRemainingItem()) {
                     fuelItems.set(0, fuelItemStack.getCraftingRemainingItem());
                 } else {
@@ -238,8 +291,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         }
 
         if (this.isLit()) {
-            // TODO: Store the currently burning fuel (needed for non furnace fuel stacks)
-            int generation = getGeneration(ItemStack.EMPTY);
+            int generation = getGeneration(burnedItem);
             if (energyStorage.canAdd(generation)) {
                 energyStorage.addEnergy(generation);
             }
@@ -272,7 +324,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
             return;
         }
 
-        int amountToTransfer = Math.min(this.baseFETransfer, energyStorage.getEnergyStored());
+        int amountToTransfer = Math.min(this.baseFETransfer + (int) this.addedFEGeneration * 2, energyStorage.getEnergyStored());
         int amountAdded = 0;
         boolean didTransfer = true;
 
@@ -310,13 +362,51 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         if (stack.isEmpty()) {
             return 0;
         } else {
-            // TODO: Some config for this?
+            GeneratorFuelData fuelData = getFuelData(stack);
+
+            if (fuelData != null) {
+                return (int) (fuelData.burnTime() * (1 + fuelEfficiency));
+            }
+
             return (int) (stack.getBurnTime(null) * (1 + fuelEfficiency));
         }
     }
 
     private int getGeneration(ItemStack burnedStack) {
-        return CrystalToolsConfig.BASE_FE_GENERATION.get() + (int) this.addedFEGeneration;
+        GeneratorFuelData fuelData = getFuelData(burnedStack);
+
+        int bonusGeneration = fuelData == null ? 0 : fuelData.bonusGeneration();
+
+        return CrystalToolsConfig.BASE_FE_GENERATION.get() + (int) this.addedFEGeneration + bonusGeneration;
+    }
+
+    private @Nullable GeneratorFuelData getFuelData(ItemStack stack) {
+        if (stack.isEmpty()) return null;
+
+        if (foodGenerator) {
+            FoodProperties foodData = stack.getFoodProperties(null);
+
+            if (foodData != null) {
+                return new GeneratorFuelData((int) (CrystalToolsConfig.FOOD_BURN_TIME_MULTIPLIER.get() * (foodData.nutrition() + foodData.saturation())), 0);
+            }
+        }
+
+        if (metalGenerator) {
+            GeneratorFuelData data = stack.getItemHolder().getData(DataMaps.GENERATOR_METALS);
+            if (data != null) {
+                return data;
+            }
+        }
+
+        if (gemGenerator) {
+            return stack.getItemHolder().getData(DataMaps.GENERATOR_GEMS);
+        }
+
+        return null;
+    }
+
+    private void addSkillExpFromBurn(int burnTime) {
+        this.addExp((int) Math.ceil(CrystalToolsConfig.SKILL_POINTS_PER_BURN_TIME.get() * burnTime));
     }
 
     public IItemHandler getFuelHandler() {

@@ -161,7 +161,7 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
                         Component.literal("+"),
                         pButton -> ModGUIs.openScreen(new BlockEntityUpgradeScreen(this.menu, this.menu.getPlayer(), this)),
                         (button, guiGraphics, mouseX, mouseY) -> {
-                            Component textComponent = Component.literal(this.menu.getSkillPoints() + " Points Available");
+                            Component textComponent = Component.literal(this.menu.getSkillPoints() + " Point(s) Available");
                             guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalFurnaceScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
                         },
                         false));

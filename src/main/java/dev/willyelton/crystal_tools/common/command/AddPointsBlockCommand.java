@@ -4,7 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalFurnaceBlockEntity;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.LevelableBlockEntity;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
@@ -32,8 +32,8 @@ public class AddPointsBlockCommand {
 
         BlockEntity blockEntity = level.getBlockEntity(pos);
 
-        if (blockEntity instanceof CrystalFurnaceBlockEntity crystalFurnaceBlockEntity) {
-            crystalFurnaceBlockEntity.addSkillPoints(points);
+        if (blockEntity instanceof LevelableBlockEntity levelableBlockEntity) {
+            levelableBlockEntity.addSkillPoints(points);
         }
 
         return 1;

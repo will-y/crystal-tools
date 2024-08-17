@@ -1,0 +1,28 @@
+{
+  "values": {
+    "minecraft:gold_block": {
+      "bonusGeneration": 10,
+      "burnTime": 24300
+    },
+    "minecraft:gold_ingot": {
+      "bonusGeneration": 10,
+      "burnTime": 2700
+    },
+    "minecraft:gold_nugget": {
+      "bonusGeneration": 10,
+      "burnTime": 300
+    },
+    "minecraft:iron_block": {
+      "bonusGeneration": 5,
+      "burnTime": 16200
+    },
+    "minecraft:iron_ingot": {
+      "bonusGeneration": 5,
+      "burnTime": 1800
+    },
+    "minecraft:iron_nugget": {
+      "bonusGeneration": 5,
+      "burnTime": 200
+    }
+  }
+}
