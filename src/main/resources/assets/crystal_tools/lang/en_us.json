@@ -87,5 +87,6 @@
   "crystal_tools.configuration.always_channel": "Always Channel Trident",
   "crystal_tools.configuration.require_crystal_for_reset": "Require Crystal for Reset",
   "crystal_tools.configuration.disable_rocket": "Disable Rocket",
-  "crystal_tools.configuration.experience_leveling_scaling": "Experience Leveling Scaling"
+  "crystal_tools.configuration.experience_leveling_scaling": "Experience Leveling Scaling",
+  "gui.crystal_tools.category.generator": "Crystal Generator Fuels"
 }

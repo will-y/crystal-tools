@@ -387,7 +387,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
             FoodProperties foodData = stack.getFoodProperties(null);
 
             if (foodData != null) {
-                return new GeneratorFuelData((int) (CrystalToolsConfig.FOOD_BURN_TIME_MULTIPLIER.get() * (foodData.nutrition() + foodData.saturation())), 0);
+                return new GeneratorFuelData(getBurnTimeFromFood(foodData), 0);
             }
         }
 
@@ -411,5 +411,9 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
 
     public IItemHandler getFuelHandler() {
         return fuelHandler;
+    }
+
+    public static int getBurnTimeFromFood(FoodProperties foodProperties) {
+        return (int) (CrystalToolsConfig.FOOD_BURN_TIME_MULTIPLIER.get() * (foodProperties.nutrition() + foodProperties.saturation()));
     }
 }
