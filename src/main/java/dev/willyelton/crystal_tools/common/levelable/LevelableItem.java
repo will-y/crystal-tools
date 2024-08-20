@@ -8,7 +8,6 @@ import dev.willyelton.crystal_tools.common.levelable.skill.SkillDataNode;
 import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
 import dev.willyelton.crystal_tools.utils.StringUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -19,6 +18,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
@@ -72,7 +72,7 @@ public interface LevelableItem {
         return ItemAttributeModifiers.EMPTY;
     }
 
-    default void appendLevelableHoverText(ItemStack stack, List<Component> components, LevelableItem item) {
+    default void appendLevelableHoverText(ItemStack stack, List<Component> components, LevelableItem item, TooltipFlag tooltipFlag) {
         if (item.isDisabled()) {
             components.add(Component.literal("\u00A7c\u00A7l" + "Disabled"));
             return;
@@ -115,8 +115,7 @@ public interface LevelableItem {
 
         addAdditionalTooltips(stack, components, item);
 
-        // TODO: This can actually get called on the server, neo is adding this to the context though soon
-        if (!Screen.hasShiftDown()) {
+        if (!tooltipFlag.hasShiftDown()) {
             components.add(Component.literal("<Hold Shift For Skills>"));
         } else {
             Map<String, Float> skills = new HashMap<>();

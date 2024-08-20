@@ -49,7 +49,7 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
-        appendLevelableHoverText(stack, components, this);
+        appendLevelableHoverText(stack, components, this, flag);
     }
 
     @Override
