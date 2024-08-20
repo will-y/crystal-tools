@@ -172,7 +172,7 @@ public class CrystalToolsConfig {
         SPEED_UPGRADE_SUBTRACT_TICKS = builder.comment("Ticks subtracted from the smelting time per duration of furnace speed")
                 .defineInRange("speed_upgrade_subtract_ticks", 10, 1, 1000);
         EXPERIENCE_BOOST_PERCENTAGE = builder.comment("Percentage increase for experience gained from smelting items. EXP_GAINED = EXP_IN_FURNACE * (1 + EXPERIENCE_BOOST_PERCENTAGE * EXPERIENCE BOOST LEVELS)")
-                .defineInRange("experience_boost_percentage", 0.1F, 0, 1000);
+                .defineInRange("experience_boost_percentage", 0.1D, 0, 1000);
         builder.pop();
 
         // Generator
@@ -183,14 +183,14 @@ public class CrystalToolsConfig {
                 .defineInRange("base_fe_storage", 10000, 1, 1000000);
         BASE_FE_TRANSFER = builder.comment("Base FE transfer per tick")
                 .defineInRange("base_fe_transfer", 80, 1, 1000000);
-        FE_GENERATION_PER_LEVEL = builder.comment("FE gained per level of FE Generation")
+        FE_GENERATION_PER_LEVEL = builder.comment("FE generation gained per level of FE Generation")
                 .defineInRange("fe_generation_per_level", 10, 1, 1000000);
         FE_STORAGE_PER_LEVEL = builder.comment("FE gained per level of FE Capacity")
                 .defineInRange("fe_storage_per_level", 2000, 1, 1000000);
         FOOD_BURN_TIME_MULTIPLIER = builder.comment("The formula for food burn time is: (Nutrition + Saturation) * FOOD_BURN_TIME_MULTIPLIER")
-                .defineInRange("food_burn_time_multiplier", 20F, 0.01F, 10000F);
+                .defineInRange("food_burn_time_multiplier", 20D, 0.01D, 10000F);
         SKILL_POINTS_PER_BURN_TIME = builder.comment("Determines how much skill experience you get from burning items. Skill Exp = Fuel Burn Time * SKILL_POINTS_PER_BURN_TIME (Rounded Up)")
-                        .defineInRange("skill_points_per_burn_time", 0.00625F, 0F, 1F);
+                        .defineInRange("skill_points_per_burn_time", 0.00625D, 0D, 1D);
         builder.pop();
 
         // Backpack

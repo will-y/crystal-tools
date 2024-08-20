@@ -14,6 +14,7 @@ You can also suggest features or ask questions there.
   - Acts as a normal torch just with a different texture
   - These can be placed with an upgrade on some tools
 - Crystal Furnace
+- Crystal Generator
 
 ## World Generation
 Deepslate Crystal Ore Generates Below Y -44 in veins of size 5.
@@ -187,6 +188,24 @@ There will be upgrades that are common to most tools, and tools will each get un
 - Auto Output
   - Automatically ejects output items to connected inventories
 
+## Generator
+- FE Generation
+  - Increases the FE per tick generated
+- Fuel Efficiency
+  - Increases the burntime of fuels
+- FE Capacity
+  - Increases the FE capacity
+- Redstone Control
+  - Allows you to turn off the generator with a redstone signal
+- Metal Generator
+  - Allows the generator to burn metals for FE
+- Food Generator
+  - Allows the generator to burn food for FE
+- Gem Generator
+  - Allows the generator to burn gems for FE
+- Save Fuel
+  - Doesn't waste fuel when there is no room to output FE
+
 ### Backpack
 - Capacity
   - Adds 9 more item slots
@@ -258,6 +277,11 @@ There will be upgrades that are common to most tools, and tools will each get un
 #### Furnace
 ![Crystal Furnace Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/furnace.png)
 
+#### Generator
+- Will transfer all skill points from the furnace used to craft it
+
+![Crystal Generator Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/generator.png)
+
 ### Misc
 #### Netherite Stick
 ![Netherite Stick Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/netherite_stick.png)
@@ -273,14 +297,13 @@ There will be upgrades that are common to most tools, and tools will each get un
 
 ## Config
 The following config options are available. The default values are in parentheses.
-You can change these values in `config/crystal_tools/toml`.
+You can change these values in `config/crystal_tools/toml` or in the in-game UI.
 
-### General
+### Common
+#### Experience Settings
 - `base_experience_cap` (75): Starting EXP requirements for Tools and Armor. Range: 1 - 10000.
 - `max_exp` (1000): The maximum amount of exp that can be required for the next level. Range 1 - 100000.
 - `experience_multiplier` (1.1): Multiplier for max experience to the next level. Range: 1.0 - 100.0.
-
-### Experience Boosts
 - `armor_experience_boost` (2.0): Multiplies how much experience Armor gets, experience is calculated by `EXP_GAINED` = DAMAGE_TAKEN * ARMOR_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.
 - `bow_experience_boost` (1.0): Multiplies how much experience Bows get, experience is calculated by `EXP_GAINED` = UNMITIGATED_DAMAGE_DONE * BOW_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.
 - `sword_experience_boost` (0.8): Multiplies how much experience Swords get, experience is calculated by `EXP_GAINED` = UNMITIGATED_DAMAGE_DONE * SWORD_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.
@@ -288,25 +311,20 @@ You can change these values in `config/crystal_tools/toml`.
 - `rocket_experience_boost` (5): Determines how much experience Rockets get per use. Range: 1 - 1000.
 - `apple_experience_boost` (0.5): Multiplies how much experience Apples get, experience is calculated by `EXP_GAINED` = (SATURATION * 2 + 1) * NUTRITION * APPLE_EXPERIENCE_BOOST. Range: 0.1 - 1000.0.
 - `furnace_experience_boost` (1): Multiplies how much experience Furnaces get, experience is calculated by `EXP_GAINED` = RECIPE_EXP * 10 * FURNACE_EXPERIENCE_BOOST. Range: 0.1 - 1000.0.
-- `fishing_rod_exp` (10): Determines how much experience you get for fish caught. Range 1 - 1000
+- `fishing_rod_exp` (10): Determines how much experience you get for fish caught. Range 1 - 1000.
+- `experience_leveling_scaling` (10): Number of levels in a tool before the experience level costs increases. Set to 0 to disable scaling. Range: 0 - 100.
+- `experience_per_skill_level` (10): Determines the number of experience levels you need to gain a level on a tool. Set to 0 to disable. Range: 0 - 100.
 
-### Repair
+#### Tool Settings
 - `tool_repair_cooldown` (50): Determines the cooldown between durability repairs for tools with the auto repair upgrade in ticks (20 ticks per second). Range: 1 - 10000.
 - `repair_in_hand` (false): If true, tools will auto repair while you are holding them
 - `rocket_repair_modifier` (10): Multiplied by TOOL_REPAIR_COOLDOWN to get the cooldown of the auto repair on the rocket. Range: 1 - 10000.
 - `apple_repair_modifier` (10): Multiplied by TOOL_REPAIR_COOLDOWN to get the cooldown of the auto repair on the apple. Range: 1 - 10000.
+- `vein_miner_range` (4): Determines the range of the vein miner upgrade on the shovel, pickaxe, and AIOT. It will mine blocks upo to this range away from the ore broken. Range 1 - 100.
+- `tree_chopper_range` (10): Determines the range of the tree chopper and tree stripper upgrade on the axe. It will mine logs up to this range away from the log broken. Range 1 - 100.
+- `always_channel` (true): If true, channeling Crystal Tridents will summon lightning even if they don't hit an entity.
 
-### Misc
-- `upgrade_screen_background` ("cracked_deepslate_tiles"): Determines the block texture to use for the background of the upgrade screen. Must be a vanilla block's resource location. [Here](https://minecraft.fandom.com/wiki/Java_Edition_data_values#Blocks) is a list of options from the wiki.
-- `enable_item_requirements` (true): Set to false to disable certain nodes from requiring items to upgrade.
-- `background_opacity` (1.0): Controls the background opacity of the skill tree screen. Range: 0 - 1.0.
-- `pause_screen` (true): Controls if the skill tree screen pauses the game or not in single-player.
-- `reach_increase` (0.5): The amount of reach you get for each level (in blocks). Range: 0.1 - 20.
-- `enchant_tools` (false): If true, tools will be enchantable. This could cause weird interactions and issues.
-- `experience_leveling_scaling` (10): Number of levels in a tool before the experience level costs increases. Set to 0 to disable scaling. Range: 0 - 100.
-- `experience_per_skill_level` (10): Determines the number of experience levels you need to gain a level on a tool. Set to 0 to disable. Range: 0 100.
-
-### Disable Tools
+#### Disable Tools
 - `disable_pickaxe` (false): Disables the Crystal Pickaxe
 - `disable_shovel` (false): Disables the Crystal Shovel
 - `disable_axe` (false): Disables the Crystal Axe
@@ -325,17 +343,35 @@ You can change these values in `config/crystal_tools/toml`.
 - `disable_trident` (false): Disables the Crystal Trident
 - `disable_fishing_rod` (false): Disables the Crystal Fishing Rod
 
-### Furnace
-- `fuel_efficiency_added_ticks` (100): Number of ticks that are added to each fuel piece per level of fuel efficiency
-- `speed_upgrade_subtract_ticks` (10): Number of ticks subtracted from every recipe's duration per level of furnace speed
-- `experience_boost_percentage` (0.1): Percentage increase of experience gained per level of experience boost
+#### Furnace Settings
+- `fuel_efficiency_added_ticks` (100): Number of ticks that are added to each fuel piece per level of fuel efficiency.
+- `speed_upgrade_subtract_ticks` (10): Number of ticks subtracted from every recipe's duration per level of furnace speed.
+- `experience_boost_percentage` (0.1): Percentage increase of experience gained per level of experience boost.
 
-### Backpack
+#### Generator Settings
+- `base_fe_generation` (40): Base FE generation per tick. Range: 1 - 1000000.
+- `base_fe_storage` (10000): Base FE the crystal generator can store. Range: 1 - 1000000.
+- `base_fe_transfer` (80): Base FE transfer per tick. Range: 1 - 1000000.
+- `fe_generation_per_level` (10): FE generation gained per level of FE Generation. Range: 1 - 1000000.
+- `fe_storage_per_level` (2000): FE storage gained per level of FE capacity. Range: 1 - 1000000.
+- `food_burn_time_multiplier` (20): The food burntime formula is: (`food_nutrition` + `food saturation`) * `food_burn_time_multiplier`. Range: 0.01 - 10000.
+- `skill_points_per_burn_time` (0.00625): Determines how much skill experience you get from burning items. `skill_exp` = `fuel_burn_time` * `skill_points_per_burn_time`. Range: 0 - 1.
+
+#### Backpack Settings
 - `backpack_sort_type` (QUANTITY): Sort method that the backpack uses. Can be one of: `QUANTITY`, `NAME`, `MOD`, or `ID`
 - `backpack_base_experience_cap` (200): Starting EXP requirements for the Backpack. Range: 1 - 10000.
+- `max_compression_slot_rows` (6): Maximum number of rows of compression slots. These slots will not scroll, so don't set it to larger than your gui scale can render. Range: 1 - 20.
 
-### Trident
-- `always_channel` (true): If true, channeling Crystal Tridents will summon lightning even if they don't hit an entity
+#### Miscellaneous Settings
+- `enable_item_requirements` (true): Set to false to disable certain nodes from requiring items to upgrade.
+- `require_crystal_for_reset` (true): Require a crystal item in your inventory for resetting skill points.
+- `reach_increase` (0.5): The amount of reach you get for each level (in blocks). Range: 0.1 - 20.
+- `enchant_tools` (false): If true, tools will be enchantable. This could cause weird interactions and issues.
+
+### Client
+- `upgrade_screen_background` ("cracked_deepslate_tiles"): Determines the block texture to use for the background of the upgrade screen. Must be a vanilla block's resource location. [Here](https://minecraft.fandom.com/wiki/Java_Edition_data_values#Blocks) is a list of options from the wiki.
+- `background_opacity` (1.0): Controls the background opacity of the skill tree screen. Range: 0 - 1.0.
+- `disable_block_target_rendering` (false): Disables the block highlighting for 3x3 mining and vein mining.
 
 ## Tags
 - `entity_types/entity_blacklist`: Entities that have this tag will not level up the sword, bow, or AIOT when attacked. Only entity to have it by default is the armor stand.

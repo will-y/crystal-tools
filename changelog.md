@@ -1,4 +1,40 @@
 # Crystal Tools Change Log
+## 2.1.0
+### Additions
+- Adds the Crystal Generator
+  - It will generate FE from burnable fuels and output it to adjacent blocks
+  - Can get the following upgrades:
+    - FE Generation
+      - Increases the FE per tick generated
+    - Fuel Efficiency
+      - Increases the burntime of fuels
+    - FE Capacity
+      - Increases the FE capacity
+    - Redstone Control
+      - Allows you to turn off the generator with a redstone signal
+    - Metal Generator
+      - Allows the generator to burn metals for FE
+    - Food Generator
+      - Allows the generator to burn food for FE
+    - Gem Generator
+      - Allows the generator to burn gems for FE
+    - Save Fuel
+      - Doesn't waste fuel when there is no room to output FE
+  - Currently still a work in progress, so please report and bugs or comment and suggestions!
+  - Has the following new config options:
+    - `base_fe_generation` (40): Base FE generation per tick. Range: 1 - 1000000.
+    - `base_fe_storage` (10000): Base FE the crystal generator can store. Range: 1 - 1000000.
+    - `base_fe_transfer` (80): Base FE transfer per tick. Range: 1 - 1000000.
+    - `fe_generation_per_level` (10): FE generation gained per level of FE Generation. Range: 1 - 1000000.
+    - `fe_storage_per_level` (2000): FE storage gained per level of FE capacity. Range: 1 - 1000000.
+    - `food_burn_time_multiplier` (20): The food burntime formula is: (`food_nutrition` + `food saturation`) * `food_burn_time_multiplier`. Range: 0.01 - 10000.
+    - `skill_points_per_burn_time` (0.00625): Determines how much skill experience you get from burning items. `skill_exp` = `fuel_burn_time` * `skill_points_per_burn_time`. Range: 0 - 1.
+
+### Changes
+- Updates to Neo 21.1.22
+- Now requires at least Neo 21.0.161
+- Adds Tooltips to furnaces and generators when you pick them up
+
 ## 2.0.1
 ### Changes
 - Updates to Neo 21.0.163

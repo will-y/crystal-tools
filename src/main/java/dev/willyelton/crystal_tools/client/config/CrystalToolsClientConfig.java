@@ -21,7 +21,7 @@ public class CrystalToolsClientConfig {
                 .define("upgrade_screen_background", "cracked_deepslate_tiles");
         BACKGROUND_OPACITY = builder.comment("Controls the opacity of the skill tree background")
                 .defineInRange("background_opacity", 0.1F, 0, 1.0F);
-        DISABLE_BLOCK_TARGET_RENDERING = builder.comment("Disables the block highlighting for 3x3 mining")
+        DISABLE_BLOCK_TARGET_RENDERING = builder.comment("Disables the block highlighting for 3x3 mining and vein mining")
                 .define("disable_block_target_rendering", false);
     }
 }

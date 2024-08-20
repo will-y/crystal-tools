@@ -19,4 +19,11 @@ public class ItemStackUtils {
         return itemStack1.is(itemStack2.getItem());
     }
 
+    public static String toString(ItemStack stack) {
+        if (stack.isEmpty()) {
+            return "Empty Stack";
+        }
+
+        return String.format("%d x %s", stack.getCount(), stack.getItem());
+    }
 }

@@ -11,14 +11,14 @@ public record GeneratorData(int litTime, int litTotalTime, ItemStack burnedItem,
     public static final Codec<GeneratorData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.INT.fieldOf("litTime").forGetter(GeneratorData::litTime),
             Codec.INT.fieldOf("litTotalTime").forGetter(GeneratorData::litTotalTime),
-            ItemStack.CODEC.fieldOf("burnedItem").forGetter(GeneratorData::burnedItem),
+            ItemStack.OPTIONAL_CODEC.fieldOf("burnedItem").forGetter(GeneratorData::burnedItem),
             Codec.INT.fieldOf("energy").forGetter(GeneratorData::energy)
     ).apply(instance, GeneratorData::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, GeneratorData> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT, GeneratorData::litTime,
             ByteBufCodecs.INT, GeneratorData::litTotalTime,
-            ItemStack.STREAM_CODEC, GeneratorData::burnedItem,
+            ItemStack.OPTIONAL_STREAM_CODEC, GeneratorData::burnedItem,
             ByteBufCodecs.INT, GeneratorData::energy,
             GeneratorData::new);
 }

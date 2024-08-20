@@ -23,7 +23,7 @@ public class CrystalGeneratorRecipe extends CrystalToolsRecipe {
     public boolean matches(CraftingInput input, Level level) {
         if (input.width() != 3 || input.height() != 3) return false;
 
-        if (input.getItem(0, 0).is(Items.REDSTONE_BLOCK) &&
+        return input.getItem(0, 0).is(Items.REDSTONE_BLOCK) &&
                 input.getItem(0, 1).is(Registration.CRYSTAL.get()) &&
                 input.getItem(0, 2).is(Items.REDSTONE_BLOCK) &&
                 input.getItem(1, 0).is(Registration.CRYSTAL.get()) &&
@@ -31,10 +31,7 @@ public class CrystalGeneratorRecipe extends CrystalToolsRecipe {
                 input.getItem(1, 2).is(Registration.CRYSTAL.get()) &&
                 input.getItem(2, 0).is(Items.REDSTONE_BLOCK) &&
                 input.getItem(2, 1).is(Registration.CRYSTAL.get()) &&
-                input.getItem(2, 2).is(Items.REDSTONE_BLOCK)) {
-                    return true;
-        }
-        return false;
+                input.getItem(2, 2).is(Items.REDSTONE_BLOCK);
     }
 
     @Override
@@ -45,7 +42,8 @@ public class CrystalGeneratorRecipe extends CrystalToolsRecipe {
 
         LevelableBlockEntityData furnaceData = furnaceItem.get(DataComponents.LEVELABLE_BLOCK_ENTITY_DATA);
         if (furnaceData != null) {
-            LevelableBlockEntityData generatorData = new LevelableBlockEntityData(furnaceData.skillPoints());
+            int spentPoints = furnaceData.points().stream().mapToInt(Integer::intValue).sum();
+            LevelableBlockEntityData generatorData = new LevelableBlockEntityData(furnaceData.skillPoints() + spentPoints);
             result.set(DataComponents.LEVELABLE_BLOCK_ENTITY_DATA, generatorData);
         }
 

@@ -87,6 +87,14 @@
   "crystal_tools.configuration.always_channel": "Always Channel Trident",
   "crystal_tools.configuration.require_crystal_for_reset": "Require Crystal for Reset",
   "crystal_tools.configuration.disable_rocket": "Disable Rocket",
+  "crystal_tools.configuration.generator": "Generator Settings",
   "crystal_tools.configuration.experience_leveling_scaling": "Experience Leveling Scaling",
+  "crystal_tools.configuration.base_fe_generation": "Base FE Generation",
+  "crystal_tools.configuration.base_fe_storage": "Base FE Storage",
+  "crystal_tools.configuration.base_fe_transfer": "Base FE Transfer",
+  "crystal_tools.configuration.fe_generation_per_level": "FE Generation Per Level",
+  "crystal_tools.configuration.fe_storage_per_level": "FE Storage Per Level",
+  "crystal_tools.configuration.food_burn_time_multiplier": "Food Burn Time Multiplier",
+  "crystal_tools.configuration.skill_points_per_burn_time": "Skill Points per Burn Time",
   "gui.crystal_tools.category.generator": "Crystal Generator Fuels"
 }

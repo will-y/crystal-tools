@@ -30,7 +30,7 @@ public class GeneratorRecipeCategory implements IRecipeCategory<GeneratorRecipe>
 
     public GeneratorRecipeCategory(IGuiHelper guiHelper) {
 
-        background = guiHelper.drawableBuilder(TEXTURE, 0, 0, 18, 34)
+        this.background = guiHelper.drawableBuilder(TEXTURE, 0, 0, 18, 34)
                 .addPadding(0, 0, 0, 20 + Minecraft.getInstance().font.width("Requires Upgrade: Metal Generator"))
                 .build();
 

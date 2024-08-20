@@ -23,4 +23,8 @@ public class StringUtils {
     public static String formatKey(String key) {
         return Arrays.stream(key.split("_")).map(StringUtils::capitalize).collect(Collectors.joining(" "));
     }
+
+    public static String formatPercent(float f) {
+        return Math.round(f * 100) + "%";
+    }
 }
