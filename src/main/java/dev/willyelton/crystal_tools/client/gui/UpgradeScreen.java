@@ -100,14 +100,22 @@ public class UpgradeScreen extends BaseUpgradeScreen {
     @Override
     protected void onSkillButtonPress(SkillDataNode node, Button button) {
         int skillPoints = getSkillPoints();
+        boolean shift = hasShiftDown();
+        boolean control = hasControlDown();
 
         if (skillPoints > 0) {
-            changeSkillPoints(-1);
-            PacketDistributor.sendToServer(new ToolAttributePayload(node.getKey(), node.getValue(), node.getId(), slotIndex));
-            node.addPoint();
+            int pointsToSpend = 1;
+            if (node.getLimit() == 0) {
+                pointsToSpend = getPointsToSpend(skillPoints, shift, control);
+            }
+
+            PacketDistributor.sendToServer(new ToolAttributePayload(node.getKey(), node.getValue(), node.getId(), slotIndex, pointsToSpend));
+            node.addPoint(pointsToSpend);
             if (node.isComplete()) {
                 ((SkillButton) button).setComplete();
             }
+
+            changeSkillPoints(-pointsToSpend);
         }
 
         super.onSkillButtonPress(node, button);
@@ -116,7 +124,7 @@ public class UpgradeScreen extends BaseUpgradeScreen {
     @Override
     protected void changeSkillPoints(int change) {
         DataComponents.addToComponent(stack, DataComponents.SKILL_POINTS, change);
-        PacketDistributor.sendToServer(new ToolAttributePayload("skill_points", change, -1, slotIndex));
+        PacketDistributor.sendToServer(new ToolAttributePayload("skill_points", change, -1, slotIndex, 1));
     }
 
     @Override

@@ -21,7 +21,6 @@ public class CrystalTools {
         // Register everything
         Registration.init(modEventBus);
 
-        // TODO: There should be some client only configs and maybe some server only ones
         // Register configs
         container.registerConfig(ModConfig.Type.COMMON, CrystalToolsConfig.GENERAL_SPEC, "crystal_tools.toml");
     }

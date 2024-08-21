@@ -169,7 +169,11 @@ public abstract class BaseUpgradeScreen extends Screen {
             String text;
 
             if (node.getLimit() == 0) {
+                int pointsToAdd = getPointsToSpend(Integer.MAX_VALUE, hasShiftDown(), hasControlDown());
                 text = String.format("%s\n%d Points", node.getDescription(), node.getPoints());
+                if (pointsToAdd > 1) {
+                    text = text + String.format("\n(+ %d Points)", pointsToAdd);
+                }
             } else {
                 text = String.format("%s\n%d/%d Points", node.getDescription(), node.getPoints(), node.getLimit());
             }
@@ -331,5 +335,17 @@ public abstract class BaseUpgradeScreen extends Screen {
         RenderSystem.setShaderColor(1f, 1f,1f, (float) CrystalToolsClientConfig.BACKGROUND_OPACITY.get().doubleValue());
         renderMenuBackgroundTexture(guiGraphics, blockResource, 0, 0, 0, 0, width, height);
         RenderSystem.setShaderColor(1f, 1f,1f, 1f);
+    }
+
+    protected int getPointsToSpend(int points, boolean shiftDown, boolean controlDown) {
+        if (controlDown && shiftDown) {
+            return Math.min(points, CrystalToolsClientConfig.CONTROL_POINT_SPEND.get() *  CrystalToolsClientConfig.SHIFT_POINT_SPEND.get());
+        } else if (controlDown) {
+            return Math.min(points, CrystalToolsClientConfig.CONTROL_POINT_SPEND.get());
+        } else if (shiftDown) {
+            return Math.min(points, CrystalToolsClientConfig.SHIFT_POINT_SPEND.get());
+        } else {
+            return 1;
+        }
     }
 }

@@ -190,7 +190,7 @@ public class CrystalToolsConfig {
         FOOD_BURN_TIME_MULTIPLIER = builder.comment("The formula for food burn time is: (Nutrition + Saturation) * FOOD_BURN_TIME_MULTIPLIER")
                 .defineInRange("food_burn_time_multiplier", 20D, 0.01D, 10000F);
         SKILL_POINTS_PER_BURN_TIME = builder.comment("Determines how much skill experience you get from burning items. Skill Exp = Fuel Burn Time * SKILL_POINTS_PER_BURN_TIME (Rounded Up)")
-                        .defineInRange("skill_points_per_burn_time", 0.00625D, 0D, 1D);
+                .defineInRange("skill_points_per_burn_time", 0.00625D, 0D, 1D);
         builder.pop();
 
         // Backpack

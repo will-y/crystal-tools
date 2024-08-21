@@ -29,6 +29,13 @@
     - `fe_storage_per_level` (2000): FE storage gained per level of FE capacity. Range: 1 - 1000000.
     - `food_burn_time_multiplier` (20): The food burntime formula is: (`food_nutrition` + `food saturation`) * `food_burn_time_multiplier`. Range: 0.01 - 10000.
     - `skill_points_per_burn_time` (0.00625): Determines how much skill experience you get from burning items. `skill_exp` = `fuel_burn_time` * `skill_points_per_burn_time`. Range: 0 - 1.
+- Adds the ability to add multiple skill points to an infinite node at a time
+  - Hold `Shift` to add 10 points by default
+  - Hold `Control` to add 100 points by default
+  - Hold both to add 1000 points by default
+  - Adds new config options for these values:
+    - `shift_point_spend` (10): Number of points to spend while you are holding shift. Range: 1 - 10000.
+    - `control_point_spend` (100): Number of points to spend while you are holding control. Range: 1 - 10000.
 
 ### Changes
 - Updates to Neo 21.1.22

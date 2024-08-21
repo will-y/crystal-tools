@@ -96,5 +96,7 @@
   "crystal_tools.configuration.fe_storage_per_level": "FE Storage Per Level",
   "crystal_tools.configuration.food_burn_time_multiplier": "Food Burn Time Multiplier",
   "crystal_tools.configuration.skill_points_per_burn_time": "Skill Points per Burn Time",
+  "crystal_tools.configuration.control_point_spend": "Control Point Spend",
+  "crystal_tools.configuration.shift_point_spend": "Shift Point Spend",
   "gui.crystal_tools.category.generator": "Crystal Generator Fuels"
 }

@@ -372,6 +372,8 @@ You can change these values in `config/crystal_tools/toml` or in the in-game UI.
 - `upgrade_screen_background` ("cracked_deepslate_tiles"): Determines the block texture to use for the background of the upgrade screen. Must be a vanilla block's resource location. [Here](https://minecraft.fandom.com/wiki/Java_Edition_data_values#Blocks) is a list of options from the wiki.
 - `background_opacity` (1.0): Controls the background opacity of the skill tree screen. Range: 0 - 1.0.
 - `disable_block_target_rendering` (false): Disables the block highlighting for 3x3 mining and vein mining.
+- `shift_point_spend` (10): Number of points to spend while you are holding shift. Range: 1 - 10000.
+- `control_point_spend` (100): Number of points to spend while you are holding control. Range: 1 - 10000.
 
 ## Tags
 - `entity_types/entity_blacklist`: Entities that have this tag will not level up the sword, bow, or AIOT when attacked. Only entity to have it by default is the armor stand.

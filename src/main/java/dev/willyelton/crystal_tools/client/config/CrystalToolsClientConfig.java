@@ -9,6 +9,9 @@ public class CrystalToolsClientConfig {
     public static ModConfigSpec.DoubleValue BACKGROUND_OPACITY;
     public static ModConfigSpec.BooleanValue DISABLE_BLOCK_TARGET_RENDERING;
 
+    public static ModConfigSpec.IntValue SHIFT_POINT_SPEND;
+    public static ModConfigSpec.IntValue CONTROL_POINT_SPEND;
+
     static {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
         setupClientConfig(builder);
@@ -23,5 +26,10 @@ public class CrystalToolsClientConfig {
                 .defineInRange("background_opacity", 0.1F, 0, 1.0F);
         DISABLE_BLOCK_TARGET_RENDERING = builder.comment("Disables the block highlighting for 3x3 mining and vein mining")
                 .define("disable_block_target_rendering", false);
+
+        SHIFT_POINT_SPEND = builder.comment("Number of points to spend while you are holding shift")
+                .defineInRange("shift_point_spend", 10, 1, 10000);
+        CONTROL_POINT_SPEND = builder.comment("Number of points to spend while you are holding control")
+                .defineInRange("control_point_spend", 100, 1, 10000);
     }
 }

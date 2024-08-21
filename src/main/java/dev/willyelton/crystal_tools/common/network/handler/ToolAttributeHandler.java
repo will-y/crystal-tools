@@ -26,6 +26,10 @@ public class ToolAttributeHandler {
             ItemStack heldTool = getItemStack(player, payload.slotIndex());
 
             if (!heldTool.isEmpty()) {
+                int skillPoints = heldTool.getOrDefault(DataComponents.SKILL_POINTS, 0);
+                if (skillPoints == 0) return;
+                int pointsToAdd = Math.min(skillPoints, payload.pointsToSpend());
+
                 ResourceKey<Enchantment> enchantment = enchantmentFromString(payload.key());
 
                 if (enchantment != null) {
@@ -48,12 +52,12 @@ public class ToolAttributeHandler {
                 } else if (payload.key().contains("effect_")) {
                     addEffectToList(heldTool, payload.key(), payload.value());
                 } else {
-                    DataComponents.addToComponent(heldTool, payload.key(), payload.value());
+                    DataComponents.addToComponent(heldTool, payload.key(), payload.value() * pointsToAdd);
                 }
 
                 // update the skill points array
                 if (payload.id() != -1) {
-                    DataComponents.addValueToArray(heldTool, DataComponents.POINTS_ARRAY, payload.id(), 1);
+                    DataComponents.addValueToArray(heldTool, DataComponents.POINTS_ARRAY, payload.id(), pointsToAdd);
                 }
             }
         });

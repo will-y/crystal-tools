@@ -42,17 +42,24 @@ public class BlockEntityUpgradeScreen extends BaseUpgradeScreen {
     @Override
     protected void onSkillButtonPress(SkillDataNode node, Button button) {
         int skillPoints = this.getSkillPoints();
+        boolean shift = hasShiftDown();
+        boolean control = hasControlDown();
 
         if (skillPoints > 0) {
-            changeSkillPoints(-1);
+            int pointsToSpend = 1;
+            if (node.getLimit() == 0) {
+                pointsToSpend = getPointsToSpend(skillPoints, shift, control);
+            }
             // Idk if this is a problem that this is int because it is just to sync client
-            this.container.addToPoints(node.getId(), (int) node.getValue());
+            this.container.addToPoints(node.getId(), (int) node.getValue() * pointsToSpend);
 
-            PacketDistributor.sendToServer(new BlockAttributePayload(node.getKey(), node.getValue(), node.getId()));
-            node.addPoint();
+            PacketDistributor.sendToServer(new BlockAttributePayload(node.getKey(), node.getValue(), node.getId(), pointsToSpend));
+            node.addPoint(pointsToSpend);
             if (node.isComplete()) {
                 ((SkillButton) button).setComplete();
             }
+
+            changeSkillPoints(-pointsToSpend);
         }
 
         super.onSkillButtonPress(node, button);
@@ -61,7 +68,7 @@ public class BlockEntityUpgradeScreen extends BaseUpgradeScreen {
     @Override
     protected void changeSkillPoints(int change) {
         this.container.addSkillPoints(change);
-        PacketDistributor.sendToServer(new BlockAttributePayload("skill_points", change, -1));
+        PacketDistributor.sendToServer(new BlockAttributePayload("skill_points", change, -1, 1));
     }
 
     @Override
