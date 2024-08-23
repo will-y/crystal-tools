@@ -32,10 +32,10 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class LevelableArmor extends ArmorItem implements LevelableItem, Equipable {
-    protected static final ResourceLocation ARMOR_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "armor");
-    protected static final ResourceLocation ARMOR_TOUGHNESS_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "armor_toughness");
-    protected static final ResourceLocation MAX_HEALTH_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "max_health");
-    protected static final ResourceLocation MOVEMENT_SPEED_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "movement_speed");
+    public static final ResourceLocation ARMOR_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "armor");
+    public static final ResourceLocation ARMOR_TOUGHNESS_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "armor_toughness");
+    public static final ResourceLocation MAX_HEALTH_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "max_health");
+    public static final ResourceLocation MOVEMENT_SPEED_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "movement_speed");
 
 
     protected final String itemType;
@@ -109,7 +109,7 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Equipabl
     }
 
     @Override
-    public boolean isFoil(@NotNull ItemStack stack) {
+    public boolean isFoil(ItemStack stack) {
         return false;
     }
 

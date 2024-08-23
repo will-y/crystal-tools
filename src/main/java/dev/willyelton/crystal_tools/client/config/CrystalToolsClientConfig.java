@@ -3,7 +3,7 @@ package dev.willyelton.crystal_tools.client.config;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class CrystalToolsClientConfig {
-    public static final ModConfigSpec CLIENT_SPEC;
+    public static final ModConfigSpec CLIENT_CONFIG;
 
     public static ModConfigSpec.ConfigValue<String> UPGRADE_SCREEN_BACKGROUND;
     public static ModConfigSpec.DoubleValue BACKGROUND_OPACITY;
@@ -15,7 +15,7 @@ public class CrystalToolsClientConfig {
     static {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
         setupClientConfig(builder);
-        CLIENT_SPEC = builder.build();
+        CLIENT_CONFIG = builder.build();
 
     }
 

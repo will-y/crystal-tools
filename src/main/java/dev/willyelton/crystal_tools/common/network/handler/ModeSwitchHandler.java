@@ -2,11 +2,11 @@ package dev.willyelton.crystal_tools.common.network.handler;
 
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
+import dev.willyelton.crystal_tools.common.config.CrystalToolsServerConfig;
 import dev.willyelton.crystal_tools.common.levelable.tool.UseMode;
 import dev.willyelton.crystal_tools.common.network.data.ModeSwitchPayload;
 import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -75,6 +75,13 @@ public class ModeSwitchHandler {
                 boolean riptideDisabled = tool.getOrDefault(DataComponents.RIPTIDE_DISABLED, false);
                 tool.set(DataComponents.RIPTIDE_DISABLED, !riptideDisabled);
                 player.displayClientMessage(Component.literal("Riptide " + (riptideDisabled ? "Enabled" : "Disabled")), true);
+            }
+
+            // Elytra
+            if (tool.getOrDefault(DataComponents.CREATIVE_FLIGHT, 0) >= CrystalToolsServerConfig.CREATIVE_FLIGHT_POINTS.get()) {
+                boolean creativeFlightDisabled = tool.getOrDefault(DataComponents.DISABLE_CREATIVE_FLIGHT, false);
+                tool.set(DataComponents.DISABLE_CREATIVE_FLIGHT, !creativeFlightDisabled);
+                player.displayClientMessage(Component.literal("Creative Flight " + (creativeFlightDisabled ? "Enabled" : "Disabled")), true);
             }
         });
     }

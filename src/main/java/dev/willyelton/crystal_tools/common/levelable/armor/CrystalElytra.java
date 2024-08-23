@@ -4,6 +4,7 @@ import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
+import dev.willyelton.crystal_tools.common.config.CrystalToolsServerConfig;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.network.chat.Component;
@@ -24,13 +25,13 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
-import org.jetbrains.annotations.NotNull;
+import net.neoforged.neoforge.common.NeoForgeMod;
 
 import java.util.List;
 import java.util.function.Consumer;
 
 public class CrystalElytra extends ElytraItem implements LevelableItem {
-    private static final ResourceLocation ELYTRA_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "elytra");
+    private static final ResourceLocation CREATIVE_FLIGHT_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "creative_flight");
 
     public CrystalElytra(Properties pProperties) {
         super(pProperties.fireResistant());
@@ -49,6 +50,10 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
+        if (stack.getOrDefault(DataComponents.DISABLE_CREATIVE_FLIGHT, false)) {
+            components.add(Component.literal("\u00A7c\u00A7l" + "Creative Flight Disabled"));
+        }
+
         appendLevelableHoverText(stack, components, this, flag);
     }
 
@@ -63,7 +68,12 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
     }
 
     @Override
-    public boolean elytraFlightTick(@NotNull ItemStack stack, net.minecraft.world.entity.LivingEntity entity, int flightTicks) {
+    public boolean canElytraFly(ItemStack stack, LivingEntity entity) {
+        return !canUseCreativeFlight(stack) && ElytraItem.isFlyEnabled(stack);
+    }
+
+    @Override
+    public boolean elytraFlightTick(ItemStack stack, LivingEntity entity, int flightTicks) {
         if (!entity.level().isClientSide) {
             int nextFlightTick = flightTicks + 1;
             if (nextFlightTick % 10 == 0) {
@@ -98,22 +108,32 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
     public ItemAttributeModifiers getLevelableAttributeModifiers(ItemStack stack) {
         ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
         if (!ToolUtils.isBroken(stack)) {
-            builder.add(Attributes.ARMOR, new AttributeModifier(ELYTRA_ID, this.getDefense(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST);
-            builder.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(ELYTRA_ID, this.getToughness(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST);
+            builder.add(Attributes.ARMOR, new AttributeModifier(LevelableArmor.ARMOR_ID, this.getDefense(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST);
+            builder.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(LevelableArmor.ARMOR_TOUGHNESS_ID, this.getToughness(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST);
             int health = stack.getOrDefault(DataComponents.HEALTH_BONUS, 0);
             if (health > 0) {
-                builder.add(Attributes.MAX_HEALTH, new AttributeModifier(ELYTRA_ID, health, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST);
+                builder.add(Attributes.MAX_HEALTH, new AttributeModifier(LevelableArmor.MAX_HEALTH_ID, health, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST);
             }
 
             float speedBonus = stack.getOrDefault(DataComponents.SPEED_BONUS, 0F) / 5;
             if (speedBonus > 0) {
-                builder.add(Attributes.MOVEMENT_SPEED, new AttributeModifier(ELYTRA_ID, speedBonus, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), EquipmentSlotGroup.CHEST);
+                builder.add(Attributes.MOVEMENT_SPEED, new AttributeModifier(LevelableArmor.MOVEMENT_SPEED_ID, speedBonus, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), EquipmentSlotGroup.CHEST);
+            }
+
+            if (canUseCreativeFlight(stack)) {
+                builder.add(NeoForgeMod.CREATIVE_FLIGHT, new AttributeModifier(CREATIVE_FLIGHT_ID, 1, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST);
+
             }
 
             return builder.build();
         } else {
             return ItemAttributeModifiers.builder().build();
         }
+    }
+
+    public static boolean canUseCreativeFlight(ItemStack stack) {
+        return !stack.getOrDefault(DataComponents.DISABLE_CREATIVE_FLIGHT, false) &&
+                stack.getOrDefault(DataComponents.CREATIVE_FLIGHT, 0) >= CrystalToolsServerConfig.CREATIVE_FLIGHT_POINTS.get();
     }
 
     public int getDefense(ItemStack stack) {
@@ -136,7 +156,7 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
     }
 
     @Override
-    public void inventoryTick(@NotNull ItemStack stack, @NotNull Level level, @NotNull Entity entity, int inventorySlot, boolean inHand) {
+    public void inventoryTick(ItemStack stack, Level level, Entity entity, int inventorySlot, boolean inHand) {
         if (this.isDisabled()) {
             stack.shrink(1);
         }
@@ -150,12 +170,17 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
     }
 
     @Override
-    public boolean isEnchantable(@NotNull ItemStack stack) {
+    public boolean isEnchantable(ItemStack stack) {
         return CrystalToolsConfig.ENCHANT_TOOLS.get();
     }
 
     @Override
     public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
         return CrystalToolsConfig.ENCHANT_TOOLS.get();
+    }
+
+    @Override
+    public boolean isFoil(ItemStack stack) {
+        return false;
     }
 }

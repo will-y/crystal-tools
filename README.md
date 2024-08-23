@@ -146,6 +146,7 @@ There will be upgrades that are common to most tools, and tools will each get un
 
 ### Elytra
 - Durability + Unbreaking
+- Creative Flight
 
 ### Rocket
 - Flight Duration
@@ -374,6 +375,9 @@ You can change these values in `config/crystal_tools/toml` or in the in-game UI.
 - `disable_block_target_rendering` (false): Disables the block highlighting for 3x3 mining and vein mining.
 - `shift_point_spend` (10): Number of points to spend while you are holding shift. Range: 1 - 10000.
 - `control_point_spend` (100): Number of points to spend while you are holding control. Range: 1 - 10000.
+
+### Server
+- `creative_flight_points` (100): The number of points you need to have in the creative flight node for it to enable. Range: 1 - 1000000.
 
 ## Tags
 - `entity_types/entity_blacklist`: Entities that have this tag will not level up the sword, bow, or AIOT when attacked. Only entity to have it by default is the armor stand.

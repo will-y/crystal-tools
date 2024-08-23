@@ -12,7 +12,7 @@ import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 @Mod(value = CrystalTools.MODID, dist = Dist.CLIENT)
 public class CrystalToolsClient {
     public CrystalToolsClient(ModContainer modContainer) {
-        modContainer.registerConfig(ModConfig.Type.CLIENT, CrystalToolsClientConfig.CLIENT_SPEC);
+        modContainer.registerConfig(ModConfig.Type.CLIENT, CrystalToolsClientConfig.CLIENT_CONFIG);
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
     }
 }

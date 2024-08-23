@@ -36,6 +36,11 @@
   - Adds new config options for these values:
     - `shift_point_spend` (10): Number of points to spend while you are holding shift. Range: 1 - 10000.
     - `control_point_spend` (100): Number of points to spend while you are holding control. Range: 1 - 10000.
+- Adds the creative flight ability to the crystal elytra!
+  - If you spend 100 (by default) points in the creative flight node, your elytra will allow you to fly like you were in creative mode
+  - Can be disabled with the mode switch key while you are holding the crystal elytra
+  - Adds new config option:
+    - `creative_flight_points` (100): The number of points you need to have in the creative flight node for it to enable. Range: 1 - 1000000.
 
 ### Changes
 - Updates to Neo 21.1.22

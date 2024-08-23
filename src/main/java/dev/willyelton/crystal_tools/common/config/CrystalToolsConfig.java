@@ -4,7 +4,7 @@ import dev.willyelton.crystal_tools.common.inventory.CrystalBackpackInventory;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class CrystalToolsConfig {
-    public static final ModConfigSpec GENERAL_SPEC;
+    public static final ModConfigSpec COMMON_CONFIG;
 
     // Config things, basic tool things
     public static ModConfigSpec.IntValue BASE_EXPERIENCE_CAP;
@@ -88,7 +88,7 @@ public class CrystalToolsConfig {
     static {
         ModConfigSpec.Builder configBuilder = new ModConfigSpec.Builder();
         setupConfig(configBuilder);
-        GENERAL_SPEC = configBuilder.build();
+        COMMON_CONFIG = configBuilder.build();
     }
 
     private static void setupConfig(ModConfigSpec.Builder builder) {

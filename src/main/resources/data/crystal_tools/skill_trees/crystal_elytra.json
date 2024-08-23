@@ -347,6 +347,19 @@
         "key": "thorns_bonus",
         "value": 3
       }
+    ],
+    [
+      {
+        "id": 30,
+        "name": "Creative Flight",
+        "description": "Gives you the ability to fly. Activates after 100 (configurable) points are added here.",
+        "limit": 0,
+        "requirements": [
+          {"node": [23, 24, 25, 29]}
+        ],
+        "key": "creative_flight",
+        "value": 1
+      }
     ]
   ]
 }
