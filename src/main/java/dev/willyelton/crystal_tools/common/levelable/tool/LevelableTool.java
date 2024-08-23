@@ -37,6 +37,8 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public abstract class LevelableTool extends TieredItem implements LevelableItem {
+    protected static final ResourceLocation ATTACK_DAMAGE_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "attack_damage");
+    protected static final ResourceLocation ATTACK_SPEED_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "attack_speed");
     protected static final ResourceLocation ATTACK_KNOCKBACK_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "attack_knockback");
     protected static final ResourceLocation KNOCKBACK_RESISTANCE_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "knockback_resistance");
     protected static final ResourceLocation REACH_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "reach");
@@ -231,12 +233,12 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
 
             float attackDamage = stack.getOrDefault(DataComponents.DAMAGE_BONUS, 0F);
             if (attackDamage > 0) {
-                builder.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ID, attackDamage, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
+                builder.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_ID, attackDamage, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
             }
 
             float attackSpeed = stack.getOrDefault(DataComponents.ATTACK_SPEED, 0F);
             if (attackSpeed > 0) {
-                builder.add(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_ID, attackSpeed, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
+                builder.add(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_ID, attackSpeed, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
             }
 
             float attackKnockback = stack.getOrDefault(DataComponents.KNOCKBACK, 0F);

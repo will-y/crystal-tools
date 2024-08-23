@@ -40,7 +40,12 @@
 ### Changes
 - Updates to Neo 21.1.22
 - Now requires at least Neo 21.0.161
-- Adds Tooltips to furnaces and generators when you pick them up
+- Furnaces and generators now show skills and items when in item form
+
+## Fixes
+- Fixes attack speed and attack damage upgrades not working correctly
+- Fixes possible issue with armor attributes
+- Fixed an issue where armor pieces were giving double base armor and toughness
 
 ## 2.0.1
 ### Changes

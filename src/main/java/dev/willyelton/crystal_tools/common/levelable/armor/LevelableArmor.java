@@ -32,6 +32,12 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class LevelableArmor extends ArmorItem implements LevelableItem, Equipable {
+    protected static final ResourceLocation ARMOR_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "armor");
+    protected static final ResourceLocation ARMOR_TOUGHNESS_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "armor_toughness");
+    protected static final ResourceLocation MAX_HEALTH_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "max_health");
+    protected static final ResourceLocation MOVEMENT_SPEED_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "movement_speed");
+
+
     protected final String itemType;
 
     public LevelableArmor(String itemType, ArmorItem.Type type) {
@@ -43,17 +49,16 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Equipabl
     public ItemAttributeModifiers getLevelableAttributeModifiers(ItemStack stack) {
         ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
         if (!ToolUtils.isBroken(stack)) {
-            ResourceLocation resourceLocation = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "armor." + getItemType());
-            builder.add(Attributes.ARMOR, new AttributeModifier(resourceLocation, this.getDefense(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(getEquipmentSlot()));
-            builder.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(resourceLocation, this.getToughness(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(getEquipmentSlot()));
+            builder.add(Attributes.ARMOR, new AttributeModifier(ARMOR_ID, this.getDefense(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(getEquipmentSlot()));
+            builder.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(ARMOR_TOUGHNESS_ID, this.getToughness(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(getEquipmentSlot()));
             int health = stack.getOrDefault(DataComponents.HEALTH_BONUS, 0);
             if (health > 0) {
-                builder.add(Attributes.MAX_HEALTH, new AttributeModifier(resourceLocation, health, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(getEquipmentSlot()));
+                builder.add(Attributes.MAX_HEALTH, new AttributeModifier(MAX_HEALTH_ID, health, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(getEquipmentSlot()));
             }
 
             float speedBonus = stack.getOrDefault(DataComponents.SPEED_BONUS, 0F) / 5;
             if (speedBonus > 0) {
-                builder.add(Attributes.MOVEMENT_SPEED, new AttributeModifier(resourceLocation, speedBonus, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), EquipmentSlotGroup.bySlot(getEquipmentSlot()));
+                builder.add(Attributes.MOVEMENT_SPEED, new AttributeModifier(MOVEMENT_SPEED_ID, speedBonus, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), EquipmentSlotGroup.bySlot(getEquipmentSlot()));
             }
 
             return builder.build();
@@ -64,11 +69,11 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Equipabl
 
     // Attributes
     public int getDefense(ItemStack stack) {
-        return this.getDefense() + stack.getOrDefault(DataComponents.ARMOR_BONUS, 0);
+        return stack.getOrDefault(DataComponents.ARMOR_BONUS, 0);
     }
 
     public float getToughness(ItemStack stack) {
-        return this.getToughness() + stack.getOrDefault(DataComponents.TOUGHNESS_BONUS, 0F);
+        return stack.getOrDefault(DataComponents.TOUGHNESS_BONUS, 0F);
     }
 
     @Override
