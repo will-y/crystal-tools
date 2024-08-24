@@ -14,10 +14,12 @@
       - Allows you to turn off the generator with a redstone signal
     - Metal Generator
       - Allows the generator to burn metals for FE
+      - Currently works with all vanilla metals and any item with the `ingot` tag
     - Food Generator
       - Allows the generator to burn food for FE
     - Gem Generator
       - Allows the generator to burn gems for FE
+      - Currently works with all vanilla gems and any item with the `gem` tag
     - Save Fuel
       - Doesn't waste fuel when there is no room to output FE
   - Currently still a work in progress, so please report and bugs or comment and suggestions!

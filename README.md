@@ -200,10 +200,16 @@ There will be upgrades that are common to most tools, and tools will each get un
   - Allows you to turn off the generator with a redstone signal
 - Metal Generator
   - Allows the generator to burn metals for FE
+  - Currently works with all vanilla metals and any item with the `ingot` tag
+    - If you want specific mod compatability, leave a comment or issue and I can add it
+    - See [DataMaps](#Datamaps) for how to add custom entries
 - Food Generator
   - Allows the generator to burn food for FE
 - Gem Generator
   - Allows the generator to burn gems for FE
+  - Currently works with all vanilla gems and any item with the `gem` tag
+    - If you want specific mod compatability, leave a comment or issue and I can add it
+    - See [DataMaps](#Datamaps) for how to add custom entries
 - Save Fuel
   - Doesn't waste fuel when there is no room to output FE
 
@@ -379,8 +385,13 @@ You can change these values in `config/crystal_tools/toml` or in the in-game UI.
 ### Server
 - `creative_flight_points` (100): The number of points you need to have in the creative flight node for it to enable. Range: 1 - 1000000.
 
+### Datapack options
+There are a couple of features that can be customized using datapacks.
+
 ## Tags
 - `entity_types/entity_blacklist`: Entities that have this tag will not level up the sword, bow, or AIOT when attacked. Only entity to have it by default is the armor stand.
+
+More information on tags and datapacks can be found [here](https://minecraft.fandom.com/wiki/Tag).
 
 ### Example
 Add a file `entity_blacklist.json` in a datapack in the location `crystal_tools/tags/entity_types` that looks like:
@@ -391,4 +402,37 @@ Add a file `entity_blacklist.json` in a datapack in the location `crystal_tools/
   ]
 }
 ```
-More information on tags and datapacks can be found [here](https://minecraft.fandom.com/wiki/Tag).
+
+## Datamaps
+- `generator_gems`: Controls the gems that can be burned with the gem generator upgrade in the crystal generator.
+- `generator_metals`: Controls the gems that can be burned with the gem generator upgrade in the crystal generator.
+
+More information on datamaps can be found [here](https://docs.neoforged.net/docs/resources/server/datamaps/).
+
+### Examples
+#### Adding a modded gem
+Add a file `generator_gems.json` in a datapack in the location `crystal_tools/data_maps/item` that looks like:
+```json
+{
+  "values": {
+    "ae2:certus_quartz_crystal": {
+      "bonusGeneration": 5,
+      "burnTime": 1600
+    }
+  }
+}
+```
+Where `bonusGeneration` is the generator added on top of the base from the generator and `burnTime` is the total burn time in ticks.
+
+#### Changing the value of an existing gem
+```json
+{
+  "values": {
+    "replace": true,
+    "minecraft:diamond": {
+      "bonusGeneration": 1000,
+      "burnTime": 16000
+    }
+  }
+}
+```
