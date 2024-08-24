@@ -201,15 +201,15 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
     protected void addToExtraData(String key, float value) {
         switch (key) {
             case "fe_generation" -> {
-                int generationToAdd = (int) value * CrystalToolsConfig.FE_GENERATION_PER_LEVEL.get();
+                float generationToAdd = value * CrystalToolsConfig.FE_GENERATION_PER_LEVEL.get();
                 this.addedFEGeneration += generationToAdd;
-                this.energyStorage.setMaxExtract(this.energyStorage.getMaxExtract() + generationToAdd * 2);
+                this.energyStorage.setMaxExtract(this.energyStorage.getMaxExtract() + (int) generationToAdd * 2);
             }
             case "fuel_efficiency" -> this.fuelEfficiency += value;
             case "fe_capacity" -> {
-                int storageToAdd = (int) value * CrystalToolsConfig.FE_STORAGE_PER_LEVEL.get();
+                float storageToAdd = value * CrystalToolsConfig.FE_STORAGE_PER_LEVEL.get();
                 this.addedFEStorage += storageToAdd;
-                this.energyStorage.setCapacity(this.energyStorage.getMaxEnergyStored() + storageToAdd);
+                this.energyStorage.setCapacity(this.energyStorage.getMaxEnergyStored() + (int) storageToAdd);
             }
             case "redstone_control" -> this.redstoneControl = value == 1F;
             case "save_fuel" -> this.saveFuel = value == 1F;
