@@ -6,6 +6,7 @@ import dev.willyelton.crystal_tools.common.datamap.GeneratorFuelData;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.Items;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.DataMapProvider;
 
 import java.util.concurrent.CompletableFuture;
@@ -37,8 +38,8 @@ public class CrystalToolsDataMaps extends DataMapProvider {
                 .add(Items.DARK_PRISMARINE.builtInRegistryHolder(), new GeneratorFuelData(14400, 20), false)
                 .add(Items.QUARTZ_BRICKS.builtInRegistryHolder(), new GeneratorFuelData(7200, 20), false)
                 .add(Items.QUARTZ_PILLAR.builtInRegistryHolder(), new GeneratorFuelData(7200, 20), false)
+                .add(Tags.Items.GEMS, new GeneratorFuelData(800, 5), false)
                 // TODO: Add to some mods with conditions
-                // TODO: Maybe add gem tag and see what it does
                 .build();
 
         builder(DataMaps.GENERATOR_METALS)

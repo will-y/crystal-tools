@@ -1,5 +1,9 @@
 {
   "values": {
+    "#c:gems": {
+      "bonusGeneration": 5,
+      "burnTime": 800
+    },
     "crystal_tools:crystal": {
       "bonusGeneration": 100,
       "burnTime": 10800
