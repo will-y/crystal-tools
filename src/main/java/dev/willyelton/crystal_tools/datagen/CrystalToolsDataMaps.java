@@ -49,6 +49,9 @@ public class CrystalToolsDataMaps extends DataMapProvider {
                 .add(Items.GOLD_INGOT.builtInRegistryHolder(), new GeneratorFuelData(2700, 10), false)
                 .add(Items.GOLD_BLOCK.builtInRegistryHolder(), new GeneratorFuelData(24300, 10), false)
                 .add(Items.GOLD_NUGGET.builtInRegistryHolder(), new GeneratorFuelData(300, 10), false)
+                .add(Items.NETHERITE_INGOT.builtInRegistryHolder(), new GeneratorFuelData(10800, 100), false)
+                .add(Items.NETHERITE_BLOCK.builtInRegistryHolder(), new GeneratorFuelData(97200, 100), false)
+                .add(Tags.Items.INGOTS, new GeneratorFuelData(800, 5), false)
                 .build();
     }
 }
