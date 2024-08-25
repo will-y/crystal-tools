@@ -189,7 +189,7 @@ There will be upgrades that are common to most tools, and tools will each get un
 - Auto Output
   - Automatically ejects output items to connected inventories
 
-## Generator
+### Generator
 - FE Generation
   - Increases the FE per tick generated
 - Fuel Efficiency
