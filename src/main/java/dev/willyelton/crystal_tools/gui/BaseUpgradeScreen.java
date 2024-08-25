@@ -1,7 +1,12 @@
 package dev.willyelton.crystal_tools.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
+import dev.willyelton.crystal_tools.config.CrystalToolsClientConfig;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.gui.component.XpButton;
@@ -150,11 +155,13 @@ public abstract class BaseUpgradeScreen extends Screen {
         this.addSkillButton(new SkillButton(x, y, X_SIZE, Y_SIZE, Component.literal(node.getName()), (button) -> {
             this.onSkillButtonPress(node, button);
         }, (button, guiGraphics, mouseX, mouseY) -> {
-            String text;
-            if (node.getType().equals(SkillNodeType.INFINITE) && node.getPoints() > 0) {
-                text = node.getDescription() + "\n" + node.getPoints() + " Points";
-            } else {
-                text = node.getDescription();
+            String text = node.getDescription();
+            if (node.getType().equals(SkillNodeType.INFINITE)) {
+                int pointsToAdd = getPointsToSpend(Integer.MAX_VALUE, hasShiftDown(), hasControlDown());
+                text = String.format("%s\n%d Points", node.getDescription(), node.getPoints());
+                if (pointsToAdd > 1) {
+                    text = text + String.format("\n(+ %d Points)", pointsToAdd);
+                }
             }
 
             Component textComponent = Component.literal(text);
@@ -298,5 +305,17 @@ public abstract class BaseUpgradeScreen extends Screen {
         tesselator.end();
         // Might still need this?
 //        net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.ScreenEvent.BackgroundDrawnEvent(this, new PoseStack()));
+    }
+
+    protected int getPointsToSpend(int points, boolean shiftDown, boolean controlDown) {
+        if (controlDown && shiftDown) {
+            return Math.min(points, CrystalToolsClientConfig.CONTROL_POINT_SPEND.get() *  CrystalToolsClientConfig.SHIFT_POINT_SPEND.get());
+        } else if (controlDown) {
+            return Math.min(points, CrystalToolsClientConfig.CONTROL_POINT_SPEND.get());
+        } else if (shiftDown) {
+            return Math.min(points, CrystalToolsClientConfig.SHIFT_POINT_SPEND.get());
+        } else {
+            return 1;
+        }
     }
 }

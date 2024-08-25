@@ -4,7 +4,7 @@ import dev.willyelton.crystal_tools.inventory.CrystalBackpackInventory;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 public class CrystalToolsConfig {
-    public static final ForgeConfigSpec GENERAL_SPEC;
+    public static final ForgeConfigSpec COMMON_SPEC;
 
     // Config things, basic tool things
     public static ForgeConfigSpec.IntValue BASE_EXPERIENCE_CAP;
@@ -82,7 +82,7 @@ public class CrystalToolsConfig {
     static {
         ForgeConfigSpec.Builder configBuilder = new ForgeConfigSpec.Builder();
         setupConfig(configBuilder);
-        GENERAL_SPEC = configBuilder.build();
+        COMMON_SPEC = configBuilder.build();
     }
 
     private static void setupConfig(ForgeConfigSpec.Builder builder) {

@@ -679,5 +679,9 @@ public class CrystalFurnaceBlockEntity extends BlockEntity implements WorldlyCon
 
         return false;
     }
+
+    public int getSkillPoints() {
+        return skillPoints;
+    }
 }
 

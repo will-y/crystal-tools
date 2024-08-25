@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools;
 
 import dev.willyelton.crystal_tools.command.RegisterCommandEvent;
+import dev.willyelton.crystal_tools.config.CrystalToolsClientConfig;
 import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.crafting.ItemDisabledCondition;
 import dev.willyelton.crystal_tools.crafting.ModRecipes;
@@ -43,7 +44,8 @@ public class CrystalTools {
         Registration.init();
 
         // Register configs
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CrystalToolsConfig.GENERAL_SPEC, "crystal_tools.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CrystalToolsConfig.COMMON_SPEC, "crystal_tools.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, CrystalToolsClientConfig.CLIENT_SPEC, "crystal_tools-client.toml");
 
         // Register Custom Recipes
         ModRecipes.initRecipes();

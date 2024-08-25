@@ -337,6 +337,10 @@ You can change these values in `config/crystal_tools/toml`.
 ### Trident
 - `always_channel` (true): If true, channeling Crystal Tridents will summon lightning even if they don't hit an entity
 
+### Client
+- `shift_point_spend` (10): Number of points to spend while you are holding shift. Range: 1 - 10000.
+- `control_point_spend` (100): Number of points to spend while you are holding control. Range: 1 - 10000.
+
 ## Tags
 - `entity_types/entity_blacklist`: Entities that have this tag will not level up the sword, bow, or AIOT when attacked. Only entity to have it by default is the armor stand.
 

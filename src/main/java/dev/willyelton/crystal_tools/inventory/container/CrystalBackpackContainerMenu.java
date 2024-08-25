@@ -202,6 +202,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         return itemstack;
     }
 
+    // TODO: Fix in superclass
     private ItemStack quickMoveToCompression(ItemStack stack) {
         if (!stack.isEmpty()) {
             for (CompressionInputSlot inputSlot : compressionInputSlots) {
@@ -431,7 +432,6 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
             // First time
             setUpSlots();
         }
-
     }
 
     @Override

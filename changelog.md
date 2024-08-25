@@ -1,4 +1,14 @@
 # Crystal Tools Change Log
+## 1.7.6
+### Additions
+- Adds the ability to add multiple skill points to an infinite node at a time
+  - Hold `Shift` to add 10 points by default
+  - Hold `Control` to add 100 points by default
+  - Hold both to add 1000 points by default
+  - Adds new config options for these values:
+    - `shift_point_spend` (10): Number of points to spend while you are holding shift. Range: 1 - 10000.
+    - `control_point_spend` (100): Number of points to spend while you are holding control. Range: 1 - 10000.
+
 ## 1.7.5
 ### Fixes
 - Fixes not being able to open backpacks in curios slots with the hotkey

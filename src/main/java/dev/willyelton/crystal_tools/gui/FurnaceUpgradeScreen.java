@@ -4,6 +4,7 @@ import dev.willyelton.crystal_tools.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.inventory.container.CrystalFurnaceContainerMenu;
 import dev.willyelton.crystal_tools.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.levelable.skill.SkillDataNode;
+import dev.willyelton.crystal_tools.levelable.skill.SkillNodeType;
 import dev.willyelton.crystal_tools.levelable.skill.SkillTreeRegistry;
 import dev.willyelton.crystal_tools.network.packet.BlockAttributePacket;
 import dev.willyelton.crystal_tools.network.PacketHandler;
@@ -32,11 +33,6 @@ public class FurnaceUpgradeScreen extends BaseUpgradeScreen {
     }
 
     @Override
-    public boolean isPauseScreen() {
-        return false;
-    }
-
-    @Override
     public void onClose() {
         this.minecraft.popGuiLayer();
         this.minecraft.setScreen(this.screen);
@@ -45,17 +41,25 @@ public class FurnaceUpgradeScreen extends BaseUpgradeScreen {
     @Override
     protected void onSkillButtonPress(SkillDataNode node, Button button) {
         int skillPoints = this.getSkillPoints();
+        boolean shift = hasShiftDown();
+        boolean control = hasControlDown();
 
         if (skillPoints > 0) {
-            changeSkillPoints(-1);
-            // Idk if this is a problem that this is int because it is just to sync client
-            this.container.addToPoints(node.getId(), (int) node.getValue());
+            int pointsToSpend = 1;
+            if (node.getType() == SkillNodeType.INFINITE) {
+                pointsToSpend = getPointsToSpend(skillPoints, shift, control);
+            }
 
-            PacketHandler.sendToServer(new BlockAttributePacket(node.getKey(), node.getValue(), node.getId()));
-            node.addPoint();
+            // Idk if this is a problem that this is int because it is just to sync client
+            this.container.addToPoints(node.getId(), (int) node.getValue() * pointsToSpend);
+
+            PacketHandler.sendToServer(new BlockAttributePacket(node.getKey(), node.getValue(), node.getId(), pointsToSpend));
+            node.addPoint(pointsToSpend);
             if (node.isComplete()) {
                 ((SkillButton) button).setComplete();
             }
+
+            changeSkillPoints(-pointsToSpend);
         }
 
         super.onSkillButtonPress(node, button);
@@ -64,7 +68,7 @@ public class FurnaceUpgradeScreen extends BaseUpgradeScreen {
     @Override
     protected void changeSkillPoints(int change) {
         this.container.addSkillPoints(change);
-        PacketHandler.sendToServer(new BlockAttributePacket("skill_points", change, -1));
+        PacketHandler.sendToServer(new BlockAttributePacket("skill_points", change, -1, 1));
     }
 
     @Override

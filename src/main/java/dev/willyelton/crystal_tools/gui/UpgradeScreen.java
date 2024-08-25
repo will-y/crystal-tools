@@ -5,6 +5,7 @@ import dev.willyelton.crystal_tools.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.levelable.CrystalBackpack;
 import dev.willyelton.crystal_tools.levelable.skill.SkillDataNode;
+import dev.willyelton.crystal_tools.levelable.skill.SkillNodeType;
 import dev.willyelton.crystal_tools.network.PacketHandler;
 import dev.willyelton.crystal_tools.network.packet.RemoveItemPacket;
 import dev.willyelton.crystal_tools.network.packet.ResetSkillsPacket;
@@ -103,14 +104,22 @@ public class UpgradeScreen extends BaseUpgradeScreen {
     @Override
     protected void onSkillButtonPress(SkillDataNode node, Button button) {
         int skillPoints = (int) NBTUtils.getFloatOrAddKey(tag, "skill_points");
+        boolean shift = hasShiftDown();
+        boolean control = hasControlDown();
 
         if (skillPoints > 0) {
-            changeSkillPoints(-1);
-            PacketHandler.sendToServer(new ToolAttributePacket(node.getKey(), node.getValue(), node.getId(), slotIndex));
-            node.addPoint();
+            int pointsToSpend = 1;
+            if (node.getType() == SkillNodeType.INFINITE) {
+                pointsToSpend = getPointsToSpend(skillPoints, shift, control);
+            }
+
+            PacketHandler.sendToServer(new ToolAttributePacket(node.getKey(), node.getValue(), node.getId(), slotIndex, pointsToSpend));
+            node.addPoint(pointsToSpend);
             if (node.isComplete()) {
                 ((SkillButton) button).setComplete();
             }
+
+            changeSkillPoints(-pointsToSpend);
         }
 
         super.onSkillButtonPress(node, button);
@@ -119,7 +128,7 @@ public class UpgradeScreen extends BaseUpgradeScreen {
     @Override
     protected void changeSkillPoints(int change) {
         NBTUtils.addValueToTag(tag, "skill_points", change);
-        PacketHandler.sendToServer(new ToolAttributePacket("skill_points", change, -1, slotIndex));
+        PacketHandler.sendToServer(new ToolAttributePacket("skill_points", change, -1, slotIndex, 1));
     }
 
     @Override
