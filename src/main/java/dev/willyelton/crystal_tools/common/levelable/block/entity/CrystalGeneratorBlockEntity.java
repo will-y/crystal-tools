@@ -150,7 +150,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         if (generatorData != null) {
             this.litTime = generatorData.litTime();
             this.litTotalTime = generatorData.litTotalTime();
-            this.burnedItem = generatorData.burnedItem();
+            this.burnedItem = generatorData.burnedItem().copy();
 
             int energy = generatorData.energy();
             this.energyStorage = new CrystalEnergyStorage(baseFEStorage + (int) addedFEStorage, 0, baseFETransfer + (int) addedFEGeneration * 2, energy);
@@ -193,7 +193,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
                 redstoneControl, saveFuel, metalGenerator, foodGenerator, gemGenerator);
         components.set(dev.willyelton.crystal_tools.common.components.DataComponents.GENERATOR_UPGRADES, generatorUpgrades);
 
-        GeneratorData generatorData = new GeneratorData(litTime, litTotalTime, burnedItem, energyStorage.getEnergyStored());
+        GeneratorData generatorData = new GeneratorData(litTime, litTotalTime, burnedItem.copy(), energyStorage.getEnergyStored());
         components.set(dev.willyelton.crystal_tools.common.components.DataComponents.GENERATOR_DATA, generatorData);
     }
 

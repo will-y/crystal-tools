@@ -11,6 +11,8 @@ import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
 
 public abstract class BaseContainerMenu extends AbstractContainerMenu {
+    protected static final int SLOT_SIZE = 18;
+
     protected final InvWrapper playerInventory;
     protected final Player player;
     protected final ContainerData data;

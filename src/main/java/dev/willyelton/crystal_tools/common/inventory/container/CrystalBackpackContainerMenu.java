@@ -36,7 +36,6 @@ import static dev.willyelton.crystal_tools.common.inventory.container.CrystalBac
 public class CrystalBackpackContainerMenu extends BaseContainerMenu implements ScrollableMenu {
     public static final int START_Y = 18;
     private static final int START_X = 8;
-    private static final int SLOT_SIZE = 18;
     private static final int SLOTS_PER_ROW = 9;
     public static final int FILTER_SLOTS_PER_ROW = 9;
 
