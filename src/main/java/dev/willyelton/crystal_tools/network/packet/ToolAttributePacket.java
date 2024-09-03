@@ -54,6 +54,10 @@ public class ToolAttributePacket {
         ItemStack heldTool = getItemStack(playerEntity, this.slotIndex);
 
         if (!heldTool.isEmpty()) {
+            if (this.id == - 1) {
+                NBTUtils.addValueToTag(heldTool, this.key, this.value);
+                return;
+            }
             int skillPoints = (int) NBTUtils.getFloatOrAddKey(heldTool, "skill_points");
             if (skillPoints == 0) return;
             int pointsToAdd = Math.min(skillPoints, this.pointsToSpend);
@@ -80,9 +84,7 @@ public class ToolAttributePacket {
             }
 
             // update the skill points array
-            if (this.id != -1) {
-                NBTUtils.addValueToArray(heldTool, "points", this.id, pointsToAdd);
-            }
+            NBTUtils.addValueToArray(heldTool, "points", this.id, pointsToAdd);
         }
     }
 

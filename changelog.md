@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 1.7.7
+### Fixes
+- Fixes adding points with experience not working correctly
+
 ## 1.7.6
 ### Additions
 - Adds the ability to add multiple skill points to an infinite node at a time
