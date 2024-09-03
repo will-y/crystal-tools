@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 2.1.1
+### Fixes
+- Fixes adding points with experience not working correctly
+
 ## 2.1.0
 ### Additions
 - Adds the Crystal Generator

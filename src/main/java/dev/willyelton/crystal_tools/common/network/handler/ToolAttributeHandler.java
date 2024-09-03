@@ -26,6 +26,11 @@ public class ToolAttributeHandler {
             ItemStack heldTool = getItemStack(player, payload.slotIndex());
 
             if (!heldTool.isEmpty()) {
+                if (payload.id() == -1) {
+                    DataComponents.addToComponent(heldTool, payload.key(), payload.value());
+                    return;
+                }
+
                 int skillPoints = heldTool.getOrDefault(DataComponents.SKILL_POINTS, 0);
                 if (skillPoints == 0) return;
                 int pointsToAdd = Math.min(skillPoints, payload.pointsToSpend());
@@ -56,9 +61,8 @@ public class ToolAttributeHandler {
                 }
 
                 // update the skill points array
-                if (payload.id() != -1) {
-                    DataComponents.addValueToArray(heldTool, DataComponents.POINTS_ARRAY, payload.id(), pointsToAdd);
-                }
+                DataComponents.addValueToArray(heldTool, DataComponents.POINTS_ARRAY, payload.id(), pointsToAdd);
+
             }
         });
     }
