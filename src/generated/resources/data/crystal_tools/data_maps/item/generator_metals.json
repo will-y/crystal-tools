@@ -1,5 +1,9 @@
 {
   "values": {
+    "#c:ingots": {
+      "bonusGeneration": 5,
+      "burnTime": 800
+    },
     "minecraft:gold_block": {
       "bonusGeneration": 10,
       "burnTime": 24300
@@ -23,6 +27,14 @@
     "minecraft:iron_nugget": {
       "bonusGeneration": 5,
       "burnTime": 200
+    },
+    "minecraft:netherite_block": {
+      "bonusGeneration": 100,
+      "burnTime": 97200
+    },
+    "minecraft:netherite_ingot": {
+      "bonusGeneration": 100,
+      "burnTime": 10800
     }
   }
 }

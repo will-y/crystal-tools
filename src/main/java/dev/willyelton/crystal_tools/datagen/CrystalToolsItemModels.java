@@ -23,6 +23,7 @@ public class CrystalToolsItemModels extends ItemModelProvider {
         withExistingParent(Registration.CRYSTAL_DEEPSLATE_ORE.getId().getPath(), modLoc("block/crystal_deepslate_ore"));
         withExistingParent(Registration.CRYSTAL_FURNACE.getId().getPath(), modLoc("block/crystal_furnace"));
         withExistingParent(Registration.CRYSTAL_GENERATOR.getId().getPath(), modLoc("block/crystal_generator"));
+        withExistingParent(Registration.CRYSTAL_QUARRY.getId().getPath(), modLoc("block/crystal_quarry"));
         withExistingParent(Registration.CRYSTAL_TORCH.getId().getPath(), mcLoc("item/generated"))
                 .texture("layer0", modLoc("block/crystal_torch"));
 

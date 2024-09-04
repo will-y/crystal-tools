@@ -22,6 +22,7 @@ public class CrystalToolsBlockTags extends BlockTagsProvider {
                 Registration.CRYSTAL_ORE.get(),
                 Registration.CRYSTAL_DEEPSLATE_ORE.get(),
                 Registration.CRYSTAL_FURNACE.get(),
-                Registration.CRYSTAL_GENERATOR.get());
+                Registration.CRYSTAL_GENERATOR.get(),
+                Registration.CRYSTAL_QUARRY.get());
     }
 }

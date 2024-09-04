@@ -17,13 +17,14 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 
 public class CrystalQuarryBlock extends BaseEntityBlock {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
-    public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
+    public static final BooleanProperty ACTIVE = BlockStateProperties.LIT;
     public static final MapCodec<CrystalQuarryBlock> CODEC = simpleCodec(CrystalQuarryBlock::new);
 
     public CrystalQuarryBlock(Properties properties) {
