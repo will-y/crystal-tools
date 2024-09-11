@@ -19,17 +19,20 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.ArrowItem;
+import net.minecraft.world.item.BowItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.ForgeHooks;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 public class BowLevelableItem extends BowItem implements LevelableItem {
     public BowLevelableItem() {
@@ -149,24 +152,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     }
 
     public ItemStack getProjectile(ItemStack pShootable, Player player) {
-        if (!(pShootable.getItem() instanceof BowLevelableItem)) {
-            return ItemStack.EMPTY;
-        } else {
-            Predicate<ItemStack> predicate = getAllSupportedProjectiles();
-            ItemStack itemstack = ProjectileWeaponItem.getHeldProjectile(player, predicate);
-            if (!itemstack.isEmpty()) {
-                return ForgeHooks.getProjectile(player, pShootable, itemstack);
-            } else {
-                for(int i = 0; i < player.getInventory().getContainerSize(); ++i) {
-                    ItemStack itemstack1 = player.getInventory().getItem(i);
-                    if (predicate.test(itemstack1)) {
-                        return ForgeHooks.getProjectile(player, pShootable, itemstack1);
-                    }
-                }
-
-                return ForgeHooks.getProjectile(player, pShootable, player.getAbilities().instabuild ? new ItemStack(Items.ARROW) : ItemStack.EMPTY);
-            }
-        }
+        return player.getProjectile(pShootable);
     }
 
     @Override

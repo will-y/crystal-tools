@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 1.7.8
+### Fixes
+- Fixes crystal bow not working correctly with the Supplementaries quiver
+
 ## 1.7.7
 ### Fixes
 - Fixes adding points with experience not working correctly
