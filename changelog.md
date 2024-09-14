@@ -1,6 +1,6 @@
 # Crystal Tools Change Log
 ## 1.7.9
-## Fixes
+### Fixes
 - Fixes other fishing rods being broken
 
 ## 1.7.8
