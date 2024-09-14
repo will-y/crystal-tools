@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 2.1.2
+### Fixes
+- Fixes other fishing rods being broken
+
 ## 2.1.1
 ### Fixes
 - Fixes adding points with experience not working correctly
