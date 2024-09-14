@@ -15,7 +15,7 @@ public class CrystalToolsRenderType extends RenderType {
             256,
             false,
             false,
-            RenderType.CompositeState.builder()
+            RenderType.CompositeState.builder().shader
                     .setShaderState(ShaderStateShard.POSITION_COLOR_SHADER)
                     .setLayeringState(VIEW_OFFSET_Z_LAYERING)
                     .setTransparencyState(TRANSLUCENT_TRANSPARENCY)

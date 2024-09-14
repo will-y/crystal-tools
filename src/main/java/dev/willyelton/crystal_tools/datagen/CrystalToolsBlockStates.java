@@ -27,6 +27,12 @@ public class CrystalToolsBlockStates extends BlockStateProvider {
         registerMachineBlock(Registration.CRYSTAL_FURNACE, "crystal_furnace");
         registerMachineBlock(Registration.CRYSTAL_GENERATOR, "crystal_generator");
         registerMachineBlock(Registration.CRYSTAL_QUARRY, "crystal_quarry");
+
+        BlockModelBuilder quarryStabilizerBuilder = models().getBuilder(Registration.QUARRY_STABILIZER.getId().getPath())
+                .parent(models().getExistingFile(mcLoc("block/template_torch")))
+                .renderType("cutout")
+                .texture("torch", modLoc("block/crystal_torch"));
+        simpleBlock(Registration.QUARRY_STABILIZER.get(), quarryStabilizerBuilder);
     }
 
     private void registerCrystalTorch() {

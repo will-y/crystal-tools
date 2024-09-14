@@ -1,4 +1,4 @@
-// 1.21.1	2024-09-03T20:45:01.4802393	Item Models: crystal_tools
+// 1.21.1	2024-09-03T21:09:09.9685212	Item Models: crystal_tools
 cf7d10e3346cf7c4a77fe6e285deab4d542b73d5 assets/crystal_tools/models/item/crystal.json
 fbc32cccc6c3666086e083d767db164226c8f5e9 assets/crystal_tools/models/item/crystal_aiot.json
 fc5c466807626ebba61df59c2f4c32ea20cc293c assets/crystal_tools/models/item/crystal_apple.json
@@ -31,3 +31,4 @@ f8982b696d936b5fc6dd442305b784ff69bf1d36 assets/crystal_tools/models/item/crysta
 5d05547fe23a73c427e5efe3b415dd99d36b3605 assets/crystal_tools/models/item/crystal_trident_inventory.json
 ea4392ed8d0cc3a6bec714e51b8bdae53801148e assets/crystal_tools/models/item/crystal_trident_throwing.json
 262fc5eead91eb8bf7240fc3070896f875aeddbd assets/crystal_tools/models/item/netherite_stick.json
+74378f8c3d3a814952fd981fd234be56deb1e3a8 assets/crystal_tools/models/item/quarry_stabilizer.json

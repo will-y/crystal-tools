@@ -1,4 +1,4 @@
-// 1.21.1	2024-09-03T20:41:57.6580139	Block States: crystal_tools
+// 1.21.1	2024-09-03T21:09:09.9700229	Block States: crystal_tools
 44eb603a54aabeb5d4f7c1fd34fc281a6fbb6170 assets/crystal_tools/blockstates/crystal_block.json
 16c7f01ecbdd437f59531bd56029a2d12186c9a6 assets/crystal_tools/blockstates/crystal_deepslate_ore.json
 b45cd6d350dcfbffe28c7a2e3695c880e9ac5b54 assets/crystal_tools/blockstates/crystal_furnace.json
@@ -7,6 +7,7 @@ b45cd6d350dcfbffe28c7a2e3695c880e9ac5b54 assets/crystal_tools/blockstates/crysta
 d7d6bd3e3adc5733be7419bb7e231f2a2a33051c assets/crystal_tools/blockstates/crystal_quarry.json
 7be7fd96f4155a054406dd0f56a997c10fa190a9 assets/crystal_tools/blockstates/crystal_torch.json
 62ad1f947503c35fe76642c374c5ce97109a6940 assets/crystal_tools/blockstates/crystal_wall_torch.json
+e6d2c2968d49e2ca65285224173634772c2751fb assets/crystal_tools/blockstates/quarry_stabilizer.json
 0c70fc20c50fba9b2a8ddaaf0f519fad6c9ea718 assets/crystal_tools/models/block/crystal_block.json
 e5ee77fcf610595ac4487f87f106b80572d49a5e assets/crystal_tools/models/block/crystal_deepslate_ore.json
 2d1ccb07c3a4a1d64010bd9bf639052657a99678 assets/crystal_tools/models/block/crystal_furnace.json
@@ -18,3 +19,4 @@ e1f9d83e24b09da0398f70e269c156ba4a54144c assets/crystal_tools/models/block/cryst
 246eb6cd44360f5e3d365bdad0fcf5905c5c1de7 assets/crystal_tools/models/block/crystal_quarry_on.json
 3672cb34a5496112e2b8b7a0c1cc0fb484ceea57 assets/crystal_tools/models/block/crystal_torch.json
 a1b258a8fa2e829f73b8be4618853726dd2794d0 assets/crystal_tools/models/block/crystal_wall_torch.json
+3672cb34a5496112e2b8b7a0c1cc0fb484ceea57 assets/crystal_tools/models/block/quarry_stabilizer.json

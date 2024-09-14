@@ -1,4 +1,4 @@
-// 1.21.1	2024-09-03T20:41:57.657017	Loot Tables
+// 1.21.1	2024-09-03T21:09:09.9675231	Loot Tables
 9e1d8ab823f61a9a832ffa879584d239713c95b9 data/crystal_tools/loot_table/blocks/crystal_block.json
 1132d3f2e2a650a9cd0f1f064e6c1e40dc34f199 data/crystal_tools/loot_table/blocks/crystal_deepslate_ore.json
 94d18b0aca8efd14c32f01c1a11f61eb176233df data/crystal_tools/loot_table/blocks/crystal_furnace.json
@@ -6,3 +6,4 @@
 81ab5cf0e0fa9648584f2d45dd8e033ef2ead5c7 data/crystal_tools/loot_table/blocks/crystal_ore.json
 f419e0abc96c6f57a7156bdd3d34f9efdda7f289 data/crystal_tools/loot_table/blocks/crystal_quarry.json
 79201804d1bf05c2adb090e807871bffe8b53253 data/crystal_tools/loot_table/blocks/crystal_torch.json
+29150523a81419004148deb2273709cb39a80643 data/crystal_tools/loot_table/blocks/quarry_stabilizer.json

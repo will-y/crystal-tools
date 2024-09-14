@@ -19,6 +19,7 @@ import dev.willyelton.crystal_tools.common.levelable.block.CrystalQuarryBlock;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalTorch;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalWallTorch;
 import dev.willyelton.crystal_tools.common.levelable.block.LevelableBlockItem;
+import dev.willyelton.crystal_tools.common.levelable.block.QuarryStabilizer;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalFurnaceBlockEntity;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalGeneratorBlockEntity;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalQuarryBlockEntity;
@@ -113,6 +114,7 @@ public class Registration {
     public static final DeferredHolder<Block, CrystalQuarryBlock> CRYSTAL_QUARRY = BLOCKS.register("crystal_quarry", () -> new CrystalQuarryBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).requiresCorrectToolForDrops().strength(3.0F)));
     public static final DeferredHolder<Block, CrystalTorch> CRYSTAL_TORCH = BLOCKS.register("crystal_torch", () -> new CrystalTorch());
     public static final DeferredHolder<Block, CrystalWallTorch> CRYSTAL_WALL_TORCH = BLOCKS.register("crystal_wall_torch", CrystalWallTorch::new);
+    public static final DeferredHolder<Block, QuarryStabilizer> QUARRY_STABILIZER = BLOCKS.register("quarry_stabilizer", QuarryStabilizer::new);
 
     // Block Items
     public static final DeferredHolder<Item, BlockItem> CRYSTAL_ORE_ITEM = ITEMS.register("crystal_ore", () -> new BlockItem(CRYSTAL_ORE.get(), new Item.Properties()));
@@ -127,6 +129,7 @@ public class Registration {
         }
     });
     public static final DeferredHolder<Item, BlockItem> CRYSTAL_QUARRY_ITEM = ITEMS.register("crystal_quarry", () -> new LevelableBlockItem(CRYSTAL_QUARRY.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, BlockItem> QUARRY_STABILIZER_ITEM = ITEMS.register("quarry_stabilizer", () -> new BlockItem(QUARRY_STABILIZER.get(), new Item.Properties()));
     public static final DeferredHolder<Item, StandingAndWallBlockItem> CRYSTAL_TORCH_ITEM = ITEMS.register("crystal_torch", () -> new StandingAndWallBlockItem(CRYSTAL_TORCH.get(), CRYSTAL_WALL_TORCH.get(), new Item.Properties(), Direction.DOWN));
 
     // Entities
@@ -182,6 +185,7 @@ public class Registration {
                         output.accept(CRYSTAL_FURNACE_ITEM.get());
                         output.accept(CRYSTAL_GENERATOR_ITEM.get());
                         output.accept(CRYSTAL_QUARRY_ITEM.get());
+                        output.accept(QUARRY_STABILIZER_ITEM.get());
                         output.accept(CRYSTAL_TORCH_ITEM.get());
                         output.accept(CRYSTAL_BACKPACK.get());
                         output.accept(CRYSTAL_TRIDENT.get());

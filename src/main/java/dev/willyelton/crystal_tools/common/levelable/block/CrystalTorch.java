@@ -20,7 +20,7 @@ public class CrystalTorch extends TorchBlock {
         super(ParticleTypes.SOUL_FIRE_FLAME, properties.noCollission().instabreak().lightLevel((state) -> 14).sound(SoundType.WOOD));
     }
 
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(DROP_ITEM);
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(DROP_ITEM);
     }
 }
