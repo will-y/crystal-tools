@@ -19,11 +19,13 @@ public class ItemFishedEvent {
     public static void handleItemFishedEvent(net.minecraftforge.event.entity.player.ItemFishedEvent event) {
         Player player = event.getEntity();
         FishingHook hook = event.getHookEntity();
-        ItemStack rodStack = ItemStack.EMPTY;
+        ItemStack rodStack;
         if (player.getMainHandItem().is(Registration.CRYSTAL_FISHING_ROD.get()) && hook.getTags().contains(CrystalFishingRod.CRYSTAL_TOOLS_FISHING_MAIN_TAG)) {
             rodStack = player.getMainHandItem();
         } else if (player.getOffhandItem().is(Registration.CRYSTAL_FISHING_ROD.get()) && hook.getTags().contains(CrystalFishingRod.CRYSTAL_TOOLS_FISHING_OFF_TAG)) {
             rodStack = player.getOffhandItem();
+        } else {
+            return;
         }
 
         CrystalFishingRod rodItem = (CrystalFishingRod) rodStack.getItem();

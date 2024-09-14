@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 1.7.9
+## Fixes
+- Fixes other fishing rods being broken
+
 ## 1.7.8
 ### Fixes
 - Fixes crystal bow not working correctly with the Supplementaries quiver
