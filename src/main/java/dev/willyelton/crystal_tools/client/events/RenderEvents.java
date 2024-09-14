@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.client.events;
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.client.config.CrystalToolsClientConfig;
 import dev.willyelton.crystal_tools.client.renderer.BlockOverlayRenderer;
+import dev.willyelton.crystal_tools.client.renderer.QuarryLaserRenderer;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.tool.LevelableTool;
 import dev.willyelton.crystal_tools.common.levelable.tool.VeinMinerLevelableTool;
@@ -22,8 +23,10 @@ import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 public class RenderEvents {
     @SubscribeEvent
     public static void handleRenderLevelStageEvent(RenderLevelStageEvent event) {
-        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_TRIPWIRE_BLOCKS) {
-
+        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_WEATHER) {
+            if (!QuarryLaserRenderer.LINE_RENDERERS.isEmpty()) {
+                QuarryLaserRenderer.render(event);
+            }
         }
 
         if (CrystalToolsClientConfig.DISABLE_BLOCK_TARGET_RENDERING.get() || event.getStage() != RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS) {

@@ -45,7 +45,7 @@ public class BlockOverlayRenderer {
             pose.pushPose();
             pose.translate(-view.x, -view.y, -view.z);
 
-            VertexConsumer builder = buffer.getBuffer(CrystalToolsRenderType.BLOCK_OVERLAY);
+            VertexConsumer builder = buffer.getBuffer(CrystalToolsRenderTypes.BLOCK_OVERLAY);
 
             List<BlockPos> blockPosCollection;
             boolean hoe = false;
@@ -88,7 +88,7 @@ public class BlockOverlayRenderer {
             pose.pushPose();
             pose.translate(-view.x, -view.y, -view.z);
 
-            VertexConsumer builder = buffer.getBuffer(CrystalToolsRenderType.BLOCK_OVERLAY);
+            VertexConsumer builder = buffer.getBuffer(CrystalToolsRenderTypes.BLOCK_OVERLAY);
 
             Collection<BlockPos> blockPosCollection = BlockCollectors.collectVeinMine(pos, level, toolItem.getVeinMinerPredicate(hitBlockState), toolItem.getMaxBlocks(stack));
 
