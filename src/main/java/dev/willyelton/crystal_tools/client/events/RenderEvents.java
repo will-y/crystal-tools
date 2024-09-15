@@ -24,9 +24,7 @@ public class RenderEvents {
     @SubscribeEvent
     public static void handleRenderLevelStageEvent(RenderLevelStageEvent event) {
         if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_WEATHER) {
-            if (!QuarryLaserRenderer.LINE_RENDERERS.isEmpty()) {
-                QuarryLaserRenderer.render(event);
-            }
+            QuarryLaserRenderer.render(event);
         }
 
         if (CrystalToolsClientConfig.DISABLE_BLOCK_TARGET_RENDERING.get() || event.getStage() != RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS) {

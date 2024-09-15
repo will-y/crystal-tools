@@ -18,6 +18,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static dev.willyelton.crystal_tools.client.renderer.QuarryLaserRenderer.LASER_SPEED_MODIFIER;
+
 // TODO: Probably want to do a cool model and not extend torch block
 public class QuarryStabilizer extends TorchBlock {
     // TODO: Server config
@@ -34,21 +36,25 @@ public class QuarryStabilizer extends TorchBlock {
         List<BlockPos> stabilizerPositions = findStabilizerSquare(pos, level);
         CrystalTools.LOGGER.info(stabilizerPositions);
 
+        // TODO: Going to need to order these in some way. Start is position clicked, not sure how that isn't already the case...
+        // Only happens when there are already renderers in progress, should be overwritten with the correct value...
         if (level.isClientSide) {
-            QuarryLaserRenderer.startTemporaryLaser(1000, stabilizerPositions.get(0), stabilizerPositions.get(1));
-            QuarryLaserRenderer.startTemporaryLaser(1000, stabilizerPositions.get(1), stabilizerPositions.get(2));
-            QuarryLaserRenderer.startTemporaryLaser(1000, stabilizerPositions.get(2), stabilizerPositions.get(3));
-            QuarryLaserRenderer.startTemporaryLaser(1000, stabilizerPositions.get(3), stabilizerPositions.get(0));
+            QuarryLaserRenderer.startTemporaryLaser(level.getGameTime(), level.getGameTime() + 200, stabilizerPositions.get(0), stabilizerPositions.get(1));
+            QuarryLaserRenderer.startTemporaryLaser(level.getGameTime() + timeBetweenBlocks(stabilizerPositions.get(0), stabilizerPositions.get(1)), level.getGameTime() + 200, stabilizerPositions.get(1), stabilizerPositions.get(2));
+            QuarryLaserRenderer.startTemporaryLaser(level.getGameTime() + timeBetweenBlocks(stabilizerPositions.get(0), stabilizerPositions.get(1), stabilizerPositions.get(2)), level.getGameTime() + 200, stabilizerPositions.get(2), stabilizerPositions.get(3));
+            QuarryLaserRenderer.startTemporaryLaser(level.getGameTime() + timeBetweenBlocks(stabilizerPositions.get(0), stabilizerPositions.get(1), stabilizerPositions.get(2), stabilizerPositions.get(3)), level.getGameTime() + 200, stabilizerPositions.get(3), stabilizerPositions.get(0));
         }
-        // TODO: Put in some static helper, will need other places
+
         return super.useWithoutItem(state, level, pos, player, hitResult);
     }
 
-    // Go out direction
-    // If found, go right and look
-    // If not found go left and look
-    // If left or right found, we know where the 4th block needs to be
-    // Try next direction
+    private int timeBetweenBlocks(BlockPos... positions) {
+        float distance = 0;
+        for (int i = 0; i < positions.length - 1; i++) {
+            distance += (float) Math.sqrt(positions[i].distSqr(positions[i + 1]));
+        }
+        return (int) (distance * LASER_SPEED_MODIFIER);
+    }
 
     public static List<BlockPos> findStabilizerSquare(BlockPos startingPos, Level level) {
         List<BlockPos> foundBlocks = new ArrayList<>();
