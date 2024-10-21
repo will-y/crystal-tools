@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 2.1.3
+### Fixes
+- Fixes reset skills button being broken
+
 ## 2.1.2
 ### Fixes
 - Fixes other fishing rods being broken
