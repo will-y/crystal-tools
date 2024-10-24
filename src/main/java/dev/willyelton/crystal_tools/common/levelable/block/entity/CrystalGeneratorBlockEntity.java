@@ -219,6 +219,19 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         }
     }
 
+    @Override
+    protected void resetExtraSkills() {
+        this.addedFEGeneration = 0;
+        this.energyStorage = new CrystalEnergyStorage(baseFEStorage, 0, baseFETransfer, Math.max(energyStorage.getEnergyStored(), baseFEStorage));
+        this.fuelEfficiency = 0;
+        this.addedFEStorage = 0;
+        this.redstoneControl = false;
+        this.saveFuel = false;
+        this.metalGenerator = false;
+        this.foodGenerator = false;
+        this.gemGenerator = false;
+    }
+
     protected final ContainerData dataAccess = new LevelableContainerData(this) {
         @Override
         protected int getExtra(int index) {

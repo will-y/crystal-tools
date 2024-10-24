@@ -133,4 +133,14 @@ public abstract class LevelableBlockEntity extends BlockEntity {
     public void setExpCap(int expCap) {
         this.expCap = expCap;
     }
+
+    public void resetSkills() {
+        this.skillPoints = skillPoints + (int) Arrays.stream(this.points).asLongStream().sum();
+        this.points = new int[100];
+        this.exp = 0;
+        this.expCap = CrystalToolsConfig.BASE_EXPERIENCE_CAP.get();
+        this.resetExtraSkills();
+    }
+
+    protected abstract void resetExtraSkills();
 }

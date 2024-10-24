@@ -23,6 +23,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.ExperienceOrb;
@@ -337,6 +338,39 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
             case "exp_boost" -> this.expModifier += value;
             case "save_fuel" -> this.saveFuel = value == 1;
         }
+    }
+
+    @Override
+    protected void resetExtraSkills() {
+        if (this.level instanceof ServerLevel serverLevel) {
+            // Drop items
+            Containers.dropContents(serverLevel, this.getBlockPos(), this);
+            this.popExp(serverLevel, Vec3.atCenterOf(this.getBlockPos()));
+
+            // Set state to off
+            BlockState state = level.getBlockState(this.getBlockPos());
+            state = state.setValue(CrystalFurnaceBlock.LIT, false);
+            level.setBlock(this.getBlockPos(), state, 3);
+        }
+
+        items = NonNullList.withSize(SIZE, ItemStack.EMPTY);
+
+        // Furnace things
+        this.litTime = 0;
+        this.litTotalTime = 0;
+        this.cookingProgress = new int[5];
+        this.cookingTotalTime = new int[5];
+        this.expHeld = 0;
+
+        // Upgrades
+        this.speedUpgrade = 0;
+        this.fuelEfficiencyUpgrade = 0;
+        this.bonusSlots = 0;
+        this.bonusFuelSlots = 0;
+        this.balance = false;
+        this.autoOutput = false;
+        this.expModifier = 0;
+        this.saveFuel = false;
     }
 
     protected final ContainerData dataAccess = new LevelableContainerData(this) {

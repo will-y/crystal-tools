@@ -62,7 +62,6 @@ public class ToolAttributeHandler {
 
                 // update the skill points array
                 DataComponents.addValueToArray(heldTool, DataComponents.POINTS_ARRAY, payload.id(), pointsToAdd);
-
             }
         });
     }

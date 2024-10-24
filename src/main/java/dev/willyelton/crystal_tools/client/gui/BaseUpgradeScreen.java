@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.config.CrystalToolsClientConfig;
 import dev.willyelton.crystal_tools.client.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.client.gui.component.XpButton;
@@ -27,6 +28,7 @@ import dev.willyelton.crystal_tools.utils.XpUtils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
@@ -37,6 +39,7 @@ import org.joml.Matrix4f;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public abstract class BaseUpgradeScreen extends Screen {
     protected static final int Y_PADDING = 30;
@@ -61,6 +64,7 @@ public abstract class BaseUpgradeScreen extends Screen {
     private int yOffset = 0;
 
     private XpButton xpButton;
+    private Button resetButton;
 
     public BaseUpgradeScreen(Player player, Component title) {
         super(title);
@@ -101,11 +105,27 @@ public abstract class BaseUpgradeScreen extends Screen {
                 guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(BaseUpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
             }, getXpLevelCost()));
         }
+
+        boolean resetRequiresCrystal = CrystalToolsConfig.REQUIRE_CRYSTAL_FOR_RESET.get();
+        String text = "Reset Skill Points";
+        if (resetRequiresCrystal) text += " (Requires 1 Crystal)";
+        Tooltip resetTooltip = Tooltip.create(Component.literal(text));
+
+        resetButton = addRenderableWidget(Button.builder(Component.literal("Reset"), (button) -> {
+            this.resetPoints(resetRequiresCrystal);
+
+            if (resetRequiresCrystal) {
+                PacketDistributor.sendToServer(new RemoveItemPayload(Registration.CRYSTAL.get().getDefaultInstance()));
+                InventoryUtils.removeItemFromInventory(this.player.getInventory(), Registration.CRYSTAL.get().getDefaultInstance());
+            }
+        }).bounds(width - 40 - 5, 15, 40, Y_SIZE).tooltip(resetTooltip).build());
     }
 
     protected abstract int getXpButtonY();
 
     protected abstract void changeSkillPoints(int change);
+
+    protected abstract void resetPoints(boolean crystalRequired);
 
     private int getXpLevelCost() {
         int xpLevelCost = CrystalToolsConfig.EXPERIENCE_PER_SKILL_LEVEL.get();
@@ -218,6 +238,10 @@ public abstract class BaseUpgradeScreen extends Screen {
 
         if (xpButton != null) {
             xpButton.update(getXpLevelCost(), player);
+        }
+
+        if (resetButton != null) {
+            this.resetButton.active = !CrystalToolsConfig.REQUIRE_CRYSTAL_FOR_RESET.get() || this.player.getInventory().hasAnyOf(Set.of(Registration.CRYSTAL.get()));
         }
     }
 

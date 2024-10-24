@@ -1,4 +1,12 @@
 # Crystal Tools Change Log
+## 2.1.4
+### Additions
+- Added a reset skills button to the furnace and generator
+
+### Fixes
+- Fixes buying skill points with experience not working for furnaces and generators when you had 0 skill points
+- Fixes resetting skill points using a crystal even when the config was set to not use it
+
 ## 2.1.3
 ### Fixes
 - Fixes reset skills button being broken
