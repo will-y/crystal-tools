@@ -74,6 +74,7 @@ public class DataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> ARMOR_BONUS = register("armor_bonus", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> TOUGHNESS_BONUS = register("toughness_bonus", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> NIGHT_VISION = register("night_vision", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> DISABLE_NIGHT_VISION = register("disable_night_vision", Codec.BOOL, ByteBufCodecs.BOOL);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> NO_FALL_DAMAGE = register("no_fall_damage", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> CREATIVE_FLIGHT = register("creative_flight", Codec.INT, ByteBufCodecs.INT, SkillType.INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> DISABLE_CREATIVE_FLIGHT = register("disable_creative_flight", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);

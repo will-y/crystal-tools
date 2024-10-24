@@ -87,8 +87,12 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Equipabl
     }
 
     @Override
-    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
-        appendLevelableHoverText(itemStack, components, this, flag);
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
+        if (stack.getOrDefault(DataComponents.DISABLE_NIGHT_VISION, false)) {
+            components.add(Component.literal("\u00A7c\u00A7l" + "Night Vision Disabled"));
+        }
+
+        appendLevelableHoverText(stack, components, this, flag);
     }
 
     @Override
@@ -133,7 +137,7 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Equipabl
         }
 
         if (!ToolUtils.isBroken(stack) && entity instanceof LivingEntity livingEntity && stack.getOrDefault(DataComponents.NIGHT_VISION, false)
-                && livingEntity.getItemBySlot(EquipmentSlot.HEAD).equals(stack)) {
+                && livingEntity.getItemBySlot(EquipmentSlot.HEAD).equals(stack) && !stack.getOrDefault(DataComponents.DISABLE_NIGHT_VISION, false)) {
             livingEntity.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 400, 0, false, false));
         }
 

@@ -2,6 +2,7 @@
 ## 2.1.4
 ### Additions
 - Added a reset skills button to the furnace and generator
+- Added ability to disable night vision with the mode switch key
 
 ### Fixes
 - Fixes buying skill points with experience not working for furnaces and generators when you had 0 skill points

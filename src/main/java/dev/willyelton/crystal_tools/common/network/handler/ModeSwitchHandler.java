@@ -8,6 +8,7 @@ import dev.willyelton.crystal_tools.common.network.data.ModeSwitchPayload;
 import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -21,7 +22,12 @@ public class ModeSwitchHandler {
             Player player = context.player();
 
             ItemStack tool = ItemStackUtils.getHeldLevelableTool(player);
-            if (tool.isEmpty()) return;
+            if (tool.isEmpty()) {
+                // Disable night vision
+                player.getArmorSlots().forEach(stack -> {
+                    disableNightVision(player, stack);
+                });
+            }
 
             // check for upgrade
             if (tool.getOrDefault(DataComponents.MINE_MODE, false)) {
@@ -83,6 +89,22 @@ public class ModeSwitchHandler {
                 tool.set(DataComponents.DISABLE_CREATIVE_FLIGHT, !creativeFlightDisabled);
                 player.displayClientMessage(Component.literal("Creative Flight " + (creativeFlightDisabled ? "Enabled" : "Disabled")), true);
             }
+
+            // Helmet
+            disableNightVision(player, tool);
         });
+    }
+
+    private void disableNightVision(Player player, ItemStack stack) {
+        if (stack.is(Registration.CRYSTAL_HELMET.get()) && stack.getOrDefault(DataComponents.NIGHT_VISION, false)) {
+            // TODO: Can probably extract this for all of the toggles
+            boolean disableNightVision = stack.getOrDefault(DataComponents.DISABLE_NIGHT_VISION, false);
+            stack.set(DataComponents.DISABLE_NIGHT_VISION, !disableNightVision);
+            player.displayClientMessage(Component.literal("Night Vision " + (disableNightVision ? "Enabled" : "Disabled")), true);
+
+            if (!disableNightVision) {
+                player.removeEffect(MobEffects.NIGHT_VISION);
+            }
+        }
     }
 }
