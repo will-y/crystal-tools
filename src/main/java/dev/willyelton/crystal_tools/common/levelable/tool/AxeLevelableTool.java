@@ -44,7 +44,7 @@ public class AxeLevelableTool extends DiggerLevelableTool {
                 && tool.getOrDefault(DataComponents.VEIN_MINER, 0) > 0
                 && canVeinMin(tool, blockState)
                 && VeinMiners.isVeinMining(player)) {
-            if (level.isClientSide && RegisterKeyBindingsEvent.veinMine.isDown()) {
+            if (level.isClientSide && RegisterKeyBindingsEvent.VEIN_MINE.isDown()) {
                 Collection<BlockPos> toMine = BlockCollectors.collectVeinMine(pos, level, this.getVeinMinerPredicate(blockState), this.getMaxBlocks(tool));
                 this.breakBlockCollection(tool, level, toMine, player, blockState.getDestroySpeed(level, pos), true);
             }

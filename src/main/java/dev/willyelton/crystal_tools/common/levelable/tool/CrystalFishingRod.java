@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.common.levelable.tool;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -42,7 +43,7 @@ public class CrystalFishingRod extends LevelableTool {
             // Remove bobber
             if (!level.isClientSide) {
                 int rodDamage = player.fishing.retrieve(stack);
-                damageItem(stack, rodDamage, player, null);
+                stack.hurtAndBreak(rodDamage, (ServerLevel) level, player, null);
             }
 
             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.FISHING_BOBBER_RETRIEVE, SoundSource.NEUTRAL, 1.0F, getRandomPitch(level));

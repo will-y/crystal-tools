@@ -97,19 +97,19 @@ public interface LevelableItem {
                 && stack.getOrDefault(DataComponents.FORTUNE_BONUS, 0) > 0) {
             // Only show mode if it has both enchantments
             String mode = EnchantmentUtils.hasEnchantment(stack, Enchantments.SILK_TOUCH) ? "Silk Touch" : "Fortune";
-            String changeKey = RegisterKeyBindingsEvent.modeSwitch == null ? "" : " (" + RegisterKeyBindingsEvent.modeSwitch.getKey().getDisplayName().getString() + " to change)";
+            String changeKey = RegisterKeyBindingsEvent.MODE_SWITCH == null ? "" : " (" + RegisterKeyBindingsEvent.MODE_SWITCH.getKey().getDisplayName().getString() + " to change)";
             components.add(Component.literal("\u00A79" + "Mine Mode: " + mode + changeKey));
         }
 
         if (stack.getOrDefault(DataComponents.MINE_MODE, false) && stack.getOrDefault(DataComponents.HAS_3x3, false)) {
             String mode = stack.getOrDefault(DataComponents.DISABLE_3x3, false) ? "1x1" : "3x3";
-            String changeKey = RegisterKeyBindingsEvent.modeSwitch == null ? "" : " (Shift + " + RegisterKeyBindingsEvent.modeSwitch.getKey().getDisplayName().getString() + " to change)";
+            String changeKey = RegisterKeyBindingsEvent.MODE_SWITCH == null ? "" : " (Shift + " + RegisterKeyBindingsEvent.MODE_SWITCH.getKey().getDisplayName().getString() + " to change)";
             components.add(Component.literal("\u00A79" + "Break Mode: " + mode + changeKey));
         }
 
         if (stack.getOrDefault(DataComponents.MINE_MODE, false) && stack.getOrDefault(DataComponents.AUTO_SMELT, false)) {
             boolean enabled = !stack.getOrDefault(DataComponents.DISABLE_AUTO_SMELT, false);
-            String changeKey = RegisterKeyBindingsEvent.modeSwitch == null ? "" : " (Ctrl + " + RegisterKeyBindingsEvent.modeSwitch.getKey().getDisplayName().getString() + " to toggle)";
+            String changeKey = RegisterKeyBindingsEvent.MODE_SWITCH == null ? "" : " (Ctrl + " + RegisterKeyBindingsEvent.MODE_SWITCH.getKey().getDisplayName().getString() + " to toggle)";
             components.add(Component.literal("\u00A79" + "Auto Smelt " + (enabled ? "Enabled" : "Disabled") + changeKey));
         }
 

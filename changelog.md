@@ -1,4 +1,22 @@
 # Crystal Tools Change Log
+## 2.1.5
+### Additions
+- Adds the ability to gain more skill points with xp by holding shift and control
+- Adds the ability to toggle frost walker (shift + mode switch key)
+- Adds the ability to toggle creative flight while wearing the elytra (ctrl + mode switch key)
+- Adds tooltips to armor saying how to toggle abilities while wearing them
+- Adds a Fortune V upgrade to the tools
+- Adds a Looting V upgrade to the sword and AIOT
+- Adds infinite unbreaking to the following tools
+  - Fishing rod
+  - Bow
+
+### Fixes
+- Fixes resetting points on tools voiding unspent points
+- Fixes issue with the night vision toggle bugging out on servers
+- Fixes incorrect item models for tools
+- Fixes issue where the fishing rod doesn't take damage
+
 ## 2.1.4
 ### Additions
 - Added a reset skills button to the furnace and generator

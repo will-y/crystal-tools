@@ -401,6 +401,19 @@
         "key": "reach",
         "value": 0.1
       }
+    ],
+    [
+      {
+        "id": 34,
+        "name": "Looting V",
+        "description": "Gives Looting V To The AIOT",
+        "limit": 1,
+        "requirements": [
+          {"node": [18, 23, 24, 25, 29, 33]}
+        ],
+        "key": "looting_bonus",
+        "value": 5
+      }
     ]
   ]
 }

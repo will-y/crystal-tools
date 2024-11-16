@@ -28,22 +28,22 @@ public class KeyPressEvent {
         if (mc.player == null || level == null)
             return;
 
-        if (RegisterKeyBindingsEvent.upgradeMenu.consumeClick()) {
+        if (RegisterKeyBindingsEvent.UPGRADE_MENU.consumeClick()) {
             ItemStack levelableTool = ItemStackUtils.getHeldLevelableTool(mc.player);
             handleUpgradeMenu(levelableTool, mc.player);
         }
 
-        if (RegisterKeyBindingsEvent.modeSwitch.consumeClick()) {
+        if (RegisterKeyBindingsEvent.MODE_SWITCH.consumeClick()) {
             handleModeSwitch();
         }
 
-        if (RegisterKeyBindingsEvent.openBackpack.consumeClick()) {
+        if (RegisterKeyBindingsEvent.OPEN_BACKPACK.consumeClick()) {
             handleOpenBackpack();
         }
 
         // Send vein mining state every 5 ticks
         if (level.getGameTime() % 5 == 0) {
-            PacketDistributor.sendToServer(new VeinMiningPayload(RegisterKeyBindingsEvent.veinMine.isDown()));
+            PacketDistributor.sendToServer(new VeinMiningPayload(RegisterKeyBindingsEvent.VEIN_MINE.isDown()));
         }
 
     }

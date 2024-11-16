@@ -52,6 +52,9 @@ public class ToolAttributeHandler {
                         // also add it like normal, only for silk touch and fortune?
                         DataComponents.setValue(heldTool, payload.key(), payload.value());
                     } else {
+                        if (enchantment.equals(Enchantments.FROST_WALKER)) {
+                            heldTool.set(DataComponents.FROST_WALKER, true);
+                        }
                         EnchantmentUtils.addEnchantment(heldTool, enchantment, (int) payload.value(), player);
                     }
                 } else if (payload.key().contains("effect_")) {

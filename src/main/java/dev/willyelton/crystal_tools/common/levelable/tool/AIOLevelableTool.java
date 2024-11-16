@@ -90,8 +90,8 @@ public class AIOLevelableTool extends DiggerLevelableTool {
     @Override
     public void addAdditionalTooltips(ItemStack stack, List<Component> components, LevelableItem item) {
         String toolTip = "\u00A79" + "Use Mode: " + StringUtils.capitalize(stack.getOrDefault(DataComponents.USE_MODE, "hoe").toLowerCase(Locale.ROOT));
-        if (RegisterKeyBindingsEvent.modeSwitch != null) {
-            toolTip = toolTip + " (alt + " + RegisterKeyBindingsEvent.modeSwitch.getKey().getDisplayName().getString() + " to change)";
+        if (RegisterKeyBindingsEvent.MODE_SWITCH != null) {
+            toolTip = toolTip + " (alt + " + RegisterKeyBindingsEvent.MODE_SWITCH.getKey().getDisplayName().getString() + " to change)";
         }
         components.add(Component.literal(toolTip));
     }
