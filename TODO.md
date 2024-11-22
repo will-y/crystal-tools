@@ -4,6 +4,7 @@
 - Bow
   - Add looting (IItemExtension#supportsEnchantment)
 - Shield
+  - Totem of undying charges
 - Backpack
   - Trash (separate filters?)
   - Exp Storage ? (mode switch to turn on and off)

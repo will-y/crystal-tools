@@ -1,4 +1,13 @@
 # Crystal Tools Change Log
+## 2.1.6
+### Additions
+- Adds Accessories support for the crystal backpack
+- Adds Curios Continuation support for the crystal backpack
+- Adds Adorned support for the crystal backpack
+
+### Changes
+- Updates to Neo 21.1.80
+
 ## 2.1.5
 ### Additions
 - Adds the ability to gain more skill points with xp by holding shift and control
