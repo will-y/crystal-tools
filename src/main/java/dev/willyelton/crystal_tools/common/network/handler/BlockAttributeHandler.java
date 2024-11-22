@@ -17,14 +17,18 @@ public class BlockAttributeHandler {
 
             if (container instanceof LevelableContainerMenu levelableContainerMenu) {
                 LevelableBlockEntity blockEntity = levelableContainerMenu.getBlockEntity();
+
+                if (payload.id() == -1) {
+                    blockEntity.addToData(payload.key(), payload.value());
+                    return;
+                }
+
                 int skillPoints = blockEntity.getSkillPoints();
 
                 int pointsToAdd = Math.min(skillPoints, payload.pointsToSpend());
 
                 blockEntity.addToData(payload.key(), payload.value() * pointsToAdd);
-                if (payload.id() != -1) {
-                    blockEntity.addToPoints(payload.id(), pointsToAdd);
-                }
+                blockEntity.addToPoints(payload.id(), pointsToAdd);
             }
         });
     }

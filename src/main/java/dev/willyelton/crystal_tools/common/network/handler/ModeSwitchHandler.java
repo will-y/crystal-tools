@@ -21,7 +21,20 @@ public class ModeSwitchHandler {
             Player player = context.player();
 
             ItemStack tool = ItemStackUtils.getHeldLevelableTool(player);
-            if (tool.isEmpty()) return;
+            if (tool.isEmpty()) {
+                // Disable night vision
+                player.getArmorSlots().forEach(stack -> {
+                    if (payload.hasShiftDown()) {
+                        disableFrostWalker(player, stack);
+                    } else if (payload.hasCtrlDown()) {
+                        disableCreativeFlight(player, stack);
+                    } else {
+                        disableNightVision(player, stack);
+                    }
+                });
+
+                return;
+            }
 
             // check for upgrade
             if (tool.getOrDefault(DataComponents.MINE_MODE, false)) {
@@ -43,7 +56,7 @@ public class ModeSwitchHandler {
                     // silk touch or fortune
                     if (EnchantmentUtils.hasEnchantment(tool, Enchantments.SILK_TOUCH) && tool.getOrDefault(DataComponents.FORTUNE_BONUS, 0) > 0) {
                         EnchantmentUtils.removeEnchantment(tool, Enchantments.SILK_TOUCH);
-                        EnchantmentUtils.addEnchantment(tool, Enchantments.FORTUNE, 3, player);
+                        EnchantmentUtils.addEnchantment(tool, Enchantments.FORTUNE, tool.getOrDefault(DataComponents.FORTUNE_BONUS, 3), player);
                         player.displayClientMessage(Component.literal("Mine Mode: Fortune"), true);
                     } else if (EnchantmentUtils.hasEnchantment(tool, Enchantments.FORTUNE) && tool.getOrDefault(DataComponents.SILK_TOUCH_BONUS, false)) {
                         EnchantmentUtils.removeEnchantment(tool, Enchantments.FORTUNE);
@@ -78,11 +91,48 @@ public class ModeSwitchHandler {
             }
 
             // Elytra
-            if (tool.getOrDefault(DataComponents.CREATIVE_FLIGHT, 0) >= CrystalToolsServerConfig.CREATIVE_FLIGHT_POINTS.get()) {
-                boolean creativeFlightDisabled = tool.getOrDefault(DataComponents.DISABLE_CREATIVE_FLIGHT, false);
-                tool.set(DataComponents.DISABLE_CREATIVE_FLIGHT, !creativeFlightDisabled);
-                player.displayClientMessage(Component.literal("Creative Flight " + (creativeFlightDisabled ? "Enabled" : "Disabled")), true);
-            }
+            disableCreativeFlight(player, tool);
+
+            // Helmet
+            disableNightVision(player, tool);
+
+            // Boots
+            disableFrostWalker(player, tool);
         });
+    }
+
+    private void disableNightVision(Player player, ItemStack stack) {
+        if (stack.is(Registration.CRYSTAL_HELMET.get()) && stack.getOrDefault(DataComponents.NIGHT_VISION, false)) {
+            // TODO: Can probably extract this for all of the toggles
+            boolean disableNightVision = stack.getOrDefault(DataComponents.DISABLE_NIGHT_VISION, false);
+            stack.set(DataComponents.DISABLE_NIGHT_VISION, !disableNightVision);
+            player.displayClientMessage(Component.literal("Night Vision " + (disableNightVision ? "Enabled" : "Disabled")), true);
+        }
+    }
+
+    private void disableCreativeFlight(Player player, ItemStack stack) {
+        if (stack.getOrDefault(DataComponents.CREATIVE_FLIGHT, 0) >= CrystalToolsServerConfig.CREATIVE_FLIGHT_POINTS.get()) {
+            boolean creativeFlightDisabled = stack.getOrDefault(DataComponents.DISABLE_CREATIVE_FLIGHT, false);
+            stack.set(DataComponents.DISABLE_CREATIVE_FLIGHT, !creativeFlightDisabled);
+            player.displayClientMessage(Component.literal("Creative Flight " + (creativeFlightDisabled ? "Enabled" : "Disabled")), true);
+        }
+    }
+
+    private void disableFrostWalker(Player player, ItemStack stack) {
+        if (stack.getOrDefault(DataComponents.FROST_WALKER, false) || EnchantmentUtils.hasEnchantment(stack, Enchantments.FROST_WALKER)) {
+            if (EnchantmentUtils.hasEnchantment(stack, Enchantments.FROST_WALKER)) {
+                EnchantmentUtils.removeEnchantment(stack, Enchantments.FROST_WALKER);
+
+                // TODO 1.22: Remove only here for backwards compatability
+                stack.set(DataComponents.FROST_WALKER, true);
+
+                player.displayClientMessage(Component.literal("Frost Walker Disabled"), true);
+
+            } else if (stack.getOrDefault(DataComponents.FROST_WALKER, false)) {
+                EnchantmentUtils.addEnchantment(stack, Enchantments.FROST_WALKER, 2, player);
+
+                player.displayClientMessage(Component.literal("Frost Walker Enabled"), true);
+            }
+        }
     }
 }

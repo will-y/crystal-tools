@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.config.CrystalToolsClientConfig;
 import dev.willyelton.crystal_tools.client.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.client.gui.component.XpButton;
@@ -27,6 +28,7 @@ import dev.willyelton.crystal_tools.utils.XpUtils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
@@ -34,9 +36,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.joml.Matrix4f;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public abstract class BaseUpgradeScreen extends Screen {
     protected static final int Y_PADDING = 30;
@@ -61,6 +65,7 @@ public abstract class BaseUpgradeScreen extends Screen {
     private int yOffset = 0;
 
     private XpButton xpButton;
+    private Button resetButton;
 
     public BaseUpgradeScreen(Player player, Component title) {
         super(title);
@@ -79,7 +84,6 @@ public abstract class BaseUpgradeScreen extends Screen {
         }
 
         this.initComponents();
-
         this.updateButtons();
     }
 
@@ -89,32 +93,67 @@ public abstract class BaseUpgradeScreen extends Screen {
     protected void initComponents() {
         if (CrystalToolsConfig.EXPERIENCE_PER_SKILL_LEVEL.get() > 0) {
             xpButton = addRenderableWidget(new XpButton(5, getXpButtonY(), 30, Y_SIZE, pButton -> {
-                int xpCost = XpUtils.getXPForLevel(getXpLevelCost());
+                int pointsToGain = getPointsToSpend(Integer.MAX_VALUE, hasShiftDown(), hasControlDown());
+                int xpCost = getXpCost(pointsToGain);
+                // TODO: Refactor to make everything server side eventually
                 if (XpUtils.getPlayerTotalXp(player) >= xpCost) {
                     player.giveExperiencePoints(-xpCost);
                     PacketDistributor.sendToServer(new RemoveXpPayload(xpCost));
-                    changeSkillPoints(1);
+                    changeSkillPoints(pointsToGain);
                     updateButtons();
                 }
             }, (pButton, guiGraphics, mouseX, mouseY) -> {
-                Component textComponent = Component.literal("Use Experience To Level Up");
+                Component textComponent = Component.literal(String.format("Use Experience To Gain Skill Points (+%d Points)", getPointsToSpend(Integer.MAX_VALUE, Screen.hasShiftDown(), Screen.hasControlDown())));
                 guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(BaseUpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
-            }, getXpLevelCost()));
+            }, () -> XpUtils.getLevelForXp(getXpCost(getPointsToSpend(Integer.MAX_VALUE, Screen.hasShiftDown(), Screen.hasControlDown())))));
         }
+
+        boolean resetRequiresCrystal = CrystalToolsConfig.REQUIRE_CRYSTAL_FOR_RESET.get();
+        String text = "Reset Skill Points";
+        if (resetRequiresCrystal) text += " (Requires 1 Crystal)";
+        Tooltip resetTooltip = Tooltip.create(Component.literal(text));
+
+        resetButton = addRenderableWidget(Button.builder(Component.literal("Reset"), (button) -> {
+            this.resetPoints(resetRequiresCrystal);
+
+            if (resetRequiresCrystal) {
+                PacketDistributor.sendToServer(new RemoveItemPayload(Registration.CRYSTAL.get().getDefaultInstance()));
+                InventoryUtils.removeItemFromInventory(this.player.getInventory(), Registration.CRYSTAL.get().getDefaultInstance());
+            }
+        }).bounds(width - 40 - 5, 15, 40, Y_SIZE).tooltip(resetTooltip).build());
     }
 
     protected abstract int getXpButtonY();
 
     protected abstract void changeSkillPoints(int change);
 
-    private int getXpLevelCost() {
+    protected abstract void resetPoints(boolean crystalRequired);
+
+    private int getXpCost(int pointsToGain) {
+        int totalPoints = data.getTotalPoints() + getSkillPoints();
         int xpLevelCost = CrystalToolsConfig.EXPERIENCE_PER_SKILL_LEVEL.get();
         int levelScaling = CrystalToolsConfig.EXPERIENCE_LEVELING_SCALING.get();
-        if (levelScaling > 0) {
-            xpLevelCost += data.getTotalPoints() / levelScaling;
-        }
 
-        return xpLevelCost;
+        if (levelScaling > 0) {
+            int totalCost = 0;
+
+            int pointsAtLowerLevelLeft = Math.min(levelScaling - totalPoints % levelScaling, pointsToGain);
+
+            totalCost += pointsAtLowerLevelLeft * XpUtils.getXPForLevel(xpLevelCost + (totalPoints / levelScaling));
+
+            int pointsLeft = pointsToGain - pointsAtLowerLevelLeft;
+            int i = pointsAtLowerLevelLeft == 0 ? 0 : 1;
+            while (pointsLeft > 0) {
+                int pointsToSpend = Math.min(levelScaling, pointsLeft);
+                totalCost += pointsToSpend * XpUtils.getXPForLevel(xpLevelCost + (totalPoints / levelScaling) + i);
+                i++;
+                pointsLeft -= pointsToSpend;
+            }
+
+            return totalCost;
+        } else {
+            return pointsToGain * xpLevelCost;
+        }
     }
 
     @Override
@@ -217,7 +256,11 @@ public abstract class BaseUpgradeScreen extends Screen {
         }
 
         if (xpButton != null) {
-            xpButton.update(getXpLevelCost(), player);
+            xpButton.update(getXpCost(1), player);
+        }
+
+        if (resetButton != null) {
+            this.resetButton.active = !CrystalToolsConfig.REQUIRE_CRYSTAL_FOR_RESET.get() || this.player.getInventory().hasAnyOf(Set.of(Registration.CRYSTAL.get()));
         }
     }
 
@@ -339,7 +382,7 @@ public abstract class BaseUpgradeScreen extends Screen {
 
     protected int getPointsToSpend(int points, boolean shiftDown, boolean controlDown) {
         if (controlDown && shiftDown) {
-            return Math.min(points, CrystalToolsClientConfig.CONTROL_POINT_SPEND.get() *  CrystalToolsClientConfig.SHIFT_POINT_SPEND.get());
+            return Math.min(points, CrystalToolsClientConfig.CONTROL_POINT_SPEND.get() * CrystalToolsClientConfig.SHIFT_POINT_SPEND.get());
         } else if (controlDown) {
             return Math.min(points, CrystalToolsClientConfig.CONTROL_POINT_SPEND.get());
         } else if (shiftDown) {
@@ -347,5 +390,21 @@ public abstract class BaseUpgradeScreen extends Screen {
         } else {
             return 1;
         }
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (keyCode == GLFW.GLFW_KEY_LEFT_SHIFT || keyCode == GLFW.GLFW_KEY_LEFT_CONTROL || keyCode == GLFW.GLFW_KEY_RIGHT_SHIFT || keyCode == GLFW.GLFW_KEY_RIGHT_CONTROL) {
+            xpButton.update(getXpCost(getPointsToSpend(Integer.MAX_VALUE, Screen.hasShiftDown(), Screen.hasControlDown())), player);
+        }
+        return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    @Override
+    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
+        if (keyCode == GLFW.GLFW_KEY_LEFT_SHIFT || keyCode == GLFW.GLFW_KEY_LEFT_CONTROL || keyCode == GLFW.GLFW_KEY_RIGHT_SHIFT || keyCode == GLFW.GLFW_KEY_RIGHT_CONTROL) {
+            xpButton.update(getXpCost(getPointsToSpend(Integer.MAX_VALUE, Screen.hasShiftDown(), Screen.hasControlDown())), player);
+        }
+        return super.keyReleased(keyCode, scanCode, modifiers);
     }
 }

@@ -1,4 +1,52 @@
 # Crystal Tools Change Log
+## 2.1.6
+### Additions
+- Adds Accessories support for the crystal backpack
+- Adds Curios Continuation support for the crystal backpack
+- Adds Adorned support for the crystal backpack
+
+### Changes
+- Updates to Neo 21.1.80
+
+## 2.1.5
+### Additions
+- Adds the ability to gain more skill points with xp by holding shift and control
+- Adds the ability to toggle frost walker (shift + mode switch key)
+- Adds the ability to toggle creative flight while wearing the elytra (ctrl + mode switch key)
+- Adds tooltips to armor saying how to toggle abilities while wearing them
+- Adds a Fortune V upgrade to the tools
+- Adds a Looting V upgrade to the sword and AIOT
+- Adds infinite unbreaking to the following tools
+  - Fishing rod
+  - Bow
+
+### Fixes
+- Fixes resetting points on tools voiding unspent points
+- Fixes issue with the night vision toggle bugging out on servers
+- Fixes incorrect item models for tools
+- Fixes issue where the fishing rod doesn't take damage
+
+## 2.1.4
+### Additions
+- Added a reset skills button to the furnace and generator
+- Added ability to disable night vision with the mode switch key
+
+### Fixes
+- Fixes buying skill points with experience not working for furnaces and generators when you had 0 skill points
+- Fixes resetting skill points using a crystal even when the config was set to not use it
+
+## 2.1.3
+### Fixes
+- Fixes reset skills button being broken
+
+## 2.1.2
+### Fixes
+- Fixes other fishing rods being broken
+
+## 2.1.1
+### Fixes
+- Fixes adding points with experience not working correctly
+
 ## 2.1.0
 ### Additions
 - Adds the Crystal Generator

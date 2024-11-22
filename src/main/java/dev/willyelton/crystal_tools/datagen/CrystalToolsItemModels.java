@@ -3,12 +3,17 @@ package dev.willyelton.crystal_tools.datagen;
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
 import net.minecraft.client.renderer.block.model.BlockModel;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
+import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+
+import java.util.Objects;
 
 public class CrystalToolsItemModels extends ItemModelProvider {
     public CrystalToolsItemModels(PackOutput output, ExistingFileHelper existingFileHelper) {
@@ -31,18 +36,18 @@ public class CrystalToolsItemModels extends ItemModelProvider {
 
         // Items
         basicItem(Registration.CRYSTAL.get());
-        basicItem(Registration.NETHERITE_STICK.get());
+        toolItem(Registration.NETHERITE_STICK.get());
         basicItem(Registration.CRYSTAL_APPLE.get());
         basicItem(Registration.CRYSTAL_BACKPACK.get());
 
         // Tools
-        basicItem(Registration.CRYSTAL_AIOT.get());
-        basicItem(Registration.CRYSTAL_AXE.get());
-        basicItem(Registration.CRYSTAL_HOE.get());
-        basicItem(Registration.CRYSTAL_PICKAXE.get());
-        basicItem(Registration.CRYSTAL_ROCKET.get());
-        basicItem(Registration.CRYSTAL_SHOVEL.get());
-        basicItem(Registration.CRYSTAL_SWORD.get());
+        toolItem(Registration.CRYSTAL_AIOT.get());
+        toolItem(Registration.CRYSTAL_AXE.get());
+        toolItem(Registration.CRYSTAL_HOE.get());
+        toolItem(Registration.CRYSTAL_PICKAXE.get());
+        toolItem(Registration.CRYSTAL_ROCKET.get());
+        toolItem(Registration.CRYSTAL_SHOVEL.get());
+        toolItem(Registration.CRYSTAL_SWORD.get());
         registerBow();
         registerTrident();
         registerFishingRod();
@@ -53,6 +58,13 @@ public class CrystalToolsItemModels extends ItemModelProvider {
         basicItem(Registration.CRYSTAL_LEGGINGS.get());
         basicItem(Registration.CRYSTAL_BOOTS.get());
         basicItem(Registration.CRYSTAL_ELYTRA.get());
+    }
+
+    private ItemModelBuilder toolItem(Item item) {
+        ResourceLocation resourceLocation = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
+        return getBuilder(resourceLocation.toString())
+                .parent(new ModelFile.UncheckedModelFile("item/handheld"))
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(resourceLocation.getNamespace(), "item/" + resourceLocation.getPath()));
     }
 
     private void registerBow() {

@@ -3,14 +3,11 @@ package dev.willyelton.crystal_tools.client.gui;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.CrystalBackpack;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillDataNode;
-import dev.willyelton.crystal_tools.common.network.data.RemoveItemPayload;
 import dev.willyelton.crystal_tools.common.network.data.ResetSkillsPayload;
 import dev.willyelton.crystal_tools.common.network.data.ToolAttributePayload;
 import dev.willyelton.crystal_tools.common.network.data.ToolHealPayload;
-import dev.willyelton.crystal_tools.utils.InventoryUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
@@ -23,7 +20,6 @@ import java.util.Set;
 
 public class UpgradeScreen extends BaseUpgradeScreen {
     private Button healButton;
-    private Button resetButton;
     private final ItemStack stack;
     private final Runnable onClose;
     private int slotIndex = -1;
@@ -59,29 +55,18 @@ public class UpgradeScreen extends BaseUpgradeScreen {
             // Itemstack won't get updated yet I guess so need to manually disable heal after use
             button.active = false;
         }).bounds(5, 15, 30, Y_SIZE).tooltip(Tooltip.create(Component.literal("Uses a skill point to fully repair this tool"))).build());
+    }
 
-        boolean resetRequiresCrystal = CrystalToolsConfig.REQUIRE_CRYSTAL_FOR_RESET.get();
-        String text = "Reset Skill Points";
-        if (resetRequiresCrystal) text += " (Requires 1 Crystal)";
-        Tooltip resetTooltip = Tooltip.create(Component.literal(text));
+    @Override
+    protected void resetPoints(boolean crystalRequired) {
+        if (!crystalRequired || this.player.getInventory().hasAnyOf(Set.of(Registration.CRYSTAL.get()))) {
+            PacketDistributor.sendToServer(ResetSkillsPayload.INSTANCE);
+            ToolUtils.resetPoints(this.stack);
 
-        resetButton = addRenderableWidget(Button.builder(Component.literal("Reset"), (button) -> {
-            boolean requiresCrystal = CrystalToolsConfig.REQUIRE_CRYSTAL_FOR_RESET.get();
+            data = ToolUtils.getSkillData(this.stack);
+        }
 
-            if (!requiresCrystal || this.player.getInventory().hasAnyOf(Set.of(Registration.CRYSTAL.get()))) {
-                // Server
-                PacketDistributor.sendToServer(ResetSkillsPayload.INSTANCE);
-                PacketDistributor.sendToServer(new RemoveItemPayload(Registration.CRYSTAL.get().getDefaultInstance()));
-
-                // Client
-                ToolUtils.resetPoints(this.stack);
-                InventoryUtils.removeItemFromInventory(this.player.getInventory(), Registration.CRYSTAL.get().getDefaultInstance());
-
-                data = ToolUtils.getSkillData(this.stack);
-            }
-
-            this.onClose();
-        }).bounds(width - 40 - 5, 15, 40, Y_SIZE).tooltip(resetTooltip).build());
+        this.onClose();
     }
 
     @Override
@@ -94,7 +79,6 @@ public class UpgradeScreen extends BaseUpgradeScreen {
         super.updateButtons();
         int skillPoints = getSkillPoints();
         this.healButton.active = skillPoints > 0 && this.stack.isDamaged();
-        this.resetButton.active = !CrystalToolsConfig.REQUIRE_CRYSTAL_FOR_RESET.get() || this.player.getInventory().hasAnyOf(Set.of(Registration.CRYSTAL.get()));
     }
 
     @Override

@@ -264,6 +264,19 @@
         "key": "durability_bonus",
         "value": 50
       }
+    ],
+    [
+      {
+        "id": 22,
+        "name": "Infinite Unbreaking",
+        "description": "Add as many points to Unbreaking here as you want (1% per level)",
+        "limit": 70,
+        "requirements": [
+          {"node": [16, 19, 20, 21]}
+        ],
+        "key": "unbreaking",
+        "value": 0.01
+      }
     ]
   ]
 }

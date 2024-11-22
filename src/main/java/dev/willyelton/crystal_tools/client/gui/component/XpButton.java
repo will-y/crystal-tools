@@ -11,6 +11,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
+import java.util.function.Supplier;
+
 /**
  * Button to require xp costs
  */
@@ -18,10 +20,12 @@ public class XpButton extends Button {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/gui/xp_button.png");
 
     protected final CrystalToolsButton.OnTooltip onTooltip;
+    protected final Supplier<Integer> levelCostSupplier;
 
-    public XpButton(int x, int y, int width, int height, OnPress onPress, CrystalToolsButton.OnTooltip onToolTip, int levelCost) {
-        super(x, y, width, height, Component.literal("" + levelCost), onPress, DEFAULT_NARRATION);
+    public XpButton(int x, int y, int width, int height, OnPress onPress, CrystalToolsButton.OnTooltip onToolTip, Supplier<Integer> levelCostSupplier) {
+        super(x, y, width, height, Component.literal("" + levelCostSupplier.get()), onPress, DEFAULT_NARRATION);
         this.onTooltip = onToolTip;
+        this.levelCostSupplier = levelCostSupplier;
     }
 
     @Override
@@ -41,8 +45,13 @@ public class XpButton extends Button {
         guiGraphics.drawString(font, this.getMessage(), this.getX() + 16, this.getY() + (getHeight() - font.lineHeight) / 2 + 1, color);
     }
 
+    @Override
+    public Component getMessage() {
+        return Component.literal("" + levelCostSupplier.get());
+    }
+
     public void update(int levelCost, Player player) {
-        active = XpUtils.getPlayerTotalXp(player) >= XpUtils.getXPForLevel(levelCost);
+        active = XpUtils.getPlayerTotalXp(player) >= levelCost;
         this.setMessage(Component.literal("" + levelCost));
     }
 }

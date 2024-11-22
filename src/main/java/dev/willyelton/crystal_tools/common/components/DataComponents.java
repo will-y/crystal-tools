@@ -57,7 +57,7 @@ public class DataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> SHEAR = register("shear", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
 
     // AIOT
-    // TODO: Can just make this an enum component
+    // TODO (breaking): Can just make this an enum component
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> USE_MODE = register("use_mode", Codec.STRING, ByteBufCodecs.STRING_UTF8);
 
     // Weapons
@@ -74,9 +74,11 @@ public class DataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> ARMOR_BONUS = register("armor_bonus", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> TOUGHNESS_BONUS = register("toughness_bonus", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> NIGHT_VISION = register("night_vision", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> DISABLE_NIGHT_VISION = register("disable_night_vision", Codec.BOOL, ByteBufCodecs.BOOL);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> NO_FALL_DAMAGE = register("no_fall_damage", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> CREATIVE_FLIGHT = register("creative_flight", Codec.INT, ByteBufCodecs.INT, SkillType.INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> DISABLE_CREATIVE_FLIGHT = register("disable_creative_flight", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> FROST_WALKER = register("frost_walker", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
 
     // Bow
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> INFINITY = register("infinity", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
@@ -95,7 +97,7 @@ public class DataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<EffectData>>> EFFECTS = register("effects", EffectData.CODEC.listOf(), EffectData.STREAM_CODEC.apply(ByteBufCodecs.list()));
 
     // Firework
-    // TODO: Refactor to just use vanilla firework component?
+    // TODO (breaking): Refactor to just use vanilla firework component?
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> FLIGHT_TIME = register("flight_time", Codec.INT, ByteBufCodecs.INT, SkillType.INT);
 
     // Backpack

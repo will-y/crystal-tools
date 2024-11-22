@@ -1,16 +1,21 @@
 package dev.willyelton.crystal_tools.client.gui;
 
+import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.common.inventory.container.LevelableContainerMenu;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.LevelableBlockEntity;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillDataNode;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillTreeRegistry;
 import dev.willyelton.crystal_tools.common.network.data.BlockAttributePayload;
+import dev.willyelton.crystal_tools.common.network.data.ResetSkillsBlockPayload;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
+
+import java.util.Set;
 
 public class BlockEntityUpgradeScreen extends BaseUpgradeScreen {
     private final LevelableContainerMenu container;
@@ -69,6 +74,19 @@ public class BlockEntityUpgradeScreen extends BaseUpgradeScreen {
     protected void changeSkillPoints(int change) {
         this.container.addSkillPoints(change);
         PacketDistributor.sendToServer(new BlockAttributePayload("skill_points", change, -1, 1));
+    }
+
+    @Override
+    protected void resetPoints(boolean crystalRequired) {
+        if (!crystalRequired || this.player.getInventory().hasAnyOf(Set.of(Registration.CRYSTAL.get()))) {
+            LevelableBlockEntity blockEntity = this.container.getBlockEntity();
+            PacketDistributor.sendToServer(new ResetSkillsBlockPayload(blockEntity.getBlockPos()));
+            blockEntity.resetSkills();
+
+            data = getSkillData();
+        }
+
+        this.onClose();
     }
 
     @Override

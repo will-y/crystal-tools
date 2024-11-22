@@ -10,10 +10,10 @@ import org.lwjgl.glfw.GLFW;
 
 @EventBusSubscriber(modid=CrystalTools.MODID, bus=EventBusSubscriber.Bus.MOD, value= Dist.CLIENT)
 public class RegisterKeyBindingsEvent {
-    public static KeyMapping upgradeMenu;
-    public static KeyMapping veinMine;
-    public static KeyMapping modeSwitch;
-    public static KeyMapping openBackpack;
+    public static KeyMapping UPGRADE_MENU;
+    public static KeyMapping VEIN_MINE;
+    public static KeyMapping MODE_SWITCH;
+    public static KeyMapping OPEN_BACKPACK;
 
     private static KeyMapping createBinding(String name, int key, RegisterKeyMappingsEvent e) {
         KeyMapping keyBinding = new KeyMapping(getKey(name), key, getKey("category"));
@@ -23,10 +23,10 @@ public class RegisterKeyBindingsEvent {
 
     @SubscribeEvent
     public static void registerKeys(RegisterKeyMappingsEvent e) {
-        upgradeMenu = createBinding("upgrade_menu", GLFW.GLFW_KEY_K, e);
-        veinMine = createBinding("vein_mine", GLFW.GLFW_KEY_GRAVE_ACCENT, e);
-        modeSwitch = createBinding("mode_switch", GLFW.GLFW_KEY_M, e);
-        openBackpack = createBinding("open_backpack", GLFW.GLFW_KEY_B, e);
+        UPGRADE_MENU = createBinding("upgrade_menu", GLFW.GLFW_KEY_K, e);
+        VEIN_MINE = createBinding("vein_mine", GLFW.GLFW_KEY_GRAVE_ACCENT, e);
+        MODE_SWITCH = createBinding("mode_switch", GLFW.GLFW_KEY_M, e);
+        OPEN_BACKPACK = createBinding("open_backpack", GLFW.GLFW_KEY_B, e);
     }
 
     private static String getKey(String name) {

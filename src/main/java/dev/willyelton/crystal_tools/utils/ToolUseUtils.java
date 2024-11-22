@@ -93,7 +93,7 @@ public class ToolUseUtils {
             ItemStack itemStack = context.getItemInHand();
 
             if (itemStack.getOrDefault(DataComponents.VEIN_MINER, 0) > 0
-                    && level.isClientSide && RegisterKeyBindingsEvent.veinMine.isDown()) {
+                    && level.isClientSide && RegisterKeyBindingsEvent.VEIN_MINE.isDown()) {
                 Collection<BlockPos> blocksToStrip = BlockCollectors.collectVeinMine(blockPos, level, tool.getVeinMinerPredicate(initialState), tool.getMaxBlocks(itemStack));
 
                 for (BlockPos pos : blocksToStrip) {

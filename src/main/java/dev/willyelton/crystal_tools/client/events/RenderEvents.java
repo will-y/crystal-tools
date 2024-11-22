@@ -35,7 +35,7 @@ public class RenderEvents {
         if (player != null) {
             ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
 
-            if (RegisterKeyBindingsEvent.veinMine.isDown()
+            if (RegisterKeyBindingsEvent.VEIN_MINE.isDown()
                     && stack.getItem() instanceof VeinMinerLevelableTool veinMinerLevelableTool
                     && stack.getOrDefault(DataComponents.VEIN_MINER, 0) > 0) {
                 BlockOverlayRenderer.renderVeinMiner(event, veinMinerLevelableTool, stack);

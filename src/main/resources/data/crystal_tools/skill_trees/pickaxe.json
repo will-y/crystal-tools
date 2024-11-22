@@ -352,6 +352,19 @@
         "key": "reach",
         "value": 0.1
       }
+    ],
+    [
+      {
+        "id": 31,
+        "name": "Fortune V",
+        "description": "Gives Fortune V To The Pickaxe",
+        "limit": 1,
+        "requirements": [
+          {"node":  [7, 15, 16, 25, 29]}
+        ],
+        "key": "fortune_bonus",
+        "value": 5
+      }
     ]
   ]
 }

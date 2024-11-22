@@ -295,7 +295,7 @@
       {
         "id": 25,
         "name": "Night Vision",
-        "description": "Gives you night vision while wearing the helmet.",
+        "description": "Gives you night vision while wearing the helmet. Can be disabled with the mode switch key.",
         "limit": 1,
         "requirements": [
           {"or_node": [19, 20, 21, 22]}

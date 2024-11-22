@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:air"
+          "name": "crystal_tools:quarry_stabilizer"
         }
       ],
       "rolls": 1.0

@@ -4,6 +4,7 @@
 - Bow
   - Add looting (IItemExtension#supportsEnchantment)
 - Shield
+  - Totem of undying charges
 - Backpack
   - Trash (separate filters?)
   - Exp Storage ? (mode switch to turn on and off)
@@ -47,6 +48,9 @@
 - Crystal Arrow
 - Shulker
 - Wolf
+- Cobble generator
+- Battery
+- Maybe crusher
 
 ### New Blocks
 - Crystal glass (conn texture)
@@ -58,6 +62,7 @@
 - Advancements
 - https://jademc.readthedocs.io/en/latest/plugins20/getting-started/
 - Look at mekanism vein mining, might want to call playerBreak.
+- Fix xp gaining points being controlled by the client (hard because adding skill points is different for blocks and items)
 
 ### Breaking Improvements
 - Rename furnace and rocket skill trees to be consistent

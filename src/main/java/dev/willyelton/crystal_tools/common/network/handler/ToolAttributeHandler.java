@@ -26,6 +26,11 @@ public class ToolAttributeHandler {
             ItemStack heldTool = getItemStack(player, payload.slotIndex());
 
             if (!heldTool.isEmpty()) {
+                if (payload.id() == -1) {
+                    DataComponents.addToComponent(heldTool, payload.key(), payload.value());
+                    return;
+                }
+
                 int skillPoints = heldTool.getOrDefault(DataComponents.SKILL_POINTS, 0);
                 if (skillPoints == 0) return;
                 int pointsToAdd = Math.min(skillPoints, payload.pointsToSpend());
@@ -47,6 +52,9 @@ public class ToolAttributeHandler {
                         // also add it like normal, only for silk touch and fortune?
                         DataComponents.setValue(heldTool, payload.key(), payload.value());
                     } else {
+                        if (enchantment.equals(Enchantments.FROST_WALKER)) {
+                            heldTool.set(DataComponents.FROST_WALKER, true);
+                        }
                         EnchantmentUtils.addEnchantment(heldTool, enchantment, (int) payload.value(), player);
                     }
                 } else if (payload.key().contains("effect_")) {
@@ -56,9 +64,7 @@ public class ToolAttributeHandler {
                 }
 
                 // update the skill points array
-                if (payload.id() != -1) {
-                    DataComponents.addValueToArray(heldTool, DataComponents.POINTS_ARRAY, payload.id(), pointsToAdd);
-                }
+                DataComponents.addValueToArray(heldTool, DataComponents.POINTS_ARRAY, payload.id(), pointsToAdd);
             }
         });
     }

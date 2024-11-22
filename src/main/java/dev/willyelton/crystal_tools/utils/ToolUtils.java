@@ -39,6 +39,9 @@ public class ToolUtils {
     }
 
     public static void resetPoints(ItemStack stack) {
+        List<Integer> points = stack.getOrDefault(DataComponents.POINTS_ARRAY, Collections.emptyList());
+        int skillPoints = stack.getOrDefault(DataComponents.SKILL_POINTS, 0);
+
         List<ResourceLocation> resourceLocations = new ArrayList<>(DataComponents.FLOAT_COMPONENTS.values());
         resourceLocations.addAll(DataComponents.INT_COMPONENTS.values());
         resourceLocations.addAll(DataComponents.BOOLEAN_COMPONENTS.values());
@@ -49,6 +52,11 @@ public class ToolUtils {
             }
             stack.remove(dataComponent);
         }
+
+        skillPoints += points.stream().reduce(0, Integer::sum);
+
+        stack.set(DataComponents.POINTS_ARRAY, Collections.emptyList());
+        stack.set(DataComponents.SKILL_POINTS, skillPoints);
     }
 
     public static SkillData getSkillData(ItemStack stack) {

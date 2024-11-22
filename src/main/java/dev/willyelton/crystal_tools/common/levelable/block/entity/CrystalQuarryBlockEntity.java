@@ -113,6 +113,12 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     }
 
     // TODO
+    @Override
+    protected void resetExtraSkills() {
+
+    }
+
+    // TODO
     protected final ContainerData dataAccess = new LevelableContainerData(this) {
         @Override
         protected int getExtra(int index) {
