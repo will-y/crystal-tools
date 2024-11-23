@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 2.1.7
+### Fixes
+- Fixes the AIOT not mining dirt and other shovel blocks in 3x3 mode
+
 ## 2.1.6
 ### Additions
 - Adds Accessories support for the crystal backpack

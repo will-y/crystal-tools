@@ -78,6 +78,11 @@ public class AIOLevelableTool extends DiggerLevelableTool {
     }
 
     @Override
+    public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
+        return correctTool(stack, state);
+    }
+
+    @Override
     public boolean isDisabled() {
         return CrystalToolsConfig.DISABLE_AIOT.get();
     }
