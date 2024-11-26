@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.common.levelable.block;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.client.renderer.QuarryLaserRenderer;
+import dev.willyelton.crystal_tools.utils.Colors;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -22,6 +23,9 @@ import static dev.willyelton.crystal_tools.client.renderer.QuarryLaserRenderer.L
 
 // TODO: Probably want to do a cool model and not extend torch block
 public class QuarryStabilizer extends TorchBlock {
+    private static final int RED = Colors.fromRGB(255, 0, 0);
+    private static final int GREEN = Colors.fromRGB(0, 255, 0);
+
     // TODO: Server config
     public static int QUARRY_MAX_SIZE = 16;
 
@@ -39,10 +43,19 @@ public class QuarryStabilizer extends TorchBlock {
         // TODO: Going to need to order these in some way. Start is position clicked, not sure how that isn't already the case...
         // Only happens when there are already renderers in progress, should be overwritten with the correct value...
         if (level.isClientSide) {
-            QuarryLaserRenderer.startTemporaryLaser(level.getGameTime(), level.getGameTime() + 200, stabilizerPositions.get(0), stabilizerPositions.get(1));
-            QuarryLaserRenderer.startTemporaryLaser(level.getGameTime() + timeBetweenBlocks(stabilizerPositions.get(0), stabilizerPositions.get(1)), level.getGameTime() + 200, stabilizerPositions.get(1), stabilizerPositions.get(2));
-            QuarryLaserRenderer.startTemporaryLaser(level.getGameTime() + timeBetweenBlocks(stabilizerPositions.get(0), stabilizerPositions.get(1), stabilizerPositions.get(2)), level.getGameTime() + 200, stabilizerPositions.get(2), stabilizerPositions.get(3));
-            QuarryLaserRenderer.startTemporaryLaser(level.getGameTime() + timeBetweenBlocks(stabilizerPositions.get(0), stabilizerPositions.get(1), stabilizerPositions.get(2), stabilizerPositions.get(3)), level.getGameTime() + 200, stabilizerPositions.get(3), stabilizerPositions.get(0));
+            int color = stabilizerPositions.size() == 4 ? GREEN : RED;
+            if (stabilizerPositions.size() > 1) {
+                QuarryLaserRenderer.startTemporaryLaser(level.getGameTime(), level.getGameTime() + 200, stabilizerPositions.get(0), stabilizerPositions.get(1), color);
+            }
+
+            if (stabilizerPositions.size() > 2) {
+                QuarryLaserRenderer.startTemporaryLaser(level.getGameTime() + timeBetweenBlocks(stabilizerPositions.get(0), stabilizerPositions.get(1)), level.getGameTime() + 200, stabilizerPositions.get(1), stabilizerPositions.get(2), color);
+            }
+
+            if (stabilizerPositions.size() > 3) {
+                QuarryLaserRenderer.startTemporaryLaser(level.getGameTime() + timeBetweenBlocks(stabilizerPositions.get(0), stabilizerPositions.get(1), stabilizerPositions.get(2)), level.getGameTime() + 200, stabilizerPositions.get(2), stabilizerPositions.get(3), color);
+                QuarryLaserRenderer.startTemporaryLaser(level.getGameTime() + timeBetweenBlocks(stabilizerPositions.get(0), stabilizerPositions.get(1), stabilizerPositions.get(2), stabilizerPositions.get(3)), level.getGameTime() + 200, stabilizerPositions.get(3), stabilizerPositions.get(0), color);
+            }
         }
 
         return super.useWithoutItem(state, level, pos, player, hitResult);
@@ -58,16 +71,21 @@ public class QuarryStabilizer extends TorchBlock {
 
     public static List<BlockPos> findStabilizerSquare(BlockPos startingPos, Level level) {
         List<BlockPos> foundBlocks = new ArrayList<>();
+        foundBlocks.add(startingPos);
+
+        List<BlockPos> bestFoundBlocks = null;
 
         for (Direction direction : DIRECTIONS) {
             BlockPos nextStabilizer = findStabilizerInDirection(startingPos, direction, level);
             if (nextStabilizer == null) {
                 continue;
             }
+            foundBlocks.add(nextStabilizer);
 
             BlockPos tryRight = findStabilizerInDirection(nextStabilizer, direction.getClockWise(), level);
 
             if (tryRight != null) {
+                foundBlocks.add(tryRight);
                 BlockPos finalPosition;
                 if (direction.getAxis() == Direction.Axis.X) {
                     finalPosition = new BlockPos(startingPos.getX(), startingPos.getY(), tryRight.getZ());
@@ -81,6 +99,7 @@ public class QuarryStabilizer extends TorchBlock {
             } else {
                 BlockPos tryLeft = findStabilizerInDirection(nextStabilizer, direction.getCounterClockWise(), level);
                 if (tryLeft != null) {
+                    foundBlocks.add(tryLeft);
                     BlockPos finalPosition;
                     if (direction.getAxis() == Direction.Axis.X) {
                         finalPosition = new BlockPos(startingPos.getX(), startingPos.getY(), tryLeft.getZ());
@@ -93,9 +112,14 @@ public class QuarryStabilizer extends TorchBlock {
                     }
                 }
             }
+
+            if (bestFoundBlocks == null || bestFoundBlocks.size() < foundBlocks.size()) {
+                bestFoundBlocks = foundBlocks;
+            }
+            foundBlocks = new ArrayList<>();
         }
 
-        return foundBlocks;
+        return bestFoundBlocks;
     }
 
     private static @Nullable BlockPos findStabilizerInDirection(BlockPos startingPos, Direction direction, Level level) {

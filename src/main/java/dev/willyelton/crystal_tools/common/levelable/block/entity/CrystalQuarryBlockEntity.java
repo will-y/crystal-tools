@@ -25,7 +25,9 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 
 public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements MenuProvider {
     public static final int DATA_SIZE = 1;
+
     private static final int INVENTORY_SIZE = 9;
+    private static final int MAX_BLOCKS_PER_TICK = 20;
 
     // Item storage
     private NonNullList<ItemStack> storedItems;
@@ -41,14 +43,28 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     // Upgrades
 
     // Quarry things
-    private int tickCounter;
-    private int maxCounter;
-    private BlockPos miningAt;
+    private int tickCounter = 0;
+    private int currentSpeed = 1;
+    private BlockPos miningAt = null;
     private int yLevel;
+    private boolean finished = false;
 
     // Range
-    private BlockPos bottomLeft;
-    private BlockPos topRight;
+    // Should just use block positions?
+    private int minX;
+    private int maxX;
+    private int minZ;
+    private int maxZ;
+    private int minY;
+    private int maxY;
+
+    // Can also use a position for this maybe?
+    private int currentX;
+    private int currentY;
+    private int currentZ;
+
+    private BlockPos topCorner;
+    private BlockPos bottomCorner;
 
     public CrystalQuarryBlockEntity(BlockPos pos, BlockState state) {
         super(Registration.CRYSTAL_QUARRY_BLOCK_ENTITY.get(), pos, state);
@@ -141,10 +157,69 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     };
 
     public void serverTick(Level level, BlockPos pos, BlockState state) {
+        if (finished) return;
 
+        if (topCorner == null || bottomCorner == null) return;
+
+        tickCounter++;
+        if (tickCounter >= currentSpeed) {
+            tickCounter = 0;
+            miningAt = new BlockPos(currentX, currentY, currentZ);
+
+            int blocksThisTick = 0;
+            while (!finished && blocksThisTick < MAX_BLOCKS_PER_TICK) {
+                blocksThisTick++;
+                if (canMine(level.getBlockState(miningAt))) {
+                    level.destroyBlock(miningAt, false, null);
+                    nextPosition();
+                    break;
+                }
+                blocksThisTick++;
+                nextPosition();
+            }
+        }
     }
 
     public IItemHandler getItemHandler() {
         return itemHandler;
+    }
+
+    // TODO: do I need to store all of the stabilizer positions to check if they are broken?
+    public void setPositions(BlockPos topCorner, BlockPos bottomCorner) {
+        this.minX = Math.min(topCorner.getX(), bottomCorner.getX()) + 1;
+        this.maxX = Math.max(topCorner.getX(), bottomCorner.getX()) - 1;
+        this.minZ = Math.min(topCorner.getZ(), bottomCorner.getZ()) + 1;
+        this.maxZ = Math.max(topCorner.getZ(), bottomCorner.getZ()) - 1;
+        this.minY = Math.min(topCorner.getY(), bottomCorner.getY());
+        this.maxY = Math.max(topCorner.getY(), bottomCorner.getY());
+
+        this.currentX = minX;
+        this.currentZ = minZ;
+        this.currentY = maxY;
+
+        this.topCorner = topCorner;
+        this.bottomCorner = bottomCorner;
+        this.yLevel = topCorner.getY();
+        this.miningAt = topCorner;
+    }
+
+    private boolean canMine(BlockState state) {
+        return !state.isAir() && state.getDestroySpeed(level, worldPosition) > 0;
+    }
+
+    private void nextPosition() {
+        currentX++;
+        if (currentX > maxX) {
+            currentX = minX;
+            currentZ++;
+            if (currentZ > maxZ) {
+                currentZ = minZ;
+                currentY--;
+                if (currentY < minY) {
+                    finished = true;
+                }
+            }
+        }
+        miningAt = new BlockPos(currentX, currentY, currentZ);
     }
 }

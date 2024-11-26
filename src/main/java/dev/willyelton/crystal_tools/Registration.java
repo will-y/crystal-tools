@@ -16,6 +16,7 @@ import dev.willyelton.crystal_tools.common.levelable.armor.LevelableArmor;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalFurnaceBlock;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalGeneratorBlock;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalQuarryBlock;
+import dev.willyelton.crystal_tools.common.levelable.block.CrystalQuarryBlockItem;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalTorch;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalWallTorch;
 import dev.willyelton.crystal_tools.common.levelable.block.LevelableBlockItem;
@@ -128,7 +129,7 @@ public class Registration {
             super.appendHoverText(stack, context, components, tooltipFlag);
         }
     });
-    public static final DeferredHolder<Item, BlockItem> CRYSTAL_QUARRY_ITEM = ITEMS.register("crystal_quarry", () -> new LevelableBlockItem(CRYSTAL_QUARRY.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, BlockItem> CRYSTAL_QUARRY_ITEM = ITEMS.register("crystal_quarry", () -> new CrystalQuarryBlockItem(CRYSTAL_QUARRY.get(), new Item.Properties()));
     public static final DeferredHolder<Item, BlockItem> QUARRY_STABILIZER_ITEM = ITEMS.register("quarry_stabilizer", () -> new BlockItem(QUARRY_STABILIZER.get(), new Item.Properties()));
     public static final DeferredHolder<Item, StandingAndWallBlockItem> CRYSTAL_TORCH_ITEM = ITEMS.register("crystal_torch", () -> new StandingAndWallBlockItem(CRYSTAL_TORCH.get(), CRYSTAL_WALL_TORCH.get(), new Item.Properties(), Direction.DOWN));
 

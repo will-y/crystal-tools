@@ -11,4 +11,8 @@ public class Colors {
     public static int fromRGB(int red, int green, int blue, int alpha) {
         return blue + (green << 8) + (red << 16) + (alpha << 24);
     }
+
+    public static int addAlpha(int color, int alpha) {
+        return color + (alpha << 24);
+    }
 }

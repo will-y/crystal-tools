@@ -27,8 +27,8 @@ public class QuarryLaserRenderer {
     public static final float LASER_SPEED_MODIFIER = 1.2F;
     private static final Map<ReversiblePair<BlockPos>, LaserRendererProperties> LINE_RENDERERS = new HashMap<>();
 
-    public static void startTemporaryLaser(long startTime, long endTime, BlockPos pos1, BlockPos pos2) {
-        LINE_RENDERERS.put(new ReversiblePair<>(pos1, pos2), new LaserRendererProperties(startTime, endTime));
+    public static void startTemporaryLaser(long startTime, long endTime, BlockPos pos1, BlockPos pos2, int color) {
+        LINE_RENDERERS.put(new ReversiblePair<>(pos1, pos2), new LaserRendererProperties(startTime, endTime, color));
     }
 
     public static void render(RenderLevelStageEvent event) {
@@ -51,20 +51,20 @@ public class QuarryLaserRenderer {
             int timeElapsed = (int) (gameTime - properties.startTime);
 
             if (timeElapsed >= 0) {
-                renderLaser(event, level, pair.first(), pair.second(), timeElapsed, timeLeft, (int) (properties.endTime - properties.startTime));
+                renderLaser(event, level, pair.first(), pair.second(), timeElapsed, timeLeft, (int) (properties.endTime - properties.startTime), properties.color);
             }
         }
 
         toRemove.forEach(LINE_RENDERERS::remove);
     }
 
-    private static void renderLaser(RenderLevelStageEvent event, Level level, BlockPos pos1, BlockPos pos2, int timeElapsed, int timeLeft, int duration) {
+    private static void renderLaser(RenderLevelStageEvent event, Level level, BlockPos pos1, BlockPos pos2, int timeElapsed, int timeLeft, int duration, int colorIn) {
         PoseStack poseStack = event.getPoseStack();
         MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
         float partialTick = event.getPartialTick().getGameTimeDeltaTicks();
         long gameTime = level.getGameTime();
         float height = (float) Math.sqrt(pos1.distSqr(pos2));
-        int color = Colors.fromRGB(255, 0, 0, Mth.lerpDiscrete(timeLeft / (float) duration, 0, 255));
+        int color = Colors.addAlpha(colorIn, Mth.lerpDiscrete(timeLeft / (float) duration, 0, 255));
         float beamRadius = 0.1f;
         float glowRadius = 0.1f;
         float yMax = Math.min(height, timeElapsed / LASER_SPEED_MODIFIER);
@@ -138,5 +138,5 @@ public class QuarryLaserRenderer {
                 .setNormal(pose, 0.0F, 1.0F, 0.0F);
     }
 
-    private record LaserRendererProperties(long startTime, long endTime) {}
+    private record LaserRendererProperties(long startTime, long endTime, int color) {}
 }
