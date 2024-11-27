@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalQuarryBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -55,9 +56,19 @@ public class CrystalQuarryBlock extends BaseEntityBlock {
         if (level.isClientSide()) {
             return InteractionResult.SUCCESS;
         } else {
-            // TODO:
+            this.openContainer(level, pos, player);
+            return InteractionResult.CONSUME;
         }
-        return super.useWithoutItem(state, level, pos, player, hitResult);
+    }
+
+    // TODO: Move to a superclass
+    protected void openContainer(Level level, BlockPos pos, Player player) {
+        BlockEntity be = level.getBlockEntity(pos);
+        if (be instanceof CrystalQuarryBlockEntity crystalQuarryBlockEntity && player instanceof ServerPlayer serverPlayer) {
+            serverPlayer.openMenu(crystalQuarryBlockEntity, registryFriendlyByteBuf -> registryFriendlyByteBuf.writeBlockPos(pos));
+        } else {
+            throw new IllegalStateException("Our named container provider is missing!");
+        }
     }
 
     @Override

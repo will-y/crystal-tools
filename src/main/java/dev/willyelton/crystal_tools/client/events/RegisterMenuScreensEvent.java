@@ -5,6 +5,7 @@ import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen;
 import dev.willyelton.crystal_tools.client.gui.CrystalFurnaceScreen;
 import dev.willyelton.crystal_tools.client.gui.CrystalGeneratorScreen;
+import dev.willyelton.crystal_tools.client.gui.CrystalQuarryScreen;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -15,6 +16,7 @@ public class RegisterMenuScreensEvent {
     public static void onRegisterMenuScreens(net.neoforged.neoforge.client.event.RegisterMenuScreensEvent event) {
         event.register(Registration.CRYSTAL_FURNACE_CONTAINER.get(), CrystalFurnaceScreen::new);
         event.register(Registration.CRYSTAL_GENERATOR_CONTAINER.get(), CrystalGeneratorScreen::new);
+        event.register(Registration.CRYSTAL_QUARRY_CONTAINER.get(), CrystalQuarryScreen::new);
         event.register(Registration.CRYSTAL_BACKPACK_CONTAINER.get(), CrystalBackpackScreen::new);
     }
 }

@@ -62,7 +62,7 @@ public class CrystalQuarryContainerMenu extends LevelableContainerMenu {
 
     @Override
     public String getBlockType() {
-        return "generator";
+        return "quarry";
     }
 
     // TODO: Probably not needed if i add block entity to base container menu
