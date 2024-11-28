@@ -150,9 +150,20 @@ public abstract class BaseUpgradeScreen extends Screen {
                 pointsLeft -= pointsToSpend;
             }
 
-            return totalCost;
+            // Overflow
+            if (totalCost < 0) {
+                return Integer.MAX_VALUE;
+            } else {
+                return totalCost;
+            }
         } else {
-            return pointsToGain * xpLevelCost;
+            int totalCost = pointsToGain * xpLevelCost;
+
+            if (totalCost < 0) {
+                return Integer.MAX_VALUE;
+            } else {
+                return totalCost;
+            }
         }
     }
 

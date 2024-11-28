@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 2.1.8
+### Fixes
+- Fixes Xp Dupe with a very large amount of points
+
 ## 2.1.7
 ### Fixes
 - Fixes the AIOT not mining dirt and other shovel blocks in 3x3 mode
