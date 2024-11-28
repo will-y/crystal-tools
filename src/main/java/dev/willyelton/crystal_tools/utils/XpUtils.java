@@ -9,7 +9,7 @@ public class XpUtils {
      * @param level Experience Level
      * @return Total number of experience points to get to that level
      */
-    public static int getXPForLevel(int level) {
+    public static long getXPForLevel(long level) {
         if (level <= 15) {
             return level * level + 6 * level;
         } else if (level <= 30) {
@@ -29,7 +29,7 @@ public class XpUtils {
         }
     }
 
-    public static int getPlayerTotalXp(Player player) {
-        return getXPForLevel(player.experienceLevel) + (int) Math.floor(player.experienceProgress * player.getXpNeededForNextLevel());
+    public static long getPlayerTotalXp(Player player) {
+        return getXPForLevel(player.experienceLevel) + (long) Math.floor(player.experienceProgress * player.getXpNeededForNextLevel());
     }
 }

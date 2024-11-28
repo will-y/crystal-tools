@@ -135,26 +135,28 @@ public abstract class BaseUpgradeScreen extends Screen {
         int levelScaling = CrystalToolsConfig.EXPERIENCE_LEVELING_SCALING.get();
 
         if (levelScaling > 0) {
-            int totalCost = 0;
+            long totalCost = 0;
 
             int pointsAtLowerLevelLeft = Math.min(levelScaling - totalPoints % levelScaling, pointsToGain);
 
-            totalCost += pointsAtLowerLevelLeft * XpUtils.getXPForLevel(xpLevelCost + (totalPoints / levelScaling));
+            int pointCost1 = Math.min(totalPoints / levelScaling, 500);
+            totalCost += pointsAtLowerLevelLeft * XpUtils.getXPForLevel(xpLevelCost + pointCost1);
 
             int pointsLeft = pointsToGain - pointsAtLowerLevelLeft;
             int i = pointsAtLowerLevelLeft == 0 ? 0 : 1;
             while (pointsLeft > 0) {
                 int pointsToSpend = Math.min(levelScaling, pointsLeft);
-                totalCost += pointsToSpend * XpUtils.getXPForLevel(xpLevelCost + (totalPoints / levelScaling) + i);
+                int pointCost = Math.min(totalPoints / levelScaling, 500);
+                totalCost += pointsToSpend * XpUtils.getXPForLevel(xpLevelCost + pointCost + i);
                 i++;
                 pointsLeft -= pointsToSpend;
             }
 
             // Overflow
-            if (totalCost < 0) {
+            if (totalCost >= Integer.MAX_VALUE) {
                 return Integer.MAX_VALUE;
             } else {
-                return totalCost;
+                return (int) totalCost;
             }
         } else {
             int totalCost = pointsToGain * xpLevelCost;
