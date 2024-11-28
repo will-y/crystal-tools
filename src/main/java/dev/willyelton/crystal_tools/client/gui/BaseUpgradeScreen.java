@@ -139,6 +139,7 @@ public abstract class BaseUpgradeScreen extends Screen {
 
             int pointsAtLowerLevelLeft = Math.min(levelScaling - totalPoints % levelScaling, pointsToGain);
 
+            // TODO: Look at this 500 value, could be bad if the xp level cost configs are changed
             int pointCost1 = Math.min(totalPoints / levelScaling, 500);
             totalCost += pointsAtLowerLevelLeft * XpUtils.getXPForLevel(xpLevelCost + pointCost1);
 
