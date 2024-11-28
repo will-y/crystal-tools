@@ -11,6 +11,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -19,10 +20,15 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.items.ItemStackHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements MenuProvider {
     public static final int DATA_SIZE = 1;
@@ -57,9 +63,6 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     private int maxZ;
     private int minY;
     private int maxY;
-
-    private BlockPos topCorner;
-    private BlockPos bottomCorner;
 
     public CrystalQuarryBlockEntity(BlockPos pos, BlockState state) {
         super(Registration.CRYSTAL_QUARRY_BLOCK_ENTITY.get(), pos, state);
@@ -101,8 +104,9 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
         this.tickCounter = tag.getInt("TickCounter");
         this.currentSpeed = tag.getInt("CurrentSpeed");
-        // TODO: null
-        this.miningAt = BlockPos.of(tag.getLong("MiningAt"));
+        if (tag.contains("MiningAt")) {
+            this.miningAt = BlockPos.of(tag.getLong("MiningAt"));
+        }
         this.finished = tag.getBoolean("Finished");
 
         this.minX = tag.getInt("MinX");
@@ -128,7 +132,9 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
         tag.putInt("TickCounter", this.tickCounter);
         tag.putInt("CurrentSpeed", this.currentSpeed);
-        tag.putLong("MiningAt", this.miningAt.asLong());
+        if (this.miningAt != null) {
+            tag.putLong("MiningAt", this.miningAt.asLong());
+        }
         tag.putBoolean("Finished", this.finished);
 
         tag.putInt("MinX", this.minX);
@@ -182,7 +188,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     public void serverTick(Level level, BlockPos pos, BlockState state) {
         if (finished) return;
 
-        if (topCorner == null || bottomCorner == null) return;
+        if (miningAt == null) return;
 
         tickCounter++;
         if (tickCounter >= currentSpeed) {
@@ -192,8 +198,13 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
             while (!finished && blocksThisTick < MAX_BLOCKS_PER_TICK) {
                 blocksThisTick++;
                 if (canMine(level.getBlockState(miningAt))) {
-                    level.destroyBlock(miningAt, false, null);
-                    nextPosition();
+                    List<ItemStack> drops = Block.getDrops(level.getBlockState(miningAt), (ServerLevel) level, miningAt, level.getBlockEntity(miningAt));
+                    if (dropsFit(drops)) {
+                        level.destroyBlock(miningAt, false, null);
+                        insertDrops(drops);
+                        nextPosition();
+                    }
+
                     break;
                 }
                 blocksThisTick++;
@@ -216,8 +227,6 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         this.maxY = Math.max(topCorner.getY(), bottomCorner.getY());
 
         this.miningAt = new BlockPos(minX, minZ, maxY);
-        this.topCorner = topCorner;
-        this.bottomCorner = bottomCorner;
     }
 
     private boolean canMine(BlockState state) {
@@ -243,5 +252,28 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         }
 
         miningAt = new BlockPos(currentX, currentY, currentZ);
+    }
+
+    private boolean dropsFit(List<ItemStack> stacksToInsert) {
+        for (ItemStack stack : stacksToInsert) {
+            ItemStack result = ItemHandlerHelper.insertItem(this.itemHandler, stack, true);
+
+            if (!result.isEmpty()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private void insertDrops(List<ItemStack> stacksToInsert) {
+        // Shouldn't be anything here, maybe possible if things can be added mid-tick
+        List<ItemStack> leftover = new ArrayList<>();
+
+        for (ItemStack stack : stacksToInsert) {
+            leftover.add(ItemHandlerHelper.insertItem(this.itemHandler, stack, false));
+        }
+
+        leftover.stream().filter(stack -> !stack.isEmpty()).forEach(stack -> Block.popResource(level, worldPosition, stack));
     }
 }
