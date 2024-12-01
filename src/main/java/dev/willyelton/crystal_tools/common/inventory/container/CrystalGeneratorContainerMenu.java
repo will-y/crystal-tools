@@ -11,7 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 // TODO: Subclass of just furnace and generators (not backpack)
-public class CrystalGeneratorContainerMenu extends LevelableContainerMenu {
+public class CrystalGeneratorContainerMenu extends EnergyLevelableContainerMenu {
     private final CrystalGeneratorBlockEntity blockEntity;
 
     public CrystalGeneratorContainerMenu(int containerId, Level level, BlockPos pos, Inventory playerInventory, ContainerData data) {
@@ -72,10 +72,12 @@ public class CrystalGeneratorContainerMenu extends LevelableContainerMenu {
         return this.data.get(3) / (float) this.data.get(4);
     }
 
+    @Override
     public float getCurrentEnergy() {
         return this.data.get(5);
     }
 
+    @Override
     public float getMaxEnergy() {
         return this.data.get(6);
     }

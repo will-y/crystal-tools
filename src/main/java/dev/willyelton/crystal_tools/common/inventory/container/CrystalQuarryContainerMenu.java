@@ -10,7 +10,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class CrystalQuarryContainerMenu extends LevelableContainerMenu {
+public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu {
     private final CrystalQuarryBlockEntity blockEntity;
 
     public CrystalQuarryContainerMenu(int containerId, Level level, BlockPos pos, Inventory playerInventory, ContainerData data) {
@@ -19,8 +19,8 @@ public class CrystalQuarryContainerMenu extends LevelableContainerMenu {
 
         if (blockEntity == null) return;
 
-        this.addSlotBox(blockEntity.getItemHandler(), 0, 0, 0, 9, SLOT_SIZE, 3, SLOT_SIZE);
-        this.layoutPlayerInventorySlots(8, 84);
+        this.addSlotBox(blockEntity.getItemHandler(), 0, 8, 59, 9, SLOT_SIZE, 3, SLOT_SIZE);
+        this.layoutPlayerInventorySlots(8, 145);
     }
 
     // TODO: Default implementation
@@ -69,5 +69,15 @@ public class CrystalQuarryContainerMenu extends LevelableContainerMenu {
     @Override
     public CrystalQuarryBlockEntity getBlockEntity() {
         return blockEntity;
+    }
+
+    @Override
+    public float getCurrentEnergy() {
+        return 1000;
+    }
+
+    @Override
+    public float getMaxEnergy() {
+        return 3000;
     }
 }
