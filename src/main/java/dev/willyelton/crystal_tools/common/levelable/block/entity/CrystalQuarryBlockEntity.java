@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements MenuProvider {
-    public static final int DATA_SIZE = 1;
+    public static final int DATA_SIZE = 2;
 
     private static final int INVENTORY_SIZE = 27;
     private static final int MAX_BLOCKS_PER_TICK = 20;
@@ -46,6 +46,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     // Config
     private final int baseFEUsage;
     private final boolean useDirt;
+    private final float blockEnergyModifier;
 
     // Upgrades
 
@@ -71,6 +72,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         // TODO: Config
         baseFEUsage = 50;
         useDirt = false;
+        blockEnergyModifier = 1.0F;
 
         // Caps
         itemHandler = new ItemStackHandler(storedItems);
@@ -168,6 +170,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         @Override
         protected int getExtra(int index) {
             return switch (index) {
+                case 3 -> energyStorage.getEnergyStored();
+                case 4 -> energyStorage.getMaxEnergyStored();
                 default -> 0;
             };
         }
@@ -197,12 +201,20 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
             int blocksThisTick = 0;
             while (!finished && blocksThisTick < MAX_BLOCKS_PER_TICK) {
                 blocksThisTick++;
+                int energyCost = getEnergyForBlock(level.getBlockState(miningAt), miningAt);
+
+                if (energyCost > energyStorage.getEnergyStored()) {
+                    break;
+                }
+
                 if (canMine(level.getBlockState(miningAt))) {
                     List<ItemStack> drops = Block.getDrops(level.getBlockState(miningAt), (ServerLevel) level, miningAt, level.getBlockEntity(miningAt));
                     if (dropsFit(drops)) {
                         level.destroyBlock(miningAt, false, null);
                         insertDrops(drops);
+                        energyStorage.removeEnergy(energyCost);
                         nextPosition();
+                        setChanged();
                     }
 
                     break;
@@ -275,5 +287,11 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         }
 
         leftover.stream().filter(stack -> !stack.isEmpty()).forEach(stack -> Block.popResource(level, worldPosition, stack));
+    }
+
+    private int getEnergyForBlock(BlockState state, BlockPos pos) {
+        // TODO: Fluids have really high hardness
+        // TODO: Add skill modifiers
+        return (int) Math.ceil(state.getDestroySpeed(this.level, pos) * blockEnergyModifier + this.baseFEUsage);
     }
 }

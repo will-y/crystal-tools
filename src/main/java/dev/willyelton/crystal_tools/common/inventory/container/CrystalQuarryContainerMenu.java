@@ -73,11 +73,11 @@ public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu {
 
     @Override
     public float getCurrentEnergy() {
-        return 1000;
+        return this.data.get(3);
     }
 
     @Override
     public float getMaxEnergy() {
-        return 3000;
+        return this.data.get(4);
     }
 }
