@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements MenuProvider {
-    public static final int DATA_SIZE = 2;
+    public static final int DATA_SIZE = 5;
 
     private static final int INVENTORY_SIZE = 27;
     private static final int MAX_BLOCKS_PER_TICK = 20;
@@ -117,6 +117,9 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         this.maxZ = tag.getInt("MaxZ");
         this.minY = tag.getInt("MinY");
         this.maxY = tag.getInt("MaxY");
+
+        int energy = tag.getInt("Energy");
+        energyStorage = new CrystalEnergyStorage(10000, baseFEUsage * 2, 0, energy);
     }
 
     // TODO
@@ -145,6 +148,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         tag.putInt("MaxZ", this.maxZ);
         tag.putInt("MinY", this.minY);
         tag.putInt("MaxY", this.maxY);
+
+        tag.putInt("Energy", this.energyStorage.getEnergyStored());
     }
 
     // TODO
@@ -172,6 +177,9 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
             return switch (index) {
                 case 3 -> energyStorage.getEnergyStored();
                 case 4 -> energyStorage.getMaxEnergyStored();
+                case 5 -> miningAt.getX();
+                case 6 -> miningAt.getY();
+                case 7 -> miningAt.getZ();
                 default -> 0;
             };
         }

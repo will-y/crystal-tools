@@ -2,12 +2,13 @@ package dev.willyelton.crystal_tools.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.willyelton.crystal_tools.CrystalTools;
+import dev.willyelton.crystal_tools.client.gui.component.BlockEntityUpgradeButton;
 import dev.willyelton.crystal_tools.client.gui.component.EnergyBarWidget;
-import dev.willyelton.crystal_tools.client.gui.component.FurnaceUpgradeButton;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalQuarryContainerMenu;
 import dev.willyelton.crystal_tools.utils.IntegerUtils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -60,10 +61,18 @@ public class CrystalQuarryScreen extends AbstractContainerScreen<CrystalQuarryCo
                 this.inventoryLabelY,
                 4210752, false);
 
+        // TODO: This is going to need to be some sort of average
         guiGraphics.drawString(this.font,
                 Component.literal(String.format("Using %s FE/Tick", 40)),
                 this.inventoryLabelX,
                 ENERGY_Y + ENERGY_HEIGHT + 6,
+                4210752, false);
+
+        BlockPos miningAt = this.menu.getMiningAt();
+        guiGraphics.drawString(this.font,
+                Component.literal(String.format("Mining At %d, %d, %d", miningAt.getX(), miningAt.getY(), miningAt.getZ())),
+                this.inventoryLabelX,
+                ENERGY_Y + ENERGY_HEIGHT + 6 + 10,
                 4210752, false);
     }
 
@@ -73,7 +82,7 @@ public class CrystalQuarryScreen extends AbstractContainerScreen<CrystalQuarryCo
         super.init();
         this.addRenderableWidget(
                 // TODO: Rename
-                new FurnaceUpgradeButton(UPGRADE_BUTTON_X + this.leftPos,
+                new BlockEntityUpgradeButton(UPGRADE_BUTTON_X + this.leftPos,
                         UPGRADE_BUTTON_Y + this.topPos,
                         UPGRADE_BUTTON_WIDTH,
                         UPGRADE_BUTTON_HEIGHT,

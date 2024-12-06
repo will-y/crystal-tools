@@ -2,7 +2,7 @@ package dev.willyelton.crystal_tools.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.client.gui.component.FurnaceUpgradeButton;
+import dev.willyelton.crystal_tools.client.gui.component.BlockEntityUpgradeButton;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalFurnaceContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.furnace.CrystalFurnaceFuelSlot;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.furnace.CrystalFurnaceInputSlot;
@@ -154,7 +154,7 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
     protected void init() {
         super.init();
         this.addRenderableWidget(
-                new FurnaceUpgradeButton(UPGRADE_BUTTON_X + this.leftPos,
+                new BlockEntityUpgradeButton(UPGRADE_BUTTON_X + this.leftPos,
                         UPGRADE_BUTTON_Y + this.topPos,
                         UPGRADE_BUTTON_WIDTH,
                         UPGRADE_BUTTON_HEIGHT,

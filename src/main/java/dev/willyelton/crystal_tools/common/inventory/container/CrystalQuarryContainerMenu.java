@@ -80,4 +80,8 @@ public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu {
     public float getMaxEnergy() {
         return this.data.get(4);
     }
+
+    public BlockPos getMiningAt() {
+        return new BlockPos(this.data.get(5), this.data.get(6), this.data.get(7));
+    }
 }

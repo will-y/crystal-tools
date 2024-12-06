@@ -7,11 +7,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
-public class FurnaceUpgradeButton extends CrystalToolsButton {
-    public static final ResourceLocation FURNACE_BUTTON_LOCATION = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/gui/furnace_button.png");
+public class BlockEntityUpgradeButton extends CrystalToolsButton {
+    public static final ResourceLocation BUTTON_LOCATION = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/gui/furnace_button.png");
     private final boolean hasSkillPoints;
 
-    public FurnaceUpgradeButton(int x, int y, int width, int height, Component message, OnPress onPress, SkillButton.OnTooltip onTooltip, boolean hasSkillPoints) {
+    public BlockEntityUpgradeButton(int x, int y, int width, int height, Component message, OnPress onPress, SkillButton.OnTooltip onTooltip, boolean hasSkillPoints) {
         super(x, y, width, height, message, onPress, onTooltip);
         this.hasSkillPoints = hasSkillPoints;
     }
@@ -19,9 +19,9 @@ public class FurnaceUpgradeButton extends CrystalToolsButton {
     @Override
     protected void blitButton(GuiGraphics guiGraphics, int textureY) {
         // first half of button
-        guiGraphics.blit(FURNACE_BUTTON_LOCATION, this.getX(), this.getY(), 0, textureY * this.height, this.width / 2, this.height);
+        guiGraphics.blit(BUTTON_LOCATION, this.getX(), this.getY(), 0, textureY * this.height, this.width / 2, this.height);
         // second half of button
-        guiGraphics.blit(FURNACE_BUTTON_LOCATION, this.getX() + this.width / 2, this.getY(), 200 - this.width / 2, textureY * this.height, this.width / 2, this.height);
+        guiGraphics.blit(BUTTON_LOCATION, this.getX() + this.width / 2, this.getY(), 200 - this.width / 2, textureY * this.height, this.width / 2, this.height);
     }
 
     @Override
