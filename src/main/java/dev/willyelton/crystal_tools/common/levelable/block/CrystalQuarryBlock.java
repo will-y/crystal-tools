@@ -73,7 +73,6 @@ public class CrystalQuarryBlock extends BaseEntityBlock {
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        // TODO
         return new CrystalQuarryBlockEntity(pos, state);
     }
 

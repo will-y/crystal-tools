@@ -49,10 +49,11 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     private final float blockEnergyModifier;
 
     // Upgrades
+    private int speedUpgrade = 0;
 
     // Quarry things
     private int tickCounter = 0;
-    private int currentSpeed = 1;
+    private int currentSpeed = 40;
     private BlockPos miningAt = null;
     private boolean finished = false;
 
@@ -120,6 +121,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
         int energy = tag.getInt("Energy");
         energyStorage = new CrystalEnergyStorage(10000, baseFEUsage * 2, 0, energy);
+
+        this.speedUpgrade = tag.getInt("SpeedUpgrade");
     }
 
     // TODO
@@ -150,6 +153,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         tag.putInt("MaxY", this.maxY);
 
         tag.putInt("Energy", this.energyStorage.getEnergyStored());
+
+        tag.putInt("SpeedUpgrade", this.speedUpgrade);
     }
 
     // TODO
@@ -161,13 +166,15 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     // TODO
     @Override
     protected void addToExtraData(String key, float value) {
-
+        switch (key) {
+            case "quarry_speed" -> this.speedUpgrade += (int) value;
+        }
     }
 
     // TODO
     @Override
     protected void resetExtraSkills() {
-
+        this.speedUpgrade = 0;
     }
 
     // TODO
@@ -203,7 +210,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         if (miningAt == null) return;
 
         tickCounter++;
-        if (tickCounter >= currentSpeed) {
+        if (tickCounter >= currentSpeed - speedUpgrade) {
             tickCounter = 0;
 
             int blocksThisTick = 0;
@@ -246,7 +253,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         this.minY = Math.min(topCorner.getY(), bottomCorner.getY());
         this.maxY = Math.max(topCorner.getY(), bottomCorner.getY());
 
-        this.miningAt = new BlockPos(minX, minZ, maxY);
+        this.miningAt = new BlockPos(minX, maxY, minZ);
     }
 
     private boolean canMine(BlockState state) {

@@ -34,7 +34,6 @@
     - Remove liquids (put in tank / void options?)
     - Trash filters
     - Auto output to inventories
-    - Inventory size
 - Pump
 - Hopper
   - Inventory space

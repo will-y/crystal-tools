@@ -1,0 +1,19 @@
+{
+  "tiers": [
+    [
+      {
+        "id": 0,
+        "name": "Mining Speed I",
+        "description": "Increases the mining speed of the Quarry",
+        "subtext": {
+          "text": "Test",
+          "color": "#FF0000FF"
+        },
+        "limit": 1,
+        "requirements": [],
+        "key": "quarry_speed",
+        "value": 30
+      }
+    ]
+  ]
+}
