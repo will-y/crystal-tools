@@ -7,6 +7,8 @@ import dev.willyelton.crystal_tools.common.components.FurnaceUpgrades;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalFurnaceContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalFurnaceBlock;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.action.AutoOutputAction;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.action.AutoOutputable;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.data.LevelableContainerData;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
@@ -45,7 +47,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 
@@ -58,12 +59,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 // TODO: Audit / comment code, don't use WordlyContainer, extract out things that will be common to a generator / other
-public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements WorldlyContainer, MenuProvider {
+public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements WorldlyContainer, MenuProvider, AutoOutputable {
     public static final int[] INPUT_SLOTS = new int[] {0, 1, 2, 3, 4};
     public static final int[] OUTPUT_SLOTS = new int[] {5, 6, 7, 8, 9};
     public static final int[] FUEL_SLOTS = new int[] {10, 11, 12};
-
-    private static final Direction[] POSSIBLE_INVENTORIES = new Direction[] {Direction.DOWN, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
 
     public static final int SIZE = 13;
     public static final int DATA_SIZE = 14;
@@ -101,6 +100,9 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     private float expModifier;
     private boolean saveFuel = false;
 
+    // TODO: This should probably later be a list that just gets iterated over?
+    private final AutoOutputAction autoOutputAction;
+
     public CrystalFurnaceBlockEntity(BlockPos pPos, BlockState state) {
         super(Registration.CRYSTAL_FURNACE_BLOCK_ENTITY.get(), pPos, state);
         items = NonNullList.withSize(SIZE, ItemStack.EMPTY);
@@ -111,6 +113,8 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         sidedCaps = Arrays.stream(new Direction[] {Direction.DOWN, Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST})
                 .map(direction -> Map.entry(direction, new SidedInvWrapper(this, direction)))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        autoOutputAction = new AutoOutputAction(this);
     }
 
     public IItemHandler getCapForSide(Direction side) {
@@ -184,6 +188,22 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     @Override
     public ItemStack removeItemNoUpdate(int pSlot) {
         return ContainerHelper.takeItem(items, pSlot);
+    }
+
+    @Override
+    public Map<Integer, ItemStack> getOutputStacks() {
+        Map<Integer, ItemStack> items = new HashMap<>();
+
+        for (int i : OUTPUT_SLOTS) {
+            items.put(i, this.items.get(i));
+        }
+
+        return items;
+    }
+
+    @Override
+    public boolean autoOutputEnabled() {
+        return this.autoOutput;
     }
 
     @Override
@@ -449,8 +469,6 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         return recipeHolderOptional.orElse(null);
     }
 
-    private int autoOutputCounter = 0;
-
     public void serverTick(Level level, BlockPos pos, BlockState state) {
         // flag
         boolean isLit = this.isLit();
@@ -464,11 +482,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
                 this.litTime--;
             }
 
-            this.autoOutputCounter++;
-            if (autoOutputCounter > 100) {
-                this.autoOutput();
-                this.autoOutputCounter = 0;
-            }
+            this.autoOutputAction.tick(level, pos, state);
         }
 
         ItemStack fuelItemStack = this.items.get(FUEL_SLOTS[0]);
@@ -529,7 +543,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
 
         if (needsRebalance) {
             this.balanceInputs();
-            this.autoOutput();
+            this.autoOutputAction.tickAction(level, pos, state);
         }
 
         if (needChange) {
@@ -666,29 +680,6 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
                     ItemStack toSet = new ItemStack(item, stackCount + bonus);
                     this.setItem(activeInputSlots[index], toSet);
                     items[index] = item;
-                }
-            }
-        }
-    }
-
-    private void autoOutput() {
-        if (this.autoOutput) {
-            if (this.level != null) {
-                for (int slotIndex : OUTPUT_SLOTS) {
-                    ItemStack outputStack = this.getItem(slotIndex);
-                    for (Direction dir : POSSIBLE_INVENTORIES) {
-                        IItemHandler handler = level.getCapability(Capabilities.ItemHandler.BLOCK, getBlockPos().relative(dir), dir.getOpposite());
-
-                        if (handler != null) {
-                            for (int i = 0; i < handler.getSlots(); i++) {
-                                outputStack = handler.insertItem(i, outputStack, false);
-
-                                if (outputStack.isEmpty()) break;
-                            }
-                        }
-                        if (outputStack.isEmpty()) break;
-                    }
-                    this.setItem(slotIndex, outputStack);
                 }
             }
         }

@@ -13,6 +13,7 @@ import dev.willyelton.crystal_tools.client.gui.component.XpButton;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillDataNode;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillSubText;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.NodeOrSkillDataRequirement;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.NodeSkillDataRequirement;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.NotNodeSkillDataRequirement;
@@ -32,6 +33,9 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.FormattedText;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -40,6 +44,7 @@ import org.lwjgl.glfw.GLFW;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public abstract class BaseUpgradeScreen extends Screen {
@@ -217,8 +222,20 @@ public abstract class BaseUpgradeScreen extends Screen {
                 text = String.format("%s\n%d/%d Points", node.getDescription(), node.getPoints(), node.getLimit());
             }
 
+            Optional<SkillSubText> subText = node.getSkillSubText();
+
             Component textComponent = Component.literal(text);
-            guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(BaseUpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
+            FormattedText compositeComponent;
+
+            if (subText.isPresent()) {
+                FormattedText subTextComponent = FormattedText.of("\n" + subText.get().text(),
+                        Style.EMPTY.withColor(TextColor.parseColor(subText.get().color()).getOrThrow())
+                                .withBold(true));
+                compositeComponent = FormattedText.composite(textComponent, subTextComponent);
+            } else {
+                compositeComponent = FormattedText.composite(textComponent);
+            }
+            guiGraphics.renderTooltip(this.font, this.font.split(compositeComponent, Math.max(BaseUpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
         }, this.data, node, this.player));
     }
 

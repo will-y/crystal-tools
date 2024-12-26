@@ -6,13 +6,22 @@
         "name": "Mining Speed I",
         "description": "Increases the mining speed of the Quarry",
         "subtext": {
-          "text": "Test",
-          "color": "#FF0000FF"
+          "text": "Increases Energy Cost",
+          "color": "#FF0000"
         },
         "limit": 1,
         "requirements": [],
         "key": "quarry_speed",
         "value": 30
+      },
+      {
+        "id": 1,
+        "name": "Auto Output",
+        "description": "Auto Outputs items to adjacent inventories",
+        "limit": 1,
+        "requirements": [],
+        "key": "auto_output",
+        "value": 1
       }
     ]
   ]

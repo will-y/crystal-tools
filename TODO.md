@@ -34,6 +34,8 @@
     - Remove liquids (put in tank / void options?)
     - Trash filters
     - Auto output to inventories
+    - Fortune
+    - Silk Touch
 - Pump
 - Hopper
   - Inventory space

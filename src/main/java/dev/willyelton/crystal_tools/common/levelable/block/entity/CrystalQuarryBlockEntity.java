@@ -3,6 +3,8 @@ package dev.willyelton.crystal_tools.common.levelable.block.entity;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.energy.CrystalEnergyStorage;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalQuarryContainerMenu;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.action.AutoOutputAction;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.action.AutoOutputable;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.data.LevelableContainerData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -24,21 +26,24 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.items.ItemStackHandler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements MenuProvider {
-    public static final int DATA_SIZE = 5;
+public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements MenuProvider, AutoOutputable {
+    public static final int DATA_SIZE = 6;
 
     private static final int INVENTORY_SIZE = 27;
     private static final int MAX_BLOCKS_PER_TICK = 20;
 
     // Item storage
     private NonNullList<ItemStack> storedItems;
-    private IItemHandler itemHandler;
+    private IItemHandlerModifiable itemHandler;
 
     // Energy Storage
     private CrystalEnergyStorage energyStorage;
@@ -50,6 +55,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
     // Upgrades
     private int speedUpgrade = 0;
+    private boolean autoOutput = false;
 
     // Quarry things
     private int tickCounter = 0;
@@ -66,6 +72,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     private int minY;
     private int maxY;
 
+    private final AutoOutputAction autoOutputAction;
+
     public CrystalQuarryBlockEntity(BlockPos pos, BlockState state) {
         super(Registration.CRYSTAL_QUARRY_BLOCK_ENTITY.get(), pos, state);
         storedItems = NonNullList.withSize(INVENTORY_SIZE, ItemStack.EMPTY);
@@ -78,6 +86,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         // Caps
         itemHandler = new ItemStackHandler(storedItems);
         energyStorage = new CrystalEnergyStorage(10000, baseFEUsage * 2, 0, 0);
+
+        autoOutputAction = new AutoOutputAction(this);
     }
 
     public IItemHandler getItemHandlerCapForSide(Direction side) {
@@ -123,6 +133,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         energyStorage = new CrystalEnergyStorage(10000, baseFEUsage * 2, 0, energy);
 
         this.speedUpgrade = tag.getInt("SpeedUpgrade");
+        this.autoOutput = tag.getBoolean("AutoOutput");
     }
 
     // TODO
@@ -155,6 +166,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         tag.putInt("Energy", this.energyStorage.getEnergyStored());
 
         tag.putInt("SpeedUpgrade", this.speedUpgrade);
+        tag.putBoolean("AutoOutput", this.autoOutput);
     }
 
     // TODO
@@ -168,6 +180,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     protected void addToExtraData(String key, float value) {
         switch (key) {
             case "quarry_speed" -> this.speedUpgrade += (int) value;
+            case "auto_output" -> this.autoOutput = true;
         }
     }
 
@@ -175,6 +188,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     @Override
     protected void resetExtraSkills() {
         this.speedUpgrade = 0;
+        this.autoOutput = false;
     }
 
     // TODO
@@ -208,6 +222,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         if (finished) return;
 
         if (miningAt == null) return;
+
+        autoOutputAction.tick(level, pos, state);
 
         tickCounter++;
         if (tickCounter >= currentSpeed - speedUpgrade) {
@@ -308,5 +324,27 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         // TODO: Fluids have really high hardness
         // TODO: Add skill modifiers
         return (int) Math.ceil(state.getDestroySpeed(this.level, pos) * blockEnergyModifier + this.baseFEUsage);
+    }
+
+    @Override
+    public Map<Integer, ItemStack> getOutputStacks() {
+        HashMap<Integer, ItemStack> items = new HashMap<>();
+
+        for (int i = 0; i < itemHandler.getSlots(); i++) {
+            if (!itemHandler.getStackInSlot(i).isEmpty()) {
+                items.put(i, itemHandler.getStackInSlot(i));
+            }
+        }
+        return items;
+    }
+
+    @Override
+    public boolean autoOutputEnabled() {
+        return autoOutput;
+    }
+
+    @Override
+    public void setItem(int slot, ItemStack stack) {
+        itemHandler.setStackInSlot(slot, stack);
     }
 }
