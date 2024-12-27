@@ -57,6 +57,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     // Upgrades
     private int speedUpgrade = 0;
     private boolean autoOutput = false;
+    private boolean redstoneControl = false;
 
     // Quarry things
     private int tickCounter = 0;
@@ -81,7 +82,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
         // TODO: Config
         baseFEUsage = 50;
-        useDirt = true;
+        useDirt = false;
         blockEnergyModifier = 1.0F;
 
         // Caps
@@ -135,6 +136,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
         this.speedUpgrade = tag.getInt("SpeedUpgrade");
         this.autoOutput = tag.getBoolean("AutoOutput");
+        this.redstoneControl = tag.getBoolean("RedstoneControl");
     }
 
     // TODO
@@ -168,6 +170,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
         tag.putInt("SpeedUpgrade", this.speedUpgrade);
         tag.putBoolean("AutoOutput", this.autoOutput);
+        tag.putBoolean("RedstoneControl", this.redstoneControl);
     }
 
     // TODO
@@ -182,6 +185,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         switch (key) {
             case "quarry_speed" -> this.speedUpgrade += (int) value;
             case "auto_output" -> this.autoOutput = true;
+            case "redstone_control" -> this.redstoneControl = true;
         }
     }
 
@@ -190,6 +194,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     protected void resetExtraSkills() {
         this.speedUpgrade = 0;
         this.autoOutput = false;
+        this.redstoneControl = false;
     }
 
     // TODO
@@ -220,6 +225,11 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     };
 
     public void serverTick(Level level, BlockPos pos, BlockState state) {
+        boolean hasRedstone = level.hasNeighborSignal(pos);
+        if (hasRedstone && redstoneControl) {
+            return;
+        }
+
         if (finished) return;
 
         if (miningAt == null) return;

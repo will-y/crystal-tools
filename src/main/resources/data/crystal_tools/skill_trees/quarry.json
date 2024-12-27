@@ -22,6 +22,15 @@
         "requirements": [],
         "key": "auto_output",
         "value": 1
+      },
+      {
+        "id": 2,
+        "name": "Redstone Control",
+        "description": "Apply a redstone signal to disable the quarry",
+        "limit": 1,
+        "requirements": [],
+        "key": "redstone_control",
+        "value": 1
       }
     ]
   ]
