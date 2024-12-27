@@ -56,6 +56,5 @@ public class FilterConfigScreen extends BackpackSubScreen<CrystalBackpackContain
     @Override
     protected void drawContentRow(GuiGraphics guiGraphics, int row) {
         guiGraphics.blit(TEXTURE, leftPos, topPos + TOP_BAR_HEIGHT + ROW_HEIGHT * row, 0, 222, INVENTORY_WIDTH, ROW_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
-
     }
 }

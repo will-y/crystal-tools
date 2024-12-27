@@ -23,6 +23,7 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.items.IItemHandler;
@@ -80,7 +81,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
         // TODO: Config
         baseFEUsage = 50;
-        useDirt = false;
+        useDirt = true;
         blockEnergyModifier = 1.0F;
 
         // Caps
@@ -242,6 +243,10 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
                     List<ItemStack> drops = Block.getDrops(level.getBlockState(miningAt), (ServerLevel) level, miningAt, level.getBlockEntity(miningAt));
                     if (dropsFit(drops)) {
                         level.destroyBlock(miningAt, false, null);
+                        if (useDirt) {
+                            level.setBlock(miningAt, Blocks.DIRT.defaultBlockState(), 3);
+                        }
+
                         insertDrops(drops);
                         energyStorage.removeEnergy(energyCost);
                         nextPosition();

@@ -29,13 +29,12 @@
   - Model off of build craft quarry
   - Laser barriers and breaking animations?
   - Things to level:
-    - Speed
     - Reduce energy cost?
     - Remove liquids (put in tank / void options?)
-    - Trash filters
-    - Auto output to inventories
+    - Trash filters (make a new more generic filter screen that can work with backpack and quarry)
     - Fortune
     - Silk Touch
+  - Redstone to disable
 - Pump
 - Hopper
   - Inventory space
