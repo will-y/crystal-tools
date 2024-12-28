@@ -34,7 +34,6 @@
     - Trash filters (make a new more generic filter screen that can work with backpack and quarry)
     - Fortune
     - Silk Touch
-  - Redstone to disable
 - Pump
 - Hopper
   - Inventory space

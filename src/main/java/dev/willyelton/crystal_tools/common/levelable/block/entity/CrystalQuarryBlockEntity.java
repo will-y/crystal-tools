@@ -11,6 +11,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -21,6 +22,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -42,6 +44,10 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     private static final int INVENTORY_SIZE = 27;
     private static final int MAX_BLOCKS_PER_TICK = 20;
 
+    // Itemstacks for mocking fortune and silk touch
+    private static final ItemStack FORTUNE_STACK = new ItemStack(Registration.CRYSTAL_AIOT);
+    private static final ItemStack SILK_TOUCH_STACK = new ItemStack(Registration.CRYSTAL_AIOT);
+
     // Item storage
     private NonNullList<ItemStack> storedItems;
     private IItemHandlerModifiable itemHandler;
@@ -58,6 +64,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     private int speedUpgrade = 0;
     private boolean autoOutput = false;
     private boolean redstoneControl = false;
+    private int fortuneLevel = 0;
+    private boolean silkTouch = false;
 
     // Quarry things
     private int tickCounter = 0;
@@ -137,6 +145,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         this.speedUpgrade = tag.getInt("SpeedUpgrade");
         this.autoOutput = tag.getBoolean("AutoOutput");
         this.redstoneControl = tag.getBoolean("RedstoneControl");
+        this.fortuneLevel = tag.getInt("FortuneLevel");
+        this.silkTouch = tag.getBoolean("SilkTouch");
     }
 
     // TODO
@@ -171,12 +181,20 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         tag.putInt("SpeedUpgrade", this.speedUpgrade);
         tag.putBoolean("AutoOutput", this.autoOutput);
         tag.putBoolean("RedstoneControl", this.redstoneControl);
+        tag.putInt("FortuneLevel", this.fortuneLevel);
+        tag.putBoolean("SilkTouch", this.silkTouch);
     }
 
     // TODO
     @Override
     protected void collectImplicitComponents(DataComponentMap.Builder components) {
         super.collectImplicitComponents(components);
+    }
+
+    @Override
+    public void setLevel(Level level) {
+        super.setLevel(level);
+        enchantTempItems(level);
     }
 
     // TODO
@@ -186,6 +204,14 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
             case "quarry_speed" -> this.speedUpgrade += (int) value;
             case "auto_output" -> this.autoOutput = true;
             case "redstone_control" -> this.redstoneControl = true;
+            case "fortune" -> {
+                this.fortuneLevel += (int) value;
+                this.enchantTempItems(level);
+            }
+            case "silk_touch" -> {
+                this.silkTouch = true;
+                this.enchantTempItems(level);
+            }
         }
     }
 
@@ -195,6 +221,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         this.speedUpgrade = 0;
         this.autoOutput = false;
         this.redstoneControl = false;
+        this.fortuneLevel = 0;
+        this.silkTouch = false;
     }
 
     // TODO
@@ -250,7 +278,15 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
                 }
 
                 if (canMine(level.getBlockState(miningAt))) {
-                    List<ItemStack> drops = Block.getDrops(level.getBlockState(miningAt), (ServerLevel) level, miningAt, level.getBlockEntity(miningAt));
+                    ItemStack miningStack = ItemStack.EMPTY;
+                    // TODO: Setting
+                    if (fortuneLevel > 0) {
+                        miningStack = FORTUNE_STACK;
+                    } else if (silkTouch) {
+                        miningStack = SILK_TOUCH_STACK;
+                    }
+
+                    List<ItemStack> drops = Block.getDrops(level.getBlockState(miningAt), (ServerLevel) level, miningAt, level.getBlockEntity(miningAt), null, miningStack);
                     if (dropsFit(drops)) {
                         level.destroyBlock(miningAt, false, null);
                         if (useDirt) {
@@ -339,6 +375,13 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         // TODO: Fluids have really high hardness
         // TODO: Add skill modifiers
         return (int) Math.ceil(state.getDestroySpeed(this.level, pos) * blockEnergyModifier + this.baseFEUsage);
+    }
+
+    private void enchantTempItems(Level level) {
+        level.registryAccess().registry(Registries.ENCHANTMENT).ifPresent((enchantments) -> {
+            FORTUNE_STACK.enchant(enchantments.getHolderOrThrow(Enchantments.FORTUNE), this.fortuneLevel);
+            SILK_TOUCH_STACK.enchant(enchantments.getHolderOrThrow(Enchantments.SILK_TOUCH), 1);
+        });
     }
 
     @Override

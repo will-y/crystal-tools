@@ -32,6 +32,26 @@
         "key": "redstone_control",
         "value": 1
       }
+    ],
+    [
+      {
+        "id": 3,
+        "name": "Silk Touch",
+        "description": "Applies Silk Touch to the blocks the quarry mines",
+        "limit": 1,
+        "requirements": [],
+        "key": "silk_touch",
+        "value": 1
+      },
+      {
+        "id": 4,
+        "name": "Fortune I",
+        "description": "Applies Fortune I to the blocks the quarry mines",
+        "limit": 1,
+        "requirements": [],
+        "key": "fortune",
+        "value": 1
+      }
     ]
   ]
 }
