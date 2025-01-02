@@ -1,26 +1,59 @@
 package dev.willyelton.crystal_tools.common.inventory.container;
 
 import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.common.inventory.container.slot.CrystalSlotItemHandler;
+import dev.willyelton.crystal_tools.common.inventory.container.slot.backpack.BackpackFilterSlot;
+import dev.willyelton.crystal_tools.common.inventory.container.subscreen.FilterContainerMenu;
+import dev.willyelton.crystal_tools.common.inventory.container.subscreen.FilterMenuContents;
+import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenContainerMenu;
+import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenType;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalQuarryBlockEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
-public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu {
+public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu implements SubScreenContainerMenu, FilterContainerMenu {
     private final CrystalQuarryBlockEntity blockEntity;
+    private FilterMenuContents<CrystalQuarryContainerMenu> filterMenuContents;
+    private final NonNullList<CrystalSlotItemHandler> quarryInventorySlots;
+    private final NonNullList<CrystalSlotItemHandler> filterInventorySlots;
+    private final NonNullList<CrystalSlotItemHandler> quarrySlots;
 
     public CrystalQuarryContainerMenu(int containerId, Level level, BlockPos pos, Inventory playerInventory, ContainerData data) {
         super(Registration.CRYSTAL_QUARRY_CONTAINER.get(), containerId, playerInventory, data);
         blockEntity = (CrystalQuarryBlockEntity) level.getBlockEntity(pos);
+        quarryInventorySlots = NonNullList.createWithCapacity(36);
+        filterInventorySlots = NonNullList.createWithCapacity(36);
+        quarrySlots = NonNullList.createWithCapacity(27);
 
         if (blockEntity == null) return;
 
-        this.addSlotBox(blockEntity.getItemHandler(), 0, 8, 59, 9, SLOT_SIZE, 3, SLOT_SIZE);
-        this.layoutPlayerInventorySlots(8, 145);
+        filterMenuContents = new FilterMenuContents<>(this, blockEntity.getFilterRows(), true);
+        this.addSlotBox(blockEntity.getItemHandler(), 0, 8, 59, 9, SLOT_SIZE, 3, SLOT_SIZE, quarrySlots, CrystalSlotItemHandler::new);
+        this.addSlotBox(blockEntity.getFilterItemHandler(), 0, 8, 18, 9, SLOT_SIZE, blockEntity.getFilterRows(), SLOT_SIZE, filterMenuContents.getFilterSlots(), BackpackFilterSlot::new);
+        filterMenuContents.toggleSlots(false);
+        this.layoutPlayerInventorySlots(8, 145, quarryInventorySlots, CrystalSlotItemHandler::new);
+        this.layoutPlayerInventorySlots(8, 86, filterInventorySlots, CrystalSlotItemHandler::new);
+        filterInventorySlots.forEach(s -> s.setActive(false));
+    }
+
+    @Override
+    protected void addSlot(IItemHandler handler, int index, int x, int y) {
+        if (handler == filterMenuContents.getInventory()) {
+            BackpackFilterSlot slot = new BackpackFilterSlot(handler, index, x, y);
+            filterMenuContents.addSlot(slot);
+            addSlot(slot);
+        } else {
+            super.addSlot(handler, index, x, y);
+        }
     }
 
     // TODO: Default implementation
@@ -61,6 +94,23 @@ public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu {
     }
 
     @Override
+    public void clicked(int slotId, int button, ClickType clickType, Player player) {
+        if (slotId >= 0) {
+            Slot slot = getSlot(slotId);
+
+            if (slot instanceof BackpackFilterSlot filterSlot) {
+                if (filterMenuContents.getInventory() == null || clickType == ClickType.THROW || clickType == ClickType.CLONE) {
+                    return;
+                }
+                filterSlot.onClicked(getCarried());
+                blockEntity.setChanged();
+                return;
+            }
+        }
+        super.clicked(slotId, button, clickType, player);
+    }
+
+    @Override
     public String getBlockType() {
         return "quarry";
     }
@@ -83,5 +133,46 @@ public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu {
 
     public BlockPos getMiningAt() {
         return new BlockPos(this.data.get(5), this.data.get(6), this.data.get(7));
+    }
+
+    @Override
+    public boolean getWhitelist() {
+        return blockEntity.getWhitelist();
+    }
+
+    @Override
+    public void setWhitelist(boolean whitelist) {
+        blockEntity.setWhitelist(whitelist);
+    }
+
+    @Override
+    public int getFilterRows() {
+        return blockEntity.getFilterRows();
+    }
+
+    @Override
+    public IItemHandlerModifiable getFilterInventory() {
+        return blockEntity.getFilterItemHandler();
+    }
+
+    @Override
+    public FilterMenuContents<?> getFilterMenuContents() {
+        return filterMenuContents;
+    }
+
+    @Override
+    public void closeSubScreen() {
+        filterMenuContents.toggleSlots(false);
+        quarrySlots.forEach(slot -> slot.setActive(true));
+        quarryInventorySlots.forEach(slot -> slot.setActive(true));
+        filterInventorySlots.forEach(slot -> slot.setActive(false));
+    }
+
+    @Override
+    public void openSubScreen(SubScreenType subScreenType) {
+        filterMenuContents.toggleSlots(true);
+        quarrySlots.forEach(slot -> slot.setActive(false));
+        quarryInventorySlots.forEach(slot -> slot.setActive(false));
+        filterInventorySlots.forEach(slot -> slot.setActive(true));
     }
 }

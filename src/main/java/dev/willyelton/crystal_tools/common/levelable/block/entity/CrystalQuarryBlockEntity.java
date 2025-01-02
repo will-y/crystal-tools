@@ -49,8 +49,14 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     private static final ItemStack SILK_TOUCH_STACK = new ItemStack(Registration.CRYSTAL_AIOT);
 
     // Item storage
-    private NonNullList<ItemStack> storedItems;
-    private IItemHandlerModifiable itemHandler;
+    private final NonNullList<ItemStack> storedItems;
+    private final IItemHandlerModifiable itemHandler;
+
+    // Filter Things
+    private final NonNullList<ItemStack> filterItems;
+    private final IItemHandlerModifiable filterItemHandler;
+    private boolean whitelist = false;
+    private int filterRows = 1;
 
     // Energy Storage
     private CrystalEnergyStorage energyStorage;
@@ -97,6 +103,10 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         itemHandler = new ItemStackHandler(storedItems);
         energyStorage = new CrystalEnergyStorage(10000, baseFEUsage * 2, 0, 0);
 
+        // Filter
+        filterItems = NonNullList.withSize(INVENTORY_SIZE, ItemStack.EMPTY);
+        filterItemHandler = new ItemStackHandler(filterItems);
+
         autoOutputAction = new AutoOutputAction(this);
     }
 
@@ -124,6 +134,9 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         ContainerHelper.loadAllItems(tag, this.storedItems, registries);
+        if (tag.contains("FilterInventory")) {
+            ContainerHelper.loadAllItems(tag.getCompound("FilterInventory"), this.filterItems, registries);
+        }
 
         this.tickCounter = tag.getInt("TickCounter");
         this.currentSpeed = tag.getInt("CurrentSpeed");
@@ -161,6 +174,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
         ContainerHelper.saveAllItems(tag, this.storedItems, registries);
+        tag.put("FilterInventory", new CompoundTag());
+        ContainerHelper.saveAllItems(tag.getCompound("FilterInventory"), this.filterItems, registries);
 
         tag.putInt("TickCounter", this.tickCounter);
         tag.putInt("CurrentSpeed", this.currentSpeed);
@@ -311,6 +326,22 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         return itemHandler;
     }
 
+    public IItemHandlerModifiable getFilterItemHandler() {
+        return filterItemHandler;
+    }
+
+    public void setWhitelist(boolean whitelist) {
+        this.whitelist = whitelist;
+    }
+
+    public boolean getWhitelist() {
+        return whitelist;
+    }
+
+    public int getFilterRows() {
+        return filterRows;
+    }
+
     // TODO: do I need to store all of the stabilizer positions to check if they are broken?
     public void setPositions(BlockPos topCorner, BlockPos bottomCorner) {
         this.minX = Math.min(topCorner.getX(), bottomCorner.getX()) + 1;
@@ -350,6 +381,9 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
     private boolean dropsFit(List<ItemStack> stacksToInsert) {
         for (ItemStack stack : stacksToInsert) {
+            if (matchesFilter(stack)) {
+                continue;
+            }
             ItemStack result = ItemHandlerHelper.insertItem(this.itemHandler, stack, true);
 
             if (!result.isEmpty()) {
@@ -365,7 +399,9 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         List<ItemStack> leftover = new ArrayList<>();
 
         for (ItemStack stack : stacksToInsert) {
-            leftover.add(ItemHandlerHelper.insertItem(this.itemHandler, stack, false));
+            if (!matchesFilter(stack)) {
+                leftover.add(ItemHandlerHelper.insertItem(this.itemHandler, stack, false));
+            }
         }
 
         leftover.stream().filter(stack -> !stack.isEmpty()).forEach(stack -> Block.popResource(level, worldPosition, stack));
@@ -382,6 +418,17 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
             FORTUNE_STACK.enchant(enchantments.getHolderOrThrow(Enchantments.FORTUNE), this.fortuneLevel);
             SILK_TOUCH_STACK.enchant(enchantments.getHolderOrThrow(Enchantments.SILK_TOUCH), 1);
         });
+    }
+
+    private boolean matchesFilter(ItemStack stack) {
+        for (ItemStack filterStack : filterItems) {
+            // TODO: Mode matching
+            if (filterStack.is(stack.getItem())) {
+                return whitelist;
+            }
+        }
+
+        return !whitelist;
     }
 
     @Override

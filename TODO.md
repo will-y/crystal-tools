@@ -32,8 +32,6 @@
     - Reduce energy cost?
     - Remove liquids (put in tank / void options?)
     - Trash filters (make a new more generic filter screen that can work with backpack and quarry)
-    - Fortune
-    - Silk Touch
 - Pump
 - Hopper
   - Inventory space

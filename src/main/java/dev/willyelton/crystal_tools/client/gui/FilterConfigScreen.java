@@ -3,9 +3,13 @@ package dev.willyelton.crystal_tools.client.gui;
 import dev.willyelton.crystal_tools.client.gui.component.backpack.ClearFilterButton;
 import dev.willyelton.crystal_tools.client.gui.component.backpack.MatchContentsButton;
 import dev.willyelton.crystal_tools.client.gui.component.backpack.WhitelistToggleButton;
-import dev.willyelton.crystal_tools.common.inventory.container.CrystalBackpackContainerMenu;
+import dev.willyelton.crystal_tools.common.inventory.container.BaseContainerMenu;
+import dev.willyelton.crystal_tools.common.inventory.container.subscreen.FilterContainerMenu;
+import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenContainerMenu;
+import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenType;
 import dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -17,17 +21,17 @@ import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.TOP_
 import static dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload.BackpackAction.PICKUP_BLACKLIST;
 import static dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload.BackpackAction.PICKUP_WHITELIST;
 
-public class FilterConfigScreen extends BackpackSubScreen<CrystalBackpackContainerMenu> {
+public class FilterConfigScreen<T extends BaseContainerMenu & SubScreenContainerMenu & FilterContainerMenu, U extends Screen & SubScreenContainerScreen> extends BackpackSubScreen<T, U> {
     private boolean whitelist;
 
-    public FilterConfigScreen(CrystalBackpackContainerMenu menu, Inventory playerInventory, CrystalBackpackScreen returnScreen) {
+    public FilterConfigScreen(T menu, Inventory playerInventory, U returnScreen) {
         super(menu, playerInventory, Component.literal("Filter"), returnScreen);
-        this.whitelist = menu.getWhitelist();
     }
 
     @Override
     protected void init() {
         super.init();
+        this.whitelist = this.menu.getWhitelist();
 
         if (this.menu.getFilterRows() > 0) {
             this.addRenderableWidget(new WhitelistToggleButton(this.leftPos + 157, this.topPos + 4,
@@ -56,5 +60,20 @@ public class FilterConfigScreen extends BackpackSubScreen<CrystalBackpackContain
     @Override
     protected void drawContentRow(GuiGraphics guiGraphics, int row) {
         guiGraphics.blit(TEXTURE, leftPos, topPos + TOP_BAR_HEIGHT + ROW_HEIGHT * row, 0, 222, INVENTORY_WIDTH, ROW_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
+    }
+
+    @Override
+    public Component getName() {
+        return Component.literal("Configure Filters");
+    }
+
+    @Override
+    public SubScreenType getType() {
+        return SubScreenType.FILTER;
+    }
+
+    @Override
+    public int getButtonTextureXOffset() {
+        return 0;
     }
 }

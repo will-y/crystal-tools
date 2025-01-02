@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.client.gui.component.backpack;
 
 import dev.willyelton.crystal_tools.client.gui.component.CrystalToolsButton;
-import dev.willyelton.crystal_tools.common.inventory.container.CrystalBackpackContainerMenu;
+import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenContainerMenu;
 import dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -16,7 +16,7 @@ public abstract class BackpackActionButton extends CrystalToolsButton {
 
     private final int uOffset;
 
-    public BackpackActionButton(int x, int y, Component name, BackpackScreenPayload.BackpackAction action, int uOffset, Screen screen, CrystalBackpackContainerMenu container) {
+    public BackpackActionButton(int x, int y, Component name, BackpackScreenPayload.BackpackAction action, int uOffset, Screen screen, SubScreenContainerMenu container) {
         this(x, y, name, button -> container.sendUpdatePacket(action, Screen.hasShiftDown()), (button, guiGraphics, mouseX, mouseY) -> {
             guiGraphics.renderTooltip(screen.getMinecraft().font, screen.getMinecraft().font.split(name, Math.max(screen.width / 2 - 43, 170)), mouseX, mouseY);
         }, uOffset);

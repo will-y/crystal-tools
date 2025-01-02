@@ -1,9 +1,13 @@
 package dev.willyelton.crystal_tools.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import dev.willyelton.crystal_tools.common.inventory.container.BaseContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalBackpackContainerMenu;
+import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenContainerMenu;
+import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenType;
 import dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -16,10 +20,10 @@ import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.TEXT
 import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.TEXTURE_SIZE;
 import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.TOP_BAR_HEIGHT;
 
-public abstract class BackpackSubScreen<T extends CrystalBackpackContainerMenu> extends AbstractContainerScreen<T> {
-    private final CrystalBackpackScreen returnScreen;
+public abstract class BackpackSubScreen<T extends BaseContainerMenu & SubScreenContainerMenu, U extends Screen & SubScreenContainerScreen> extends AbstractContainerScreen<T> {
+    private final U returnScreen;
 
-    public BackpackSubScreen(T menu, Inventory playerInventory, Component title, CrystalBackpackScreen returnScreen) {
+    public BackpackSubScreen(T menu, Inventory playerInventory, Component title, U returnScreen) {
         super(menu, playerInventory, title);
         this.returnScreen = returnScreen;
     }
@@ -65,7 +69,7 @@ public abstract class BackpackSubScreen<T extends CrystalBackpackContainerMenu> 
 
     @Override
     protected void init() {
-        int rowsToDraw =getContainerRows();
+        int rowsToDraw = getContainerRows();
 
         this.inventoryLabelY = rowsToDraw * ROW_HEIGHT + CrystalBackpackContainerMenu.START_Y + 2;
         this.imageHeight = TOP_BAR_HEIGHT + INVENTORY_HEIGHT + rowsToDraw * ROW_HEIGHT;
@@ -73,7 +77,7 @@ public abstract class BackpackSubScreen<T extends CrystalBackpackContainerMenu> 
         super.init();
     }
 
-    public CrystalBackpackScreen getReturnScreen() {
+    public U getReturnScreen() {
         return returnScreen;
     }
 
@@ -84,4 +88,10 @@ public abstract class BackpackSubScreen<T extends CrystalBackpackContainerMenu> 
     protected abstract int getRowsToDraw();
 
     protected abstract void drawContentRow(GuiGraphics guiGraphics, int row);
+
+    public abstract Component getName();
+
+    public abstract SubScreenType getType();
+
+    public abstract int getButtonTextureXOffset();
 }

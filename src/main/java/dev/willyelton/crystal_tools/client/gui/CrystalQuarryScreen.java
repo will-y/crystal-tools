@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.client.gui.component.BlockEntityUpgradeButton;
 import dev.willyelton.crystal_tools.client.gui.component.EnergyBarWidget;
+import dev.willyelton.crystal_tools.client.gui.component.backpack.BackpackScreenButton;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalQuarryContainerMenu;
 import dev.willyelton.crystal_tools.utils.IntegerUtils;
 import net.minecraft.client.gui.GuiGraphics;
@@ -13,8 +14,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 // TODO: Compress the screen a little
-public class CrystalQuarryScreen extends AbstractContainerScreen<CrystalQuarryContainerMenu> {
+public class CrystalQuarryScreen extends AbstractContainerScreen<CrystalQuarryContainerMenu> implements SubScreenContainerScreen {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID ,"textures/gui/crystal_quarry.png");
 
     private static final int ENERGY_X = 8;
@@ -97,5 +101,20 @@ public class CrystalQuarryScreen extends AbstractContainerScreen<CrystalQuarryCo
         this.addRenderableWidget(
                 new EnergyBarWidget(this.leftPos + ENERGY_X, this.topPos + ENERGY_Y, ENERGY_WIDTH, ENERGY_HEIGHT, Component.empty(), this.font, this.menu)
         );
+        int screenButtonY = this.topPos + 17;
+
+        List<BackpackScreenButton> subScreenButtons = getSideButtons(this.leftPos - 21, screenButtonY, this.width, menu);
+        subScreenButtons.forEach(this::addRenderableWidget);
+    }
+
+    @Override
+    public List<BackpackSubScreen<?, ?>> getSubScreens() {
+        List<BackpackSubScreen<?, ?>> subScreens = new ArrayList<>();
+
+        if (this.menu.getFilterRows() > 0) {
+            subScreens.add(new FilterConfigScreen<>(menu, menu.getPlayer().getInventory(), this));
+        }
+
+        return subScreens;
     }
 }
