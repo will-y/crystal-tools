@@ -126,34 +126,6 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
 
         List<BackpackScreenButton> subScreenButtons = getSideButtons(this.leftPos - 21, screenButtonY, this.width, menu);
         subScreenButtons.forEach(this::addRenderableWidget);
-
-//        if (this.menu.getFilterRows() > 0) {
-//            this.addRenderableWidget(new BackpackScreenButton(this.leftPos - 21, screenButtonY, Component.literal("Configure Filters"),
-//                    button -> {
-//                        menu.openSubScreen(SubScreenType.FILTER);
-//                        PacketDistributor.sendToServer(new BackpackScreenPayload(OPEN_FILTER));
-//                        ModGUIs.openScreen(new FilterConfigScreen(menu, menu.getPlayerInventory(), this));
-//                    },
-//                    (button, guiGraphics, mouseX, mouseY) -> {
-//                        Component textComponent = Component.literal("Configure Filters");
-//                        guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalBackpackScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
-//                    }, 0));
-//            screenButtonY += 21;
-//        }
-//
-//        if (this.menu.canCompress()) {
-//            this.addRenderableWidget(new BackpackScreenButton(this.leftPos - 21, screenButtonY, Component.literal("Configure Compressions"),
-//                    button -> {
-//                        menu.openSubScreen(SubScreenType.COMPRESS);
-//                        PacketDistributor.sendToServer(new BackpackScreenPayload(OPEN_COMPRESSION));
-//                        ModGUIs.openScreen(new CompressConfigScreen(menu, menu.getPlayerInventory(), this));
-//                    },
-//                    (button, guiGraphics, mouseX, mouseY) -> {
-//                        Component textComponent = Component.literal("Configure Compressions");
-//                        guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalBackpackScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
-//                    }, 20));
-//            screenButtonY += 21;
-//        }
     }
 
     @Override
@@ -161,7 +133,7 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
         List<BackpackSubScreen<?, ?>> subScreens = new ArrayList<>();
 
         if (this.menu.getFilterRows() > 0) {
-            subScreens.add(new FilterConfigScreen<>(menu, menu.getPlayerInventory(), this));
+            subScreens.add(new FilterConfigScreen<>(menu, menu.getPlayerInventory(), this, true));
         }
 
         if (this.menu.canCompress()) {

@@ -23,9 +23,15 @@ import static dev.willyelton.crystal_tools.common.network.data.BackpackScreenPay
 
 public class FilterConfigScreen<T extends BaseContainerMenu & SubScreenContainerMenu & FilterContainerMenu, U extends Screen & SubScreenContainerScreen> extends BackpackSubScreen<T, U> {
     private boolean whitelist;
+    private final boolean showMatchBackpackButton;
 
     public FilterConfigScreen(T menu, Inventory playerInventory, U returnScreen) {
+        this(menu, playerInventory, returnScreen, false);
+    }
+
+    public FilterConfigScreen(T menu, Inventory playerInventory, U returnScreen, boolean showMatchBackpackButton) {
         super(menu, playerInventory, Component.literal("Filter"), returnScreen);
+        this.showMatchBackpackButton = showMatchBackpackButton;
     }
 
     @Override
@@ -48,7 +54,9 @@ public class FilterConfigScreen<T extends BaseContainerMenu & SubScreenContainer
 
             this.addRenderableWidget(new ClearFilterButton(this.leftPos + 143, this.topPos + 4, this, menu));
 
-            this.addRenderableWidget(new MatchContentsButton(this.leftPos + 129, this.topPos + 4, this, menu));
+            if (showMatchBackpackButton) {
+                this.addRenderableWidget(new MatchContentsButton(this.leftPos + 129, this.topPos + 4, this, menu));
+            }
         }
     }
 
