@@ -23,6 +23,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -77,6 +78,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     private int tickCounter = 0;
     private int currentSpeed = 40;
     private BlockPos miningAt = null;
+    private float currentProgress = 0;
+    private BlockState miningState = null;
     private boolean finished = false;
 
     // Range
@@ -279,47 +282,105 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
         autoOutputAction.tick(level, pos, state);
 
-        tickCounter++;
-        if (tickCounter >= currentSpeed - speedUpgrade) {
-            tickCounter = 0;
+        if (energyStorage.getEnergyStored() >= 40) {
+            energyStorage.removeEnergy(40);
+            setChanged();
+        } else {
+            return;
+        }
 
+        if (miningState == null) {
+            // Find new state
             int blocksThisTick = 0;
             while (!finished && blocksThisTick < MAX_BLOCKS_PER_TICK) {
-                blocksThisTick++;
-                int energyCost = getEnergyForBlock(level.getBlockState(miningAt), miningAt);
-
-                if (energyCost > energyStorage.getEnergyStored()) {
-                    break;
-                }
-
                 if (canMine(level.getBlockState(miningAt))) {
-                    ItemStack miningStack = ItemStack.EMPTY;
-                    // TODO: Setting
-                    if (fortuneLevel > 0) {
-                        miningStack = FORTUNE_STACK;
-                    } else if (silkTouch) {
-                        miningStack = SILK_TOUCH_STACK;
-                    }
-
-                    List<ItemStack> drops = Block.getDrops(level.getBlockState(miningAt), (ServerLevel) level, miningAt, level.getBlockEntity(miningAt), null, miningStack);
-                    if (dropsFit(drops)) {
-                        level.destroyBlock(miningAt, false, null);
-                        if (useDirt) {
-                            level.setBlock(miningAt, Blocks.DIRT.defaultBlockState(), 3);
-                        }
-
-                        insertDrops(drops);
-                        energyStorage.removeEnergy(energyCost);
-                        nextPosition();
-                        setChanged();
-                    }
-
+                    miningState = level.getBlockState(miningAt);
                     break;
+                } else {
+                    blocksThisTick++;
+                    nextPosition();
                 }
-                blocksThisTick++;
-                nextPosition();
+            }
+
+            if (miningAt == null) {
+                return;
             }
         }
+
+        // Keep mining
+        currentProgress += getDestroyProgress(miningState, level, miningAt);
+
+        if (currentProgress >= 10) {
+            if (miningState.equals(level.getBlockState(miningAt))) {
+                ItemStack miningStack = ItemStack.EMPTY;
+                // TODO: Setting
+                if (fortuneLevel > 0) {
+                    miningStack = FORTUNE_STACK;
+                } else if (silkTouch) {
+                    miningStack = SILK_TOUCH_STACK;
+                }
+
+                List<ItemStack> drops = Block.getDrops(level.getBlockState(miningAt), (ServerLevel) level, miningAt, level.getBlockEntity(miningAt), null, miningStack);
+                if (dropsFit(drops)) {
+                    level.destroyBlock(miningAt, false, null);
+                    if (useDirt) {
+                        level.setBlock(miningAt, Blocks.DIRT.defaultBlockState(), 3);
+                    }
+
+                    insertDrops(drops);
+                    setChanged();
+                } else {
+                    // TODO
+                }
+            }
+            miningState = null;
+            currentProgress = 0;
+        } else {
+            // Don't need to do this for instamines
+            level.destroyBlockProgress(-1, miningAt, (int) currentProgress);
+        }
+
+//        tickCounter++;
+//        if (tickCounter >= currentSpeed - speedUpgrade) {
+//            tickCounter = 0;
+//
+//            int blocksThisTick = 0;
+//            while (!finished && blocksThisTick < MAX_BLOCKS_PER_TICK) {
+//                blocksThisTick++;
+//                int energyCost = getEnergyForBlock(level.getBlockState(miningAt), miningAt);
+//
+//                if (energyCost > energyStorage.getEnergyStored()) {
+//                    break;
+//                }
+//
+//                if (canMine(level.getBlockState(miningAt))) {
+//                    ItemStack miningStack = ItemStack.EMPTY;
+//                    // TODO: Setting
+//                    if (fortuneLevel > 0) {
+//                        miningStack = FORTUNE_STACK;
+//                    } else if (silkTouch) {
+//                        miningStack = SILK_TOUCH_STACK;
+//                    }
+//
+//                    List<ItemStack> drops = Block.getDrops(level.getBlockState(miningAt), (ServerLevel) level, miningAt, level.getBlockEntity(miningAt), null, miningStack);
+//                    if (dropsFit(drops)) {
+//                        level.destroyBlock(miningAt, false, null);
+//                        if (useDirt) {
+//                            level.setBlock(miningAt, Blocks.DIRT.defaultBlockState(), 3);
+//                        }
+//
+//                        insertDrops(drops);
+//                        energyStorage.removeEnergy(energyCost);
+//                        nextPosition();
+//                        setChanged();
+//                    }
+//
+//                    break;
+//                }
+//                blocksThisTick++;
+//                nextPosition();
+//            }
+//        }
     }
 
     public IItemHandler getItemHandler() {
@@ -377,6 +438,17 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         }
 
         miningAt = new BlockPos(currentX, currentY, currentZ);
+    }
+
+    private float getDestroyProgress(BlockState state, BlockGetter level, BlockPos pos) {
+        float f = state.getDestroySpeed(level, pos);
+        if (f == -1.0F) {
+            return 0.0F;
+        } else {
+            // Eff V netherite is 234
+            // Base netherite is 9
+            return 9F / f / 30.0F;
+        }
     }
 
     private boolean dropsFit(List<ItemStack> stacksToInsert) {
