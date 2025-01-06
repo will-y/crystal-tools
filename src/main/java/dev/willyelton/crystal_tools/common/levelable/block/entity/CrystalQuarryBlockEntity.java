@@ -323,6 +323,13 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
             while (!finished && blocksThisTick < MAX_BLOCKS_PER_TICK) {
                 if (canMine(level.getBlockState(miningAt))) {
                     miningState = level.getBlockState(miningAt);
+                    if (!miningState.getFluidState().isEmpty()) {
+                        // TODO: Tank option later
+                        level.setBlock(miningAt, Blocks.AIR.defaultBlockState(), 3);
+                        blocksThisTick++;
+                        nextPosition();
+                        continue;
+                    }
                     break;
                 } else {
                     blocksThisTick++;

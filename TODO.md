@@ -15,14 +15,6 @@
   - Prio for multiple backpacks / pickup order
   - Client indexes don't get updated on scroll. Might cause problems but doesn't seem to
 - Crystal Generator
-  - Add more fuels (gems, metals, foods ...)
-  - Don't waste power upgrade
-  - Redstone to disable (might not need upgrade?)
-  - Increase rf/tick (generation and output)
-  - Increase burn time
-  - RF storage
-  - Add crystal fuel? Upgrade to turn generator into fuel maker for fuel generator?
-    - Maybe solid fuel too?
   - JEI Plugin things
 - Spawner
 - Quarry
@@ -32,6 +24,20 @@
     - Reduce energy cost?
     - Remove liquids (put in tank / void options?)
     - Trash filters (make a new more generic filter screen that can work with backpack and quarry)
+  - Left to do:
+    - Actual filter upgrade
+    - Do actual energy costs
+    - Options screen
+    - Make sure you place it near the area it is mining
+    - Chunkloading upgrade
+    - Actually gain skill points
+    - Make actual skill tree
+    - Pickup storing things
+    - Crafting recipe
+    - Some different texture (maybe generator too)
+    - Block state for on / off
+    - Start a few blocks above the defined area?
+    - Graphics (at least a laser beam and small breaking animation)
 - Pump
 - Hopper
   - Inventory space
@@ -76,5 +82,8 @@
 
 ### 1.21 Things
 - Sometimes leveling skills scrolls to the top of the menu
-- Attributes don't show up on items. Still works though
 - Remove JEI access transformers
+
+### Next breaking changes
+- Skill data should probably be a capability, at least on items
+- Allow for more general skill data, Attributes, DataComponents?
