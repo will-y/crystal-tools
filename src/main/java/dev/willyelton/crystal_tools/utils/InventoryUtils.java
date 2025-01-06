@@ -3,7 +3,6 @@ package dev.willyelton.crystal_tools.utils;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
-import net.neoforged.neoforge.items.ItemStackHandler;
 
 public class InventoryUtils {
     public static boolean removeItemFromInventory(Inventory inv, ItemStack itemStack) {

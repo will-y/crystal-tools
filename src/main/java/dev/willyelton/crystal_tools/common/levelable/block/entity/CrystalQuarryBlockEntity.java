@@ -6,6 +6,7 @@ import dev.willyelton.crystal_tools.common.inventory.container.CrystalQuarryCont
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.AutoOutputAction;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.AutoOutputable;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.data.LevelableContainerData;
+import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -57,6 +58,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     private final NonNullList<ItemStack> filterItems;
     private final IItemHandlerModifiable filterItemHandler;
     private boolean whitelist = false;
+    // TODO
     private int filterRows = 1;
 
     // Energy Storage
@@ -65,7 +67,6 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     // Config
     private final int baseFEUsage;
     private final boolean useDirt;
-    private final float blockEnergyModifier;
 
     // Upgrades
     private int speedUpgrade = 0;
@@ -81,6 +82,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     private float currentProgress = 0;
     private BlockState miningState = null;
     private boolean finished = false;
+    private List<ItemStack> waitingStacks = new ArrayList<>();
 
     // Range
     // Should just use block positions?
@@ -100,7 +102,6 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         // TODO: Config
         baseFEUsage = 50;
         useDirt = false;
-        blockEnergyModifier = 1.0F;
 
         // Caps
         itemHandler = new ItemStackHandler(storedItems);
@@ -146,6 +147,12 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         if (tag.contains("MiningAt")) {
             this.miningAt = BlockPos.of(tag.getLong("MiningAt"));
         }
+        this.currentProgress = tag.getFloat("CurrentProgress");
+        if (tag.contains("WaitingStacks")) {
+            this.waitingStacks = NBTUtils.getItemStackArray(tag.getCompound("WaitingStacks"), registries);
+        } else {
+            this.waitingStacks = new ArrayList<>();
+        }
         this.finished = tag.getBoolean("Finished");
 
         this.minX = tag.getInt("MinX");
@@ -184,6 +191,11 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         tag.putInt("CurrentSpeed", this.currentSpeed);
         if (this.miningAt != null) {
             tag.putLong("MiningAt", this.miningAt.asLong());
+        }
+        tag.putFloat("CurrentProgress", this.currentProgress);
+        if (!this.waitingStacks.isEmpty()) {
+            tag.put("WaitingStacks", new CompoundTag());
+            NBTUtils.storeItemStackArray(tag.getCompound("WaitingStacks"), this.waitingStacks, registries);
         }
         tag.putBoolean("Finished", this.finished);
 
@@ -282,6 +294,21 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
         autoOutputAction.tick(level, pos, state);
 
+        if (!waitingStacks.isEmpty()) {
+            if (level.getGameTime() % 100 == 0) {
+                List<ItemStack> noFit = tryInsertStacks(waitingStacks);
+
+                if (!noFit.isEmpty()) {
+                    waitingStacks = noFit;
+                    return;
+                } else {
+                    waitingStacks.clear();
+                }
+            } else {
+                return;
+            }
+        }
+
         if (energyStorage.getEnergyStored() >= 40) {
             energyStorage.removeEnergy(40);
             setChanged();
@@ -310,6 +337,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         // Keep mining
         currentProgress += getDestroyProgress(miningState, level, miningAt);
 
+        // TODO: Maybe try to break multiple blocks in a tick later?
         if (currentProgress >= 10) {
             if (miningState.equals(level.getBlockState(miningAt))) {
                 ItemStack miningStack = ItemStack.EMPTY;
@@ -321,66 +349,27 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
                 }
 
                 List<ItemStack> drops = Block.getDrops(level.getBlockState(miningAt), (ServerLevel) level, miningAt, level.getBlockEntity(miningAt), null, miningStack);
-                if (dropsFit(drops)) {
-                    level.destroyBlock(miningAt, false, null);
-                    if (useDirt) {
-                        level.setBlock(miningAt, Blocks.DIRT.defaultBlockState(), 3);
-                    }
+                List<ItemStack> noFit = tryInsertStacks(drops);
 
-                    insertDrops(drops);
-                    setChanged();
-                } else {
-                    // TODO
+                if (!noFit.isEmpty()) {
+                    this.waitingStacks = noFit;
                 }
+
+                level.destroyBlock(miningAt, false, null);
+                if (useDirt) {
+                    level.setBlock(miningAt, Blocks.DIRT.defaultBlockState(), 3);
+                }
+
+                insertDrops(drops);
+                setChanged();
             }
+
             miningState = null;
             currentProgress = 0;
         } else {
             // Don't need to do this for instamines
             level.destroyBlockProgress(-1, miningAt, (int) currentProgress);
         }
-
-//        tickCounter++;
-//        if (tickCounter >= currentSpeed - speedUpgrade) {
-//            tickCounter = 0;
-//
-//            int blocksThisTick = 0;
-//            while (!finished && blocksThisTick < MAX_BLOCKS_PER_TICK) {
-//                blocksThisTick++;
-//                int energyCost = getEnergyForBlock(level.getBlockState(miningAt), miningAt);
-//
-//                if (energyCost > energyStorage.getEnergyStored()) {
-//                    break;
-//                }
-//
-//                if (canMine(level.getBlockState(miningAt))) {
-//                    ItemStack miningStack = ItemStack.EMPTY;
-//                    // TODO: Setting
-//                    if (fortuneLevel > 0) {
-//                        miningStack = FORTUNE_STACK;
-//                    } else if (silkTouch) {
-//                        miningStack = SILK_TOUCH_STACK;
-//                    }
-//
-//                    List<ItemStack> drops = Block.getDrops(level.getBlockState(miningAt), (ServerLevel) level, miningAt, level.getBlockEntity(miningAt), null, miningStack);
-//                    if (dropsFit(drops)) {
-//                        level.destroyBlock(miningAt, false, null);
-//                        if (useDirt) {
-//                            level.setBlock(miningAt, Blocks.DIRT.defaultBlockState(), 3);
-//                        }
-//
-//                        insertDrops(drops);
-//                        energyStorage.removeEnergy(energyCost);
-//                        nextPosition();
-//                        setChanged();
-//                    }
-//
-//                    break;
-//                }
-//                blocksThisTick++;
-//                nextPosition();
-//            }
-//        }
     }
 
     public IItemHandler getItemHandler() {
@@ -447,23 +436,23 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         } else {
             // Eff V netherite is 234
             // Base netherite is 9
-            return 9F / f / 30.0F;
+            // TODO: Config for this 20
+            return (9F + speedUpgrade * 20) / f / 30.0F;
         }
     }
 
-    private boolean dropsFit(List<ItemStack> stacksToInsert) {
+    private List<ItemStack> tryInsertStacks(List<ItemStack> stacksToInsert) {
+        List<ItemStack> noFit = new ArrayList<>();
+
         for (ItemStack stack : stacksToInsert) {
-            if (matchesFilter(stack)) {
-                continue;
-            }
-            ItemStack result = ItemHandlerHelper.insertItem(this.itemHandler, stack, true);
+            ItemStack result = ItemHandlerHelper.insertItem(this.itemHandler, stack, false);
 
             if (!result.isEmpty()) {
-                return false;
+                noFit.add(result);
             }
         }
 
-        return true;
+        return noFit;
     }
 
     private void insertDrops(List<ItemStack> stacksToInsert) {
@@ -477,12 +466,6 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         }
 
         leftover.stream().filter(stack -> !stack.isEmpty()).forEach(stack -> Block.popResource(level, worldPosition, stack));
-    }
-
-    private int getEnergyForBlock(BlockState state, BlockPos pos) {
-        // TODO: Fluids have really high hardness
-        // TODO: Add skill modifiers
-        return (int) Math.ceil(state.getDestroySpeed(this.level, pos) * blockEnergyModifier + this.baseFEUsage);
     }
 
     private void enchantTempItems(Level level) {
