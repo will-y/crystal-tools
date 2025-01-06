@@ -29,6 +29,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
@@ -295,7 +296,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         autoOutputAction.tick(level, pos, state);
 
         if (!waitingStacks.isEmpty()) {
-            if (level.getGameTime() % 100 == 0) {
+            if (level.getGameTime() % 20 == 0) {
                 List<ItemStack> noFit = tryInsertStacks(waitingStacks);
 
                 if (!noFit.isEmpty()) {
@@ -349,6 +350,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
                 }
 
                 List<ItemStack> drops = Block.getDrops(level.getBlockState(miningAt), (ServerLevel) level, miningAt, level.getBlockEntity(miningAt), null, miningStack);
+                // TODO: Will this be too slow or is it fine to check for all blocks?
+                drops.addAll(getInventoryContents(level));
                 List<ItemStack> noFit = tryInsertStacks(drops);
 
                 if (!noFit.isEmpty()) {
@@ -360,7 +363,6 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
                     level.setBlock(miningAt, Blocks.DIRT.defaultBlockState(), 3);
                 }
 
-                insertDrops(drops);
                 setChanged();
             }
 
@@ -441,6 +443,24 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         }
     }
 
+    private List<ItemStack> getInventoryContents(Level level) {
+        List<ItemStack> stacks = new ArrayList<>();
+        for (Direction direction : Direction.values()) {
+            IItemHandler itemHandler = level.getCapability(Capabilities.ItemHandler.BLOCK, miningAt, miningState, level.getBlockEntity(miningAt), direction);
+
+            if (itemHandler != null) {
+                for (int i = 0; i < itemHandler.getSlots(); i++) {
+                    ItemStack storedStack = itemHandler.getStackInSlot(i);
+                    if (!storedStack.isEmpty()) {
+                        stacks.add(itemHandler.extractItem(i, storedStack.getCount(), false));
+                    }
+                }
+            }
+        }
+
+        return stacks;
+    }
+
     private List<ItemStack> tryInsertStacks(List<ItemStack> stacksToInsert) {
         List<ItemStack> noFit = new ArrayList<>();
 
@@ -453,19 +473,6 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         }
 
         return noFit;
-    }
-
-    private void insertDrops(List<ItemStack> stacksToInsert) {
-        // Shouldn't be anything here, maybe possible if things can be added mid-tick
-        List<ItemStack> leftover = new ArrayList<>();
-
-        for (ItemStack stack : stacksToInsert) {
-            if (!matchesFilter(stack)) {
-                leftover.add(ItemHandlerHelper.insertItem(this.itemHandler, stack, false));
-            }
-        }
-
-        leftover.stream().filter(stack -> !stack.isEmpty()).forEach(stack -> Block.popResource(level, worldPosition, stack));
     }
 
     private void enchantTempItems(Level level) {
