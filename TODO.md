@@ -25,7 +25,6 @@
     - Remove liquids (put in tank / void options?)
     - Trash filters (make a new more generic filter screen that can work with backpack and quarry)
   - Left to do:
-    - Actual filter upgrade
     - Do actual energy costs
     - Options screen
     - Make sure you place it near the area it is mining
@@ -38,6 +37,7 @@
     - Block state for on / off
     - Start a few blocks above the defined area?
     - Graphics (at least a laser beam and small breaking animation)
+    - Model (or at least texture) for the stabilizers
 - Pump
 - Hopper
   - Inventory space

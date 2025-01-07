@@ -25,12 +25,16 @@ public class FilterConfigScreen<T extends BaseContainerMenu & SubScreenContainer
     private boolean whitelist;
     private final boolean showMatchBackpackButton;
 
-    public FilterConfigScreen(T menu, Inventory playerInventory, U returnScreen) {
-        this(menu, playerInventory, returnScreen, false);
+    public FilterConfigScreen(T menu, Inventory playerInventory, U returnScreen, boolean showMatchBackpackButton) {
+        this(menu, playerInventory, returnScreen, Component.literal("Filter"), showMatchBackpackButton);
     }
 
-    public FilterConfigScreen(T menu, Inventory playerInventory, U returnScreen, boolean showMatchBackpackButton) {
-        super(menu, playerInventory, Component.literal("Filter"), returnScreen);
+    public FilterConfigScreen(T menu, Inventory playerInventory, U returnScreen, Component screenTitle) {
+        this(menu, playerInventory, returnScreen, screenTitle, false);
+    }
+
+    public FilterConfigScreen(T menu, Inventory playerInventory, U returnScreen, Component screenTitle, boolean showMatchBackpackButton) {
+        super(menu, playerInventory, screenTitle, returnScreen);
         this.showMatchBackpackButton = showMatchBackpackButton;
     }
 
@@ -71,7 +75,7 @@ public class FilterConfigScreen<T extends BaseContainerMenu & SubScreenContainer
     }
 
     @Override
-    public Component getName() {
+    public Component getButtonName() {
         return Component.literal("Configure Filters");
     }
 

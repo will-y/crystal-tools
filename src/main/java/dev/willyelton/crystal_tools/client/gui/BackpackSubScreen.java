@@ -89,7 +89,7 @@ public abstract class BackpackSubScreen<T extends BaseContainerMenu & SubScreenC
 
     protected abstract void drawContentRow(GuiGraphics guiGraphics, int row);
 
-    public abstract Component getName();
+    public abstract Component getButtonName();
 
     public abstract SubScreenType getType();
 

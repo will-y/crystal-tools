@@ -23,7 +23,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 
-public class CrystalQuarryBlock extends BaseEntityBlock {
+public class CrystalQuarryBlock extends BaseEntityBlock implements CrystalToolsMenuProvider {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     public static final BooleanProperty ACTIVE = BlockStateProperties.LIT;
     public static final MapCodec<CrystalQuarryBlock> CODEC = simpleCodec(CrystalQuarryBlock::new);
@@ -61,11 +61,14 @@ public class CrystalQuarryBlock extends BaseEntityBlock {
         }
     }
 
-    // TODO: Move to a superclass
-    protected void openContainer(Level level, BlockPos pos, Player player) {
+    @Override
+    public void openContainer(Level level, BlockPos pos, Player player) {
         BlockEntity be = level.getBlockEntity(pos);
         if (be instanceof CrystalQuarryBlockEntity crystalQuarryBlockEntity && player instanceof ServerPlayer serverPlayer) {
-            serverPlayer.openMenu(crystalQuarryBlockEntity, registryFriendlyByteBuf -> registryFriendlyByteBuf.writeBlockPos(pos));
+            serverPlayer.openMenu(crystalQuarryBlockEntity, registryFriendlyByteBuf -> {
+                registryFriendlyByteBuf.writeBlockPos(pos);
+                registryFriendlyByteBuf.writeInt(crystalQuarryBlockEntity.getFilterRows());
+            });
         } else {
             throw new IllegalStateException("Our named container provider is missing!");
         }

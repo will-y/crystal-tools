@@ -6,6 +6,7 @@ import dev.willyelton.crystal_tools.client.gui.component.BlockEntityUpgradeButto
 import dev.willyelton.crystal_tools.client.gui.component.EnergyBarWidget;
 import dev.willyelton.crystal_tools.client.gui.component.backpack.BackpackScreenButton;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalQuarryContainerMenu;
+import dev.willyelton.crystal_tools.common.network.data.OpenContainerPayload;
 import dev.willyelton.crystal_tools.utils.IntegerUtils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -13,6 +14,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +67,7 @@ public class CrystalQuarryScreen extends AbstractContainerScreen<CrystalQuarryCo
                 this.inventoryLabelY,
                 4210752, false);
 
-        // TODO: This is going to need to be some sort of average
+        // TODO: Get from menu / block entity
         guiGraphics.drawString(this.font,
                 Component.literal(String.format("Using %s FE/Tick", 40)),
                 this.inventoryLabelX,
@@ -85,13 +87,15 @@ public class CrystalQuarryScreen extends AbstractContainerScreen<CrystalQuarryCo
     protected void init() {
         super.init();
         this.addRenderableWidget(
-                // TODO: Rename
+                // TODO: Move to other section with other button
                 new BlockEntityUpgradeButton(UPGRADE_BUTTON_X + this.leftPos,
                         UPGRADE_BUTTON_Y + this.topPos,
                         UPGRADE_BUTTON_WIDTH,
                         UPGRADE_BUTTON_HEIGHT,
                         Component.literal("+"),
-                        pButton -> ModGUIs.openScreen(new BlockEntityUpgradeScreen(this.menu, this.menu.getPlayer(), this)),
+                        pButton -> ModGUIs.openScreen(new BlockEntityUpgradeScreen(this.menu, this.menu.getPlayer(), () -> {
+                            PacketDistributor.sendToServer(new OpenContainerPayload(this.menu.getBlockPos().asLong()));
+                        })),
                         (button, guiGraphics, mouseX, mouseY) -> {
                             Component textComponent = Component.literal(this.menu.getSkillPoints() + " Point(s) Available");
                             guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalQuarryScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
@@ -112,7 +116,12 @@ public class CrystalQuarryScreen extends AbstractContainerScreen<CrystalQuarryCo
         List<BackpackSubScreen<?, ?>> subScreens = new ArrayList<>();
 
         if (this.menu.getFilterRows() > 0) {
-            subScreens.add(new FilterConfigScreen<>(menu, menu.getPlayer().getInventory(), this));
+            subScreens.add(new FilterConfigScreen<>(menu, menu.getPlayer().getInventory(), this, Component.literal("Trash Filter")) {
+                @Override
+                public Component getButtonName() {
+                    return Component.literal("Configure Trash Filters");
+                }
+            });
         }
 
         return subScreens;

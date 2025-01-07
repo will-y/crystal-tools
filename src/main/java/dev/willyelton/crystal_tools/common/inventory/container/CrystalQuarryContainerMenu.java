@@ -26,19 +26,21 @@ public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu imp
     private final NonNullList<CrystalSlotItemHandler> quarryInventorySlots;
     private final NonNullList<CrystalSlotItemHandler> filterInventorySlots;
     private final NonNullList<CrystalSlotItemHandler> quarrySlots;
+    private final int filterRows;
 
-    public CrystalQuarryContainerMenu(int containerId, Level level, BlockPos pos, Inventory playerInventory, ContainerData data) {
+    public CrystalQuarryContainerMenu(int containerId, Level level, BlockPos pos, int filterRows, Inventory playerInventory, ContainerData data) {
         super(Registration.CRYSTAL_QUARRY_CONTAINER.get(), containerId, playerInventory, data);
         blockEntity = (CrystalQuarryBlockEntity) level.getBlockEntity(pos);
         quarryInventorySlots = NonNullList.createWithCapacity(36);
         filterInventorySlots = NonNullList.createWithCapacity(36);
         quarrySlots = NonNullList.createWithCapacity(27);
+        this.filterRows = filterRows;
 
         if (blockEntity == null) return;
 
-        filterMenuContents = new FilterMenuContents<>(this, blockEntity.getFilterRows(), true);
+        filterMenuContents = new FilterMenuContents<>(this, filterRows, true);
         this.addSlotBox(blockEntity.getItemHandler(), 0, 8, 59, 9, SLOT_SIZE, 3, SLOT_SIZE, quarrySlots, CrystalSlotItemHandler::new);
-        this.addSlotBox(blockEntity.getFilterItemHandler(), 0, 8, 18, 9, SLOT_SIZE, blockEntity.getFilterRows(), SLOT_SIZE, filterMenuContents.getFilterSlots(), BackpackFilterSlot::new);
+        this.addSlotBox(blockEntity.getFilterItemHandler(), 0, 8, 18, 9, SLOT_SIZE, filterRows, SLOT_SIZE, filterMenuContents.getFilterSlots(), BackpackFilterSlot::new);
         filterMenuContents.toggleSlots(false);
         this.layoutPlayerInventorySlots(8, 145, quarryInventorySlots, CrystalSlotItemHandler::new);
         this.layoutPlayerInventorySlots(8, 86, filterInventorySlots, CrystalSlotItemHandler::new);
@@ -135,19 +137,24 @@ public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu imp
         return new BlockPos(this.data.get(5), this.data.get(6), this.data.get(7));
     }
 
+    public BlockPos getBlockPos() {
+        return blockEntity.getBlockPos();
+    }
+
     @Override
     public boolean getWhitelist() {
-        return blockEntity.getWhitelist();
+        return this.data.get(8) == 1;
     }
 
     @Override
     public void setWhitelist(boolean whitelist) {
-        blockEntity.setWhitelist(whitelist);
+        this.data.set(8, whitelist ? 1 : 0);
     }
 
     @Override
     public int getFilterRows() {
-        return blockEntity.getFilterRows();
+        // Can't use container data here because it isn't synced when init is called on the screen
+        return this.filterRows;
     }
 
     @Override

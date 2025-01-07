@@ -151,7 +151,7 @@ public class Registration {
     public static final DeferredHolder<MenuType<?>, MenuType<CrystalGeneratorContainerMenu>> CRYSTAL_GENERATOR_CONTAINER = CONTAINERS.register("crystal_generator",
             () -> IMenuTypeExtension.create((windowId, inv, data) -> new CrystalGeneratorContainerMenu(windowId, inv.player.level(), data.readBlockPos(), inv, new SimpleLevelableContainerData(CrystalGeneratorBlockEntity.DATA_SIZE))));
     public static final DeferredHolder<MenuType<?>, MenuType<CrystalQuarryContainerMenu>> CRYSTAL_QUARRY_CONTAINER = CONTAINERS.register("crystal_quarry",
-            () -> IMenuTypeExtension.create((windowId, inv, data) -> new CrystalQuarryContainerMenu(windowId, inv.player.level(), data.readBlockPos(), inv, new SimpleLevelableContainerData(CrystalQuarryBlockEntity.DATA_SIZE))));
+            () -> IMenuTypeExtension.create((windowId, inv, data) -> new CrystalQuarryContainerMenu(windowId, inv.player.level(), data.readBlockPos(), data.readInt(), inv, new SimpleLevelableContainerData(CrystalQuarryBlockEntity.DATA_SIZE))));
     public static final DeferredHolder<MenuType<?>, MenuType<CrystalBackpackContainerMenu>> CRYSTAL_BACKPACK_CONTAINER = CONTAINERS.register("crystal_backpack",
             () -> IMenuTypeExtension.create(CrystalBackpackContainerMenu::new));
 

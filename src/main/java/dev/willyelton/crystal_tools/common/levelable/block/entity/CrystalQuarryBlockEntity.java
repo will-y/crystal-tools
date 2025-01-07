@@ -58,9 +58,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     // Filter Things
     private final NonNullList<ItemStack> filterItems;
     private final IItemHandlerModifiable filterItemHandler;
-    private boolean whitelist = false;
-    // TODO
-    private int filterRows = 1;
+    private boolean whitelist = true;
+    private int filterRows = 0;
 
     // Energy Storage
     private CrystalEnergyStorage energyStorage;
@@ -131,7 +130,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     @Override
     public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
         // TODO: Could make super class generic on container menu?
-        return new CrystalQuarryContainerMenu(containerId, player.level(), this.getBlockPos(), playerInventory, this.dataAccess);
+        return new CrystalQuarryContainerMenu(containerId, player.level(), this.getBlockPos(), this.filterRows, playerInventory, this.dataAccess);
     }
 
     // TODO
@@ -139,9 +138,12 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         ContainerHelper.loadAllItems(tag, this.storedItems, registries);
+
         if (tag.contains("FilterInventory")) {
             ContainerHelper.loadAllItems(tag.getCompound("FilterInventory"), this.filterItems, registries);
         }
+        this.filterRows = tag.getInt("FilterRows");
+        this.whitelist = tag.getBoolean("Whitelist");
 
         this.tickCounter = tag.getInt("TickCounter");
         this.currentSpeed = tag.getInt("CurrentSpeed");
@@ -185,8 +187,11 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
         ContainerHelper.saveAllItems(tag, this.storedItems, registries);
+
         tag.put("FilterInventory", new CompoundTag());
         ContainerHelper.saveAllItems(tag.getCompound("FilterInventory"), this.filterItems, registries);
+        tag.putInt("FilterRows", this.filterRows);
+        tag.putBoolean("Whitelist", this.whitelist);
 
         tag.putInt("TickCounter", this.tickCounter);
         tag.putInt("CurrentSpeed", this.currentSpeed);
@@ -243,6 +248,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
                 this.silkTouch = true;
                 this.enchantTempItems(level);
             }
+            case "filter_capacity" -> this.filterRows += (int) value;
         }
     }
 
@@ -254,6 +260,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         this.redstoneControl = false;
         this.fortuneLevel = 0;
         this.silkTouch = false;
+        this.filterRows = 0;
+        this.whitelist = true;
     }
 
     // TODO
@@ -266,6 +274,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
                 case 5 -> miningAt.getX();
                 case 6 -> miningAt.getY();
                 case 7 -> miningAt.getZ();
+                case 8 -> whitelist ? 1 : 0;
                 default -> 0;
             };
         }
@@ -273,7 +282,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         @Override
         protected void setExtra(int index, int value) {
             switch (index) {
-
+                case 8 -> whitelist = value == 1;
             }
         }
 
@@ -337,7 +346,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
                 }
             }
 
-            if (miningAt == null) {
+            if (miningState == null) {
                 return;
             }
         }
@@ -472,6 +481,9 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         List<ItemStack> noFit = new ArrayList<>();
 
         for (ItemStack stack : stacksToInsert) {
+            if (matchesFilter(stack)) {
+                continue;
+            }
             ItemStack result = ItemHandlerHelper.insertItem(this.itemHandler, stack, false);
 
             if (!result.isEmpty()) {

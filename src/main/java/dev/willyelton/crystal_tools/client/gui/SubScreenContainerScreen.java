@@ -31,14 +31,14 @@ public interface SubScreenContainerScreen {
         List<BackpackScreenButton> buttons = new ArrayList<>();
 
         for (BackpackSubScreen<?, ?> subScreen : getSubScreens()) {
-            buttons.add(new BackpackScreenButton(subScreenButtonX, subScreenButtonStartingY, subScreen.getName(),
+            buttons.add(new BackpackScreenButton(subScreenButtonX, subScreenButtonStartingY, subScreen.getButtonName(),
                     button -> {
                         menu.openSubScreen(subScreen.getType());
                         PacketDistributor.sendToServer(new BackpackScreenPayload(BackpackScreenPayload.BackpackAction.fromSubScreenType(subScreen.getType())));
                         ModGUIs.openScreen(subScreen);
                     },
                     (button, guiGraphics, mouseX, mouseY) -> {
-                        guiGraphics.renderTooltip(font, font.split(subScreen.getName(), Math.max(width / 2 - 43, 170)), mouseX, mouseY);
+                        guiGraphics.renderTooltip(font, font.split(subScreen.getButtonName(), Math.max(width / 2 - 43, 170)), mouseX, mouseY);
                     }, subScreen.getButtonTextureXOffset()));
 
             subScreenButtonStartingY += Y_OFFSET;

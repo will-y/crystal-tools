@@ -28,7 +28,7 @@ public class CompressConfigScreen extends BackpackSubScreen<CrystalBackpackConta
     }
 
     @Override
-    public Component getName() {
+    public Component getButtonName() {
         return Component.literal("Configure Compressions");
     }
 

@@ -14,18 +14,31 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
 public class BlockEntityUpgradeScreen extends BaseUpgradeScreen {
     private final LevelableContainerMenu container;
+    @Nullable
     private final Screen screen;
+    @Nullable
+    private final Runnable onClose;
+
+    public BlockEntityUpgradeScreen(LevelableContainerMenu container, Player player, Runnable onClose) {
+        super(player, Component.literal("Upgrade Furnace"));
+        this.container = container;
+        this.data = this.getSkillData();
+        screen = null;
+        this.onClose = onClose;
+    }
 
     public BlockEntityUpgradeScreen(LevelableContainerMenu container, Player player, Screen toOpen) {
         super(player, Component.literal("Upgrade Furnace"));
         this.container = container;
         this.data = this.getSkillData();
         this.screen = toOpen;
+        this.onClose = null;
     }
 
     protected SkillData getSkillData() {
@@ -39,8 +52,15 @@ public class BlockEntityUpgradeScreen extends BaseUpgradeScreen {
     @Override
     public void onClose() {
         if (minecraft != null) {
-            minecraft.popGuiLayer();
-            minecraft.setScreen(this.screen);
+            if (screen != null) {
+                minecraft.popGuiLayer();
+                minecraft.setScreen(this.screen);
+            }
+
+            if (onClose != null) {
+                super.onClose();
+                onClose.run();
+            }
         }
     }
 

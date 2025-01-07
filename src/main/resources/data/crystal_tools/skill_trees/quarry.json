@@ -51,6 +51,15 @@
         "requirements": [],
         "key": "fortune",
         "value": 1
+      },
+      {
+        "id": 5,
+        "name": "Trash Filter I",
+        "description": "Adds 1 row of trash filter slots",
+        "limit": 1,
+        "requirements": [],
+        "key": "filter_capacity",
+        "value": 1
       }
     ]
   ]
