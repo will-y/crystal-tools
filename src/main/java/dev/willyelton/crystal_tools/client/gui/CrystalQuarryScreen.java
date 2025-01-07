@@ -105,7 +105,18 @@ public class CrystalQuarryScreen extends AbstractContainerScreen<CrystalQuarryCo
         this.addRenderableWidget(
                 new EnergyBarWidget(this.leftPos + ENERGY_X, this.topPos + ENERGY_Y, ENERGY_WIDTH, ENERGY_HEIGHT, Component.empty(), this.font, this.menu)
         );
-        int screenButtonY = this.topPos + 17;
+        int screenButtonY = this.topPos + 22;
+
+        this.addRenderableWidget(new BackpackScreenButton(this.leftPos - 21, screenButtonY, Component.literal("Open Skill Tree"),
+                button -> {
+                    this.onClose();
+                    ModGUIs.openScreen(new BlockEntityUpgradeScreen(this.menu, menu.getPlayer(), () -> PacketDistributor.sendToServer(new OpenContainerPayload(this.menu.getBlockPos().asLong()))));
+                },
+                (button, guiGraphics, mouseX, mouseY) -> {
+                    Component textComponent = Component.literal("Open Skill Tree");
+                    guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalQuarryScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
+                }, 40));
+        screenButtonY += 21;
 
         List<BackpackScreenButton> subScreenButtons = getSideButtons(this.leftPos - 21, screenButtonY, this.width, menu);
         subScreenButtons.forEach(this::addRenderableWidget);
@@ -123,6 +134,8 @@ public class CrystalQuarryScreen extends AbstractContainerScreen<CrystalQuarryCo
                 }
             });
         }
+
+        subScreens.add(new QuarrySettingsScreen(menu, menu.getPlayer().getInventory(), this));
 
         return subScreens;
     }

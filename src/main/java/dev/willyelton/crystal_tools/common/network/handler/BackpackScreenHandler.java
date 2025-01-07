@@ -29,6 +29,7 @@ public class BackpackScreenHandler {
                 switch (payload.pickupType()) {
                     case OPEN_COMPRESSION -> menu.openSubScreen(SubScreenType.COMPRESS);
                     case OPEN_FILTER -> menu.openSubScreen(SubScreenType.FILTER);
+                    case OPEN_SETTINGS -> menu.openSubScreen(SubScreenType.SETTINGS);
                     case CLOSE_SUB_SCREEN -> menu.closeSubScreen();
                 }
             }

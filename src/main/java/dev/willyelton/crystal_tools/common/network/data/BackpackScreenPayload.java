@@ -26,13 +26,14 @@ public record BackpackScreenPayload(BackpackAction pickupType, boolean hasShiftD
     }
 
     public enum BackpackAction {
-        PICKUP_WHITELIST, PICKUP_BLACKLIST, SORT, COMPRESS, OPEN_COMPRESSION, OPEN_FILTER, MATCH_CONTENTS, CLEAR_FILTERS, CLOSE_SUB_SCREEN, REOPEN_BACKPACK;
+        PICKUP_WHITELIST, PICKUP_BLACKLIST, SORT, COMPRESS, OPEN_COMPRESSION, OPEN_FILTER, MATCH_CONTENTS, CLEAR_FILTERS, CLOSE_SUB_SCREEN, REOPEN_BACKPACK, OPEN_SETTINGS;
 
         public static BackpackAction fromSubScreenType(SubScreenType subScreenType) {
             return switch (subScreenType) {
                 case NONE -> CLOSE_SUB_SCREEN;
                 case FILTER -> OPEN_FILTER;
                 case COMPRESS -> OPEN_COMPRESSION;
+                case SETTINGS -> OPEN_SETTINGS;
             };
         }
     }

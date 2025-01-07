@@ -43,20 +43,18 @@ public abstract class BackpackSubScreen<T extends BaseContainerMenu & SubScreenC
         // Either filter rows or compression rows
         int contentRows = getRowsToDraw();
 
-        // Top Bar
-        guiGraphics.blit(TEXTURE, leftPos, topPos, 0, 0, INVENTORY_WIDTH, TOP_BAR_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
+        drawTopBar(guiGraphics);
 
         for (int row = 0; row < contentRows; row++) {
             drawContentRow(guiGraphics, row);
         }
 
-        // Empty rows at end
         for (int row = 0; row < containerRows - contentRows; row++) {
-            guiGraphics.blit(TEXTURE, leftPos, topPos + TOP_BAR_HEIGHT + ROW_HEIGHT * (row + contentRows), 0, 8, INVENTORY_WIDTH, ROW_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
+            drawEmptyRow(guiGraphics, row + contentRows);
         }
 
-        // Player inventory
-        guiGraphics.blit(TEXTURE, leftPos, topPos + TOP_BAR_HEIGHT + ROW_HEIGHT * containerRows, 0, 125, INVENTORY_WIDTH, INVENTORY_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
+        drawPlayerInventory(guiGraphics, containerRows);
+        drawBottomBar(guiGraphics, topPos + TOP_BAR_HEIGHT + ROW_HEIGHT * containerRows + INVENTORY_HEIGHT - 4);
     }
 
     @Override
@@ -83,6 +81,22 @@ public abstract class BackpackSubScreen<T extends BaseContainerMenu & SubScreenC
 
     public int getContainerRows() {
         return getReturnScreen().getDisplayRows();
+    }
+
+    protected void drawTopBar(GuiGraphics guiGraphics) {
+        guiGraphics.blit(TEXTURE, leftPos, topPos, 0, 0, INVENTORY_WIDTH, TOP_BAR_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
+    }
+
+    protected void drawEmptyRow(GuiGraphics guiGraphics, int rowIndex) {
+        guiGraphics.blit(TEXTURE, leftPos, topPos + TOP_BAR_HEIGHT + ROW_HEIGHT * rowIndex, 0, 8, INVENTORY_WIDTH, ROW_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
+    }
+
+    protected void drawPlayerInventory(GuiGraphics guiGraphics, int rowIndex) {
+        guiGraphics.blit(TEXTURE, leftPos, topPos + TOP_BAR_HEIGHT + ROW_HEIGHT * rowIndex, 0, 125, INVENTORY_WIDTH, INVENTORY_HEIGHT - 4, TEXTURE_SIZE, TEXTURE_SIZE);
+    }
+
+    protected void drawBottomBar(GuiGraphics guiGraphics, int y) {
+        guiGraphics.blit(TEXTURE, leftPos, y, 0, 217, INVENTORY_WIDTH, 4, TEXTURE_SIZE, TEXTURE_SIZE);
     }
 
     protected abstract int getRowsToDraw();

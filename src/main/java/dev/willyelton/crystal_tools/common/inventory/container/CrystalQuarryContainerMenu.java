@@ -23,6 +23,7 @@ import net.neoforged.neoforge.items.IItemHandlerModifiable;
 public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu implements SubScreenContainerMenu, FilterContainerMenu {
     private final CrystalQuarryBlockEntity blockEntity;
     private FilterMenuContents<CrystalQuarryContainerMenu> filterMenuContents;
+    // TODO: Why did I need both of these?
     private final NonNullList<CrystalSlotItemHandler> quarryInventorySlots;
     private final NonNullList<CrystalSlotItemHandler> filterInventorySlots;
     private final NonNullList<CrystalSlotItemHandler> quarrySlots;
@@ -177,9 +178,34 @@ public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu imp
 
     @Override
     public void openSubScreen(SubScreenType subScreenType) {
-        filterMenuContents.toggleSlots(true);
+        if (subScreenType == SubScreenType.FILTER) {
+            filterMenuContents.toggleSlots(true);
+            filterInventorySlots.forEach(slot -> slot.setActive(true));
+        }
+
         quarrySlots.forEach(slot -> slot.setActive(false));
         quarryInventorySlots.forEach(slot -> slot.setActive(false));
-        filterInventorySlots.forEach(slot -> slot.setActive(true));
+    }
+
+    public boolean getSetting(int setting) {
+        return this.data.get(9 + setting) == 1;
+    }
+
+    public void setSetting(int setting, boolean value) {
+        this.data.set(9 + setting, value ? 1 : 0);
+    }
+
+    @Override
+    public boolean clickMenuButton(Player player, int id) {
+        boolean newValue = this.data.get(9 + id) == 0;
+        this.data.set(9 + id, newValue ? 1 : 0);
+
+        if (id == 1 && newValue) {
+            this.data.set(11, 0);
+        } else if (id == 2 && newValue) {
+            this.data.set(10, 0);
+        }
+
+        return true;
     }
 }

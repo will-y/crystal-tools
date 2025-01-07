@@ -26,7 +26,7 @@
     - Trash filters (make a new more generic filter screen that can work with backpack and quarry)
   - Left to do:
     - Do actual energy costs
-    - Options screen
+    - Cicking on one stabilizer crashes the game
     - Make sure you place it near the area it is mining
     - Chunkloading upgrade
     - Actually gain skill points

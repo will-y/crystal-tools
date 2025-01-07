@@ -42,7 +42,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements MenuProvider, AutoOutputable {
-    public static final int DATA_SIZE = 6;
+    public static final int DATA_SIZE = 10;
 
     private static final int INVENTORY_SIZE = 27;
     private static final int MAX_BLOCKS_PER_TICK = 20;
@@ -66,7 +66,12 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
     // Config
     private final int baseFEUsage;
-    private final boolean useDirt;
+
+    // Settings
+    private boolean useDirt;
+    private boolean silkTouchEnabled;
+    private boolean fortuneEnabled;
+    private boolean autoOutputEnabled;
 
     // Upgrades
     private int speedUpgrade = 0;
@@ -158,6 +163,11 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         }
         this.finished = tag.getBoolean("Finished");
 
+        this.useDirt = tag.getBoolean("UseDirt");
+        this.silkTouchEnabled = tag.getBoolean("SilkTouchEnabled");
+        this.fortuneEnabled = tag.getBoolean("FortuneEnabled");
+        this.autoOutputEnabled = tag.getBoolean("AutoOutputEnabled");
+
         this.minX = tag.getInt("MinX");
         this.maxX = tag.getInt("MaxX");
         this.minZ = tag.getInt("MinZ");
@@ -205,6 +215,11 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         }
         tag.putBoolean("Finished", this.finished);
 
+        tag.putBoolean("UseDirt", this.useDirt);
+        tag.putBoolean("SilkTouchEnabled", this.silkTouchEnabled);
+        tag.putBoolean("FortuneEnabled", this.fortuneEnabled);
+        tag.putBoolean("AutoOutputEnabled", this.autoOutputEnabled);
+
         tag.putInt("MinX", this.minX);
         tag.putInt("MaxX", this.maxX);
         tag.putInt("MinZ", this.minZ);
@@ -242,10 +257,12 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
             case "redstone_control" -> this.redstoneControl = true;
             case "fortune" -> {
                 this.fortuneLevel += (int) value;
+                this.fortuneEnabled = !silkTouch || !silkTouchEnabled;
                 this.enchantTempItems(level);
             }
             case "silk_touch" -> {
                 this.silkTouch = true;
+                this.silkTouchEnabled = fortuneLevel == 0 || !fortuneEnabled;
                 this.enchantTempItems(level);
             }
             case "filter_capacity" -> this.filterRows += (int) value;
@@ -275,6 +292,10 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
                 case 6 -> miningAt.getY();
                 case 7 -> miningAt.getZ();
                 case 8 -> whitelist ? 1 : 0;
+                case 9 -> useDirt ? 1 : 0;
+                case 10 -> silkTouchEnabled ? 1 : 0;
+                case 11 -> fortuneEnabled ? 1 : 0;
+                case 12 -> autoOutputEnabled ? 1 : 0;
                 default -> 0;
             };
         }
@@ -283,6 +304,10 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         protected void setExtra(int index, int value) {
             switch (index) {
                 case 8 -> whitelist = value == 1;
+                case 9 -> useDirt = value == 1;
+                case 10 -> silkTouchEnabled = value == 1;
+                case 11 -> fortuneEnabled = value == 1;
+                case 12 -> autoOutputEnabled = value == 1;
             }
         }
 
@@ -302,7 +327,9 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
         if (miningAt == null) return;
 
-        autoOutputAction.tick(level, pos, state);
+        if (autoOutputEnabled) {
+            autoOutputAction.tick(level, pos, state);
+        }
 
         if (!waitingStacks.isEmpty()) {
             if (level.getGameTime() % 20 == 0) {
@@ -359,9 +386,9 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
             if (miningState.equals(level.getBlockState(miningAt))) {
                 ItemStack miningStack = ItemStack.EMPTY;
                 // TODO: Setting
-                if (fortuneLevel > 0) {
+                if (fortuneLevel > 0 && fortuneEnabled) {
                     miningStack = FORTUNE_STACK;
-                } else if (silkTouch) {
+                } else if (silkTouch && silkTouchEnabled) {
                     miningStack = SILK_TOUCH_STACK;
                 }
 
@@ -379,6 +406,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
                     level.setBlock(miningAt, Blocks.DIRT.defaultBlockState(), 3);
                 }
 
+                nextPosition();
                 setChanged();
             }
 
@@ -396,14 +424,6 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
     public IItemHandlerModifiable getFilterItemHandler() {
         return filterItemHandler;
-    }
-
-    public void setWhitelist(boolean whitelist) {
-        this.whitelist = whitelist;
-    }
-
-    public boolean getWhitelist() {
-        return whitelist;
     }
 
     public int getFilterRows() {
