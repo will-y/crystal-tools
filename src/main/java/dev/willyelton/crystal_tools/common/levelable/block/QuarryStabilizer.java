@@ -58,7 +58,7 @@ public class QuarryStabilizer extends TorchBlock {
             }
         }
 
-        return super.useWithoutItem(state, level, pos, player, hitResult);
+        return InteractionResult.SUCCESS_NO_ITEM_USED;
     }
 
     private int timeBetweenBlocks(BlockPos... positions) {
@@ -73,7 +73,7 @@ public class QuarryStabilizer extends TorchBlock {
         List<BlockPos> foundBlocks = new ArrayList<>();
         foundBlocks.add(startingPos);
 
-        List<BlockPos> bestFoundBlocks = null;
+        List<BlockPos> bestFoundBlocks = new ArrayList<>();
 
         for (Direction direction : DIRECTIONS) {
             BlockPos nextStabilizer = findStabilizerInDirection(startingPos, direction, level);
