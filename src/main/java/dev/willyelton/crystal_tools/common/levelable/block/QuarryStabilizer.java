@@ -1,13 +1,19 @@
 package dev.willyelton.crystal_tools.common.levelable.block;
 
 import dev.willyelton.crystal_tools.CrystalTools;
+import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.renderer.QuarryLaserRenderer;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.utils.Colors;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.TorchBlock;
@@ -36,7 +42,7 @@ public class QuarryStabilizer extends TorchBlock {
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         List<BlockPos> stabilizerPositions = findStabilizerSquare(pos, level);
         CrystalTools.LOGGER.info(stabilizerPositions);
 
@@ -56,9 +62,20 @@ public class QuarryStabilizer extends TorchBlock {
                 QuarryLaserRenderer.startTemporaryLaser(level.getGameTime() + timeBetweenBlocks(stabilizerPositions.get(0), stabilizerPositions.get(1), stabilizerPositions.get(2)), level.getGameTime() + 200, stabilizerPositions.get(2), stabilizerPositions.get(3), color);
                 QuarryLaserRenderer.startTemporaryLaser(level.getGameTime() + timeBetweenBlocks(stabilizerPositions.get(0), stabilizerPositions.get(1), stabilizerPositions.get(2), stabilizerPositions.get(3)), level.getGameTime() + 200, stabilizerPositions.get(3), stabilizerPositions.get(0), color);
             }
+        } else {
+            if (stabilizerPositions.size() == 4 && stack.is(Registration.CRYSTAL_QUARRY_ITEM)) {
+                stack.set(DataComponents.QUARRY_BOUNDS, stabilizerPositions);
+                player.displayClientMessage(Component.literal("Stabilizer Positions Saved to Quarry"), true);
+                return ItemInteractionResult.SUCCESS;
+            }
         }
 
-        return InteractionResult.SUCCESS_NO_ITEM_USED;
+        return ItemInteractionResult.SUCCESS;
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        return InteractionResult.PASS;
     }
 
     private int timeBetweenBlocks(BlockPos... positions) {

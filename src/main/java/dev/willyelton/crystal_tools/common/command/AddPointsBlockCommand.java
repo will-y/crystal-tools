@@ -18,10 +18,10 @@ public class AddPointsBlockCommand {
                 Commands.literal("add_points_block")
                         .requires((commandSourceStack -> commandSourceStack.hasPermission(2)))
                         .then(Commands.argument("points", IntegerArgumentType.integer(0))
-                                .then(Commands.argument("pos", BlockPosArgument.blockPos())
+                                .then(Commands.argument("miningPos", BlockPosArgument.blockPos())
                                         .executes((commandContext) -> addPointsToBlock(commandContext,
                                                 IntegerArgumentType.getInteger(commandContext, "points"),
-                                                BlockPosArgument.getLoadedBlockPos(commandContext, "pos")))));
+                                                BlockPosArgument.getLoadedBlockPos(commandContext, "miningPos")))));
 
         dispatcher.register(addPointsCommand);
     }

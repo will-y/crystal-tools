@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import dev.willyelton.crystal_tools.utils.Colors;
 import dev.willyelton.crystal_tools.utils.ReversiblePair;
+import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -58,19 +59,33 @@ public class QuarryLaserRenderer {
         toRemove.forEach(LINE_RENDERERS::remove);
     }
 
-    private static void renderLaser(RenderLevelStageEvent event, Level level, BlockPos pos1, BlockPos pos2, int timeElapsed, int timeLeft, int duration, int colorIn) {
-        PoseStack poseStack = event.getPoseStack();
-        MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
-        float partialTick = event.getPartialTick().getGameTimeDeltaTicks();
+    public static void renderLaser(MultiBufferSource bufferSource, PoseStack poseStack, Camera camera, float partialTick, Level level, BlockPos pos1, BlockPos pos2, int colorIn) {
+        renderLaser(bufferSource, poseStack, camera, partialTick, level, pos1, pos2, -1, -1, -1, colorIn);
+    }
+
+    public static void renderLaser(MultiBufferSource bufferSource, PoseStack poseStack, Camera camera, float partialTick, Level level, BlockPos pos1, BlockPos pos2, int timeElapsed, int timeLeft, int duration, int colorIn) {
         long gameTime = level.getGameTime();
         float height = (float) Math.sqrt(pos1.distSqr(pos2));
-        int color = Colors.addAlpha(colorIn, Mth.lerpDiscrete(timeLeft / (float) duration, 0, 255));
+        int color;
+        if (duration > 0) {
+            color = Colors.addAlpha(colorIn, Mth.lerpDiscrete(timeLeft / (float) duration, 0, 255));
+        } else {
+            color = colorIn;
+        }
+
         float beamRadius = 0.1f;
         float glowRadius = 0.1f;
-        float yMax = Math.min(height, timeElapsed / LASER_SPEED_MODIFIER);
+        float yMax;
 
-        Vec3 view = event.getCamera().getPosition();
+        if (timeElapsed >= 0) {
+            yMax = Math.min(height, timeElapsed / LASER_SPEED_MODIFIER);
+        } else {
+            yMax = height;
+        }
+
+        Vec3 view = camera.getPosition();
         poseStack.pushPose();
+        // TODO: This doesn't work when y values change
         poseStack.translate(-view.x, -view.y, -view.z);
         poseStack.translate(pos1.getX(), pos1.getY(), pos1.getZ());
         poseStack.translate(0.5, 0.5, 0.5);
@@ -109,6 +124,10 @@ public class QuarryLaserRenderer {
         renderPart(poseStack, bufferSource.getBuffer(CrystalToolsRenderTypes.QUARRY_LASER), FastColor.ARGB32.color(32, color),
                 0, yMax, x1, f4, glowRadius, z2, x3, glowRadius, glowRadius, glowRadius, 0.0F, 1.0F, minV, maxV);
         poseStack.popPose();
+    }
+
+    private static void renderLaser(RenderLevelStageEvent event, Level level, BlockPos pos1, BlockPos pos2, int timeElapsed, int timeLeft, int duration, int colorIn) {
+        renderLaser(Minecraft.getInstance().renderBuffers().bufferSource(), event.getPoseStack(), event.getCamera(), event.getPartialTick().getGameTimeDeltaTicks(), level, pos1, pos2, timeElapsed, timeLeft, duration, colorIn);
     }
 
     private static void renderPart(PoseStack poseStack, VertexConsumer consumer, int color, int minY, float maxY, float x1,

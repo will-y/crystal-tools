@@ -6,6 +6,7 @@ import dev.willyelton.crystal_tools.common.inventory.container.CrystalQuarryCont
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.AutoOutputAction;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.AutoOutputable;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.data.LevelableContainerData;
+import dev.willyelton.crystal_tools.common.network.data.QuarryMineBlockPayload;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -15,6 +16,7 @@ import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
@@ -25,6 +27,7 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -35,6 +38,7 @@ import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -366,6 +370,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
                         nextPosition();
                         continue;
                     }
+
+                    PacketDistributor.sendToPlayersTrackingChunk((ServerLevel) level, new ChunkPos(miningAt), new QuarryMineBlockPayload(this.getBlockPos(), this.miningAt, this.miningState));
                     break;
                 } else {
                     blocksThisTick++;
@@ -552,5 +558,43 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     @Override
     public void setItem(int slot, ItemStack stack) {
         itemHandler.setStackInSlot(slot, stack);
+    }
+
+    // ------------------ Things used for block entity renderer ------------------
+    public BlockPos getMiningAt() {
+        return this.miningAt;
+    }
+
+    public void setMiningAt(BlockPos miningAt) {
+        this.miningAt = miningAt;
+    }
+
+    public BlockState getMiningState() {
+        return this.miningState;
+    }
+
+    public void setMiningState(BlockState miningState) {
+        this.miningState = miningState;
+    }
+
+    public List<BlockPos> getStabilizerPositions() {
+        List<BlockPos> result = new ArrayList<>();
+
+        result.add(new BlockPos(minX - 1, maxY, minZ - 1));
+        result.add(new BlockPos(minX - 1, maxY, maxZ + 1));
+        result.add(new BlockPos(maxX + 1, maxY, maxZ + 1));
+        result.add(new BlockPos(maxX + 1, maxY, minZ - 1));
+
+        return result;
+    }
+
+    @Override
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        return this.saveCustomOnly(registries);
     }
 }

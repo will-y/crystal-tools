@@ -26,8 +26,8 @@
     - Trash filters (make a new more generic filter screen that can work with backpack and quarry)
   - Left to do:
     - Do actual energy costs
-    - Make sure you place it near the area it is mining
-    - Chunkloading upgrade
+    - Chunkloading upgrade (Will need to check if the block you are mining is chunkloaded if you don't have the upgrade)
+      - Eventually want to be able to only load the chunk you are mining in + the one the quarry is in? (Mine one chunk at a time?)
     - Actually gain skill points
     - Make actual skill tree
     - Pickup storing things
