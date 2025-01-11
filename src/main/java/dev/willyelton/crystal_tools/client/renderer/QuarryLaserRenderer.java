@@ -92,9 +92,9 @@ public class QuarryLaserRenderer {
         Vector3f verticalNormalVector = new Vector3f(0, 1, 0);
         Vector3f pos1Vector = new Vector3f(pos1.getX(), pos1.getY(), pos1.getZ());
         Vector3f pos2Vector = new Vector3f(pos2.getX(), pos2.getY(), pos2.getZ()).sub(pos1Vector).normalize();
-        Vector3f cross = verticalNormalVector.cross(pos2Vector);
-        float w = (float) Math.sqrt(Math.pow(verticalNormalVector.length(), 2) * Math.pow(pos2Vector.length(), 2)) + verticalNormalVector.dot(pos2Vector);
-        Quaternionf quaternionf = new Quaternionf(cross.x, cross.y, cross.z, w).normalize();
+        Vector3f half = new Vector3f(verticalNormalVector).add(pos2Vector).normalize();
+        Vector3f cross =  new Vector3f(verticalNormalVector).cross(half);
+        Quaternionf quaternionf = new Quaternionf(cross.x, cross.y, cross.z, verticalNormalVector.dot(half)).normalize();
 
         poseStack.rotateAround(quaternionf, 0, 0, 0);
 

@@ -25,6 +25,8 @@
     - Remove liquids (put in tank / void options?)
     - Trash filters (make a new more generic filter screen that can work with backpack and quarry)
   - Left to do:
+    - Speed upgrade is too much
+    - Skill tree button on left doesn't work
     - Do actual energy costs
     - Chunkloading upgrade (Will need to check if the block you are mining is chunkloaded if you don't have the upgrade)
       - Eventually want to be able to only load the chunk you are mining in + the one the quarry is in? (Mine one chunk at a time?)
@@ -37,6 +39,7 @@
     - Start a few blocks above the defined area?
     - Graphics (at least a laser beam and small breaking animation)
     - Model (or at least texture) for the stabilizers
+    - https://gist.github.com/gigaherz/b8756ff463541f07a644ef8f14cb10f5
 - Pump
 - Hopper
   - Inventory space

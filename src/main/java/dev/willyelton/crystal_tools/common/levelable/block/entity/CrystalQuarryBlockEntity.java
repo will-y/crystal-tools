@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity;
 
 import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.client.particle.quarry.breakblock.QuarryBreakParticleData;
 import dev.willyelton.crystal_tools.common.energy.CrystalEnergyStorage;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalQuarryContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.AutoOutputAction;
@@ -387,6 +388,10 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         // Keep mining
         currentProgress += getDestroyProgress(miningState, level, miningAt);
 
+        if (level.getGameTime() % 2 == 0) {
+            spawnBreakingParticles((ServerLevel) level);
+        }
+
         // TODO: Maybe try to break multiple blocks in a tick later?
         if (currentProgress >= 10) {
             if (miningState.equals(level.getBlockState(miningAt))) {
@@ -596,5 +601,11 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
         return this.saveCustomOnly(registries);
+    }
+
+    private void spawnBreakingParticles(ServerLevel level) {
+        BlockPos pos = getBlockPos();
+        level.sendParticles(new QuarryBreakParticleData(miningState, miningAt, pos), pos.getX(),
+                pos.getY(), pos.getZ(), 1, 0.25, 0.25, 0.25, 0.1);
     }
 }

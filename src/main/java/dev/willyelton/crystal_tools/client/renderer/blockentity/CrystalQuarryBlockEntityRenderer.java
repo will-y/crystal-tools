@@ -27,7 +27,8 @@ public class CrystalQuarryBlockEntityRenderer implements BlockEntityRenderer<Cry
         // 1. Start mining miningPos (null for stop mining?), maybe state too so we can get some particles later (Subclass BreakingItemParticle)
         // 2. Finished
         // 3. Out of energy?
-        if (blockEntity.getMiningAt() != null) {
+        BlockPos miningAt = blockEntity.getMiningAt();
+        if (miningAt != null) {
             Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
             Vec3 view = camera.getPosition();
             int color = Colors.fromRGB(48, 231, 237, 150);

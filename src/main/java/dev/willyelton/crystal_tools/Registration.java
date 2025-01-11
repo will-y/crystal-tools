@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools;
 
+import dev.willyelton.crystal_tools.client.particle.quarry.breakblock.QuarryBreakParticleType;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.crafting.CrystalAIOTRecipe;
 import dev.willyelton.crystal_tools.common.crafting.CrystalElytraRecipe;
@@ -39,6 +40,8 @@ import dev.willyelton.crystal_tools.common.levelable.tool.SwordLevelableTool;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -79,6 +82,8 @@ public class Registration {
     public static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(Registries.MENU, CrystalTools.MODID);
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, CrystalTools.MODID);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPES = DeferredRegister.create(Registries.RECIPE_SERIALIZER, CrystalTools.MODID);
+    public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(BuiltInRegistries.PARTICLE_TYPE, CrystalTools.MODID);
+
 
     // Items
     public static final DeferredHolder<Item, Item> CRYSTAL = ITEMS.register("crystal", () -> new Item(new Item.Properties()));
@@ -158,6 +163,9 @@ public class Registration {
     // Tags
     public static final TagKey<EntityType<?>> ENTITY_BLACKLIST = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "entity_blacklist"));
 
+    // Particles
+    public static final DeferredHolder<ParticleType<?>, QuarryBreakParticleType> QUARRY_BREAK_PARTICLE = PARTICLES.register("quary_break_particle", () -> new QuarryBreakParticleType(false));
+
     // Creative Tabs
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> TAB = TABS.register("crystal_tools_tab", () ->
             CreativeModeTab.builder()
@@ -212,5 +220,6 @@ public class Registration {
         TABS.register(modEventBus);
         DataComponents.COMPONENTS.register(modEventBus);
         RECIPES.register(modEventBus);
+        PARTICLES.register(modEventBus);
     }
 }
