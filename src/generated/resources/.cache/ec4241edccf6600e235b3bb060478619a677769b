@@ -1,4 +1,4 @@
-// 1.21.1	2024-11-22T16:02:56.0941724	Block States: crystal_tools
+// 1.21.1	2025-01-12T13:01:03.8470092	Block States: crystal_tools
 44eb603a54aabeb5d4f7c1fd34fc281a6fbb6170 assets/crystal_tools/blockstates/crystal_block.json
 16c7f01ecbdd437f59531bd56029a2d12186c9a6 assets/crystal_tools/blockstates/crystal_deepslate_ore.json
 b45cd6d350dcfbffe28c7a2e3695c880e9ac5b54 assets/crystal_tools/blockstates/crystal_furnace.json
@@ -19,4 +19,3 @@ e1f9d83e24b09da0398f70e269c156ba4a54144c assets/crystal_tools/models/block/cryst
 246eb6cd44360f5e3d365bdad0fcf5905c5c1de7 assets/crystal_tools/models/block/crystal_quarry_on.json
 3672cb34a5496112e2b8b7a0c1cc0fb484ceea57 assets/crystal_tools/models/block/crystal_torch.json
 a1b258a8fa2e829f73b8be4618853726dd2794d0 assets/crystal_tools/models/block/crystal_wall_torch.json
-3672cb34a5496112e2b8b7a0c1cc0fb484ceea57 assets/crystal_tools/models/block/quarry_stabilizer.json

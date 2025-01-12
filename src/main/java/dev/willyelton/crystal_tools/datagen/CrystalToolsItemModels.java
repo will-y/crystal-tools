@@ -31,8 +31,7 @@ public class CrystalToolsItemModels extends ItemModelProvider {
         withExistingParent(Registration.CRYSTAL_QUARRY.getId().getPath(), modLoc("block/crystal_quarry"));
         withExistingParent(Registration.CRYSTAL_TORCH.getId().getPath(), mcLoc("item/generated"))
                 .texture("layer0", modLoc("block/crystal_torch"));
-        withExistingParent(Registration.QUARRY_STABILIZER.getId().getPath(), mcLoc("item/generated"))
-                .texture("layer0", modLoc("block/crystal_torch"));
+        withExistingParent(Registration.QUARRY_STABILIZER.getId().getPath(), modLoc("block/quarry_stabilizer"));
 
         // Items
         basicItem(Registration.CRYSTAL.get());
