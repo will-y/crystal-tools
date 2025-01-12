@@ -34,12 +34,22 @@
     - Make actual skill tree
     - Pickup storing things
     - Crafting recipe
-    - Some different texture (maybe generator too)
+    - Front texture
     - Block state for on / off
     - Start a few blocks above the defined area?
-    - Graphics (at least a laser beam and small breaking animation)
     - Model (or at least texture) for the stabilizers
     - https://gist.github.com/gigaherz/b8756ff463541f07a644ef8f14cb10f5
+    - Default area when there are no stabilizers?
+    - Show guide lines when clicking on not 4 stabilizers
+  - To do later:
+    - Store fluids (or just output to tanks?)
+    - Fluid trash filter
+    - Mine 1 chunk at a time to keep few chunks loaded
+    - Second pass on graphics
+    - Holding certain items renders some things
+      - Holding quarry renderes valid placements
+      - Holding stabilizer shows lines on other stabilizers?
+    - Y smoothing function for particles isn't really great because 
 - Pump
 - Hopper
   - Inventory space
