@@ -103,6 +103,11 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     private int minY;
     private int maxY;
 
+    // For rendering the cube
+    private float centerX;
+    private float centerY;
+    private float centerZ;
+
     private final AutoOutputAction autoOutputAction;
 
     public CrystalQuarryBlockEntity(BlockPos pos, BlockState state) {
@@ -180,6 +185,10 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         this.minY = tag.getInt("MinY");
         this.maxY = tag.getInt("MaxY");
 
+        this.centerX = tag.getInt("CenterX");
+        this.centerY = tag.getInt("CenterY");
+        this.centerZ = tag.getInt("CenterZ");
+
         int energy = tag.getInt("Energy");
         energyStorage = new CrystalEnergyStorage(10000, baseFEUsage * 2, 0, energy);
 
@@ -231,6 +240,10 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         tag.putInt("MaxZ", this.maxZ);
         tag.putInt("MinY", this.minY);
         tag.putInt("MaxY", this.maxY);
+
+        tag.putFloat("CenterX", this.centerX);
+        tag.putFloat("CenterY", this.centerY);
+        tag.putFloat("CenterZ", this.centerZ);
 
         tag.putInt("Energy", this.energyStorage.getEnergyStored());
 
@@ -451,6 +464,10 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         this.maxY = Math.max(topCorner.getY(), bottomCorner.getY());
 
         this.miningAt = new BlockPos(minX, maxY, minZ);
+
+        this.centerX = (maxX - minX) / 2.0F + minX;
+        this.centerY = maxY + 3;
+        this.centerZ = (maxZ - minZ) / 2.0F + minZ;
     }
 
     private boolean canMine(BlockState state) {
@@ -591,6 +608,23 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         result.add(new BlockPos(maxX + 1, maxY, minZ - 1));
 
         return result;
+    }
+
+    public float getCenterX() {
+        return centerX;
+    }
+
+    public float getCenterY() {
+        return centerY;
+    }
+
+    public float getCenterZ() {
+        return centerZ;
+    }
+
+    // TODO: Remove
+    public BlockPos getCenterPos() {
+        return new BlockPos((int) centerX, (int) centerY, (int) centerZ);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.client.renderer.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.willyelton.crystal_tools.client.renderer.QuarryCubeRenderer;
 import dev.willyelton.crystal_tools.client.renderer.QuarryLaserRenderer;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalQuarryBlockEntity;
 import dev.willyelton.crystal_tools.utils.Colors;
@@ -16,8 +17,10 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 
 public class CrystalQuarryBlockEntityRenderer implements BlockEntityRenderer<CrystalQuarryBlockEntity> {
-    public CrystalQuarryBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
+    private final QuarryCubeRenderer cubeRenderer;
 
+    public CrystalQuarryBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
+        cubeRenderer = new QuarryCubeRenderer(context.bakeLayer(QuarryCubeRenderer.LOCATION));
     }
 
     @Override
@@ -27,6 +30,9 @@ public class CrystalQuarryBlockEntityRenderer implements BlockEntityRenderer<Cry
         // 1. Start mining miningPos (null for stop mining?), maybe state too so we can get some particles later (Subclass BreakingItemParticle)
         // 2. Finished
         // 3. Out of energy?
+        BlockPos quarryPos = blockEntity.getBlockPos();
+        cubeRenderer.render((int) blockEntity.getLevel().getGameTime(), partialTick, poseStack, bufferSource, packedLight,
+                blockEntity.getCenterX() - quarryPos.getX(), blockEntity.getCenterY() - quarryPos.getY(), blockEntity.getCenterZ() - quarryPos.getZ());
         BlockPos miningAt = blockEntity.getMiningAt();
         if (miningAt != null) {
             Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
@@ -37,7 +43,8 @@ public class CrystalQuarryBlockEntityRenderer implements BlockEntityRenderer<Cry
             // The renderer expects it in camera space, the block entity renderer is initially in block space
             poseStack.translate((double) -blockEntity.getBlockPos().getX() + view.x, (double) -blockEntity.getBlockPos().getY() + view.y, (double) -blockEntity.getBlockPos().getZ() + view.z);
 
-            QuarryLaserRenderer.renderLaser(bufferSource, poseStack, camera, partialTick, blockEntity.getLevel(), blockEntity.getBlockPos(), blockEntity.getMiningAt(), color);
+            // TODO: Overload that doesn't require a block pos, just float coords
+            QuarryLaserRenderer.renderLaser(bufferSource, poseStack, camera, partialTick, blockEntity.getLevel(), blockEntity.getCenterPos(), blockEntity.getMiningAt(), color);
 
             List<BlockPos> corners = blockEntity.getStabilizerPositions();
 
