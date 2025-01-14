@@ -34,17 +34,20 @@ public class CrystalQuarryBlockEntityRenderer implements BlockEntityRenderer<Cry
         cubeRenderer.render((int) blockEntity.getLevel().getGameTime(), partialTick, poseStack, bufferSource, packedLight,
                 blockEntity.getCenterX() - quarryPos.getX(), blockEntity.getCenterY() - quarryPos.getY(), blockEntity.getCenterZ() - quarryPos.getZ());
         BlockPos miningAt = blockEntity.getMiningAt();
+
         if (miningAt != null) {
             Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
             Vec3 view = camera.getPosition();
-            int color = Colors.fromRGB(48, 231, 237, 150);
+//            int color = Colors.fromRGB(48, 231, 237, 150);
+            int color = Colors.fromRGB(48, 231, 237, 100);
+            int miningLaserColor = Colors.fromRGB(0, 144, 180, 200);
 
             poseStack.pushPose();
             // The renderer expects it in camera space, the block entity renderer is initially in block space
             poseStack.translate((double) -blockEntity.getBlockPos().getX() + view.x, (double) -blockEntity.getBlockPos().getY() + view.y, (double) -blockEntity.getBlockPos().getZ() + view.z);
 
             // TODO: Overload that doesn't require a block pos, just float coords
-            QuarryLaserRenderer.renderLaser(bufferSource, poseStack, camera, partialTick, blockEntity.getLevel(), blockEntity.getCenterPos(), blockEntity.getMiningAt(), color);
+            QuarryLaserRenderer.renderLaser(bufferSource, poseStack, camera, partialTick, blockEntity.getLevel(), blockEntity.getCenterPos(), blockEntity.getMiningAt(), miningLaserColor);
 
             List<BlockPos> corners = blockEntity.getStabilizerPositions();
 
@@ -53,6 +56,10 @@ public class CrystalQuarryBlockEntityRenderer implements BlockEntityRenderer<Cry
                 QuarryLaserRenderer.renderLaser(bufferSource, poseStack, camera, partialTick, blockEntity.getLevel(), corners.get(1), corners.get(2), color);
                 QuarryLaserRenderer.renderLaser(bufferSource, poseStack, camera, partialTick, blockEntity.getLevel(), corners.get(2), corners.get(3), color);
                 QuarryLaserRenderer.renderLaser(bufferSource, poseStack, camera, partialTick, blockEntity.getLevel(), corners.get(3), corners.get(0), color);
+            }
+
+            for (BlockPos corner : corners) {
+                QuarryLaserRenderer.renderLaser(bufferSource, poseStack, camera, partialTick, blockEntity.getLevel(), corner, blockEntity.getCenterPos(), color);
             }
 
             poseStack.popPose();

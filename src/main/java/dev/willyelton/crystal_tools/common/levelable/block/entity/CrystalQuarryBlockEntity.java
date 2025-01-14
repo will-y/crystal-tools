@@ -465,9 +465,9 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
         this.miningAt = new BlockPos(minX, maxY, minZ);
 
-        this.centerX = (maxX - minX) / 2.0F + minX;
+        this.centerX = (maxX - minX + 1) / 2.0F + minX;
         this.centerY = maxY + 3;
-        this.centerZ = (maxZ - minZ) / 2.0F + minZ;
+        this.centerZ = (maxZ - minZ + 1) / 2.0F + minZ;
     }
 
     private boolean canMine(BlockState state) {

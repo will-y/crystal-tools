@@ -42,13 +42,13 @@ public class QuarryCubeRenderer {
         PartDefinition partdefinition = meshdefinition.getRoot();
         partdefinition.addOrReplaceChild("glass", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -4.0F, -4.0F, 8.0F, 8.0F, 8.0F), PartPose.ZERO);
         partdefinition.addOrReplaceChild("cube", CubeListBuilder.create().texOffs(32, 0).addBox(-4.0F, -4.0F, -4.0F, 8.0F, 8.0F, 8.0F), PartPose.ZERO);
-        return LayerDefinition.create(meshdefinition, 64, 16);
+        return LayerDefinition.create(meshdefinition, 64, 32);
     }
 
     public void render(int gameTime, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, float x, float y, float z) {
         poseStack.pushPose();
         float yOffset = 0; // TODO: getY if we want to bob it like actual end crystal
-        float rotation = ((float) gameTime + partialTicks) * 6.0F;
+        float rotation = ((float) gameTime + partialTicks) * 3.0F;
         VertexConsumer vertexconsumer = buffer.getBuffer(RENDER_TYPE);
         poseStack.pushPose();
         poseStack.scale(2.0F, 2.0F, 2.0F);

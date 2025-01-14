@@ -43,6 +43,8 @@
     - Show guide lines when clicking on not 4 stabilizers
     - Stabilizer item model fix in hand
       - And fix hitbox
+    - Some particles or something along the lasers
+    - New laser texture
   - To do later:
     - Store fluids (or just output to tanks?)
     - Fluid trash filter
