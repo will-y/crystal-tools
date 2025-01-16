@@ -69,7 +69,7 @@ public class CrystalQuarryScreen extends AbstractContainerScreen<CrystalQuarryCo
 
         // TODO: Get from menu / block entity
         guiGraphics.drawString(this.font,
-                Component.literal(String.format("Using %s FE/Tick", 40)),
+                Component.literal(String.format("Using %s FE/Tick", this.menu.getEnergyCost())),
                 this.inventoryLabelX,
                 ENERGY_Y + ENERGY_HEIGHT + 6,
                 4210752, false);
@@ -87,7 +87,7 @@ public class CrystalQuarryScreen extends AbstractContainerScreen<CrystalQuarryCo
     protected void init() {
         super.init();
         this.addRenderableWidget(
-                // TODO: Move to other section with other button
+                // TODO: Remove
                 new BlockEntityUpgradeButton(UPGRADE_BUTTON_X + this.leftPos,
                         UPGRADE_BUTTON_Y + this.topPos,
                         UPGRADE_BUTTON_WIDTH,
@@ -109,7 +109,6 @@ public class CrystalQuarryScreen extends AbstractContainerScreen<CrystalQuarryCo
 
         this.addRenderableWidget(new BackpackScreenButton(this.leftPos - 21, screenButtonY, Component.literal("Open Skill Tree"),
                 button -> {
-                    this.onClose();
                     ModGUIs.openScreen(new BlockEntityUpgradeScreen(this.menu, menu.getPlayer(), () -> PacketDistributor.sendToServer(new OpenContainerPayload(this.menu.getBlockPos().asLong()))));
                 },
                 (button, guiGraphics, mouseX, mouseY) -> {

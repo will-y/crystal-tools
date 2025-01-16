@@ -42,7 +42,7 @@ public class QuarryCubeRenderer {
         PartDefinition partdefinition = meshdefinition.getRoot();
         partdefinition.addOrReplaceChild("glass", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -4.0F, -4.0F, 8.0F, 8.0F, 8.0F), PartPose.ZERO);
         partdefinition.addOrReplaceChild("cube", CubeListBuilder.create().texOffs(32, 0).addBox(-4.0F, -4.0F, -4.0F, 8.0F, 8.0F, 8.0F), PartPose.ZERO);
-        return LayerDefinition.create(meshdefinition, 64, 32);
+        return LayerDefinition.create(meshdefinition, 64, 16);
     }
 
     public void render(int gameTime, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, float x, float y, float z) {

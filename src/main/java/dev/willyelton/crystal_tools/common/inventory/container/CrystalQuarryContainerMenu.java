@@ -195,6 +195,10 @@ public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu imp
         this.data.set(9 + setting, value ? 1 : 0);
     }
 
+    public int getEnergyCost() {
+        return this.data.get(13);
+    }
+
     @Override
     public boolean clickMenuButton(Player player, int id) {
         boolean newValue = this.data.get(9 + id) == 0;

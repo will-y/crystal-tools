@@ -84,7 +84,6 @@ public class Registration {
     public static final DeferredRegister<RecipeSerializer<?>> RECIPES = DeferredRegister.create(Registries.RECIPE_SERIALIZER, CrystalTools.MODID);
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(BuiltInRegistries.PARTICLE_TYPE, CrystalTools.MODID);
 
-
     // Items
     public static final DeferredHolder<Item, Item> CRYSTAL = ITEMS.register("crystal", () -> new Item(new Item.Properties()));
     public static final DeferredHolder<Item, Item> NETHERITE_STICK = ITEMS.register("netherite_stick", () -> new Item(new Item.Properties().fireResistant()));

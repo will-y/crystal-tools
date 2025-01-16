@@ -12,7 +12,7 @@
         "limit": 1,
         "requirements": [],
         "key": "quarry_speed",
-        "value": 30
+        "value": 1
       },
       {
         "id": 1,
@@ -41,7 +41,11 @@
         "limit": 1,
         "requirements": [],
         "key": "silk_touch",
-        "value": 1
+        "value": 1,
+        "subtext": {
+          "text": "Increases Energy Cost",
+          "color": "#FF0000"
+        }
       },
       {
         "id": 4,
@@ -50,7 +54,11 @@
         "limit": 1,
         "requirements": [],
         "key": "fortune",
-        "value": 1
+        "value": 1,
+        "subtext": {
+          "text": "Increases Energy Cost",
+          "color": "#FF0000"
+        }
       },
       {
         "id": 5,

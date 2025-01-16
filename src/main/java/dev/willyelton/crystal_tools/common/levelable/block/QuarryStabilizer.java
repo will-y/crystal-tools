@@ -7,19 +7,21 @@ import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.utils.Colors;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.TorchBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -27,10 +29,15 @@ import java.util.List;
 
 import static dev.willyelton.crystal_tools.client.renderer.QuarryLaserRenderer.LASER_SPEED_MODIFIER;
 
-// TODO: Probably want to do a cool model and not extend torch block
-public class QuarryStabilizer extends TorchBlock {
+public class QuarryStabilizer extends Block {
     private static final int RED = Colors.fromRGB(255, 0, 0);
     private static final int GREEN = Colors.fromRGB(0, 255, 0);
+    private static final VoxelShape SHAPE = Shapes.or(
+            Block.box(4, 0, 4, 12, 2, 12),
+            Block.box(5, 2, 5, 11, 4, 11),
+            Block.box(6, 4, 6, 10, 6, 10),
+            Block.box(7, 6, 7, 9, 8, 9)
+    );
 
     // TODO: Server config
     public static int QUARRY_MAX_SIZE = 16;
@@ -38,7 +45,10 @@ public class QuarryStabilizer extends TorchBlock {
     private static final List<Direction> DIRECTIONS = List.of(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST);
 
     public QuarryStabilizer() {
-        super(ParticleTypes.GLOW, BlockBehaviour.Properties.of().noCollission().instabreak().lightLevel((state) -> 14).sound(SoundType.STONE));
+        super(BlockBehaviour.Properties.of()
+                .lightLevel((state) -> 14)
+                .sound(SoundType.AMETHYST)
+                .strength(5.0F, 6.0F));
     }
 
     @Override
@@ -74,8 +84,8 @@ public class QuarryStabilizer extends TorchBlock {
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        return InteractionResult.PASS;
+    protected VoxelShape getShape(BlockState p_304673_, BlockGetter p_304919_, BlockPos p_304930_, CollisionContext p_304757_) {
+        return SHAPE;
     }
 
     private int timeBetweenBlocks(BlockPos... positions) {
@@ -130,7 +140,7 @@ public class QuarryStabilizer extends TorchBlock {
                 }
             }
 
-            if (bestFoundBlocks == null || bestFoundBlocks.size() < foundBlocks.size()) {
+            if (bestFoundBlocks.size() < foundBlocks.size()) {
                 bestFoundBlocks = foundBlocks;
             }
             foundBlocks = new ArrayList<>();

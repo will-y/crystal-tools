@@ -25,9 +25,6 @@
     - Remove liquids (put in tank / void options?)
     - Trash filters (make a new more generic filter screen that can work with backpack and quarry)
   - Left to do:
-    - Speed upgrade is too much
-    - Skill tree button on left doesn't work
-    - Do actual energy costs
     - Chunkloading upgrade (Will need to check if the block you are mining is chunkloaded if you don't have the upgrade)
       - Eventually want to be able to only load the chunk you are mining in + the one the quarry is in? (Mine one chunk at a time?)
     - Actually gain skill points
@@ -41,10 +38,10 @@
     - https://gist.github.com/gigaherz/b8756ff463541f07a644ef8f14cb10f5
     - Default area when there are no stabilizers?
     - Show guide lines when clicking on not 4 stabilizers
-    - Stabilizer item model fix in hand
-      - And fix hitbox
-    - Some particles or something along the lasers
+    - Some particles or something along the lasers + on stabilizer connections
     - New laser texture
+    - Probably don't need to use custom packet to sync block entity, just override the methods and only send what is useful to the client
+    - Some way to see your skill points (want to do badge on button but that might come later)
   - To do later:
     - Store fluids (or just output to tanks?)
     - Fluid trash filter

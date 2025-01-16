@@ -85,6 +85,12 @@ public class CrystalToolsConfig {
     // Trident
     public static ModConfigSpec.BooleanValue ALWAYS_CHANNEL;
 
+    // Quarry
+    public static ModConfigSpec.IntValue QUARRY_BASE_ENERGY_COST;
+    public static ModConfigSpec.IntValue QUARRY_SPEED_COST_INCREASE;
+    public static ModConfigSpec.IntValue QUARRY_SILK_TOUCH_COST_INCREASE;
+    public static ModConfigSpec.IntValue QUARRY_FORTUNE_COST_INCREASE;
+
     static {
         ModConfigSpec.Builder configBuilder = new ModConfigSpec.Builder();
         setupConfig(configBuilder);
@@ -201,6 +207,17 @@ public class CrystalToolsConfig {
                 .defineInRange("backpack_base_experience_cap", 200, 1, 10000);
         MAX_COMPRESSION_SLOT_ROWS = builder.comment("Maximum number of rows of compression slots. These slots will not currently scroll so don't set it to larger than your gui scale can render")
                 .defineInRange("max_compression_slot_rows", 6, 1, 20);
+        builder.pop();
+
+        builder.comment("Crystal quarry settings").push("quarry");
+        QUARRY_BASE_ENERGY_COST = builder.comment("Quarry base RF/tick")
+                .defineInRange("quarry_base_energy_cost", 40, 0, 100000);
+        QUARRY_SPEED_COST_INCREASE = builder.comment("How much the quarry speed upgrade increases the RF/tick")
+                .defineInRange("quarry_speed_cost_increase", 10, 0, 100000);
+        QUARRY_SILK_TOUCH_COST_INCREASE = builder.comment("How much the quarry silk touch upgrade increases the RF/tick")
+                .defineInRange("quarry_silk_touch_cost_increase", 40, 0, 100000);
+        QUARRY_FORTUNE_COST_INCREASE = builder.comment("How much the quarry fortune upgrade increases the RF/tick")
+                .defineInRange("quarry_silk_touch_cost_increase", 40, 0, 100000);
         builder.pop();
 
         // MISC
