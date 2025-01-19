@@ -229,8 +229,7 @@ public abstract class BaseUpgradeScreen extends Screen {
 
             if (subText.isPresent()) {
                 FormattedText subTextComponent = FormattedText.of("\n" + subText.get().text(),
-                        Style.EMPTY.withColor(TextColor.parseColor(subText.get().color()).getOrThrow())
-                                .withBold(true));
+                        Style.EMPTY.withColor(TextColor.parseColor(subText.get().color()).getOrThrow()));
                 compositeComponent = FormattedText.composite(textComponent, subTextComponent);
             } else {
                 compositeComponent = FormattedText.composite(textComponent);

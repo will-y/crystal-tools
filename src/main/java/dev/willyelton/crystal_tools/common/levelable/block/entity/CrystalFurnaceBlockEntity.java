@@ -96,7 +96,6 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     private int bonusSlots = 0;
     private int bonusFuelSlots = 0;
     private boolean balance = false;
-    private boolean autoOutput = false;
     private float expModifier;
     private boolean saveFuel = false;
 
@@ -202,11 +201,6 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     }
 
     @Override
-    public boolean autoOutputEnabled() {
-        return this.autoOutput;
-    }
-
-    @Override
     public void setItem(int slot, ItemStack stack) {
         ItemStack current = this.items.get(slot);
         this.items.set(slot, stack);
@@ -273,7 +267,6 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         this.bonusSlots = tag.getInt("Slots");
         this.bonusFuelSlots = tag.getInt("FuelSlots");
         this.balance = tag.getBoolean("Balance");
-        this.autoOutput = tag.getBoolean("AutoOutput");
         this.expModifier = tag.getFloat("ExpModifier");
         this.saveFuel = tag.getBoolean("SaveFuel");
     }
@@ -303,7 +296,6 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
             this.bonusSlots = furnaceUpgrades.slots();
             this.bonusFuelSlots = furnaceUpgrades.fuelSlots();
             this.balance = furnaceUpgrades.balance();
-            this.autoOutput = furnaceUpgrades.autoOutput();
             this.expModifier = furnaceUpgrades.expModifier();
             this.saveFuel = furnaceUpgrades.saveFuel();
         }
@@ -326,7 +318,6 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         tag.putInt("Slots", this.bonusSlots);
         tag.putInt("FuelSlots", this.bonusFuelSlots);
         tag.putBoolean("Balance", this.balance);
-        tag.putBoolean("AutoOutput", this.autoOutput);
         tag.putFloat("ExpModifier", this.expModifier);
         tag.putBoolean("SaveFuel", this.saveFuel);
     }
@@ -339,7 +330,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         components.set(DataComponents.FURNACE_DATA, furnaceData);
 
         FurnaceUpgrades furnaceUpgrades = new FurnaceUpgrades(speedUpgrade, fuelEfficiencyUpgrade, bonusSlots,
-                bonusFuelSlots, balance, autoOutput, expModifier, saveFuel);
+                bonusFuelSlots, balance, expModifier, saveFuel);
         components.set(DataComponents.FURNACE_UPGRADES, furnaceUpgrades);
 
         ItemContainerContents contents = ItemContainerContents.fromItems(this.items);
@@ -354,7 +345,6 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
             case "slot_bonus" -> this.bonusSlots += (int) value;
             case "fuel_slot_bonus" -> this.bonusFuelSlots += (int) value;
             case "auto_balance" -> this.balance = value == 1;
-            case "auto_output" -> this.autoOutput = value == 1;
             case "exp_boost" -> this.expModifier += value;
             case "save_fuel" -> this.saveFuel = value == 1;
         }
@@ -388,7 +378,6 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         this.bonusSlots = 0;
         this.bonusFuelSlots = 0;
         this.balance = false;
-        this.autoOutput = false;
         this.expModifier = 0;
         this.saveFuel = false;
     }
@@ -469,6 +458,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         return recipeHolderOptional.orElse(null);
     }
 
+    @Override
     public void serverTick(Level level, BlockPos pos, BlockState state) {
         // flag
         boolean isLit = this.isLit();
@@ -482,7 +472,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
                 this.litTime--;
             }
 
-            this.autoOutputAction.tick(level, pos, state);
+            super.serverTick(level, pos, state);
         }
 
         ItemStack fuelItemStack = this.items.get(FUEL_SLOTS[0]);

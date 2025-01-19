@@ -3,18 +3,22 @@ package dev.willyelton.crystal_tools.common.levelable.block.entity;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.components.LevelableBlockEntityData;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.action.Action;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class LevelableBlockEntity extends BlockEntity {
     public static final List<String> NBT_TAGS = List.of("SkillPoints", "Points", "Exp", "ExpCap");
@@ -24,8 +28,39 @@ public abstract class LevelableBlockEntity extends BlockEntity {
     protected int exp = 0;
     protected int expCap = CrystalToolsConfig.BASE_EXPERIENCE_CAP.get();
 
+    private final Map<Action.ActionType, Action> actions = new HashMap<>();
+
     public LevelableBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
         super(type, pos, blockState);
+    }
+
+    public void serverTick(Level level, BlockPos pos, BlockState state) {
+        for (Action action : getActions()) {
+            action.tick(level, pos, state);
+        }
+    }
+
+    public void onBlockRemoved() {
+        for (Action action : getActions()) {
+            action.onRemove();
+        }
+    }
+
+    protected <T extends Action> T addAction(T action) {
+        this.actions.put(action.getActionType(), action);
+        return action;
+    }
+
+    protected boolean hasAction(Action.ActionType actionType) {
+        return this.actions.containsKey(actionType);
+    }
+
+    protected Action getAction(Action.ActionType actionType) {
+        return this.actions.get(actionType);
+    }
+
+    protected Iterable<Action> getActions() {
+        return this.actions.values();
     }
 
     @Override
@@ -37,6 +72,8 @@ public abstract class LevelableBlockEntity extends BlockEntity {
         this.expCap = tag.getInt("ExpCap");
 
         if (this.expCap == 0) this.expCap = CrystalToolsConfig.BASE_EXPERIENCE_CAP.get();
+
+        getActions().forEach(action -> action.load(tag, registries));
     }
 
     @Override
@@ -60,6 +97,8 @@ public abstract class LevelableBlockEntity extends BlockEntity {
         tag.putIntArray("Points", this.points);
         tag.putInt("Exp", this.exp);
         tag.putInt("ExpCap", this.expCap);
+
+        getActions().forEach(action -> action.save(tag, registries));
     }
 
     @Override
@@ -76,12 +115,20 @@ public abstract class LevelableBlockEntity extends BlockEntity {
     }
 
     public void addToData(String key, float value) {
+        for (Action action : getActions()) {
+            if (action.addToExtra(key, value)) {
+                this.setChanged();
+                return;
+            }
+        }
+
         switch (key) {
             case "skill_points" -> this.skillPoints += (int) value;
             case "experience" -> this.exp += (int) value;
             case "experience_cap" -> this.expCap += (int) value;
             default -> addToExtraData(key, value);
         }
+
         this.setChanged();
     }
 
@@ -142,5 +189,9 @@ public abstract class LevelableBlockEntity extends BlockEntity {
         this.resetExtraSkills();
     }
 
-    protected abstract void resetExtraSkills();
+    protected void resetExtraSkills() {
+        for (Action action : getActions()) {
+            action.resetExtra();
+        }
+    }
 }

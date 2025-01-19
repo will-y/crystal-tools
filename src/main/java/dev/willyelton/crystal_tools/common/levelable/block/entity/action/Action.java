@@ -1,10 +1,13 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity.action;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
+// TODO: Save to item methods as well
 public abstract class Action {
     protected int maxTickCounter;
     protected int tickCounter = 0;
@@ -21,6 +24,8 @@ public abstract class Action {
      * @param state The state of the block entity's block
      */
     public void tick(Level level, BlockPos pos, BlockState state) {
+        if (!this.isActive()) return;
+
         if (tickCounter++ >= maxTickCounter) {
             if (level != null) {
                 tickAction(level, pos, state);
@@ -37,4 +42,26 @@ public abstract class Action {
      * @param state The state of the block entity's block
      */
     public abstract void tickAction(@NotNull Level level, BlockPos pos, BlockState state);
+
+    public abstract ActionType getActionType();
+
+    public void load(CompoundTag tag, HolderLookup.Provider registries) {}
+
+    public void save(CompoundTag tag, HolderLookup.Provider registries) {}
+
+    public void onRemove() {}
+
+    public boolean addToExtra(String key, float value) {
+        return false;
+    }
+
+    public void resetExtra() {}
+
+    public boolean isActive() {
+        return false;
+    }
+
+    public enum ActionType {
+        AUTO_OUTPUT, CHUNK_LOAD
+    }
 }

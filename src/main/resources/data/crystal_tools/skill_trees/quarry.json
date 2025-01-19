@@ -69,6 +69,21 @@
         "key": "filter_capacity",
         "value": 1
       }
+    ],
+    [
+      {
+        "id": 6,
+        "name": "Chunkloading",
+        "description": "Keeps the chunks the quarry is mining loaded",
+        "limit": 1,
+        "requirements": [],
+        "key": "chunkloading",
+        "value": 1,
+        "subtext": {
+          "text": "NOTE: Will only tick the chunk that the quarry block is in.\nMake sure to keep your power generation is in the same chunk.",
+          "color": "#ABABAB"
+        }
+      }
     ]
   ]
 }

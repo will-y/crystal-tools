@@ -58,9 +58,10 @@ public class LevelableBlockItem extends BlockItem {
                 if (furnaceUpgrades.balance()) {
                     components.add(Component.literal("     Auto Balance"));
                 }
-                if (furnaceUpgrades.autoOutput()) {
-                    components.add(Component.literal("     Auto Output"));
-                }
+                // TODO: actions
+//                if (furnaceUpgrades.autoOutput()) {
+//                    components.add(Component.literal("     Auto Output"));
+//                }
                 if (furnaceUpgrades.saveFuel()) {
                     components.add(Component.literal("     Save Fuel"));
                 }

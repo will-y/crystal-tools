@@ -12,12 +12,6 @@ public interface AutoOutputable {
     Map<Integer, ItemStack> getOutputStacks();
 
     /**
-     * Returns true if the upgrade is enabled.
-     * @return True of the auto output is enabled
-     */
-    boolean autoOutputEnabled();
-
-    /**
      * Sets the item in the inventory.
      * Used to set the item if there is a remainder after inserting into adjacent inventories.
      * @param slot The slot index to insert into

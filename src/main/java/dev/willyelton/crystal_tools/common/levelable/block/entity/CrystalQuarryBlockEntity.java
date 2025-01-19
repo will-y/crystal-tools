@@ -7,6 +7,8 @@ import dev.willyelton.crystal_tools.common.energy.CrystalEnergyStorage;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalQuarryContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.AutoOutputAction;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.AutoOutputable;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.action.ChunkLoader;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.action.ChunkLoadingAction;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.data.LevelableContainerData;
 import dev.willyelton.crystal_tools.common.network.data.QuarryMineBlockPayload;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
@@ -47,7 +49,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements MenuProvider, AutoOutputable {
+public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements MenuProvider, AutoOutputable, ChunkLoader {
     public static final int DATA_SIZE = 11;
 
     private static final int INVENTORY_SIZE = 27;
@@ -81,7 +83,6 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
     // Upgrades
     private int speedUpgrade = 0;
-    private boolean autoOutput = false;
     private boolean redstoneControl = false;
     private int fortuneLevel = 0;
     private boolean silkTouch = false;
@@ -110,7 +111,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     private float centerY;
     private float centerZ;
 
-    private final AutoOutputAction autoOutputAction;
+    private final ChunkLoadingAction<CrystalQuarryBlockEntity> chunkLoadingAction;
 
     public CrystalQuarryBlockEntity(BlockPos pos, BlockState state) {
         super(Registration.CRYSTAL_QUARRY_BLOCK_ENTITY.get(), pos, state);
@@ -128,7 +129,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         filterItems = NonNullList.withSize(INVENTORY_SIZE, ItemStack.EMPTY);
         filterItemHandler = new ItemStackHandler(filterItems);
 
-        autoOutputAction = new AutoOutputAction(this);
+        addAction(new AutoOutputAction(this));
+        chunkLoadingAction = addAction(new ChunkLoadingAction<>(this));
     }
 
     public IItemHandler getItemHandlerCapForSide(Direction side) {
@@ -195,7 +197,6 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         energyStorage = new CrystalEnergyStorage(10000, baseFEUsage * 2, 0, energy);
 
         this.speedUpgrade = tag.getInt("SpeedUpgrade");
-        this.autoOutput = tag.getBoolean("AutoOutput");
         this.redstoneControl = tag.getBoolean("RedstoneControl");
         this.fortuneLevel = tag.getInt("FortuneLevel");
         this.silkTouch = tag.getBoolean("SilkTouch");
@@ -209,7 +210,6 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         super.applyImplicitComponents(componentInput);
     }
 
-    // TODO
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
@@ -251,7 +251,6 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         tag.putInt("Energy", this.energyStorage.getEnergyStored());
 
         tag.putInt("SpeedUpgrade", this.speedUpgrade);
-        tag.putBoolean("AutoOutput", this.autoOutput);
         tag.putBoolean("RedstoneControl", this.redstoneControl);
         tag.putInt("FortuneLevel", this.fortuneLevel);
         tag.putBoolean("SilkTouch", this.silkTouch);
@@ -270,7 +269,6 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         enchantTempItems(level);
     }
 
-    // TODO
     @Override
     protected void addToExtraData(String key, float value) {
         switch (key) {
@@ -278,7 +276,6 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
                 this.speedUpgrade += (int) value;
                 this.extraEnergyCost += CrystalToolsConfig.QUARRY_SPEED_COST_INCREASE.get();
             }
-            case "auto_output" -> this.autoOutput = true;
             case "redstone_control" -> this.redstoneControl = true;
             case "fortune" -> {
                 this.fortuneLevel += (int) value;
@@ -296,11 +293,11 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         }
     }
 
-    // TODO
     @Override
     protected void resetExtraSkills() {
+        super.resetExtraSkills();
+
         this.speedUpgrade = 0;
-        this.autoOutput = false;
         this.redstoneControl = false;
         this.fortuneLevel = 0;
         this.silkTouch = false;
@@ -309,7 +306,6 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         this.extraEnergyCost = 0;
     }
 
-    // TODO
     protected final ContainerData dataAccess = new LevelableContainerData(this) {
         @Override
         protected int getExtra(int index) {
@@ -329,6 +325,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
             };
         }
 
+        // TODO: What does this even do
         @Override
         protected void setExtra(int index, int value) {
             switch (index) {
@@ -346,6 +343,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         }
     };
 
+    @Override
     public void serverTick(Level level, BlockPos pos, BlockState state) {
         boolean hasRedstone = level.hasNeighborSignal(pos);
         if (hasRedstone && redstoneControl) {
@@ -356,9 +354,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
         if (miningAt == null) return;
 
-        if (autoOutputEnabled) {
-            autoOutputAction.tick(level, pos, state);
-        }
+        super.serverTick(level, pos, state);
 
         if (!waitingStacks.isEmpty()) {
             if (level.getGameTime() % 20 == 0) {
@@ -374,6 +370,15 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
                 return;
             }
         }
+
+        if (!level.isLoaded(miningAt)) {
+            if (this.chunkLoadingAction.isActive()) {
+                this.chunkLoadingAction.loadChunk((ServerLevel) level, new ChunkPos(miningAt));
+            } else {
+                return;
+            }
+        }
+
         int energyCost = getEnergyCost();
         if (energyStorage.getEnergyStored() >= energyCost) {
             energyStorage.removeEnergy(energyCost);
@@ -392,6 +397,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
                         // TODO: Tank option later
                         level.setBlock(miningAt, Blocks.AIR.defaultBlockState(), 3);
                         blocksThisTick++;
+                        miningState = null;
                         nextPosition();
                         continue;
                     }
@@ -588,11 +594,6 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     }
 
     @Override
-    public boolean autoOutputEnabled() {
-        return autoOutput;
-    }
-
-    @Override
     public void setItem(int slot, ItemStack stack) {
         itemHandler.setStackInSlot(slot, stack);
     }
@@ -656,5 +657,10 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         BlockPos pos = getBlockPos();
         level.sendParticles(new QuarryBreakParticleData(miningState, miningAt, pos), pos.getX(),
                 pos.getY(), pos.getZ(), 1, 0.25, 0.25, 0.25, 0.1);
+    }
+
+    @Override
+    public boolean shouldUnload() {
+        return this.finished || this.isRemoved();
     }
 }

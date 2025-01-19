@@ -40,7 +40,7 @@ public class QuarryStabilizer extends Block {
     );
 
     // TODO: Server config
-    public static int QUARRY_MAX_SIZE = 16;
+    public static int QUARRY_MAX_SIZE = 80;
 
     private static final List<Direction> DIRECTIONS = List.of(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST);
 

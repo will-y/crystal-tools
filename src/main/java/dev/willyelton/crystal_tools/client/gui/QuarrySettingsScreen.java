@@ -27,6 +27,7 @@ public class QuarrySettingsScreen extends BackpackSubScreen<CrystalQuarryContain
         super.init();
 
         int index = 0;
+        // TODO: don't show unless you have the upgrades?
         addCheckbox("Fill With Dirt", "Causes the Quarry to fill in mined blocks with dirt",
                 0, index++);
         silkTouchCheckbox = addCheckbox("Enable Silk Touch", "Enables Silk Touch for the quarry",
