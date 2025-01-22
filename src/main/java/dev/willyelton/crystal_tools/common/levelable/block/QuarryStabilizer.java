@@ -74,6 +74,7 @@ public class QuarryStabilizer extends Block {
             }
         } else {
             if (stabilizerPositions.size() == 4 && stack.is(Registration.CRYSTAL_QUARRY_ITEM)) {
+                stack.remove(DataComponents.QUARRY_DATA);
                 stack.set(DataComponents.QUARRY_BOUNDS, stabilizerPositions);
                 player.displayClientMessage(Component.literal("Stabilizer Positions Saved to Quarry"), true);
                 return ItemInteractionResult.SUCCESS;

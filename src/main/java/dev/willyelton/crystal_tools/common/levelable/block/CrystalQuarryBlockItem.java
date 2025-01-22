@@ -1,7 +1,6 @@
 package dev.willyelton.crystal_tools.common.levelable.block;
 
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalQuarryBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -10,11 +9,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CrystalQuarryBlockItem extends LevelableBlockItem {
@@ -45,18 +42,18 @@ public class CrystalQuarryBlockItem extends LevelableBlockItem {
 
     @Override
     protected boolean updateCustomBlockEntityTag(BlockPos pos, Level level, @Nullable Player player, ItemStack stack, BlockState state) {
-        BlockEntity blockEntity = level.getBlockEntity(pos);
-
-        if (blockEntity instanceof CrystalQuarryBlockEntity crystalQuarryBlockEntity) {
-            List<BlockPos> positions = stack.getOrDefault(DataComponents.QUARRY_BOUNDS, new ArrayList<>());
-
-            if (positions.size() != 4) {
-                // TODO: Some default thing
-                crystalQuarryBlockEntity.setPositions(BlockPos.ZERO, BlockPos.ZERO.offset(1, 1, 1));
-            } else {
-                crystalQuarryBlockEntity.setPositions(positions.get(0), positions.get(2).atY(-64));
-            }
-        }
+//        BlockEntity blockEntity = level.getBlockEntity(pos);
+//
+//        if (blockEntity instanceof CrystalQuarryBlockEntity crystalQuarryBlockEntity) {
+//            List<BlockPos> positions = stack.getOrDefault(DataComponents.QUARRY_BOUNDS, new ArrayList<>());
+//
+//            if (positions.size() != 4) {
+//                // TODO: Some default thing
+////                crystalQuarryBlockEntity.setPositions(BlockPos.ZERO, BlockPos.ZERO.offset(1, 1, 1));
+//            } else {
+//                crystalQuarryBlockEntity.setStabilizers(positions);
+//            }
+//        }
 
         return super.updateCustomBlockEntityTag(pos, level, player, stack, state);
     }

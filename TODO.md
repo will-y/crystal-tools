@@ -25,7 +25,6 @@
     - Remove liquids (put in tank / void options?)
     - Trash filters (make a new more generic filter screen that can work with backpack and quarry)
   - Left to do:
-    - Actually gain skill points
     - Make actual skill tree
     - Pickup storing things
     - Crafting recipe
@@ -44,6 +43,7 @@
     - Autoselect autooutput
     - Fix autooutput being stored to item on furnace
     - Show the block entity renderer when not looking at it
+    - Config for base exp scaling
   - To do later:
     - Store fluids (or just output to tanks?)
     - Fluid trash filter

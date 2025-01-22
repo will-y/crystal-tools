@@ -2,6 +2,9 @@ package dev.willyelton.crystal_tools.common.levelable.block.entity;
 
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.particle.quarry.breakblock.QuarryBreakParticleData;
+import dev.willyelton.crystal_tools.common.components.QuarryData;
+import dev.willyelton.crystal_tools.common.components.QuarrySettings;
+import dev.willyelton.crystal_tools.common.components.QuarryUpgrades;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.energy.CrystalEnergyStorage;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalQuarryContainerMenu;
@@ -17,6 +20,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -29,6 +33,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ChunkPos;
@@ -45,6 +50,7 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,8 +95,6 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     private int extraEnergyCost;
 
     // Quarry things
-    private int tickCounter = 0;
-    private int currentSpeed = 40;
     private BlockPos miningAt = null;
     private float currentProgress = 0;
     private BlockState miningState = null;
@@ -105,6 +109,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     private int maxZ;
     private int minY;
     private int maxY;
+
+    private List<BlockPos> stabilizerPositions;
 
     // For rendering the cube
     private float centerX;
@@ -164,8 +170,6 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         this.filterRows = tag.getInt("FilterRows");
         this.whitelist = tag.getBoolean("Whitelist");
 
-        this.tickCounter = tag.getInt("TickCounter");
-        this.currentSpeed = tag.getInt("CurrentSpeed");
         if (tag.contains("MiningAt")) {
             this.miningAt = BlockPos.of(tag.getLong("MiningAt"));
         }
@@ -201,13 +205,59 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         this.fortuneLevel = tag.getInt("FortuneLevel");
         this.silkTouch = tag.getBoolean("SilkTouch");
         this.extraEnergyCost = tag.getInt("ExtraEnergyCost");
+
+        if (tag.contains("StabilizerPositions")) {
+            this.stabilizerPositions = Arrays.stream(tag.getLongArray("StabilizerPositions")).mapToObj(BlockPos::of).toList();
+        }
     }
 
-    // TODO
     @Override
     protected void applyImplicitComponents(DataComponentInput componentInput) {
-        // TODO: Probably wanna do just items and energy here. Or maybe everything and reset when you select new coords?
         super.applyImplicitComponents(componentInput);
+
+        ItemContainerContents contents = componentInput.get(DataComponents.CONTAINER);
+        if (contents != null) {
+            contents.copyInto(this.storedItems);
+        }
+
+        ItemContainerContents filterContents = componentInput.get(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_FILTER);
+        if (filterContents != null) {
+            filterContents.copyInto(this.filterItems);
+        }
+
+        QuarryData quarryData = componentInput.get(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_DATA);
+        if (quarryData != null) {
+            this.miningAt = quarryData.miningAt();
+            this.currentProgress = quarryData.currentProgress();
+            this.miningState = quarryData.miningState();
+            this.finished = quarryData.finished();
+            this.waitingStacks = quarryData.waitingStacks();
+            this.energyStorage = new CrystalEnergyStorage(10000, baseFEUsage * 2, 0, quarryData.currentEnergy());
+        }
+
+        QuarryUpgrades quarryUpgrades = componentInput.get(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_UPGRADES);
+        if (quarryUpgrades != null) {
+            this.speedUpgrade = quarryUpgrades.speedUpgrade();
+            this.redstoneControl = quarryUpgrades.redstoneControl();
+            this.fortuneLevel = quarryUpgrades.fortuneLevel();
+            this.silkTouch = quarryUpgrades.silkTouch();
+            this.extraEnergyCost = quarryUpgrades.extraEnergyCost();
+        }
+
+        QuarrySettings quarrySettings = componentInput.get(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_SETTINGS);
+        if (quarrySettings != null) {
+            this.useDirt = quarrySettings.useDirt();
+            this.silkTouchEnabled = quarrySettings.silkTouchEnabled();
+            this.fortuneEnabled = quarrySettings.fortuneEnabled();
+            this.autoOutputEnabled = quarrySettings.autoOutputEnabled();
+        }
+
+        List<BlockPos> stabilizers = componentInput.get(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_BOUNDS);
+        if (stabilizers != null) {
+            this.setStabilizers(stabilizers);
+        } else {
+            // TODO: Some default thing?
+        }
     }
 
     @Override
@@ -220,8 +270,6 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         tag.putInt("FilterRows", this.filterRows);
         tag.putBoolean("Whitelist", this.whitelist);
 
-        tag.putInt("TickCounter", this.tickCounter);
-        tag.putInt("CurrentSpeed", this.currentSpeed);
         if (this.miningAt != null) {
             tag.putLong("MiningAt", this.miningAt.asLong());
         }
@@ -255,12 +303,32 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         tag.putInt("FortuneLevel", this.fortuneLevel);
         tag.putBoolean("SilkTouch", this.silkTouch);
         tag.putInt("ExtraEnergyCost", this.extraEnergyCost);
+
+        if (this.stabilizerPositions != null) {
+            tag.putLongArray("StabilizerPositions", this.stabilizerPositions.stream().map(BlockPos::asLong).mapToLong(Long::longValue).toArray());
+        }
     }
 
-    // TODO
     @Override
     protected void collectImplicitComponents(DataComponentMap.Builder components) {
         super.collectImplicitComponents(components);
+
+        ItemContainerContents contents = ItemContainerContents.fromItems(this.storedItems);
+        components.set(DataComponents.CONTAINER, contents);
+
+        ItemContainerContents filterContents = ItemContainerContents.fromItems(this.filterItems);
+        components.set(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_FILTER, filterContents);
+
+        QuarryData quarryData = new QuarryData(miningAt, currentProgress, miningState, finished, waitingStacks, energyStorage.getEnergyStored());
+        components.set(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_DATA, quarryData);
+
+        QuarryUpgrades quarryUpgrades = new QuarryUpgrades(speedUpgrade, redstoneControl, fortuneLevel, silkTouch, extraEnergyCost);
+        components.set(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_UPGRADES, quarryUpgrades);
+
+        QuarrySettings quarrySettings = new QuarrySettings(useDirt, silkTouchEnabled, fortuneEnabled, autoOutputEnabled);
+        components.set(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_SETTINGS, quarrySettings);
+
+        components.set(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_BOUNDS, stabilizerPositions);
     }
 
     @Override
@@ -395,7 +463,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
                     miningState = level.getBlockState(miningAt);
                     if (!miningState.getFluidState().isEmpty()) {
                         // TODO: Tank option later
-                        level.setBlock(miningAt, Blocks.AIR.defaultBlockState(), 3);
+                        BlockState blockState = useDirt ? Blocks.DIRT.defaultBlockState() : Blocks.AIR.defaultBlockState();
+                        level.setBlock(miningAt, blockState, 3);
                         blocksThisTick++;
                         miningState = null;
                         nextPosition();
@@ -434,7 +503,6 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
                 }
 
                 List<ItemStack> drops = Block.getDrops(level.getBlockState(miningAt), (ServerLevel) level, miningAt, level.getBlockEntity(miningAt), null, miningStack);
-                // TODO: Will this be too slow or is it fine to check for all blocks?
                 drops.addAll(getInventoryContents(level));
                 List<ItemStack> noFit = tryInsertStacks(drops);
 
@@ -446,6 +514,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
                 if (useDirt) {
                     level.setBlock(miningAt, Blocks.DIRT.defaultBlockState(), 3);
                 }
+
+                addExp(1);
 
                 nextPosition();
                 setChanged();
@@ -472,7 +542,12 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     }
 
     // TODO: do I need to store all of the stabilizer positions to check if they are broken?
-    public void setPositions(BlockPos topCorner, BlockPos bottomCorner) {
+    public void setStabilizers(List<BlockPos> positions) {
+        setPositions(positions.get(0), positions.get(2).atY(-64));
+        this.stabilizerPositions = positions;
+    }
+
+    private void setPositions(BlockPos topCorner, BlockPos bottomCorner) {
         this.minX = Math.min(topCorner.getX(), bottomCorner.getX()) + 1;
         this.maxX = Math.max(topCorner.getX(), bottomCorner.getX()) - 1;
         this.minZ = Math.min(topCorner.getZ(), bottomCorner.getZ()) + 1;

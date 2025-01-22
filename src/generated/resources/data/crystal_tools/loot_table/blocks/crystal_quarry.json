@@ -15,7 +15,12 @@
               "function": "minecraft:copy_components",
               "include": [
                 "crystal_tools:levelable_block_entity_data",
-                "minecraft:container"
+                "minecraft:container",
+                "crystal_tools:quarry_bounds",
+                "crystal_tools:quarry_data",
+                "crystal_tools:quarry_upgrades",
+                "crystal_tools:quarry_settings",
+                "crystal_tools:quarry_filter"
               ],
               "source": "block_entity"
             }

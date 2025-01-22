@@ -149,6 +149,11 @@ public class DataComponents {
 
     // Quarry
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<BlockPos>>> QUARRY_BOUNDS = register("quarry_bounds", BlockPos.CODEC.listOf(), BlockPos.STREAM_CODEC.apply(ByteBufCodecs.list()));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<QuarryData>> QUARRY_DATA = register("quarry_data", QuarryData.CODEC, QuarryData.STREAM_CODEC);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<QuarryUpgrades>> QUARRY_UPGRADES = register("quarry_upgrades", QuarryUpgrades.CODEC, QuarryUpgrades.STREAM_CODEC);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<QuarrySettings>> QUARRY_SETTINGS = register("quarry_settings", QuarrySettings.CODEC, QuarrySettings.STREAM_CODEC);
+    // TODO (breaking): use same component as backpack
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ItemContainerContents>> QUARRY_FILTER = register("quarry_filter", ItemContainerContents.CODEC, ItemContainerContents.STREAM_CODEC);
 
     // Utilities
     private static <T> DeferredHolder<DataComponentType<?>, DataComponentType<T>> register(String key, Codec<T> codec, StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec) {
