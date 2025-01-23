@@ -20,7 +20,9 @@
                 "crystal_tools:quarry_data",
                 "crystal_tools:quarry_upgrades",
                 "crystal_tools:quarry_settings",
-                "crystal_tools:quarry_filter"
+                "crystal_tools:quarry_filter",
+                "crystal_tools:auto_output",
+                "crystal_tools:chunkloading"
               ],
               "source": "block_entity"
             }

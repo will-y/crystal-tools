@@ -1,9 +1,11 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity.action;
 
 import dev.willyelton.crystal_tools.CrystalTools;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.LevelableBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -74,6 +76,18 @@ public class ChunkLoadingAction<T extends LevelableBlockEntity & ChunkLoader> ex
         if (blockEntity.getLevel() instanceof ServerLevel serverLevel) {
             this.unloadAll(serverLevel);
         }
+    }
+
+    @Override
+    public void applyComponents(BlockEntity.DataComponentInput componentInput) {
+        super.applyComponents(componentInput);
+        this.chunkLoadingEnabled = componentInput.getOrDefault(DataComponents.CHUNKLOADING, false);
+    }
+
+    @Override
+    public void collectComponents(DataComponentMap.Builder components) {
+        super.collectComponents(components);
+        components.set(DataComponents.CHUNKLOADING, this.chunkLoadingEnabled);
     }
 
     @Override

@@ -1,11 +1,14 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity.action;
 
+import dev.willyelton.crystal_tools.common.components.DataComponents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
@@ -75,5 +78,17 @@ public class AutoOutputAction extends Action {
     @Override
     public ActionType getActionType() {
         return ActionType.AUTO_OUTPUT;
+    }
+
+    @Override
+    public void applyComponents(BlockEntity.DataComponentInput componentInput) {
+        super.applyComponents(componentInput);
+        this.autoOutputEnabled = componentInput.getOrDefault(DataComponents.AUTO_OUTPUT, false);
+    }
+
+    @Override
+    public void collectComponents(DataComponentMap.Builder components) {
+        super.collectComponents(components);
+        components.set(DataComponents.AUTO_OUTPUT, this.autoOutputEnabled);
     }
 }

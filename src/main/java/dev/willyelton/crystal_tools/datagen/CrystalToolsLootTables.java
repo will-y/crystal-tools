@@ -39,7 +39,8 @@ public class CrystalToolsLootTables extends VanillaBlockLoot {
                 DataComponents.FURNACE_DATA.get(),
                 DataComponents.FURNACE_UPGRADES.get(),
                 DataComponents.LEVELABLE_BLOCK_ENTITY_DATA.get(),
-                DataComponents.FURNACE_INVENTORY.get());
+                DataComponents.FURNACE_INVENTORY.get(),
+                DataComponents.AUTO_OUTPUT.get());
         createComponentSavingTable(Registration.CRYSTAL_GENERATOR.get(),
                 DataComponents.LEVELABLE_BLOCK_ENTITY_DATA.get(),
                 DataComponents.GENERATOR_DATA.get(),
@@ -52,7 +53,9 @@ public class CrystalToolsLootTables extends VanillaBlockLoot {
                 DataComponents.QUARRY_DATA.get(),
                 DataComponents.QUARRY_UPGRADES.get(),
                 DataComponents.QUARRY_SETTINGS.get(),
-                DataComponents.QUARRY_FILTER.get());
+                DataComponents.QUARRY_FILTER.get(),
+                DataComponents.AUTO_OUTPUT.get(),
+                DataComponents.CHUNKLOADING.get());
     }
 
     @Override

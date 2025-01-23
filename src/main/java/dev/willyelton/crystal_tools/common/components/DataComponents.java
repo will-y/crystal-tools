@@ -155,6 +155,10 @@ public class DataComponents {
     // TODO (breaking): use same component as backpack
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ItemContainerContents>> QUARRY_FILTER = register("quarry_filter", ItemContainerContents.CODEC, ItemContainerContents.STREAM_CODEC);
 
+    // Actions (TODO: Is there a better way to do this?)
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> AUTO_OUTPUT = register("auto_output", Codec.BOOL, ByteBufCodecs.BOOL);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> CHUNKLOADING = register("chunkloading", Codec.BOOL, ByteBufCodecs.BOOL);
+
     // Utilities
     private static <T> DeferredHolder<DataComponentType<?>, DataComponentType<T>> register(String key, Codec<T> codec, StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec) {
         return register(key, codec, streamCodec, SkillType.NONE);

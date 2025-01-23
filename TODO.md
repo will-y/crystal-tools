@@ -26,7 +26,6 @@
     - Trash filters (make a new more generic filter screen that can work with backpack and quarry)
   - Left to do:
     - Make actual skill tree
-    - Pickup storing things
     - Crafting recipe
     - Front texture
     - Block state for on / off
@@ -41,7 +40,6 @@
     - Generator slots only accept fuel
     - Only show options unlocked on config screen
     - Autoselect autooutput
-    - Fix autooutput being stored to item on furnace
     - Show the block entity renderer when not looking at it
     - Config for base exp scaling
   - To do later:

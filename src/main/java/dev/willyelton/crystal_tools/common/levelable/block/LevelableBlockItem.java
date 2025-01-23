@@ -59,10 +59,6 @@ public class LevelableBlockItem extends BlockItem {
                 if (furnaceUpgrades.balance()) {
                     components.add(Component.literal("\u00A76     Auto Balance"));
                 }
-                // TODO: actions
-//                if (furnaceUpgrades.autoOutput()) {
-//                    components.add(Component.literal("     Auto Output"));
-//                }
                 if (furnaceUpgrades.saveFuel()) {
                     components.add(Component.literal("\u00A76     Save Fuel"));
                 }
@@ -94,6 +90,14 @@ public class LevelableBlockItem extends BlockItem {
                 if (generatorUpgrades.gemGenerator()) {
                     components.add(Component.literal("\u00A76     Gem Generator"));
                 }
+            }
+
+            // Actions
+            if (stack.getOrDefault(DataComponents.AUTO_OUTPUT, false)) {
+                components.add(Component.literal("\u00A76     Auto Output"));
+            }
+            if (stack.getOrDefault(DataComponents.CHUNKLOADING, false)) {
+                components.add(Component.literal("\u00A76     Chunkloading"));
             }
         }
 

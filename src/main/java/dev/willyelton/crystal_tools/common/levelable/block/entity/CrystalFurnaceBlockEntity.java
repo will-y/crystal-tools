@@ -113,7 +113,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
                 .map(direction -> Map.entry(direction, new SidedInvWrapper(this, direction)))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-        autoOutputAction = new AutoOutputAction(this);
+        autoOutputAction = addAction(new AutoOutputAction(this));
     }
 
     public IItemHandler getCapForSide(Direction side) {

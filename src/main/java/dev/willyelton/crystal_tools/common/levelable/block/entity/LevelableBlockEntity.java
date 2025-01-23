@@ -87,6 +87,10 @@ public abstract class LevelableBlockEntity extends BlockEntity {
         }
 
         if (this.expCap == 0) this.expCap = CrystalToolsConfig.BASE_EXPERIENCE_CAP.get();
+
+        for (Action action : getActions()) {
+            action.applyComponents(componentInput);
+        }
     }
 
     @Override
@@ -107,6 +111,10 @@ public abstract class LevelableBlockEntity extends BlockEntity {
         LevelableBlockEntityData levelableBlockEntityData = new LevelableBlockEntityData(skillPoints,
                 Arrays.stream(points).boxed().toList(), exp, expCap);
         components.set(DataComponents.LEVELABLE_BLOCK_ENTITY_DATA, levelableBlockEntityData);
+
+        for (Action action : getActions()) {
+            action.collectComponents(components);
+        }
     }
 
     public void addSkillPoints(int points) {

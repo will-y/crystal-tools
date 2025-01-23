@@ -2,8 +2,10 @@ package dev.willyelton.crystal_tools.common.levelable.block.entity.action;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
@@ -50,6 +52,10 @@ public abstract class Action {
     public void save(CompoundTag tag, HolderLookup.Provider registries) {}
 
     public void onRemove() {}
+
+    public void applyComponents(BlockEntity.DataComponentInput componentInput) {}
+
+    public void collectComponents(DataComponentMap.Builder components) {}
 
     public boolean addToExtra(String key, float value) {
         return false;
