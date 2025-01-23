@@ -1,16 +1,18 @@
 package dev.willyelton.crystal_tools.common.levelable.block;
 
 import dev.willyelton.crystal_tools.common.components.DataComponents;
+import dev.willyelton.crystal_tools.common.components.QuarryData;
+import dev.willyelton.crystal_tools.common.components.QuarryUpgrades;
+import dev.willyelton.crystal_tools.utils.StringUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -41,21 +43,42 @@ public class CrystalQuarryBlockItem extends LevelableBlockItem {
     }
 
     @Override
-    protected boolean updateCustomBlockEntityTag(BlockPos pos, Level level, @Nullable Player player, ItemStack stack, BlockState state) {
-//        BlockEntity blockEntity = level.getBlockEntity(pos);
-//
-//        if (blockEntity instanceof CrystalQuarryBlockEntity crystalQuarryBlockEntity) {
-//            List<BlockPos> positions = stack.getOrDefault(DataComponents.QUARRY_BOUNDS, new ArrayList<>());
-//
-//            if (positions.size() != 4) {
-//                // TODO: Some default thing
-////                crystalQuarryBlockEntity.setPositions(BlockPos.ZERO, BlockPos.ZERO.offset(1, 1, 1));
-//            } else {
-//                crystalQuarryBlockEntity.setStabilizers(positions);
-//            }
-//        }
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag tooltipFlag) {
+        super.appendHoverText(stack, context, components, tooltipFlag);
 
-        return super.updateCustomBlockEntityTag(pos, level, player, stack, state);
+        if (tooltipFlag.hasShiftDown()) {
+            QuarryUpgrades quarryUpgrades = stack.get(DataComponents.QUARRY_UPGRADES);
+            if (quarryUpgrades != null) {
+                if (quarryUpgrades.speedUpgrade() > 0) {
+                    components.add(Component.literal(String.format("\u00A76     %s: %s", "Speed", StringUtils.formatFloat(quarryUpgrades.speedUpgrade()))));
+                }
+                if (quarryUpgrades.redstoneControl()) {
+                    components.add(Component.literal("\u00A76     Redstone Control"));
+                }
+                if (quarryUpgrades.fortuneLevel() > 0) {
+                    components.add(Component.literal(String.format("\u00A76     %s %s", "Fortune", StringUtils.formatFloat(quarryUpgrades.speedUpgrade()))));
+                }
+                if (quarryUpgrades.silkTouch()) {
+                    components.add(Component.literal("\u00A76     Silk Touch"));
+                }
+                if (quarryUpgrades.extraEnergyCost() > 0) {
+                    components.add(Component.literal(String.format("\u00A7c     +%s Extra Energy", StringUtils.formatFloat(quarryUpgrades.extraEnergyCost()))));
+                }
+            }
+        }
+
+        List<BlockPos> stabilizers = stack.get(DataComponents.QUARRY_BOUNDS);
+        if (stabilizers != null && !stabilizers.isEmpty()) {
+            components.add(Component.literal("\u00A7bLinked Stabilizer Positions"));
+            for (BlockPos stabilizer : stabilizers) {
+                components.add(Component.literal(String.format(" \u00A7b  - [%s, %s, %s]", stabilizer.getX(), stabilizer.getY(), stabilizer.getZ())));
+            }
+        }
+
+        QuarryData quarryData = stack.get(DataComponents.QUARRY_DATA);
+        if (quarryData != null) {
+            components.add(Component.literal(String.format("%d FE Stored", quarryData.currentEnergy())));
+        }
     }
 
     private boolean isOutside(List<BlockPos> corners, BlockPos placePosition) {

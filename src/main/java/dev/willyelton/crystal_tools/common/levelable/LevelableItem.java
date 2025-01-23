@@ -119,7 +119,7 @@ public interface LevelableItem {
             components.add(Component.literal("<Hold Shift For Skills>"));
         } else {
             Map<String, Float> skills = new HashMap<>();
-            components.add(Component.literal("Skills:"));
+            components.add(Component.literal("\u00A76Skills:"));
             SkillData toolData = ToolUtils.getSkillData(stack);
 
             if (toolData != null) {
@@ -130,7 +130,7 @@ public interface LevelableItem {
                 }
 
                 skills.forEach((s, aFloat) -> {
-                    components.add(Component.literal(String.format("     %s: %s", StringUtils.formatKey(s), StringUtils.formatFloat(aFloat))));
+                    components.add(Component.literal(String.format("\u00A76     %s: %s", StringUtils.formatKey(s), StringUtils.formatFloat(aFloat))));
                 });
             }
         }
