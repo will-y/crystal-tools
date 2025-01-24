@@ -41,15 +41,17 @@
     - Autoselect autooutput
     - Show the block entity renderer when not looking at it
     - Config for base exp scaling
+    - Changelog
   - To do later:
     - Store fluids (or just output to tanks?)
     - Fluid trash filter
     - Mine 1 chunk at a time to keep few chunks loaded
     - Second pass on graphics
     - Holding certain items renders some things
-      - Holding quarry renderes valid placements
+      - Holding quarry renders valid placements
       - Holding stabilizer shows lines on other stabilizers?
-    - Y smoothing function for particles isn't really great because 
+    - Y smoothing function for particles isn't really great because it goes really high when at the bottom of the world and too low when mining close
+    - Block state for finished (also grey out be renderer or something)
 - Pump
 - Hopper
   - Inventory space

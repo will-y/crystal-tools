@@ -33,6 +33,10 @@ public class CrystalEnergyStorage extends EnergyStorage {
         this.capacity = capacity;
     }
 
+    public void setMaxReceive(int maxReceive) {
+        this.maxReceive = maxReceive;
+    }
+
     public void setMaxExtract(int maxExtract) {
         this.maxExtract = maxExtract;
     }

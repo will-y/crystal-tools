@@ -1,4 +1,13 @@
 # Crystal Tools Change Log
+## 2.2.0
+### Additions
+- Adds the Crystal Quarry!
+  - Has the following config options: 
+
+### Changes
+- Updates to Neo 21...
+- Changes the Crystal Generator Texture
+
 ## 2.1.6
 ### Additions
 - Adds Accessories support for the crystal backpack

@@ -8,6 +8,7 @@ import dev.willyelton.crystal_tools.common.components.QuarryUpgrades;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.energy.CrystalEnergyStorage;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalQuarryContainerMenu;
+import dev.willyelton.crystal_tools.common.levelable.block.CrystalQuarryBlock;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.AutoOutputAction;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.AutoOutputable;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.ChunkLoader;
@@ -78,9 +79,6 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     // Energy Storage
     private CrystalEnergyStorage energyStorage;
 
-    // Config
-    private final int baseFEUsage;
-
     // Settings
     private boolean useDirt;
     private boolean silkTouchEnabled;
@@ -123,13 +121,11 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         super(Registration.CRYSTAL_QUARRY_BLOCK_ENTITY.get(), pos, state);
         storedItems = NonNullList.withSize(INVENTORY_SIZE, ItemStack.EMPTY);
 
-        // TODO: Config
-        baseFEUsage = 50;
         useDirt = false;
 
         // Caps
         itemHandler = new ItemStackHandler(storedItems);
-        energyStorage = new CrystalEnergyStorage(10000, baseFEUsage * 2, 0, 0);
+        energyStorage = new CrystalEnergyStorage(10000, getEnergyCost() * 2, 0, 0);
 
         // Filter
         filterItems = NonNullList.withSize(INVENTORY_SIZE, ItemStack.EMPTY);
@@ -154,11 +150,9 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
     @Override
     public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
-        // TODO: Could make super class generic on container menu?
         return new CrystalQuarryContainerMenu(containerId, player.level(), this.getBlockPos(), this.filterRows, playerInventory, this.dataAccess);
     }
 
-    // TODO
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
@@ -197,14 +191,14 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         this.centerY = tag.getInt("CenterY");
         this.centerZ = tag.getInt("CenterZ");
 
-        int energy = tag.getInt("Energy");
-        energyStorage = new CrystalEnergyStorage(10000, baseFEUsage * 2, 0, energy);
-
         this.speedUpgrade = tag.getInt("SpeedUpgrade");
         this.redstoneControl = tag.getBoolean("RedstoneControl");
         this.fortuneLevel = tag.getInt("FortuneLevel");
         this.silkTouch = tag.getBoolean("SilkTouch");
         this.extraEnergyCost = tag.getInt("ExtraEnergyCost");
+
+        int energy = tag.getInt("Energy");
+        energyStorage = new CrystalEnergyStorage(10000, getEnergyCost() * 2, 0, energy);
 
         if (tag.contains("StabilizerPositions")) {
             this.stabilizerPositions = Arrays.stream(tag.getLongArray("StabilizerPositions")).mapToObj(BlockPos::of).toList();
@@ -225,16 +219,6 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
             filterContents.copyInto(this.filterItems);
         }
 
-        QuarryData quarryData = componentInput.get(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_DATA);
-        if (quarryData != null) {
-            this.miningAt = quarryData.miningAt();
-            this.currentProgress = quarryData.currentProgress();
-            this.miningState = quarryData.miningState();
-            this.finished = quarryData.finished();
-            this.waitingStacks = quarryData.waitingStacks();
-            this.energyStorage = new CrystalEnergyStorage(10000, baseFEUsage * 2, 0, quarryData.currentEnergy());
-        }
-
         QuarryUpgrades quarryUpgrades = componentInput.get(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_UPGRADES);
         if (quarryUpgrades != null) {
             this.speedUpgrade = quarryUpgrades.speedUpgrade();
@@ -242,6 +226,16 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
             this.fortuneLevel = quarryUpgrades.fortuneLevel();
             this.silkTouch = quarryUpgrades.silkTouch();
             this.extraEnergyCost = quarryUpgrades.extraEnergyCost();
+        }
+
+        QuarryData quarryData = componentInput.get(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_DATA);
+        if (quarryData != null) {
+            this.miningAt = quarryData.miningAt();
+            this.currentProgress = quarryData.currentProgress();
+            this.miningState = quarryData.miningState();
+            this.finished = quarryData.finished();
+            this.waitingStacks = quarryData.waitingStacks();
+            this.energyStorage = new CrystalEnergyStorage(10000, getEnergyCost() * 2, 0, quarryData.currentEnergy());
         }
 
         QuarrySettings quarrySettings = componentInput.get(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_SETTINGS);
@@ -343,6 +337,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
             case "quarry_speed" -> {
                 this.speedUpgrade += (int) value;
                 this.extraEnergyCost += CrystalToolsConfig.QUARRY_SPEED_COST_INCREASE.get();
+                updateEnergyStorage();
             }
             case "redstone_control" -> this.redstoneControl = true;
             case "fortune" -> {
@@ -350,12 +345,14 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
                 this.fortuneEnabled = !silkTouch || !silkTouchEnabled;
                 this.enchantTempItems(level);
                 this.extraEnergyCost += CrystalToolsConfig.QUARRY_FORTUNE_COST_INCREASE.get();
+                updateEnergyStorage();
             }
             case "silk_touch" -> {
                 this.silkTouch = true;
                 this.silkTouchEnabled = fortuneLevel == 0 || !fortuneEnabled;
                 this.enchantTempItems(level);
                 this.extraEnergyCost += CrystalToolsConfig.QUARRY_SILK_TOUCH_COST_INCREASE.get();
+                updateEnergyStorage();
             }
             case "filter_capacity" -> this.filterRows += (int) value;
         }
@@ -450,8 +447,17 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         int energyCost = getEnergyCost();
         if (energyStorage.getEnergyStored() >= energyCost) {
             energyStorage.removeEnergy(energyCost);
+            if (!state.getValue(CrystalQuarryBlock.ACTIVE)) {
+                state = state.setValue(CrystalQuarryBlock.ACTIVE, true);
+                level.setBlock(pos, state, 3);
+            }
             setChanged();
         } else {
+            if (state.getValue(CrystalQuarryBlock.ACTIVE)) {
+                state = state.setValue(CrystalQuarryBlock.ACTIVE, false);
+                level.setBlock(pos, state, 3);
+            }
+
             return;
         }
 
@@ -671,6 +677,10 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     @Override
     public void setItem(int slot, ItemStack stack) {
         itemHandler.setStackInSlot(slot, stack);
+    }
+
+    private void updateEnergyStorage() {
+        this.energyStorage.setMaxReceive(getEnergyCost() * 2);
     }
 
     // ------------------ Things used for block entity renderer ------------------
