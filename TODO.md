@@ -26,8 +26,6 @@
     - Trash filters (make a new more generic filter screen that can work with backpack and quarry)
   - Left to do:
     - Make actual skill tree
-    - Front texture
-    - Block state for on / off
     - Start a few blocks above the defined area?
     - https://gist.github.com/gigaherz/b8756ff463541f07a644ef8f14cb10f5
     - Default area when there are no stabilizers?
@@ -40,7 +38,6 @@
     - Only show options unlocked on config screen
     - Autoselect autooutput
     - Show the block entity renderer when not looking at it
-    - Config for base exp scaling
     - Changelog
   - To do later:
     - Store fluids (or just output to tanks?)

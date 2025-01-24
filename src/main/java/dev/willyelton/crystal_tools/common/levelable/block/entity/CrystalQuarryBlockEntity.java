@@ -679,6 +679,11 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         itemHandler.setStackInSlot(slot, stack);
     }
 
+    @Override
+    protected int getBaseExpCap() {
+        return CrystalToolsConfig.QUARRY_BASE_EXPERIENCE_CAP.get();
+    }
+
     private void updateEnergyStorage() {
         this.energyStorage.setMaxReceive(getEnergyCost() * 2);
     }

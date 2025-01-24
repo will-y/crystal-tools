@@ -71,7 +71,7 @@ public abstract class LevelableBlockEntity extends BlockEntity {
         this.exp = tag.getInt("Exp");
         this.expCap = tag.getInt("ExpCap");
 
-        if (this.expCap == 0) this.expCap = CrystalToolsConfig.BASE_EXPERIENCE_CAP.get();
+        if (this.expCap == 0) this.expCap = getBaseExpCap();
 
         getActions().forEach(action -> action.load(tag, registries));
     }
@@ -86,7 +86,7 @@ public abstract class LevelableBlockEntity extends BlockEntity {
             this.expCap = levelableBlockEntityData.expCap();
         }
 
-        if (this.expCap == 0) this.expCap = CrystalToolsConfig.BASE_EXPERIENCE_CAP.get();
+        if (this.expCap == 0) this.expCap = getBaseExpCap();
 
         for (Action action : getActions()) {
             action.applyComponents(componentInput);
@@ -193,7 +193,7 @@ public abstract class LevelableBlockEntity extends BlockEntity {
         this.skillPoints = skillPoints + (int) Arrays.stream(this.points).asLongStream().sum();
         this.points = new int[100];
         this.exp = 0;
-        this.expCap = CrystalToolsConfig.BASE_EXPERIENCE_CAP.get();
+        this.expCap = getBaseExpCap();
         this.resetExtraSkills();
     }
 
@@ -201,5 +201,9 @@ public abstract class LevelableBlockEntity extends BlockEntity {
         for (Action action : getActions()) {
             action.resetExtra();
         }
+    }
+
+    protected int getBaseExpCap() {
+        return CrystalToolsConfig.BASE_EXPERIENCE_CAP.get();
     }
 }

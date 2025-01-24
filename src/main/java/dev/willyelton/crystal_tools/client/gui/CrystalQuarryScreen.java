@@ -2,7 +2,6 @@ package dev.willyelton.crystal_tools.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.client.gui.component.BlockEntityUpgradeButton;
 import dev.willyelton.crystal_tools.client.gui.component.EnergyBarWidget;
 import dev.willyelton.crystal_tools.client.gui.component.backpack.BackpackScreenButton;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalQuarryContainerMenu;
@@ -34,6 +33,7 @@ public class CrystalQuarryScreen extends AbstractContainerScreen<CrystalQuarryCo
     private static final int UPGRADE_BUTTON_HEIGHT = 12;
 
     private final float expLabelX;
+    private BackpackScreenButton skillTreeButton;
 
     public CrystalQuarryScreen(CrystalQuarryContainerMenu container, Inventory inventory, Component title) {
         super(container, inventory, title);
@@ -56,7 +56,6 @@ public class CrystalQuarryScreen extends AbstractContainerScreen<CrystalQuarryCo
         this.renderTooltip(guiGraphics, mouseX, mouseY);
     }
 
-    // TODO: Abstract i guess
     @Override
     protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         super.renderLabels(guiGraphics, mouseX, mouseY);
@@ -67,7 +66,6 @@ public class CrystalQuarryScreen extends AbstractContainerScreen<CrystalQuarryCo
                 this.inventoryLabelY,
                 4210752, false);
 
-        // TODO: Get from menu / block entity
         guiGraphics.drawString(this.font,
                 Component.literal(String.format("Using %s FE/Tick", this.menu.getEnergyCost())),
                 this.inventoryLabelX,
@@ -80,34 +78,20 @@ public class CrystalQuarryScreen extends AbstractContainerScreen<CrystalQuarryCo
                 this.inventoryLabelX,
                 ENERGY_Y + ENERGY_HEIGHT + 6 + 10,
                 4210752, false);
+
+        this.skillTreeButton.setBadgeCounter(this.menu.getSkillPoints());
     }
 
-    // TODO: Abstract
     @Override
     protected void init() {
         super.init();
-        this.addRenderableWidget(
-                // TODO: Remove
-                new BlockEntityUpgradeButton(UPGRADE_BUTTON_X + this.leftPos,
-                        UPGRADE_BUTTON_Y + this.topPos,
-                        UPGRADE_BUTTON_WIDTH,
-                        UPGRADE_BUTTON_HEIGHT,
-                        Component.literal("+"),
-                        pButton -> ModGUIs.openScreen(new BlockEntityUpgradeScreen(this.menu, this.menu.getPlayer(), () -> {
-                            PacketDistributor.sendToServer(new OpenContainerPayload(this.menu.getBlockPos().asLong()));
-                        })),
-                        (button, guiGraphics, mouseX, mouseY) -> {
-                            Component textComponent = Component.literal(this.menu.getSkillPoints() + " Point(s) Available");
-                            guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalQuarryScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
-                        },
-                        false));
 
         this.addRenderableWidget(
                 new EnergyBarWidget(this.leftPos + ENERGY_X, this.topPos + ENERGY_Y, ENERGY_WIDTH, ENERGY_HEIGHT, Component.empty(), this.font, this.menu)
         );
         int screenButtonY = this.topPos + 22;
 
-        this.addRenderableWidget(new BackpackScreenButton(this.leftPos - 21, screenButtonY, Component.literal("Open Skill Tree"),
+        skillTreeButton = this.addRenderableWidget(new BackpackScreenButton(this.leftPos - 21, screenButtonY, Component.literal("Open Skill Tree"),
                 button -> {
                     ModGUIs.openScreen(new BlockEntityUpgradeScreen(this.menu, menu.getPlayer(), () -> PacketDistributor.sendToServer(new OpenContainerPayload(this.menu.getBlockPos().asLong()))));
                 },
