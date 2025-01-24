@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.common.crafting;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.components.LevelableBlockEntityData;
+import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -42,8 +43,10 @@ public class CrystalGeneratorRecipe extends CrystalToolsRecipe {
 
         LevelableBlockEntityData furnaceData = furnaceItem.get(DataComponents.LEVELABLE_BLOCK_ENTITY_DATA);
         if (furnaceData != null) {
-            int spentPoints = furnaceData.points().stream().mapToInt(Integer::intValue).sum();
-            LevelableBlockEntityData generatorData = new LevelableBlockEntityData(furnaceData.skillPoints() + spentPoints);
+            int points = furnaceData.points().stream().mapToInt(Integer::intValue).sum() + furnaceData.skillPoints();
+            // TODO: Config this 50
+            int cap = ToolUtils.getNewCap(50, points);
+            LevelableBlockEntityData generatorData = new LevelableBlockEntityData(points, cap);
             result.set(DataComponents.LEVELABLE_BLOCK_ENTITY_DATA, generatorData);
         }
 

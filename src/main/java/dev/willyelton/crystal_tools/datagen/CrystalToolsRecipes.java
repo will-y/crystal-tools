@@ -4,6 +4,7 @@ import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.crafting.CrystalAIOTRecipe;
 import dev.willyelton.crystal_tools.common.crafting.CrystalElytraRecipe;
 import dev.willyelton.crystal_tools.common.crafting.CrystalGeneratorRecipe;
+import dev.willyelton.crystal_tools.common.crafting.CrystalQuarryRecipe;
 import dev.willyelton.crystal_tools.common.crafting.ItemDisabledCondition;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
@@ -231,6 +232,10 @@ public class CrystalToolsRecipes extends RecipeProvider {
         SpecialRecipeBuilder
                 .special(CrystalGeneratorRecipe::new)
                 .save(recipeOutput, Registration.CRYSTAL_GENERATOR_ITEM.getId().toString());
+
+        SpecialRecipeBuilder
+                .special(CrystalQuarryRecipe::new)
+                .save(recipeOutput, Registration.CRYSTAL_QUARRY_ITEM.getId().toString());
     }
 
     private void buildConditionalRecipe(RecipeOutput recipeOutput, ShapedRecipeBuilder builder, ResourceLocation conditionItem) {

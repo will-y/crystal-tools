@@ -37,9 +37,13 @@ public class CrystalQuarryBlockItem extends LevelableBlockItem {
 
                 return false;
             }
+        } else {
+            Player player = context.getPlayer();
+            if (player != null && !player.level().isClientSide()) {
+                player.displayClientMessage(Component.literal("\u00A7c\u00A7lQuarry must be linked to stabilizers to place"), true);
+            }
+            return false;
         }
-
-        return super.canPlace(context, state);
     }
 
     @Override

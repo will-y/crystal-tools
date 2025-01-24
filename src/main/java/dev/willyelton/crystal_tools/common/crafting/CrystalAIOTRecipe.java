@@ -18,7 +18,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class CrystalAIOTRecipe extends CrystalToolsRecipe {
@@ -73,8 +72,7 @@ public class CrystalAIOTRecipe extends CrystalToolsRecipe {
         int totalPoints = 0;
 
         for (ItemStack stack : levelableItems) {
-            List<Integer> points = stack.getOrDefault(DataComponents.POINTS_ARRAY, Collections.emptyList());
-            totalPoints += points.stream().mapToInt(Integer::intValue).sum() + stack.getOrDefault(DataComponents.SKILL_POINTS, 0);
+            totalPoints += getPoints(stack);
         }
 
         result.set(DataComponents.SKILL_POINTS, totalPoints);

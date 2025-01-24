@@ -26,7 +26,6 @@
     - Trash filters (make a new more generic filter screen that can work with backpack and quarry)
   - Left to do:
     - Make actual skill tree
-    - Crafting recipe
     - Front texture
     - Block state for on / off
     - Start a few blocks above the defined area?

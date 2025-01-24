@@ -319,7 +319,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         ItemContainerContents filterContents = ItemContainerContents.fromItems(this.filterItems);
         components.set(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_FILTER, filterContents);
 
-        QuarryData quarryData = new QuarryData(miningAt, currentProgress, miningState, finished, waitingStacks, energyStorage.getEnergyStored());
+        QuarryData quarryData = new QuarryData(miningAt == null ? BlockPos.ZERO : miningAt, currentProgress, miningState, finished, waitingStacks, energyStorage.getEnergyStored());
         components.set(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_DATA, quarryData);
 
         QuarryUpgrades quarryUpgrades = new QuarryUpgrades(speedUpgrade, redstoneControl, fortuneLevel, silkTouch, extraEnergyCost);
