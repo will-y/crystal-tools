@@ -57,7 +57,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements MenuProvider, AutoOutputable, ChunkLoader {
-    public static final int DATA_SIZE = 11;
+    public static final int DATA_SIZE = 14;
 
     private static final int INVENTORY_SIZE = 27;
     private static final int MAX_BLOCKS_PER_TICK = 20;
@@ -83,7 +83,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     private boolean useDirt;
     private boolean silkTouchEnabled;
     private boolean fortuneEnabled;
-    private boolean autoOutputEnabled;
+    private boolean autoOutputEnabled = true;
 
     // Upgrades
     private int speedUpgrade = 0;
@@ -115,6 +115,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     private float centerY;
     private float centerZ;
 
+    private final AutoOutputAction autoOutputAction;
     private final ChunkLoadingAction<CrystalQuarryBlockEntity> chunkLoadingAction;
 
     public CrystalQuarryBlockEntity(BlockPos pos, BlockState state) {
@@ -131,7 +132,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         filterItems = NonNullList.withSize(INVENTORY_SIZE, ItemStack.EMPTY);
         filterItemHandler = new ItemStackHandler(filterItems);
 
-        addAction(new AutoOutputAction(this));
+        autoOutputAction = addAction(new AutoOutputAction(this));
         chunkLoadingAction = addAction(new ChunkLoadingAction<>(this));
     }
 
@@ -386,11 +387,13 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
                 case 11 -> fortuneEnabled ? 1 : 0;
                 case 12 -> autoOutputEnabled ? 1 : 0;
                 case 13 -> getEnergyCost();
+                case 14 -> silkTouch ? 1 : 0;
+                case 15 -> fortuneLevel;
+                case 16 -> autoOutputAction.isActive() ? 1 : 0;
                 default -> 0;
             };
         }
 
-        // TODO: What does this even do
         @Override
         protected void setExtra(int index, int value) {
             switch (index) {
@@ -412,6 +415,10 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     public void serverTick(Level level, BlockPos pos, BlockState state) {
         boolean hasRedstone = level.hasNeighborSignal(pos);
         if (hasRedstone && redstoneControl) {
+            if (state.getValue(CrystalQuarryBlock.ACTIVE)) {
+                state = state.setValue(CrystalQuarryBlock.ACTIVE, false);
+                level.setBlock(pos, state, 3);
+            }
             return;
         }
 
@@ -590,6 +597,9 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
                 currentY--;
                 if (currentY < minY) {
                     finished = true;
+                    this.chunkLoadingAction.unloadAll((ServerLevel) level);
+                    BlockState state = getBlockState().setValue(CrystalQuarryBlock.ACTIVE, false);
+                    level.setBlock(getBlockPos(), state, 3);
                 }
             }
         }

@@ -2,9 +2,9 @@ package dev.willyelton.crystal_tools.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.datafixers.util.Pair;
 import com.mojang.math.Axis;
 import dev.willyelton.crystal_tools.utils.Colors;
-import dev.willyelton.crystal_tools.utils.ReversiblePair;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -26,16 +26,24 @@ import java.util.Map;
 
 public class QuarryLaserRenderer {
     public static final float LASER_SPEED_MODIFIER = 1.2F;
-    private static final Map<ReversiblePair<BlockPos>, LaserRendererProperties> LINE_RENDERERS = new HashMap<>();
+    private static final Map<Pair<BlockPos, BlockPos>, LaserRendererProperties> LINE_RENDERERS = new HashMap<>();
+    private static final Map<BlockPos, LaserRendererProperties> CUBE_RENDERERS = new HashMap<>();
 
     public static void startTemporaryLaser(long startTime, long endTime, BlockPos pos1, BlockPos pos2, int color) {
-        LINE_RENDERERS.put(new ReversiblePair<>(pos1, pos2), new LaserRendererProperties(startTime, endTime, color));
+        LINE_RENDERERS.put(new Pair<>(pos1, pos2), new LaserRendererProperties(startTime, endTime, color));
+    }
+
+    public static void startTemporaryCube(long startTime, long endTime, BlockPos pos, int color) {
+        CUBE_RENDERERS.put(pos, new LaserRendererProperties(startTime, endTime, color));
+    }
+
+    public static void clearTemporaryLasers() {
+        LINE_RENDERERS.clear();
+        CUBE_RENDERERS.clear();
     }
 
     public static void render(RenderLevelStageEvent event) {
-        if (LINE_RENDERERS.isEmpty()) return;
-
-        List<ReversiblePair<BlockPos>> toRemove = new ArrayList<>();
+        if (LINE_RENDERERS.isEmpty() && CUBE_RENDERERS.isEmpty()) return;
 
         Player player = Minecraft.getInstance().player;
         if (player == null) return;
@@ -43,20 +51,37 @@ public class QuarryLaserRenderer {
         Level level = player.level();
         long gameTime = level.getGameTime();
 
-        for (ReversiblePair<BlockPos> pair : LINE_RENDERERS.keySet()) {
+        List<Pair<BlockPos, BlockPos>> lasersToRemove = new ArrayList<>();
+        List<BlockPos> cubesToRemove = new ArrayList<>();
+
+        for (Pair<BlockPos, BlockPos> pair : LINE_RENDERERS.keySet()) {
             LaserRendererProperties properties = LINE_RENDERERS.get(pair);
             int timeLeft = (int) (properties.endTime - gameTime);
             if (timeLeft <= 0) {
-                toRemove.add(pair);
+                lasersToRemove.add(pair);
             }
             int timeElapsed = (int) (gameTime - properties.startTime);
 
             if (timeElapsed >= 0) {
-                renderLaser(event, level, pair.first(), pair.second(), timeElapsed, timeLeft, (int) (properties.endTime - properties.startTime), properties.color);
+                renderLaser(event, level, pair.getFirst(), pair.getSecond(), timeElapsed, timeLeft, (int) (properties.endTime - properties.startTime), properties.color);
             }
         }
 
-        toRemove.forEach(LINE_RENDERERS::remove);
+        for (BlockPos pos : CUBE_RENDERERS.keySet()) {
+            LaserRendererProperties properties = CUBE_RENDERERS.get(pos);
+            int timeLeft = (int) (properties.endTime - gameTime);
+            if (timeLeft <= 0) {
+                cubesToRemove.add(pos);
+            }
+
+            int timeElapsed = (int) (gameTime - properties.startTime);
+            if (timeElapsed >= 0) {
+                BlockOverlayRenderer.renderBlockPos(event.getPoseStack(), Minecraft.getInstance().renderBuffers().bufferSource(), pos, properties.color());
+            }
+        }
+
+        lasersToRemove.forEach(LINE_RENDERERS::remove);
+        cubesToRemove.forEach(CUBE_RENDERERS::remove);
     }
 
     public static void renderLaser(MultiBufferSource bufferSource, PoseStack poseStack, Camera camera, float partialTick, Level level, BlockPos pos1, BlockPos pos2, int colorIn) {
@@ -68,7 +93,7 @@ public class QuarryLaserRenderer {
         float height = (float) Math.sqrt(pos1.distSqr(pos2));
         int color;
         if (duration > 0) {
-            color = Colors.addAlpha(colorIn, Mth.lerpDiscrete(timeLeft / (float) duration, 0, 255));
+            color = Colors.addAlpha(colorIn, Math.max(10, Mth.lerpDiscrete(timeLeft / (float) duration, 0, 255)));
         } else {
             color = colorIn;
         }
@@ -85,7 +110,6 @@ public class QuarryLaserRenderer {
 
         Vec3 view = camera.getPosition();
         poseStack.pushPose();
-        // TODO: This doesn't work when y values change
         poseStack.translate(-view.x, -view.y, -view.z);
         poseStack.translate(pos1.getX(), pos1.getY(), pos1.getZ());
         poseStack.translate(0.5, 0.5, 0.5);

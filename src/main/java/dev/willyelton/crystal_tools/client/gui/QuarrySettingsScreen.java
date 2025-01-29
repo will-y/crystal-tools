@@ -18,6 +18,7 @@ import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.TOP_
 public class QuarrySettingsScreen extends BackpackSubScreen<CrystalQuarryContainerMenu, CrystalQuarryScreen> {
     private Checkbox silkTouchCheckbox;
     private Checkbox fortuneCheckbox;
+
     public QuarrySettingsScreen(CrystalQuarryContainerMenu menu, Inventory playerInventory, CrystalQuarryScreen returnScreen) {
         super(menu, playerInventory, Component.literal("Quarry Settings"), returnScreen);
     }
@@ -27,15 +28,21 @@ public class QuarrySettingsScreen extends BackpackSubScreen<CrystalQuarryContain
         super.init();
 
         int index = 0;
-        // TODO: don't show unless you have the upgrades?
         addCheckbox("Fill With Dirt", "Causes the Quarry to fill in mined blocks with dirt",
                 0, index++);
-        silkTouchCheckbox = addCheckbox("Enable Silk Touch", "Enables Silk Touch for the quarry",
-                1, index++);
-        fortuneCheckbox = addCheckbox("Enable Fortune", "Enables Fortune for the quarry",
-                2, index++);
-        addCheckbox("Enable Auto Output", "Enables Auto Output for the quarry",
-                3, index++);
+        if (menu.shouldSettingBeActive(1)) {
+            silkTouchCheckbox = addCheckbox("Enable Silk Touch", "Enables Silk Touch for the quarry",
+                    1, index++);
+        }
+        if (menu.shouldSettingBeActive(2)) {
+            fortuneCheckbox = addCheckbox("Enable Fortune", "Enables Fortune for the quarry",
+                    2, index++);
+        }
+        if (menu.shouldSettingBeActive(3)) {
+            addCheckbox("Enable Auto Output", "Enables Auto Output for the quarry",
+                    3, index++);
+        }
+
     }
 
     private Checkbox addCheckbox(String title, String tooltip, int buttonId, int index) {
@@ -47,10 +54,14 @@ public class QuarrySettingsScreen extends BackpackSubScreen<CrystalQuarryContain
                     menu.setSetting(buttonId, value);
                     if (buttonId == 1 && value) {
                         menu.setSetting(11, false);
-                        fortuneCheckbox.selected = false;
+                        if (fortuneCheckbox != null) {
+                            fortuneCheckbox.selected = false;
+                        }
                     } else if (buttonId == 2 && value) {
                         menu.setSetting(10, false);
-                        silkTouchCheckbox.selected = false;
+                        if (silkTouchCheckbox != null) {
+                            silkTouchCheckbox.selected = false;
+                        }
                     }
                     this.minecraft.gameMode.handleInventoryButtonClick(this.menu.containerId, buttonId);
                 })

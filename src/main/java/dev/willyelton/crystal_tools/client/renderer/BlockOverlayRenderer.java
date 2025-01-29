@@ -101,6 +101,14 @@ public class BlockOverlayRenderer {
         }
     }
 
+    public static void renderBlockPos(PoseStack pose, MultiBufferSource bufferSource, BlockPos pos, int color) {
+        Vec3 view = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+        pose.pushPose();
+        pose.translate(-view.x, -view.y, -view.z);
+        renderBlockPos(pose, bufferSource.getBuffer(CrystalToolsRenderTypes.BLOCK_OVERLAY), pos, ((color >> 16) & 0xFF) / 255.0F, ((color >> 8) & 0xFF) / 255.0F, (color & 0xFF) / 255.0F);
+        pose.popPose();
+    }
+
     public static void renderBlockPos(PoseStack pose, VertexConsumer builder, BlockPos pos, float red, float green, float blue) {
         float alpha = 0.5f;
         float startX = 0, startY = 0, startZ = -1, endX = 1, endY = 1, endZ = 0;

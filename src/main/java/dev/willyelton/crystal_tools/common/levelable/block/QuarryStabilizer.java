@@ -25,7 +25,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static dev.willyelton.crystal_tools.client.renderer.QuarryLaserRenderer.LASER_SPEED_MODIFIER;
 
@@ -56,9 +58,8 @@ public class QuarryStabilizer extends Block {
         List<BlockPos> stabilizerPositions = findStabilizerSquare(pos, level);
         CrystalTools.LOGGER.info(stabilizerPositions);
 
-        // TODO: Going to need to order these in some way. Start is position clicked, not sure how that isn't already the case...
-        // Only happens when there are already renderers in progress, should be overwritten with the correct value...
         if (level.isClientSide) {
+            QuarryLaserRenderer.clearTemporaryLasers();
             int color = stabilizerPositions.size() == 4 ? GREEN : RED;
             if (stabilizerPositions.size() > 1) {
                 QuarryLaserRenderer.startTemporaryLaser(level.getGameTime(), level.getGameTime() + 200, stabilizerPositions.get(0), stabilizerPositions.get(1), color);
@@ -66,6 +67,14 @@ public class QuarryStabilizer extends Block {
 
             if (stabilizerPositions.size() > 2) {
                 QuarryLaserRenderer.startTemporaryLaser(level.getGameTime() + timeBetweenBlocks(stabilizerPositions.get(0), stabilizerPositions.get(1)), level.getGameTime() + 200, stabilizerPositions.get(1), stabilizerPositions.get(2), color);
+            }
+
+            if (stabilizerPositions.size() == 3) {
+                BlockPos lastPos = findFourthPosition(stabilizerPositions);
+                color = Colors.addAlpha(RED, 100);
+                QuarryLaserRenderer.startTemporaryLaser(level.getGameTime(), level.getGameTime() + 200, stabilizerPositions.get(0), lastPos, color);
+                QuarryLaserRenderer.startTemporaryLaser(level.getGameTime() + timeBetweenBlocks(stabilizerPositions.get(0), stabilizerPositions.get(1), stabilizerPositions.get(2)), level.getGameTime() + 200, stabilizerPositions.get(2), lastPos, color);
+                QuarryLaserRenderer.startTemporaryCube(level.getGameTime() + timeBetweenBlocks(stabilizerPositions.get(0), stabilizerPositions.get(1), stabilizerPositions.get(2)), level.getGameTime() + 200, lastPos, color);
             }
 
             if (stabilizerPositions.size() > 3) {
@@ -85,7 +94,7 @@ public class QuarryStabilizer extends Block {
     }
 
     @Override
-    protected VoxelShape getShape(BlockState p_304673_, BlockGetter p_304919_, BlockPos p_304930_, CollisionContext p_304757_) {
+    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
@@ -97,6 +106,20 @@ public class QuarryStabilizer extends Block {
         return (int) (distance * LASER_SPEED_MODIFIER);
     }
 
+    private BlockPos findFourthPosition(List<BlockPos> positions) {
+        Map<Integer, Integer> xMap = new HashMap<>();
+        Map<Integer, Integer> zMap = new HashMap<>();
+
+        for (BlockPos pos : positions) {
+            xMap.compute(pos.getX(), (key, value) -> value == null ? 1 : value + 1);
+            zMap.compute(pos.getZ(), (key, value) -> value == null ? 1 : value + 1);
+        }
+        int x = xMap.entrySet().stream().filter(entry -> entry.getValue() == 1).map(Map.Entry::getKey).findFirst().orElse(0);
+        int z = zMap.entrySet().stream().filter(entry -> entry.getValue() == 1).map(Map.Entry::getKey).findFirst().orElse(0);
+        return new BlockPos(x, positions.getFirst().getY(), z);
+    }
+
+    // TODO: Improve to allow you to click the middle one of 3 and still be able to guess the 4th
     public static List<BlockPos> findStabilizerSquare(BlockPos startingPos, Level level) {
         List<BlockPos> foundBlocks = new ArrayList<>();
         foundBlocks.add(startingPos);

@@ -188,11 +188,17 @@ public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu imp
     }
 
     public boolean getSetting(int setting) {
-        return this.data.get(9 + setting) == 1;
+        return this.data.get(9 + setting) >= 1;
     }
 
     public void setSetting(int setting, boolean value) {
         this.data.set(9 + setting, value ? 1 : 0);
+    }
+
+    public boolean shouldSettingBeActive(int setting) {
+        if (setting == 0) return true;
+
+        return this.data.get(13 + setting) >= 1;
     }
 
     public int getEnergyCost() {

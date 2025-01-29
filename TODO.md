@@ -18,25 +18,11 @@
   - JEI Plugin things
 - Spawner
 - Quarry
-  - Model off of build craft quarry
-  - Laser barriers and breaking animations?
-  - Things to level:
-    - Reduce energy cost?
-    - Remove liquids (put in tank / void options?)
-    - Trash filters (make a new more generic filter screen that can work with backpack and quarry)
   - Left to do:
     - Make actual skill tree
-    - Start a few blocks above the defined area?
-    - https://gist.github.com/gigaherz/b8756ff463541f07a644ef8f14cb10f5
-    - Default area when there are no stabilizers?
-    - Show guide lines when clicking on not 4 stabilizers
-    - Some particles or something along the lasers + on stabilizer connections
     - New laser texture
     - Probably don't need to use custom packet to sync block entity, just override the methods and only send what is useful to the client
-    - Some way to see your skill points (want to do badge on button but that might come later)
     - Generator slots only accept fuel
-    - Only show options unlocked on config screen
-    - Autoselect autooutput
     - Show the block entity renderer when not looking at it
     - Changelog
   - To do later:
@@ -49,6 +35,9 @@
       - Holding stabilizer shows lines on other stabilizers?
     - Y smoothing function for particles isn't really great because it goes really high when at the bottom of the world and too low when mining close
     - Block state for finished (also grey out be renderer or something)
+    - https://gist.github.com/gigaherz/b8756ff463541f07a644ef8f14cb10f5
+    - Some particles or something along the lasers + on stabilizer connections
+    - Guide-lines when there are only 2 stabilizers
 - Pump
 - Hopper
   - Inventory space
