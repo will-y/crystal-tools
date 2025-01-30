@@ -42,6 +42,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.items.IItemHandler;
@@ -114,6 +115,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     private float centerX;
     private float centerY;
     private float centerZ;
+
+    private AABB aabb;
 
     private final AutoOutputAction autoOutputAction;
     private final ChunkLoadingAction<CrystalQuarryBlockEntity> chunkLoadingAction;
@@ -188,9 +191,9 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         this.minY = tag.getInt("MinY");
         this.maxY = tag.getInt("MaxY");
 
-        this.centerX = tag.getInt("CenterX");
-        this.centerY = tag.getInt("CenterY");
-        this.centerZ = tag.getInt("CenterZ");
+        this.centerX = tag.getFloat("CenterX");
+        this.centerY = tag.getFloat("CenterY");
+        this.centerZ = tag.getFloat("CenterZ");
 
         this.speedUpgrade = tag.getInt("SpeedUpgrade");
         this.redstoneControl = tag.getBoolean("RedstoneControl");
@@ -204,6 +207,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         if (tag.contains("StabilizerPositions")) {
             this.stabilizerPositions = Arrays.stream(tag.getLongArray("StabilizerPositions")).mapToObj(BlockPos::of).toList();
         }
+
+        createAABB();
     }
 
     @Override
@@ -253,6 +258,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         } else {
             // TODO: Some default thing?
         }
+
+        createAABB();
     }
 
     @Override
@@ -558,6 +565,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     public void setStabilizers(List<BlockPos> positions) {
         setPositions(positions.get(0), positions.get(2).atY(-64));
         this.stabilizerPositions = positions;
+        createAABB();
     }
 
     private void setPositions(BlockPos topCorner, BlockPos bottomCorner) {
@@ -570,9 +578,9 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
         this.miningAt = new BlockPos(minX, maxY, minZ);
 
-        this.centerX = (maxX - minX + 1) / 2.0F + minX;
+        this.centerX = (maxX - minX ) / 2.0F + minX;
         this.centerY = maxY + 3;
-        this.centerZ = (maxZ - minZ + 1) / 2.0F + minZ;
+        this.centerZ = (maxZ - minZ) / 2.0F + minZ;
     }
 
     private int getEnergyCost() {
@@ -738,9 +746,21 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         return centerZ;
     }
 
+    public boolean isFinished() {
+        return finished;
+    }
+
     // TODO: Remove
     public BlockPos getCenterPos() {
         return new BlockPos((int) centerX, (int) centerY, (int) centerZ);
+    }
+
+    private void createAABB() {
+        this.aabb = AABB.encapsulatingFullBlocks(stabilizerPositions.get(0), stabilizerPositions.get(2).above(4));
+    }
+
+    public AABB getAABB() {
+        return aabb;
     }
 
     @Override

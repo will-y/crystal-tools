@@ -2,6 +2,8 @@ package dev.willyelton.crystal_tools.client.renderer;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import dev.willyelton.crystal_tools.CrystalTools;
+import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
@@ -40,5 +42,16 @@ public class CrystalToolsRenderTypes extends RenderType {
                     .setCullState(CULL)
                     .setLightmapState(NO_LIGHTMAP)
                     .setWriteMaskState(COLOR_DEPTH_WRITE)
+                    .createCompositeState(true));
+
+    public static final RenderType QUARRY_CUBE = create("QuarryCube",
+            DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, true, false,
+            RenderType.CompositeState.builder()
+                    .setShaderState(ShaderStateShard.POSITION_COLOR_TEX_LIGHTMAP_SHADER)
+                    .setTextureState(new RenderStateShard.TextureStateShard(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/entity/crystal_quarry_cube.png"), false, false))
+                    .setTransparencyState(NO_TRANSPARENCY)
+                    .setCullState(NO_CULL)
+                    .setLightmapState(NO_LIGHTMAP)
+                    .setOverlayState(OVERLAY)
                     .createCompositeState(true));
 }

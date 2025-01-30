@@ -38,7 +38,6 @@ public class CrystalQuarryBlockEntityRenderer implements BlockEntityRenderer<Cry
         if (miningAt != null) {
             Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
             Vec3 view = camera.getPosition();
-//            int color = Colors.fromRGB(48, 231, 237, 150);
             int color = Colors.fromRGB(48, 231, 237, 100);
             int miningLaserColor = Colors.fromRGB(0, 144, 180, 200);
 
@@ -46,8 +45,10 @@ public class CrystalQuarryBlockEntityRenderer implements BlockEntityRenderer<Cry
             // The renderer expects it in camera space, the block entity renderer is initially in block space
             poseStack.translate((double) -blockEntity.getBlockPos().getX() + view.x, (double) -blockEntity.getBlockPos().getY() + view.y, (double) -blockEntity.getBlockPos().getZ() + view.z);
 
-            // TODO: Overload that doesn't require a block pos, just float coords
-            QuarryLaserRenderer.renderLaser(bufferSource, poseStack, camera, partialTick, blockEntity.getLevel(), blockEntity.getCenterPos(), blockEntity.getMiningAt(), miningLaserColor);
+            float centerX = blockEntity.getCenterX();
+            float centerY = blockEntity.getCenterY();
+            float centerZ = blockEntity.getCenterZ();
+            QuarryLaserRenderer.renderLaser(bufferSource, poseStack, camera, partialTick, blockEntity.getLevel(), centerX, centerY, centerZ, blockEntity.getMiningAt(), miningLaserColor);
 
             List<BlockPos> corners = blockEntity.getStabilizerPositions();
 
@@ -59,7 +60,7 @@ public class CrystalQuarryBlockEntityRenderer implements BlockEntityRenderer<Cry
             }
 
             for (BlockPos corner : corners) {
-                QuarryLaserRenderer.renderLaser(bufferSource, poseStack, camera, partialTick, blockEntity.getLevel(), corner, blockEntity.getCenterPos(), color);
+                QuarryLaserRenderer.renderLaser(bufferSource, poseStack, camera, partialTick, blockEntity.getLevel(), corner, centerX, centerY, centerZ, color);
             }
 
             poseStack.popPose();
@@ -68,7 +69,17 @@ public class CrystalQuarryBlockEntityRenderer implements BlockEntityRenderer<Cry
 
     @Override
     public AABB getRenderBoundingBox(CrystalQuarryBlockEntity blockEntity) {
-        // TODO: Make the bounds of the quarry I guess
-        return AABB.INFINITE;
+        // TODO: Make the bounds of the quarry I guess. Memoize, maybe see if Util.memoize will work
+        return blockEntity.getAABB() == null ? AABB.INFINITE : blockEntity.getAABB();
+    }
+
+    @Override
+    public boolean shouldRender(CrystalQuarryBlockEntity blockEntity, Vec3 cameraPos) {
+        return !blockEntity.isFinished();
+    }
+
+    @Override
+    public boolean shouldRenderOffScreen(CrystalQuarryBlockEntity blockEntity) {
+        return true;
     }
 }

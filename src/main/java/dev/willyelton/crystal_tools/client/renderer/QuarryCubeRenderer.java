@@ -12,10 +12,11 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Quaternionf;
+
+import static dev.willyelton.crystal_tools.client.renderer.CrystalToolsRenderTypes.QUARRY_CUBE;
 
 /**
  * Class that handles rendering for the cube hovering above the quarry.
@@ -24,7 +25,7 @@ import org.joml.Quaternionf;
 public class QuarryCubeRenderer {
     public static ModelLayerLocation LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "quarry_cube"), "main");
 
-    private static final RenderType RENDER_TYPE = RenderType.entityCutoutNoCull(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/entity/crystal_quarry_cube.png"));
+//    private static final RenderType RENDER_TYPE = RenderType.entityCutoutNoCull(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/entity/crystal_quarry_cube.png"));
     // Math constants
     private static final float SIN_45 = (float)Math.sin(Math.PI / 4);
     private static final float PI_3 = (float) Math.PI / 3;
@@ -49,7 +50,7 @@ public class QuarryCubeRenderer {
         poseStack.pushPose();
         float yOffset = 0; // TODO: getY if we want to bob it like actual end crystal
         float rotation = ((float) gameTime + partialTicks) * 3.0F;
-        VertexConsumer vertexconsumer = buffer.getBuffer(RENDER_TYPE);
+        VertexConsumer vertexconsumer = buffer.getBuffer(QUARRY_CUBE);
         poseStack.pushPose();
         poseStack.scale(2.0F, 2.0F, 2.0F);
         poseStack.translate(x / 2.0F + 0.25F, y / 2.0F + 0.25F, z / 2.0F + 0.25F);
