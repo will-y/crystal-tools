@@ -19,8 +19,8 @@
 - Spawner
 - Quarry
   - Left to do:
-    - Make actual skill tree
     - Changelog
+    - Check inventory stuff (quick move, what is exposed on capability)
   - To do later:
     - Store fluids (or just output to tanks?)
     - Fluid trash filter

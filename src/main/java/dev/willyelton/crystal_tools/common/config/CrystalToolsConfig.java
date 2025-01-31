@@ -219,11 +219,11 @@ public class CrystalToolsConfig {
         QUARRY_SILK_TOUCH_COST_INCREASE = builder.comment("How much the quarry silk touch upgrade increases the RF/tick")
                 .defineInRange("quarry_silk_touch_cost_increase", 40, 0, 100000);
         QUARRY_FORTUNE_COST_INCREASE = builder.comment("How much the quarry fortune upgrade increases the RF/tick")
-                .defineInRange("quarry_silk_touch_cost_increase", 40, 0, 100000);
+                .defineInRange("quarry_fortune_cost_increase", 40, 0, 100000);
         QUARRY_INITIAL_POINT_MULTIPLIER = builder.comment("What percentage of the points from an AIOT the quarry gets when crafted")
                 .defineInRange("quarry_initial_point_multiplier", 0.1D, 0D, 1D);
         QUARRY_BASE_EXPERIENCE_CAP = builder.comment("Starting EXP Cap for the Quarry")
-                .defineInRange("quarry_base_experience_cap", 200, 1, 100000);
+                .defineInRange("quarry_base_experience_cap", 500, 1, 100000);
         builder.pop();
 
         // MISC

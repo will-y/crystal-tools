@@ -26,7 +26,7 @@ public abstract class LevelableBlockEntity extends BlockEntity {
     protected int skillPoints = 0;
     protected int[] points = new int[100];
     protected int exp = 0;
-    protected int expCap = CrystalToolsConfig.BASE_EXPERIENCE_CAP.get();
+    protected int expCap = getExpCap();
 
     private final Map<Action.ActionType, Action> actions = new HashMap<>();
 

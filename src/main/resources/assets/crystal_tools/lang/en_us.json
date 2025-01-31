@@ -101,6 +101,13 @@
   "crystal_tools.configuration.skill_points_per_burn_time": "Skill Points per Burn Time",
   "crystal_tools.configuration.control_point_spend": "Control Point Spend",
   "crystal_tools.configuration.shift_point_spend": "Shift Point Spend",
+  "crystal_tools.configuration.quarry": "Quarry Settings",
+  "crystal_tools.configuration.quarry_base_energy_cost": "Quarry Base Energy Cost",
+  "crystal_tools.configuration.quarry_speed_cost_increase": "Quarry Speed Energy Increase",
+  "crystal_tools.configuration.quarry_silk_touch_cost_increase": "Quarry Silk Touch Energy Increase",
+  "crystal_tools.configuration.quarry_fortune_cost_increase": "Quarry Fortune Energy Increase",
+  "crystal_tools.configuration.quarry_initial_point_multiplier": "Quarry Initial Point Multiplier",
+  "crystal_tools.configuration.quarry_base_experience_cap": "Quarry Base Experience Cap",
   "gui.crystal_tools.category.generator": "Crystal Generator Fuels",
   "crystal_tools.configuration.creative_flight_points": "Creative Flight Points"
 }

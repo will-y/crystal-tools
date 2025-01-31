@@ -87,7 +87,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     private boolean autoOutputEnabled = true;
 
     // Upgrades
-    private int speedUpgrade = 0;
+    private float speedUpgrade = 0;
     private boolean redstoneControl = false;
     private int fortuneLevel = 0;
     private boolean silkTouch = false;
@@ -195,7 +195,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         this.centerY = tag.getFloat("CenterY");
         this.centerZ = tag.getFloat("CenterZ");
 
-        this.speedUpgrade = tag.getInt("SpeedUpgrade");
+        this.speedUpgrade = tag.getFloat("SpeedUpgrade");
         this.redstoneControl = tag.getBoolean("RedstoneControl");
         this.fortuneLevel = tag.getInt("FortuneLevel");
         this.silkTouch = tag.getBoolean("SilkTouch");
@@ -300,7 +300,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
         tag.putInt("Energy", this.energyStorage.getEnergyStored());
 
-        tag.putInt("SpeedUpgrade", this.speedUpgrade);
+        tag.putFloat("SpeedUpgrade", this.speedUpgrade);
         tag.putBoolean("RedstoneControl", this.redstoneControl);
         tag.putInt("FortuneLevel", this.fortuneLevel);
         tag.putBoolean("SilkTouch", this.silkTouch);
@@ -343,8 +343,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     protected void addToExtraData(String key, float value) {
         switch (key) {
             case "quarry_speed" -> {
-                this.speedUpgrade += (int) value;
-                this.extraEnergyCost += CrystalToolsConfig.QUARRY_SPEED_COST_INCREASE.get();
+                this.speedUpgrade += value;
+                this.extraEnergyCost += Math.max(1, (int) (CrystalToolsConfig.QUARRY_SPEED_COST_INCREASE.get() * value));
                 updateEnergyStorage();
             }
             case "redstone_control" -> this.redstoneControl = true;
@@ -747,7 +747,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     }
 
     private void createAABB() {
-        this.aabb = AABB.encapsulatingFullBlocks(stabilizerPositions.get(0), stabilizerPositions.get(2).above(4));
+        this.aabb = AABB.encapsulatingFullBlocks(stabilizerPositions.get(0).atY(-64), stabilizerPositions.get(2).above(4));
     }
 
     public AABB getAABB() {

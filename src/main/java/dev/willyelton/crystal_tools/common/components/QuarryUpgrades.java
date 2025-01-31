@@ -6,10 +6,10 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 
-public record QuarryUpgrades(int speedUpgrade, boolean redstoneControl, int fortuneLevel,
+public record QuarryUpgrades(float speedUpgrade, boolean redstoneControl, int fortuneLevel,
                              boolean silkTouch, int extraEnergyCost) {
     public static final Codec<QuarryUpgrades> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Codec.INT.fieldOf("speedUpgrade").forGetter(QuarryUpgrades::speedUpgrade),
+            Codec.FLOAT.fieldOf("speedUpgrade").forGetter(QuarryUpgrades::speedUpgrade),
             Codec.BOOL.fieldOf("redstoneControl").forGetter(QuarryUpgrades::redstoneControl),
             Codec.INT.fieldOf("fortuneLevel").forGetter(QuarryUpgrades::fortuneLevel),
             Codec.BOOL.fieldOf("silkTouch").forGetter(QuarryUpgrades::silkTouch),
@@ -17,7 +17,7 @@ public record QuarryUpgrades(int speedUpgrade, boolean redstoneControl, int fort
     ).apply(instance, QuarryUpgrades::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, QuarryUpgrades> STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.INT, QuarryUpgrades::speedUpgrade,
+            ByteBufCodecs.FLOAT, QuarryUpgrades::speedUpgrade,
             ByteBufCodecs.BOOL, QuarryUpgrades::redstoneControl,
             ByteBufCodecs.INT, QuarryUpgrades::fortuneLevel,
             ByteBufCodecs.BOOL, QuarryUpgrades::silkTouch,
