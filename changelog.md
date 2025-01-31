@@ -7,6 +7,7 @@
 ### Changes
 - Updates to Neo 21...
 - Changes the Crystal Generator Texture
+- The Crystal Generator's slot now only accepts items it can burn
 
 ## 2.1.6
 ### Additions
