@@ -3,7 +3,6 @@ package dev.willyelton.crystal_tools.client.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.datafixers.util.Pair;
-import com.mojang.math.Axis;
 import dev.willyelton.crystal_tools.utils.Colors;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -112,8 +111,8 @@ public class QuarryLaserRenderer {
             color = colorIn;
         }
 
-        float beamRadius = 0.1f;
-        float glowRadius = 0.1f;
+        float beamRadius = 0.05f;
+        float glowRadius = 0.06f;
         float yMax;
 
         if (timeElapsed >= 0) {
@@ -140,7 +139,7 @@ public class QuarryLaserRenderer {
         float f1 = height < 0 ? f : -f;
         float f2 = Mth.frac(f1 * 0.2F - (float) Mth.floor(f1 * 0.1F));
         poseStack.pushPose();
-        poseStack.mulPose(Axis.YP.rotationDegrees(f * 2.25F - 45.0F));
+//        poseStack.mulPose(Axis.YP.rotationDegrees(f * 2.25F - 45.0F));
 
         float x1;
         float z2;
@@ -158,7 +157,7 @@ public class QuarryLaserRenderer {
         x3 = -glowRadius;
         maxV = -1.0F + f2;
         minV = height + maxV;
-        renderPart(poseStack, bufferSource.getBuffer(CrystalToolsRenderTypes.QUARRY_LASER), FastColor.ARGB32.color(32, color),
+        renderPart(poseStack, bufferSource.getBuffer(CrystalToolsRenderTypes.QUARRY_LASER), FastColor.ARGB32.color(54, color),
                 0, yMax, x1, f4, glowRadius, z2, x3, glowRadius, glowRadius, glowRadius, 0.0F, 1.0F, minV, maxV);
         poseStack.popPose();
     }
@@ -166,8 +165,6 @@ public class QuarryLaserRenderer {
     private static void renderLaser(RenderLevelStageEvent event, Level level, BlockPos pos1, BlockPos pos2, int timeElapsed, int timeLeft, int duration, int colorIn) {
         renderLaser(Minecraft.getInstance().renderBuffers().bufferSource(), event.getPoseStack(), event.getCamera(), event.getPartialTick().getGameTimeDeltaTicks(), level, pos1, pos2, timeElapsed, timeLeft, duration, colorIn);
     }
-
-
 
     private static void renderPart(PoseStack poseStack, VertexConsumer consumer, int color, int minY, float maxY, float x1,
                                    float z1, float x2, float z2, float x3, float z3, float x4, float z4, float minU,

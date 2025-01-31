@@ -20,8 +20,6 @@
 - Quarry
   - Left to do:
     - Make actual skill tree
-    - New laser texture
-    - Probably don't need to use custom packet to sync block entity, just override the methods and only send what is useful to the client
     - Changelog
   - To do later:
     - Store fluids (or just output to tanks?)

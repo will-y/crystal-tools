@@ -38,8 +38,8 @@ public class CrystalQuarryBlockEntityRenderer implements BlockEntityRenderer<Cry
         if (miningAt != null) {
             Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
             Vec3 view = camera.getPosition();
-            int color = Colors.fromRGB(48, 231, 237, 100);
-            int miningLaserColor = Colors.fromRGB(0, 144, 180, 200);
+            int color = Colors.fromRGB(48, 231, 237, 255);
+            int miningLaserColor = Colors.fromRGB(0, 144, 180, 255);
 
             poseStack.pushPose();
             // The renderer expects it in camera space, the block entity renderer is initially in block space

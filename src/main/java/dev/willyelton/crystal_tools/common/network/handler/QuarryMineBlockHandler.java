@@ -12,6 +12,11 @@ public class QuarryMineBlockHandler {
     public void handle(final QuarryMineBlockPayload payload, final IPayloadContext context) {
         context.enqueueWork(() -> {
             Level level = context.player().level();
+
+            if (!level.isLoaded(payload.quarryPos())) {
+                return;
+            }
+
             BlockEntity be = level.getBlockEntity(payload.quarryPos());
 
             if (be instanceof CrystalQuarryBlockEntity crystalQuarryBlockEntity) {

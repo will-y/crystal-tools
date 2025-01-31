@@ -715,10 +715,6 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         this.miningAt = miningAt;
     }
 
-    public BlockState getMiningState() {
-        return this.miningState;
-    }
-
     public void setMiningState(BlockState miningState) {
         this.miningState = miningState;
     }
@@ -748,11 +744,6 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
     public boolean isFinished() {
         return finished;
-    }
-
-    // TODO: Remove
-    public BlockPos getCenterPos() {
-        return new BlockPos((int) centerX, (int) centerY, (int) centerZ);
     }
 
     private void createAABB() {
