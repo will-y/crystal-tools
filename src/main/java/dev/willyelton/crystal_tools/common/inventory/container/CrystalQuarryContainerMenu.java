@@ -1,7 +1,9 @@
 package dev.willyelton.crystal_tools.common.inventory.container;
 
+import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.CrystalSlotItemHandler;
+import dev.willyelton.crystal_tools.common.inventory.container.slot.NoInsertSlot;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.backpack.BackpackFilterSlot;
 import dev.willyelton.crystal_tools.common.inventory.container.subscreen.FilterContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.subscreen.FilterMenuContents;
@@ -23,7 +25,7 @@ import net.neoforged.neoforge.items.IItemHandlerModifiable;
 public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu implements SubScreenContainerMenu, FilterContainerMenu {
     private final CrystalQuarryBlockEntity blockEntity;
     private FilterMenuContents<CrystalQuarryContainerMenu> filterMenuContents;
-    // TODO: Why did I need both of these?
+    // For now, two different inventories to deal with them being in different positions
     private final NonNullList<CrystalSlotItemHandler> quarryInventorySlots;
     private final NonNullList<CrystalSlotItemHandler> filterInventorySlots;
     private final NonNullList<CrystalSlotItemHandler> quarrySlots;
@@ -39,13 +41,14 @@ public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu imp
 
         if (blockEntity == null) return;
 
-        filterMenuContents = new FilterMenuContents<>(this, filterRows, true);
-        this.addSlotBox(blockEntity.getItemHandler(), 0, 8, 59, 9, SLOT_SIZE, 3, SLOT_SIZE, quarrySlots, CrystalSlotItemHandler::new);
-        this.addSlotBox(blockEntity.getFilterItemHandler(), 0, 8, 18, 9, SLOT_SIZE, filterRows, SLOT_SIZE, filterMenuContents.getFilterSlots(), BackpackFilterSlot::new);
-        filterMenuContents.toggleSlots(false);
         this.layoutPlayerInventorySlots(8, 145, quarryInventorySlots, CrystalSlotItemHandler::new);
         this.layoutPlayerInventorySlots(8, 86, filterInventorySlots, CrystalSlotItemHandler::new);
         filterInventorySlots.forEach(s -> s.setActive(false));
+
+        filterMenuContents = new FilterMenuContents<>(this, filterRows, true);
+        this.addSlotBox(blockEntity.getItemHandler(), 0, 8, 59, 9, SLOT_SIZE, 3, SLOT_SIZE, quarrySlots, NoInsertSlot::new);
+        this.addSlotBox(blockEntity.getFilterItemHandler(), 0, 8, 18, 9, SLOT_SIZE, filterRows, SLOT_SIZE, filterMenuContents.getFilterSlots(), BackpackFilterSlot::new);
+        filterMenuContents.toggleSlots(false);
     }
 
     @Override
@@ -59,24 +62,30 @@ public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu imp
         }
     }
 
-    // TODO: Default implementation
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
+        CrystalTools.LOGGER.info("Index: " + index);
         ItemStack itemStack = ItemStack.EMPTY;
         Slot slot = slots.get(index);
         if (slot.hasItem()) {
             ItemStack slotStack = slot.getItem();
             itemStack = slotStack.copy();
-            // Fuel Slot
-            if (index == 0) {
-                if (!this.moveItemStackTo(slotStack, 1, 37, true)) {
+
+
+            if (index <= 35) {
+                // Player's inventory (quarry menu)
+                return ItemStack.EMPTY;
+            } else if (index <= 71) {
+                // Player's inventory (filter menu)
+                return filterMenuContents.quickMove(itemStack);
+            } else if (index <= 98) {
+                // Quarry inventory
+                if (!this.moveItemStackTo(itemStack, 0, 36, true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.moveItemStackTo(slotStack, 0, 1, false)) {
-                return ItemStack.EMPTY;
             }
 
-            if (slotStack.isEmpty()) {
+            if (itemStack.isEmpty()) {
                 slot.setByPlayer(ItemStack.EMPTY);
             } else {
                 slot.setChanged();

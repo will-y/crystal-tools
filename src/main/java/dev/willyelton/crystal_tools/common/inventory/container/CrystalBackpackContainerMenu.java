@@ -161,7 +161,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         if (slot.hasItem() && !isFilterSlot(index)) {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
-            // if you clicked in played inventory
+            // if you clicked in player's inventory
             if (index < 36) {
                 switch (openSubScreen) {
                     case NONE -> {

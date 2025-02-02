@@ -183,6 +183,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         this.silkTouchEnabled = tag.getBoolean("SilkTouchEnabled");
         this.fortuneEnabled = tag.getBoolean("FortuneEnabled");
         this.autoOutputEnabled = tag.getBoolean("AutoOutputEnabled");
+        this.autoOutputAction.setDisabled(!autoOutputEnabled);
 
         this.minX = tag.getInt("MinX");
         this.maxX = tag.getInt("MaxX");
@@ -232,6 +233,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
             this.fortuneLevel = quarryUpgrades.fortuneLevel();
             this.silkTouch = quarryUpgrades.silkTouch();
             this.extraEnergyCost = quarryUpgrades.extraEnergyCost();
+            this.filterRows = quarryUpgrades.filterRows();
         }
 
         QuarryData quarryData = componentInput.get(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_DATA);
@@ -242,6 +244,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
             this.finished = quarryData.finished();
             this.waitingStacks = quarryData.waitingStacks();
             this.energyStorage = new CrystalEnergyStorage(10000, getEnergyCost() * 2, 0, quarryData.currentEnergy());
+        } else {
+            this.energyStorage = new CrystalEnergyStorage(10000, getEnergyCost() * 2, 0, 0);
         }
 
         QuarrySettings quarrySettings = componentInput.get(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_SETTINGS);
@@ -250,6 +254,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
             this.silkTouchEnabled = quarrySettings.silkTouchEnabled();
             this.fortuneEnabled = quarrySettings.fortuneEnabled();
             this.autoOutputEnabled = quarrySettings.autoOutputEnabled();
+            this.autoOutputAction.setDisabled(!this.autoOutputEnabled);
         }
 
         List<BlockPos> stabilizers = componentInput.get(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_BOUNDS);
@@ -324,7 +329,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         QuarryData quarryData = new QuarryData(miningAt == null ? BlockPos.ZERO : miningAt, currentProgress, miningState, finished, waitingStacks, energyStorage.getEnergyStored());
         components.set(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_DATA, quarryData);
 
-        QuarryUpgrades quarryUpgrades = new QuarryUpgrades(speedUpgrade, redstoneControl, fortuneLevel, silkTouch, extraEnergyCost);
+        QuarryUpgrades quarryUpgrades = new QuarryUpgrades(speedUpgrade, redstoneControl, fortuneLevel, silkTouch, extraEnergyCost, filterRows);
         components.set(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_UPGRADES, quarryUpgrades);
 
         QuarrySettings quarrySettings = new QuarrySettings(useDirt, silkTouchEnabled, fortuneEnabled, autoOutputEnabled);
@@ -408,7 +413,10 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
                 case 9 -> useDirt = value == 1;
                 case 10 -> silkTouchEnabled = value == 1;
                 case 11 -> fortuneEnabled = value == 1;
-                case 12 -> autoOutputEnabled = value == 1;
+                case 12 -> {
+                    autoOutputEnabled = value == 1;
+                    autoOutputAction.setDisabled(!autoOutputEnabled);
+                }
             }
         }
 

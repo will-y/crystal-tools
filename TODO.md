@@ -20,7 +20,6 @@
 - Quarry
   - Left to do:
     - Changelog
-    - Check inventory stuff (quick move, what is exposed on capability)
   - To do later:
     - Store fluids (or just output to tanks?)
     - Fluid trash filter
@@ -34,6 +33,8 @@
     - https://gist.github.com/gigaherz/b8756ff463541f07a644ef8f14cb10f5
     - Some particles or something along the lasers + on stabilizer connections
     - Guide-lines when there are only 2 stabilizers
+    - Show particles when you are down at the bottom too
+    - Breaking stabilizers breaks quarry?
 - Pump
 - Hopper
   - Inventory space

@@ -18,6 +18,8 @@ public class AutoOutputAction extends Action {
 
     private final AutoOutputable blockEntity;
     private boolean autoOutputEnabled = false;
+    // This is different because it isn't persisted, just temporarily disabled
+    private boolean disabled = false;
 
     public AutoOutputAction(AutoOutputable blockEntity) {
         super(100);
@@ -26,6 +28,8 @@ public class AutoOutputAction extends Action {
 
     @Override
     public void tickAction(Level level, BlockPos pos, BlockState state) {
+        if (this.disabled) return;
+
         for (Integer index : blockEntity.getOutputStacks().keySet()) {
             ItemStack stack = blockEntity.getOutputStacks().get(index);
 
@@ -90,5 +94,9 @@ public class AutoOutputAction extends Action {
     public void collectComponents(DataComponentMap.Builder components) {
         super.collectComponents(components);
         components.set(DataComponents.AUTO_OUTPUT, this.autoOutputEnabled);
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
     }
 }
