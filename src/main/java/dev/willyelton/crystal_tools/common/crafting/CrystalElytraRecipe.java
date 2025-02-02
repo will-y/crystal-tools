@@ -14,7 +14,6 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 
-import java.util.Collections;
 import java.util.List;
 
 public class CrystalElytraRecipe extends CrystalToolsRecipe {
@@ -60,17 +59,10 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
             return crystalChestPlateItem;
         }
 
-        List<Integer> points = crystalChestPlateItem.getOrDefault(DataComponents.POINTS_ARRAY, Collections.emptyList());
-
-        // points in chestplate
-        int spentPoints = points.stream().mapToInt(Integer::intValue).sum();
-        // unspent points in chestplate
-        int unspentPoints = crystalChestPlateItem.getOrDefault(DataComponents.SKILL_POINTS, 0);
-
         // points from enchantments on elytra
         int enchantmentPoints = EnchantmentHelper.getEnchantmentsForCrafting(elytraItem).entrySet().stream().mapToInt(Object2IntMap.Entry::getIntValue).sum();
 
-        int totalPoints = spentPoints + unspentPoints + enchantmentPoints;
+        int totalPoints = getPoints(stack) + enchantmentPoints;
 
         // Set skill points
         stack.set(DataComponents.SKILL_POINTS, totalPoints);

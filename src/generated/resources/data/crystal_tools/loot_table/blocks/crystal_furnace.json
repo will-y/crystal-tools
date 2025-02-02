@@ -17,7 +17,8 @@
                 "crystal_tools:furnace_data",
                 "crystal_tools:furnace_upgrades",
                 "crystal_tools:levelable_block_entity_data",
-                "crystal_tools:furnace_inventory"
+                "crystal_tools:furnace_inventory",
+                "crystal_tools:auto_output"
               ],
               "source": "block_entity"
             }

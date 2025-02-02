@@ -24,7 +24,7 @@ public record LevelableBlockEntityData(int skillPoints, List<Integer> points, in
             ByteBufCodecs.INT, LevelableBlockEntityData::expCap,
             LevelableBlockEntityData::new);
 
-    public LevelableBlockEntityData(int skillPoints) {
-        this(skillPoints, Arrays.stream(new int[100]).boxed().toList(), 0,0);
+    public LevelableBlockEntityData(int skillPoints, int expCap) {
+        this(skillPoints, Arrays.stream(new int[100]).boxed().toList(), 0,expCap);
     }
 }

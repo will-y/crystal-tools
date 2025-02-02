@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "crystal_tools:block/crystal_quarry_front_on",
+    "side": "crystal_tools:block/crystal_quarry_side",
+    "top": "crystal_tools:block/crystal_quarry_top"
+  }
+}

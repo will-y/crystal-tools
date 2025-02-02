@@ -4,6 +4,7 @@
     "crystal_tools:crystal_ore",
     "crystal_tools:crystal_deepslate_ore",
     "crystal_tools:crystal_furnace",
-    "crystal_tools:crystal_generator"
+    "crystal_tools:crystal_generator",
+    "crystal_tools:crystal_quarry"
   ]
 }

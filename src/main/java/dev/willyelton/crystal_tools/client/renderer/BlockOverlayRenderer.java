@@ -45,7 +45,7 @@ public class BlockOverlayRenderer {
             pose.pushPose();
             pose.translate(-view.x, -view.y, -view.z);
 
-            VertexConsumer builder = buffer.getBuffer(CrystalToolsRenderType.BLOCK_OVERLAY);
+            VertexConsumer builder = buffer.getBuffer(CrystalToolsRenderTypes.BLOCK_OVERLAY);
 
             List<BlockPos> blockPosCollection;
             boolean hoe = false;
@@ -88,7 +88,7 @@ public class BlockOverlayRenderer {
             pose.pushPose();
             pose.translate(-view.x, -view.y, -view.z);
 
-            VertexConsumer builder = buffer.getBuffer(CrystalToolsRenderType.BLOCK_OVERLAY);
+            VertexConsumer builder = buffer.getBuffer(CrystalToolsRenderTypes.BLOCK_OVERLAY);
 
             Collection<BlockPos> blockPosCollection = BlockCollectors.collectVeinMine(pos, level, toolItem.getVeinMinerPredicate(hitBlockState), toolItem.getMaxBlocks(stack));
 
@@ -99,6 +99,14 @@ public class BlockOverlayRenderer {
             }
             pose.popPose();
         }
+    }
+
+    public static void renderBlockPos(PoseStack pose, MultiBufferSource bufferSource, BlockPos pos, int color) {
+        Vec3 view = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+        pose.pushPose();
+        pose.translate(-view.x, -view.y, -view.z);
+        renderBlockPos(pose, bufferSource.getBuffer(CrystalToolsRenderTypes.BLOCK_OVERLAY), pos, ((color >> 16) & 0xFF) / 255.0F, ((color >> 8) & 0xFF) / 255.0F, (color & 0xFF) / 255.0F);
+        pose.popPose();
     }
 
     public static void renderBlockPos(PoseStack pose, VertexConsumer builder, BlockPos pos, float red, float green, float blue) {

@@ -76,6 +76,7 @@ public class CrystalToolsConfig {
     public static ModConfigSpec.IntValue FE_STORAGE_PER_LEVEL;
     public static ModConfigSpec.DoubleValue FOOD_BURN_TIME_MULTIPLIER;
     public static ModConfigSpec.DoubleValue SKILL_POINTS_PER_BURN_TIME;
+    public static ModConfigSpec.IntValue GENERATOR_BASE_EXPERIENCE_CAP;
 
     // Backpack
     public static ModConfigSpec.EnumValue<CrystalBackpackInventory.SortType> BACKPACK_SORT_TYPE;
@@ -84,6 +85,16 @@ public class CrystalToolsConfig {
 
     // Trident
     public static ModConfigSpec.BooleanValue ALWAYS_CHANNEL;
+
+    // Quarry
+    public static ModConfigSpec.IntValue QUARRY_BASE_ENERGY_COST;
+    public static ModConfigSpec.IntValue QUARRY_SPEED_COST_INCREASE;
+    public static ModConfigSpec.IntValue QUARRY_SILK_TOUCH_COST_INCREASE;
+    public static ModConfigSpec.IntValue QUARRY_FORTUNE_COST_INCREASE;
+    public static ModConfigSpec.DoubleValue QUARRY_INITIAL_POINT_MULTIPLIER;
+    public static ModConfigSpec.IntValue QUARRY_BASE_EXPERIENCE_CAP;
+    public static ModConfigSpec.DoubleValue QUARRY_SPEED_UPGRADE_MULTIPLIER;
+    public static ModConfigSpec.IntValue QUARRY_MAX_SIZE;
 
     static {
         ModConfigSpec.Builder configBuilder = new ModConfigSpec.Builder();
@@ -191,16 +202,38 @@ public class CrystalToolsConfig {
                 .defineInRange("food_burn_time_multiplier", 20D, 0.01D, 10000F);
         SKILL_POINTS_PER_BURN_TIME = builder.comment("Determines how much skill experience you get from burning items. Skill Exp = Fuel Burn Time * SKILL_POINTS_PER_BURN_TIME (Rounded Up)")
                 .defineInRange("skill_points_per_burn_time", 0.00625D, 0D, 1D);
+        GENERATOR_BASE_EXPERIENCE_CAP = builder.comment("Starting EXP Cap for the generator")
+                .defineInRange("generator_base_experience_cap", 50, 1, 100000);
         builder.pop();
 
         // Backpack
         builder.comment("Crystal backpack settings").push("backpack");
         BACKPACK_SORT_TYPE = builder.comment("Method used for sorting the Crystal Backpack")
                 .defineEnum("backpack_sort_type", CrystalBackpackInventory.SortType.QUANTITY);
-        BACKPACK_BASE_EXPERIENCE_CAP = builder.comment("Starting EXP Value for the Backpack")
+        BACKPACK_BASE_EXPERIENCE_CAP = builder.comment("Starting EXP Cap for the Backpack")
                 .defineInRange("backpack_base_experience_cap", 200, 1, 10000);
         MAX_COMPRESSION_SLOT_ROWS = builder.comment("Maximum number of rows of compression slots. These slots will not currently scroll so don't set it to larger than your gui scale can render")
                 .defineInRange("max_compression_slot_rows", 6, 1, 20);
+        builder.pop();
+
+        // Quarry
+        builder.comment("Crystal quarry settings").push("quarry");
+        QUARRY_BASE_ENERGY_COST = builder.comment("Quarry base RF/tick")
+                .defineInRange("quarry_base_energy_cost", 40, 0, 100000);
+        QUARRY_SPEED_COST_INCREASE = builder.comment("How much the quarry speed upgrade increases the RF/tick")
+                .defineInRange("quarry_speed_cost_increase", 10, 0, 100000);
+        QUARRY_SILK_TOUCH_COST_INCREASE = builder.comment("How much the quarry silk touch upgrade increases the RF/tick")
+                .defineInRange("quarry_silk_touch_cost_increase", 40, 0, 100000);
+        QUARRY_FORTUNE_COST_INCREASE = builder.comment("How much the quarry fortune upgrade increases the RF/tick")
+                .defineInRange("quarry_fortune_cost_increase", 40, 0, 100000);
+        QUARRY_INITIAL_POINT_MULTIPLIER = builder.comment("What percentage of the points from an AIOT the quarry gets when crafted")
+                .defineInRange("quarry_initial_point_multiplier", 0.1D, 0D, 1D);
+        QUARRY_BASE_EXPERIENCE_CAP = builder.comment("Starting EXP Cap for the quarry")
+                .defineInRange("quarry_base_experience_cap", 500, 1, 100000);
+        QUARRY_SPEED_UPGRADE_MULTIPLIER = builder.comment("Multiplier for the speed upgrade of the quarry")
+                        .defineInRange("quarry_speed_upgrade_multiplier", 20D, 0.1D, 100000D);
+        QUARRY_MAX_SIZE = builder.comment("Max size of the quarry")
+                        .defineInRange("quarry_max_size", 64, 2, 256);
         builder.pop();
 
         // MISC

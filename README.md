@@ -15,6 +15,7 @@ You can also suggest features or ask questions there.
   - These can be placed with an upgrade on some tools
 - Crystal Furnace
 - Crystal Generator
+- Crystal Quarry
 
 ## World Generation
 Deepslate Crystal Ore Generates Below Y -44 in veins of size 5.
@@ -213,6 +214,19 @@ There will be upgrades that are common to most tools, and tools will each get un
 - Save Fuel
   - Doesn't waste fuel when there is no room to output FE
 
+### Quarry
+- Mining Speed
+- Redstone Control
+  - Allows you to disable the quarry with a redstone signal
+- Trash Filter
+  - Allows you to void certain items
+- Auto Output
+  - Will output items to adjacent inventories
+- Silk Touch
+- Fortune
+- Chunkloading
+  - Keeps the quarry loaded even when you are not around
+
 ### Backpack
 - Capacity
   - Adds 9 more item slots
@@ -289,6 +303,10 @@ There will be upgrades that are common to most tools, and tools will each get un
 
 ![Crystal Generator Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/generator.png)
 
+#### Quarry
+- Will transfer a percentage of skill points from the AIOT used to craft it
+
+![Crystal Furnce Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/quarry.png)
 ### Misc
 #### Netherite Stick
 ![Netherite Stick Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/netherite_stick.png)
@@ -304,7 +322,7 @@ There will be upgrades that are common to most tools, and tools will each get un
 
 ## Config
 The following config options are available. The default values are in parentheses.
-You can change these values in `config/crystal_tools/toml` or in the in-game UI.
+You can change these values in `config/crystal_tools.toml` or in the in-game UI.
 
 ### Common
 #### Experience Settings
@@ -363,11 +381,22 @@ You can change these values in `config/crystal_tools/toml` or in the in-game UI.
 - `fe_storage_per_level` (2000): FE storage gained per level of FE capacity. Range: 1 - 1000000.
 - `food_burn_time_multiplier` (20): The food burntime formula is: (`food_nutrition` + `food saturation`) * `food_burn_time_multiplier`. Range: 0.01 - 10000.
 - `skill_points_per_burn_time` (0.00625): Determines how much skill experience you get from burning items. `skill_exp` = `fuel_burn_time` * `skill_points_per_burn_time`. Range: 0 - 1.
+- `generator_base_experience_cap` (50): Starting EXP Cap for the generator. Range 1 - 100000.
 
 #### Backpack Settings
 - `backpack_sort_type` (QUANTITY): Sort method that the backpack uses. Can be one of: `QUANTITY`, `NAME`, `MOD`, or `ID`
 - `backpack_base_experience_cap` (200): Starting EXP requirements for the Backpack. Range: 1 - 10000.
 - `max_compression_slot_rows` (6): Maximum number of rows of compression slots. These slots will not scroll, so don't set it to larger than your gui scale can render. Range: 1 - 20.
+
+#### Quarry Settings
+- `quarry_base_energy_cost` (40): Quarry base RF/tick. Range: 0 - 100000.
+- `quarry_speed_cost_increase` (10): How much RF/tick is added to the quarry per speed upgrade. Range: 0 - 100000.
+- `quarry_silk_touch_cost_increase` (40): How much RF/tick is added to the quarry when silk touch is active. Range: 0 - 100000.
+- `quarry_fortune_cost_increase` (40): How much RF/tick is added to the quarry when fortune is active. Range: 0 - 100000.
+- `quarry_initial_point_multiplier` (0.1): What percentage of the points from an AIOT the quarry gets when crafted. Range: 0 - 1.
+- `quarry_base_experience_cap` (500): Starting EXP Cap for the quarry. Range: 1 - 100000.
+- `quarry_speed_upgrade_multiplier` (50): Multiplier for the speed upgrade of the quarry. Range: 1 - 100000.
+- `quarry_max_size` (64): Max size of the quarry. Range: 1 - 256.
 
 #### Miscellaneous Settings
 - `enable_item_requirements` (true): Set to false to disable certain nodes from requiring items to upgrade.

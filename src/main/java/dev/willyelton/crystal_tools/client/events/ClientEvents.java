@@ -6,6 +6,8 @@ import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.model.CrystalElytraLayer;
 import dev.willyelton.crystal_tools.client.renderer.CrystalTridentBlockEntityWithoutLevelRenderer;
 import dev.willyelton.crystal_tools.client.renderer.CrystalTridentRenderer;
+import dev.willyelton.crystal_tools.client.renderer.QuarryCubeRenderer;
+import dev.willyelton.crystal_tools.client.renderer.blockentity.CrystalQuarryBlockEntityRenderer;
 import dev.willyelton.crystal_tools.common.levelable.tool.BowLevelableItem;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.EntityModelSet;
@@ -79,6 +81,12 @@ public class ClientEvents {
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(Registration.CRYSTAL_TRIDENT_ENTITY.get(), CrystalTridentRenderer::new);
+        event.registerBlockEntityRenderer(Registration.CRYSTAL_QUARRY_BLOCK_ENTITY.get(), CrystalQuarryBlockEntityRenderer::new);
+    }
+
+    @SubscribeEvent
+    public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(QuarryCubeRenderer.LOCATION, QuarryCubeRenderer::createBodyLayer);
     }
 
     @SubscribeEvent

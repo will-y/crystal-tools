@@ -41,57 +41,63 @@ public class LevelableBlockItem extends BlockItem {
         if (!tooltipFlag.hasShiftDown()) {
             components.add(Component.literal("<Hold Shift For Skills>"));
         } else {
+            components.add(Component.literal("\u00A76Skills:"));
             FurnaceUpgrades furnaceUpgrades = stack.get(DataComponents.FURNACE_UPGRADES);
             if (furnaceUpgrades != null) {
                 if (furnaceUpgrades.speed() > 0) {
-                    components.add(Component.literal(String.format("     %s: %s", "Speed", StringUtils.formatFloat(furnaceUpgrades.speed()))));
+                    components.add(Component.literal(String.format("\u00A76     %s: %s", "Speed", StringUtils.formatFloat(furnaceUpgrades.speed()))));
                 }
                 if (furnaceUpgrades.fuelEfficiency() > 0) {
-                    components.add(Component.literal(String.format("     %s: %d", "Fuel Efficiency", furnaceUpgrades.fuelEfficiency())));
+                    components.add(Component.literal(String.format("\u00A76     %s: %d", "Fuel Efficiency", furnaceUpgrades.fuelEfficiency())));
                 }
                 if (furnaceUpgrades.slots() > 0) {
-                    components.add(Component.literal(String.format("     %s: %d", "Extra Slots", furnaceUpgrades.slots())));
+                    components.add(Component.literal(String.format("\u00A76     %s: %d", "Extra Slots", furnaceUpgrades.slots())));
                 }
                 if (furnaceUpgrades.fuelEfficiency() > 0) {
-                    components.add(Component.literal(String.format("     %s: %d", "Extra Fuel Slots", furnaceUpgrades.fuelSlots())));
+                    components.add(Component.literal(String.format("\u00A76     %s: %d", "Extra Fuel Slots", furnaceUpgrades.fuelSlots())));
                 }
                 if (furnaceUpgrades.balance()) {
-                    components.add(Component.literal("     Auto Balance"));
-                }
-                if (furnaceUpgrades.autoOutput()) {
-                    components.add(Component.literal("     Auto Output"));
+                    components.add(Component.literal("\u00A76     Auto Balance"));
                 }
                 if (furnaceUpgrades.saveFuel()) {
-                    components.add(Component.literal("     Save Fuel"));
+                    components.add(Component.literal("\u00A76     Save Fuel"));
                 }
             }
 
             GeneratorUpgrades generatorUpgrades = stack.get(DataComponents.GENERATOR_UPGRADES);
             if (generatorUpgrades != null) {
                 if (generatorUpgrades.feGeneration() > 0) {
-                    components.add(Component.literal(String.format("     %s: %d", "Bonus Generation", generatorUpgrades.feGeneration())));
+                    components.add(Component.literal(String.format("\u00A76     %s: %d", "Bonus Generation", generatorUpgrades.feGeneration())));
                 }
                 if (generatorUpgrades.feStorage() > 0) {
-                    components.add(Component.literal(String.format("     %s: %d", "Bonus Capacity", generatorUpgrades.feStorage())));
+                    components.add(Component.literal(String.format("\u00A76     %s: %d", "Bonus Capacity", generatorUpgrades.feStorage())));
                 }
                 if (generatorUpgrades.fuelEfficiency() > 0) {
-                    components.add(Component.literal(String.format("     %s: %s%%", "Fuel Efficiency", StringUtils.formatPercent(generatorUpgrades.fuelEfficiency()))));
+                    components.add(Component.literal(String.format("\u00A76     %s: %s%%", "Fuel Efficiency", StringUtils.formatPercent(generatorUpgrades.fuelEfficiency()))));
                 }
                 if (generatorUpgrades.redstoneControl()) {
-                    components.add(Component.literal("     Redstone Control"));
+                    components.add(Component.literal("\u00A76     Redstone Control"));
                 }
                 if (generatorUpgrades.saveFuel()) {
-                    components.add(Component.literal("     Save Fuel"));
+                    components.add(Component.literal("\u00A76     Save Fuel"));
                 }
                 if (generatorUpgrades.metalGenerator()) {
-                    components.add(Component.literal("     Metal Generator"));
+                    components.add(Component.literal("\u00A76     Metal Generator"));
                 }
                 if (generatorUpgrades.foodGenerator()) {
-                    components.add(Component.literal("     Food Generator"));
+                    components.add(Component.literal("\u00A76     Food Generator"));
                 }
                 if (generatorUpgrades.gemGenerator()) {
-                    components.add(Component.literal("     Gem Generator"));
+                    components.add(Component.literal("\u00A76     Gem Generator"));
                 }
+            }
+
+            // Actions
+            if (stack.getOrDefault(DataComponents.AUTO_OUTPUT, false)) {
+                components.add(Component.literal("\u00A76     Auto Output"));
+            }
+            if (stack.getOrDefault(DataComponents.CHUNKLOADING, false)) {
+                components.add(Component.literal("\u00A76     Chunkloading"));
             }
         }
 

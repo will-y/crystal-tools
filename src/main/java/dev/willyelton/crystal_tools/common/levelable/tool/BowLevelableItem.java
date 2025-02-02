@@ -28,17 +28,14 @@ import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.event.EventHooks;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 public class BowLevelableItem extends BowItem implements LevelableItem {
     public BowLevelableItem() {
@@ -149,24 +146,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     }
 
     public ItemStack getProjectile(ItemStack shootable, Player player) {
-        if (!(shootable.getItem() instanceof BowLevelableItem)) {
-            return ItemStack.EMPTY;
-        } else {
-            Predicate<ItemStack> predicate = getAllSupportedProjectiles();
-            ItemStack itemstack = ProjectileWeaponItem.getHeldProjectile(player, predicate);
-            if (!itemstack.isEmpty()) {
-                return CommonHooks.getProjectile(player, shootable, itemstack);
-            } else {
-                for(int i = 0; i < player.getInventory().getContainerSize(); ++i) {
-                    ItemStack itemstack1 = player.getInventory().getItem(i);
-                    if (predicate.test(itemstack1)) {
-                        return CommonHooks.getProjectile(player, shootable, itemstack1);
-                    }
-                }
-
-                return CommonHooks.getProjectile(player, shootable, player.getAbilities().instabuild ? new ItemStack(Items.ARROW) : ItemStack.EMPTY);
-            }
-        }
+        return player.getProjectile(shootable);
     }
 
     @Override

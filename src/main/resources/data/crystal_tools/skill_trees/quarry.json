@@ -1,0 +1,255 @@
+{
+  "tiers": [
+    [
+      {
+        "id": 0,
+        "name": "Mining Speed I",
+        "description": "Increases the mining speed of the Quarry",
+        "subtext": {
+          "text": "Increases Energy Cost",
+          "color": "#FF0000"
+        },
+        "limit": 1,
+        "requirements": [],
+        "key": "quarry_speed",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 1,
+        "name": "Mining Speed II",
+        "description": "Increases the mining speed of the Quarry",
+        "subtext": {
+          "text": "Increases Energy Cost",
+          "color": "#FF0000"
+        },
+        "limit": 1,
+        "requirements": [
+          {"node": [0]}
+        ],
+        "key": "quarry_speed",
+        "value": 1
+      },
+      {
+        "id": 2,
+        "name": "Redstone Control",
+        "description": "Apply a redstone signal to disable the quarry",
+        "limit": 1,
+        "requirements": [
+          {"node": [0]}
+        ],
+        "key": "redstone_control",
+        "value": 1
+      },
+      {
+        "id": 3,
+        "name": "Trash Filter I",
+        "description": "Adds 1 row of trash filter slots",
+        "limit": 1,
+        "requirements": [
+          {"node": [0]}
+        ],
+        "key": "filter_capacity",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 4,
+        "name": "Mining Speed III",
+        "description": "Increases the mining speed of the Quarry",
+        "subtext": {
+          "text": "Increases Energy Cost",
+          "color": "#FF0000"
+        },
+        "limit": 1,
+        "requirements": [
+          {"node": [1]}
+        ],
+        "key": "quarry_speed",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 5,
+        "name": "Mining Speed IV",
+        "description": "Increases the mining speed of the Quarry",
+        "subtext": {
+          "text": "Increases Energy Cost",
+          "color": "#FF0000"
+        },
+        "limit": 1,
+        "requirements": [
+          {"node": [4]}
+        ],
+        "key": "quarry_speed",
+        "value": 1
+      },
+      {
+        "id": 6,
+        "name": "Auto Output",
+        "description": "Auto Outputs items to adjacent inventories",
+        "limit": 1,
+        "requirements": [
+          {"node": [4]}
+        ],
+        "key": "auto_output",
+        "value": 1
+      },
+      {
+        "id": 7,
+        "name": "Trash Filter II",
+        "description": "Adds 1 row of trash filter slots",
+        "limit": 1,
+        "requirements": [
+          {"node": [4]}
+        ],
+        "key": "filter_capacity",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 8,
+        "name": "Mining Speed V",
+        "description": "Increases the mining speed of the Quarry",
+        "subtext": {
+          "text": "Increases Energy Cost",
+          "color": "#FF0000"
+        },
+        "limit": 1,
+        "requirements": [
+          {"node": [5]}
+        ],
+        "key": "quarry_speed",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 9,
+        "name": "Mining Speed V",
+        "description": "Increases the mining speed of the Quarry",
+        "subtext": {
+          "text": "Increases Energy Cost",
+          "color": "#FF0000"
+        },
+        "limit": 1,
+        "requirements": [
+          {"node": [8]}
+        ],
+        "key": "quarry_speed",
+        "value": 1
+      },
+      {
+        "id": 10,
+        "name": "Silk Touch",
+        "description": "Applies Silk Touch to the blocks the quarry mines",
+        "limit": 1,
+        "requirements": [
+          {"node": [8]}
+        ],
+        "key": "silk_touch",
+        "value": 1,
+        "subtext": {
+          "text": "Increases Energy Cost",
+          "color": "#FF0000"
+        }
+      },
+      {
+        "id": 11,
+        "name": "Fortune III",
+        "description": "Applies Fortune III to the blocks the quarry mines",
+        "limit": 1,
+        "requirements": [
+          {"node": [8]}
+        ],
+        "key": "fortune",
+        "value": 3,
+        "subtext": {
+          "text": "Increases Energy Cost",
+          "color": "#FF0000"
+        }
+      },
+      {
+        "id": 12,
+        "name": "Trash Filter III",
+        "description": "Adds 1 row of trash filter slots",
+        "limit": 1,
+        "requirements": [
+          {"node": [8]}
+        ],
+        "key": "filter_capacity",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 13,
+        "name": "Mining Speed VI",
+        "description": "Increases the mining speed of the Quarry",
+        "subtext": {
+          "text": "Increases Energy Cost",
+          "color": "#FF0000"
+        },
+        "limit": 1,
+        "requirements": [
+          {"node": [9]}
+        ],
+        "key": "quarry_speed",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 14,
+        "name": "Mining Speed VII",
+        "description": "Increases the mining speed of the Quarry",
+        "subtext": {
+          "text": "Increases Energy Cost",
+          "color": "#FF0000"
+        },
+        "limit": 1,
+        "requirements": [
+          {"node": [13]}
+        ],
+        "key": "quarry_speed",
+        "value": 1
+      },
+      {
+        "id": 15,
+        "name": "Chunkloading",
+        "description": "Keeps the chunks the quarry is mining loaded",
+        "limit": 1,
+        "requirements": [
+          {"node": [13]}
+        ],
+        "key": "chunkloading",
+        "value": 1,
+        "subtext": {
+          "text": "NOTE: Will only tick the chunk that the quarry block is in.\nMake sure to keep your power generation in the same chunk.",
+          "color": "#ABABAB"
+        }
+      }
+    ],
+    [
+      {
+        "id": 16,
+        "name": "Infinite Mining Speed",
+        "description": "Add as many points to Mining Speed as you want here!",
+        "subtext": {
+          "text": "Slightly Increases Energy Cost",
+          "color": "#FF0000"
+        },
+        "limit": 0,
+        "requirements": [
+          {"node": [14]}
+        ],
+        "key": "quarry_speed",
+        "value": 0.05
+      }
+    ]
+  ]
+}

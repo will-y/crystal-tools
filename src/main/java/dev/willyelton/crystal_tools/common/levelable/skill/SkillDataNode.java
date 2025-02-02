@@ -6,6 +6,7 @@ import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillData
 import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
+import java.util.Optional;
 
 public class SkillDataNode {
     private final int id;
@@ -17,9 +18,10 @@ public class SkillDataNode {
     private final List<SkillDataRequirement> requirements;
     private final String key;
     private final float value;
+    private final Optional<SkillSubText> skillSubText;
 
     public SkillDataNode(int id, String name, String description, int limit, String key, float value,
-                         List<SkillDataRequirement> requirements) {
+                         List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -28,6 +30,7 @@ public class SkillDataNode {
         this.key = key;
         this.value = value;
         this.requirements = requirements;
+        this.skillSubText = skillSubText;
     }
 
     public int getId() {
@@ -64,6 +67,10 @@ public class SkillDataNode {
 
     public float getValue() {
         return this.value;
+    }
+
+    public Optional<SkillSubText> getSkillSubText() {
+        return this.skillSubText;
     }
 
     public int addPoint(int points) {
@@ -115,7 +122,7 @@ public class SkillDataNode {
             Codec.INT.fieldOf("limit").forGetter(SkillDataNode::getLimit),
             Codec.STRING.fieldOf("key").forGetter(SkillDataNode::getKey),
             Codec.FLOAT.fieldOf("value").forGetter(SkillDataNode::getValue),
-            SkillDataRequirement.CODEC.listOf().fieldOf("requirements").forGetter(SkillDataNode::getRequirements)
+            SkillDataRequirement.CODEC.listOf().fieldOf("requirements").forGetter(SkillDataNode::getRequirements),
+            SkillSubText.CODEC.optionalFieldOf("subtext").forGetter(SkillDataNode::getSkillSubText)
     ).apply(instance, SkillDataNode::new));
-
 }

@@ -21,4 +21,8 @@ public record GeneratorData(int litTime, int litTotalTime, ItemStack burnedItem,
             ItemStack.OPTIONAL_STREAM_CODEC, GeneratorData::burnedItem,
             ByteBufCodecs.INT, GeneratorData::energy,
             GeneratorData::new);
+
+    public GeneratorData() {
+        this(0, 0, ItemStack.EMPTY, 0);
+    }
 }

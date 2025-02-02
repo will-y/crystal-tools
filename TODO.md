@@ -14,26 +14,25 @@
   - Limit rows, will be easy with the limit to infinite nodes item below
   - Prio for multiple backpacks / pickup order
   - Client indexes don't get updated on scroll. Might cause problems but doesn't seem to
-- Crystal Generator
-  - Add more fuels (gems, metals, foods ...)
-  - Don't waste power upgrade
-  - Redstone to disable (might not need upgrade?)
-  - Increase rf/tick (generation and output)
-  - Increase burn time
-  - RF storage
-  - Add crystal fuel? Upgrade to turn generator into fuel maker for fuel generator?
-    - Maybe solid fuel too?
-  - JEI Plugin things
 - Spawner
 - Quarry
-  - Model off of build craft quarry
-  - Laser barriers and breaking animations?
-  - Things to level:
-    - Speed
-    - Reduce energy cost?
-    - Remove liquids (put in tank / void options?)
-    - Trash filters
-    - Auto output to inventories?
+  - To do later:
+    - Rename the backpack stuff that is now used also for the quarry
+    - Store fluids (or just output to tanks?)
+    - Fluid trash filter
+    - Mine 1 chunk at a time to keep few chunks loaded
+    - Second pass on graphics
+    - Holding certain items renders some things
+      - Holding quarry renders valid placements
+      - Holding stabilizer shows lines on other stabilizers?
+    - Y smoothing function for particles isn't really great because it goes really high when at the bottom of the world and too low when mining close
+    - Block state for finished (also grey out be renderer or something)
+    - https://gist.github.com/gigaherz/b8756ff463541f07a644ef8f14cb10f5
+    - Some particles or something along the lasers + on stabilizer connections
+    - Guide-lines when there are only 2 stabilizers
+    - Show particles when you are down at the bottom too
+    - Breaking stabilizers breaks quarry?
+    - Some screen that shows loaded chunks or something?
 - Pump
 - Hopper
   - Inventory space
@@ -78,5 +77,8 @@
 
 ### 1.21 Things
 - Sometimes leveling skills scrolls to the top of the menu
-- Attributes don't show up on items. Still works though
 - Remove JEI access transformers
+
+### Next breaking changes
+- Skill data should probably be a capability, at least on items
+- Allow for more general skill data, Attributes, DataComponents?

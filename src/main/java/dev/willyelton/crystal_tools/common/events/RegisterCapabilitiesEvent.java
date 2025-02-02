@@ -5,6 +5,7 @@ import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalFurnaceBlockEntity;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalQuarryBlockEntity;
 import net.minecraft.world.item.component.ItemContainerContents;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalGeneratorBlockEntity;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -17,6 +18,7 @@ import java.util.List;
 public class RegisterCapabilitiesEvent {
     @SubscribeEvent
     public static void onRegisterCapabilities(net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent event) {
+        // Backpack
         event.registerItem(Capabilities.ItemHandler.ITEM,
                 (stack, context) -> {
                     // TODO (breaking) remove this
@@ -31,12 +33,14 @@ public class RegisterCapabilitiesEvent {
                 },
                 Registration.CRYSTAL_BACKPACK.get());
 
+        // Furnace
         event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK,
                 Registration.CRYSTAL_FURNACE_BLOCK_ENTITY.get(),
                 CrystalFurnaceBlockEntity::getCapForSide
         );
 
+        // Generator
         event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK,
                 Registration.CRYSTAL_GENERATOR_BLOCK_ENTITY.get(),
@@ -47,6 +51,19 @@ public class RegisterCapabilitiesEvent {
                 Capabilities.EnergyStorage.BLOCK,
                 Registration.CRYSTAL_GENERATOR_BLOCK_ENTITY.get(),
                 CrystalGeneratorBlockEntity::getEnergyStorageCapForSide
+        );
+
+        // Quarry
+        event.registerBlockEntity(
+                Capabilities.ItemHandler.BLOCK,
+                Registration.CRYSTAL_QUARRY_BLOCK_ENTITY.get(),
+                CrystalQuarryBlockEntity::getItemHandlerCapForSide
+        );
+
+        event.registerBlockEntity(
+                Capabilities.EnergyStorage.BLOCK,
+                Registration.CRYSTAL_QUARRY_BLOCK_ENTITY.get(),
+                CrystalQuarryBlockEntity::getEnergyStorageCapForSide
         );
     }
 }

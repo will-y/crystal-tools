@@ -1,4 +1,4 @@
-// 1.21.1	2024-08-17T11:07:05.5840897	Recipes
+// 1.21.1	2025-02-02T09:28:07.7911399	Recipes
 69134c68d53ac3168be1a27374d30a63516fa7ee data/crystal_tools/advancement/recipes/combat/crystal_bow.json
 49c1997de0949ce6f4b421338307139ec06b5032 data/crystal_tools/advancement/recipes/combat/crystal_sword.json
 71c672656ce10fbeab516bd3581074c4b06ea55c data/crystal_tools/advancement/recipes/decorations/crystal_block.json
@@ -7,6 +7,7 @@
 8eb43e74e1beb7c8f6802d8d9668bb40033bf181 data/crystal_tools/advancement/recipes/misc/crystal_furnace.json
 d174cb9599fdc4cdfc1aa48dde3b8c498ac2f23d data/crystal_tools/advancement/recipes/misc/crystal_torch.json
 f79b94ef2b758dcfc012c1a8f1437e1bc241b8fc data/crystal_tools/advancement/recipes/misc/netherite_stick.json
+ce3bc8525c643f7e82545b4271baecd0b32159fe data/crystal_tools/advancement/recipes/misc/quarry_stabilizer.json
 fed0d90e37dd6d5979d87ebba569fe2ffe9d4d12 data/crystal_tools/advancement/recipes/tools/crystal_axe.json
 766bfe1d0d13ccf283a4c18557f0642494b04f26 data/crystal_tools/advancement/recipes/tools/crystal_backpack.json
 5d18e00d248d4144a6709b7f2b540307f5d3af02 data/crystal_tools/advancement/recipes/tools/crystal_boots.json
@@ -36,9 +37,11 @@ d77baa38b40ff998f6d49922f2f8274848222869 data/crystal_tools/recipe/crystal_helme
 de2fd6579895446de25396efcee37dee56dd96a4 data/crystal_tools/recipe/crystal_hoe.json
 a4c0ba9fe5a5c4449a807566be64579979e99da0 data/crystal_tools/recipe/crystal_leggings.json
 a0179f374eaee97607a7ffe85e4773660b55e96a data/crystal_tools/recipe/crystal_pickaxe.json
+d206236c6da73f921b5b829c9d9511c65c7883b7 data/crystal_tools/recipe/crystal_quarry.json
 fc4a05f04d853ed5417315297797e277247efccd data/crystal_tools/recipe/crystal_rocket.json
 7a6abf0654ea72787526bca5c5d33b43a855da31 data/crystal_tools/recipe/crystal_shovel.json
 2978fc69103ae49670acb52938e28f3b68dd69c6 data/crystal_tools/recipe/crystal_sword.json
 8b4a03e285fc8c61dc4963731dd98906747a639d data/crystal_tools/recipe/crystal_torch.json
 95de15eae106e8c96ad74aa09580148b168b0e01 data/crystal_tools/recipe/crystal_trident.json
 0c8a967fe28ece1b36a8c08b58f7596fdb529641 data/crystal_tools/recipe/netherite_stick.json
+048199027903443c7381b96bff365aef55eddc5c data/crystal_tools/recipe/quarry_stabilizer.json

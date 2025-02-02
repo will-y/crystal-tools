@@ -7,6 +7,8 @@ import dev.willyelton.crystal_tools.common.components.FurnaceUpgrades;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalFurnaceContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalFurnaceBlock;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.action.AutoOutputAction;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.action.AutoOutputable;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.data.LevelableContainerData;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
@@ -45,7 +47,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 
@@ -58,12 +59,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 // TODO: Audit / comment code, don't use WordlyContainer, extract out things that will be common to a generator / other
-public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements WorldlyContainer, MenuProvider {
+public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements WorldlyContainer, MenuProvider, AutoOutputable {
     public static final int[] INPUT_SLOTS = new int[] {0, 1, 2, 3, 4};
     public static final int[] OUTPUT_SLOTS = new int[] {5, 6, 7, 8, 9};
     public static final int[] FUEL_SLOTS = new int[] {10, 11, 12};
-
-    private static final Direction[] POSSIBLE_INVENTORIES = new Direction[] {Direction.DOWN, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
 
     public static final int SIZE = 13;
     public static final int DATA_SIZE = 14;
@@ -97,9 +96,11 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     private int bonusSlots = 0;
     private int bonusFuelSlots = 0;
     private boolean balance = false;
-    private boolean autoOutput = false;
     private float expModifier;
     private boolean saveFuel = false;
+
+    // TODO: This should probably later be a list that just gets iterated over?
+    private final AutoOutputAction autoOutputAction;
 
     public CrystalFurnaceBlockEntity(BlockPos pPos, BlockState state) {
         super(Registration.CRYSTAL_FURNACE_BLOCK_ENTITY.get(), pPos, state);
@@ -111,6 +112,8 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         sidedCaps = Arrays.stream(new Direction[] {Direction.DOWN, Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST})
                 .map(direction -> Map.entry(direction, new SidedInvWrapper(this, direction)))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        autoOutputAction = addAction(new AutoOutputAction(this));
     }
 
     public IItemHandler getCapForSide(Direction side) {
@@ -187,6 +190,17 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     }
 
     @Override
+    public Map<Integer, ItemStack> getOutputStacks() {
+        Map<Integer, ItemStack> items = new HashMap<>();
+
+        for (int i : OUTPUT_SLOTS) {
+            items.put(i, this.items.get(i));
+        }
+
+        return items;
+    }
+
+    @Override
     public void setItem(int slot, ItemStack stack) {
         ItemStack current = this.items.get(slot);
         this.items.set(slot, stack);
@@ -253,7 +267,6 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         this.bonusSlots = tag.getInt("Slots");
         this.bonusFuelSlots = tag.getInt("FuelSlots");
         this.balance = tag.getBoolean("Balance");
-        this.autoOutput = tag.getBoolean("AutoOutput");
         this.expModifier = tag.getFloat("ExpModifier");
         this.saveFuel = tag.getBoolean("SaveFuel");
     }
@@ -283,7 +296,6 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
             this.bonusSlots = furnaceUpgrades.slots();
             this.bonusFuelSlots = furnaceUpgrades.fuelSlots();
             this.balance = furnaceUpgrades.balance();
-            this.autoOutput = furnaceUpgrades.autoOutput();
             this.expModifier = furnaceUpgrades.expModifier();
             this.saveFuel = furnaceUpgrades.saveFuel();
         }
@@ -306,7 +318,6 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         tag.putInt("Slots", this.bonusSlots);
         tag.putInt("FuelSlots", this.bonusFuelSlots);
         tag.putBoolean("Balance", this.balance);
-        tag.putBoolean("AutoOutput", this.autoOutput);
         tag.putFloat("ExpModifier", this.expModifier);
         tag.putBoolean("SaveFuel", this.saveFuel);
     }
@@ -319,7 +330,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         components.set(DataComponents.FURNACE_DATA, furnaceData);
 
         FurnaceUpgrades furnaceUpgrades = new FurnaceUpgrades(speedUpgrade, fuelEfficiencyUpgrade, bonusSlots,
-                bonusFuelSlots, balance, autoOutput, expModifier, saveFuel);
+                bonusFuelSlots, balance, expModifier, saveFuel);
         components.set(DataComponents.FURNACE_UPGRADES, furnaceUpgrades);
 
         ItemContainerContents contents = ItemContainerContents.fromItems(this.items);
@@ -334,7 +345,6 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
             case "slot_bonus" -> this.bonusSlots += (int) value;
             case "fuel_slot_bonus" -> this.bonusFuelSlots += (int) value;
             case "auto_balance" -> this.balance = value == 1;
-            case "auto_output" -> this.autoOutput = value == 1;
             case "exp_boost" -> this.expModifier += value;
             case "save_fuel" -> this.saveFuel = value == 1;
         }
@@ -368,7 +378,6 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         this.bonusSlots = 0;
         this.bonusFuelSlots = 0;
         this.balance = false;
-        this.autoOutput = false;
         this.expModifier = 0;
         this.saveFuel = false;
     }
@@ -449,8 +458,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         return recipeHolderOptional.orElse(null);
     }
 
-    private int autoOutputCounter = 0;
-
+    @Override
     public void serverTick(Level level, BlockPos pos, BlockState state) {
         // flag
         boolean isLit = this.isLit();
@@ -464,11 +472,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
                 this.litTime--;
             }
 
-            this.autoOutputCounter++;
-            if (autoOutputCounter > 100) {
-                this.autoOutput();
-                this.autoOutputCounter = 0;
-            }
+            super.serverTick(level, pos, state);
         }
 
         ItemStack fuelItemStack = this.items.get(FUEL_SLOTS[0]);
@@ -529,7 +533,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
 
         if (needsRebalance) {
             this.balanceInputs();
-            this.autoOutput();
+            this.autoOutputAction.tickAction(level, pos, state);
         }
 
         if (needChange) {
@@ -666,29 +670,6 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
                     ItemStack toSet = new ItemStack(item, stackCount + bonus);
                     this.setItem(activeInputSlots[index], toSet);
                     items[index] = item;
-                }
-            }
-        }
-    }
-
-    private void autoOutput() {
-        if (this.autoOutput) {
-            if (this.level != null) {
-                for (int slotIndex : OUTPUT_SLOTS) {
-                    ItemStack outputStack = this.getItem(slotIndex);
-                    for (Direction dir : POSSIBLE_INVENTORIES) {
-                        IItemHandler handler = level.getCapability(Capabilities.ItemHandler.BLOCK, getBlockPos().relative(dir), dir.getOpposite());
-
-                        if (handler != null) {
-                            for (int i = 0; i < handler.getSlots(); i++) {
-                                outputStack = handler.insertItem(i, outputStack, false);
-
-                                if (outputStack.isEmpty()) break;
-                            }
-                        }
-                        if (outputStack.isEmpty()) break;
-                    }
-                    this.setItem(slotIndex, outputStack);
                 }
             }
         }

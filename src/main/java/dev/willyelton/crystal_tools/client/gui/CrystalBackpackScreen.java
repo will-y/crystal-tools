@@ -6,7 +6,6 @@ import dev.willyelton.crystal_tools.client.gui.component.backpack.BackpackScreen
 import dev.willyelton.crystal_tools.client.gui.component.backpack.CompressButton;
 import dev.willyelton.crystal_tools.client.gui.component.backpack.SortButton;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalBackpackContainerMenu;
-import dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload;
 import dev.willyelton.crystal_tools.common.network.data.OpenBackpackPayload;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -16,10 +15,10 @@ import net.minecraft.world.entity.player.Inventory;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
-import static dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload.BackpackAction.OPEN_COMPRESSION;
-import static dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload.BackpackAction.OPEN_FILTER;
+import java.util.ArrayList;
+import java.util.List;
 
-public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBackpackContainerMenu> {
+public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBackpackContainerMenu> implements SubScreenContainerScreen {
     public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/gui/crystal_backpack.png");
 
     static final int TEXTURE_SIZE = 512;
@@ -125,32 +124,22 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
                 }, 40));
         screenButtonY += 21;
 
+        List<BackpackScreenButton> subScreenButtons = getSideButtons(this.leftPos - 21, screenButtonY, this.width, menu);
+        subScreenButtons.forEach(this::addRenderableWidget);
+    }
+
+    @Override
+    public List<BackpackSubScreen<?, ?>> getSubScreens() {
+        List<BackpackSubScreen<?, ?>> subScreens = new ArrayList<>();
+
         if (this.menu.getFilterRows() > 0) {
-            this.addRenderableWidget(new BackpackScreenButton(this.leftPos - 21, screenButtonY, Component.literal("Configure Filters"),
-                    button -> {
-                        menu.openFilterScreen();
-                        PacketDistributor.sendToServer(new BackpackScreenPayload(OPEN_FILTER));
-                        ModGUIs.openScreen(new FilterConfigScreen(menu, menu.getPlayerInventory(), this));
-                    },
-                    (button, guiGraphics, mouseX, mouseY) -> {
-                        Component textComponent = Component.literal("Configure Filters");
-                        guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalBackpackScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
-                    }, 0));
-            screenButtonY += 21;
+            subScreens.add(new FilterConfigScreen<>(menu, menu.getPlayerInventory(), this, true));
         }
 
         if (this.menu.canCompress()) {
-            this.addRenderableWidget(new BackpackScreenButton(this.leftPos - 21, screenButtonY, Component.literal("Configure Compressions"),
-                    button -> {
-                        menu.openCompressionScreen();
-                        PacketDistributor.sendToServer(new BackpackScreenPayload(OPEN_COMPRESSION));
-                        ModGUIs.openScreen(new CompressConfigScreen(menu, menu.getPlayerInventory(), this));
-                    },
-                    (button, guiGraphics, mouseX, mouseY) -> {
-                        Component textComponent = Component.literal("Configure Compressions");
-                        guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalBackpackScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
-                    }, 20));
-            screenButtonY += 21;
+            subScreens.add(new CompressConfigScreen(menu, menu.getPlayerInventory(), this));
         }
+
+        return subScreens;
     }
 }

@@ -26,6 +26,9 @@ public class CrystalToolsBlockStates extends BlockStateProvider {
         registerCrystalWallTorch();
         registerMachineBlock(Registration.CRYSTAL_FURNACE, "crystal_furnace");
         registerMachineBlock(Registration.CRYSTAL_GENERATOR, "crystal_generator");
+        registerMachineBlock(Registration.CRYSTAL_QUARRY, "crystal_quarry");
+
+        simpleBlock(Registration.QUARRY_STABILIZER.get(), models().getExistingFile(Registration.QUARRY_STABILIZER.getId()));
     }
 
     private void registerCrystalTorch() {
@@ -59,6 +62,6 @@ public class CrystalToolsBlockStates extends BlockStateProvider {
                 .texture("side", modLoc(String.format("block/%s_side", name)));
 
         horizontalBlock(holder.get(),
-                blockState -> blockState.getValue( BlockStateProperties.LIT) ? onState : offState);
+                blockState -> blockState.getValue(BlockStateProperties.LIT) ? onState : offState);
     }
 }

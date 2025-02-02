@@ -2,7 +2,9 @@ package dev.willyelton.crystal_tools.common.components;
 
 import com.mojang.serialization.Codec;
 import dev.willyelton.crystal_tools.CrystalTools;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -18,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 public class DataComponents {
-    public static final DeferredRegister<DataComponentType<?>> COMPONENTS = DeferredRegister.createDataComponents(CrystalTools.MODID);
+    public static final DeferredRegister<DataComponentType<?>> COMPONENTS = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, CrystalTools.MODID);
     // TODO: Maybe use reflection instead?
     public static final Map<String, ResourceLocation> INT_COMPONENTS = new HashMap<>();
     public static final Map<String, ResourceLocation> FLOAT_COMPONENTS = new HashMap<>();
@@ -144,6 +146,18 @@ public class DataComponents {
     // Generator
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<GeneratorData>> GENERATOR_DATA = register("generator_data", GeneratorData.CODEC, GeneratorData.STREAM_CODEC);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<GeneratorUpgrades>> GENERATOR_UPGRADES = register("generator_upgrades", GeneratorUpgrades.CODEC, GeneratorUpgrades.STREAM_CODEC);
+
+    // Quarry
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<BlockPos>>> QUARRY_BOUNDS = register("quarry_bounds", BlockPos.CODEC.listOf(), BlockPos.STREAM_CODEC.apply(ByteBufCodecs.list()));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<QuarryData>> QUARRY_DATA = register("quarry_data", QuarryData.CODEC, QuarryData.STREAM_CODEC);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<QuarryUpgrades>> QUARRY_UPGRADES = register("quarry_upgrades", QuarryUpgrades.CODEC, QuarryUpgrades.STREAM_CODEC);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<QuarrySettings>> QUARRY_SETTINGS = register("quarry_settings", QuarrySettings.CODEC, QuarrySettings.STREAM_CODEC);
+    // TODO (breaking): use same component as backpack
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ItemContainerContents>> QUARRY_FILTER = register("quarry_filter", ItemContainerContents.CODEC, ItemContainerContents.STREAM_CODEC);
+
+    // Actions (TODO: Is there a better way to do this?)
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> AUTO_OUTPUT = register("auto_output", Codec.BOOL, ByteBufCodecs.BOOL);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> CHUNKLOADING = register("chunkloading", Codec.BOOL, ByteBufCodecs.BOOL);
 
     // Utilities
     private static <T> DeferredHolder<DataComponentType<?>, DataComponentType<T>> register(String key, Codec<T> codec, StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec) {

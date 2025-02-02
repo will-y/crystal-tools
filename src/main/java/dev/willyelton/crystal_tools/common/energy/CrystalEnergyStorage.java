@@ -21,9 +21,19 @@ public class CrystalEnergyStorage extends EnergyStorage {
         }
     }
 
-    // TODO: Setters for upgrades later
+    public void removeEnergy(int toRemove) {
+        energy -= toRemove;
+        if (energy < 0) {
+            energy = 0;
+        }
+    }
+
     public void setCapacity(int capacity) {
         this.capacity = capacity;
+    }
+
+    public void setMaxReceive(int maxReceive) {
+        this.maxReceive = maxReceive;
     }
 
     public void setMaxExtract(int maxExtract) {

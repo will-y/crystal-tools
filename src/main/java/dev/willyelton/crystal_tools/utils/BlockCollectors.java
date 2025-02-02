@@ -91,8 +91,6 @@ public class BlockCollectors {
         result.addAll(getAdjacentPositions(pos.above()));
         result.addAll(getAdjacentPositions(pos.below()));
 
-//        List<BlockPos> result = List.of(pos.above(), pos.north(), pos.north().east(), pos.east(), pos.south().east(), pos.south(), pos.south().west(), pos.west(), pos.north().west(), pos.below());
-
         return result.stream().filter(x -> canHarvest.test(level.getBlockState(x))).toList();
     }
 

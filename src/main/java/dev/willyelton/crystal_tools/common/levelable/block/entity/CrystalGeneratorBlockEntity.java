@@ -7,6 +7,7 @@ import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.datamap.DataMaps;
 import dev.willyelton.crystal_tools.common.datamap.GeneratorFuelData;
 import dev.willyelton.crystal_tools.common.energy.CrystalEnergyStorage;
+import dev.willyelton.crystal_tools.common.inventory.GeneratorItemStackHandler;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalGeneratorContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalFurnaceBlock;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.data.LevelableContainerData;
@@ -32,7 +33,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -72,7 +72,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
     public CrystalGeneratorBlockEntity(BlockPos pos, BlockState state) {
         super(Registration.CRYSTAL_GENERATOR_BLOCK_ENTITY.get(), pos, state);
         fuelItems = NonNullList.withSize(SIZE, ItemStack.EMPTY);
-        fuelHandler = new ItemStackHandler(fuelItems);
+        fuelHandler = new GeneratorItemStackHandler(fuelItems, this);
 
         baseFEStorage = CrystalToolsConfig.BASE_FE_STORAGE.get();
         baseFETransfer = CrystalToolsConfig.BASE_FE_TRANSFER.get();
@@ -128,7 +128,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         super.applyImplicitComponents(componentInput);
         ItemContainerContents contents = componentInput.get(DataComponents.CONTAINER);
         this.fuelItems = NonNullList.withSize(SIZE, ItemStack.EMPTY);
-        this.fuelHandler = new ItemStackHandler(fuelItems);
+        this.fuelHandler = new GeneratorItemStackHandler(fuelItems, this);
         if (contents != null) {
             contents.copyInto(this.fuelItems);
         }
@@ -150,7 +150,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         if (generatorData != null) {
             this.litTime = generatorData.litTime();
             this.litTotalTime = generatorData.litTotalTime();
-            this.burnedItem = generatorData.burnedItem();
+            this.burnedItem = generatorData.burnedItem().copy();
 
             int energy = generatorData.energy();
             this.energyStorage = new CrystalEnergyStorage(baseFEStorage + (int) addedFEStorage, 0, baseFETransfer + (int) addedFEGeneration * 2, energy);
@@ -193,7 +193,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
                 redstoneControl, saveFuel, metalGenerator, foodGenerator, gemGenerator);
         components.set(dev.willyelton.crystal_tools.common.components.DataComponents.GENERATOR_UPGRADES, generatorUpgrades);
 
-        GeneratorData generatorData = new GeneratorData(litTime, litTotalTime, burnedItem, energyStorage.getEnergyStored());
+        GeneratorData generatorData = new GeneratorData(litTime, litTotalTime, burnedItem.copy(), energyStorage.getEnergyStored());
         components.set(dev.willyelton.crystal_tools.common.components.DataComponents.GENERATOR_DATA, generatorData);
     }
 
@@ -258,6 +258,11 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
             return CrystalGeneratorBlockEntity.DATA_SIZE;
         }
     };
+
+    @Override
+    protected int getBaseExpCap() {
+        return CrystalToolsConfig.GENERATOR_BASE_EXPERIENCE_CAP.get();
+    }
 
     public void serverTick(Level level, BlockPos pos, BlockState state) {
         boolean hasRedstone = level.hasNeighborSignal(pos);
@@ -371,7 +376,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         return this.litTime > 0;
     }
 
-    private int getBurnDuration(ItemStack stack) {
+    public int getBurnDuration(ItemStack stack) {
         if (stack.isEmpty()) {
             return 0;
         } else {
