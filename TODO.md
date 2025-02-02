@@ -18,9 +18,8 @@
   - JEI Plugin things
 - Spawner
 - Quarry
-  - Left to do:
-    - Changelog
   - To do later:
+    - Rename the backpack stuff that is now used also for the quarry
     - Store fluids (or just output to tanks?)
     - Fluid trash filter
     - Mine 1 chunk at a time to keep few chunks loaded
@@ -35,6 +34,7 @@
     - Guide-lines when there are only 2 stabilizers
     - Show particles when you are down at the bottom too
     - Breaking stabilizers breaks quarry?
+    - Some screen that shows loaded chunks or something?
 - Pump
 - Hopper
   - Inventory space

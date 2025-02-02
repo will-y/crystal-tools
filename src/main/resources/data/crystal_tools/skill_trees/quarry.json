@@ -160,14 +160,14 @@
       },
       {
         "id": 11,
-        "name": "Fortune I",
-        "description": "Applies Fortune I to the blocks the quarry mines",
+        "name": "Fortune III",
+        "description": "Applies Fortune III to the blocks the quarry mines",
         "limit": 1,
         "requirements": [
           {"node": [8]}
         ],
         "key": "fortune",
-        "value": 1,
+        "value": 3,
         "subtext": {
           "text": "Increases Energy Cost",
           "color": "#FF0000"

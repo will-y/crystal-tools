@@ -220,6 +220,14 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(recipeOutput);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Registration.QUARRY_STABILIZER.get(), 4)
+                .pattern("c")
+                .pattern("n")
+                .define('c', Registration.CRYSTAL.get())
+                .define('n', Items.NETHERITE_INGOT)
+                .unlockedBy("has_crystal", HAS_CRYSTAL)
+                .save(recipeOutput);
+
         // Special
         SpecialRecipeBuilder
                 .special(CrystalAIOTRecipe::new)

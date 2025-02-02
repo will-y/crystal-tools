@@ -38,7 +38,6 @@ import dev.willyelton.crystal_tools.common.levelable.tool.HoeLevelableTool;
 import dev.willyelton.crystal_tools.common.levelable.tool.PickaxeLevelableTool;
 import dev.willyelton.crystal_tools.common.levelable.tool.ShovelLevelableTool;
 import dev.willyelton.crystal_tools.common.levelable.tool.SwordLevelableTool;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
@@ -57,7 +56,6 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.StandingAndWallBlockItem;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.block.Block;
@@ -72,8 +70,6 @@ import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
-
-import java.util.List;
 
 public class Registration {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registries.ITEM, CrystalTools.MODID);
@@ -126,13 +122,7 @@ public class Registration {
     public static final DeferredHolder<Item, BlockItem> CRYSTAL_DEEPSLATE_ORE_ITEM = ITEMS.register("crystal_deepslate_ore", () -> new BlockItem(CRYSTAL_DEEPSLATE_ORE.get(), new Item.Properties()));
     public static final DeferredHolder<Item, BlockItem> CRYSTAL_BLOCK_ITEM = ITEMS.register("crystal_block", () -> new BlockItem(CRYSTAL_BLOCK.get(), new Item.Properties()));
     public static final DeferredHolder<Item, BlockItem> CRYSTAL_FURNACE_ITEM = ITEMS.register("crystal_furnace", () -> new LevelableBlockItem(CRYSTAL_FURNACE.get(), new Item.Properties()));
-    public static final DeferredHolder<Item, BlockItem> CRYSTAL_GENERATOR_ITEM = ITEMS.register("crystal_generator", () -> new LevelableBlockItem(CRYSTAL_GENERATOR.get(), new Item.Properties()) {
-        @Override
-        public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag tooltipFlag) {
-            components.add(Component.literal("Generator is currently still a WIP. Please report any issues and comment and suggestions!").withStyle(ChatFormatting.RED));
-            super.appendHoverText(stack, context, components, tooltipFlag);
-        }
-    });
+    public static final DeferredHolder<Item, BlockItem> CRYSTAL_GENERATOR_ITEM = ITEMS.register("crystal_generator", () -> new LevelableBlockItem(CRYSTAL_GENERATOR.get(), new Item.Properties()));
     public static final DeferredHolder<Item, BlockItem> CRYSTAL_QUARRY_ITEM = ITEMS.register("crystal_quarry", () -> new CrystalQuarryBlockItem(CRYSTAL_QUARRY.get(), new Item.Properties()));
     public static final DeferredHolder<Item, BlockItem> QUARRY_STABILIZER_ITEM = ITEMS.register("quarry_stabilizer", () -> new BlockItem(QUARRY_STABILIZER.get(), new Item.Properties()));
     public static final DeferredHolder<Item, StandingAndWallBlockItem> CRYSTAL_TORCH_ITEM = ITEMS.register("crystal_torch", () -> new StandingAndWallBlockItem(CRYSTAL_TORCH.get(), CRYSTAL_WALL_TORCH.get(), new Item.Properties(), Direction.DOWN));

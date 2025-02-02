@@ -65,8 +65,8 @@ public class CrystalQuarryRecipe extends CrystalToolsRecipe {
     @Override
     public List<ItemStack> getInputs() {
         return Stream.of(Registration.CRYSTAL_BLOCK_ITEM.get(), Registration.CRYSTAL.get(), Registration.CRYSTAL_BLOCK_ITEM.get(),
-                Registration.CRYSTAL.get(), Registration.CRYSTAL_AIOT.get(), Registration.CRYSTAL.get(), Registration.CRYSTAL_BLOCK_ITEM.get(),
-                Items.NETHERITE_BLOCK, Registration.CRYSTAL_BLOCK_ITEM.get()).map(ItemStack::new).toList();
+                Registration.CRYSTAL.get(), Registration.CRYSTAL_AIOT.get(), Registration.CRYSTAL.get(), Items.NETHERITE_INGOT,
+                Items.NETHERITE_INGOT, Items.NETHERITE_INGOT).map(ItemStack::new).toList();
     }
 
     @Override

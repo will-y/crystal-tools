@@ -4,6 +4,7 @@ import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.components.QuarryData;
 import dev.willyelton.crystal_tools.common.components.QuarryUpgrades;
 import dev.willyelton.crystal_tools.utils.StringUtils;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -48,6 +49,8 @@ public class CrystalQuarryBlockItem extends LevelableBlockItem {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag tooltipFlag) {
+        components.add(Component.literal("Quarry is currently still a WIP. Please report any issues or comment suggestions!").withStyle(ChatFormatting.RED));
+
         super.appendHoverText(stack, context, components, tooltipFlag);
 
         if (tooltipFlag.hasShiftDown()) {
@@ -77,6 +80,8 @@ public class CrystalQuarryBlockItem extends LevelableBlockItem {
             for (BlockPos stabilizer : stabilizers) {
                 components.add(Component.literal(String.format(" \u00A7b  - [%s, %s, %s]", stabilizer.getX(), stabilizer.getY(), stabilizer.getZ())));
             }
+        } else {
+            components.add(Component.literal("No Linked Stabilizers. Right click a square of stabilizers to link!").withStyle(ChatFormatting.RED, ChatFormatting.BOLD));
         }
 
         QuarryData quarryData = stack.get(DataComponents.QUARRY_DATA);

@@ -2,12 +2,41 @@
 ## 2.2.0
 ### Additions
 - Adds the Crystal Quarry!
-  - Has the following config options: 
+  - Requires a square of 4 Quarry Stabilizers
+    - You can right-click on a stabilizer to see if it forms a valid quarry shape
+    - Right-click the quarry on a stabilizer to set the bounds
+    - You can then place the quarry next to the stabilizers
+  - Has the following upgrades:
+    - Quarry Speed: Increases the mining speed of the quarry
+    - Redstone Control: Allows the quarry to be turned off with a redstone signal
+    - Trash Filter: Allows you to void certain items
+    - Auto Output: Will output items to adjacent inventories
+    - Silk Touch: Will mine blocks with silk touch
+    - Fortune: Will mine blocks with fortune
+    - Chunkloading: Will keep the quarry chunkloaded even when you are not around
+  - The quarry also has a settings screen where you can change the following options:
+    - Fill with Dirt: Will fill in the mined area with dirt
+    - Enable Silk Touch: Allows you to enable / disable silk touch
+    - Enable Fortune: Allows you to enable / disable fortune
+    - Enable Auto Output: Allows you to enable / disable auto output
+  - Has the following config options:
+    - `quarry_base_energy_cost` (40): Quarry base RF/tick. Range: 0 - 100000.
+    - `quarry_speed_cost_increase` (10): How much RF/tick is added to the quarry per speed upgrade. Range: 0 - 100000.
+    - `quarry_silk_touch_cost_increase` (40): How much RF/tick is added to the quarry when silk touch is active. Range: 0 - 100000.
+    - `quarry_fortune_cost_increase` (40): How much RF/tick is added to the quarry when fortune is active. Range: 0 - 100000.
+    - `quarry_initial_point_multiplier` (0.1): What percentage of the points from an AIOT the quarry gets when crafted. Range: 0 - 1.
+    - `quarry_base_experience_cap` (500): Starting EXP Cap for the quarry. Range: 1 - 100000.
+    - `quarry_speed_upgrade_multiplier` (50): Multiplier for the speed upgrade of the quarry. Range: 1 - 100000.
+    - `quarry_max_size` (64): Max size of the quarry. Range: 1 - 256.
+- Adds the following config option for the generator:
+  - `generator_base_experience_cap` (50): Starting EXP Cap for the generator. Range 1 - 100000.
 
 ### Changes
 - Updates to Neo 21...
 - Changes the Crystal Generator Texture
 - The Crystal Generator's slot now only accepts items it can burn
+- Updates some formatting on tooltips
+- The generator now only accepts items it can burn
 
 ## 2.1.6
 ### Additions
