@@ -28,7 +28,6 @@ public class CrystalEnergyStorage extends EnergyStorage {
         }
     }
 
-    // TODO: Setters for upgrades later
     public void setCapacity(int capacity) {
         this.capacity = capacity;
     }

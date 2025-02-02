@@ -58,7 +58,6 @@ public interface LevelableItem {
     }
 
     default int getExperienceCap(ItemStack tool) {
-        // TODO: Do we need to set this or is default here good enough
         return tool.getOrDefault(DataComponents.EXPERIENCE_CAP, CrystalToolsConfig.BASE_EXPERIENCE_CAP.get());
     }
 

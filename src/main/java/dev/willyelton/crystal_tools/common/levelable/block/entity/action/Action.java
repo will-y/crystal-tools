@@ -9,7 +9,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
-// TODO: Save to item methods as well
 public abstract class Action {
     protected int maxTickCounter;
     protected int tickCounter = 0;

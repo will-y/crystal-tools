@@ -134,12 +134,10 @@ public class QuarryLaserRenderer {
 
         poseStack.rotateAround(quaternionf, 0, 0, 0);
 
-        // TODO: What are these
         float f = (float) Math.floorMod(gameTime, 40) + partialTick;
         float f1 = height < 0 ? f : -f;
         float f2 = Mth.frac(f1 * 0.2F - (float) Mth.floor(f1 * 0.1F));
         poseStack.pushPose();
-//        poseStack.mulPose(Axis.YP.rotationDegrees(f * 2.25F - 45.0F));
 
         float x1;
         float z2;

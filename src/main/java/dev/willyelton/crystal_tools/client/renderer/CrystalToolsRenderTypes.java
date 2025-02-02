@@ -8,8 +8,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
 public class CrystalToolsRenderTypes extends RenderType {
-    // TODO: Replace
-    public static final ResourceLocation BEAM_LOCATION = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/entity/quarry_laser.png");
+    public static final ResourceLocation QUARRY_LASER_LOCATION = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/entity/quarry_laser.png");
 
     public CrystalToolsRenderTypes(String pName, VertexFormat pFormat, VertexFormat.Mode pMode, int pBufferSize, boolean pAffectsCrumbling, boolean pSortOnUpload, Runnable pSetupState, Runnable pClearState) {
         super(pName, pFormat, pMode, pBufferSize, pAffectsCrumbling, pSortOnUpload, pSetupState, pClearState);
@@ -34,7 +33,7 @@ public class CrystalToolsRenderTypes extends RenderType {
 
     public static final RenderType QUARRY_LASER = create("QuarryLaser",
             DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, 256, false, false,
-            RenderType.CompositeState.builder().setTextureState(new TextureStateShard(BEAM_LOCATION, false, false))
+            RenderType.CompositeState.builder().setTextureState(new TextureStateShard(QUARRY_LASER_LOCATION, false, false))
                     .setShaderState(ShaderStateShard.POSITION_COLOR_TEX_LIGHTMAP_SHADER)
                     .setLayeringState(VIEW_OFFSET_Z_LAYERING)
                     .setTransparencyState(TRANSLUCENT_TRANSPARENCY)

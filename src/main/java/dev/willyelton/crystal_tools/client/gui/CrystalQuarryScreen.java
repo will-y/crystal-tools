@@ -18,7 +18,6 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: Compress the screen a little
 public class CrystalQuarryScreen extends AbstractContainerScreen<CrystalQuarryContainerMenu> implements SubScreenContainerScreen {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID ,"textures/gui/crystal_quarry.png");
 
@@ -26,11 +25,6 @@ public class CrystalQuarryScreen extends AbstractContainerScreen<CrystalQuarryCo
     private static final int ENERGY_Y = 23;
     private static final int ENERGY_WIDTH = 160;
     private static final int ENERGY_HEIGHT = 10;
-
-    private static final int UPGRADE_BUTTON_X = 155;
-    private static final int UPGRADE_BUTTON_Y = 6;
-    private static final int UPGRADE_BUTTON_WIDTH = 12;
-    private static final int UPGRADE_BUTTON_HEIGHT = 12;
 
     private final float expLabelX;
     private BackpackScreenButton skillTreeButton;

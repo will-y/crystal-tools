@@ -523,7 +523,6 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         if (currentProgress >= 10) {
             if (miningState.equals(level.getBlockState(miningAt))) {
                 ItemStack miningStack = ItemStack.EMPTY;
-                // TODO: Setting
                 if (fortuneLevel > 0 && fortuneEnabled) {
                     miningStack = FORTUNE_STACK;
                 } else if (silkTouch && silkTouchEnabled) {
@@ -630,8 +629,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         } else {
             // Eff V netherite is 234
             // Base netherite is 9
-            // TODO: Config for this 20
-            return (9F + speedUpgrade * 20) / f / 30.0F;
+            return (float) ((9F + speedUpgrade * CrystalToolsConfig.QUARRY_SPEED_UPGRADE_MULTIPLIER.get()) / f / 30.0F);
         }
     }
 

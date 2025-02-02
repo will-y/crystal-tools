@@ -25,11 +25,6 @@ public class CrystalQuarryBlockEntityRenderer implements BlockEntityRenderer<Cry
 
     @Override
     public void render(CrystalQuarryBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
-        // TODO: We are going to need to increase the range a little
-        // Also the client block entity knows nothing ATM. Going to need to make a lot of packets.
-        // 1. Start mining miningPos (null for stop mining?), maybe state too so we can get some particles later (Subclass BreakingItemParticle)
-        // 2. Finished
-        // 3. Out of energy?
         BlockPos quarryPos = blockEntity.getBlockPos();
         cubeRenderer.render((int) blockEntity.getLevel().getGameTime(), partialTick, poseStack, bufferSource, packedLight,
                 blockEntity.getCenterX() - quarryPos.getX(), blockEntity.getCenterY() - quarryPos.getY(), blockEntity.getCenterZ() - quarryPos.getZ());
@@ -69,7 +64,6 @@ public class CrystalQuarryBlockEntityRenderer implements BlockEntityRenderer<Cry
 
     @Override
     public AABB getRenderBoundingBox(CrystalQuarryBlockEntity blockEntity) {
-        // TODO: Make the bounds of the quarry I guess. Memoize, maybe see if Util.memoize will work
         return blockEntity.getAABB() == null ? AABB.INFINITE : blockEntity.getAABB();
     }
 

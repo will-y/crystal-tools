@@ -95,7 +95,6 @@ public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu imp
         return itemStack;
     }
 
-    // TODO: Default implementation (generic block entity type in BaseContainerMenu)
     @Override
     public boolean stillValid(Player player) {
         if (level != null && level.getBlockEntity(blockEntity.getBlockPos()) != blockEntity) {
@@ -127,7 +126,6 @@ public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu imp
         return "quarry";
     }
 
-    // TODO: Probably not needed if i add block entity to base container menu
     @Override
     public CrystalQuarryBlockEntity getBlockEntity() {
         return blockEntity;

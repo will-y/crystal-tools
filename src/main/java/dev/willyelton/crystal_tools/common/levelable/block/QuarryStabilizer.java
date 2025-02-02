@@ -4,6 +4,7 @@ import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.renderer.QuarryLaserRenderer;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
+import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.Colors;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -40,9 +41,6 @@ public class QuarryStabilizer extends Block {
             Block.box(6, 4, 6, 10, 6, 10),
             Block.box(7, 6, 7, 9, 8, 9)
     );
-
-    // TODO: Server config
-    public static int QUARRY_MAX_SIZE = 80;
 
     private static final List<Direction> DIRECTIONS = List.of(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST);
 
@@ -119,7 +117,6 @@ public class QuarryStabilizer extends Block {
         return new BlockPos(x, positions.getFirst().getY(), z);
     }
 
-    // TODO: Improve to allow you to click the middle one of 3 and still be able to guess the 4th
     public static List<BlockPos> findStabilizerSquare(BlockPos startingPos, Level level) {
         List<BlockPos> foundBlocks = new ArrayList<>();
         foundBlocks.add(startingPos);
@@ -174,7 +171,7 @@ public class QuarryStabilizer extends Block {
     }
 
     private static @Nullable BlockPos findStabilizerInDirection(BlockPos startingPos, Direction direction, Level level) {
-        for (int i = 1; i < QUARRY_MAX_SIZE; i++) {
+        for (int i = 1; i < CrystalToolsConfig.QUARRY_MAX_SIZE.get(); i++) {
             if (level.getBlockState(startingPos.relative(direction, i)).getBlock() instanceof QuarryStabilizer) {
                 return startingPos.relative(direction, i);
             }

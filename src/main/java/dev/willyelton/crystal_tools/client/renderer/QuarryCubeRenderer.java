@@ -48,7 +48,6 @@ public class QuarryCubeRenderer {
 
     public void render(int gameTime, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, float x, float y, float z) {
         poseStack.pushPose();
-        float yOffset = 0; // TODO: getY if we want to bob it like actual end crystal
         float rotation = ((float) gameTime + partialTicks) * 3.0F;
         VertexConsumer vertexconsumer = buffer.getBuffer(QUARRY_CUBE);
         poseStack.pushPose();

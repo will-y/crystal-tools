@@ -2,10 +2,6 @@ package dev.willyelton.crystal_tools.common.levelable.block.entity.data;
 
 import dev.willyelton.crystal_tools.common.levelable.block.entity.LevelableBlockEntity;
 
-// TODO: Make a simple version or add stuff in LevelableContainer to sometimes use data instead?
-// What does the data actually do on the client?
-// Make an interface and make a simple one that implements?
-// Might actually remove the datasize static variable that we have to keep around now
 public abstract class LevelableContainerData implements ILevelableContainerData {
     protected static final int DATA_SIZE = 3;
 

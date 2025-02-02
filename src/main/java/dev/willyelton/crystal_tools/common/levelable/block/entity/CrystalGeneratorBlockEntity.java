@@ -259,6 +259,11 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         }
     };
 
+    @Override
+    protected int getBaseExpCap() {
+        return CrystalToolsConfig.GENERATOR_BASE_EXPERIENCE_CAP.get();
+    }
+
     public void serverTick(Level level, BlockPos pos, BlockState state) {
         boolean hasRedstone = level.hasNeighborSignal(pos);
         if (hasRedstone && redstoneControl) {

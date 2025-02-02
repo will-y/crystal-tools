@@ -3,7 +3,6 @@ package dev.willyelton.crystal_tools.common.levelable.block.entity.action;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.ChunkPos;
 
-// TODO: Make into an Action (Component)
 public interface ChunkLoader {
     boolean shouldUnload();
 

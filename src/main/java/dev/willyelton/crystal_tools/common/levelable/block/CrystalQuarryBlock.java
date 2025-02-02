@@ -97,14 +97,14 @@ public class CrystalQuarryBlock extends BaseEntityBlock implements CrystalToolsM
         return RenderShape.MODEL;
     }
 
-    // TODO: drop items or whatever + eventually move this to a superclass when there are more actions that need onRemove features
-
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
-        BlockEntity blockEntity = level.getBlockEntity(pos);
-        if (blockEntity instanceof LevelableBlockEntity levelableBlockEntity) {
-            levelableBlockEntity.onBlockRemoved();
+        if (!state.is(newState.getBlock())) {
+            BlockEntity blockEntity = level.getBlockEntity(pos);
+            if (blockEntity instanceof LevelableBlockEntity levelableBlockEntity) {
+                levelableBlockEntity.onBlockRemoved();
+            }
+            super.onRemove(state, level, pos, newState, movedByPiston);
         }
-        super.onRemove(state, level, pos, newState, movedByPiston);
     }
 }

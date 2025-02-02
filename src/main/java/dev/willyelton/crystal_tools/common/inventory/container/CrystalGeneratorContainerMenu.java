@@ -10,7 +10,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-// TODO: Subclass of just furnace and generators (not backpack)
 public class CrystalGeneratorContainerMenu extends EnergyLevelableContainerMenu {
     private final CrystalGeneratorBlockEntity blockEntity;
 
