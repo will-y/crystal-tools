@@ -18,7 +18,6 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
 public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu implements SubScreenContainerMenu, FilterContainerMenu {
@@ -48,17 +47,6 @@ public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu imp
         this.addSlotBox(blockEntity.getItemHandler(), 0, 8, 59, 9, SLOT_SIZE, 3, SLOT_SIZE, quarrySlots, NoInsertSlot::new);
         this.addSlotBox(blockEntity.getFilterItemHandler(), 0, 8, 18, 9, SLOT_SIZE, filterRows, SLOT_SIZE, filterMenuContents.getFilterSlots(), BackpackFilterSlot::new);
         filterMenuContents.toggleSlots(false);
-    }
-
-    @Override
-    protected void addSlot(IItemHandler handler, int index, int x, int y) {
-        if (handler == filterMenuContents.getInventory()) {
-            BackpackFilterSlot slot = new BackpackFilterSlot(handler, index, x, y);
-            filterMenuContents.addSlot(slot);
-            addSlot(slot);
-        } else {
-            super.addSlot(handler, index, x, y);
-        }
     }
 
     @Override

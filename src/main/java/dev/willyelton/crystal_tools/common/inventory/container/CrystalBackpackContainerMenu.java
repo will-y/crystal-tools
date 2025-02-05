@@ -26,7 +26,6 @@ import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.ComponentItemHandler;
-import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
 import java.util.Objects;
@@ -81,23 +80,6 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         this.backpackSlots = NonNullList.createWithCapacity(rows * SLOTS_PER_ROW);
     }
 
-    @Override
-    protected void addSlot(IItemHandler handler, int index, int x, int y) {
-        // TODO 1.21: Fix this in BaseContainerMenu
-        if (handler == inventory) {
-            ScrollableSlot slot = new ScrollableSlot(handler, index, x, y);
-            backpackSlots.add(slot);
-            addSlot(slot);
-        } else if (handler == filterMenuContents.getInventory()) {
-            BackpackFilterSlot slot = new BackpackFilterSlot(handler, index, x, y);
-            filterMenuContents.addSlot(slot);
-            slot.setActive(false);
-            addSlot(slot);
-        } else {
-            addSlot(new CrystalSlotItemHandler(handler, index, x, y));
-        }
-    }
-
     private void setUpPlayerSlots() {
         this.layoutPlayerInventorySlots(START_X, START_Y + Math.min(maxRows, rows) * SLOT_SIZE + 14);
     }
@@ -111,13 +93,13 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
             rowsToDraw = Math.min(rows, maxRows);
         }
 
-        this.addSlotBox(this.inventory, 0, START_X, START_Y, SLOTS_PER_ROW, SLOT_SIZE, rowsToDraw, SLOT_SIZE);
+        this.addSlotBox(this.inventory, 0, START_X, START_Y, SLOTS_PER_ROW, SLOT_SIZE, rowsToDraw, SLOT_SIZE, backpackSlots, ScrollableSlot::new);
     }
 
     private void setUpFilterSlots() {
         if (Objects.nonNull(filterMenuContents.getInventory())) {
             int filterRows = Math.min(rows, getFilterRows());
-            this.addSlotBox(filterMenuContents.getInventory(), 0, START_X, START_Y, FILTER_SLOTS_PER_ROW, SLOT_SIZE, filterRows, SLOT_SIZE);
+            this.addSlotBox(filterMenuContents.getInventory(), 0, START_X, START_Y, FILTER_SLOTS_PER_ROW, SLOT_SIZE, filterRows, SLOT_SIZE, filterMenuContents.getFilterSlots(), BackpackFilterSlot::new);
         }
     }
 
