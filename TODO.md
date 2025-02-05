@@ -33,6 +33,8 @@
     - Show particles when you are down at the bottom too
     - Breaking stabilizers breaks quarry?
     - Some screen that shows loaded chunks or something?
+    - Don't allow xp leveling or make it a lot harder
+    - Test on server
 - Pump
 - Hopper
   - Inventory space

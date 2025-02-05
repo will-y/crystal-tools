@@ -41,6 +41,8 @@ runs {
     client {
         // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
         systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+        systemProperty 'guideme.crystal_tools.guide.sources', file('src/main/resources/assets/crystal_tools/guides').absolutePath
+        systemProperty 'guideme.showOnStartup', 'crystal_tools:index.md' // Start at index.md
     }
 
     server {
@@ -71,6 +73,7 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
     mavenLocal()
+    mavenCentral()
     maven { // JEI
         url "https://maven.blamejared.com"
     }
@@ -114,6 +117,10 @@ dependencies {
     runtimeOnly "mekanism:Mekanism:${mekanism_version}:additions"// Mekanism: Additions
     runtimeOnly "mekanism:Mekanism:${mekanism_version}:generators"// Mekanism: Generators
     runtimeOnly "mekanism:Mekanism:${mekanism_version}:tools"// Mekanism: Tools
+
+    compileOnly "org.appliedenergistics:guideme:${guideme_version}:api"
+    runtimeOnly "org.appliedenergistics:guideme:${guideme_version}"
+
 
 //    implementation("io.wispforest:accessories-neoforge:${accessories_version}")
 //    implementation "curse.maven:accessories-cc-layer-1005683:5823562" // Curios compat layer

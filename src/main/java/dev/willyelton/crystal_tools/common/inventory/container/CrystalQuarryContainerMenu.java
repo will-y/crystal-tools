@@ -1,6 +1,5 @@
 package dev.willyelton.crystal_tools.common.inventory.container;
 
-import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.CrystalSlotItemHandler;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.NoInsertSlot;
@@ -64,7 +63,6 @@ public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu imp
 
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
-        CrystalTools.LOGGER.info("Index: " + index);
         ItemStack itemStack = ItemStack.EMPTY;
         Slot slot = slots.get(index);
         if (slot.hasItem()) {
