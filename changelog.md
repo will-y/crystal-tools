@@ -1,4 +1,9 @@
 # Crystal Tools Change Log
+## 2.2.1
+### Fixes
+- Fixes backpack Sub screens not working
+- Fixes backpack scrolling not working
+
 ## 2.2.0
 ### Additions
 - Adds the Crystal Quarry!
