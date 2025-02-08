@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.client;
 
 import dev.willyelton.crystal_tools.CrystalTools;
+import dev.willyelton.crystal_tools.client.compat.guideme.GuideMeCompatibility;
 import dev.willyelton.crystal_tools.client.config.CrystalToolsClientConfig;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.ModContainer;
@@ -14,5 +15,7 @@ public class CrystalToolsClient {
     public CrystalToolsClient(ModContainer modContainer) {
         modContainer.registerConfig(ModConfig.Type.CLIENT, CrystalToolsClientConfig.CLIENT_CONFIG);
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+
+        GuideMeCompatibility.loadGuide();
     }
 }
