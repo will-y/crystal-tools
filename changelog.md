@@ -8,6 +8,9 @@
   - `c:rods/netherite`
   - `c:rods/all_metal`
 
+### Fixes
+- Fixes not being able to use off-hand items while holding a Crystal Pickaxe in your main hand
+
 ## 2.2.1
 ### Fixes
 - Fixes backpack Sub screens not working

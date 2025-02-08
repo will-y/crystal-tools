@@ -219,9 +219,11 @@ public class ToolUseUtils {
             }
 
             tool.addExp(stack, level, context.getClickedPos(), context.getPlayer());
+
+            return InteractionResult.SUCCESS;
         }
 
-        return InteractionResult.SUCCESS;
+        return InteractionResult.PASS;
     }
 
     public static InteractionResult useOnHoe(UseOnContext context, LevelableTool tool) {
