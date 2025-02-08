@@ -3,6 +3,10 @@
 ### Additions
 - Adds in-game documentation using [GuideMe](https://www.curseforge.com/minecraft/mc-mods/guideme)
   - Just hover over an item and hold `G` to see documentation!
+- Crystal tools can now be crafted with any item with a tag `c:rods/netherite`
+- Netherite sticks now how the following tags:
+  - `c:rods/netherite`
+  - `c:rods/all_metal`
 
 ## 2.2.1
 ### Fixes

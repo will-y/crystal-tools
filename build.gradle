@@ -42,7 +42,6 @@ runs {
         // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
         systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
         systemProperty 'guideme.crystal_tools.guide.sources', file('src/main/resources/assets/crystal_tools/guides/crystal_tools/guide').absolutePath
-        systemProperty 'guideme.showOnStartup', 'crystal_tools:index.md' // Start at index.md
     }
 
     server {

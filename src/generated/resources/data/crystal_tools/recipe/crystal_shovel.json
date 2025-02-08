@@ -15,7 +15,7 @@
       "item": "crystal_tools:crystal"
     },
     "s": {
-      "item": "crystal_tools:netherite_stick"
+      "tag": "c:rods/netherite"
     }
   },
   "pattern": [

@@ -6,6 +6,7 @@ import dev.willyelton.crystal_tools.common.crafting.CrystalElytraRecipe;
 import dev.willyelton.crystal_tools.common.crafting.CrystalGeneratorRecipe;
 import dev.willyelton.crystal_tools.common.crafting.CrystalQuarryRecipe;
 import dev.willyelton.crystal_tools.common.crafting.ItemDisabledCondition;
+import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.core.HolderLookup;
@@ -68,7 +69,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
                     .pattern("cs")
                     .pattern(" s")
                     .define('c', Registration.CRYSTAL.get())
-                    .define('s', Registration.NETHERITE_STICK.get())
+                    .define('s', CrystalToolsTags.RODS_METAL_NETHERITE)
                     .unlockedBy("has_crystal", HAS_CRYSTAL),
                 Registration.CRYSTAL_AXE.getId());
 
@@ -78,7 +79,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
                     .pattern(" s")
                     .pattern(" s")
                     .define('c', Registration.CRYSTAL.get())
-                    .define('s', Registration.NETHERITE_STICK.get())
+                    .define('s', CrystalToolsTags.RODS_METAL_NETHERITE)
                     .unlockedBy("has_crystal", HAS_CRYSTAL),
                 Registration.CRYSTAL_HOE.getId());
 
@@ -88,7 +89,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
                     .pattern(" s ")
                     .pattern(" s ")
                     .define('c', Registration.CRYSTAL.get())
-                    .define('s', Registration.NETHERITE_STICK.get())
+                    .define('s', CrystalToolsTags.RODS_METAL_NETHERITE)
                     .unlockedBy("has_crystal", HAS_CRYSTAL),
                 Registration.CRYSTAL_PICKAXE.getId());
 
@@ -98,7 +99,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
                     .pattern("s")
                     .pattern("s")
                     .define('c', Registration.CRYSTAL.get())
-                    .define('s', Registration.NETHERITE_STICK.get())
+                    .define('s', CrystalToolsTags.RODS_METAL_NETHERITE)
                     .unlockedBy("has_crystal", HAS_CRYSTAL),
                 Registration.CRYSTAL_SHOVEL.getId());
 
@@ -108,7 +109,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
                     .pattern("c")
                     .pattern("s")
                     .define('c', Registration.CRYSTAL.get())
-                    .define('s', Registration.NETHERITE_STICK.get())
+                    .define('s', CrystalToolsTags.RODS_METAL_NETHERITE)
                     .unlockedBy("has_crystal", HAS_CRYSTAL),
                 Registration.CRYSTAL_SWORD.getId());
 
@@ -118,7 +119,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
                     .pattern("s c")
                     .pattern(" sc")
                     .define('c', Registration.CRYSTAL.get())
-                    .define('s', Registration.NETHERITE_STICK.get())
+                    .define('s', CrystalToolsTags.RODS_METAL_NETHERITE)
                     .unlockedBy("has_crystal", HAS_CRYSTAL),
                 Registration.CRYSTAL_BOW.getId());
 
@@ -149,7 +150,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
                         .pattern(" s ")
                         .define('c', Registration.CRYSTAL.get())
                         .define('t', Items.TRIDENT)
-                        .define('s', Registration.NETHERITE_STICK.get())
+                        .define('s', CrystalToolsTags.RODS_METAL_NETHERITE)
                         .unlockedBy("has_crystal", HAS_CRYSTAL),
                 Registration.CRYSTAL_TRIDENT.getId());
 
@@ -160,7 +161,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
                         .pattern("s c")
                         .define('c', Registration.CRYSTAL.get())
                         .define('t', Items.STRING)
-                        .define('s', Registration.NETHERITE_STICK.get())
+                        .define('s', CrystalToolsTags.RODS_METAL_NETHERITE)
                         .unlockedBy("has_crystal", HAS_CRYSTAL),
                 Registration.CRYSTAL_FISHING_ROD.getId());
 

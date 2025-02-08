@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.datagen;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
@@ -23,6 +24,12 @@ public class CrystalToolsItemTags extends ItemTagsProvider {
                 Registration.CRYSTAL.get());
 
         tag(Tags.Items.RODS).add(
+                Registration.NETHERITE_STICK.get());
+
+        tag(CrystalToolsTags.RODS_METAL).add(
+                Registration.NETHERITE_STICK.get());
+
+        tag(CrystalToolsTags.RODS_METAL_NETHERITE).add(
                 Registration.NETHERITE_STICK.get());
 
         tag(ItemTags.PICKAXES).add(
