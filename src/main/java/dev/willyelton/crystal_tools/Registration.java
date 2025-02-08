@@ -44,8 +44,6 @@ import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -148,9 +146,6 @@ public class Registration {
             () -> IMenuTypeExtension.create((windowId, inv, data) -> new CrystalQuarryContainerMenu(windowId, inv.player.level(), data.readBlockPos(), data.readInt(), inv, new SimpleLevelableContainerData(CrystalQuarryBlockEntity.DATA_SIZE))));
     public static final DeferredHolder<MenuType<?>, MenuType<CrystalBackpackContainerMenu>> CRYSTAL_BACKPACK_CONTAINER = CONTAINERS.register("crystal_backpack",
             () -> IMenuTypeExtension.create(CrystalBackpackContainerMenu::new));
-
-    // Tags
-    public static final TagKey<EntityType<?>> ENTITY_BLACKLIST = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "entity_blacklist"));
 
     // Particles
     public static final DeferredHolder<ParticleType<?>, QuarryBreakParticleType> QUARRY_BREAK_PARTICLE = PARTICLES.register("quary_break_particle", () -> new QuarryBreakParticleType(false));

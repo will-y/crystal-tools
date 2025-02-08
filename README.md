@@ -418,12 +418,16 @@ You can change these values in `config/crystal_tools.toml` or in the in-game UI.
 There are a couple of features that can be customized using datapacks.
 
 ## Tags
-- `entity_types/entity_blacklist`: Entities that have this tag will not level up the sword, bow, or AIOT when attacked. Only entity to have it by default is the armor stand.
+
+- `entity_type/entity_blacklist`: Entities that have this tag will not level up the sword, bow, or AIOT when attacked.
+  - Default Value: `[minecraft:armor_stand]`
+- `block/auto_output_blacklist`: The Crystal Furnace and Crystal Quarry will not auto output to blocks with this tag.
+  - Default Value: `[minecraft:hopper]`
 
 More information on tags and datapacks can be found [here](https://minecraft.fandom.com/wiki/Tag).
 
 ### Example
-Add a file `entity_blacklist.json` in a datapack in the location `crystal_tools/tags/entity_types` that looks like:
+Add a file `entity_blacklist.json` in a datapack in the location `crystal_tools/tags/entity_type` that looks like:
 ```json
 {
   "values": [

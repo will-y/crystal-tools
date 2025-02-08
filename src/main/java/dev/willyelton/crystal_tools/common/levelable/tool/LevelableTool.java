@@ -133,8 +133,8 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
         BlockState blockState = level.getBlockState(blockPos);
         if (isCorrectToolForDrops(tool, blockState) && !ToolUtils.isBroken(tool) && entity instanceof ServerPlayer serverPlayer) {
             if (!level.isClientSide) {
-                level.destroyBlock(blockPos, false, entity);
                 Block.dropResources(blockState, level, blockPos, level.getBlockEntity(blockPos), entity, tool);
+                level.destroyBlock(blockPos, false, entity);
                 tool.hurtAndBreak(1, entity, EquipmentSlot.MAINHAND);
             }
             addExp(tool, level, blockPos, entity);
@@ -278,5 +278,11 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
 
     protected double getAttackExperienceBoost() {
         return 1D;
+    }
+
+    @Override
+    public boolean shouldCauseBlockBreakReset(ItemStack oldStack, ItemStack newStack) {
+        // Just ignore data components for now
+        return !newStack.is(oldStack.getItem());
     }
 }

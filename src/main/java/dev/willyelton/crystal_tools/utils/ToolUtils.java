@@ -1,11 +1,11 @@
 package dev.willyelton.crystal_tools.utils;
 
-import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillTreeRegistry;
+import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -72,6 +72,6 @@ public class ToolUtils {
     }
 
     public static boolean isValidEntity(LivingEntity entity) {
-        return !entity.getType().is(Registration.ENTITY_BLACKLIST);
+        return !entity.getType().is(CrystalToolsTags.ENTITY_BLACKLIST);
     }
 }

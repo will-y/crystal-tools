@@ -3,8 +3,12 @@
 ### New Levelable Things
 - Bow
   - Add looting (IItemExtension#supportsEnchantment)
+  - Auto target
 - Shield
   - Totem of undying charges
+  - Freeze / fire / other on hit
+  - Thorns
+  - Shield bash damage
 - Backpack
   - Trash (separate filters?)
   - Exp Storage ? (mode switch to turn on and off)
@@ -63,10 +67,9 @@
 - https://jademc.readthedocs.io/en/latest/plugins20/getting-started/
 - Look at mekanism vein mining, might want to call playerBreak.
 - Fix xp gaining points being controlled by the client (hard because adding skill points is different for blocks and items)
-
-### Breaking Improvements
-- Rename furnace and rocket skill trees to be consistent
-- Look into using attribute modifiers 
+- Remove repair in hand, just store the game time instead of writing a counter
+- Furnace should auto split on insert
+- Exclude hoppers from auto outputting (maybe create a tag?)
 
 ## Bugs
 - Furnace skill screen doesn't fully refresh when open when point is gained
@@ -84,17 +87,4 @@
 ### Next breaking changes
 - Skill data should probably be a capability, at least on items
 - Allow for more general skill data, Attributes, DataComponents?
-
-Playing fixes v2
-- Use tags for netherite sticks in recipes
-- Can't use item in offhand when holding pickaxe
-- Color the levelup popup
-- Torch is affected by unbreaking?
-- Plays exp sound when you open the screen?
-- Requip anim on repair
-- Repair in inventory doesn't work (just store time)
-- Furnace always auto outputting?
-- Is furnace supposed to require 75 xp level1?
-- Maybe exclude hoppers by default for furnace auto output
-  - Really need some config option
-- Furnace should split on input
+- Rename furnace and rocket skill trees to be consistent

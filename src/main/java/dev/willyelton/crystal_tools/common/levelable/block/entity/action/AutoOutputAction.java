@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity.action;
 
 import dev.willyelton.crystal_tools.common.components.DataComponents;
+import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -28,15 +29,16 @@ public class AutoOutputAction extends Action {
 
     @Override
     public void tickAction(Level level, BlockPos pos, BlockState state) {
-        if (this.disabled) return;
+        if (this.disabled || !autoOutputEnabled) return;
 
         for (Integer index : blockEntity.getOutputStacks().keySet()) {
             ItemStack stack = blockEntity.getOutputStacks().get(index);
 
             for (Direction dir : POSSIBLE_INVENTORIES) {
                 IItemHandler itemHandler = level.getCapability(Capabilities.ItemHandler.BLOCK, pos.relative(dir), dir.getOpposite());
+                BlockState invState = level.getBlockState(pos.relative(dir));
 
-                if (itemHandler != null) {
+                if (itemHandler != null && !invState.is(CrystalToolsTags.AUTO_OUTPUT_BLACKLIST)) {
                     for (int i = 0; i < itemHandler.getSlots(); i++) {
                         stack = itemHandler.insertItem(i, stack, false);
 

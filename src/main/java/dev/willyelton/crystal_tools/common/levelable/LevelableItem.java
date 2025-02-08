@@ -45,7 +45,7 @@ public interface LevelableItem {
             level.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.PLAYER_LEVELUP, SoundSource.NEUTRAL, 0.8F, 1.0F);
             if (livingEntity instanceof Player player) {
                 if (tool.getItem() instanceof LevelableItem item) {
-                    player.displayClientMessage(Component.literal(tool.getItem().getName(tool).getString() + " Leveled Up (" + item.getSkillPoints(tool) + " Unspent Points)"), true);
+                    player.displayClientMessage(Component.literal("\u00A7b" + tool.getItem().getName(tool).getString() + " Leveled Up (" + item.getSkillPoints(tool) + " Unspent Points)"), true);
                 }
             }
             tool.set(DataComponents.SKILL_EXPERIENCE, Math.max(0, newExperience - experienceCap));

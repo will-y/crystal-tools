@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.datagen;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.EntityTypeTagsProvider;
@@ -19,8 +19,7 @@ public class CrystalToolsEntityTypeTags extends EntityTypeTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
-        tag(Registration.ENTITY_BLACKLIST).add(
-                EntityType.ARMOR_STAND
-        );
+        tag(CrystalToolsTags.ENTITY_BLACKLIST).add(
+                EntityType.ARMOR_STAND);
     }
 }

@@ -1,2 +1,3 @@
-// 1.21.1	2024-11-22T16:02:56.0863833	Tags for minecraft:block mod id crystal_tools
+// 1.21.1	2025-02-08T18:28:16.3449219	Tags for minecraft:block mod id crystal_tools
+45b1ace272103ed15d295352060aacac86de254e data/crystal_tools/tags/block/auto_output_blacklist.json
 2d0d652e34aac83563c1802b496d0a18cdb84826 data/minecraft/tags/block/mineable/pickaxe.json

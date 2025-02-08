@@ -7,9 +7,16 @@
 - Netherite sticks now how the following tags:
   - `c:rods/netherite`
   - `c:rods/all_metal`
+- Added color to the level up message
+- Adds a new tag `auto_output_blacklist`
+  - Furnaces and generators will not output to blocks with this tag
+  - Default value is just `hopper`
 
 ### Fixes
 - Fixes not being able to use off-hand items while holding a Crystal Pickaxe in your main hand
+- Fixes the `repair_in_hand` config option not allowing you to mine
+- Fixes furnaces auto outputting without the upgrade
+- Fixes blocks not keeping their data when broken with a 3x3 tool
 
 ## 2.2.1
 ### Fixes
