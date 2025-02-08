@@ -77,4 +77,9 @@ public class CrystalQuarryRecipe extends CrystalToolsRecipe {
                         String.format("Will take %d%% of the points from the AIOT used to craft this.", (int) (CrystalToolsConfig.QUARRY_INITIAL_POINT_MULTIPLIER.get() * 100))))));
         return output;
     }
+
+    @Override
+    public ItemStack getResultItem(HolderLookup.Provider registries) {
+        return new ItemStack(Registration.CRYSTAL_QUARRY.get());
+    }
 }

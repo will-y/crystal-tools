@@ -100,6 +100,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         if (Objects.nonNull(filterMenuContents.getInventory())) {
             int filterRows = Math.min(rows, getFilterRows());
             this.addSlotBox(filterMenuContents.getInventory(), 0, START_X, START_Y, FILTER_SLOTS_PER_ROW, SLOT_SIZE, filterRows, SLOT_SIZE, filterMenuContents.getFilterSlots(), BackpackFilterSlot::new);
+            filterMenuContents.toggleSlots(false);
         }
     }
 

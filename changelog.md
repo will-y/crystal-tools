@@ -1,4 +1,9 @@
 # Crystal Tools Change Log
+## 2.2.2
+### Additions
+- Adds in-game documentation using [GuideMe](https://www.curseforge.com/minecraft/mc-mods/guideme)
+  - Just hover over an item and hold `G` to see documentation!
+
 ## 2.2.1
 ### Fixes
 - Fixes backpack Sub screens not working

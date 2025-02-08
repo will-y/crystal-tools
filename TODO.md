@@ -84,3 +84,17 @@
 ### Next breaking changes
 - Skill data should probably be a capability, at least on items
 - Allow for more general skill data, Attributes, DataComponents?
+
+Playing fixes v2
+- Use tags for netherite sticks in recipes
+- Can't use item in offhand when holding pickaxe
+- Color the levelup popup
+- Torch is affected by unbreaking?
+- Plays exp sound when you open the screen?
+- Requip anim on repair
+- Repair in inventory doesn't work (just store time)
+- Furnace always auto outputting?
+- Is furnace supposed to require 75 xp level1?
+- Maybe exclude hoppers by default for furnace auto output
+  - Really need some config option
+- Furnace should split on input

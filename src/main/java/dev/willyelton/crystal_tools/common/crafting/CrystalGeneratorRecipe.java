@@ -74,4 +74,9 @@ public class CrystalGeneratorRecipe extends CrystalToolsRecipe {
     public ItemStack getOutput() {
         return new ItemStack(Registration.CRYSTAL_GENERATOR_ITEM.get());
     }
+
+    @Override
+    public ItemStack getResultItem(HolderLookup.Provider registries) {
+        return new ItemStack(Registration.CRYSTAL_GENERATOR_ITEM.get());
+    }
 }

@@ -115,4 +115,9 @@ public class CrystalAIOTRecipe extends CrystalToolsRecipe {
     public ItemStack getOutput() {
         return new ItemStack(Registration.CRYSTAL_AIOT.get());
     }
+
+    @Override
+    public ItemStack getResultItem(HolderLookup.Provider registries) {
+        return new ItemStack(Registration.CRYSTAL_AIOT.get());
+    }
 }

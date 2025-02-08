@@ -111,4 +111,9 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
     public ItemStack getOutput() {
         return new ItemStack(Registration.CRYSTAL_ELYTRA.get());
     }
+
+    @Override
+    public ItemStack getResultItem(HolderLookup.Provider registries) {
+        return new ItemStack(Registration.CRYSTAL_ELYTRA.get());
+    }
 }

@@ -25,12 +25,14 @@ public class CrystalQuarryBlockEntityRenderer implements BlockEntityRenderer<Cry
 
     @Override
     public void render(CrystalQuarryBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
-        BlockPos quarryPos = blockEntity.getBlockPos();
-        cubeRenderer.render((int) blockEntity.getLevel().getGameTime(), partialTick, poseStack, bufferSource, packedLight,
-                blockEntity.getCenterX() - quarryPos.getX(), blockEntity.getCenterY() - quarryPos.getY(), blockEntity.getCenterZ() - quarryPos.getZ());
         BlockPos miningAt = blockEntity.getMiningAt();
 
         if (miningAt != null) {
+            BlockPos quarryPos = blockEntity.getBlockPos();
+            cubeRenderer.render((int) blockEntity.getLevel().getGameTime(), partialTick, poseStack, bufferSource, packedLight,
+                    blockEntity.getCenterX() - quarryPos.getX(), blockEntity.getCenterY() - quarryPos.getY(), blockEntity.getCenterZ() - quarryPos.getZ());
+
+
             Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
             Vec3 view = camera.getPosition();
             int color = Colors.fromRGB(48, 231, 237, 255);
