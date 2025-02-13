@@ -140,9 +140,11 @@ public interface LevelableItem {
     default void levelableInventoryTick(ItemStack stack, Level level, Entity entity, int inventorySlot, boolean inHand, double repairModifier) {
         if (!inHand || CrystalToolsConfig.REPAIR_IN_HAND.get()) {
             if (stack.getOrDefault(DataComponents.AUTO_REPAIR, 0) > 0) {
-                // TODO: Just store game time where you should repair again?
-                if (DataComponents.addToComponent(stack, DataComponents.AUTO_REPAIR_COUNTER, 1) > CrystalToolsConfig.TOOL_REPAIR_COOLDOWN.get() * repairModifier) {
-                    stack.set(DataComponents.AUTO_REPAIR_COUNTER, 0);
+                long gameTimeToRepair = stack.getOrDefault(DataComponents.AUTO_REPAIR_GAME_TIME, -1L);
+                if (gameTimeToRepair == -1L) {
+                    stack.set(DataComponents.AUTO_REPAIR_GAME_TIME, level.getGameTime() + (long)(CrystalToolsConfig.TOOL_REPAIR_COOLDOWN.get() * repairModifier));
+                } else if (gameTimeToRepair <= level.getGameTime()) {
+                    stack.set(DataComponents.AUTO_REPAIR_GAME_TIME, level.getGameTime() + (long)(CrystalToolsConfig.TOOL_REPAIR_COOLDOWN.get() * repairModifier));
                     int repairAmount = Math.min(stack.getOrDefault(DataComponents.AUTO_REPAIR, 0), stack.getDamageValue());
                     stack.setDamageValue(stack.getDamageValue() - repairAmount);
                 }

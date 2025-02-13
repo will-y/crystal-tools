@@ -190,4 +190,10 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
     public boolean isFoil(ItemStack stack) {
         return false;
     }
+
+    @Override
+    public boolean shouldCauseBlockBreakReset(ItemStack oldStack, ItemStack newStack) {
+        // Just ignore data components for now
+        return !newStack.is(oldStack.getItem());
+    }
 }

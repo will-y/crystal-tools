@@ -19,6 +19,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -92,5 +93,9 @@ public class ClientEvents {
     @SubscribeEvent
     public static void loadModels(ModelEvent.RegisterAdditional event) {
         event.register(CrystalTridentBlockEntityWithoutLevelRenderer.CRYSTAL_TRIDENT_MODEL_RESOURCE_LOCATION);
+    }
+
+    private static boolean stacksSame(ItemStack stack1, ItemStack stack2) {
+        return stack1.is(stack2.getItem());
     }
 }
