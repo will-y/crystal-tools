@@ -4,6 +4,8 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
+import java.util.function.Predicate;
+
 public class InventoryUtils {
     public static boolean removeItemFromInventory(Inventory inv, ItemStack itemStack) {
         if (itemStack.isEmpty()) return false;
@@ -35,5 +37,14 @@ public class InventoryUtils {
         }
 
         return false;
+    }
+
+    public static ItemStack findItem(Inventory inv, Predicate<ItemStack> predicate) {
+        for (int i = 0; i < inv.getContainerSize(); i++) {
+            ItemStack stack = inv.getItem(i);
+            if (predicate.test(stack)) return stack;
+        }
+
+        return ItemStack.EMPTY;
     }
 }

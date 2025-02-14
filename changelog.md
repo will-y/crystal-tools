@@ -1,5 +1,8 @@
 # Crystal Tools Change Log
 ## 2.2.3
+### Additions
+- Adds a new keybind (`R`). This will automatically use a Crystal Rocket from your inventory while you are flying.
+
 ### Fixes
 - Fixes issue with reequip animations playing too often when the repair in hand config option was true
 
