@@ -18,6 +18,7 @@ import dev.willyelton.crystal_tools.common.network.data.ScrollPayload;
 import dev.willyelton.crystal_tools.common.network.data.SkillCacheUpdatePayload;
 import dev.willyelton.crystal_tools.common.network.data.ToolAttributePayload;
 import dev.willyelton.crystal_tools.common.network.data.ToolHealPayload;
+import dev.willyelton.crystal_tools.common.network.data.TriggerRocketPayload;
 import dev.willyelton.crystal_tools.common.network.data.VeinMiningPayload;
 import dev.willyelton.crystal_tools.common.network.handler.BackpackScreenHandler;
 import dev.willyelton.crystal_tools.common.network.handler.BlockAttributeHandler;
@@ -36,6 +37,7 @@ import dev.willyelton.crystal_tools.common.network.handler.ScrollHandler;
 import dev.willyelton.crystal_tools.common.network.handler.SkillCacheUpdateHandler;
 import dev.willyelton.crystal_tools.common.network.handler.ToolAttributeHandler;
 import dev.willyelton.crystal_tools.common.network.handler.ToolHealHandler;
+import dev.willyelton.crystal_tools.common.network.handler.TriggerRocketHandler;
 import dev.willyelton.crystal_tools.common.network.handler.VeinMiningHandler;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -65,6 +67,7 @@ public class RegisterPackets {
         registrar.playToServer(VeinMiningPayload.TYPE, VeinMiningPayload.STREAM_CODEC, VeinMiningHandler.INSTANCE::handle);
         registrar.playToServer(ResetSkillsBlockPayload.TYPE, ResetSkillsBlockPayload.STREAM_CODEC, ResetSkillsBlockHandler.INSTANCE::handle);
         registrar.playToServer(OpenContainerPayload.TYPE, OpenContainerPayload.STREAM_CODEC, OpenContainerHandler.INSTANCE::handle);
+        registrar.playToServer(TriggerRocketPayload.TYPE, TriggerRocketPayload.STREAM_CODEC, TriggerRocketHandler.INSTANCE::handle);
 
         // Server to Client
         registrar.playToClient(SkillCacheUpdatePayload.TYPE, SkillCacheUpdatePayload.STREAM_CODEC, SkillCacheUpdateHandler.INSTANCE::handle);

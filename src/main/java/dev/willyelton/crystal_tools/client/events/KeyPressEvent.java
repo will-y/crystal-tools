@@ -1,11 +1,12 @@
 package dev.willyelton.crystal_tools.client.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.common.network.data.ModeSwitchPayload;
-import dev.willyelton.crystal_tools.common.network.data.OpenBackpackPayload;
-import dev.willyelton.crystal_tools.common.network.data.VeinMiningPayload;
 import dev.willyelton.crystal_tools.client.gui.ModGUIs;
 import dev.willyelton.crystal_tools.client.gui.UpgradeScreen;
+import dev.willyelton.crystal_tools.common.network.data.ModeSwitchPayload;
+import dev.willyelton.crystal_tools.common.network.data.OpenBackpackPayload;
+import dev.willyelton.crystal_tools.common.network.data.TriggerRocketPayload;
+import dev.willyelton.crystal_tools.common.network.data.VeinMiningPayload;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -41,6 +42,10 @@ public class KeyPressEvent {
             handleOpenBackpack();
         }
 
+        if (RegisterKeyBindingsEvent.TRIGGER_ROCKET.consumeClick()) {
+            handleTriggerRocket();
+        }
+
         // Send vein mining state every 5 ticks
         if (level.getGameTime() % 5 == 0) {
             PacketDistributor.sendToServer(new VeinMiningPayload(RegisterKeyBindingsEvent.VEIN_MINE.isDown()));
@@ -63,5 +68,9 @@ public class KeyPressEvent {
 
     public static void handleOpenBackpack() {
         PacketDistributor.sendToServer(new OpenBackpackPayload(-1));
+    }
+
+    public static void handleTriggerRocket() {
+        PacketDistributor.sendToServer(new TriggerRocketPayload());
     }
 }

@@ -235,4 +235,10 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
 
         return f;
     }
+
+    @Override
+    public boolean shouldCauseBlockBreakReset(ItemStack oldStack, ItemStack newStack) {
+        // Just ignore data components for now
+        return !newStack.is(oldStack.getItem());
+    }
 }
