@@ -35,7 +35,7 @@ public class ReloadListenerEvent {
     // TODO: This is really annoying
     private static final List<String> SKILL_TREES = List.of("aiot", "apple", "axe", "boots", "bow", "chestplate",
             "crystal_elytra", "crystal_furnace", "crystal_rocket", "helmet", "hoe", "leggings", "pickaxe", "shovel",
-            "sword", "backpack", "trident", "fishing_rod", "generator", "quarry");
+            "sword", "backpack", "trident", "fishing_rod", "generator", "quarry", "shield");
 
     @SubscribeEvent
     public static void handleReloadListener(AddReloadListenerEvent reloadListenerEvent) {
