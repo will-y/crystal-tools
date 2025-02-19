@@ -1,0 +1,8 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:single",
+      "resource": "crystal_tools:entity/crystal_shield"
+    }
+  ]
+}

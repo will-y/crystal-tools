@@ -33,6 +33,7 @@ import dev.willyelton.crystal_tools.common.levelable.tool.BowLevelableItem;
 import dev.willyelton.crystal_tools.common.levelable.tool.CrystalApple;
 import dev.willyelton.crystal_tools.common.levelable.tool.CrystalFishingRod;
 import dev.willyelton.crystal_tools.common.levelable.tool.CrystalRocket;
+import dev.willyelton.crystal_tools.common.levelable.tool.CrystalShield;
 import dev.willyelton.crystal_tools.common.levelable.tool.CrystalTrident;
 import dev.willyelton.crystal_tools.common.levelable.tool.HoeLevelableTool;
 import dev.willyelton.crystal_tools.common.levelable.tool.PickaxeLevelableTool;
@@ -96,6 +97,7 @@ public class Registration {
     public static final DeferredHolder<Item, CrystalRocket> CRYSTAL_ROCKET = ITEMS.register("crystal_rocket", CrystalRocket::new);
     public static final DeferredHolder<Item, CrystalTrident> CRYSTAL_TRIDENT = ITEMS.register("crystal_trident", CrystalTrident::new);
     public static final DeferredHolder<Item, CrystalFishingRod> CRYSTAL_FISHING_ROD = ITEMS.register("crystal_fishing_rod", CrystalFishingRod::new);
+    public static final DeferredHolder<Item, CrystalShield> CRYSTAL_SHIELD = ITEMS.register("crystal_shield", CrystalShield::new);
 
     // Armor
     public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_HELMET = ITEMS.register("crystal_helmet", () -> new LevelableArmor("helmet", ArmorItem.Type.HELMET));

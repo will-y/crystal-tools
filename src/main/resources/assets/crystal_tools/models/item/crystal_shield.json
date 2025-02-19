@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:item/shield",
+  "overrides": [
+    {
+      "model": "crystal_tools:item/crystal_shield_blocking",
+      "predicate": {
+        "blocking": 1.0
+      }
+    }
+  ],
+  "textures": {
+    "particle": "crystal_tools:crystal_block"
+  }
+}

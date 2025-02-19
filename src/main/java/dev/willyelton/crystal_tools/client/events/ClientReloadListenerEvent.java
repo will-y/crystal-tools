@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.client.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
+import dev.willyelton.crystal_tools.client.renderer.CrystalShieldRenderer;
 import dev.willyelton.crystal_tools.client.renderer.CrystalTridentBlockEntityWithoutLevelRenderer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -12,5 +13,6 @@ public class ClientReloadListenerEvent {
     @SubscribeEvent
     public static void handleReloadListener(RegisterClientReloadListenersEvent reloadListenerEvent) {
         reloadListenerEvent.registerReloadListener(CrystalTridentBlockEntityWithoutLevelRenderer.INSTANCE);
+        reloadListenerEvent.registerReloadListener(CrystalShieldRenderer.INSTANCE);
     }
 }
