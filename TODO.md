@@ -9,6 +9,9 @@
   - Freeze / fire / other on hit
   - Thorns
   - Shield bash damage
+  - Use breeze powder for the knockback one
+  - Projectile auto aiming :)
+    - Store it in some global list, update on tick event?
 - Backpack
   - Trash (separate filters?)
   - Exp Storage ? (mode switch to turn on and off)
