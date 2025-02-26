@@ -188,7 +188,7 @@
         "description": "Gives the leggings more armor toughness.",
         "limit": 1,
         "requirements": [
-          {"node": [8]},
+          {"node": [9]},
           {"or_node": [11, 12, 13, 14]}
         ],
         "key": "toughness_bonus",
@@ -283,7 +283,7 @@
       },
       {
         "id": 24,
-        "name": "Toughness II",
+        "name": "Toughness III",
         "description": "Gives the leggings more armor toughness.",
         "limit": 1,
         "requirements": [

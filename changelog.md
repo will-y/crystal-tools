@@ -27,6 +27,7 @@
 
 ## Fixes
 - Fixes effects not being properly reset on the Crystal Apple
+- Fixes some issues with the armor skill trees
 
 ## 2.2.3
 ### Additions

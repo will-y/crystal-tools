@@ -188,7 +188,7 @@
         "description": "Gives the helmet more armor toughness.",
         "limit": 1,
         "requirements": [
-          {"node": [8]},
+          {"node": [9]},
           {"or_node": [11, 12, 13, 14]}
         ],
         "key": "toughness_bonus",
