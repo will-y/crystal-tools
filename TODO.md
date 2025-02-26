@@ -3,7 +3,6 @@
 ### New Levelable Things
 - Bow
   - Add looting (IItemExtension#supportsEnchantment)
-  - Auto target
 - Backpack
   - Trash (separate filters?)
   - Exp Storage ? (mode switch to turn on and off)

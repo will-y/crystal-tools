@@ -4,6 +4,8 @@ import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.components.EffectData;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
+import dev.willyelton.crystal_tools.common.events.LevelTickEvent;
+import dev.willyelton.crystal_tools.common.levelable.EntityTargeter;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.Holder;
@@ -37,7 +39,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class BowLevelableItem extends BowItem implements LevelableItem {
+public class BowLevelableItem extends BowItem implements LevelableItem, EntityTargeter {
     public BowLevelableItem() {
         super(new Properties().durability(INITIAL_TIER.getUses()).fireResistant());
     }
@@ -73,7 +75,8 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
                         AbstractArrow abstractarrow = arrowitem.createArrow(level, itemstack, player, stack);
                         abstractarrow = customArrow(abstractarrow);
                         //TODO: Too Random
-                        abstractarrow.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, power * 3.0F + stack.getOrDefault(DataComponents.ARROW_SPEED, 0F) / 4.0F, 0.0F);
+                        float speed = power * 3.0F + stack.getOrDefault(DataComponents.ARROW_SPEED, 0F) / 4.0F;
+                        abstractarrow.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, speed, 0.0F);
                         if (power == 1.0F) {
                             abstractarrow.setCritArrow(true);
                         }
@@ -105,6 +108,10 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
                         }
 
                         level.addFreshEntity(abstractarrow);
+                        int target = stack.getOrDefault(DataComponents.ENTITY_TARGET, -1);
+                        if (target != -1) {
+                            LevelTickEvent.startTracking(level, abstractarrow.getId(), target, speed / 2);
+                        }
                     }
 
                     level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + power * 0.5F);
@@ -122,23 +129,37 @@ public class BowLevelableItem extends BowItem implements LevelableItem {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
-        ItemStack itemstack = pPlayer.getItemInHand(pHand);
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+        ItemStack stack = player.getItemInHand(hand);
+        refreshTarget(stack, level, player);
         if (this.isDisabled()) {
-            itemstack.shrink(1);
-            return InteractionResultHolder.fail(itemstack);
+            stack.shrink(1);
+            return InteractionResultHolder.fail(stack);
         }
-        boolean flag = !getProjectile(itemstack, pPlayer).isEmpty() || itemstack.getOrDefault(DataComponents.INFINITY, false);
+        boolean flag = !getProjectile(stack, player).isEmpty() || stack.getOrDefault(DataComponents.INFINITY, false);
 
-        InteractionResultHolder<ItemStack> ret = EventHooks.onArrowNock(itemstack, pLevel, pPlayer, pHand, flag);
+        InteractionResultHolder<ItemStack> ret = EventHooks.onArrowNock(stack, level, player, hand, flag);
         if (ret != null) return ret;
 
-        if (ToolUtils.isBroken(itemstack) || (!pPlayer.getAbilities().instabuild && !flag)) {
-            return InteractionResultHolder.fail(itemstack);
+        if (ToolUtils.isBroken(stack) || (!player.getAbilities().instabuild && !flag)) {
+            return InteractionResultHolder.fail(stack);
         } else {
-            pPlayer.startUsingItem(pHand);
-            return InteractionResultHolder.consume(itemstack);
+            player.startUsingItem(hand);
+            return InteractionResultHolder.consume(stack);
         }
+    }
+
+    @Override
+    public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration) {
+        refreshTarget(stack, level, livingEntity);
+
+        super.onUseTick(level, livingEntity, stack, remainingUseDuration);
+    }
+
+    @Override
+    public void onStopUsing(ItemStack stack, LivingEntity entity, int count) {
+        clearTarget(stack, entity.level());
+        super.onStopUsing(stack, entity, count);
     }
 
     public AbstractArrow customArrow(AbstractArrow arrow) {

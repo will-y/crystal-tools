@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.common.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
+import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -15,6 +16,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+// TODO: Timeout and also the movement is very buggy sometimes
 @EventBusSubscriber(modid = CrystalTools.MODID)
 public class LevelTickEvent {
     public static ConcurrentHashMap<ResourceKey<Level>, Set<TrackingProjectileData>> TRACKING_PROJECTILES = new ConcurrentHashMap<>();
@@ -38,8 +40,9 @@ public class LevelTickEvent {
                         && !target.isRemoved() && projectile instanceof Projectile projectileEntity &&
                         !(projectileEntity instanceof AbstractArrow arrow && arrow.inGround)) {
                     double speed = Math.max(projectileData.initialSpeed, 1);
+                    projectileEntity.lookAt(EntityAnchorArgument.Anchor.EYES, target.position());
                     projectileEntity.setNoGravity(true);
-                    projectileEntity.setDeltaMovement(target.getEyePosition().subtract(projectileEntity.position()).normalize().scale(speed));
+                    projectileEntity.setDeltaMovement(target.trackingPosition().subtract(projectileEntity.position()).normalize().scale(speed));
                 } else {
                     iterator.remove();
                 }

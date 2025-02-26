@@ -16,7 +16,7 @@
       - Mobs who attack the shield are slowed
     - Totem Slot
       - Adds a slot of a Totem of Undying. Craft the shield with a Totem of Undying to insert it.
-    - Shild Knockback
+    - Shield Knockback
       - Mobs who attack the shield are knocked back
     - Poison Mobs
       - Mobs who attack the shield are poisoned
@@ -24,6 +24,7 @@
       - Mobs who attack the shield are withered
     - Target Mobs
       - Reflected projectile will auto-target mobs (mostly just arrows in vanilla)
+- Adds the Auto Target Ability to the Crystal Bow
 
 ## Changes
 - Quarry Stabilizers are now easily breakable with a pickaxe

@@ -113,6 +113,7 @@ There will be upgrades that are common to most tools, and tools will each get un
   - Weakness
   - Slowness
   - Wither
+- Auto Target Entities
 
 ### Fishing Rod
 - Lure

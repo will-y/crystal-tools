@@ -291,6 +291,17 @@
         ],
         "key": "unbreaking",
         "value": 0.1
+      },
+      {
+        "id": 41,
+        "name": "Auto Target Mobs",
+        "description": "Automatically tracks targeted mobs",
+        "limit": 1,
+        "requirements": [
+          {"or_node": [15, 16, 17, 30]}
+        ],
+        "key": "auto_target",
+        "value": 1
       }
     ],
     [
