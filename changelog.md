@@ -25,9 +25,14 @@
     - Target Mobs
       - Reflected projectile will auto-target mobs (mostly just arrows in vanilla)
 
+## Changes
+- Quarry Stabilizers are now easily breakable with a pickaxe
+
 ## Fixes
 - Fixes effects not being properly reset on the Crystal Apple
 - Fixes some issues with the armor skill trees
+- Fixes an issue where the quarry couldn't mine some blocks (like dead bushes and torches)
+- Fixes a rare crash when the quarry mines certain blocks
 
 ## 2.2.3
 ### Additions

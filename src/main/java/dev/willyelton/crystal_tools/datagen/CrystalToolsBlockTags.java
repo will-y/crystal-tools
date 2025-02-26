@@ -25,7 +25,8 @@ public class CrystalToolsBlockTags extends BlockTagsProvider {
                 Registration.CRYSTAL_DEEPSLATE_ORE.get(),
                 Registration.CRYSTAL_FURNACE.get(),
                 Registration.CRYSTAL_GENERATOR.get(),
-                Registration.CRYSTAL_QUARRY.get());
+                Registration.CRYSTAL_QUARRY.get(),
+                Registration.QUARRY_STABILIZER.get());
 
         tag(CrystalToolsTags.AUTO_OUTPUT_BLACKLIST).add(
                 Blocks.HOPPER);

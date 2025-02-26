@@ -530,7 +530,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
                     miningStack = SILK_TOUCH_STACK;
                 }
 
-                List<ItemStack> drops = Block.getDrops(level.getBlockState(miningAt), (ServerLevel) level, miningAt, level.getBlockEntity(miningAt), null, miningStack);
+                List<ItemStack> drops = new ArrayList<>(Block.getDrops(level.getBlockState(miningAt), (ServerLevel) level, miningAt, level.getBlockEntity(miningAt), null, miningStack));
                 drops.addAll(getInventoryContents(level));
                 List<ItemStack> noFit = tryInsertStacks(drops);
 
@@ -605,7 +605,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     }
 
     private boolean canMine(BlockState state) {
-        return !state.isAir() && state.getDestroySpeed(level, worldPosition) > 0;
+        return !state.isAir() && state.getDestroySpeed(level, worldPosition) >= 0;
     }
 
     private void nextPosition() {
