@@ -5,6 +5,7 @@ import dev.willyelton.crystal_tools.common.crafting.CrystalAIOTRecipe;
 import dev.willyelton.crystal_tools.common.crafting.CrystalElytraRecipe;
 import dev.willyelton.crystal_tools.common.crafting.CrystalGeneratorRecipe;
 import dev.willyelton.crystal_tools.common.crafting.CrystalQuarryRecipe;
+import dev.willyelton.crystal_tools.common.crafting.CrystalShieldTotemRecipe;
 import dev.willyelton.crystal_tools.common.crafting.ItemDisabledCondition;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.advancements.Criterion;
@@ -165,6 +166,16 @@ public class CrystalToolsRecipes extends RecipeProvider {
                         .unlockedBy("has_crystal", HAS_CRYSTAL),
                 Registration.CRYSTAL_FISHING_ROD.getId());
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Registration.CRYSTAL_SHIELD.get())
+                .pattern(" c ")
+                .pattern("tsc")
+                .pattern(" c ")
+                .define('c', Registration.CRYSTAL.get())
+                .define('t', Registration.NETHERITE_STICK.get())
+                .define('s', Items.SHIELD)
+                .unlockedBy("has_crystal", HAS_CRYSTAL)
+                .save(recipeOutput);
+
         // Armor
         buildConditionalRecipe(recipeOutput,
                 ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_HELMET.get())
@@ -245,6 +256,10 @@ public class CrystalToolsRecipes extends RecipeProvider {
         SpecialRecipeBuilder
                 .special(CrystalQuarryRecipe::new)
                 .save(recipeOutput, Registration.CRYSTAL_QUARRY_ITEM.getId().toString());
+
+        SpecialRecipeBuilder
+                .special(CrystalShieldTotemRecipe::new)
+                .save(recipeOutput, Registration.CRYSTAL_SHIELD.getId() + "_totem");
     }
 
     private void buildConditionalRecipe(RecipeOutput recipeOutput, ShapedRecipeBuilder builder, ResourceLocation conditionItem) {

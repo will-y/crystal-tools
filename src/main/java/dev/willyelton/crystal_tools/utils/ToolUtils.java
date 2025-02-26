@@ -57,6 +57,7 @@ public class ToolUtils {
 
         stack.set(DataComponents.POINTS_ARRAY, Collections.emptyList());
         stack.set(DataComponents.SKILL_POINTS, skillPoints);
+        stack.remove(DataComponents.EFFECTS);
     }
 
     public static SkillData getSkillData(ItemStack stack) {

@@ -161,8 +161,17 @@ public class DataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> AUTO_OUTPUT = register("auto_output", Codec.BOOL, ByteBufCodecs.BOOL);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> CHUNKLOADING = register("chunkloading", Codec.BOOL, ByteBufCodecs.BOOL);
 
-    // Shield
+    // Auto Targeting
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> AUTO_TARGET = register("auto_target", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> ENTITY_TARGET = register("entity_target", Codec.INT, ByteBufCodecs.VAR_INT);
+
+    // Shield
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> FLAMING_SHIELD = register("flaming_shield", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> SHIELD_THORNS = register("shield_thorns", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> SHIELD_KNOCKBACK = register("shield_knockback", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> TOTEM_SLOTS = register("totem_slots", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> FILLED_TOTEM_SLOTS = register("filled_totem_slots", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
+
     // Utilities
     private static <T> DeferredHolder<DataComponentType<?>, DataComponentType<T>> register(String key, Codec<T> codec, StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec) {
         return register(key, codec, streamCodec, SkillType.NONE);

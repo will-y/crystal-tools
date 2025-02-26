@@ -6,6 +6,7 @@ import dev.willyelton.crystal_tools.common.crafting.CrystalAIOTRecipe;
 import dev.willyelton.crystal_tools.common.crafting.CrystalElytraRecipe;
 import dev.willyelton.crystal_tools.common.crafting.CrystalGeneratorRecipe;
 import dev.willyelton.crystal_tools.common.crafting.CrystalQuarryRecipe;
+import dev.willyelton.crystal_tools.common.crafting.CrystalShieldTotemRecipe;
 import dev.willyelton.crystal_tools.common.crafting.ItemDisabledCondition;
 import dev.willyelton.crystal_tools.common.entity.CrystalTridentEntity;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalBackpackContainerMenu;
@@ -185,6 +186,7 @@ public class Registration {
                         output.accept(CRYSTAL_BACKPACK.get());
                         output.accept(CRYSTAL_TRIDENT.get());
                         output.accept(CRYSTAL_FISHING_ROD.get());
+                        output.accept(CRYSTAL_SHIELD.get());
                     })
                     .build());
 
@@ -193,6 +195,7 @@ public class Registration {
     public static final DeferredHolder<RecipeSerializer<?>, SimpleCraftingRecipeSerializer<CrystalAIOTRecipe>> CRYSTAL_AIOT_RECIPE = RECIPES.register("crystal_aiot_recipe", () -> new SimpleCraftingRecipeSerializer<>(CrystalAIOTRecipe::new));
     public static final DeferredHolder<RecipeSerializer<?>, SimpleCraftingRecipeSerializer<CrystalGeneratorRecipe>> CRYSTAL_GENERATOR_RECIPE = RECIPES.register("crystal_generator_recipe", () -> new SimpleCraftingRecipeSerializer<>(CrystalGeneratorRecipe::new));
     public static final DeferredHolder<RecipeSerializer<?>, SimpleCraftingRecipeSerializer<CrystalQuarryRecipe>> CRYSTAL_QUARRY_RECIPE = RECIPES.register("crystal_quarry_recipe", () -> new SimpleCraftingRecipeSerializer<>(CrystalQuarryRecipe::new));
+    public static final DeferredHolder<RecipeSerializer<?>, SimpleCraftingRecipeSerializer<CrystalShieldTotemRecipe>> CRYSTAL_SHIELD_TOTEM_RECIPE = RECIPES.register("crystal_shield_totem_recipe", () -> new SimpleCraftingRecipeSerializer<>(CrystalShieldTotemRecipe::new));
 
     public static void init(IEventBus modEventBus) {
         // Conditions

@@ -17,7 +17,13 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface EntityTargeter {
     default void refreshTarget(ItemStack stack, Level level, LivingEntity livingEntity) {
+        if (!isEnabled(stack)) return;
+
         int targetId = stack.getOrDefault(DataComponents.ENTITY_TARGET, -1);
+        if (targetId != -1 && level.getGameTime() % 5 != 0) {
+            // Don't find new target every tick if you already have a target
+            return;
+        }
         LivingEntity newTarget = findNewTarget(livingEntity);
         if (targetId == -1) {
             setTarget(stack, newTarget);
@@ -49,6 +55,8 @@ public interface EntityTargeter {
     }
 
     default void setTarget(ItemStack stack, LivingEntity target) {
+        if (!isEnabled(stack)) return;
+
         if (target != null && !target.isRemoved()) {
             stack.set(DataComponents.ENTITY_TARGET, target.getId());
             target.setGlowingTag(true);
@@ -56,6 +64,8 @@ public interface EntityTargeter {
     }
 
     default void clearTarget(ItemStack stack, Level level) {
+        if (!isEnabled(stack)) return;
+
         int target = stack.getOrDefault(DataComponents.ENTITY_TARGET, -1);
 
         if (target != -1) {
@@ -65,5 +75,9 @@ public interface EntityTargeter {
                 stack.remove(DataComponents.ENTITY_TARGET);
             }
         }
+    }
+
+    default boolean isEnabled(ItemStack stack) {
+        return stack.getOrDefault(DataComponents.AUTO_TARGET, false);
     }
 }

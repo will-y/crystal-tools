@@ -1,5 +1,339 @@
 {
   "tiers": [
-
+    [
+      {
+        "id": 0,
+        "name": "Durability I",
+        "description": "Increases the Shield's Durability",
+        "limit": 1,
+        "requirements": [],
+        "key": "durability_bonus",
+        "value": 200
+      },
+      {
+        "id": 1,
+        "name": "Armor I",
+        "description": "Having the Shield in your Off-hand Increases your Armor",
+        "limit": 1,
+        "requirements": [],
+        "key": "armor_bonus",
+        "value": 1
+      },
+      {
+        "id": 2,
+        "name": "Thorns I",
+        "description": "Mobs blocked by this shield will take damage",
+        "limit": 1,
+        "requirements": [],
+        "key": "shield_thorns",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 3,
+        "name": "Shield Bash I",
+        "description": "Increases the attack damage of the shield",
+        "limit": 1,
+        "requirements": [
+          {"or_node": [0, 1, 2]}
+        ],
+        "key": "damage_bonus",
+        "value": 2
+      },
+      {
+        "id": 4,
+        "name": "Flaming Shield",
+        "description": "Mobs blocked by this shield will catch on fire",
+        "limit": 1,
+        "requirements": [
+          {"or_node": [0, 1, 2]}
+        ],
+        "key": "flaming_shield",
+        "value": 1
+      },
+      {
+        "id": 5,
+        "name": "Slow Mobs",
+        "description": "Mobs blocked by this shield will be slowed",
+        "limit": 1,
+        "requirements": [
+          {"or_node": [0, 1, 2]}
+        ],
+        "key": "effect_slowness",
+        "value": 1
+      },
+      {
+        "id": 23,
+        "name": "Totem Slot I",
+        "description": "Adds 1 slot for a Totem of Undying",
+        "subtext": {
+          "text": "Craft with a Totem of Undying to add one",
+          "color": "#ABABAB"
+        },
+        "limit": 1,
+        "requirements": [
+          {"or_node": [0, 1, 2]}
+        ],
+        "key": "totem_slots",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 6,
+        "name": "Durability II",
+        "description": "Increases the Shield's Durability",
+        "limit": 1,
+        "requirements": [
+          {"node": [0]},
+          {"or_node": [3, 4, 5, 23]}
+        ],
+        "key": "durability_bonus",
+        "value": 200
+      },
+      {
+        "id": 7,
+        "name": "Armor II",
+        "description": "Having the Shield in your Off-hand Increases your Armor",
+        "limit": 1,
+        "requirements": [
+          {"node": [1]},
+          {"or_node": [3, 4, 5, 23]}
+        ],
+        "key": "armor_bonus",
+        "value": 1
+      },
+      {
+        "id": 8,
+        "name": "Thorns II",
+        "description": "Mobs blocked by this shield will take damage",
+        "limit": 1,
+        "requirements": [
+          {"node": [2]},
+          {"or_node": [3, 4, 5, 23]}
+        ],
+        "key": "shield_thorns",
+        "value": 1
+      },
+      {
+        "id": 9,
+        "name": "Auto Repair",
+        "description": "Automatically Repairs Your Tool Over Time!",
+        "limit": 0,
+        "requirements": [
+          {"or_node": [3, 4, 5, 23]}
+        ],
+        "key": "auto_repair",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 10,
+        "name": "Shield Bash II",
+        "description": "Increases the attack damage of the shield",
+        "limit": 1,
+        "requirements": [
+          {"node": [3]},
+          {"or_node": [6, 7, 8, 9]}
+        ],
+        "key": "damage_bonus",
+        "value": 2
+      },
+      {
+        "id": 11,
+        "name": "Shield Knockback",
+        "description": "Mobs blocked by this shield will be knocked back",
+        "limit": 1,
+        "requirements": [
+          {"or_node": [6, 7, 8, 9]},
+          {"item": ["minecraft:wind_charge"]}
+        ],
+        "key": "shield_knockback",
+        "value": 1
+      },
+      {
+        "id": 12,
+        "name": "Poison Mobs",
+        "description": "Mobs blocked by this shield will be poisoned",
+        "limit": 1,
+        "requirements": [
+          {"or_node": [6, 7, 8, 9]}
+        ],
+        "key": "effect_poison",
+        "value": 1
+      },
+      {
+        "id": 24,
+        "name": "Totem Slot II",
+        "description": "Adds 1 slot for a Totem of Undying",
+        "subtext": {
+          "text": "Craft with a Totem of Undying to add one",
+          "color": "#ABABAB"
+        },
+        "limit": 1,
+        "requirements": [
+          {"node": [23]},
+          {"or_node": [6, 7, 8, 9]}
+        ],
+        "key": "totem_slots",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 13,
+        "name": "Durability III",
+        "description": "Increases the Shield's Durability",
+        "limit": 1,
+        "requirements": [
+          {"node": [6]},
+          {"or_node": [10, 11, 12, 24]}
+        ],
+        "key": "durability_bonus",
+        "value": 200
+      },
+      {
+        "id": 14,
+        "name": "Armor III",
+        "description": "Having the Shield in your Off-hand Increases your Armor",
+        "limit": 1,
+        "requirements": [
+          {"node": [7]},
+          {"or_node": [10, 11, 12, 24]}
+        ],
+        "key": "armor_bonus",
+        "value": 1
+      },
+      {
+        "id": 15,
+        "name": "Thorns III",
+        "description": "Mobs blocked by this shield will take damage",
+        "limit": 1,
+        "requirements": [
+          {"node": [8]},
+          {"or_node": [10, 11, 12, 24]}
+        ],
+        "key": "shield_thorns",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 16,
+        "name": "Shield Bash III",
+        "description": "Increases the attack damage of the shield",
+        "limit": 1,
+        "requirements": [
+          {"node": [10]},
+          {"or_node": [13, 14, 15]}
+        ],
+        "key": "damage_bonus",
+        "value": 2
+      },
+      {
+        "id": 17,
+        "name": "Wither Mobs",
+        "description": "Mobs blocked by this shield will be withered",
+        "limit": 1,
+        "requirements": [
+          {"or_node": [13, 14, 15]}
+        ],
+        "key": "effect_wither",
+        "value": 1
+      },
+      {
+        "id": 25,
+        "name": "Totem Slot III",
+        "description": "Adds 1 slot for a Totem of Undying",
+        "subtext": {
+          "text": "Craft with a Totem of Undying to add one",
+          "color": "#ABABAB"
+        },
+        "limit": 1,
+        "requirements": [
+          {"node": [24]},
+          {"or_node": [13, 14, 15]}
+        ],
+        "key": "totem_slots",
+        "value": 1
+      },
+      {
+        "id": 26,
+        "name": "Target Mobs",
+        "description": "Reflected projectiles will auto-target mobs",
+        "limit": 1,
+        "requirements": [
+          {"or_node": [13, 14, 15]}
+        ],
+        "key": "auto_target",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 18,
+        "name": "Durability IV",
+        "description": "Increases the Shield's Durability",
+        "limit": 1,
+        "requirements": [
+          {"node": [13]},
+          {"or_node": [16, 17, 25, 26]}
+        ],
+        "key": "durability_bonus",
+        "value": 200
+      },
+      {
+        "id": 19,
+        "name": "Armor IV",
+        "description": "Having the Shield in your Off-hand Increases your Armor",
+        "limit": 1,
+        "requirements": [
+          {"node": [14]},
+          {"or_node": [16, 17, 25, 26]}
+        ],
+        "key": "armor_bonus",
+        "value": 1
+      },
+      {
+        "id": 20,
+        "name": "Thorns IV",
+        "description": "Mobs blocked by this shield will take damage",
+        "limit": 1,
+        "requirements": [
+          {"node": [15]},
+          {"or_node": [16, 17, 25, 26]}
+        ],
+        "key": "shield_thorns",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 21,
+        "name": "Infinite Durability",
+        "description": "Add As Many Points To Durability Here As You Want",
+        "limit": 0,
+        "requirements": [
+          {"node": [18]},
+          {"or_node": [18, 19, 20]}
+        ],
+        "key": "durability_bonus",
+        "value": 50
+      },
+      {
+        "id": 22,
+        "name": "Infinite Shield Bash",
+        "description": "Mobs blocked by this shield will take damage",
+        "limit": 0,
+        "requirements": [
+          {"node": [16]},
+          {"or_node": [18, 19, 20]}
+        ],
+        "key": "damage_bonus",
+        "value": 0.1
+      }
+    ]
   ]
 }

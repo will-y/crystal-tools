@@ -43,6 +43,7 @@ The following tools/armor pieces are implemented:
 - Crystal Backpack
 - Crystal Trident
 - Crystal Fishing Rod
+- Crystal Shield
 
 ## Other Items
 - Crystal Backpack
@@ -117,6 +118,26 @@ There will be upgrades that are common to most tools, and tools will each get un
 - Lure
 - Luck of the Sea
 - Chance to Double Drops (by default 20% per level)
+
+### Shield
+- Shield Bash
+  - Increases attack damage
+- Thorns
+  - Damages mobs who hit your shield
+- Flaming Shield
+  - Mobs who attack the shield catch on fire
+- Slow Mobs
+  - Mobs who attack the shield are slowed
+- Totem Slot
+  - Adds a slot of a Totem of Undying. Craft the shield with a Totem of Undying to insert it.
+- Shild Knockback
+  - Mobs who attack the shield are knocked back
+- Poison Mobs
+  - Mobs who attack the shield are poisoned
+- Wither Mobs
+  - Mobs who attack the shield are withered
+- Target Mobs
+  - Reflected projectile will auto-target mobs (mostly just arrows in vanilla)
 
 ### All Armor
 - Protection
@@ -262,13 +283,16 @@ There will be upgrades that are common to most tools, and tools will each get un
 #### Trident
 ![Trident Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/trident.png)
 
-### Fishing Rod
+#### Fishing Rod
 ![Fishing Rod Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/fishing_rod.png)
 
 #### AIOT
 - Will give you skill points equal to all the points on tools used to craft it (spent or unspent)
 
 ![AIOT Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/aiot.png)
+
+#### Shield
+![Shield Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/shield.png)
 
 ### Armor
 #### Helmet

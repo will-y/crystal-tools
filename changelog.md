@@ -1,4 +1,33 @@
 # Crystal Tools Change Log
+## 2.3.0
+## Additions
+- Adds the Crystal Shield
+  - Has the following upgrades:
+    - Durability
+    - Armor
+      - You gain armor while the shield is in your off-hand
+    - Thorns
+      - Mobs that hit your shield take damage
+    - Shield Bash
+      - Increases the damage of the shield (when attacking)
+    - Flaming Shield
+      - Mobs who attack the shield catch on fire
+    - Slow Mobs
+      - Mobs who attack the shield are slowed
+    - Totem Slot
+      - Adds a slot of a Totem of Undying. Craft the shield with a Totem of Undying to insert it.
+    - Shild Knockback
+      - Mobs who attack the shield are knocked back
+    - Poison Mobs
+      - Mobs who attack the shield are poisoned
+    - Wither Mobs
+      - Mobs who attack the shield are withered
+    - Target Mobs
+      - Reflected projectile will auto-target mobs (mostly just arrows in vanilla)
+
+## Fixes
+- Fixes effects not being properly reset on the Crystal Apple
+
 ## 2.2.3
 ### Additions
 - Adds a new keybind (`R`). This will automatically use a Crystal Rocket from your inventory while you are flying.
