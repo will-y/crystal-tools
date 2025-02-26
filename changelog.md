@@ -1,6 +1,6 @@
 # Crystal Tools Change Log
 ## 2.3.0
-## Additions
+### Additions
 - Adds the Crystal Shield
   - Has the following upgrades:
     - Durability
@@ -26,10 +26,10 @@
       - Reflected projectile will auto-target mobs (mostly just arrows in vanilla)
 - Adds the Auto Target Ability to the Crystal Bow
 
-## Changes
+### Changes
 - Quarry Stabilizers are now easily breakable with a pickaxe
 
-## Fixes
+### Fixes
 - Fixes effects not being properly reset on the Crystal Apple
 - Fixes some issues with the armor skill trees
 - Fixes an issue where the quarry couldn't mine some blocks (like dead bushes and torches)
