@@ -7,7 +7,7 @@ import net.neoforged.fml.ModList;
 
 public class GuideMeCompatibility {
     public static void loadGuide() {
-        if (!ModList.get().isLoaded("guidme")) {
+        if (!ModList.get().isLoaded("guideme")) {
             return;
         }
 

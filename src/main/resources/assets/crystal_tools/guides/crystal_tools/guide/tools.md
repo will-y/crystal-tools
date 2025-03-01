@@ -13,22 +13,27 @@ item_ids:
   - crystal_tools:crystal_bow
   - crystal_tools:crystal_trident
   - crystal_tools:crystal_fishing_rod
+  - crystal_tools:crystal_shield
 ---
 # Tools
 ## Overview
 Crystal tools can be crafted with <ItemLink id="crystal" />s and <ItemLink id="netherite_stick" />s
-<Row>
-  <RecipeFor id="crystal_pickaxe" />
-  <RecipeFor id="crystal_axe" />
-  <RecipeFor id="crystal_shovel" />
-  <RecipeFor id="crystal_hoe" />
-  <RecipeFor id="crystal_sword" />
-</Row>
-<Row>
-  <RecipeFor id="crystal_aiot" />
-  <RecipeFor id="crystal_bow" />
-  <RecipeFor id="crystal_trident" />
-  <RecipeFor id="crystal_fishing_rod" />
+
+<Row fullWidth={false}>
+  <Column>
+    <RecipeFor id="crystal_pickaxe" />
+    <RecipeFor id="crystal_axe" />
+    <RecipeFor id="crystal_shovel" />
+    <RecipeFor id="crystal_bow" />
+    <RecipeFor id="crystal_trident" />
+  </Column>
+  <Column>
+    <RecipeFor id="crystal_hoe" />
+    <RecipeFor id="crystal_sword" />
+    <RecipeFor id="crystal_aiot" />
+    <RecipeFor id="crystal_fishing_rod" />
+    <RecipeFor id="crystal_shield" />
+  </Column>
 </Row>
 
 When you use these tools, that will gain skill points.
@@ -110,9 +115,38 @@ You can open their skill trees with `k` to unlock new skills.
   - Weakness
   - Slowness
   - Wither
+- Target Mobs
+  - You can select mobs (by looking at them while aiming)
+  - Arrows fired will auto-target that mob
 
 ### Fishing Rod
 - Lure
 - Luck of the Sea
 - Chance to Double Drops
   - 20% Per level
+
+### Shield
+- Armor
+  - Increases your armor when you have the shield in you off-hand
+- Thorns
+  - Deals damage when you block mobs with the shield (25% chance per level to do 3 damage)
+- Reduce Cooldown
+  - Decreases the cooldown when the shield is disabled (if you have all of the points in this, the shield can't be disabled)
+- Shield Bash
+  - Increases the attack damage of the shield
+- Flaming Shield
+  - Mobs blocked by the shield will catch on fire
+- Slow Mobs
+  - Mobs blocked by this shield will be slowed
+- Totem SLot
+  - Allows you to attach totems of undying to the shield. They trigger like normal totems
+  - Craft with a totem of undying to add it
+- Shield Knockback
+  - Mobs blocked by this shield will be knocked back
+- Poison Mobs
+  - Mobs blocked by this shield will be poisoned
+- Wither Mobs
+  - Mobs blocked by this shield will be withered
+- Target Mobs
+  - You can select mobs (by looking at them while blocking)
+  - Any projectiles blocked will automatically target that mob

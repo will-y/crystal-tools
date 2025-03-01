@@ -27,6 +27,15 @@
         "requirements": [],
         "key": "shield_thorns",
         "value": 1
+      },
+      {
+        "id": 27,
+        "name": "Reduce Cooldown I",
+        "description": "Reduces the shield cooldown when it gets disabled",
+        "limit": 1,
+        "requirements": [],
+        "key": "block_cooldown_reduction",
+        "value": 10
       }
     ],
     [
@@ -36,7 +45,7 @@
         "description": "Increases the attack damage of the shield",
         "limit": 1,
         "requirements": [
-          {"or_node": [0, 1, 2]}
+          {"or_node": [0, 1, 2, 27]}
         ],
         "key": "damage_bonus",
         "value": 2
@@ -47,7 +56,7 @@
         "description": "Mobs blocked by this shield will catch on fire",
         "limit": 1,
         "requirements": [
-          {"or_node": [0, 1, 2]}
+          {"or_node": [0, 1, 2, 27]}
         ],
         "key": "flaming_shield",
         "value": 1
@@ -58,7 +67,7 @@
         "description": "Mobs blocked by this shield will be slowed",
         "limit": 1,
         "requirements": [
-          {"or_node": [0, 1, 2]}
+          {"or_node": [0, 1, 2, 27]}
         ],
         "key": "effect_slowness",
         "value": 1
@@ -73,7 +82,7 @@
         },
         "limit": 1,
         "requirements": [
-          {"or_node": [0, 1, 2]}
+          {"or_node": [0, 1, 2, 27]}
         ],
         "key": "totem_slots",
         "value": 1
@@ -117,6 +126,18 @@
         "value": 1
       },
       {
+        "id": 28,
+        "name": "Reduce Cooldown II",
+        "description": "Reduces the shield cooldown when it gets disabled",
+        "limit": 1,
+        "requirements": [
+          {"node": [27]},
+          {"or_node": [3, 4, 5, 23]}
+        ],
+        "key": "block_cooldown_reduction",
+        "value": 10
+      },
+      {
         "id": 9,
         "name": "Auto Repair",
         "description": "Automatically Repairs Your Tool Over Time!",
@@ -136,7 +157,7 @@
         "limit": 1,
         "requirements": [
           {"node": [3]},
-          {"or_node": [6, 7, 8, 9]}
+          {"or_node": [6, 7, 8, 28, 9]}
         ],
         "key": "damage_bonus",
         "value": 2
@@ -147,7 +168,7 @@
         "description": "Mobs blocked by this shield will be knocked back",
         "limit": 1,
         "requirements": [
-          {"or_node": [6, 7, 8, 9]},
+          {"or_node": [6, 7, 8, 28, 9]},
           {"item": ["minecraft:wind_charge"]}
         ],
         "key": "shield_knockback",
@@ -159,7 +180,7 @@
         "description": "Mobs blocked by this shield will be poisoned",
         "limit": 1,
         "requirements": [
-          {"or_node": [6, 7, 8, 9]}
+          {"or_node": [6, 7, 8, 28, 9]}
         ],
         "key": "effect_poison",
         "value": 1
@@ -175,7 +196,7 @@
         "limit": 1,
         "requirements": [
           {"node": [23]},
-          {"or_node": [6, 7, 8, 9]}
+          {"or_node": [6, 7, 8, 28, 9]}
         ],
         "key": "totem_slots",
         "value": 1
@@ -217,6 +238,18 @@
         ],
         "key": "shield_thorns",
         "value": 1
+      },
+      {
+        "id": 29,
+        "name": "Reduce Cooldown III",
+        "description": "Reduces the shield cooldown when it gets disabled",
+        "limit": 1,
+        "requirements": [
+          {"node": [28]},
+          {"or_node": [10, 11, 12, 24]}
+        ],
+        "key": "block_cooldown_reduction",
+        "value": 10
       }
     ],
     [
@@ -227,7 +260,7 @@
         "limit": 1,
         "requirements": [
           {"node": [10]},
-          {"or_node": [13, 14, 15]}
+          {"or_node": [13, 14, 15, 29]}
         ],
         "key": "damage_bonus",
         "value": 2
@@ -238,7 +271,7 @@
         "description": "Mobs blocked by this shield will be withered",
         "limit": 1,
         "requirements": [
-          {"or_node": [13, 14, 15]}
+          {"or_node": [13, 14, 15, 29]}
         ],
         "key": "effect_wither",
         "value": 1
@@ -254,7 +287,7 @@
         "limit": 1,
         "requirements": [
           {"node": [24]},
-          {"or_node": [13, 14, 15]}
+          {"or_node": [13, 14, 15, 29]}
         ],
         "key": "totem_slots",
         "value": 1
@@ -265,7 +298,7 @@
         "description": "Reflected projectiles will auto-target mobs",
         "limit": 1,
         "requirements": [
-          {"or_node": [13, 14, 15]}
+          {"or_node": [13, 14, 15, 29]}
         ],
         "key": "auto_target",
         "value": 1
@@ -307,6 +340,18 @@
         ],
         "key": "shield_thorns",
         "value": 1
+      },
+      {
+        "id": 30,
+        "name": "Reduce Cooldown IV",
+        "description": "Reduces the shield cooldown when it gets disabled",
+        "limit": 1,
+        "requirements": [
+          {"node": [29]},
+          {"or_node": [16, 17, 25, 26]}
+        ],
+        "key": "block_cooldown_reduction",
+        "value": 10
       }
     ],
     [
@@ -317,7 +362,7 @@
         "limit": 0,
         "requirements": [
           {"node": [18]},
-          {"or_node": [18, 19, 20]}
+          {"or_node": [18, 19, 20, 30]}
         ],
         "key": "durability_bonus",
         "value": 50
@@ -329,10 +374,25 @@
         "limit": 0,
         "requirements": [
           {"node": [16]},
-          {"or_node": [18, 19, 20]}
+          {"or_node": [18, 19, 20, 30]}
         ],
         "key": "damage_bonus",
         "value": 0.1
+      },
+      {
+        "id": 31,
+        "name": "Infinite Cooldown",
+        "description": "Reduces the shield cooldown when it gets disabled",
+        "subtext": {
+          "text": "When you have all points here, the shield can't be disabled!",
+          "color": "#ABABAB"
+        },
+        "limit": 12,
+        "requirements": [
+          {"node": [30]}
+        ],
+        "key": "block_cooldown_reduction",
+        "value": 5
       }
     ]
   ]

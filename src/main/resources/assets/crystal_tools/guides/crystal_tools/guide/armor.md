@@ -16,11 +16,15 @@ item_ids:
 In addition to tools, you can also make Crystal Armor out of <ItemLink id="crystal" />s.
 
 <Row>
-  <RecipeFor id="crystal_helmet" />
-  <RecipeFor id="crystal_chestplate" />
-  <RecipeFor id="crystal_leggings" />
-  <RecipeFor id="crystal_boots" />
-  <RecipeFor id="crystal_elytra" />
+  <Column>
+    <RecipeFor id="crystal_helmet" />
+    <RecipeFor id="crystal_leggings" />
+    <RecipeFor id="crystal_elytra" />
+  </Column>
+  <Column>
+    <RecipeFor id="crystal_chestplate" />
+    <RecipeFor id="crystal_boots" />
+  </Column>
 </Row>
 
 ## Skills

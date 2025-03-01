@@ -9,6 +9,6 @@
     }
   ],
   "textures": {
-    "particle": "crystal_tools:crystal_block"
+    "particle": "crystal_tools:block/crystal_block"
   }
 }

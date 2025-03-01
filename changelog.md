@@ -1,4 +1,19 @@
 # Crystal Tools Change Log
+## 2.3.1
+### Additions
+- Adds a new upgrade for the Crystal Shield:
+  - Cooldown Reduction
+    - Decreases the cooldown when the shield is disabled (add enough points and the shield won't be able to be disabled!)
+- Adds the Shield to the guideme guide
+
+### Changes
+- Updates to Neo 21.1.128
+
+### Fixes
+- Fixes an issue where the guideme guides were not actually loading
+- Fixes some issues with formatting in the guides
+- Fixes an issue where the Crystal Shield had more durability than intended
+
 ## 2.3.0
 ### Additions
 - Adds the Crystal Shield

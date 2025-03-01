@@ -77,7 +77,7 @@ public class CrystalShield extends ShieldItem implements LevelableItem, EntityTa
     public void addAdditionalTooltips(ItemStack stack, List<Component> components, LevelableItem item) {
         int totemSlots = stack.getOrDefault(DataComponents.TOTEM_SLOTS, 0);
         if (totemSlots > 0) {
-            components.add(Component.literal(String.format("%d/%d Totems of Undying", stack.getOrDefault(DataComponents.FILLED_TOTEM_SLOTS, 0), totemSlots)));
+            components.add(Component.literal(String.format("\u00A72%d/%d Totems of Undying", stack.getOrDefault(DataComponents.FILLED_TOTEM_SLOTS, 0), totemSlots)));
         }
     }
 
@@ -89,7 +89,7 @@ public class CrystalShield extends ShieldItem implements LevelableItem, EntityTa
     @Override
     public int getMaxDamage(ItemStack stack) {
         int bonusDurability = stack.getOrDefault(DataComponents.DURABILITY_BONUS, 0);
-        return INITIAL_TIER.getUses() + bonusDurability;
+        return stack.getOrDefault(net.minecraft.core.component.DataComponents.MAX_DAMAGE, 0) + bonusDurability;
     }
 
     @Override

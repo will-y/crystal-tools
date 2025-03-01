@@ -139,6 +139,8 @@ There will be upgrades that are common to most tools, and tools will each get un
   - Mobs who attack the shield are withered
 - Target Mobs
   - Reflected projectile will auto-target mobs (mostly just arrows in vanilla)
+- Reduce Cooldown
+  - Decreases the cooldown when the shield is disabled (if you have all of the points in this, the shield can't be disabled)
 
 ### All Armor
 - Protection

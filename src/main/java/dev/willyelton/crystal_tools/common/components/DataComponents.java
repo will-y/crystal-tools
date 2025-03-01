@@ -171,6 +171,8 @@ public class DataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> SHIELD_KNOCKBACK = register("shield_knockback", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> TOTEM_SLOTS = register("totem_slots", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> FILLED_TOTEM_SLOTS = register("filled_totem_slots", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> BLOCK_COOLDOWN_REDUCTION = register("block_cooldown_reduction", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
+
 
     // Utilities
     private static <T> DeferredHolder<DataComponentType<?>, DataComponentType<T>> register(String key, Codec<T> codec, StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec) {
