@@ -297,12 +297,12 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
             if (this.isLit()) {
                 needsChange = true;
                 addSkillExpFromBurn(this.litTotalTime);
-                if (fuelItemStack.hasCraftingRemainingItem()) {
-                    fuelItems.set(0, fuelItemStack.getCraftingRemainingItem());
+                if (!fuelItemStack.getCraftingRemainder().isEmpty()) {
+                    fuelItems.set(0, fuelItemStack.getCraftingRemainder());
                 } else {
                     fuelItemStack.shrink(1);
                     if (fuelItemStack.isEmpty()) {
-                        fuelItems.set(0, fuelItemStack.getCraftingRemainingItem());
+                        fuelItems.set(0, fuelItemStack.getCraftingRemainder());
                     }
                 }
             }
@@ -386,7 +386,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
                 return (int) (fuelData.burnTime() * (1 + fuelEfficiency));
             }
 
-            return (int) (stack.getBurnTime(null) * (1 + fuelEfficiency));
+            return (int) (stack.getBurnTime(null, this.level.fuelValues()) * (1 + fuelEfficiency));
         }
     }
 
@@ -402,7 +402,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         if (stack.isEmpty()) return null;
 
         if (foodGenerator) {
-            FoodProperties foodData = stack.getFoodProperties(null);
+            FoodProperties foodData = stack.get(DataComponents.FOOD);
 
             if (foodData != null) {
                 return new GeneratorFuelData(getBurnTimeFromFood(foodData), 0);

@@ -148,7 +148,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         } else if (ArrayUtils.arrayContains(OUTPUT_SLOTS, index)) {
             return false;
         } else if (ArrayUtils.arrayContains(FUEL_SLOTS, index)) {
-            return index <= FUEL_SLOTS[this.bonusFuelSlots] && (stack.getBurnTime(RecipeType.SMELTING) > 0);
+            return index <= FUEL_SLOTS[this.bonusFuelSlots] && (stack.getBurnTime(RecipeType.SMELTING, this.level.fuelValues()) > 0);
         }
 
         return false;
@@ -431,7 +431,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     };
 
     public boolean isFuel(ItemStack stack) {
-        return stack.getBurnTime(this.recipeType) > 0;
+        return stack.getBurnTime(this.recipeType, this.level.fuelValues()) > 0;
     }
 
     public int[] getInputSlots() {
@@ -453,7 +453,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     protected RecipeHolder<AbstractCookingRecipe> getRecipe(ItemStack item) {
         Optional<RecipeHolder<AbstractCookingRecipe>> recipeHolderOptional = (item.getItem() instanceof AirItem)
                 ? Optional.empty()
-                : this.level.getRecipeManager().getRecipeFor((RecipeType<AbstractCookingRecipe>) recipeType, new SingleRecipeInput(item), this.level);
+                : ((ServerLevel)this.level).recipeAccess().getRecipeFor((RecipeType<AbstractCookingRecipe>) recipeType, new SingleRecipeInput(item), this.level);
 
         return recipeHolderOptional.orElse(null);
     }
@@ -493,12 +493,12 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
 
                     if (this.isLit()) {
                         needChange = true;
-                        if (fuelItemStack.hasCraftingRemainingItem()) {
-                            items.set(FUEL_SLOTS[0], fuelItemStack.getCraftingRemainingItem());
+                        if (!fuelItemStack.getCraftingRemainder().isEmpty()) {
+                            items.set(FUEL_SLOTS[0], fuelItemStack.getCraftingRemainder());
                         } else {
                             fuelItemStack.shrink(1);
                             if (fuelItemStack.isEmpty()) {
-                                this.items.set(FUEL_SLOTS[0], fuelItemStack.getCraftingRemainingItem());
+                                this.items.set(FUEL_SLOTS[0], fuelItemStack.getCraftingRemainder());
                             }
                         }
                         // Here is where I need to re-balance the fuel slots
@@ -577,8 +577,8 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
             }
 
             input.shrink(1);
-            this.expHeld += castedRecipe.getExperience();
-            int skillExp = (int) Math.ceil(castedRecipe.getExperience() * 10 * CrystalToolsConfig.FURNACE_EXPERIENCE_BOOST.get());
+            this.expHeld += castedRecipe.experience();
+            int skillExp = (int) Math.ceil(castedRecipe.experience() * 10 * CrystalToolsConfig.FURNACE_EXPERIENCE_BOOST.get());
             this.addExp(skillExp);
             return true;
         } else {
@@ -590,13 +590,13 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         if (stack.isEmpty()) {
             return 0;
         } else {
-            return stack.getBurnTime(this.recipeType) + this.fuelEfficiencyUpgrade * fuelEfficiencyAddedTicks;
+            return stack.getBurnTime(this.recipeType, this.level.fuelValues()) + this.fuelEfficiencyUpgrade * fuelEfficiencyAddedTicks;
         }
     }
 
     private int getTotalCookTime(RecipeHolder<AbstractCookingRecipe> recipe, int slot) {
         if (!this.getItem(slot).isEmpty() && recipe != null) {
-            return Math.max(recipe.value().getCookingTime() - (int) (this.speedUpgrade * speedUpgradeSubtractTicks), 1);
+            return Math.max(recipe.value().cookingTime() - (int) (this.speedUpgrade * speedUpgradeSubtractTicks), 1);
         }
 
         return 0;

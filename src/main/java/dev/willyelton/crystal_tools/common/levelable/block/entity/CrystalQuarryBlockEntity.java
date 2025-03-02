@@ -679,9 +679,9 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     }
 
     private void enchantTempItems(Level level) {
-        level.registryAccess().registry(Registries.ENCHANTMENT).ifPresent((enchantments) -> {
-            FORTUNE_STACK.enchant(enchantments.getHolderOrThrow(Enchantments.FORTUNE), this.fortuneLevel);
-            SILK_TOUCH_STACK.enchant(enchantments.getHolderOrThrow(Enchantments.SILK_TOUCH), 1);
+        level.registryAccess().lookup(Registries.ENCHANTMENT).ifPresent((enchantments) -> {
+            FORTUNE_STACK.enchant(enchantments.getOrThrow(Enchantments.FORTUNE), this.fortuneLevel);
+            SILK_TOUCH_STACK.enchant(enchantments.getOrThrow(Enchantments.SILK_TOUCH), 1);
         });
     }
 
