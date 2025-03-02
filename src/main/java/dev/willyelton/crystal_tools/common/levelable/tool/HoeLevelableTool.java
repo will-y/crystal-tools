@@ -4,6 +4,7 @@ import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.ToolUseUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -55,7 +56,7 @@ public class HoeLevelableTool extends DiggerLevelableTool {
                 List<ItemStack> drops = target.onSheared(player, stack, entity.level(), pos);
                 Random rand = new java.util.Random();
                 drops.forEach(d -> {
-                    ItemEntity ent = entity.spawnAtLocation(d, 1.0F);
+                    ItemEntity ent = entity.spawnAtLocation((ServerLevel) entity.level(), d, 1.0F);
                     if (ent != null) {
                         ent.setDeltaMovement(ent.getDeltaMovement().add(((rand.nextFloat() - rand.nextFloat()) * 0.1F), (rand.nextFloat() * 0.05F), ((rand.nextFloat() - rand.nextFloat()) * 0.1F)));
                     }

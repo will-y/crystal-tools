@@ -11,6 +11,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -26,7 +27,7 @@ import java.util.function.Predicate;
  * Handles the 3x3 mining and vein mining
  */
 public abstract class DiggerLevelableTool extends LevelableTool implements VeinMinerLevelableTool {
-    public DiggerLevelableTool(Properties properties, TagKey<Block> mineableBlocks, String toolType, float attackDamageModifier, float attackSpeedModifier) {
+    public DiggerLevelableTool(Item.Properties properties, TagKey<Block> mineableBlocks, String toolType, float attackDamageModifier, float attackSpeedModifier) {
         super(properties, mineableBlocks, toolType, attackDamageModifier, attackSpeedModifier);
     }
 

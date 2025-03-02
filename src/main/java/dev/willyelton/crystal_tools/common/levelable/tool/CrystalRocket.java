@@ -7,7 +7,7 @@ import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
@@ -27,18 +27,18 @@ public class CrystalRocket extends LevelableTool {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         return use(player.getItemInHand(hand), level, player, hand);
     }
 
-    public InteractionResultHolder<ItemStack> use(ItemStack stack, Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(ItemStack stack, Level level, Player player, InteractionHand hand) {
         if (this.isDisabled()) {
             stack.shrink(1);
-            return InteractionResultHolder.fail(stack);
+            return InteractionResult.FAIL;
         }
 
         if (ToolUtils.isBroken(stack)) {
-            return InteractionResultHolder.pass(stack);
+            return InteractionResult.PASS;
         }
 
         if (player.isFallFlying()) {
@@ -55,9 +55,9 @@ public class CrystalRocket extends LevelableTool {
             addExp(stack, level, player.getOnPos(), player, CrystalToolsConfig.ROCKET_EXPERIENCE_BOOST.get());
             stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
 
-            return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
+            return InteractionResult.SUCCESS;
         } else {
-            return InteractionResultHolder.pass(player.getItemInHand(hand));
+            return InteractionResult.PASS;
         }
     }
 

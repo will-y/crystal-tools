@@ -9,7 +9,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -19,7 +19,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.ItemUseAnimation;
+import net.minecraft.world.item.component.Consumable;
+import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -36,7 +38,7 @@ public class CrystalApple extends LevelableTool {
         super(new Item.Properties().fireResistant(), null, "apple", -4, 0, 50);
     }
 
-    @Override
+    // TODO (PORTING): Probably only a datacomponent now
     public FoodProperties getFoodProperties(ItemStack stack, LivingEntity entity) {
         return getFoodPropertiesFromNBT(stack);
     }
@@ -45,6 +47,8 @@ public class CrystalApple extends LevelableTool {
         int nutrition = BASE_NUTRITION + stack.getOrDefault(DataComponents.NUTRITION_BONUS, 0);
         float saturation = BASE_SATURATION + stack.getOrDefault(DataComponents.SATURATION_BONUS, 0F);
         boolean alwaysEat = stack.getOrDefault(DataComponents.ALWAYS_EAT, false);
+
+        Consumable.Builder consumableBuilder = Consumable.builder();
 
         FoodProperties.Builder builder = new FoodProperties.Builder();
 
@@ -55,35 +59,40 @@ public class CrystalApple extends LevelableTool {
         List<EffectData> effects = stack.getOrDefault(DataComponents.EFFECTS, Collections.emptyList());
 
         for (EffectData effect : effects) {
-            Optional<Holder.Reference<MobEffect>> mobEffect = BuiltInRegistries.MOB_EFFECT.getHolder(ResourceLocation.withDefaultNamespace(effect.resourceLocation()));
+            Optional<Holder.Reference<MobEffect>> mobEffect = BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.withDefaultNamespace(effect.resourceLocation()));
             if (mobEffect.isPresent()) {
                 MobEffectInstance instance = new MobEffectInstance(mobEffect.get(), effect.duration() * 20, 1, false, false);
-                builder.effect(() -> instance, 1);
+                consumableBuilder.onConsume(new ApplyStatusEffectsConsumeEffect(instance, 1));
             }
         }
+
+        // TODO (PORTING): This is going away, but this new logic with the consumableBuilder probably needs to go somewhere (maybe it can just be a datacomponent? not suer)
 
         return builder.build();
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
+    public InteractionResult use(Level level, Player player, InteractionHand usedHand) {
         ItemStack itemstack = player.getItemInHand(usedHand);
         if (this.isDisabled()) {
             itemstack.shrink(1);
-            return InteractionResultHolder.fail(itemstack);
+            return InteractionResult.FAIL;
         }
 
-        if (itemstack.getItem() instanceof CrystalApple) {
-            FoodProperties foodProperties = itemstack.getFoodProperties(player);
-            if (foodProperties != null && player.canEat(foodProperties.canAlwaysEat()) && !ToolUtils.isBroken(itemstack)) {
-                player.startUsingItem(usedHand);
-                return InteractionResultHolder.pass(itemstack);
-            } else {
-                return InteractionResultHolder.fail(itemstack);
-            }
-        } else {
-            return InteractionResultHolder.pass(itemstack);
-        }
+        // TODO (PORTING): This is going to have to go somewhere else (or maybe not be needed with the consumable datacomponent)
+//        if (itemstack.getItem() instanceof CrystalApple) {
+//            FoodProperties foodProperties = itemstack.getFoodProperties(player);
+//            if (foodProperties != null && player.canEat(foodProperties.canAlwaysEat()) && !ToolUtils.isBroken(itemstack)) {
+//                player.startUsingItem(usedHand);
+//                return InteractionResultHolder.pass(itemstack);
+//            } else {
+//                return InteractionResultHolder.fail(itemstack);
+//            }
+//        } else {
+//            return InteractionResultHolder.pass(itemstack);
+//        }
+
+        return InteractionResult.CONSUME;
     }
 
     @Override
@@ -94,7 +103,8 @@ public class CrystalApple extends LevelableTool {
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity player) {
-        player.eat(level, stack);
+        // TODO (PORTING): This is probably handled by the consumer data component
+//        player.eat(level, stack);
 
         if (!(player instanceof Player) || !((Player) player).getAbilities().instabuild) {
             stack.grow(1);
@@ -129,7 +139,7 @@ public class CrystalApple extends LevelableTool {
     }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack pStack) {
-        return UseAnim.EAT;
+    public ItemUseAnimation getUseAnimation(ItemStack stack) {
+        return ItemUseAnimation.EAT;
     }
 }

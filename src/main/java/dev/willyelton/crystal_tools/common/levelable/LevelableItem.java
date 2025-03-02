@@ -16,8 +16,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -28,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface LevelableItem {
-   Tier INITIAL_TIER = Tiers.NETHERITE;
+   ToolMaterial INITIAL_TIER = ToolMaterial.NETHERITE;
 
     default void addExp(ItemStack tool, Level level, BlockPos blockPos, LivingEntity player) {
         addExp(tool, level, blockPos, player, 1);

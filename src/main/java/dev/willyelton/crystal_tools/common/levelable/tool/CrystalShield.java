@@ -9,7 +9,7 @@ import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
@@ -38,7 +38,7 @@ public class CrystalShield extends ShieldItem implements LevelableItem, EntityTa
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         refreshTarget(stack, level, player);
 
@@ -124,12 +124,12 @@ public class CrystalShield extends ShieldItem implements LevelableItem, EntityTa
         levelableInventoryTick(stack, level, entity, slotId, isSelected, 1);
     }
 
-    @Override
+    // TODO (PORTING): Properties
     public boolean isValidRepairItem(ItemStack tool, ItemStack repairItem) {
         return repairItem.is(Registration.CRYSTAL.get());
     }
 
-    @Override
+    // TODO (PORTING): Properties
     public boolean isEnchantable(@NotNull ItemStack stack) {
         return CrystalToolsConfig.ENCHANT_TOOLS.get();
     }

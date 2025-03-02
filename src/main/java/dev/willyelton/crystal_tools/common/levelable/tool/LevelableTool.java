@@ -22,8 +22,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.TieredItem;
-import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
@@ -35,7 +33,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
-public abstract class LevelableTool extends TieredItem implements LevelableItem {
+public abstract class LevelableTool extends Item implements LevelableItem {
     protected static final ResourceLocation ATTACK_DAMAGE_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "attack_damage");
     protected static final ResourceLocation ATTACK_SPEED_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "attack_speed");
     protected static final ResourceLocation ATTACK_KNOCKBACK_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "attack_knockback");
@@ -50,15 +48,15 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
     private final float initialAttackDamage;
 
     public LevelableTool(Item.Properties properties, TagKey<Block> mineableBlocks, String itemType, float attackDamageModifier, float attackSpeedModifier) {
-        this(properties, mineableBlocks, itemType, attackDamageModifier, attackSpeedModifier, INITIAL_TIER.getUses());
+        this(properties, mineableBlocks, itemType, attackDamageModifier, attackSpeedModifier, INITIAL_TIER.durability());
     }
 
     public LevelableTool(Item.Properties properties, TagKey<Block> mineableBlocks, String itemType, float attackDamageModifier, float attackSpeedModifier, int durability) {
-        super(Tiers.NETHERITE, properties.fireResistant()
+        super(properties.fireResistant()
                 .rarity(Rarity.RARE)
                 .attributes(ItemAttributeModifiers.builder()
                         .add(Attributes.ATTACK_DAMAGE,
-                                new AttributeModifier(BASE_ATTACK_DAMAGE_ID, INITIAL_TIER.getAttackDamageBonus() + attackDamageModifier, AttributeModifier.Operation.ADD_VALUE),
+                                new AttributeModifier(BASE_ATTACK_DAMAGE_ID, INITIAL_TIER.attackDamageBonus() + attackDamageModifier, AttributeModifier.Operation.ADD_VALUE),
                                 EquipmentSlotGroup.MAINHAND)
                         .add(Attributes.ATTACK_SPEED,
                                 new AttributeModifier(BASE_ATTACK_SPEED_ID, attackSpeedModifier, AttributeModifier.Operation.ADD_VALUE),
@@ -67,7 +65,7 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
         this.blocks = mineableBlocks;
         this.itemType = itemType;
         this.initialDurability = durability;
-        this.initialAttackDamage = INITIAL_TIER.getAttackDamageBonus() + attackDamageModifier;
+        this.initialAttackDamage = INITIAL_TIER.attackDamageBonus() + attackDamageModifier;
     }
 
     @Override
@@ -77,7 +75,7 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
             // broken
             return 0.1F;
         }
-        return correctTool(tool, blockState) ? getTier().getSpeed() + bonus * 20 : 1.0F;
+        return correctTool(tool, blockState) ? INITIAL_TIER.speed() + bonus * 20 : 1.0F;
     }
 
     public boolean correctTool(ItemStack tool, BlockState blockState) {
@@ -158,7 +156,9 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
 
     @Override
     public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
-        return correctTool(stack, state) && INITIAL_TIER.createToolProperties(blocks).isCorrectForDrops(state);
+        // TODO (PORTING)
+        // && INITIAL_TIER.createToolProperties(blocks).isCorrectForDrops(state)
+        return correctTool(stack, state);
     }
 
     @Override
@@ -194,7 +194,7 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
         levelableInventoryTick(itemStack, level, entity, inventorySlot, inHand, 1);
     }
 
-    @Override
+    // TODO (PORTING): This is now a datacomponent / item property
     public boolean isValidRepairItem(ItemStack tool, ItemStack repairItem) {
         return repairItem.is(Registration.CRYSTAL.get());
     }
@@ -262,7 +262,7 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
         }
     }
 
-    @Override
+    // TODO (PORTING): Now a DataComponent / Item property
     public boolean isEnchantable(ItemStack stack) {
         return CrystalToolsConfig.ENCHANT_TOOLS.get();
     }

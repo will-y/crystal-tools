@@ -23,15 +23,17 @@ public class SwordLevelableTool extends LevelableTool {
         super(new Item.Properties(), null, itemType, attackDamageModifier, attackSpeedModifier);
     }
 
-    public boolean canAttackBlock(@NotNull BlockState pState, @NotNull Level pLevel, @NotNull BlockPos pPos, Player pPlayer) {
-        return !pPlayer.isCreative();
+    @Override
+    public boolean canAttackBlock(BlockState state, Level level, @NotNull BlockPos pos, Player player) {
+        return !player.isCreative();
     }
 
-    public float getDestroySpeed(@NotNull ItemStack pStack, @NotNull BlockState pState) {
-        if (pState.is(Blocks.COBWEB) && !ToolUtils.isBroken(pStack)) {
+    @Override
+    public float getDestroySpeed(ItemStack stack, BlockState state) {
+        if (state.is(Blocks.COBWEB) && !ToolUtils.isBroken(stack)) {
             return 15.0F;
         } else {
-            return pState.is(BlockTags.SWORD_EFFICIENT) ? 1.5F : 1.0F;
+            return state.is(BlockTags.SWORD_EFFICIENT) ? 1.5F : 1.0F;
         }
     }
 

@@ -18,7 +18,7 @@ public class ShovelLevelableTool extends DiggerLevelableTool {
     }
 
     @Override
-    public @NotNull InteractionResult useOn(@NotNull UseOnContext pContext) {
+    public InteractionResult useOn(UseOnContext pContext) {
         if (this.isDisabled()) {
             pContext.getItemInHand().shrink(1);
             return InteractionResult.FAIL;

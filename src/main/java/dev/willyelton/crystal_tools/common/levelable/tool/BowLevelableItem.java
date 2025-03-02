@@ -17,7 +17,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -41,11 +41,11 @@ import java.util.function.Consumer;
 
 public class BowLevelableItem extends BowItem implements LevelableItem, EntityTargeter {
     public BowLevelableItem() {
-        super(new Properties().durability(INITIAL_TIER.getUses()).fireResistant());
+        super(new Properties().durability(INITIAL_TIER.durability()).fireResistant());
     }
 
     @Override
-    public void releaseUsing(ItemStack stack, Level level, LivingEntity entity, int timeLeft) {
+    public boolean releaseUsing(ItemStack stack, Level level, LivingEntity entity, int timeLeft) {
         if (entity instanceof Player player) {
             boolean creative = player.getAbilities().instabuild;
 
@@ -60,7 +60,8 @@ public class BowLevelableItem extends BowItem implements LevelableItem, EntityTa
             int timeUsed = this.getUseDuration(stack, entity) - timeLeft;
 
             timeUsed = EventHooks.onArrowLoose(stack, level, player, timeUsed, !itemstack.isEmpty() || creative);
-            if (timeUsed < 0) return;
+            // TODO (PORTING): Check
+            if (timeUsed < 0) return false;
 
             if (!itemstack.isEmpty() || creative) {
                 if (itemstack.isEmpty()) {
@@ -94,7 +95,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem, EntityTa
                             List<EffectData> effects = stack.getOrDefault(DataComponents.EFFECTS, Collections.emptyList());
 
                             for (EffectData effect : effects) {
-                                Optional<Holder.Reference<MobEffect>> mobEffect = BuiltInRegistries.MOB_EFFECT.getHolder(ResourceLocation.withDefaultNamespace(effect.resourceLocation()));
+                                Optional<Holder.Reference<MobEffect>> mobEffect = BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.withDefaultNamespace(effect.resourceLocation()));
                                 if (mobEffect.isPresent()) {
                                     MobEffectInstance instance = new MobEffectInstance(mobEffect.get(), effect.duration() * 20, 1, false, false);
                                     arrow.addEffect(instance);
@@ -126,26 +127,29 @@ public class BowLevelableItem extends BowItem implements LevelableItem, EntityTa
                 }
             }
         }
+
+        // TODO (PORTING): What does this do now?
+        return true;
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         refreshTarget(stack, level, player);
         if (this.isDisabled()) {
             stack.shrink(1);
-            return InteractionResultHolder.fail(stack);
+            return InteractionResult.FAIL;
         }
         boolean flag = !getProjectile(stack, player).isEmpty() || stack.getOrDefault(DataComponents.INFINITY, false);
 
-        InteractionResultHolder<ItemStack> ret = EventHooks.onArrowNock(stack, level, player, hand, flag);
+        InteractionResult ret = EventHooks.onArrowNock(stack, level, player, hand, flag);
         if (ret != null) return ret;
 
         if (ToolUtils.isBroken(stack) || (!player.getAbilities().instabuild && !flag)) {
-            return InteractionResultHolder.fail(stack);
+            return InteractionResult.FAIL;
         } else {
             player.startUsingItem(hand);
-            return InteractionResultHolder.consume(stack);
+            return InteractionResult.CONSUME;
         }
     }
 
@@ -178,7 +182,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem, EntityTa
     @Override
     public int getMaxDamage(ItemStack stack) {
         int bonusDurability = stack.getOrDefault(DataComponents.DURABILITY_BONUS, 0);
-        return INITIAL_TIER.getUses() + bonusDurability;
+        return INITIAL_TIER.durability() + bonusDurability;
     }
 
     @Override
@@ -203,15 +207,15 @@ public class BowLevelableItem extends BowItem implements LevelableItem, EntityTa
         levelableInventoryTick(itemStack, level, entity, inventorySlot, inHand, 1);
     }
 
-    @Override
+    // TODO (PORTING): In properties now
     public boolean isValidRepairItem(ItemStack tool, ItemStack repairItem) {
         return repairItem.is(Registration.CRYSTAL.get());
     }
 
-    @Override
-    public int getEnchantmentValue() {
-        return INITIAL_TIER.getEnchantmentValue();
-    }
+    // TODO (PORTING): In properties now probably;
+//    public int getEnchantmentValue() {
+//        return INITIAL_TIER.getEnchantmentValue();
+//    }
 
     @Override
     public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
@@ -233,7 +237,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem, EntityTa
         return CrystalToolsConfig.DISABLE_BOW.get();
     }
 
-    @Override
+    // TODO (PORTING): In properties now
     public boolean isEnchantable(ItemStack stack) {
         return CrystalToolsConfig.ENCHANT_TOOLS.get();
     }

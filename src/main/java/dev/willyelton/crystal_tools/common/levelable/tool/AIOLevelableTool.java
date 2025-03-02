@@ -9,6 +9,7 @@ import dev.willyelton.crystal_tools.utils.ToolUseUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.state.BlockState;
@@ -30,7 +31,7 @@ public class AIOLevelableTool extends DiggerLevelableTool {
     public static final Set<ItemAbility> AIOT_ACTIONS = new HashSet<>();
 
     public AIOLevelableTool() {
-        super(new Properties(), BlockTags.MINEABLE_WITH_PICKAXE, "aiot", 3, -2.4F);
+        super(new Item.Properties(), BlockTags.MINEABLE_WITH_PICKAXE, "aiot", 3, -2.4F);
         AIOT_ACTIONS.addAll(DEFAULT_AXE_ACTIONS);
         AIOT_ACTIONS.addAll(DEFAULT_HOE_ACTIONS);
         AIOT_ACTIONS.addAll(DEFAULT_SHOVEL_ACTIONS);
