@@ -41,7 +41,7 @@ import java.util.function.Consumer;
 
 public class BowLevelableItem extends BowItem implements LevelableItem, EntityTargeter {
     public BowLevelableItem() {
-        super(new Properties().durability(INITIAL_TIER.durability()).fireResistant());
+        super(new Properties().durability(INITIAL_TIER.durability()).fireResistant().repairable(Registration.CRYSTAL.get()));
     }
 
     @Override
@@ -60,7 +60,6 @@ public class BowLevelableItem extends BowItem implements LevelableItem, EntityTa
             int timeUsed = this.getUseDuration(stack, entity) - timeLeft;
 
             timeUsed = EventHooks.onArrowLoose(stack, level, player, timeUsed, !itemstack.isEmpty() || creative);
-            // TODO (PORTING): Check
             if (timeUsed < 0) return false;
 
             if (!itemstack.isEmpty() || creative) {
@@ -128,7 +127,6 @@ public class BowLevelableItem extends BowItem implements LevelableItem, EntityTa
             }
         }
 
-        // TODO (PORTING): What does this do now?
         return true;
     }
 
@@ -207,16 +205,6 @@ public class BowLevelableItem extends BowItem implements LevelableItem, EntityTa
         levelableInventoryTick(itemStack, level, entity, inventorySlot, inHand, 1);
     }
 
-    // TODO (PORTING): In properties now
-    public boolean isValidRepairItem(ItemStack tool, ItemStack repairItem) {
-        return repairItem.is(Registration.CRYSTAL.get());
-    }
-
-    // TODO (PORTING): In properties now probably;
-//    public int getEnchantmentValue() {
-//        return INITIAL_TIER.getEnchantmentValue();
-//    }
-
     @Override
     public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
         appendLevelableHoverText(itemStack, components, this, flag);
@@ -235,11 +223,6 @@ public class BowLevelableItem extends BowItem implements LevelableItem, EntityTa
 
     public boolean isDisabled() {
         return CrystalToolsConfig.DISABLE_BOW.get();
-    }
-
-    // TODO (PORTING): In properties now
-    public boolean isEnchantable(ItemStack stack) {
-        return CrystalToolsConfig.ENCHANT_TOOLS.get();
     }
 
     @Override

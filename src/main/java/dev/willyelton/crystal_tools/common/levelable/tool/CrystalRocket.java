@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
+import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
@@ -23,7 +24,7 @@ import java.util.List;
 
 public class CrystalRocket extends LevelableTool {
     public CrystalRocket() {
-        super(new Item.Properties(), null, "crystal_rocket", -4, 0, 100);
+        super(new Item.Properties().fireResistant().repairable(Registration.CRYSTAL.get()), null, "crystal_rocket", -4, 0, 100);
     }
 
     @Override

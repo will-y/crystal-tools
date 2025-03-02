@@ -48,7 +48,7 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     private final float initialAttackDamage;
 
     public LevelableTool(Item.Properties properties, TagKey<Block> mineableBlocks, String itemType, float attackDamageModifier, float attackSpeedModifier) {
-        this(properties, mineableBlocks, itemType, attackDamageModifier, attackSpeedModifier, INITIAL_TIER.durability());
+        this(properties.repairable(Registration.CRYSTAL.get()), mineableBlocks, itemType, attackDamageModifier, attackSpeedModifier, INITIAL_TIER.durability());
     }
 
     public LevelableTool(Item.Properties properties, TagKey<Block> mineableBlocks, String itemType, float attackDamageModifier, float attackSpeedModifier, int durability) {
@@ -129,7 +129,7 @@ public abstract class LevelableTool extends Item implements LevelableItem {
 
     public void breakBlock(ItemStack tool, Level level, BlockPos blockPos, LivingEntity entity) {
         BlockState blockState = level.getBlockState(blockPos);
-        if (isCorrectToolForDrops(tool, blockState) && !ToolUtils.isBroken(tool) && entity instanceof ServerPlayer serverPlayer) {
+        if (isCorrectToolForDrops(tool, blockState) && !ToolUtils.isBroken(tool) && entity instanceof ServerPlayer) {
             if (!level.isClientSide) {
                 Block.dropResources(blockState, level, blockPos, level.getBlockEntity(blockPos), entity, tool);
                 level.destroyBlock(blockPos, false, entity);
@@ -157,6 +157,7 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     @Override
     public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
         // TODO (PORTING)
+        // This uses the TOOL datacomponent, might want to move to that finally
         // && INITIAL_TIER.createToolProperties(blocks).isCorrectForDrops(state)
         return correctTool(stack, state);
     }
@@ -192,11 +193,6 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     @Override
     public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand) {
         levelableInventoryTick(itemStack, level, entity, inventorySlot, inHand, 1);
-    }
-
-    // TODO (PORTING): This is now a datacomponent / item property
-    public boolean isValidRepairItem(ItemStack tool, ItemStack repairItem) {
-        return repairItem.is(Registration.CRYSTAL.get());
     }
 
     @Override
@@ -260,11 +256,6 @@ public abstract class LevelableTool extends Item implements LevelableItem {
         } else {
             return ItemAttributeModifiers.builder().build();
         }
-    }
-
-    // TODO (PORTING): Now a DataComponent / Item property
-    public boolean isEnchantable(ItemStack stack) {
-        return CrystalToolsConfig.ENCHANT_TOOLS.get();
     }
 
     @Override

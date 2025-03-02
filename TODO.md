@@ -82,3 +82,6 @@
 - Skill data should probably be a capability, at least on items
 - Allow for more general skill data, Attributes, DataComponents?
 - Rename furnace and rocket skill trees to be consistent
+
+## 1.22 Porting
+- Enchantment config might need to change, it just uses a datacomponent now. So if anything, it will require a game restart to update.

@@ -29,7 +29,7 @@ public class AxeLevelableTool extends DiggerLevelableTool {
     }
 
     @Override
-    public @NotNull InteractionResult useOn(@NotNull UseOnContext context) {
+    public InteractionResult useOn(UseOnContext context) {
         if (this.isDisabled()) {
             context.getItemInHand().shrink(1);
             return InteractionResult.FAIL;

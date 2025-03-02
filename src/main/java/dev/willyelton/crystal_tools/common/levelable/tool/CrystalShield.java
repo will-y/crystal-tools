@@ -23,7 +23,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -34,7 +33,10 @@ import static dev.willyelton.crystal_tools.common.levelable.tool.LevelableTool.A
 public class CrystalShield extends ShieldItem implements LevelableItem, EntityTargeter {
 
     public CrystalShield() {
-        super(new Item.Properties().durability(1000).component(net.minecraft.core.component.DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY));
+        super(new Item.Properties().durability(1000)
+                .component(net.minecraft.core.component.DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY)
+                .fireResistant()
+                .repairable(Registration.CRYSTAL.get()));
     }
 
     @Override
@@ -122,16 +124,6 @@ public class CrystalShield extends ShieldItem implements LevelableItem, EntityTa
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
         levelableInventoryTick(stack, level, entity, slotId, isSelected, 1);
-    }
-
-    // TODO (PORTING): Properties
-    public boolean isValidRepairItem(ItemStack tool, ItemStack repairItem) {
-        return repairItem.is(Registration.CRYSTAL.get());
-    }
-
-    // TODO (PORTING): Properties
-    public boolean isEnchantable(@NotNull ItemStack stack) {
-        return CrystalToolsConfig.ENCHANT_TOOLS.get();
     }
 
     @Override
