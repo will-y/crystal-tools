@@ -10,7 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -52,7 +52,7 @@ public class QuarryStabilizer extends Block {
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         List<BlockPos> stabilizerPositions = findStabilizerSquare(pos, level);
         CrystalTools.LOGGER.info(stabilizerPositions);
 
@@ -84,11 +84,11 @@ public class QuarryStabilizer extends Block {
                 stack.remove(DataComponents.QUARRY_DATA);
                 stack.set(DataComponents.QUARRY_BOUNDS, stabilizerPositions);
                 player.displayClientMessage(Component.literal("Stabilizer Positions Saved to Quarry"), true);
-                return ItemInteractionResult.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
         }
 
-        return ItemInteractionResult.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 
     @Override
