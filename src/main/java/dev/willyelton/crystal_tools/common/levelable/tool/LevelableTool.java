@@ -1,11 +1,11 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.common.network.data.BlockBreakPayload;
+import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -48,7 +48,7 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     private final float initialAttackDamage;
 
     public LevelableTool(Item.Properties properties, TagKey<Block> mineableBlocks, String itemType, float attackDamageModifier, float attackSpeedModifier) {
-        this(properties.repairable(Registration.CRYSTAL.get()), mineableBlocks, itemType, attackDamageModifier, attackSpeedModifier, INITIAL_TIER.durability());
+        this(properties.repairable(CrystalToolsTags.REPAIRS_CRYSTAL), mineableBlocks, itemType, attackDamageModifier, attackSpeedModifier, INITIAL_TIER.durability());
     }
 
     public LevelableTool(Item.Properties properties, TagKey<Block> mineableBlocks, String itemType, float attackDamageModifier, float attackSpeedModifier, int durability) {

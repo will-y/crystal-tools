@@ -1,9 +1,9 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
-import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
+import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.stats.Stats;
@@ -24,7 +24,7 @@ import java.util.List;
 
 public class CrystalRocket extends LevelableTool {
     public CrystalRocket() {
-        super(new Item.Properties().fireResistant().repairable(Registration.CRYSTAL.get()), null, "crystal_rocket", -4, 0, 100);
+        super(new Item.Properties().fireResistant().repairable(CrystalToolsTags.REPAIRS_CRYSTAL), null, "crystal_rocket", -4, 0, 100);
     }
 
     @Override

@@ -1,29 +1,30 @@
 package dev.willyelton.crystal_tools.common.levelable.armor;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsServerConfig;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
+import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.util.Unit;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterials;
-import net.minecraft.world.item.ElytraItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.equipment.ArmorType;
+import net.minecraft.world.item.equipment.Equippable;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.neoforge.common.NeoForgeMod;
@@ -31,11 +32,20 @@ import net.neoforged.neoforge.common.NeoForgeMod;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class CrystalElytra extends ElytraItem implements LevelableItem {
+// TODO (PORTING): Can make this extend levelable item now
+public class CrystalElytra extends Item implements LevelableItem {
     private static final ResourceLocation CREATIVE_FLIGHT_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "creative_flight");
 
-    public CrystalElytra(Properties pProperties) {
-        super(pProperties.fireResistant());
+    public CrystalElytra(Properties properties) {
+        super(properties
+                .fireResistant()
+                .component(net.minecraft.core.component.DataComponents.GLIDER, Unit.INSTANCE)
+                .component(net.minecraft.core.component.DataComponents.EQUIPPABLE,
+                        Equippable.builder(EquipmentSlot.CHEST)
+                                .setEquipSound(SoundEvents.ARMOR_EQUIP_ELYTRA)
+                                .setAsset(CrystalToolsArmorMaterials.CRYSTAL_ELYTRA)
+                                .build())
+                .repairable(CrystalToolsTags.REPAIRS_CRYSTAL));
     }
 
     @Override
@@ -46,7 +56,7 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
     @Override
     public int getMaxDamage(ItemStack stack) {
         int bonusDurability = stack.getOrDefault(DataComponents.DURABILITY_BONUS, 0);
-        return INITIAL_TIER.getUses() + bonusDurability;
+        return INITIAL_TIER.durability() + bonusDurability;
     }
 
     @Override
@@ -65,21 +75,16 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
     }
 
     @Override
-    public boolean isValidRepairItem(ItemStack tool, ItemStack repairItem) {
-        return repairItem.is(Registration.CRYSTAL.get());
-    }
-
-    @Override
     public  EquipmentSlot getEquipmentSlot(ItemStack stack) {
         return EquipmentSlot.CHEST;
     }
 
-    @Override
-    public boolean canElytraFly(ItemStack stack, LivingEntity entity) {
-        return !canUseCreativeFlight(stack) && ElytraItem.isFlyEnabled(stack);
-    }
+    // TODO (PORTING): This is going to need to be different, going to have to hot-swap the components
+//    public boolean canElytraFly(ItemStack stack, LivingEntity entity) {
+//        return !canUseCreativeFlight(stack) && ElytraItem.isFlyEnabled(stack);
+//    }
 
-    @Override
+    // TODO (PORTING): This no longer exists. Will probably have to be a check in normal inventory tick
     public boolean elytraFlightTick(ItemStack stack, LivingEntity entity, int flightTicks) {
         if (!entity.level().isClientSide) {
             int nextFlightTick = flightTicks + 1;
@@ -144,11 +149,11 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
     }
 
     public int getDefense(ItemStack stack) {
-        return ArmorMaterials.NETHERITE.value().getDefense(ArmorItem.Type.CHESTPLATE) + stack.getOrDefault(DataComponents.ARMOR_BONUS, 0);
+        return CrystalToolsArmorMaterials.CRYSTAL.defense().get(ArmorType.BODY) + stack.getOrDefault(DataComponents.ARMOR_BONUS, 0);
     }
 
     public float getToughness(ItemStack stack) {
-        return ArmorMaterials.NETHERITE.value().toughness() + stack.getOrDefault(DataComponents.TOUGHNESS_BONUS, 0F);
+        return CrystalToolsArmorMaterials.CRYSTAL.toughness() + stack.getOrDefault(DataComponents.TOUGHNESS_BONUS, 0F);
     }
 
     @Override
@@ -174,11 +179,6 @@ public class CrystalElytra extends ElytraItem implements LevelableItem {
     @Override
     public boolean isDisabled() {
         return CrystalToolsConfig.DISABLE_ELYTRA.get();
-    }
-
-    @Override
-    public boolean isEnchantable(ItemStack stack) {
-        return CrystalToolsConfig.ENCHANT_TOOLS.get();
     }
 
     @Override

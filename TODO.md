@@ -85,3 +85,6 @@
 
 ## 1.22 Porting
 - Enchantment config might need to change, it just uses a datacomponent now. So if anything, it will require a game restart to update.
+- There needs to be multiple types of node
+  - Add to data component (the normal way)
+  - Toggle boolean (toggles?, include everything in json (like shift + x does y...))

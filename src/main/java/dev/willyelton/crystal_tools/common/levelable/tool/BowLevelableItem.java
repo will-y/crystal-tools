@@ -1,12 +1,12 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
-import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.components.EffectData;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.events.LevelTickEvent;
 import dev.willyelton.crystal_tools.common.levelable.EntityTargeter;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
+import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -41,7 +41,7 @@ import java.util.function.Consumer;
 
 public class BowLevelableItem extends BowItem implements LevelableItem, EntityTargeter {
     public BowLevelableItem() {
-        super(new Properties().durability(INITIAL_TIER.durability()).fireResistant().repairable(Registration.CRYSTAL.get()));
+        super(new Properties().durability(INITIAL_TIER.durability()).fireResistant().repairable(CrystalToolsTags.REPAIRS_CRYSTAL));
     }
 
     @Override

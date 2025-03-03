@@ -1,7 +1,6 @@
 package dev.willyelton.crystal_tools.common.levelable.armor;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
@@ -20,48 +19,49 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.ArmorMaterials;
-import net.minecraft.world.item.Equipable;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.item.equipment.ArmorMaterial;
+import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.Consumer;
 
-public class LevelableArmor extends ArmorItem implements LevelableItem, Equipable {
+// TODO (PORTING): Check if we can no longer extend ArmorItem (look at uses)
+public class LevelableArmor extends ArmorItem implements LevelableItem {
     public static final ResourceLocation ARMOR_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "armor");
     public static final ResourceLocation ARMOR_TOUGHNESS_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "armor_toughness");
     public static final ResourceLocation MAX_HEALTH_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "max_health");
     public static final ResourceLocation MOVEMENT_SPEED_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "movement_speed");
 
-
+    private static final ArmorMaterial ARMOR_MATERIAL = CrystalToolsArmorMaterials.CRYSTAL;
     protected final String itemType;
 
-    public LevelableArmor(String itemType, ArmorItem.Type type) {
-        super(ArmorMaterials.NETHERITE, type, new Properties().fireResistant().durability(INITIAL_TIER.getUses()));
+    public LevelableArmor(String itemType, ArmorType type) {
+        super(ARMOR_MATERIAL, type, ARMOR_MATERIAL.humanoidProperties(new Properties().fireResistant().durability(INITIAL_TIER.durability()), type));
         this.itemType = itemType;
     }
 
     @Override
     public ItemAttributeModifiers getLevelableAttributeModifiers(ItemStack stack) {
+        // TODO (PORTING): This might be wrong now: getEquipmentSlot
+        // Most of this probably go away with my skill tree refactors
         ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
         if (!ToolUtils.isBroken(stack)) {
-            builder.add(Attributes.ARMOR, new AttributeModifier(ARMOR_ID, this.getDefense(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(getEquipmentSlot()));
-            builder.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(ARMOR_TOUGHNESS_ID, this.getToughness(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(getEquipmentSlot()));
+            builder.add(Attributes.ARMOR, new AttributeModifier(ARMOR_ID, this.getDefense(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(getEquipmentSlot(stack)));
+            builder.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(ARMOR_TOUGHNESS_ID, this.getToughness(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(getEquipmentSlot(stack)));
             int health = stack.getOrDefault(DataComponents.HEALTH_BONUS, 0);
             if (health > 0) {
-                builder.add(Attributes.MAX_HEALTH, new AttributeModifier(MAX_HEALTH_ID, health, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(getEquipmentSlot()));
+                builder.add(Attributes.MAX_HEALTH, new AttributeModifier(MAX_HEALTH_ID, health, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(getEquipmentSlot(stack)));
             }
 
             float speedBonus = stack.getOrDefault(DataComponents.SPEED_BONUS, 0F) / 5;
             if (speedBonus > 0) {
-                builder.add(Attributes.MOVEMENT_SPEED, new AttributeModifier(MOVEMENT_SPEED_ID, speedBonus, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), EquipmentSlotGroup.bySlot(getEquipmentSlot()));
+                builder.add(Attributes.MOVEMENT_SPEED, new AttributeModifier(MOVEMENT_SPEED_ID, speedBonus, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), EquipmentSlotGroup.bySlot(getEquipmentSlot(stack)));
             }
 
             return builder.build();
@@ -77,11 +77,6 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Equipabl
 
     public float getToughness(ItemStack stack) {
         return stack.getOrDefault(DataComponents.TOUGHNESS_BONUS, 0F);
-    }
-
-    @Override
-    public ResourceLocation getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, ArmorMaterial.Layer layer, boolean innerModel) {
-        return ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, String.format("textures/models/armor/crystal_layer_%d.png", (slot == EquipmentSlot.LEGS ? 2 : 1)));
     }
 
     @Override
@@ -114,7 +109,7 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Equipabl
     @Override
     public int getMaxDamage(ItemStack stack) {
         int bonusDurability = stack.getOrDefault(DataComponents.DURABILITY_BONUS, 0);
-        return INITIAL_TIER.getUses() + bonusDurability;
+        return INITIAL_TIER.durability() + bonusDurability;
     }
 
     @Override
@@ -161,16 +156,6 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Equipabl
     }
 
     @Override
-    public boolean isValidRepairItem(ItemStack tool, ItemStack repairItem) {
-        return repairItem.is(Registration.CRYSTAL.get());
-    }
-
-    @Override
-    public int getEnchantmentValue() {
-        return INITIAL_TIER.getEnchantmentValue();
-    }
-
-    @Override
     public boolean isDisabled() {
         switch (this.itemType) {
             case "helmet" -> {
@@ -189,11 +174,6 @@ public class LevelableArmor extends ArmorItem implements LevelableItem, Equipabl
                 return false;
             }
         }
-    }
-
-    @Override
-    public boolean isEnchantable(@NotNull ItemStack stack) {
-        return CrystalToolsConfig.ENCHANT_TOOLS.get();
     }
 
     @Override

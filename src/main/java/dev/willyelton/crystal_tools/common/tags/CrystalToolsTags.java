@@ -14,6 +14,7 @@ public class CrystalToolsTags {
     // Item
     public static final TagKey<Item> RODS_METAL = ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", "rods/all_metal"));
     public static final TagKey<Item> RODS_METAL_NETHERITE = ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", "rods/netherite"));
+    public static final TagKey<Item> REPAIRS_CRYSTAL = ItemTags.create(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "repairs_crystal"));
 
     // Block
     public static final TagKey<Block> AUTO_OUTPUT_BLACKLIST = BlockTags.create(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "auto_output_blacklist"));
