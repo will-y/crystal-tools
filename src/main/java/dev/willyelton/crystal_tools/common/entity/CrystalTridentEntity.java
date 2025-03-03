@@ -15,6 +15,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
@@ -65,7 +66,7 @@ public class CrystalTridentEntity extends AbstractArrow {
             if (!this.isAcceptableReturnOwner()) {
                 // Drop if player with loyalty dies while it is returning
                 if (!this.level().isClientSide && this.pickup == AbstractArrow.Pickup.ALLOWED) {
-                    this.spawnAtLocation(this.getPickupItem(), 0.1F);
+                    this.spawnAtLocation((ServerLevel) this.level(), this.getPickupItem(), 0.1F);
                 }
 
                 this.discard();
@@ -120,7 +121,7 @@ public class CrystalTridentEntity extends AbstractArrow {
 
         Entity damagingEntity = this.getOwner();
         this.dealtDamage = true;
-        if (hitEntity.hurt(damagesource, damage)) {
+        if (hitEntity.hurtOrSimulate(damagesource, damage)) {
             if (hitEntity.getType() == EntityType.ENDERMAN) {
                 return;
             }
@@ -220,7 +221,7 @@ public class CrystalTridentEntity extends AbstractArrow {
         if (!this.level().isClientSide && this.isChanneling()) {
             blockPos = blockPos.above();
             if (this.level().canSeeSky(blockPos)) {
-                LightningBolt lightningbolt = EntityType.LIGHTNING_BOLT.create(this.level());
+                LightningBolt lightningbolt = EntityType.LIGHTNING_BOLT.create(this.level(), EntitySpawnReason.TRIGGERED);
                 if (lightningbolt != null) {
                     int damage = 5 + tridentStack.getOrDefault(DataComponents.CHANNELING, 0);
                     lightningbolt.setDamage(damage);
