@@ -4,7 +4,7 @@ package dev.willyelton.crystal_tools.client.events;
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.model.CrystalElytraLayer;
-import dev.willyelton.crystal_tools.client.renderer.CrystalTridentBlockEntityWithoutLevelRenderer;
+import dev.willyelton.crystal_tools.client.renderer.CrystalTridentSpecialRenderer;
 import dev.willyelton.crystal_tools.client.renderer.CrystalTridentRenderer;
 import dev.willyelton.crystal_tools.client.renderer.QuarryCubeRenderer;
 import dev.willyelton.crystal_tools.client.renderer.blockentity.CrystalQuarryBlockEntityRenderer;
@@ -68,20 +68,21 @@ public class ClientEvents {
                 (stack, level, entity, seed) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
     }
 
-    @SubscribeEvent
-    public static void addLayers(EntityRenderersEvent.AddLayers event) {
-        EntityModelSet entityModels = event.getEntityModels();
-        event.getSkins().forEach(s -> {
-            LivingEntityRenderer<? extends Player, ? extends EntityModel<? extends Player>> livingEntityRenderer = event.getSkin(s);
-            if (livingEntityRenderer instanceof PlayerRenderer playerRenderer){
-                playerRenderer.addLayer(new CrystalElytraLayer<>(playerRenderer, entityModels));
-            }
-        });
-        LivingEntityRenderer<ArmorStand, ? extends EntityModel<ArmorStand>> livingEntityRenderer = event.getRenderer(EntityType.ARMOR_STAND);
-        if (livingEntityRenderer instanceof ArmorStandRenderer armorStandRenderer){
-            armorStandRenderer.addLayer(new CrystalElytraLayer<>(armorStandRenderer, entityModels));
-        }
-    }
+    // TODO (PORTING): Can probably remove this
+//    @SubscribeEvent
+//    public static void addLayers(EntityRenderersEvent.AddLayers event) {
+//        EntityModelSet entityModels = event.getEntityModels();
+//        event.getSkins().forEach(s -> {
+//            var livingEntityRenderer = event.getSkin(s);
+//            if (livingEntityRenderer instanceof PlayerRenderer playerRenderer) {
+//                playerRenderer.addLayer(new CrystalElytraLayer<>(playerRenderer, entityModels));
+//            }
+//        });
+//        LivingEntityRenderer<ArmorStand, ? extends EntityModel<ArmorStand>> livingEntityRenderer = event.getRenderer(EntityType.ARMOR_STAND);
+//        if (livingEntityRenderer instanceof ArmorStandRenderer armorStandRenderer){
+//            armorStandRenderer.addLayer(new CrystalElytraLayer<>(armorStandRenderer, entityModels));
+//        }
+//    }
 
     @SubscribeEvent
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
@@ -96,7 +97,8 @@ public class ClientEvents {
 
     @SubscribeEvent
     public static void loadModels(ModelEvent.RegisterAdditional event) {
-        event.register(CrystalTridentBlockEntityWithoutLevelRenderer.CRYSTAL_TRIDENT_MODEL_RESOURCE_LOCATION);
+        // TODO (PORTING): I assume I still need this somewhere? don't for shields so maybe not
+//        event.register(CrystalTridentSpecialRenderer.CRYSTAL_TRIDENT_MODEL_RESOURCE_LOCATION);
     }
 
     private static boolean stacksSame(ItemStack stack1, ItemStack stack2) {

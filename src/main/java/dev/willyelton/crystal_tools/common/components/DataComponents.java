@@ -220,7 +220,7 @@ public class DataComponents {
         ResourceLocation resourceLocation = FLOAT_COMPONENTS.get(componentKey);
 
         if (resourceLocation != null) {
-            DataComponentType<Float> dataComponent = (DataComponentType<Float>) COMPONENTS.getRegistry().get().get(resourceLocation);
+            DataComponentType<Float> dataComponent = (DataComponentType<Float>) COMPONENTS.getRegistry().get().getValue(resourceLocation);
             if (dataComponent != null) {
                 stack.set(dataComponent, stack.getOrDefault(dataComponent, 0F) + value);
                 return;
@@ -230,7 +230,7 @@ public class DataComponents {
         resourceLocation = INT_COMPONENTS.get(componentKey);
 
         if (resourceLocation != null) {
-            DataComponentType<Integer> dataComponent = (DataComponentType<Integer>) COMPONENTS.getRegistry().get().get(resourceLocation);
+            DataComponentType<Integer> dataComponent = (DataComponentType<Integer>) COMPONENTS.getRegistry().get().getValue(resourceLocation);
             if (dataComponent != null) {
                 stack.set(dataComponent, stack.getOrDefault(dataComponent, 0) + (int) value);
                 return;
@@ -240,7 +240,7 @@ public class DataComponents {
         resourceLocation = BOOLEAN_COMPONENTS.get(componentKey);
 
         if (resourceLocation != null) {
-            DataComponentType<Boolean> dataComponent = (DataComponentType<Boolean>) COMPONENTS.getRegistry().get().get(resourceLocation);
+            DataComponentType<Boolean> dataComponent = (DataComponentType<Boolean>) COMPONENTS.getRegistry().get().getValue(resourceLocation);
             if (dataComponent != null && value > 0) {
                 stack.set(dataComponent, true);
                 return;
@@ -254,7 +254,7 @@ public class DataComponents {
         ResourceLocation resourceLocation = FLOAT_COMPONENTS.get(componentKey);
 
         if (resourceLocation != null) {
-            DataComponentType<Float> dataComponent = (DataComponentType<Float>) COMPONENTS.getRegistry().get().get(resourceLocation);
+            DataComponentType<Float> dataComponent = (DataComponentType<Float>) COMPONENTS.getRegistry().get().getValue(resourceLocation);
             if (dataComponent != null) {
                 stack.set(dataComponent, value);
                 return;
@@ -264,7 +264,7 @@ public class DataComponents {
         resourceLocation = INT_COMPONENTS.get(componentKey);
 
         if (resourceLocation != null) {
-            DataComponentType<Integer> dataComponent = (DataComponentType<Integer>) COMPONENTS.getRegistry().get().get(resourceLocation);
+            DataComponentType<Integer> dataComponent = (DataComponentType<Integer>) COMPONENTS.getRegistry().get().getValue(resourceLocation);
             if (dataComponent != null) {
                 stack.set(dataComponent, (int) value);
                 return;
@@ -273,7 +273,7 @@ public class DataComponents {
 
         resourceLocation = BOOLEAN_COMPONENTS.get(componentKey);
         if (resourceLocation != null) {
-            DataComponentType<Boolean> dataComponent = (DataComponentType<Boolean>) COMPONENTS.getRegistry().get().get(resourceLocation);
+            DataComponentType<Boolean> dataComponent = (DataComponentType<Boolean>) COMPONENTS.getRegistry().get().getValue(resourceLocation);
             if (dataComponent != null) {
                 stack.set(dataComponent, value > 0);
                 return;
