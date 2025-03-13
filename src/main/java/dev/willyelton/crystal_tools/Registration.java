@@ -46,11 +46,12 @@ import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -58,6 +59,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.StandingAndWallBlockItem;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DropExperienceBlock;
@@ -101,10 +103,10 @@ public class Registration {
     public static final DeferredHolder<Item, CrystalShield> CRYSTAL_SHIELD = ITEMS.register("crystal_shield", CrystalShield::new);
 
     // Armor
-    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_HELMET = ITEMS.register("crystal_helmet", () -> new LevelableArmor("helmet", ArmorItem.Type.HELMET));
-    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_CHESTPLATE = ITEMS.register("crystal_chestplate", () -> new LevelableArmor("chestplate", ArmorItem.Type.CHESTPLATE));
-    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_LEGGINGS = ITEMS.register("crystal_leggings", () -> new LevelableArmor("leggings",  ArmorItem.Type.LEGGINGS));
-    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_BOOTS = ITEMS.register("crystal_boots", () -> new LevelableArmor("boots",  ArmorItem.Type.BOOTS));
+    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_HELMET = ITEMS.register("crystal_helmet", () -> new LevelableArmor("helmet", ArmorType.HELMET));
+    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_CHESTPLATE = ITEMS.register("crystal_chestplate", () -> new LevelableArmor("chestplate", ArmorType.CHESTPLATE));
+    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_LEGGINGS = ITEMS.register("crystal_leggings", () -> new LevelableArmor("leggings",  ArmorType.LEGGINGS));
+    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_BOOTS = ITEMS.register("crystal_boots", () -> new LevelableArmor("boots",  ArmorType.BOOTS));
     public static final DeferredHolder<Item, CrystalElytra> CRYSTAL_ELYTRA = ITEMS.register("crystal_elytra", () -> new CrystalElytra(new Item.Properties().durability(1000)));
 
     // Blocks
@@ -126,19 +128,19 @@ public class Registration {
     public static final DeferredHolder<Item, BlockItem> CRYSTAL_GENERATOR_ITEM = ITEMS.register("crystal_generator", () -> new LevelableBlockItem(CRYSTAL_GENERATOR.get(), new Item.Properties()));
     public static final DeferredHolder<Item, BlockItem> CRYSTAL_QUARRY_ITEM = ITEMS.register("crystal_quarry", () -> new CrystalQuarryBlockItem(CRYSTAL_QUARRY.get(), new Item.Properties()));
     public static final DeferredHolder<Item, BlockItem> QUARRY_STABILIZER_ITEM = ITEMS.register("quarry_stabilizer", () -> new BlockItem(QUARRY_STABILIZER.get(), new Item.Properties()));
-    public static final DeferredHolder<Item, StandingAndWallBlockItem> CRYSTAL_TORCH_ITEM = ITEMS.register("crystal_torch", () -> new StandingAndWallBlockItem(CRYSTAL_TORCH.get(), CRYSTAL_WALL_TORCH.get(), new Item.Properties(), Direction.DOWN));
+    public static final DeferredHolder<Item, StandingAndWallBlockItem> CRYSTAL_TORCH_ITEM = ITEMS.register("crystal_torch", () -> new StandingAndWallBlockItem(CRYSTAL_TORCH.get(), CRYSTAL_WALL_TORCH.get(), Direction.DOWN, new Item.Properties()));
 
     // Entities
     public static final DeferredHolder<EntityType<?>, EntityType<CrystalTridentEntity>> CRYSTAL_TRIDENT_ENTITY = ENTITIES.register("crystal_trident", () -> EntityType.Builder.<CrystalTridentEntity>of(CrystalTridentEntity::new, MobCategory.MISC)
             .sized(0.5F, 0.5F)
             .clientTrackingRange(4)
             .updateInterval(20)
-            .build("crystal_tools:crystal_trident"));
+            .build(ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "crystal_trident"))));
 
     // Block Entities
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CrystalFurnaceBlockEntity>> CRYSTAL_FURNACE_BLOCK_ENTITY = BLOCK_ENTITIES.register("crystal_furnace", () -> BlockEntityType.Builder.of(CrystalFurnaceBlockEntity::new, CRYSTAL_FURNACE.get()).build(null));
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CrystalGeneratorBlockEntity>> CRYSTAL_GENERATOR_BLOCK_ENTITY = BLOCK_ENTITIES.register("crystal_generator", () -> BlockEntityType.Builder.of(CrystalGeneratorBlockEntity::new, CRYSTAL_GENERATOR.get()).build(null));
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CrystalQuarryBlockEntity>> CRYSTAL_QUARRY_BLOCK_ENTITY = BLOCK_ENTITIES.register("crystal_quarry", () -> BlockEntityType.Builder.of(CrystalQuarryBlockEntity::new, CRYSTAL_QUARRY.get()).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CrystalFurnaceBlockEntity>> CRYSTAL_FURNACE_BLOCK_ENTITY = BLOCK_ENTITIES.register("crystal_furnace", () -> new BlockEntityType<>(CrystalFurnaceBlockEntity::new, CRYSTAL_FURNACE.get()));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CrystalGeneratorBlockEntity>> CRYSTAL_GENERATOR_BLOCK_ENTITY = BLOCK_ENTITIES.register("crystal_generator", () -> new BlockEntityType<>(CrystalGeneratorBlockEntity::new, CRYSTAL_GENERATOR.get()));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CrystalQuarryBlockEntity>> CRYSTAL_QUARRY_BLOCK_ENTITY = BLOCK_ENTITIES.register("crystal_quarry", () -> new BlockEntityType<>(CrystalQuarryBlockEntity::new, CRYSTAL_QUARRY.get()));
 
     // Containers
     public static final DeferredHolder<MenuType<?>, MenuType<CrystalFurnaceContainerMenu>> CRYSTAL_FURNACE_CONTAINER = CONTAINERS.register("crystal_furnace",
