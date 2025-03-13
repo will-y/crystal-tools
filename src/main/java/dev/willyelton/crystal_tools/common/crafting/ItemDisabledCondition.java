@@ -23,7 +23,7 @@ public class ItemDisabledCondition implements ICondition {
 
     @Override
     public boolean test(IContext context) {
-        Item item = BuiltInRegistries.ITEM.get(itemLocation);
+        Item item = BuiltInRegistries.ITEM.getValue(itemLocation);
 
         if (item instanceof LevelableItem levelableItem) {
             return levelableItem.isDisabled();

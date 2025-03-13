@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
@@ -24,6 +25,8 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
     @Override
     public boolean matches(CraftingInput container, Level level) {
         if (CrystalToolsConfig.DISABLE_ELYTRA.get()) return false;
+
+        if (container.size() < 2) return false;
 
         boolean foundElytra = false;
         boolean foundChestplate = false;
@@ -76,12 +79,7 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
     }
 
     @Override
-    public boolean canCraftInDimensions(int width, int height) {
-        return width * height >= 2;
-    }
-
-    @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<? extends CustomRecipe> getSerializer() {
         return Registration.CRYSTAL_ELYTRA_RECIPE.get();
     }
 
@@ -109,11 +107,6 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
 
     @Override
     public ItemStack getOutput() {
-        return new ItemStack(Registration.CRYSTAL_ELYTRA.get());
-    }
-
-    @Override
-    public ItemStack getResultItem(HolderLookup.Provider registries) {
         return new ItemStack(Registration.CRYSTAL_ELYTRA.get());
     }
 }

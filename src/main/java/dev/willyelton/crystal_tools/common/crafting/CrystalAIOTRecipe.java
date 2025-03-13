@@ -12,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
@@ -37,6 +38,8 @@ public class CrystalAIOTRecipe extends CrystalToolsRecipe {
     @Override
     public boolean matches(CraftingInput container, @NotNull Level level) {
         if (CrystalToolsConfig.DISABLE_AIOT.get()) return false;
+
+        if (container.size() < 6) return false;
 
         Boolean[] itemsFound = new Boolean[requiredItems.length];
         Arrays.fill(itemsFound, false);
@@ -83,12 +86,7 @@ public class CrystalAIOTRecipe extends CrystalToolsRecipe {
     }
 
     @Override
-    public boolean canCraftInDimensions(int width, int height) {
-        return width * height >= 6;
-    }
-
-    @Override
-    public @NotNull RecipeSerializer<?> getSerializer() {
+    public @NotNull RecipeSerializer<? extends CustomRecipe> getSerializer() {
         return Registration.CRYSTAL_AIOT_RECIPE.get();
     }
 
@@ -113,11 +111,6 @@ public class CrystalAIOTRecipe extends CrystalToolsRecipe {
 
     @Override
     public ItemStack getOutput() {
-        return new ItemStack(Registration.CRYSTAL_AIOT.get());
-    }
-
-    @Override
-    public ItemStack getResultItem(HolderLookup.Provider registries) {
         return new ItemStack(Registration.CRYSTAL_AIOT.get());
     }
 }

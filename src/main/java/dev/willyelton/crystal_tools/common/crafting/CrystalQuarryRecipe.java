@@ -12,6 +12,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 
@@ -53,12 +54,7 @@ public class CrystalQuarryRecipe extends CrystalToolsRecipe {
     }
 
     @Override
-    public boolean canCraftInDimensions(int width, int height) {
-        return width == 3 && height == 3;
-    }
-
-    @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<? extends CustomRecipe> getSerializer() {
         return Registration.CRYSTAL_QUARRY_RECIPE.get();
     }
 
@@ -76,10 +72,5 @@ public class CrystalQuarryRecipe extends CrystalToolsRecipe {
                 new ItemLore(List.of(Component.literal(
                         String.format("Will take %d%% of the points from the AIOT used to craft this.", (int) (CrystalToolsConfig.QUARRY_INITIAL_POINT_MULTIPLIER.get() * 100))))));
         return output;
-    }
-
-    @Override
-    public ItemStack getResultItem(HolderLookup.Provider registries) {
-        return new ItemStack(Registration.CRYSTAL_QUARRY.get());
     }
 }

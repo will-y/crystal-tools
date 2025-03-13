@@ -56,8 +56,8 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.StandingAndWallBlockItem;
+import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DropExperienceBlock;
@@ -191,11 +191,11 @@ public class Registration {
                     .build());
 
     // Recipes
-    public static final DeferredHolder<RecipeSerializer<?>, SimpleCraftingRecipeSerializer<CrystalElytraRecipe>> CRYSTAL_ELYTRA_RECIPE = RECIPES.register("crystal_elytra_recipe", () -> new SimpleCraftingRecipeSerializer<>(CrystalElytraRecipe::new));
-    public static final DeferredHolder<RecipeSerializer<?>, SimpleCraftingRecipeSerializer<CrystalAIOTRecipe>> CRYSTAL_AIOT_RECIPE = RECIPES.register("crystal_aiot_recipe", () -> new SimpleCraftingRecipeSerializer<>(CrystalAIOTRecipe::new));
-    public static final DeferredHolder<RecipeSerializer<?>, SimpleCraftingRecipeSerializer<CrystalGeneratorRecipe>> CRYSTAL_GENERATOR_RECIPE = RECIPES.register("crystal_generator_recipe", () -> new SimpleCraftingRecipeSerializer<>(CrystalGeneratorRecipe::new));
-    public static final DeferredHolder<RecipeSerializer<?>, SimpleCraftingRecipeSerializer<CrystalQuarryRecipe>> CRYSTAL_QUARRY_RECIPE = RECIPES.register("crystal_quarry_recipe", () -> new SimpleCraftingRecipeSerializer<>(CrystalQuarryRecipe::new));
-    public static final DeferredHolder<RecipeSerializer<?>, SimpleCraftingRecipeSerializer<CrystalShieldTotemRecipe>> CRYSTAL_SHIELD_TOTEM_RECIPE = RECIPES.register("crystal_shield_totem_recipe", () -> new SimpleCraftingRecipeSerializer<>(CrystalShieldTotemRecipe::new));
+    public static final DeferredHolder<RecipeSerializer<?>, CustomRecipe.Serializer<CrystalElytraRecipe>> CRYSTAL_ELYTRA_RECIPE = RECIPES.register("crystal_elytra_recipe", () -> new CustomRecipe.Serializer<>(CrystalElytraRecipe::new));
+    public static final DeferredHolder<RecipeSerializer<?>, CustomRecipe.Serializer<CrystalAIOTRecipe>> CRYSTAL_AIOT_RECIPE = RECIPES.register("crystal_aiot_recipe", () -> new CustomRecipe.Serializer<>(CrystalAIOTRecipe::new));
+    public static final DeferredHolder<RecipeSerializer<?>, CustomRecipe.Serializer<CrystalGeneratorRecipe>> CRYSTAL_GENERATOR_RECIPE = RECIPES.register("crystal_generator_recipe", () -> new CustomRecipe.Serializer<>(CrystalGeneratorRecipe::new));
+    public static final DeferredHolder<RecipeSerializer<?>, CustomRecipe.Serializer<CrystalQuarryRecipe>> CRYSTAL_QUARRY_RECIPE = RECIPES.register("crystal_quarry_recipe", () -> new CustomRecipe.Serializer<>(CrystalQuarryRecipe::new));
+    public static final DeferredHolder<RecipeSerializer<?>, CustomRecipe.Serializer<CrystalShieldTotemRecipe>> CRYSTAL_SHIELD_TOTEM_RECIPE = RECIPES.register("crystal_shield_totem_recipe", () -> new CustomRecipe.Serializer<>(CrystalShieldTotemRecipe::new));
 
     public static void init(IEventBus modEventBus) {
         // Conditions

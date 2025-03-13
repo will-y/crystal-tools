@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 
@@ -54,12 +55,7 @@ public class CrystalGeneratorRecipe extends CrystalToolsRecipe {
     }
 
     @Override
-    public boolean canCraftInDimensions(int width, int height) {
-        return width == 3 && height == 3;
-    }
-
-    @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<? extends CustomRecipe> getSerializer() {
         return Registration.CRYSTAL_GENERATOR_RECIPE.get();
     }
 
@@ -72,11 +68,6 @@ public class CrystalGeneratorRecipe extends CrystalToolsRecipe {
 
     @Override
     public ItemStack getOutput() {
-        return new ItemStack(Registration.CRYSTAL_GENERATOR_ITEM.get());
-    }
-
-    @Override
-    public ItemStack getResultItem(HolderLookup.Provider registries) {
         return new ItemStack(Registration.CRYSTAL_GENERATOR_ITEM.get());
     }
 }
