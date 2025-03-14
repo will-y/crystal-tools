@@ -13,7 +13,11 @@ import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.ShapedCraftingRecipeDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
@@ -72,5 +76,12 @@ public class CrystalQuarryRecipe extends CrystalToolsRecipe {
                 new ItemLore(List.of(Component.literal(
                         String.format("Will take %d%% of the points from the AIOT used to craft this.", (int) (CrystalToolsConfig.QUARRY_INITIAL_POINT_MULTIPLIER.get() * 100))))));
         return output;
+    }
+
+    @Override
+    public List<RecipeDisplay> display() {
+        return List.of(new ShapedCraftingRecipeDisplay(3, 3,
+                getIngredients().stream().map(Ingredient::display).toList(), new SlotDisplay.ItemStackSlotDisplay(getOutput()),
+                new SlotDisplay.ItemSlotDisplay(Items.CRAFTING_TABLE)));
     }
 }

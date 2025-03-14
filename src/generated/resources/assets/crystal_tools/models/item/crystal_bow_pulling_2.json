@@ -1,5 +1,5 @@
 {
-  "parent": "crystal_tools:item/crystal_bow",
+  "parent": "minecraft:item/bow",
   "textures": {
     "layer0": "crystal_tools:item/crystal_bow_pulling_2"
   }

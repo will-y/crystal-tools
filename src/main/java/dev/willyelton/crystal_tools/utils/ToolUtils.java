@@ -6,6 +6,7 @@ import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillTreeRegistry;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
+import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -15,6 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class ToolUtils {
     public static boolean isBroken(ItemStack stack) {
@@ -46,11 +48,11 @@ public class ToolUtils {
         resourceLocations.addAll(DataComponents.INT_COMPONENTS.values());
         resourceLocations.addAll(DataComponents.BOOLEAN_COMPONENTS.values());
         for (ResourceLocation resourceLocation : resourceLocations) {
-            DataComponentType<?> dataComponent = BuiltInRegistries.DATA_COMPONENT_TYPE.get(resourceLocation);
-            if (dataComponent == null) {
+            Optional<Holder.Reference<DataComponentType<?>>> dataComponent = BuiltInRegistries.DATA_COMPONENT_TYPE.get(resourceLocation);
+            if (dataComponent.isEmpty()) {
                 continue;
             }
-            stack.remove(dataComponent);
+            stack.remove(dataComponent.get().value());
         }
 
         skillPoints += points.stream().reduce(0, Integer::sum);

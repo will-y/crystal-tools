@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/orientable",
   "textures": {
-    "front": "crystal_tools:block/crystal_furnace_front_off",
+    "front": "crystal_tools:block/crystal_furnace_front",
     "side": "crystal_tools:block/crystal_furnace_side",
     "top": "crystal_tools:block/crystal_furnace_top"
   }

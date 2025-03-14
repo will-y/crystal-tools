@@ -16,6 +16,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.level.Level;
@@ -25,8 +26,8 @@ import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.NotNull;
 
 public class CrystalTrident extends SwordLevelableTool {
-    public CrystalTrident() {
-        super("trident", 4, -2.9F);
+    public CrystalTrident(Item.Properties properties) {
+        super(properties, "trident", 4, -2.9F);
     }
 
     @Override

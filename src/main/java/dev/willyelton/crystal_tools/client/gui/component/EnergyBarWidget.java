@@ -1,12 +1,12 @@
 package dev.willyelton.crystal_tools.client.gui.component;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.common.inventory.container.CrystalGeneratorContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.EnergyLevelableContainerMenu;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -49,7 +49,7 @@ public class EnergyBarWidget extends AbstractWidget {
     private void renderEnergyBar(GuiGraphics guiGraphics) {
         float energyProgress = this.menu.getCurrentEnergy() / this.menu.getMaxEnergy();
         int width = (int) (energyProgress * this.width);
-        guiGraphics.blit(TEXTURE, this.getX(), this.getY(), ENERGY_TEXTURE_X, ENERGY_TEXTURE_Y, width, this.height);
+        guiGraphics.blit(RenderType::guiTextured, TEXTURE, this.getX(), this.getY(), ENERGY_TEXTURE_X, ENERGY_TEXTURE_Y, width, this.height, 256, 256);
     }
 
     @Override

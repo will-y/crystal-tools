@@ -76,7 +76,7 @@ public class ToolUseUtils {
 
             tool.addExp(itemStack, level, blockpos, player);
 
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.SUCCESS;
         } else {
             return InteractionResult.PASS;
         }
@@ -89,7 +89,7 @@ public class ToolUseUtils {
         BlockState initialState = level.getBlockState(blockPos);
         InteractionResult result = ToolUseUtils.useOnAxe(context, tool);
 
-        if (result == InteractionResult.SUCCESS || result == InteractionResult.sidedSuccess(context.getLevel().isClientSide)) {
+        if (result == InteractionResult.SUCCESS) {
             ItemStack itemStack = context.getItemInHand();
 
             if (itemStack.getOrDefault(DataComponents.VEIN_MINER, 0) > 0
@@ -160,7 +160,7 @@ public class ToolUseUtils {
 
                 tool.addExp(shovel, level, blockpos, pContext.getPlayer());
 
-                return InteractionResult.sidedSuccess(level.isClientSide);
+                return InteractionResult.SUCCESS;
             } else {
                 return InteractionResult.PASS;
             }
@@ -258,7 +258,7 @@ public class ToolUseUtils {
 
                 tool.addExp(hoe, level, blockPos, player);
 
-                return InteractionResult.sidedSuccess(level.isClientSide);
+                return InteractionResult.SUCCESS;
             } else {
                 return InteractionResult.PASS;
             }

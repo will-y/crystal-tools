@@ -23,8 +23,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class CrystalRocket extends LevelableTool {
-    public CrystalRocket() {
-        super(new Item.Properties().fireResistant().repairable(CrystalToolsTags.REPAIRS_CRYSTAL), null, "crystal_rocket", -4, 0, 100);
+    public CrystalRocket(Item.Properties properties) {
+        super(properties.fireResistant().repairable(CrystalToolsTags.REPAIRS_CRYSTAL), null, "crystal_rocket", -4, 0, 100);
     }
 
     @Override

@@ -11,7 +11,11 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.ShapedCraftingRecipeDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
@@ -69,5 +73,12 @@ public class CrystalGeneratorRecipe extends CrystalToolsRecipe {
     @Override
     public ItemStack getOutput() {
         return new ItemStack(Registration.CRYSTAL_GENERATOR_ITEM.get());
+    }
+
+    @Override
+    public List<RecipeDisplay> display() {
+        return List.of(new ShapedCraftingRecipeDisplay(3, 3,
+                getIngredients().stream().map(Ingredient::display).toList(), new SlotDisplay.ItemStackSlotDisplay(getOutput()),
+                new SlotDisplay.ItemSlotDisplay(Items.CRAFTING_TABLE)));
     }
 }

@@ -6,6 +6,7 @@ import dev.willyelton.crystal_tools.CrystalTools;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.TriState;
 
 public class CrystalToolsRenderTypes extends RenderType {
     public static final ResourceLocation QUARRY_LASER_LOCATION = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/entity/quarry_laser.png");
@@ -33,7 +34,7 @@ public class CrystalToolsRenderTypes extends RenderType {
 
     public static final RenderType QUARRY_LASER = create("QuarryLaser",
             DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, 256, false, false,
-            RenderType.CompositeState.builder().setTextureState(new TextureStateShard(QUARRY_LASER_LOCATION, false, false))
+            RenderType.CompositeState.builder().setTextureState(new TextureStateShard(QUARRY_LASER_LOCATION, TriState.FALSE, false))
                     .setShaderState(ShaderStateShard.POSITION_COLOR_TEX_LIGHTMAP_SHADER)
                     .setLayeringState(VIEW_OFFSET_Z_LAYERING)
                     .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
@@ -47,7 +48,7 @@ public class CrystalToolsRenderTypes extends RenderType {
             DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, true, false,
             RenderType.CompositeState.builder()
                     .setShaderState(ShaderStateShard.POSITION_COLOR_TEX_LIGHTMAP_SHADER)
-                    .setTextureState(new RenderStateShard.TextureStateShard(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/entity/crystal_quarry_cube.png"), false, false))
+                    .setTextureState(new RenderStateShard.TextureStateShard(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/entity/crystal_quarry_cube.png"), TriState.FALSE, false))
                     .setTransparencyState(NO_TRANSPARENCY)
                     .setCullState(NO_CULL)
                     .setLightmapState(NO_LIGHTMAP)

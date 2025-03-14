@@ -11,9 +11,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "c": {
-      "item": "crystal_tools:crystal"
-    }
+    "c": "crystal_tools:crystal"
   },
   "pattern": [
     "ccc",

@@ -4,7 +4,9 @@ import dev.willyelton.crystal_tools.common.datamap.DataMaps;
 import dev.willyelton.crystal_tools.common.datamap.GeneratorFuelData;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalGeneratorBlockEntity;
 import mezz.jei.api.runtime.IIngredientManager;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -30,7 +32,7 @@ public record GeneratorRecipe(ItemStack stack, int burnTime, int bonusGeneration
                 continue;
             }
 
-            FoodProperties foodProperties = stack.getFoodProperties(null);
+            FoodProperties foodProperties = stack.get(DataComponents.FOOD);
             if (foodProperties != null) {
                 int burnTime = CrystalGeneratorBlockEntity.getBurnTimeFromFood(foodProperties);
 
@@ -40,7 +42,8 @@ public record GeneratorRecipe(ItemStack stack, int burnTime, int bonusGeneration
                 }
             }
 
-            int burnTime = stack.getBurnTime(null);
+            // TODO (PORTING / JEI): idk if it is save to get minecraft here
+            int burnTime = stack.getBurnTime(null, Minecraft.getInstance().level.fuelValues());
             if (burnTime != 0) {
                 recipes.add(new GeneratorRecipe(stack, burnTime, 0, ""));
             }

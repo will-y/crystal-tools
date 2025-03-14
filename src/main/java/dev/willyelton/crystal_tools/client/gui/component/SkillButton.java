@@ -8,6 +8,7 @@ import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillItem
 import dev.willyelton.crystal_tools.utils.Colors;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -65,9 +66,9 @@ public class SkillButton extends CrystalToolsButton {
     @Override
     protected void blitButton(GuiGraphics guiGraphics, int textureY) {
         // first half of button
-        guiGraphics.blit(SKILL_BUTTON_LOCATION, this.getX() + xOffset, this.getY() + yOffset, 0, textureY * 20, this.width / 2, this.height);
+        guiGraphics.blit(RenderType::guiTextured, SKILL_BUTTON_LOCATION, this.getX() + xOffset, this.getY() + yOffset, 0, textureY * 20, this.width / 2, this.height, 256, 256);
         // second half of button
-        guiGraphics.blit(SKILL_BUTTON_LOCATION, this.getX() + this.width / 2 + xOffset, this.getY() + yOffset, 200 - this.width / 2, textureY * 20, this.width / 2, this.height);
+        guiGraphics.blit(RenderType::guiTextured, SKILL_BUTTON_LOCATION, this.getX() + this.width / 2 + xOffset, this.getY() + yOffset, 200 - this.width / 2, textureY * 20, this.width / 2, this.height, 256, 256);
     }
 
     @Override
@@ -107,16 +108,6 @@ public class SkillButton extends CrystalToolsButton {
 
     public SkillDataNode getDataNode() {
         return this.dataNode;
-    }
-
-    @Override
-    protected boolean clicked(double pMouseX, double pMouseY) {
-        return this.active &&
-                this.visible &&
-                pMouseX >= (double) (this.getX() + xOffset) &&
-                pMouseY >= (double) (this.getY() + yOffset) &&
-                pMouseX < (double)(this.getX() + this.width + xOffset) &&
-                pMouseY < (double)(this.getY() + this.height + yOffset);
     }
 
     @Override

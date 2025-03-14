@@ -15,7 +15,7 @@ import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.apache.logging.log4j.Level;
@@ -38,8 +38,8 @@ public class ReloadListenerEvent {
             "sword", "backpack", "trident", "fishing_rod", "generator", "quarry", "shield");
 
     @SubscribeEvent
-    public static void handleReloadListener(AddReloadListenerEvent reloadListenerEvent) {
-        reloadListenerEvent.addListener(new ReloadListener());
+    public static void handleReloadListener(AddServerReloadListenersEvent reloadListenerEvent) {
+        reloadListenerEvent.addListener(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "skill_trees"), new ReloadListener());
     }
 
     private static Map<String, SkillData> skillDataMap;
@@ -97,10 +97,10 @@ public class ReloadListenerEvent {
 
                 }
             } catch (IOException e) {
-                CrystalTools.LOGGER.log(Level.WARN, "Failed to Load Crystal Tools Skill Tree " + tool, e);
+                CrystalTools.LOGGER.log(Level.WARN, "Failed to Load Crystal Tools Skill Tree {}", tool, e);
             }
 
-            CrystalTools.LOGGER.log(Level.WARN, "Failed to Load Crystal Tools Skill Tree " + tool);
+            CrystalTools.LOGGER.log(Level.WARN, "Failed to Load Crystal Tools Skill Tree {}", tool);
             return null;
         }
     }

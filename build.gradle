@@ -101,8 +101,8 @@ repositories {
 
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
-//    compileOnly "mezz.jei:jei-1.21-common-api:${jei_version}"
-//    compileOnly "mezz.jei:jei-1.21-neoforge-api:${jei_version}"
+    compileOnly "mezz.jei:jei-1.21-common-api:${jei_version}"
+    compileOnly "mezz.jei:jei-1.21-neoforge-api:${jei_version}"
 //    runtimeOnly "mezz.jei:jei-1.21-neoforge:${jei_version}"
     // Compile against only the API artifact
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
@@ -117,7 +117,7 @@ dependencies {
 //    runtimeOnly "mekanism:Mekanism:${mekanism_version}:generators"// Mekanism: Generators
 //    runtimeOnly "mekanism:Mekanism:${mekanism_version}:tools"// Mekanism: Tools
 //
-//    compileOnly "org.appliedenergistics:guideme:${guideme_version}:api"
+    compileOnly "org.appliedenergistics:guideme:${guideme_version}:api"
 //    runtimeOnly "org.appliedenergistics:guideme:${guideme_version}"
 
 

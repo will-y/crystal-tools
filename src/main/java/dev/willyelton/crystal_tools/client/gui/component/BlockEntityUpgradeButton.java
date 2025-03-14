@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.client.gui.component;
 import dev.willyelton.crystal_tools.CrystalTools;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -19,9 +20,9 @@ public class BlockEntityUpgradeButton extends CrystalToolsButton {
     @Override
     protected void blitButton(GuiGraphics guiGraphics, int textureY) {
         // first half of button
-        guiGraphics.blit(BUTTON_LOCATION, this.getX(), this.getY(), 0, textureY * this.height, this.width / 2, this.height);
+        guiGraphics.blit(RenderType::guiTextured, BUTTON_LOCATION, this.getX(), this.getY(), 0, textureY * this.height, this.width / 2, this.height, 256, 256);
         // second half of button
-        guiGraphics.blit(BUTTON_LOCATION, this.getX() + this.width / 2, this.getY(), 200 - this.width / 2, textureY * this.height, this.width / 2, this.height);
+        guiGraphics.blit(RenderType::guiTextured, BUTTON_LOCATION, this.getX() + this.width / 2, this.getY(), 200 - this.width / 2, textureY * this.height, this.width / 2, this.height, 256, 256);
     }
 
     @Override

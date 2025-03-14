@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.common.levelable.skill.requirement;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.utils.CodecUtils;
@@ -21,7 +22,12 @@ public class SkillItemRequirement implements SkillDataRequirement {
         List<Item> itemList = new ArrayList<>();
         for (String item : items) {
             ResourceLocation r = ResourceLocation.parse(item);
-            itemList.add(BuiltInRegistries.ITEM.get(r));
+            var holder = BuiltInRegistries.ITEM.get(r);
+            if (holder.isPresent()) {
+                itemList.add(holder.get().value());
+            } else {
+                CrystalTools.LOGGER.warn("Invalid item found for an crystal tools item requirement: {}", item);
+            }
         }
 
         this.items = itemList;

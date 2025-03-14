@@ -16,7 +16,7 @@ import static net.minecraft.world.item.equipment.EquipmentAssets.ROOT_ID;
 
 public class CrystalToolsArmorMaterials {
     public static final ResourceKey<EquipmentAsset> CRYSTAL_ELYTRA = ResourceKey.create(ROOT_ID, ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "crystal_elytra"));
-    private static final ResourceKey<EquipmentAsset> CRYSTAL_EQUIPMENT_ASSET = ResourceKey.create(ROOT_ID, ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "crystal"));
+    public static final ResourceKey<EquipmentAsset> CRYSTAL_EQUIPMENT_ASSET = ResourceKey.create(ROOT_ID, ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "crystal"));
 
     public static final ArmorMaterial CRYSTAL = new ArmorMaterial(37, Util.make(new EnumMap<>(ArmorType.class), consumer -> {
         consumer.put(ArmorType.BOOTS, 3);

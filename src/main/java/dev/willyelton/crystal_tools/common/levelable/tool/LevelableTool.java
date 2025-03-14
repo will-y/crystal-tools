@@ -48,11 +48,12 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     private final float initialAttackDamage;
 
     public LevelableTool(Item.Properties properties, TagKey<Block> mineableBlocks, String itemType, float attackDamageModifier, float attackSpeedModifier) {
-        this(properties.repairable(CrystalToolsTags.REPAIRS_CRYSTAL), mineableBlocks, itemType, attackDamageModifier, attackSpeedModifier, INITIAL_TIER.durability());
+        this(properties, mineableBlocks, itemType, attackDamageModifier, attackSpeedModifier, INITIAL_TIER.durability());
     }
 
     public LevelableTool(Item.Properties properties, TagKey<Block> mineableBlocks, String itemType, float attackDamageModifier, float attackSpeedModifier, int durability) {
         super(properties.fireResistant()
+                .repairable(CrystalToolsTags.REPAIRS_CRYSTAL)
                 .rarity(Rarity.RARE)
                 .attributes(ItemAttributeModifiers.builder()
                         .add(Attributes.ATTACK_DAMAGE,

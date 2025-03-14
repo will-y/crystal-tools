@@ -11,15 +11,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "c": {
-      "item": "crystal_tools:crystal"
-    },
-    "h": {
-      "item": "minecraft:chest"
-    },
-    "l": {
-      "item": "minecraft:leather"
-    }
+    "c": "crystal_tools:crystal",
+    "h": "minecraft:chest",
+    "l": "minecraft:leather"
   },
   "pattern": [
     "lcl",

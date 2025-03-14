@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "crystal_tools:crystal"
-    },
-    "f": {
-      "item": "minecraft:furnace"
-    }
+    "c": "crystal_tools:crystal",
+    "f": "minecraft:furnace"
   },
   "pattern": [
     "ccc",

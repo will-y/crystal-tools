@@ -1,9 +1,9 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
-import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.VeinMiners;
-import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
+import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.BlockCollectors;
 import dev.willyelton.crystal_tools.utils.ToolUseUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
@@ -19,13 +19,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 
 public class AxeLevelableTool extends DiggerLevelableTool {
-    public AxeLevelableTool() {
-        super(new Item.Properties(), BlockTags.MINEABLE_WITH_AXE, "axe", 5.0F, -3.0F);
+    public AxeLevelableTool(Item.Properties properties) {
+        super(properties, BlockTags.MINEABLE_WITH_AXE, "axe", 5.0F, -3.0F);
     }
 
     @Override

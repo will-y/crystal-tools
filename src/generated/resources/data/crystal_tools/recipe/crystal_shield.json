@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "crystal_tools:crystal"
-    },
-    "s": {
-      "item": "minecraft:shield"
-    },
-    "t": {
-      "item": "crystal_tools:netherite_stick"
-    }
+    "c": "crystal_tools:crystal",
+    "s": "minecraft:shield",
+    "t": "crystal_tools:netherite_stick"
   },
   "pattern": [
     " c ",

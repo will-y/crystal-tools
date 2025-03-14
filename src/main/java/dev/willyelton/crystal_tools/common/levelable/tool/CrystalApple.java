@@ -3,7 +3,6 @@ package dev.willyelton.crystal_tools.common.levelable.tool;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.components.EffectData;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -34,8 +33,8 @@ public class CrystalApple extends LevelableTool {
     private static final float BASE_SATURATION = 0.4F;
     private static final int BASE_EAT_SPEED = 32;
 
-    public CrystalApple() {
-        super(new Item.Properties().fireResistant(), null, "apple", -4, 0, 50);
+    public CrystalApple(Item.Properties properties) {
+        super(properties, null, "apple", -4, 0, 50);
     }
 
     // TODO (PORTING): Probably only a datacomponent now

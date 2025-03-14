@@ -2,229 +2,98 @@ package dev.willyelton.crystal_tools.datagen;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
-import net.minecraft.client.renderer.block.model.BlockModel;
-import net.minecraft.core.registries.BuiltInRegistries;
+import dev.willyelton.crystal_tools.common.levelable.armor.CrystalToolsArmorMaterials;
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.ModelProvider;
+import net.minecraft.client.data.models.model.ItemModelUtils;
+import net.minecraft.client.data.models.model.ModelLocationUtils;
+import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.client.data.models.model.TexturedModel;
+import net.minecraft.client.renderer.item.ItemModel;
+import net.minecraft.client.renderer.special.TridentSpecialRenderer;
+import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemDisplayContext;
-import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
-import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.minecraft.world.level.block.Block;
 
-import java.util.Objects;
+import java.util.stream.Stream;
 
-public class CrystalToolsItemModels extends ItemModelProvider {
-    public CrystalToolsItemModels(PackOutput output, ExistingFileHelper existingFileHelper) {
-        super(output, CrystalTools.MODID, existingFileHelper);
+public class CrystalToolsItemModels extends ModelProvider {
+    public CrystalToolsItemModels(PackOutput output) {
+        super(output, CrystalTools.MODID);
     }
 
     @Override
-    protected void registerModels() {
-        // Blocks
-        withExistingParent(Registration.CRYSTAL_BLOCK.getId().getPath(), modLoc("block/crystal_block"));
-        withExistingParent(Registration.CRYSTAL_ORE.getId().getPath(), modLoc("block/crystal_ore"));
-        withExistingParent(Registration.CRYSTAL_DEEPSLATE_ORE.getId().getPath(), modLoc("block/crystal_deepslate_ore"));
-        withExistingParent(Registration.CRYSTAL_FURNACE.getId().getPath(), modLoc("block/crystal_furnace"));
-        withExistingParent(Registration.CRYSTAL_GENERATOR.getId().getPath(), modLoc("block/crystal_generator"));
-        withExistingParent(Registration.CRYSTAL_QUARRY.getId().getPath(), modLoc("block/crystal_quarry"));
-        withExistingParent(Registration.CRYSTAL_TORCH.getId().getPath(), mcLoc("item/generated"))
-                .texture("layer0", modLoc("block/crystal_torch"));
-        withExistingParent(Registration.QUARRY_STABILIZER.getId().getPath(), modLoc("block/quarry_stabilizer"));
-
+    protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
         // Items
-        basicItem(Registration.CRYSTAL.get());
-        toolItem(Registration.NETHERITE_STICK.get());
-        basicItem(Registration.CRYSTAL_APPLE.get());
-        basicItem(Registration.CRYSTAL_BACKPACK.get());
+        itemModels.generateFlatItem(Registration.CRYSTAL.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(Registration.NETHERITE_STICK.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(Registration.CRYSTAL_APPLE.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(Registration.CRYSTAL_BACKPACK.get(), ModelTemplates.FLAT_ITEM);
 
         // Tools
-        toolItem(Registration.CRYSTAL_AIOT.get());
-        toolItem(Registration.CRYSTAL_AXE.get());
-        toolItem(Registration.CRYSTAL_HOE.get());
-        toolItem(Registration.CRYSTAL_PICKAXE.get());
-        toolItem(Registration.CRYSTAL_ROCKET.get());
-        toolItem(Registration.CRYSTAL_SHOVEL.get());
-        toolItem(Registration.CRYSTAL_SWORD.get());
-        registerBow();
-        registerTrident();
-        registerFishingRod();
+        itemModels.generateFlatItem(Registration.CRYSTAL_AIOT.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModels.generateFlatItem(Registration.CRYSTAL_AXE.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModels.generateFlatItem(Registration.CRYSTAL_HOE.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModels.generateFlatItem(Registration.CRYSTAL_PICKAXE.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModels.generateFlatItem(Registration.CRYSTAL_ROCKET.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(Registration.CRYSTAL_SHOVEL.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModels.generateFlatItem(Registration.CRYSTAL_SWORD.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        // TODO: Will most likely have to do something about this, looks like the speed is hard coded into the model now ...
+        itemModels.generateBow(Registration.CRYSTAL_BOW.get());
+        generateCrystalTrident(itemModels);
+        itemModels.generateFishingRod(Registration.CRYSTAL_FISHING_ROD.get());
 
         // Armor
-        basicItem(Registration.CRYSTAL_HELMET.get());
-        basicItem(Registration.CRYSTAL_CHESTPLATE.get());
-        basicItem(Registration.CRYSTAL_LEGGINGS.get());
-        basicItem(Registration.CRYSTAL_BOOTS.get());
-        basicItem(Registration.CRYSTAL_ELYTRA.get());
+        itemModels.generateTrimmableItem(Registration.CRYSTAL_HELMET.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, "helmet", false);
+        itemModels.generateTrimmableItem(Registration.CRYSTAL_CHESTPLATE.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, "chestplate", false);
+        itemModels.generateTrimmableItem(Registration.CRYSTAL_LEGGINGS.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, "leggings", false);
+        itemModels.generateTrimmableItem(Registration.CRYSTAL_BOOTS.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, "boots", false);
+        itemModels.generateFlatItem(Registration.CRYSTAL_ELYTRA.get(), ModelTemplates.FLAT_ITEM);
+
+        // Blocks
+        blockModels.createTrivialCube(Registration.CRYSTAL_BLOCK.get());
+        blockModels.createFlatItemModel(Registration.CRYSTAL_BLOCK_ITEM.get());
+        blockModels.createTrivialCube(Registration.CRYSTAL_ORE.get());
+        blockModels.createFlatItemModel(Registration.CRYSTAL_ORE_ITEM.get());
+        blockModels.createTrivialCube(Registration.CRYSTAL_DEEPSLATE_ORE.get());
+        blockModels.createFlatItemModel(Registration.CRYSTAL_DEEPSLATE_ORE_ITEM.get());
+
+        blockModels.createNormalTorch(Registration.CRYSTAL_TORCH.get(), Registration.CRYSTAL_WALL_TORCH.get());
+
+        blockModels.createFurnace(Registration.CRYSTAL_FURNACE.get(), TexturedModel.ORIENTABLE_ONLY_TOP);
+        blockModels.createFlatItemModel(Registration.CRYSTAL_FURNACE_ITEM.get());
+        blockModels.createFurnace(Registration.CRYSTAL_GENERATOR.get(), TexturedModel.ORIENTABLE_ONLY_TOP);
+        blockModels.createFlatItemModel(Registration.CRYSTAL_GENERATOR_ITEM.get());
+        blockModels.createFurnace(Registration.CRYSTAL_QUARRY.get(), TexturedModel.ORIENTABLE_ONLY_TOP);
+        blockModels.createFlatItemModel(Registration.CRYSTAL_QUARRY_ITEM.get());
+
+        blockModels.createFlatItemModel(Registration.QUARRY_STABILIZER_ITEM.get());
     }
 
-    private ItemModelBuilder toolItem(Item item) {
-        ResourceLocation resourceLocation = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
-        return getBuilder(resourceLocation.toString())
-                .parent(new ModelFile.UncheckedModelFile("item/handheld"))
-                .texture("layer0", ResourceLocation.fromNamespaceAndPath(resourceLocation.getNamespace(), "item/" + resourceLocation.getPath()));
+    private void generateCrystalTrident(ItemModelGenerators itemModels) {
+        Item tridentItem = Registration.CRYSTAL_TRIDENT.get();
+
+        ItemModel.Unbaked itemmodel$unbaked = ItemModelUtils.plainModel(itemModels.createFlatItemModel(tridentItem, ModelTemplates.FLAT_ITEM));
+        ItemModel.Unbaked itemmodel$unbaked1 = ItemModelUtils.specialModel(
+                ModelLocationUtils.getModelLocation(tridentItem, "_in_hand"), new TridentSpecialRenderer.Unbaked()
+        );
+        ItemModel.Unbaked itemmodel$unbaked2 = ItemModelUtils.specialModel(
+                ModelLocationUtils.getModelLocation(tridentItem, "_throwing"), new TridentSpecialRenderer.Unbaked()
+        );
+        ItemModel.Unbaked itemmodel$unbaked3 = ItemModelUtils.conditional(ItemModelUtils.isUsingItem(), itemmodel$unbaked2, itemmodel$unbaked1);
+        itemModels.itemModelOutput.accept(tridentItem, ItemModelGenerators.createFlatModelDispatch(itemmodel$unbaked, itemmodel$unbaked3));
     }
 
-    private void registerBow() {
-        ModelFile[] bowModels = new ModelFile[3];
-
-        for (int i = 0; i < 3; i++) {
-            ResourceLocation resourceLocation = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "item/crystal_bow_pulling_" + i);
-            bowModels[i] = getBuilder(resourceLocation.toString())
-                    .parent(new ModelFile.UncheckedModelFile(CrystalTools.MODID + ":item/crystal_bow"))
-                    .texture("layer0", resourceLocation);
-        }
-
-        basicItem(Registration.CRYSTAL_BOW.get())
-                .transforms()
-                    .transform(ItemDisplayContext.THIRD_PERSON_RIGHT_HAND)
-                        .rotation(-80, 260, -40)
-                        .translation(-1F, -2F, 2.5F)
-                        .scale(0.9F, 0.9F, 0.9F)
-                    .end()
-                    .transform(ItemDisplayContext.THIRD_PERSON_LEFT_HAND)
-                        .rotation(-80, -280, 40)
-                        .translation(-1F, -2F, 2.5F)
-                        .scale(0.9F, 0.9F, 0.9F)
-                    .end()
-                    .transform(ItemDisplayContext.FIRST_PERSON_RIGHT_HAND)
-                        .rotation(0, -90, 25)
-                        .translation(1.13F, 3.2F, 1.13F)
-                        .scale(0.68F, 0.68F, 0.68F)
-                    .end()
-                    .transform(ItemDisplayContext.FIRST_PERSON_LEFT_HAND)
-                        .rotation(0, 90, -25)
-                        .translation(1.13F, 3.2F, 1.13F)
-                        .scale(0.68F, 0.68F, 0.68F)
-                    .end()
-                .end()
-                .override()
-                    .predicate(mcLoc("pulling"), 1)
-                    .model(bowModels[0])
-                .end()
-                .override()
-                    .predicate(mcLoc("pulling"), 1)
-                    .predicate(mcLoc("pull"), 0.65F)
-                    .model(bowModels[1])
-                .end()
-                .override()
-                    .predicate(mcLoc("pulling"), 1)
-                    .predicate(mcLoc("pull"), 0.9F)
-                    .model(bowModels[2])
-                .end();
+    @Override
+    protected Stream<? extends Holder<Block>> getKnownBlocks() {
+        return super.getKnownBlocks().filter(h -> !h.value().equals(Registration.QUARRY_STABILIZER.get()));
     }
 
-    private void registerTrident() {
-        // Inventory Model
-        ResourceLocation tridentLocation = Registration.CRYSTAL_TRIDENT.getId();
-        ResourceLocation tridentTextureLocation = ResourceLocation.fromNamespaceAndPath(tridentLocation.getNamespace(), "item/" + tridentLocation.getPath());
-        getBuilder(tridentLocation + "_inventory")
-                .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                .texture("layer0", tridentTextureLocation);
-
-        // Throwing Model
-        ModelFile throwingModel = getBuilder(tridentLocation + "_throwing")
-                .parent(new ModelFile.UncheckedModelFile("builtin/entity"))
-                .guiLight(BlockModel.GuiLight.FRONT)
-                .texture("particle", tridentTextureLocation)
-                .transforms()
-                    .transform(ItemDisplayContext.THIRD_PERSON_RIGHT_HAND)
-                        .rotation(0, 90, 180)
-                        .translation(8, -17, 9)
-                        .scale(1, 1, 1)
-                    .end()
-                    .transform(ItemDisplayContext.THIRD_PERSON_LEFT_HAND)
-                        .rotation(0, 90, 180)
-                        .translation(8, -17, -7)
-                        .scale(1, 1, 1)
-                    .end()
-                    .transform(ItemDisplayContext.FIRST_PERSON_RIGHT_HAND)
-                        .rotation(0, -90, 25)
-                        .translation(-3, 17, 1)
-                        .scale(1, 1, 1)
-                    .end()
-                    .transform(ItemDisplayContext.FIRST_PERSON_LEFT_HAND)
-                        .rotation(0, 90, -25)
-                        .translation(13, 17, 1)
-                        .scale(1, 1, 1)
-                    .end()
-                    .transform(ItemDisplayContext.GUI)
-                        .rotation(15, -25, -5)
-                        .translation(2, 3, 0)
-                        .scale(0.65F, 0.65F, 0.65F)
-                    .end()
-                    .transform(ItemDisplayContext.FIXED)
-                        .rotation(0, 180, 0)
-                        .translation(-2, 4, -5)
-                        .scale(0.5F, 0.5F, 0.5F)
-                    .end()
-                    .transform(ItemDisplayContext.GROUND)
-                        .rotation(0, 0, 0)
-                        .translation(4, 4, 2)
-                        .scale(0.25F, 0.25F, 0.25F)
-                    .end()
-                .end();
-
-        // Normal Model
-        getBuilder(tridentLocation.toString())
-                .parent(new ModelFile.UncheckedModelFile("builtin/entity"))
-                .guiLight(BlockModel.GuiLight.FRONT)
-                .texture("particle", tridentTextureLocation)
-                .transforms()
-                    .transform(ItemDisplayContext.THIRD_PERSON_RIGHT_HAND)
-                        .rotation(0, 60, 0)
-                        .translation(11, 17, -2)
-                        .scale(1, 1, 1)
-                    .end()
-                    .transform(ItemDisplayContext.THIRD_PERSON_LEFT_HAND)
-                        .rotation(0, 60, 0)
-                        .translation(3, 17, 12)
-                        .scale(1, 1, 1)
-                    .end()
-                    .transform(ItemDisplayContext.FIRST_PERSON_RIGHT_HAND)
-                        .rotation(0, -90, 25)
-                        .translation(-3, 17, 1)
-                        .scale(1, 1, 1)
-                    .end()
-                    .transform(ItemDisplayContext.FIRST_PERSON_LEFT_HAND)
-                        .rotation(0, 90, -25)
-                        .translation(13, 17 , 1)
-                        .scale(1, 1, 1)
-                    .end()
-                    .transform(ItemDisplayContext.GUI)
-                        .rotation(15, -25, -5)
-                        .translation(2, 3, 0)
-                        .scale(0.65F, 0.65F, 0.65F)
-                    .end()
-                    .transform(ItemDisplayContext.FIXED)
-                        .rotation(0, 180, 0)
-                        .translation(-2, 4, -5)
-                        .scale(0.5F, 0.5F, 0.5F)
-                    .end()
-                    .transform(ItemDisplayContext.GROUND)
-                        .rotation(0, 0, 0)
-                        .translation(4, 4, 2)
-                        .scale(0.25F, 0.25F, 0.25F)
-                    .end()
-                .end()
-                .override()
-                    .predicate(mcLoc("throwing"), 1)
-                    .model(throwingModel)
-                .end();
-    }
-
-    private void registerFishingRod() {
-        ResourceLocation fishingRodId = Registration.CRYSTAL_FISHING_ROD.getId();
-        ModelFile castModel = getBuilder(fishingRodId + "_cast")
-                .parent(new ModelFile.UncheckedModelFile("crystal_tools:item/crystal_fishing_rod"))
-                .texture("layer0", modLoc("item/crystal_fishing_rod_cast"));
-
-        basicItem(Registration.CRYSTAL_FISHING_ROD.get())
-                .parent(new ModelFile.UncheckedModelFile("item/handheld_rod"))
-                .override()
-                .predicate(mcLoc("cast"), 1)
-                .model(castModel)
-                .end();
+    @Override
+    protected Stream<? extends Holder<Item>> getKnownItems() {
+        // TODO: Can probably datagen this pretty easily
+        return super.getKnownItems().filter(h -> !h.value().equals(Registration.CRYSTAL_SHIELD.get()));
     }
 }

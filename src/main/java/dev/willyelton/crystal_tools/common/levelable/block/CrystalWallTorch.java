@@ -31,8 +31,8 @@ import static net.minecraft.world.level.block.state.properties.BlockStatePropert
 public class CrystalWallTorch extends CrystalTorch {
     private static final Map<Direction, VoxelShape> AABBS = Maps.newEnumMap(ImmutableMap.of(Direction.NORTH, Block.box(5.5D, 3.0D, 11.0D, 10.5D, 13.0D, 16.0D), Direction.SOUTH, Block.box(5.5D, 3.0D, 0.0D, 10.5D, 13.0D, 5.0D), Direction.WEST, Block.box(11.0D, 3.0D, 5.5D, 16.0D, 13.0D, 10.5D), Direction.EAST, Block.box(0.0D, 3.0D, 5.5D, 5.0D, 13.0D, 10.5D)));
 
-    public CrystalWallTorch() {
-        super(BlockBehaviour.Properties.ofFullCopy(Blocks.SOUL_WALL_TORCH).overrideLootTable(Registration.CRYSTAL_TORCH.get().getLootTable()));
+    public CrystalWallTorch(BlockBehaviour.Properties properties) {
+        super(properties.overrideLootTable(Registration.CRYSTAL_TORCH.get().getLootTable()));
         this.registerDefaultState(this.stateDefinition.any().setValue(HORIZONTAL_FACING, Direction.NORTH).setValue(CrystalTorch.DROP_ITEM, true));
     }
 

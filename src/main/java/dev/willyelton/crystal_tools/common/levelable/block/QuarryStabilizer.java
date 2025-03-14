@@ -44,8 +44,8 @@ public class QuarryStabilizer extends Block {
 
     private static final List<Direction> DIRECTIONS = List.of(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST);
 
-    public QuarryStabilizer() {
-        super(BlockBehaviour.Properties.of()
+    public QuarryStabilizer(BlockBehaviour.Properties properties) {
+        super(properties
                 .lightLevel((state) -> 14)
                 .sound(SoundType.AMETHYST)
                 .strength(5.0F, 6.0F));

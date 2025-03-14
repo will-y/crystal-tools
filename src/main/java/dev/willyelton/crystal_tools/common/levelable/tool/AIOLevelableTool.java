@@ -30,8 +30,8 @@ import static net.neoforged.neoforge.common.ItemAbilities.DEFAULT_SWORD_ACTIONS;
 public class AIOLevelableTool extends DiggerLevelableTool {
     public static final Set<ItemAbility> AIOT_ACTIONS = new HashSet<>();
 
-    public AIOLevelableTool() {
-        super(new Item.Properties(), BlockTags.MINEABLE_WITH_PICKAXE, "aiot", 3, -2.4F);
+    public AIOLevelableTool(Item.Properties properties) {
+        super(properties, BlockTags.MINEABLE_WITH_PICKAXE, "aiot", 3, -2.4F);
         AIOT_ACTIONS.addAll(DEFAULT_AXE_ACTIONS);
         AIOT_ACTIONS.addAll(DEFAULT_HOE_ACTIONS);
         AIOT_ACTIONS.addAll(DEFAULT_SHOVEL_ACTIONS);

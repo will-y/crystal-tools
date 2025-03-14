@@ -8,6 +8,7 @@ import dev.willyelton.crystal_tools.common.inventory.container.CrystalGeneratorC
 import dev.willyelton.crystal_tools.utils.IntegerUtils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -48,7 +49,7 @@ public class CrystalGeneratorScreen extends AbstractContainerScreen<CrystalGener
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE);
-        guiGraphics.blit(TEXTURE, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
+        guiGraphics.blit(RenderType::guiTextured, TEXTURE, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
         this.renderFire(guiGraphics);
     }
 
@@ -97,12 +98,12 @@ public class CrystalGeneratorScreen extends AbstractContainerScreen<CrystalGener
     }
 
     private void renderFire(GuiGraphics guiGraphics) {
-        guiGraphics.blit(TEXTURE, this.leftPos + FIRE_X, this.topPos + FIRE_Y, FIRE_TEXTURE_OFF_X, FIRE_TEXTURE_Y, FIRE_WIDTH, FIRE_HEIGHT);
+        guiGraphics.blit(RenderType::guiTextured, TEXTURE, this.leftPos + FIRE_X, this.topPos + FIRE_Y, FIRE_TEXTURE_OFF_X, FIRE_TEXTURE_Y, FIRE_WIDTH, FIRE_HEIGHT, 256, 256);
 
         if (this.menu.isLit()) {
             float litProgress = this.menu.getLitProgress();
             int height = (int) (litProgress * FIRE_HEIGHT);
-            guiGraphics.blit(TEXTURE, this.leftPos + FIRE_X, this.topPos + FIRE_Y + FIRE_HEIGHT - height, FIRE_TEXTURE_ON_X, FIRE_TEXTURE_Y + FIRE_HEIGHT - height, FIRE_WIDTH, height);
+            guiGraphics.blit(RenderType::guiTextured, TEXTURE, this.leftPos + FIRE_X, this.topPos + FIRE_Y + FIRE_HEIGHT - height, FIRE_TEXTURE_ON_X, FIRE_TEXTURE_Y + FIRE_HEIGHT - height, FIRE_WIDTH, height, 256, 256);
         }
     }
 }

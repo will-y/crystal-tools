@@ -1,32 +1,17 @@
 {
   "variants": {
-    "drop_item=false,facing=east": {
+    "facing=east": {
       "model": "crystal_tools:block/crystal_wall_torch"
     },
-    "drop_item=false,facing=north": {
+    "facing=north": {
       "model": "crystal_tools:block/crystal_wall_torch",
       "y": 270
     },
-    "drop_item=false,facing=south": {
+    "facing=south": {
       "model": "crystal_tools:block/crystal_wall_torch",
       "y": 90
     },
-    "drop_item=false,facing=west": {
-      "model": "crystal_tools:block/crystal_wall_torch",
-      "y": 180
-    },
-    "drop_item=true,facing=east": {
-      "model": "crystal_tools:block/crystal_wall_torch"
-    },
-    "drop_item=true,facing=north": {
-      "model": "crystal_tools:block/crystal_wall_torch",
-      "y": 270
-    },
-    "drop_item=true,facing=south": {
-      "model": "crystal_tools:block/crystal_wall_torch",
-      "y": 90
-    },
-    "drop_item=true,facing=west": {
+    "facing=west": {
       "model": "crystal_tools:block/crystal_wall_torch",
       "y": 180
     }

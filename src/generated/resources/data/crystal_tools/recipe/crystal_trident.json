@@ -11,15 +11,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "c": {
-      "item": "crystal_tools:crystal"
-    },
-    "s": {
-      "tag": "c:rods/netherite"
-    },
-    "t": {
-      "item": "minecraft:trident"
-    }
+    "c": "crystal_tools:crystal",
+    "s": "#c:rods/netherite",
+    "t": "minecraft:trident"
   },
   "pattern": [
     "ccc",

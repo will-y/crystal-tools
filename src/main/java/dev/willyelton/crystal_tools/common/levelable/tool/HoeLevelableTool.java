@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Random;
 
 public class HoeLevelableTool extends DiggerLevelableTool {
-    public HoeLevelableTool() {
-        super(new Item.Properties(), BlockTags.MINEABLE_WITH_HOE, "hoe", -4, 0);
+    public HoeLevelableTool(Item.Properties properties) {
+        super(properties, BlockTags.MINEABLE_WITH_HOE, "hoe", -4, 0);
     }
 
     @Override

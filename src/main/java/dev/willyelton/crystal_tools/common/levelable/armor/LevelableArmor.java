@@ -41,8 +41,8 @@ public class LevelableArmor extends ArmorItem implements LevelableItem {
     private static final ArmorMaterial ARMOR_MATERIAL = CrystalToolsArmorMaterials.CRYSTAL;
     protected final String itemType;
 
-    public LevelableArmor(String itemType, ArmorType type) {
-        super(ARMOR_MATERIAL, type, ARMOR_MATERIAL.humanoidProperties(new Properties().fireResistant().durability(INITIAL_TIER.durability()), type));
+    public LevelableArmor(Item.Properties properties, String itemType, ArmorType type) {
+        super(ARMOR_MATERIAL, type, ARMOR_MATERIAL.humanoidProperties(properties.fireResistant().durability(INITIAL_TIER.durability()), type));
         this.itemType = itemType;
     }
 

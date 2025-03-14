@@ -76,7 +76,7 @@ public class ShieldBlockEvent {
         // Mob Effects
         List<EffectData> effects = stack.getOrDefault(DataComponents.EFFECTS, Collections.emptyList());
         for (EffectData effect : effects) {
-            Optional<Holder.Reference<MobEffect>> mobEffect = BuiltInRegistries.MOB_EFFECT.getHolder(ResourceLocation.withDefaultNamespace(effect.resourceLocation()));
+            Optional<Holder.Reference<MobEffect>> mobEffect = BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.withDefaultNamespace(effect.resourceLocation()));
             if (mobEffect.isPresent()) {
                 MobEffectInstance instance = new MobEffectInstance(mobEffect.get(), 100, 1, false, true);
                 target.addEffect(instance);

@@ -31,7 +31,7 @@ public abstract class PlayerMixin extends LivingEntity {
 
         if (blockCooldownReduction > 0) {
             if (blockCooldownReduction < 100) {
-                this.getCooldowns().addCooldown(usingItem.getItem(), 100 - blockCooldownReduction);
+                this.getCooldowns().addCooldown(usingItem, 100 - blockCooldownReduction);
                 this.stopUsingItem();
                 this.level().broadcastEntityEvent(this, (byte) 30);
             }

@@ -18,7 +18,7 @@ public class CrystalToolsDataMaps extends DataMapProvider {
 
     @SuppressWarnings("deprecation")
     @Override
-    protected void gather() {
+    protected void gather(HolderLookup.Provider provider) {
         builder(DataMaps.GENERATOR_GEMS)
                 .add(Registration.CRYSTAL, new GeneratorFuelData(10800, 100), false)
                 .add(Items.AMETHYST_SHARD.builtInRegistryHolder(), new GeneratorFuelData(1800, 20), false)

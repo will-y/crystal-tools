@@ -40,8 +40,8 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 public class BowLevelableItem extends BowItem implements LevelableItem, EntityTargeter {
-    public BowLevelableItem() {
-        super(new Properties().durability(INITIAL_TIER.durability()).fireResistant().repairable(CrystalToolsTags.REPAIRS_CRYSTAL));
+    public BowLevelableItem(Item.Properties properties) {
+        super(properties.durability(INITIAL_TIER.durability()).fireResistant().repairable(CrystalToolsTags.REPAIRS_CRYSTAL));
     }
 
     @Override

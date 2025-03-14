@@ -32,8 +32,8 @@ import static dev.willyelton.crystal_tools.common.levelable.tool.LevelableTool.A
 
 public class CrystalShield extends ShieldItem implements LevelableItem, EntityTargeter {
 
-    public CrystalShield() {
-        super(new Item.Properties().durability(1000)
+    public CrystalShield(Item.Properties properties) {
+        super(properties.durability(1000)
                 .component(net.minecraft.core.component.DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY)
                 .fireResistant()
                 .repairable(Registration.CRYSTAL.get()));

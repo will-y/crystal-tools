@@ -15,12 +15,12 @@ import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.NotNull;
 
 public class SwordLevelableTool extends LevelableTool {
-    public SwordLevelableTool() {
-        this("sword", 3, -2.4f);
+    public SwordLevelableTool(Item.Properties properties) {
+        this(properties, "sword", 3, -2.4f);
     }
 
-    public SwordLevelableTool(String itemType, float attackDamageModifier, float attackSpeedModifier) {
-        super(new Item.Properties(), null, itemType, attackDamageModifier, attackSpeedModifier);
+    public SwordLevelableTool(Item.Properties properties, String itemType, float attackDamageModifier, float attackSpeedModifier) {
+        super(properties, null, itemType, attackDamageModifier, attackSpeedModifier);
     }
 
     @Override

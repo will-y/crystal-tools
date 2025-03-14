@@ -12,8 +12,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipePropertySet;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 
 import java.util.Arrays;
@@ -26,6 +26,7 @@ public class CrystalFurnaceContainerMenu extends LevelableContainerMenu {
     private final int inputSlotY = 58;
     private final int outputSlotY = 23;
     private final int[][] slotXValues = new int[][] {new int[] {96, 0, 0, 0, 0}, new int[] {80, 112, 0, 0, 0}, new int[] {74, 96, 118, 0, 0}, new int[] {57, 83, 109, 135, 0}, new int[] {58, 77, 96, 115, 134}};
+    private final RecipePropertySet acceptedInputs;
 
     private static final int PLAYER_INVENTORY_START = 13;
     private static final int PLAYER_INVENTORY_END = 49;
@@ -34,6 +35,7 @@ public class CrystalFurnaceContainerMenu extends LevelableContainerMenu {
 
     public CrystalFurnaceContainerMenu(int containerId, Level level, BlockPos pos, Inventory playerInventory, ContainerData data) {
         super(Registration.CRYSTAL_FURNACE_CONTAINER.get(), containerId, playerInventory, data);
+        acceptedInputs = level.recipeAccess().propertySet(RecipePropertySet.FURNACE_INPUT);
         te = (CrystalFurnaceBlockEntity) level.getBlockEntity(pos);
 
         this.addFurnaceSlots(5, 5);
@@ -151,12 +153,12 @@ public class CrystalFurnaceContainerMenu extends LevelableContainerMenu {
         return this.data.get(6) + 1;
     }
 
-    protected boolean canSmelt(ItemStack pStack) {
-        return this.level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, new SingleRecipeInput(pStack), this.level).isPresent();
+    protected boolean canSmelt(ItemStack stack) {
+        return this.acceptedInputs.test(stack);
     }
 
     protected boolean isFuel(ItemStack stack) {
-        return stack.getBurnTime(RecipeType.SMELTING) > 0;
+        return stack.getBurnTime(RecipeType.SMELTING, level.fuelValues()) > 0;
     }
 
     @Override

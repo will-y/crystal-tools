@@ -9,9 +9,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.common.EffectCures;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 
+// TODO: This can be replaced by the DEATH_PROTECTION data component
 @EventBusSubscriber(modid = CrystalTools.MODID)
 public class PlayerDiedEvent {
     @SubscribeEvent
@@ -42,7 +42,7 @@ public class PlayerDiedEvent {
 
     private static void triggerTotem(Player player) {
         player.setHealth(1.0F);
-        player.removeEffectsCuredBy(EffectCures.PROTECTED_BY_TOTEM);
+//        player.removeEffectsCuredBy(EffectCures.PROTECTED_BY_TOTEM);
         player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 900, 1));
         player.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 100, 1));
         player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 800, 0));

@@ -6,11 +6,10 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.UseOnContext;
-import org.jetbrains.annotations.NotNull;
 
 public class PickaxeLevelableTool extends DiggerLevelableTool {
-    public PickaxeLevelableTool() {
-        super(new Item.Properties(), BlockTags.MINEABLE_WITH_PICKAXE, "pickaxe", 1, -2.8F);
+    public PickaxeLevelableTool(Item.Properties properties) {
+        super(properties, BlockTags.MINEABLE_WITH_PICKAXE, "pickaxe", 1, -2.8F);
     }
 
     public InteractionResult useOn(UseOnContext context) {
