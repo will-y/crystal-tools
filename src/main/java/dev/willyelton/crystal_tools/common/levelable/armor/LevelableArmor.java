@@ -51,7 +51,7 @@ public class LevelableArmor extends ArmorItem implements LevelableItem {
         // TODO (PORTING): This might be wrong now: getEquipmentSlot
         // Most of this probably go away with my skill tree refactors
         ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
-        if (!ToolUtils.isBroken(stack)) {
+        if (!ToolUtils.isBroken(stack) && getEquipmentSlot(stack) != null) {
             builder.add(Attributes.ARMOR, new AttributeModifier(ARMOR_ID, this.getDefense(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(getEquipmentSlot(stack)));
             builder.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(ARMOR_TOUGHNESS_ID, this.getToughness(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(getEquipmentSlot(stack)));
             int health = stack.getOrDefault(DataComponents.HEALTH_BONUS, 0);

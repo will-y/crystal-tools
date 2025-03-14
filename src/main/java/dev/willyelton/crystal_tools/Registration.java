@@ -124,11 +124,11 @@ public class Registration {
     public static final DeferredHolder<Item, BlockItem> CRYSTAL_ORE_ITEM = ITEMS.registerSimpleBlockItem(CRYSTAL_ORE);
     public static final DeferredHolder<Item, BlockItem> CRYSTAL_DEEPSLATE_ORE_ITEM = ITEMS.registerSimpleBlockItem(CRYSTAL_DEEPSLATE_ORE);
     public static final DeferredHolder<Item, BlockItem> CRYSTAL_BLOCK_ITEM = ITEMS.registerSimpleBlockItem(CRYSTAL_BLOCK);
-    public static final DeferredHolder<Item, BlockItem> CRYSTAL_FURNACE_ITEM = ITEMS.registerItem("crystal_furnace", (properties) -> new LevelableBlockItem(CRYSTAL_FURNACE.get(), properties));
-    public static final DeferredHolder<Item, BlockItem> CRYSTAL_GENERATOR_ITEM = ITEMS.registerItem("crystal_generator", (properties) -> new LevelableBlockItem(CRYSTAL_GENERATOR.get(), properties));
-    public static final DeferredHolder<Item, BlockItem> CRYSTAL_QUARRY_ITEM = ITEMS.registerItem("crystal_quarry", (properties) -> new CrystalQuarryBlockItem(CRYSTAL_QUARRY.get(), properties));
+    public static final DeferredHolder<Item, BlockItem> CRYSTAL_FURNACE_ITEM = ITEMS.registerItem("crystal_furnace", (properties) -> new LevelableBlockItem(CRYSTAL_FURNACE.get(), properties.useBlockDescriptionPrefix()));
+    public static final DeferredHolder<Item, BlockItem> CRYSTAL_GENERATOR_ITEM = ITEMS.registerItem("crystal_generator", (properties) -> new LevelableBlockItem(CRYSTAL_GENERATOR.get(), properties.useBlockDescriptionPrefix()));
+    public static final DeferredHolder<Item, BlockItem> CRYSTAL_QUARRY_ITEM = ITEMS.registerItem("crystal_quarry", (properties) -> new CrystalQuarryBlockItem(CRYSTAL_QUARRY.get(), properties.useBlockDescriptionPrefix()));
     public static final DeferredHolder<Item, BlockItem> QUARRY_STABILIZER_ITEM = ITEMS.registerSimpleBlockItem(QUARRY_STABILIZER);
-    public static final DeferredHolder<Item, StandingAndWallBlockItem> CRYSTAL_TORCH_ITEM = ITEMS.registerItem("crystal_torch", (properties) -> new StandingAndWallBlockItem(CRYSTAL_TORCH.get(), CRYSTAL_WALL_TORCH.get(), Direction.DOWN, properties));
+    public static final DeferredHolder<Item, StandingAndWallBlockItem> CRYSTAL_TORCH_ITEM = ITEMS.registerItem("crystal_torch", (properties) -> new StandingAndWallBlockItem(CRYSTAL_TORCH.get(), CRYSTAL_WALL_TORCH.get(), Direction.DOWN, properties.useBlockDescriptionPrefix()));
 
     // Entities
     public static final DeferredHolder<EntityType<?>, EntityType<CrystalTridentEntity>> CRYSTAL_TRIDENT_ENTITY = ENTITIES.register("crystal_trident", () -> EntityType.Builder.<CrystalTridentEntity>of(CrystalTridentEntity::new, MobCategory.MISC)
