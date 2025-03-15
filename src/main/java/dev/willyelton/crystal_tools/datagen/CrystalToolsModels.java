@@ -11,8 +11,10 @@ import net.minecraft.client.data.models.ModelProvider;
 import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.data.models.model.ModelLocationUtils;
 import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TexturedModel;
 import net.minecraft.client.renderer.item.ItemModel;
+import net.minecraft.client.renderer.item.properties.numeric.UseDuration;
 import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.Item;
@@ -41,8 +43,7 @@ public class CrystalToolsModels extends ModelProvider {
         itemModels.generateFlatItem(Registration.CRYSTAL_ROCKET.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(Registration.CRYSTAL_SHOVEL.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
         itemModels.generateFlatItem(Registration.CRYSTAL_SWORD.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
-        // TODO (PORTING): Will most likely have to do something about this, looks like the speed is hard coded into the model now ...
-        itemModels.generateBow(Registration.CRYSTAL_BOW.get());
+        generateCrystalBow(itemModels);
         generateCrystalTrident(itemModels);
         itemModels.generateFishingRod(Registration.CRYSTAL_FISHING_ROD.get());
         generateCrystalShield(itemModels);
@@ -74,25 +75,53 @@ public class CrystalToolsModels extends ModelProvider {
         blockModels.createFlatItemModel(Registration.QUARRY_STABILIZER_ITEM.get());
     }
 
+    private void generateCrystalBow(ItemModelGenerators itemModels) {
+        Item bowItem = Registration.CRYSTAL_BOW.get();
+
+        ItemModel.Unbaked itemmodel$unbaked = ItemModelUtils.plainModel(itemModels.createFlatItemModel(bowItem, CrystalToolsModelTemplates.CRYSTAL_BOW));
+        ItemModel.Unbaked itemmodel$unbaked1 = ItemModelUtils.plainModel(itemModels.createFlatItemModel(bowItem, "_pulling_0", ModelTemplates.BOW));
+        ItemModel.Unbaked itemmodel$unbaked2 = ItemModelUtils.plainModel(itemModels.createFlatItemModel(bowItem, "_pulling_1", ModelTemplates.BOW));
+        ItemModel.Unbaked itemmodel$unbaked3 = ItemModelUtils.plainModel(itemModels.createFlatItemModel(bowItem, "_pulling_2", ModelTemplates.BOW));
+        itemModels.itemModelOutput
+                .accept(
+                        bowItem,
+                        ItemModelUtils.conditional(
+                                ItemModelUtils.isUsingItem(),
+                                ItemModelUtils.rangeSelect(
+                                        new UseDuration(false),
+                                        0.05F,
+                                        itemmodel$unbaked1,
+                                        ItemModelUtils.override(itemmodel$unbaked2, 0.65F),
+                                        ItemModelUtils.override(itemmodel$unbaked3, 0.9F)
+                                ),
+                                itemmodel$unbaked
+                        )
+                );
+    }
+
     private void generateCrystalTrident(ItemModelGenerators itemModels) {
         Item tridentItem = Registration.CRYSTAL_TRIDENT.get();
 
         ItemModel.Unbaked itemmodel$unbaked = ItemModelUtils.plainModel(itemModels.createFlatItemModel(tridentItem, ModelTemplates.FLAT_ITEM));
         ItemModel.Unbaked itemmodel$unbaked1 = ItemModelUtils.specialModel(
-                ModelLocationUtils.getModelLocation(tridentItem, "_in_hand"), new CrystalTridentSpecialRenderer.Unbaked()
+                CrystalToolsModelTemplates.CRYSTAL_TRIDENT_IN_HAND.create(tridentItem, TextureMapping.particle(Registration.CRYSTAL_TRIDENT.getKey().location()), itemModels.modelOutput),
+                new CrystalTridentSpecialRenderer.Unbaked()
         );
         ItemModel.Unbaked itemmodel$unbaked2 = ItemModelUtils.specialModel(
-                ModelLocationUtils.getModelLocation(tridentItem, "_throwing"), new CrystalTridentSpecialRenderer.Unbaked()
+                CrystalToolsModelTemplates.CRYSTAL_TRIDENT_THROWING.create(tridentItem, TextureMapping.particle(Registration.CRYSTAL_TRIDENT.getKey().location()), itemModels.modelOutput),
+                new CrystalTridentSpecialRenderer.Unbaked()
         );
         ItemModel.Unbaked itemmodel$unbaked3 = ItemModelUtils.conditional(ItemModelUtils.isUsingItem(), itemmodel$unbaked2, itemmodel$unbaked1);
         itemModels.itemModelOutput.accept(tridentItem, ItemModelGenerators.createFlatModelDispatch(itemmodel$unbaked, itemmodel$unbaked3));
     }
 
     public void generateCrystalShield(ItemModelGenerators itemModels) {
-        ItemModel.Unbaked itemmodel$unbaked = ItemModelUtils.specialModel(ModelLocationUtils.getModelLocation(Registration.CRYSTAL_SHIELD.get()), new CrystalShieldRenderer.Unbaked());
+        Item shieldItem = Registration.CRYSTAL_SHIELD.get();
+        ItemModel.Unbaked itemmodel$unbaked = ItemModelUtils.specialModel(CrystalToolsModelTemplates.CRYSTAL_SHIELD.create(shieldItem, TextureMapping.particle(Registration.CRYSTAL_BLOCK.get()), itemModels.modelOutput),
+                new CrystalShieldRenderer.Unbaked());
         ItemModel.Unbaked itemmodel$unbaked1 = ItemModelUtils.specialModel(
-                ModelLocationUtils.getModelLocation(Registration.CRYSTAL_SHIELD.get(), "_blocking"), new CrystalShieldRenderer.Unbaked()
-        );
+                CrystalToolsModelTemplates.CRYSTAL_SHIELD_BLOCKING.create(shieldItem, TextureMapping.particle(Registration.CRYSTAL_BLOCK.get()), itemModels.modelOutput),
+                new CrystalShieldRenderer.Unbaked());
         itemModels.generateBooleanDispatch(Registration.CRYSTAL_SHIELD.get(), ItemModelUtils.isUsingItem(), itemmodel$unbaked1, itemmodel$unbaked);
     }
 

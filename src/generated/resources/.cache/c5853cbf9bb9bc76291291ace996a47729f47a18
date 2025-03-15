@@ -1,4 +1,4 @@
-// 1.21.4	2025-03-15T01:31:27.08112934	Model Definitions - crystal_tools
+// 1.21.4	2025-03-15T14:51:17.127033392	Model Definitions - crystal_tools
 44eb603a54aabeb5d4f7c1fd34fc281a6fbb6170 assets/crystal_tools/blockstates/crystal_block.json
 16c7f01ecbdd437f59531bd56029a2d12186c9a6 assets/crystal_tools/blockstates/crystal_deepslate_ore.json
 b45cd6d350dcfbffe28c7a2e3695c880e9ac5b54 assets/crystal_tools/blockstates/crystal_furnace.json
@@ -64,6 +64,7 @@ c8c030ec8f4d8ccecaf3caf7085578b779f1bb28 assets/crystal_tools/models/item/crysta
 e5fabff8b270847819524c11ab4679d68a976252 assets/crystal_tools/models/item/crystal_boots_quartz_trim.json
 eb2309b7a76db1a46b7fe85d2299ad998a9ef897 assets/crystal_tools/models/item/crystal_boots_redstone_trim.json
 b8a27a230ab90f08c864a080ad6a2cc503941aa4 assets/crystal_tools/models/item/crystal_boots_resin_trim.json
+08cac4cb2b793ae012907212c5e8aa50ae6d645e assets/crystal_tools/models/item/crystal_bow.json
 79aca0231c6f46e2d6e7401347c0223bf4fb6fd6 assets/crystal_tools/models/item/crystal_bow_pulling_0.json
 4aa562ab83ff7ee8244906a9678ed73ba30137bc assets/crystal_tools/models/item/crystal_bow_pulling_1.json
 ad1f7d8143d4a2d2205c0c397138203c4d2a7c23 assets/crystal_tools/models/item/crystal_bow_pulling_2.json
@@ -114,9 +115,13 @@ a82524b98824cf485f48000d5c441c1c37c6416a assets/crystal_tools/models/item/crysta
 db83ce327c359aa8f7ceea40a1446b6a231dd184 assets/crystal_tools/models/item/crystal_pickaxe.json
 d797d1d63be9ae32189d2a8fb259112d173e737b assets/crystal_tools/models/item/crystal_quarry.json
 339aea0c01bd42c67a695ff159484d51a7d5eb7d assets/crystal_tools/models/item/crystal_rocket.json
+cb4c80b67b7bbbae9b37f8f8fb5a480b9e632939 assets/crystal_tools/models/item/crystal_shield.json
+b6df0e05c7de1568a352d0ff037f4f8ea2e890df assets/crystal_tools/models/item/crystal_shield_blocking.json
 118e393eb9b23ba18708f6a04bd9c3b4490ce905 assets/crystal_tools/models/item/crystal_shovel.json
 4fb0d98449e05753ae35dcb85ba96c978dd8afbb assets/crystal_tools/models/item/crystal_sword.json
 74378f8c3d3a814952fd981fd234be56deb1e3a8 assets/crystal_tools/models/item/crystal_torch.json
 5d05547fe23a73c427e5efe3b415dd99d36b3605 assets/crystal_tools/models/item/crystal_trident.json
+bfabcce4bd65573ff8b57be824c85bd89364d98e assets/crystal_tools/models/item/crystal_trident_in_hand.json
+acf1382d1b6ca19e5316a984d3509c18d2373275 assets/crystal_tools/models/item/crystal_trident_throwing.json
 262fc5eead91eb8bf7240fc3070896f875aeddbd assets/crystal_tools/models/item/netherite_stick.json
 7ef356f2445cabe5cc552b89e9d313ddf36900ec assets/crystal_tools/models/item/quarry_stabilizer.json

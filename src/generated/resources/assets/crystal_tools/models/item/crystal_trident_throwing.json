@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/trident_throwing",
+  "gui_light": "front",
+  "textures": {
+    "particle": "crystal_tools:crystal_trident"
+  }
+}
