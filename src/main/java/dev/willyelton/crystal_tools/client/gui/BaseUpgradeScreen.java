@@ -1,11 +1,6 @@
 package dev.willyelton.crystal_tools.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.BufferUploader;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.config.CrystalToolsClientConfig;
 import dev.willyelton.crystal_tools.client.gui.component.SkillButton;
@@ -31,7 +26,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.CoreShaders;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.Style;
@@ -363,11 +358,6 @@ public abstract class BaseUpgradeScreen extends Screen {
     }
 
     private void drawDependencyLine(GuiGraphics guiGraphics, int x1, int y1, int x2, int y2, int yImageStart) {
-        RenderSystem.setShaderTexture(0, DEPENDENCY_LINE_LOCATION);
-        RenderSystem.setShader(CoreShaders.POSITION_TEX_COLOR);
-        Matrix4f matrix4f = guiGraphics.pose().last().pose();
-        BufferBuilder bufferbuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-
         float yImageEnd = yImageStart + DEPENDENCY_LINE_WIDTH;
         float length = (float) Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
         float angle = (float) Math.atan2((x2 - x1), (y2 - y1));
@@ -383,11 +373,14 @@ public abstract class BaseUpgradeScreen extends Screen {
         float x4F = x2 - xOffset;
         float y4F = y2 + yOffset;
 
-        bufferbuilder.addVertex(matrix4f, x2F, y2F, 0).setUv((float) ANIMATION_FRAME / DEPENDENCY_LINE_IMAGE_WIDTH, (float) yImageStart / DEPENDENCY_LINE_IMAGE_HEIGHT);
-        bufferbuilder.addVertex(matrix4f, x1F, y1F, 0).setUv((float) ANIMATION_FRAME / DEPENDENCY_LINE_IMAGE_WIDTH, yImageEnd / DEPENDENCY_LINE_IMAGE_HEIGHT);
-        bufferbuilder.addVertex(matrix4f, x4F, y4F, 0).setUv((length + ANIMATION_FRAME) / DEPENDENCY_LINE_IMAGE_WIDTH, yImageEnd / DEPENDENCY_LINE_IMAGE_HEIGHT);
-        bufferbuilder.addVertex(matrix4f, x3F, y3F, 0).setUv((length + ANIMATION_FRAME) / DEPENDENCY_LINE_IMAGE_WIDTH, (float) yImageStart / DEPENDENCY_LINE_IMAGE_HEIGHT);
-        BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
+        Matrix4f matrix4f = guiGraphics.pose().last().pose();
+        guiGraphics.drawSpecial(multiBufferSource -> {
+            multiBufferSource.getBuffer(RenderType.GUI_TEXTURED.apply(DEPENDENCY_LINE_LOCATION))
+                    .addVertex(matrix4f, x2F, y2F, 0).setUv((float) ANIMATION_FRAME / DEPENDENCY_LINE_IMAGE_WIDTH, (float) yImageStart / DEPENDENCY_LINE_IMAGE_HEIGHT).setColor(255, 255, 255, 255)
+                    .addVertex(matrix4f, x1F, y1F, 0).setUv((float) ANIMATION_FRAME / DEPENDENCY_LINE_IMAGE_WIDTH, yImageEnd / DEPENDENCY_LINE_IMAGE_HEIGHT).setColor(255, 255, 255, 255)
+                    .addVertex(matrix4f, x4F, y4F, 0).setUv((length + ANIMATION_FRAME) / DEPENDENCY_LINE_IMAGE_WIDTH, yImageEnd / DEPENDENCY_LINE_IMAGE_HEIGHT).setColor(255, 255, 255, 255)
+                    .addVertex(matrix4f, x3F, y3F, 0).setUv((length + ANIMATION_FRAME) / DEPENDENCY_LINE_IMAGE_WIDTH, (float) yImageStart / DEPENDENCY_LINE_IMAGE_HEIGHT).setColor(255, 255, 255, 255);
+        });
     }
 
     private int[] getButtonCenter(SkillButton button) {
