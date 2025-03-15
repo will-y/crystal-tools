@@ -136,7 +136,6 @@ public class CrystalTrident extends SwordLevelableTool {
             }
         }
 
-        // TODO (PORTING): What does this do?
         return true;
     }
 

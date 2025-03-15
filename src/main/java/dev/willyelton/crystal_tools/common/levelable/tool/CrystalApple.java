@@ -65,7 +65,7 @@ public class CrystalApple extends LevelableTool {
             }
         }
 
-        // TODO (PORTING): This is going away, but this new logic with the consumableBuilder probably needs to go somewhere (maybe it can just be a datacomponent? not suer)
+        // TODO (PORTING): This is going away, but this new logic with the consumableBuilder probably needs to go somewhere (maybe it can just be a datacomponent? not sure)
 
         return builder.build();
     }

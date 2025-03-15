@@ -18,7 +18,7 @@ import java.util.Optional;
 import static dev.willyelton.crystal_tools.common.inventory.CompressionItemStackHandler.CompressionMode.THREE_BY_THREE;
 import static dev.willyelton.crystal_tools.common.inventory.CompressionItemStackHandler.CompressionMode.TWO_BY_TWO;
 
-// TODO (PORTING): This works, but I should probably do something better
+// TODO: This probably works, but I should probably do something better
 // I think I don't need to store recipes anymore, just try to assemble the inputs and store the output?
 public class CompressionInputSlot extends CrystalSlotItemHandler {
     private final CompressionOutputSlot outputSlot;

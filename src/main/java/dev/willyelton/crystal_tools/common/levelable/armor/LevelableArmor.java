@@ -48,7 +48,6 @@ public class LevelableArmor extends ArmorItem implements LevelableItem {
 
     @Override
     public ItemAttributeModifiers getLevelableAttributeModifiers(ItemStack stack) {
-        // TODO (PORTING): This might be wrong now: getEquipmentSlot
         // Most of this probably go away with my skill tree refactors
         ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
         if (!ToolUtils.isBroken(stack) && getEquipmentSlot(stack) != null) {

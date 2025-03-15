@@ -24,7 +24,6 @@ public class CrystalTridentSpecialRenderer implements NoDataSpecialModelRenderer
         this.crystalTridentModel = crystalTridentModel;
     }
 
-    // TODO (PORTING): Why does this work with the normal trident renderer but not with this one?
     @Override
     public void render(ItemDisplayContext context, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay, boolean glint) {
         poseStack.pushPose();
