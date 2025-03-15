@@ -20,14 +20,14 @@
         "type": "minecraft:special",
         "base": "crystal_tools:item/crystal_trident_in_hand",
         "model": {
-          "type": "minecraft:trident"
+          "type": "crystal_tools:crystal_trident"
         }
       },
       "on_true": {
         "type": "minecraft:special",
         "base": "crystal_tools:item/crystal_trident_throwing",
         "model": {
-          "type": "minecraft:trident"
+          "type": "crystal_tools:crystal_trident"
         }
       },
       "property": "minecraft:using_item"

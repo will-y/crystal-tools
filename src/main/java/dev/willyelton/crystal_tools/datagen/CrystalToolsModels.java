@@ -2,6 +2,8 @@ package dev.willyelton.crystal_tools.datagen;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.client.renderer.CrystalShieldRenderer;
+import dev.willyelton.crystal_tools.client.renderer.CrystalTridentSpecialRenderer;
 import dev.willyelton.crystal_tools.common.levelable.armor.CrystalToolsArmorMaterials;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
@@ -11,7 +13,6 @@ import net.minecraft.client.data.models.model.ModelLocationUtils;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TexturedModel;
 import net.minecraft.client.renderer.item.ItemModel;
-import net.minecraft.client.renderer.special.TridentSpecialRenderer;
 import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.Item;
@@ -19,8 +20,8 @@ import net.minecraft.world.level.block.Block;
 
 import java.util.stream.Stream;
 
-public class CrystalToolsItemModels extends ModelProvider {
-    public CrystalToolsItemModels(PackOutput output) {
+public class CrystalToolsModels extends ModelProvider {
+    public CrystalToolsModels(PackOutput output) {
         super(output, CrystalTools.MODID);
     }
 
@@ -40,10 +41,11 @@ public class CrystalToolsItemModels extends ModelProvider {
         itemModels.generateFlatItem(Registration.CRYSTAL_ROCKET.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(Registration.CRYSTAL_SHOVEL.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
         itemModels.generateFlatItem(Registration.CRYSTAL_SWORD.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
-        // TODO: Will most likely have to do something about this, looks like the speed is hard coded into the model now ...
+        // TODO (PORTING): Will most likely have to do something about this, looks like the speed is hard coded into the model now ...
         itemModels.generateBow(Registration.CRYSTAL_BOW.get());
         generateCrystalTrident(itemModels);
         itemModels.generateFishingRod(Registration.CRYSTAL_FISHING_ROD.get());
+        generateCrystalShield(itemModels);
 
         // Armor
         itemModels.generateTrimmableItem(Registration.CRYSTAL_HELMET.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, "helmet", false);
@@ -77,23 +79,25 @@ public class CrystalToolsItemModels extends ModelProvider {
 
         ItemModel.Unbaked itemmodel$unbaked = ItemModelUtils.plainModel(itemModels.createFlatItemModel(tridentItem, ModelTemplates.FLAT_ITEM));
         ItemModel.Unbaked itemmodel$unbaked1 = ItemModelUtils.specialModel(
-                ModelLocationUtils.getModelLocation(tridentItem, "_in_hand"), new TridentSpecialRenderer.Unbaked()
+                ModelLocationUtils.getModelLocation(tridentItem, "_in_hand"), new CrystalTridentSpecialRenderer.Unbaked()
         );
         ItemModel.Unbaked itemmodel$unbaked2 = ItemModelUtils.specialModel(
-                ModelLocationUtils.getModelLocation(tridentItem, "_throwing"), new TridentSpecialRenderer.Unbaked()
+                ModelLocationUtils.getModelLocation(tridentItem, "_throwing"), new CrystalTridentSpecialRenderer.Unbaked()
         );
         ItemModel.Unbaked itemmodel$unbaked3 = ItemModelUtils.conditional(ItemModelUtils.isUsingItem(), itemmodel$unbaked2, itemmodel$unbaked1);
         itemModels.itemModelOutput.accept(tridentItem, ItemModelGenerators.createFlatModelDispatch(itemmodel$unbaked, itemmodel$unbaked3));
     }
 
-    @Override
-    protected Stream<? extends Holder<Block>> getKnownBlocks() {
-        return super.getKnownBlocks().filter(h -> !h.value().equals(Registration.QUARRY_STABILIZER.get()));
+    public void generateCrystalShield(ItemModelGenerators itemModels) {
+        ItemModel.Unbaked itemmodel$unbaked = ItemModelUtils.specialModel(ModelLocationUtils.getModelLocation(Registration.CRYSTAL_SHIELD.get()), new CrystalShieldRenderer.Unbaked());
+        ItemModel.Unbaked itemmodel$unbaked1 = ItemModelUtils.specialModel(
+                ModelLocationUtils.getModelLocation(Registration.CRYSTAL_SHIELD.get(), "_blocking"), new CrystalShieldRenderer.Unbaked()
+        );
+        itemModels.generateBooleanDispatch(Registration.CRYSTAL_SHIELD.get(), ItemModelUtils.isUsingItem(), itemmodel$unbaked1, itemmodel$unbaked);
     }
 
     @Override
-    protected Stream<? extends Holder<Item>> getKnownItems() {
-        // TODO: Can probably datagen this pretty easily
-        return super.getKnownItems().filter(h -> !h.value().equals(Registration.CRYSTAL_SHIELD.get()));
+    protected Stream<? extends Holder<Block>> getKnownBlocks() {
+        return super.getKnownBlocks().filter(h -> !h.value().equals(Registration.QUARRY_STABILIZER.get()));
     }
 }

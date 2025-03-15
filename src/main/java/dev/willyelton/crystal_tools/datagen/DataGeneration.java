@@ -17,7 +17,7 @@ public class DataGeneration {
         PackOutput packOutput = generator.getPackOutput();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
-        generator.addProvider(true, new CrystalToolsItemModels(packOutput));
+        generator.addProvider(true, new CrystalToolsModels(packOutput));
 
         CrystalToolsBlockTags blockTags = new CrystalToolsBlockTags(packOutput, lookupProvider);
         generator.addProvider(true, blockTags);

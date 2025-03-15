@@ -1,4 +1,4 @@
-// 1.21.4	2025-03-14T16:58:47.206951775	Model Definitions - crystal_tools
+// 1.21.4	2025-03-15T01:31:27.08112934	Model Definitions - crystal_tools
 44eb603a54aabeb5d4f7c1fd34fc281a6fbb6170 assets/crystal_tools/blockstates/crystal_block.json
 16c7f01ecbdd437f59531bd56029a2d12186c9a6 assets/crystal_tools/blockstates/crystal_deepslate_ore.json
 b45cd6d350dcfbffe28c7a2e3695c880e9ac5b54 assets/crystal_tools/blockstates/crystal_furnace.json
@@ -28,10 +28,11 @@ aced7d03f45a4f2e1b0157392c9b34a20892b69f assets/crystal_tools/items/crystal_hoe.
 d73e7661f50c8a4dcebf7ab69a5010480d319d50 assets/crystal_tools/items/crystal_pickaxe.json
 2a8454cc8023b32ddc50af1ba32d15d329201db0 assets/crystal_tools/items/crystal_quarry.json
 3b5eb0104bad54862ae158bc02075c40bad617dd assets/crystal_tools/items/crystal_rocket.json
+bb04f99c4c245869ee7757b75bfac115d42088b4 assets/crystal_tools/items/crystal_shield.json
 242e6d3cd6625ced787992220a0b25399f35723e assets/crystal_tools/items/crystal_shovel.json
 78dbbc2c1ecdd5f58498ffeb4d59b7d342a4e3cd assets/crystal_tools/items/crystal_sword.json
 32eab23b3b9a46dc1e048390f77df65abe1983c1 assets/crystal_tools/items/crystal_torch.json
-44e2ac9d713d2adbb62026d6fadf60466112baf2 assets/crystal_tools/items/crystal_trident.json
+a8eb357f6ce930fc4394d5c358b221c2854aabc2 assets/crystal_tools/items/crystal_trident.json
 20576fdbcaf9251300966c4e17a3fdd5cd83ca4f assets/crystal_tools/items/netherite_stick.json
 ba1f518fd47a83182b6c6e5f6665c422a10a912c assets/crystal_tools/items/quarry_stabilizer.json
 0c70fc20c50fba9b2a8ddaaf0f519fad6c9ea718 assets/crystal_tools/models/block/crystal_block.json
