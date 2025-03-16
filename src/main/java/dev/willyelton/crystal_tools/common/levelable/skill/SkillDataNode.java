@@ -2,6 +2,10 @@ package dev.willyelton.crystal_tools.common.levelable.skill;
 
 import com.mojang.serialization.Codec;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirement;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
@@ -107,17 +111,12 @@ public sealed abstract class SkillDataNode permits BooleanSkillDataNode, FloatSk
                 '}';
     }
 
-    public abstract Codec<? extends SkillDataNode> codec();
-
     public abstract SkillNodeType getSkillNodeType();
 
-//    public static final Codec<SkillDataNode> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-//            Codec.INT.fieldOf("id").forGetter(SkillDataNode::getId),
-//            Codec.STRING.fieldOf("name").forGetter(SkillDataNode::getName),
-//            Codec.STRING.fieldOf("description").forGetter(SkillDataNode::getDescription),
-//            Codec.INT.fieldOf("limit").forGetter(SkillDataNode::getLimit),
-//            Codec.STRING.fieldOf("key").forGetter(SkillDataNode::getKey),
-//            SkillDataRequirement.CODEC.listOf().fieldOf("requirements").forGetter(SkillDataNode::getRequirements),
-//            SkillSubText.CODEC.optionalFieldOf("subtext").forGetter(SkillDataNode::getSkillSubText)
-//    ).apply(instance, SkillDataNode::new));
+    public static Codec<SkillDataNode> CODEC = ResourceLocation.CODEC.xmap(SkillNodeType::fromResourceLocation, SkillNodeType::resourceLocation)
+            .dispatch(SkillDataNode::getSkillNodeType, SkillNodeType::codec);
+
+    public static StreamCodec<RegistryFriendlyByteBuf, SkillDataNode> STREAM_CODEC = StreamCodec.of(RegistryFriendlyByteBuf::writeResourceLocation, RegistryFriendlyByteBuf::readResourceLocation)
+            .map(SkillNodeType::fromResourceLocation, SkillNodeType::resourceLocation)
+            .dispatch(SkillDataNode::getSkillNodeType, SkillNodeType::streamCodec);
 }

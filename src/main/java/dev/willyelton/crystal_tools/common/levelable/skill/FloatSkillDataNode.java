@@ -45,11 +45,6 @@ public final class FloatSkillDataNode extends SkillDataNode {
     }
 
     @Override
-    public Codec<? extends SkillDataNode> codec() {
-        return null;
-    }
-
-    @Override
     public SkillNodeType getSkillNodeType() {
         return null;
     }

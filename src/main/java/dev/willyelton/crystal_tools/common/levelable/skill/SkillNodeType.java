@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.common.levelable.skill;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import dev.willyelton.crystal_tools.CrystalTools;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
@@ -17,17 +18,24 @@ public enum SkillNodeType {
 
     SkillNodeType(ResourceLocation type, Codec<? extends SkillDataNode> codec, StreamCodec<RegistryFriendlyByteBuf, ? extends SkillDataNode> streamCodec) {
         this.type = type;
-        this.codec = codec.fieldOf("what");
+        this.codec = codec.fieldOf("node");
         this.streamCodec = streamCodec;
     }
 
-    public MapCodec<? extends SkillDataNode> getCodec() {
+    public MapCodec<? extends SkillDataNode> codec() {
         return codec;
     }
 
+    public StreamCodec<RegistryFriendlyByteBuf, ? extends SkillDataNode> streamCodec() {
+        return streamCodec;
+    }
 
+    public ResourceLocation resourceLocation() {
+        return type;
+    }
 
-    public static <T extends SkillNodeType> T fromResourceLocation(ResourceLocation type) {
+    // TODO: Should probably make a map for this but probably doesn't matter
+    public static SkillNodeType fromResourceLocation(ResourceLocation type) {
         for (SkillNodeType skillNodeType : values()) {
             if (skillNodeType.type.equals(type)) {
                 return skillNodeType;
@@ -36,13 +44,4 @@ public enum SkillNodeType {
 
         throw new IllegalArgumentException("Invalid skill node type: " + type);
     }
-
-    public static <T extends SkillNodeType> ResourceLocation toResourceLocation(T type) {
-
-    }
-
-
-    // TODO: use the bimap, maybe something in there makes the generics happy
-    public static Codec<SkillNodeType> CODEC = ResourceLocation.CODEC.xmap(SkillNodeType::fromResourceLocation, SkillNodeType::toResourceLocation)
-            .dispatch(SkillDataNode::getSkillNodeType, SkillNodeType::getCodec);
 }

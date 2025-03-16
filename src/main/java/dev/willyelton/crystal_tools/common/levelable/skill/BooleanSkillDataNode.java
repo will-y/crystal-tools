@@ -46,11 +46,6 @@ public final class BooleanSkillDataNode extends SkillDataNode {
     }
 
     @Override
-    public Codec<? extends SkillDataNode> codec() {
-        return null;
-    }
-
-    @Override
     public SkillNodeType getSkillNodeType() {
         return null;
     }
