@@ -88,3 +88,18 @@
 - There needs to be multiple types of node
   - Add to data component (the normal way)
   - Toggle boolean (toggles?, include everything in json (like shift + x does y...))
+
+## 1.22 Skill Json Redesign:
+Most things should be handled by attributes. Attributes also have their own codecs, so that could just be thrown in (maybe not because we want to add to things)
+
+New types of nodes:
+1. boolean datacomponent
+2. add to float datacomponent
+3. set float datacomponent (would this be used?)
+4. attribute modifier (should just work out as a modifier because we can add multiple that just add +1 to speed or armor or whatever). Can probably use their codecs
+5. enchantment (probably just datacomponents, either still special-case fortune / silk touch or make a field for not also this?)
+6. What to do about complex datacomponents (food)?
+7. Mob Effects (can do different things depending on the item, sword adds to mob hit, shield to mob blocked, apple to what it eats, bow to target ...)
+
+Could also consider adding the ability to require x points in a node before it is active (creative flight)
+Also want to consider the idea of either a second tree, or just another type of node that is more expensive / new point type (quests?)

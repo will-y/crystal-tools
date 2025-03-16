@@ -6,6 +6,7 @@ import dev.willyelton.crystal_tools.utils.ListUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,9 +22,9 @@ public class SkillData {
     }
 
     public void applyPoints(int[] points) {
-        List<SkillDataNode> nodes = getAllNodes();
+        List<? extends SkillDataNode> nodes = getAllNodes();
 
-        for (SkillDataNode node : nodes) {
+        for (SkillDataNode<?> node : nodes) {
             node.setPoints(points[node.getId()]);
         }
 
@@ -31,10 +32,9 @@ public class SkillData {
     }
 
     public void applyPoints(List<Integer> points) {
-        List<SkillDataNode> nodes = getAllNodes();
+        List<? extends SkillDataNode> nodes = getAllNodes();
 
-        // TODO: Can probably short circuit here if I need to
-        for (SkillDataNode node : nodes) {
+        for (SkillDataNode<?> node : nodes) {
             if (points.size() > node.getId()) {
                 node.setPoints(points.get(node.getId()));
             } else {
@@ -67,7 +67,9 @@ public class SkillData {
     }
 
     public static final Codec<SkillData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-        SkillDataNode.CODEC.listOf().listOf().fieldOf("tiers").forGetter(SkillData::getAllNodesByTier)
+            ResourceLocation.CODEC.xmap(SkillNodeType::fromResourceLocation, SkillNodeType::toResourceLocation)
+                    .dispatch(SkillDataNode::getSkillNodeType, SkillNodeType::getCodec).listOf().listOf()
+                    .fieldOf("tiers").forGetter(SkillData::getAllNodesByTier)
     ).apply(instance, SkillData::new));
 
     public static final StreamCodec<ByteBuf, SkillData> STREAM_CODEC = ByteBufCodecs.fromCodec(CODEC);

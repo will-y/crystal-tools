@@ -1,14 +1,13 @@
 package dev.willyelton.crystal_tools.common.levelable.skill;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirement;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
 import java.util.Optional;
 
-public class SkillDataNode {
+public sealed abstract class SkillDataNode permits BooleanSkillDataNode, FloatSkillDataNode {
     private final int id;
     private final String name;
     private final String description;
@@ -17,10 +16,9 @@ public class SkillDataNode {
     private int points;
     private final List<SkillDataRequirement> requirements;
     private final String key;
-    private final float value;
     private final Optional<SkillSubText> skillSubText;
 
-    public SkillDataNode(int id, String name, String description, int limit, String key, float value,
+    public SkillDataNode(int id, String name, String description, int limit, String key,
                          List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText) {
         this.id = id;
         this.name = name;
@@ -28,7 +26,6 @@ public class SkillDataNode {
         this.limit = limit;
         this.points = 0;
         this.key = key;
-        this.value = value;
         this.requirements = requirements;
         this.skillSubText = skillSubText;
     }
@@ -63,10 +60,6 @@ public class SkillDataNode {
 
     public String getKey() {
         return this.key;
-    }
-
-    public float getValue() {
-        return this.value;
     }
 
     public Optional<SkillSubText> getSkillSubText() {
@@ -111,18 +104,20 @@ public class SkillDataNode {
                 ", points=" + points +
                 ", requirements=" + requirements +
                 ", key='" + key + '\'' +
-                ", value=" + value +
                 '}';
     }
 
-    public static final Codec<SkillDataNode> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Codec.INT.fieldOf("id").forGetter(SkillDataNode::getId),
-            Codec.STRING.fieldOf("name").forGetter(SkillDataNode::getName),
-            Codec.STRING.fieldOf("description").forGetter(SkillDataNode::getDescription),
-            Codec.INT.fieldOf("limit").forGetter(SkillDataNode::getLimit),
-            Codec.STRING.fieldOf("key").forGetter(SkillDataNode::getKey),
-            Codec.FLOAT.fieldOf("value").forGetter(SkillDataNode::getValue),
-            SkillDataRequirement.CODEC.listOf().fieldOf("requirements").forGetter(SkillDataNode::getRequirements),
-            SkillSubText.CODEC.optionalFieldOf("subtext").forGetter(SkillDataNode::getSkillSubText)
-    ).apply(instance, SkillDataNode::new));
+    public abstract Codec<? extends SkillDataNode> codec();
+
+    public abstract SkillNodeType getSkillNodeType();
+
+//    public static final Codec<SkillDataNode> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+//            Codec.INT.fieldOf("id").forGetter(SkillDataNode::getId),
+//            Codec.STRING.fieldOf("name").forGetter(SkillDataNode::getName),
+//            Codec.STRING.fieldOf("description").forGetter(SkillDataNode::getDescription),
+//            Codec.INT.fieldOf("limit").forGetter(SkillDataNode::getLimit),
+//            Codec.STRING.fieldOf("key").forGetter(SkillDataNode::getKey),
+//            SkillDataRequirement.CODEC.listOf().fieldOf("requirements").forGetter(SkillDataNode::getRequirements),
+//            SkillSubText.CODEC.optionalFieldOf("subtext").forGetter(SkillDataNode::getSkillSubText)
+//    ).apply(instance, SkillDataNode::new));
 }
