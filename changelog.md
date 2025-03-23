@@ -6,6 +6,7 @@
   - Capturing: Adds a small chance for killed mobs to drop a spawn egg
 - Adds auto targeting to the trident
 - Adds a toggle to disable auto targeting (shift + mode switch key)
+- Adds a sweeping edge upgrade to the sword and aiot
 
 ### Fixes
 - Fixes the fortune tooltip being incorrect on the quarry

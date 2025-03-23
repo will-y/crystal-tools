@@ -125,6 +125,7 @@ public class ToolAttributeHandler {
             case "thorns_bonus" -> Enchantments.THORNS;
             case "depth_strider_bonus" -> Enchantments.DEPTH_STRIDER;
             case "arrow_knockback" -> Enchantments.PUNCH;
+            case "sweeping_edge" -> Enchantments.SWEEPING_EDGE;
             default -> null;
         };
     }
