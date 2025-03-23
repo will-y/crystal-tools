@@ -12,5 +12,6 @@ public class RegisterDataMapsEvent {
     public static void onRegisterDataMaps(final RegisterDataMapTypesEvent event) {
         event.register(DataMaps.GENERATOR_GEMS);
         event.register(DataMaps.GENERATOR_METALS);
+        event.register(DataMaps.MOB_SKULLS);
     }
 }

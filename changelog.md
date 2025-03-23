@@ -1,4 +1,10 @@
 # Crystal Tools Change Log
+## 2.3.2
+### Additions
+- Adds two new upgrade for the sword, bow, AIOT, and trident
+  - Beheading: Adds a chance for killed mobs to drop their heads
+  - Capturing: Adds a small chance for killed mobs to drop a spawn egg
+
 ## 2.3.1
 ### Additions
 - Adds a new upgrade for the Crystal Shield:
@@ -62,7 +68,7 @@
 - Adds in-game documentation using [GuideMe](https://www.curseforge.com/minecraft/mc-mods/guideme)
   - Just hover over an item and hold `G` to see documentation!
 - Crystal tools can now be crafted with any item with a tag `c:rods/netherite`
-- Netherite sticks now how the following tags:
+- Netherite sticks now have the following tags:
   - `c:rods/netherite`
   - `c:rods/all_metal`
 - Added color to the level up message

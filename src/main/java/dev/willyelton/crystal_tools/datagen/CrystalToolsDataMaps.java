@@ -5,6 +5,7 @@ import dev.willyelton.crystal_tools.common.datamap.DataMaps;
 import dev.willyelton.crystal_tools.common.datamap.GeneratorFuelData;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.DataMapProvider;
@@ -16,9 +17,8 @@ public class CrystalToolsDataMaps extends DataMapProvider {
         super(packOutput, lookupProvider);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    protected void gather() {
+    protected void gather(HolderLookup.Provider provider) {
         builder(DataMaps.GENERATOR_GEMS)
                 .add(Registration.CRYSTAL, new GeneratorFuelData(10800, 100), false)
                 .add(Items.AMETHYST_SHARD.builtInRegistryHolder(), new GeneratorFuelData(1800, 20), false)
@@ -53,5 +53,15 @@ public class CrystalToolsDataMaps extends DataMapProvider {
                 .add(Items.NETHERITE_BLOCK.builtInRegistryHolder(), new GeneratorFuelData(97200, 100), false)
                 .add(Tags.Items.INGOTS, new GeneratorFuelData(800, 5), false)
                 .build();
+
+        builder(DataMaps.MOB_SKULLS)
+                .add(EntityType.ZOMBIE.builtInRegistryHolder(), Items.ZOMBIE_HEAD, false)
+                .add(EntityType.CREEPER.builtInRegistryHolder(), Items.CREEPER_HEAD, false)
+                .add(EntityType.PIGLIN.builtInRegistryHolder(), Items.PIGLIN_HEAD, false)
+                .add(EntityType.PIGLIN_BRUTE.builtInRegistryHolder(), Items.PIGLIN_HEAD, false)
+                .add(EntityType.ENDER_DRAGON.builtInRegistryHolder(), Items.DRAGON_HEAD, false)
+                .add(EntityType.SKELETON.builtInRegistryHolder(), Items.SKELETON_SKULL, false)
+                .add(EntityType.WITHER_SKELETON.builtInRegistryHolder(), Items.WITHER_SKELETON_SKULL, false)
+                .add(EntityType.PLAYER.builtInRegistryHolder(), Items.PLAYER_HEAD, false);
     }
 }

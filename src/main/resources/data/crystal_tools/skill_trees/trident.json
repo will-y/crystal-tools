@@ -62,6 +62,17 @@
         ],
         "key": "reach",
         "value": 1
+      },
+      {
+        "id": 36,
+        "name": "Beheading I",
+        "description": "Adds 10% to drop a killed mob's head",
+        "limit": 1,
+        "requirements": [
+          {"or_node": [0, 1, 2]}
+        ],
+        "key": "beheading",
+        "value": 0.1
       }
     ],
     [
@@ -71,7 +82,7 @@
         "description": "Increases the Trident's Riptide Level",
         "limit": 1,
         "requirements": [
-          {"or_node": [3, 4, 5]},
+          {"or_node": [3, 4, 5, 36]},
           {
             "not_node": [7],
             "unless": [26]
@@ -86,7 +97,7 @@
         "description": "Increases the Trident's Loyalty Level",
         "limit": 1,
         "requirements": [
-          {"or_node": [3, 4, 5]},
+          {"or_node": [3, 4, 5, 36]},
           {
             "not_node": [6],
             "unless": [26]
@@ -101,7 +112,7 @@
         "description": "Adds Channeling to the Trident. Does not have to be during a thunderstorm. The more points added, the more damage the lightning does. Lightning created by this will not hurt you",
         "limit": 0,
         "requirements": [
-          {"or_node": [3, 4, 5]},
+          {"or_node": [3, 4, 5, 36]},
           {
             "not_node": [6],
             "unless": [26]
@@ -109,6 +120,17 @@
         ],
         "key": "channeling",
         "value": 1
+      },
+      {
+        "id": 39,
+        "name": "Capture I",
+        "description": "Adds a chance for a mob to drop a spawn egg",
+        "limit": 1,
+        "requirements": [
+          {"or_node": [3, 4, 5, 36]}
+        ],
+        "key": "capture",
+        "value": 0.01
       }
     ],
     [
@@ -119,7 +141,7 @@
         "limit": 1,
         "requirements": [
           {"node": [0]},
-          {"or_node": [6, 7, 8]}
+          {"or_node": [6, 7, 8, 39]}
         ],
         "key": "damage_bonus",
         "value": 1
@@ -131,7 +153,7 @@
         "limit": 1,
         "requirements": [
           {"node": [1]},
-          {"or_node": [6, 7, 8]}
+          {"or_node": [6, 7, 8, 39]}
         ],
         "key": "projectile_damage",
         "value": 1
@@ -143,7 +165,7 @@
         "limit": 1,
         "requirements": [
           {"node": [2]},
-          {"or_node": [6, 7, 8]}
+          {"or_node": [6, 7, 8, 39]}
         ],
         "key": "durability_bonus",
         "value": 200
@@ -185,6 +207,18 @@
         ],
         "key": "reach",
         "value": 1
+      },
+      {
+        "id": 37,
+        "name": "Beheading II",
+        "description": "Adds 10% to drop a killed mob's head",
+        "limit": 1,
+        "requirements": [
+          {"or_node": [9, 10, 11]},
+          {"node": [36]}
+        ],
+        "key": "beheading",
+        "value": 0.1
       }
     ],
     [
@@ -195,7 +229,7 @@
         "limit": 1,
         "requirements": [
           {"node": [6]},
-          {"or_node": [12, 13, 14]},
+          {"or_node": [12, 13, 14, 37]},
           {
             "not_node": [7],
             "unless": [26]
@@ -211,7 +245,7 @@
         "limit": 1,
         "requirements": [
           {"node": [7]},
-          {"or_node": [12, 13, 14]},
+          {"or_node": [12, 13, 14, 37]},
           {
             "not_node": [6],
             "unless": [26]
@@ -226,10 +260,22 @@
         "description": "Automatically Repairs Your Tool Over Time!",
         "limit": 0,
         "requirements": [
-          {"or_node": [12, 13, 14]}
+          {"or_node": [12, 13, 14, 37]}
         ],
         "key": "auto_repair",
         "value": 1
+      },
+      {
+        "id": 40,
+        "name": "Capture II",
+        "description": "Adds a chance for a mob to drop a spawn egg",
+        "limit": 1,
+        "requirements": [
+          {"or_node": [12, 13, 14, 37]},
+          {"node": [39]}
+        ],
+        "key": "capture",
+        "value": 0.01
       }
     ],
     [
@@ -240,7 +286,7 @@
         "limit": 1,
         "requirements": [
           {"node": [9]},
-          {"or_node": [15, 16, 17]}
+          {"or_node": [15, 16, 17, 40]}
         ],
         "key": "damage_bonus",
         "value": 1
@@ -252,7 +298,7 @@
         "limit": 1,
         "requirements": [
           {"node": [10]},
-          {"or_node": [15, 16, 17]}
+          {"or_node": [15, 16, 17, 40]}
         ],
         "key": "projectile_damage",
         "value": 1
@@ -264,7 +310,7 @@
         "limit": 1,
         "requirements": [
           {"node": [11]},
-          {"or_node": [15, 16, 17]}
+          {"or_node": [15, 16, 17, 40]}
         ],
         "key": "durability_bonus",
         "value": 200
@@ -306,6 +352,18 @@
         ],
         "key": "reach",
         "value": 1
+      },
+      {
+        "id": 38,
+        "name": "Beheading III",
+        "description": "Adds 10% to drop a killed mob's head",
+        "limit": 1,
+        "requirements": [
+          {"or_node": [18, 19, 20]},
+          {"node": [37]}
+        ],
+        "key": "beheading",
+        "value": 0.1
       }
     ],
     [
@@ -316,7 +374,7 @@
         "limit": 1,
         "requirements": [
           {"node": [15]},
-          {"or_node": [21, 22, 23]},
+          {"or_node": [21, 22, 23, 38]},
           {
             "not_node": [7],
             "unless": [26]
@@ -332,7 +390,7 @@
         "limit": 1,
         "requirements": [
           {"node": [16]},
-          {"or_node": [21, 22, 23]},
+          {"or_node": [21, 22, 23, 38]},
           {
             "not_node": [6],
             "unless": [26]
@@ -347,10 +405,22 @@
         "description": "Allows you to toggle Riptide off",
         "limit": 1,
         "requirements": [
-          {"or_node": [21, 22, 23]}
+          {"or_node": [21, 22, 23, 38]}
         ],
         "key": "mine_mode",
         "value": 1
+      },
+      {
+        "id": 41,
+        "name": "Capture III",
+        "description": "Adds a chance for a mob to drop a spawn egg",
+        "limit": 1,
+        "requirements": [
+          {"or_node": [21, 22, 23, 38]},
+          {"node": [40]}
+        ],
+        "key": "capture",
+        "value": 0.01
       }
     ],
     [
@@ -361,7 +431,7 @@
         "limit": 0,
         "requirements": [
           {"node": [18]},
-          {"or_node": [24, 25, 26]}
+          {"or_node": [24, 25, 26, 41]}
         ],
         "key": "damage_bonus",
         "value": 0.25
@@ -373,7 +443,7 @@
         "limit": 0,
         "requirements": [
           {"node": [19]},
-          {"or_node": [24, 25, 26]}
+          {"or_node": [24, 25, 26, 41]}
         ],
         "key": "projectile_damage",
         "value": 0.25
@@ -385,7 +455,7 @@
         "limit": 0,
         "requirements": [
           {"node": [20]},
-          {"or_node": [24, 25, 26]}
+          {"or_node": [24, 25, 26, 41]}
         ],
         "key": "durability_bonus",
         "value": 50
@@ -399,7 +469,7 @@
         "limit": 70,
         "requirements": [
           {"node": [21]},
-          {"or_node": [24, 25, 26]}
+          {"or_node": [24, 25, 26, 41]}
         ],
         "key": "unbreaking",
         "value": 0.01
@@ -411,7 +481,7 @@
         "limit": 0,
         "requirements": [
           {"node": [21]},
-          {"or_node": [24, 25, 26]}
+          {"or_node": [24, 25, 26, 41]}
         ],
         "key": "projectile_speed",
         "value": 0.25
@@ -423,7 +493,7 @@
         "limit": 0,
         "requirements": [
           {"node": [22]},
-          {"or_node": [24, 25, 26]}
+          {"or_node": [24, 25, 26, 41]}
         ],
         "key": "reach",
         "value": 0.1
@@ -447,7 +517,7 @@
         "description": "Allows you to Riptide even when it isn't raining",
         "limit": 1,
         "requirements": [
-          {"node": [24, 27, 28 , 29, 30, 31, 32, 33]}
+          {"node": [24, 27, 28 , 29, 30, 31, 32, 33, 41]}
         ],
         "key": "always_riptide",
         "value": 1
@@ -458,7 +528,7 @@
         "description": "The Trident instantly comes back to you",
         "limit": 1,
         "requirements": [
-          {"node": [25, 27, 28 , 29, 30, 31, 32, 33]}
+          {"node": [25, 27, 28 , 29, 30, 31, 32, 33, 41]}
         ],
         "key": "instant_loyalty",
         "value": 1
