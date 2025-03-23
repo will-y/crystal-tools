@@ -7,6 +7,9 @@
 - Adds auto targeting to the trident
 - Adds a toggle to disable auto targeting (shift + mode switch key)
 
+### Fixes
+- Fixes the fortune tooltip being incorrect on the quarry
+
 ## 2.3.1
 ### Additions
 - Adds a new upgrade for the Crystal Shield:
