@@ -79,6 +79,12 @@ There will be upgrades that are common to most tools, and tools will each get un
 - Leaf Miner
   - Allows axe to mine leaves efficiently.
 
+### Weapons (Sword, Bow, AIOT, Trident)
+- Beheading
+  - Adds a 10% chance for a mob to drop their head per level
+- Capturing
+  - Adds a 1% change for a mob to drop their spawn egg per level
+
 ### Sword
 - Attack Damage
 - Attack Speed
@@ -89,6 +95,7 @@ There will be upgrades that are common to most tools, and tools will each get un
 - Lifesteal
   - You heal each time you hit an enemy
 - Looting
+- Sweeping Edge
 
 ### Trident
 - Attack Damage
@@ -100,6 +107,7 @@ There will be upgrades that are common to most tools, and tools will each get un
 - Switch between Loyalty and Riptide
 - Allow Riptide when not raining
 - Instant Loyalty (It won't have to travel back to you, when it hits something it will instantly appear in your inventory)
+- Auto Target Entities
 
 ### Bow
 - Arrow Damage
@@ -161,6 +169,7 @@ There will be upgrades that are common to most tools, and tools will each get un
 
 ### Leggings
 - Speed Bonus
+- Swift Sneak
 
 ### Boots
 - Feather Falling
