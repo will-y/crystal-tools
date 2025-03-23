@@ -36,6 +36,15 @@
         "requirements": [],
         "key": "projectile_protection_bonus",
         "value": 1
+      },
+      {
+        "id": 27,
+        "name": "Swift Sneak I",
+        "description": "Adds Swift Sneak 1 to the leggings",
+        "limit": 1,
+        "requirements": [],
+        "key": "swift_sneak",
+        "value": 1
       }
     ],
     [
@@ -82,6 +91,17 @@
         ],
         "key": "projectile_protection_bonus",
         "value": 2
+      },
+      {
+        "id": 28,
+        "name": "Swift Sneak II",
+        "description": "Adds Swift Sneak II to the leggings",
+        "limit": 1,
+        "requirements": [
+          {"node": [27]}
+        ],
+        "key": "swift_sneak",
+        "value": 2
       }
     ],
     [
@@ -91,7 +111,7 @@
         "description": "Gives the leggings more base armor.",
         "limit": 1,
         "requirements": [
-          {"or_node": [4, 5, 6, 7]}
+          {"or_node": [4, 5, 6, 7, 28]}
         ],
         "key": "armor_bonus",
         "value": 1
@@ -102,7 +122,7 @@
         "description": "Gives the leggings more armor toughness.",
         "limit": 1,
         "requirements": [
-          {"or_node": [4, 5, 6, 7]}
+          {"or_node": [4, 5, 6, 7, 28]}
         ],
         "key": "toughness_bonus",
         "value": 0.25
@@ -113,7 +133,7 @@
         "description": "Gives you bonus speed while wearing the leggings!",
         "limit": 1,
         "requirements": [
-          {"or_node": [4, 5, 6, 7]}
+          {"or_node": [4, 5, 6, 7, 28]}
         ],
         "key": "move_speed_bonus",
         "value": 1
@@ -167,6 +187,18 @@
         ],
         "key": "projectile_protection_bonus",
         "value": 3
+      },
+      {
+        "id": 29,
+        "name": "Swift Sneak III",
+        "description": "Adds Swift Sneak III to the leggings",
+        "limit": 1,
+        "requirements": [
+          {"node": [28]},
+          {"or_node": [8, 9, 10]}
+        ],
+        "key": "swift_sneak",
+        "value": 3
       }
     ],
     [
@@ -177,7 +209,7 @@
         "limit": 1,
         "requirements": [
           {"node": [8]},
-          {"or_node": [11, 12, 13, 14]}
+          {"or_node": [11, 12, 13, 14, 29]}
         ],
         "key": "armor_bonus",
         "value": 1
@@ -189,7 +221,7 @@
         "limit": 1,
         "requirements": [
           {"node": [9]},
-          {"or_node": [11, 12, 13, 14]}
+          {"or_node": [11, 12, 13, 14, 29]}
         ],
         "key": "toughness_bonus",
         "value": 0.25
@@ -200,7 +232,7 @@
         "description": "Gives you bonus speed while wearing the leggings!",
         "limit": 1,
         "requirements": [
-          {"or_node": [11, 12, 13, 14]},
+          {"or_node": [11, 12, 13, 14, 29]},
           {"node": [10]}
         ],
         "key": "move_speed_bonus",
@@ -212,7 +244,7 @@
         "description": "Automatically Repairs Your leggings Over Time!",
         "limit": 0,
         "requirements": [
-          {"or_node": [11, 12, 13, 14]}
+          {"or_node": [11, 12, 13, 14, 29]}
         ],
         "key": "auto_repair",
         "value": 1
@@ -266,6 +298,18 @@
         ],
         "key": "projectile_protection_bonus",
         "value": 4
+      },
+      {
+        "id": 30,
+        "name": "Swift Sneak IV",
+        "description": "Adds Swift Sneak IV to the leggings",
+        "limit": 1,
+        "requirements": [
+          {"node": [29]},
+          {"or_node": [15, 16, 17, 18]}
+        ],
+        "key": "swift_sneak",
+        "value": 4
       }
     ],
     [
@@ -276,7 +320,7 @@
         "limit": 1,
         "requirements": [
           {"node": [15]},
-          {"or_node": [19, 20, 21, 22]}
+          {"or_node": [19, 20, 21, 22, 30]}
         ],
         "key": "armor_bonus",
         "value": 1
@@ -288,7 +332,7 @@
         "limit": 1,
         "requirements": [
           {"node": [16]},
-          {"or_node": [19, 20, 21, 22]}
+          {"or_node": [19, 20, 21, 22, 30]}
         ],
         "key": "toughness_bonus",
         "value": 0.5
@@ -299,7 +343,7 @@
         "description": "Gives you bonus speed while wearing the leggings!",
         "limit": 1,
         "requirements": [
-          {"or_node": [19, 20, 21, 22]},
+          {"or_node": [19, 20, 21, 22, 30]},
           {"node": [17]}
         ],
         "key": "move_speed_bonus",
@@ -311,10 +355,21 @@
         "description": "Gives the leggings thorns III",
         "limit": 1,
         "requirements": [
-          {"or_node": [19, 20, 21, 22]}
+          {"or_node": [19, 20, 21, 22, 30]}
         ],
         "key": "thorns_bonus",
         "value": 3
+      },
+      {
+        "id": 31,
+        "name": "Swift Sneak V",
+        "description": "Adds Swift Sneak V to the leggings",
+        "limit": 1,
+        "requirements": [
+          {"node": [30]}
+        ],
+        "key": "swift_sneak",
+        "value": 5
       }
     ]
   ]
