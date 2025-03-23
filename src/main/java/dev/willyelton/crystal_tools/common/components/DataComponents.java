@@ -166,6 +166,7 @@ public class DataComponents {
     // Auto Targeting
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> AUTO_TARGET = register("auto_target", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> ENTITY_TARGET = register("entity_target", Codec.INT, ByteBufCodecs.VAR_INT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> DISABLE_AUTO_TARGET = register("disable_auto_target", Codec.BOOL, ByteBufCodecs.BOOL);
 
     // Shield
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> FLAMING_SHIELD = register("flaming_shield", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);

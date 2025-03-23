@@ -112,6 +112,12 @@ public interface LevelableItem {
             components.add(Component.literal("\u00A79" + "Auto Smelt " + (enabled ? "Enabled" : "Disabled") + changeKey));
         }
 
+        if (stack.getOrDefault(DataComponents.AUTO_TARGET, false)) {
+            boolean enabled = !stack.getOrDefault(DataComponents.DISABLE_AUTO_TARGET, false);
+            String changeKey = RegisterKeyBindingsEvent.MODE_SWITCH == null ? "" : " (Shift + " + RegisterKeyBindingsEvent.MODE_SWITCH.getKey().getDisplayName().getString() + " to toggle)";
+            components.add(Component.literal("\u00A79" + "Auto Target " + (enabled ? "Enabled" : "Disabled") + changeKey));
+        }
+
         addAdditionalTooltips(stack, components, item);
 
         if (!tooltipFlag.hasShiftDown()) {

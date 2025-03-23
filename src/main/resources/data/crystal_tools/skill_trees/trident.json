@@ -314,6 +314,17 @@
         ],
         "key": "durability_bonus",
         "value": 200
+      },
+      {
+        "id": 42,
+        "name": "Auto Target Mobs",
+        "description": "Automatically tracks targeted mobs",
+        "limit": 1,
+        "requirements": [
+          {"or_node": [15, 16, 17, 40]}
+        ],
+        "key": "auto_target",
+        "value": 1
       }
     ],
     [
@@ -324,7 +335,7 @@
         "limit": 1,
         "requirements": [
           {"node": [12]},
-          {"or_node": [18, 19, 20]}
+          {"or_node": [18, 19, 20, 42]}
         ],
         "key": "unbreaking",
         "value": 0.1
@@ -336,7 +347,7 @@
         "limit": 1,
         "requirements": [
           {"node": [13]},
-          {"or_node": [18, 19, 20]}
+          {"or_node": [18, 19, 20, 42]}
         ],
         "key": "projectile_speed",
         "value": 1
@@ -348,7 +359,7 @@
         "limit": 1,
         "requirements": [
           {"node": [14]},
-          {"or_node": [18, 19, 20]}
+          {"or_node": [18, 19, 20, 42]}
         ],
         "key": "reach",
         "value": 1
@@ -359,7 +370,7 @@
         "description": "Adds 10% to drop a killed mob's head",
         "limit": 1,
         "requirements": [
-          {"or_node": [18, 19, 20]},
+          {"or_node": [18, 19, 20, 42]},
           {"node": [37]}
         ],
         "key": "beheading",

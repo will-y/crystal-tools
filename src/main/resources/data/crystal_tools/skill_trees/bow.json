@@ -233,7 +233,7 @@
         "description": "Adds 10% to drop a killed mob's head",
         "limit": 1,
         "requirements": [
-          {"or_node": [9, 10, 11, 29]},
+          {"or_node": [9, 10, 11, 29, 45]},
           {"node": [42]}
         ],
         "key": "beheading",

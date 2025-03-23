@@ -4,6 +4,8 @@
 - Adds two new upgrade for the sword, bow, AIOT, and trident
   - Beheading: Adds a chance for killed mobs to drop their heads
   - Capturing: Adds a small chance for killed mobs to drop a spawn egg
+- Adds auto targeting to the trident
+- Adds a toggle to disable auto targeting (shift + mode switch key)
 
 ## 2.3.1
 ### Additions

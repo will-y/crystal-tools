@@ -90,6 +90,12 @@ public class ModeSwitchHandler {
                 player.displayClientMessage(Component.literal("Riptide " + (riptideDisabled ? "Enabled" : "Disabled")), true);
             }
 
+            if (tool.getOrDefault(DataComponents.AUTO_TARGET, false) && payload.hasShiftDown()) {
+                boolean autoTargetDisabled = tool.getOrDefault(DataComponents.DISABLE_AUTO_TARGET, false);
+                tool.set(DataComponents.DISABLE_AUTO_TARGET, !autoTargetDisabled);
+                player.displayClientMessage(Component.literal("Auto Target " + (autoTargetDisabled ? "Enabled" : "Disabled")), true);
+            }
+
             // Elytra
             disableCreativeFlight(player, tool);
 
