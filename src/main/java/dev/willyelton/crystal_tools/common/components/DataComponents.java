@@ -66,6 +66,8 @@ public class DataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> DAMAGE_BONUS = register("damage_bonus", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> FIRE = register("fire", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> LIFESTEAL = register("lifesteal", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> BEHEADING = register("beheading", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> CAPTURING = register("capture", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
 
     // Armor
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> NIGHT_VISION = register("night_vision", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
