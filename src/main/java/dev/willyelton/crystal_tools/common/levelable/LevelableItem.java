@@ -4,7 +4,7 @@ import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillDataNode;
+import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
 import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
 import dev.willyelton.crystal_tools.utils.StringUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
@@ -123,7 +123,8 @@ public interface LevelableItem {
             if (toolData != null) {
                 for (SkillDataNode dataNode : toolData.getAllNodes()) {
                     if (dataNode.getPoints() > 0) {
-                        skills.compute(dataNode.getKey(), (key, value) -> value != null ? value + dataNode.getValue() * dataNode.getPoints() : dataNode.getValue() * dataNode.getPoints());
+                        // TODO
+                        skills.compute(null, (key, value) -> value != null ? value + 1 * dataNode.getPoints() : 1 * dataNode.getPoints());
                     }
                 }
 

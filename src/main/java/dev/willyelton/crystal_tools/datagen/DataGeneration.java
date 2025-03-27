@@ -1,6 +1,8 @@
 package dev.willyelton.crystal_tools.datagen;
 
+import dev.willyelton.crystal_tools.common.events.DatapackRegistryEvents;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
@@ -35,5 +37,9 @@ public class DataGeneration {
 
         CrystalToolsDataMaps dataMaps = new CrystalToolsDataMaps(packOutput, lookupProvider);
         generator.addProvider(true, dataMaps);
+
+        event.createDatapackRegistryObjects(
+                new RegistrySetBuilder().add(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY, CrystalToolsSkillTrees::skillTrees)
+        );
     }
 }

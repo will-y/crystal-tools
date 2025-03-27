@@ -2,7 +2,7 @@ package dev.willyelton.crystal_tools.client.gui.component;
 
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillDataNode;
+import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.RequirementType;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillItemRequirement;
 import dev.willyelton.crystal_tools.utils.Colors;

@@ -5,7 +5,7 @@ import dev.willyelton.crystal_tools.client.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.common.inventory.container.LevelableContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.LevelableBlockEntity;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillDataNode;
+import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillTreeRegistry;
 import dev.willyelton.crystal_tools.common.network.data.BlockAttributePayload;
 import dev.willyelton.crystal_tools.common.network.data.ResetSkillsBlockPayload;
@@ -76,9 +76,11 @@ public class BlockEntityUpgradeScreen extends BaseUpgradeScreen {
                 pointsToSpend = getPointsToSpend(skillPoints, shift, control);
             }
             // Idk if this is a problem that this is int because it is just to sync client
-            this.container.addToPoints(node.getId(), (int) node.getValue() * pointsToSpend);
+            // TODO
+            this.container.addToPoints(node.getId(), (int) 1 * pointsToSpend);
 
-            PacketDistributor.sendToServer(new BlockAttributePayload(node.getKey(), node.getValue(), node.getId(), pointsToSpend));
+            // TODO
+            PacketDistributor.sendToServer(new BlockAttributePayload(null, 1, node.getId(), pointsToSpend));
             node.addPoint(pointsToSpend);
             if (node.isComplete()) {
                 ((SkillButton) button).setComplete();

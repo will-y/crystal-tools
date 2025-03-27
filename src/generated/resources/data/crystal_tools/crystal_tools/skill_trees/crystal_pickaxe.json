@@ -1,0 +1,240 @@
+{
+  "tiers": [
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Pickaxe's Mining Speed",
+          "id": 0,
+          "key": [
+            "minecraft:mining_efficiency"
+          ],
+          "limit": 1,
+          "name": "MiningSpeed I",
+          "requirements": [],
+          "value": 0.25
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Pickaxe's Durability",
+          "id": 1,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability I",
+          "requirements": [],
+          "value": 200.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Pickaxe's Mining Speed",
+          "id": 2,
+          "key": [
+            "minecraft:mining_efficiency"
+          ],
+          "limit": 1,
+          "name": "MiningSpeed II",
+          "requirements": [
+            {
+              "node": [
+                0
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Pickaxe's Durability",
+          "id": 3,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability II",
+          "requirements": [
+            {
+              "node": [
+                1
+              ]
+            }
+          ],
+          "value": 200.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not use durability",
+          "id": 4,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking I",
+          "requirements": [
+            {
+              "or_node": [
+                0,
+                1
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Pickaxe's Mining Speed",
+          "id": 5,
+          "key": [
+            "minecraft:mining_efficiency"
+          ],
+          "limit": 1,
+          "name": "MiningSpeed III",
+          "requirements": [
+            {
+              "node": [
+                2
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Pickaxe's Durability",
+          "id": 6,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability III",
+          "requirements": [
+            {
+              "node": [
+                3
+              ]
+            }
+          ],
+          "value": 200.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Pickaxe's Reach Distance",
+          "id": 7,
+          "key": [
+            "minecraft:block_interaction_range",
+            "minecraft:entity_interaction_range"
+          ],
+          "limit": 1,
+          "name": "Reach I",
+          "requirements": [
+            {
+              "or_node": [
+                2,
+                3,
+                4
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives Silk Touch to the Pickaxe",
+          "enchantment": "minecraft:silk_touch",
+          "id": 8,
+          "level": 1,
+          "name": "Silk Touch",
+          "requirements": [
+            {
+              "or_node": [
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "not_node": [
+                9
+              ],
+              "unless": [
+                21
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives Fortune III to the Pickaxe",
+          "enchantment": "minecraft:fortune",
+          "id": 9,
+          "level": 3,
+          "name": "Fortune III",
+          "requirements": [
+            {
+              "or_node": [
+                5,
+                6,
+                7
+              ]
+            },
+            {
+              "not_node": [
+                8
+              ],
+              "unless": [
+                21
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not use durability",
+          "id": 10,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking II",
+          "requirements": [
+            {
+              "or_node": [
+                5,
+                6,
+                7
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      }
+    ]
+  ]
+}

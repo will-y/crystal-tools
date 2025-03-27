@@ -1,16 +1,16 @@
-package dev.willyelton.crystal_tools.common.levelable.skill;
+package dev.willyelton.crystal_tools.common.levelable.skill.node;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import dev.willyelton.crystal_tools.CrystalTools;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 
 public enum SkillNodeType {
-    FLOAT(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "float"), FloatSkillDataNode.CODEC, FloatSkillDataNode.STREAM_CODEC),
-    BOOLEAN(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "boolean"), BooleanSkillDataNode.CODEC, BooleanSkillDataNode.STREAM_CODEC);
+    ATTRIBUTE(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "attribute"), AttributeSkillDataNode.CODEC, AttributeSkillDataNode.STREAM_CODEC),
+    DATA_COMPONENT(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "data_component"), DataComponentSkillNode.CODEC, DataComponentSkillNode.STREAM_CODEC),
+    ENCHANTMENT(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "enchantment"), EnchantmentDataNode.CODEC, EnchantmentDataNode.STREAM_CODEC);
 
     private final ResourceLocation type;
     private final MapCodec<? extends SkillDataNode> codec;

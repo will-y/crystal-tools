@@ -7,7 +7,7 @@ import dev.willyelton.crystal_tools.client.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.client.gui.component.XpButton;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillDataNode;
+import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillSubText;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.NodeOrSkillDataRequirement;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.NodeSkillDataRequirement;
@@ -231,7 +231,7 @@ public abstract class BaseUpgradeScreen extends Screen {
                 text = String.format("%s\n%d/%d Points", node.getDescription(), node.getPoints(), node.getLimit());
             }
 
-            Optional<SkillSubText> subText = node.getSkillSubText();
+            Optional<SkillSubText> subText = Optional.ofNullable(node.getSkillSubText());
 
             Component textComponent = Component.literal(text);
             FormattedText compositeComponent;

@@ -1,17 +1,18 @@
-package dev.willyelton.crystal_tools.common.levelable.skill;
+package dev.willyelton.crystal_tools.common.levelable.skill.node;
 
 import com.mojang.serialization.Codec;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillSubText;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirement;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
-public sealed abstract class SkillDataNode permits BooleanSkillDataNode, FloatSkillDataNode {
+public sealed abstract class SkillDataNode permits DataComponentSkillNode, EnchantmentDataNode, AttributeSkillDataNode {
     private final int id;
     private final String name;
     private final String description;
@@ -19,17 +20,22 @@ public sealed abstract class SkillDataNode permits BooleanSkillDataNode, FloatSk
     private final int limit;
     private int points;
     private final List<SkillDataRequirement> requirements;
-    private final String key;
-    private final Optional<SkillSubText> skillSubText;
+    private final List<ResourceLocation> keys;
+    private final SkillSubText skillSubText;
 
-    public SkillDataNode(int id, String name, String description, int limit, String key,
-                         List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText) {
+    public SkillDataNode(int id, String name, String description, int limit, ResourceLocation key,
+                         List<SkillDataRequirement> requirements, SkillSubText skillSubText) {
+        this(id, name, description, limit, List.of(key), requirements, skillSubText);
+    }
+
+    public SkillDataNode(int id, String name, String description, int limit, List<ResourceLocation> keys,
+                         List<SkillDataRequirement> requirements, SkillSubText skillSubText) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.limit = limit;
         this.points = 0;
-        this.key = key;
+        this.keys = keys;
         this.requirements = requirements;
         this.skillSubText = skillSubText;
     }
@@ -58,15 +64,19 @@ public sealed abstract class SkillDataNode permits BooleanSkillDataNode, FloatSk
         return requirements;
     }
 
+    public void addRequirement(SkillDataRequirement requirement) {
+        requirements.add(requirement);
+    }
+
     public int addPoint() {
         return addPoint(1);
     }
 
-    public String getKey() {
-        return this.key;
+    public List<ResourceLocation> getKeys() {
+        return this.keys;
     }
 
-    public Optional<SkillSubText> getSkillSubText() {
+    public SkillSubText getSkillSubText() {
         return this.skillSubText;
     }
 
@@ -107,7 +117,7 @@ public sealed abstract class SkillDataNode permits BooleanSkillDataNode, FloatSk
                 ", limit=" + limit +
                 ", points=" + points +
                 ", requirements=" + requirements +
-                ", key='" + key + '\'' +
+                ", key='" + keys.stream().map(ResourceLocation::toString).collect(Collectors.joining(", ")) + '\'' +
                 '}';
     }
 

@@ -4,7 +4,7 @@ import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.CrystalBackpack;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillDataNode;
+import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
 import dev.willyelton.crystal_tools.common.network.data.ResetSkillsPayload;
 import dev.willyelton.crystal_tools.common.network.data.ToolAttributePayload;
 import dev.willyelton.crystal_tools.common.network.data.ToolHealPayload;
@@ -93,7 +93,8 @@ public class UpgradeScreen extends BaseUpgradeScreen {
                 pointsToSpend = getPointsToSpend(skillPoints, shift, control);
             }
 
-            PacketDistributor.sendToServer(new ToolAttributePayload(node.getKey(), node.getValue(), node.getId(), slotIndex, pointsToSpend));
+            // TODO
+            PacketDistributor.sendToServer(new ToolAttributePayload(null, 1, node.getId(), slotIndex, pointsToSpend));
             node.addPoint(pointsToSpend);
             if (node.isComplete()) {
                 ((SkillButton) button).setComplete();
