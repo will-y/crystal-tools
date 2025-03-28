@@ -5,6 +5,7 @@ import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.LevelableBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -50,8 +51,8 @@ public class ChunkLoadingAction<T extends LevelableBlockEntity & ChunkLoader> ex
 
     @Override
     public void load(CompoundTag tag, HolderLookup.Provider registries) {
-        this.chunkLoadingEnabled = tag.getBoolean("ChunkLoading");
-        chunkSet.addAll(Arrays.stream(tag.getLongArray("ChunkSet")).boxed().toList());
+        this.chunkLoadingEnabled = tag.getBoolean("ChunkLoading").orElse(false);
+        chunkSet.addAll(Arrays.stream(tag.getLongArray("ChunkSet").orElse(new long[0])).boxed().toList());
     }
 
     @Override
@@ -79,7 +80,7 @@ public class ChunkLoadingAction<T extends LevelableBlockEntity & ChunkLoader> ex
     }
 
     @Override
-    public void applyComponents(BlockEntity.DataComponentInput componentInput) {
+    public void applyComponents(DataComponentGetter componentInput) {
         super.applyComponents(componentInput);
         this.chunkLoadingEnabled = componentInput.getOrDefault(DataComponents.CHUNKLOADING, false);
     }

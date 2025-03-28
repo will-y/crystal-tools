@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.common.levelable.block.entity.action;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
@@ -52,7 +53,7 @@ public abstract class Action {
 
     public void onRemove() {}
 
-    public void applyComponents(BlockEntity.DataComponentInput componentInput) {}
+    public void applyComponents(DataComponentGetter componentInput) {}
 
     public void collectComponents(DataComponentMap.Builder components) {}
 

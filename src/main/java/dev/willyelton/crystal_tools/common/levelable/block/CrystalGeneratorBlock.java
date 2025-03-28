@@ -6,7 +6,9 @@ import dev.willyelton.crystal_tools.common.components.GeneratorData;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalGeneratorBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -102,14 +104,7 @@ public class CrystalGeneratorBlock extends BaseEntityBlock {
     }
 
     @Override
-    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (!state.is(newState.getBlock())) {
-            BlockEntity blockentity = level.getBlockEntity(pos);
-            if (blockentity instanceof CrystalGeneratorBlockEntity) {
-                level.updateNeighbourForOutputSignal(pos, this);
-            }
-
-            super.onRemove(state, level, pos, newState, isMoving);
-        }
+    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean p_393627_) {
+        Containers.updateNeighboursAfterDestroy(state, level, pos);
     }
 }

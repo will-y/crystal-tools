@@ -4,6 +4,7 @@ import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -24,11 +25,6 @@ public class SwordLevelableTool extends LevelableTool {
     }
 
     @Override
-    public boolean canAttackBlock(BlockState state, Level level, @NotNull BlockPos pos, Player player) {
-        return !player.isCreative();
-    }
-
-    @Override
     public float getDestroySpeed(ItemStack stack, BlockState state) {
         if (state.is(Blocks.COBWEB) && !ToolUtils.isBroken(stack)) {
             return 15.0F;
@@ -40,11 +36,6 @@ public class SwordLevelableTool extends LevelableTool {
     @Override
     public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
         return state.is(Blocks.COBWEB);
-    }
-
-    @Override
-    public boolean canPerformAction(ItemStack stack, ItemAbility itemAbility) {
-        return ItemAbilities.DEFAULT_SWORD_ACTIONS.contains(itemAbility);
     }
 
     @Override

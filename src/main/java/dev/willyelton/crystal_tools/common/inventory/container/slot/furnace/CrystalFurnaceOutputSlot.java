@@ -26,7 +26,7 @@ public class CrystalFurnaceOutputSlot extends FurnaceResultSlot {
     }
 
     protected void checkTakeAchievements(ItemStack stack) {
-        stack.onCraftedBy(this.player.level(), this.player, this.removeCount);
+        stack.onCraftedBy(this.player, this.removeCount);
         if (this.player instanceof ServerPlayer && this.container instanceof CrystalFurnaceBlockEntity crystalFurnaceBlockEntity) {
             crystalFurnaceBlockEntity.popExp((ServerPlayer)this.player);
         }

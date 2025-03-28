@@ -9,8 +9,10 @@ import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 
 public class AddPointsCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -27,11 +29,10 @@ public class AddPointsCommand {
         Entity entity = commandContext.getSource().getEntity();
 
         if (entity instanceof LivingEntity livingEntity) {
-            livingEntity.getHandSlots().forEach(itemStack -> {
-                if (itemStack.getItem() instanceof LevelableItem) {
-                    DataComponents.addToComponent(itemStack, DataComponents.SKILL_POINTS, points);
-                }
-            });
+            ItemStack stack = livingEntity.getItemInHand(InteractionHand.MAIN_HAND);
+            if (stack.getItem() instanceof LevelableItem) {
+                DataComponents.addToComponent(stack, DataComponents.SKILL_POINTS, points);
+            }
         }
 
         return 1;

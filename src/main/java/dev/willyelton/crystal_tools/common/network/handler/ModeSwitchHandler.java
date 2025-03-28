@@ -6,6 +6,7 @@ import dev.willyelton.crystal_tools.common.config.CrystalToolsServerConfig;
 import dev.willyelton.crystal_tools.common.levelable.tool.UseMode;
 import dev.willyelton.crystal_tools.common.network.data.ModeSwitchPayload;
 import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
+import dev.willyelton.crystal_tools.utils.InventoryUtils;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -23,7 +24,7 @@ public class ModeSwitchHandler {
             ItemStack tool = ItemStackUtils.getHeldLevelableTool(player);
             if (tool.isEmpty()) {
                 // Disable night vision
-                player.getArmorSlots().forEach(stack -> {
+                InventoryUtils.getArmorItems(player).forEach(stack -> {
                     if (payload.hasShiftDown()) {
                         disableFrostWalker(player, stack);
                     } else if (payload.hasCtrlDown()) {

@@ -5,6 +5,7 @@ import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
@@ -54,7 +55,7 @@ public class AutoOutputAction extends Action {
 
     @Override
     public void load(CompoundTag tag, HolderLookup.Provider registries) {
-        this.autoOutputEnabled = tag.getBoolean("AutoOutput");
+        this.autoOutputEnabled = tag.getBoolean("AutoOutput").orElse(false);
     }
 
     @Override
@@ -87,7 +88,7 @@ public class AutoOutputAction extends Action {
     }
 
     @Override
-    public void applyComponents(BlockEntity.DataComponentInput componentInput) {
+    public void applyComponents(DataComponentGetter componentInput) {
         super.applyComponents(componentInput);
         this.autoOutputEnabled = componentInput.getOrDefault(DataComponents.AUTO_OUTPUT, false);
     }

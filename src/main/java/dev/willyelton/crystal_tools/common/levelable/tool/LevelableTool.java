@@ -10,6 +10,7 @@ import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
@@ -24,10 +25,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.List;
@@ -84,10 +87,10 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     }
 
     @Override
-    public boolean hurtEnemy(ItemStack tool, LivingEntity target, LivingEntity attacker) {
+    public void hurtEnemy(ItemStack tool, LivingEntity target, LivingEntity attacker) {
         if (this.isDisabled()) {
             tool.shrink(1);
-            return false;
+            return;
         }
 
         tool.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
@@ -107,8 +110,6 @@ public abstract class LevelableTool extends Item implements LevelableItem {
                 addExp(tool, target.level(), attacker.getOnPos(), attacker, (int) (getAttackDamage(tool) * getAttackExperienceBoost()));
             }
         }
-
-        return true;
     }
 
     @Override
@@ -192,12 +193,12 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     }
 
     @Override
-    public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand) {
-        levelableInventoryTick(itemStack, level, entity, inventorySlot, inHand, 1);
+    public void inventoryTick(ItemStack itemStack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot) {
+        levelableInventoryTick(itemStack, level, entity, slot, 1);
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> tooltipComponents, TooltipFlag flag) {
         appendLevelableHoverText(stack, tooltipComponents, this, flag);
     }
 

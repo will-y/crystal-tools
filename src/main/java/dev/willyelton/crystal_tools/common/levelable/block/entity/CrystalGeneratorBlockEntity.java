@@ -15,6 +15,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
@@ -103,28 +104,28 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         super.loadAdditional(tag, registries);
         ContainerHelper.loadAllItems(tag, this.fuelItems, registries);
 
-        this.litTime = tag.getInt("LitTime");
-        this.litTotalTime = tag.getInt("LitTotalTime");
+        this.litTime = tag.getInt("LitTime").orElse(0);
+        this.litTotalTime = tag.getInt("LitTotalTime").orElse(0);
         if (tag.contains("BurnedItem")) {
             this.burnedItem = ItemStack.parse(registries, tag.get("BurnedItem")).orElse(ItemStack.EMPTY);
         }
 
         // Upgrades
-        this.addedFEGeneration = tag.getFloat("AddedFEGeneration");
-        this.fuelEfficiency = tag.getFloat("FuelEfficiency");
-        this.addedFEStorage = tag.getFloat("AddedFEStorage");
-        this.redstoneControl = tag.getBoolean("RedstoneControl");
-        this.saveFuel = tag.getBoolean("SaveFuel");
-        this.metalGenerator = tag.getBoolean("MetalGenerator");
-        this.foodGenerator = tag.getBoolean("FoodGenerator");
-        this.gemGenerator = tag.getBoolean("GemGenerator");
+        this.addedFEGeneration = tag.getFloat("AddedFEGeneration").orElse(0F);
+        this.fuelEfficiency = tag.getFloat("FuelEfficiency").orElse(0F);
+        this.addedFEStorage = tag.getFloat("AddedFEStorage").orElse(0F);
+        this.redstoneControl = tag.getBoolean("RedstoneControl").orElse(false);
+        this.saveFuel = tag.getBoolean("SaveFuel").orElse(false);
+        this.metalGenerator = tag.getBoolean("MetalGenerator").orElse(false);
+        this.foodGenerator = tag.getBoolean("FoodGenerator").orElse(false);
+        this.gemGenerator = tag.getBoolean("GemGenerator").orElse(false);
 
-        int energy = tag.getInt("Energy");
+        int energy = tag.getInt("Energy").orElse(0);
         energyStorage = new CrystalEnergyStorage(baseFEStorage + (int) addedFEStorage, 0, baseFETransfer + (int) addedFEGeneration * 2, energy);
     }
 
     @Override
-    protected void applyImplicitComponents(DataComponentInput componentInput) {
+    protected void applyImplicitComponents(DataComponentGetter componentInput) {
         super.applyImplicitComponents(componentInput);
         ItemContainerContents contents = componentInput.get(DataComponents.CONTAINER);
         this.fuelItems = NonNullList.withSize(SIZE, ItemStack.EMPTY);

@@ -10,6 +10,7 @@ import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.Unit;
@@ -23,6 +24,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.item.equipment.Equippable;
 import net.minecraft.world.level.Level;
@@ -60,14 +62,14 @@ public class CrystalElytra extends Item implements LevelableItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> components, TooltipFlag flag) {
         String modeSwitchKey = RegisterKeyBindingsEvent.MODE_SWITCH.getKey().getDisplayName().getString();
 
         if (stack.getOrDefault(DataComponents.CREATIVE_FLIGHT, 0) >= CrystalToolsServerConfig.CREATIVE_FLIGHT_POINTS.get()) {
             if (stack.getOrDefault(DataComponents.DISABLE_CREATIVE_FLIGHT, false)) {
-                components.add(Component.literal("\u00A7c\u00A7l" + "Creative Flight Disabled (Ctrl + " + modeSwitchKey + ") To Enable"));
+                components.accept(Component.literal("\u00A7c\u00A7l" + "Creative Flight Disabled (Ctrl + " + modeSwitchKey + ") To Enable"));
             } else {
-                components.add(Component.literal("\u00A79" + "Ctrl + " + modeSwitchKey + " To Disable Creative Flight"));
+                components.accept(Component.literal("\u00A79" + "Ctrl + " + modeSwitchKey + " To Disable Creative Flight"));
             }
         }
 
@@ -168,12 +170,12 @@ public class CrystalElytra extends Item implements LevelableItem {
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, Level level, Entity entity, int inventorySlot, boolean inHand) {
+    public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, EquipmentSlot slot) {
         if (this.isDisabled()) {
             stack.shrink(1);
         }
 
-        levelableInventoryTick(stack, level, entity, inventorySlot, inHand, 1);
+        levelableInventoryTick(stack, level, entity, slot, 1);
     }
 
     @Override

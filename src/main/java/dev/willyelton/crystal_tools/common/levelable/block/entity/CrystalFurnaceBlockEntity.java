@@ -18,6 +18,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -255,24 +256,24 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
         ContainerHelper.loadAllItems(tag, this.items, registries);
 
-        this.litTime = tag.getInt("LitTime");
-        this.litTotalTime = tag.getInt("LitDuration");
+        this.litTime = tag.getInt("LitTime").orElse(0);
+        this.litTotalTime = tag.getInt("LitDuration").orElse(0);
         this.cookingProgress = NBTUtils.getIntArray(tag, "CookingProgress", 5);
         this.cookingTotalTime = NBTUtils.getIntArray(tag, "CookingTotalTime", 5);
-        this.expHeld = tag.getFloat("ExpHeld");
+        this.expHeld = tag.getFloat("ExpHeld").orElse(0F);
 
         // Upgrade things
-        this.speedUpgrade = tag.getFloat("SpeedUpgrade");
-        this.fuelEfficiencyUpgrade = tag.getInt("FuelEfficiencyUpgrade");
-        this.bonusSlots = tag.getInt("Slots");
-        this.bonusFuelSlots = tag.getInt("FuelSlots");
-        this.balance = tag.getBoolean("Balance");
-        this.expModifier = tag.getFloat("ExpModifier");
-        this.saveFuel = tag.getBoolean("SaveFuel");
+        this.speedUpgrade = tag.getFloat("SpeedUpgrade").orElse(0F);
+        this.fuelEfficiencyUpgrade = tag.getInt("FuelEfficiencyUpgrade").orElse(0);
+        this.bonusSlots = tag.getInt("Slots").orElse(0);
+        this.bonusFuelSlots = tag.getInt("FuelSlots").orElse(0);
+        this.balance = tag.getBoolean("Balance").orElse(false);
+        this.expModifier = tag.getFloat("ExpModifier").orElse(0F);
+        this.saveFuel = tag.getBoolean("SaveFuel").orElse(false);
     }
 
     @Override
-    protected void applyImplicitComponents(BlockEntity.DataComponentInput componentInput) {
+    protected void applyImplicitComponents(DataComponentGetter componentInput) {
         super.applyImplicitComponents(componentInput);
         ItemContainerContents contents = componentInput.get(DataComponents.FURNACE_INVENTORY);
         this.items = NonNullList.withSize(SIZE, ItemStack.EMPTY);
@@ -538,6 +539,14 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
 
         if (needChange) {
             setChanged(level, pos, state);
+        }
+    }
+
+    @Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        super.preRemoveSideEffects(pos, state);
+        if (this.level instanceof ServerLevel serverlevel) {
+            this.popExp(serverlevel, Vec3.atCenterOf(pos));
         }
     }
 

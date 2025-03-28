@@ -95,7 +95,6 @@ public class QuarrySettingsScreen extends BackpackSubScreen<CrystalQuarryContain
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
 
         drawTopBar(guiGraphics);
 

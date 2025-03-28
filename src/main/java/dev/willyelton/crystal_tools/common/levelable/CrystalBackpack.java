@@ -26,6 +26,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemContainerContents;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -36,6 +37,7 @@ import net.neoforged.neoforge.items.ItemHandlerHelper;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class CrystalBackpack extends Item implements LevelableItem {
     public CrystalBackpack(Item.Properties properties) {
@@ -113,10 +115,10 @@ public class CrystalBackpack extends Item implements LevelableItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> components, TooltipFlag flag) {
         if (itemStack.getOrDefault(DataComponents.BACKPACK_AUTO_PICKUP, false)) {
             String toolTip = "\u00A79" + "Auto Pickup " + (itemStack.getOrDefault(DataComponents.PICKUP_DISABLED, false) ? "Disabled" : "Enabled");
-            components.add(Component.literal(toolTip));
+            components.accept(Component.literal(toolTip));
         }
 
         appendLevelableHoverText(itemStack, components, this, flag);
@@ -219,7 +221,7 @@ public class CrystalBackpack extends Item implements LevelableItem {
 
     public static List<ItemStack> findBackpackStacks(Player player) {
         List<ItemStack> backpackStacks = CuriosCompatibility.getCrystalBackpacksInCurios(player);
-        backpackStacks.addAll(player.getInventory().items.stream().filter(stack -> stack.is(Registration.CRYSTAL_BACKPACK.get())).toList());
+        backpackStacks.addAll(player.getInventory().getNonEquipmentItems().stream().filter(stack -> stack.is(Registration.CRYSTAL_BACKPACK.get())).toList());
 
         return backpackStacks;
     }

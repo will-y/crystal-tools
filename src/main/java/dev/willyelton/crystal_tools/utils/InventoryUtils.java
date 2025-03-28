@@ -1,9 +1,12 @@
 package dev.willyelton.crystal_tools.utils;
 
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 public class InventoryUtils {
@@ -46,5 +49,21 @@ public class InventoryUtils {
         }
 
         return ItemStack.EMPTY;
+    }
+
+    public static List<ItemStack> getArmorItems(Player player) {
+        return List.of(
+                player.getItemBySlot(EquipmentSlot.HEAD),
+                player.getItemBySlot(EquipmentSlot.CHEST),
+                player.getItemBySlot(EquipmentSlot.LEGS),
+                player.getItemBySlot(EquipmentSlot.FEET)
+        );
+    }
+
+    public static List<ItemStack> getHandItems(Player player) {
+        return List.of(
+                player.getItemBySlot(EquipmentSlot.MAINHAND),
+                player.getItemBySlot(EquipmentSlot.OFFHAND)
+        );
     }
 }

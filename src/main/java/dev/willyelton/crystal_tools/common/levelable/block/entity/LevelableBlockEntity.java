@@ -8,6 +8,7 @@ import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
@@ -66,18 +67,16 @@ public abstract class LevelableBlockEntity extends BlockEntity {
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        this.skillPoints = tag.getInt("SkillPoints");
+        this.skillPoints = tag.getInt("SkillPoints").orElse(0);
         this.points = NBTUtils.getIntArray(tag, "Points", 100);
-        this.exp = tag.getInt("Exp");
-        this.expCap = tag.getInt("ExpCap");
-
-        if (this.expCap == 0) this.expCap = getBaseExpCap();
+        this.exp = tag.getInt("Exp").orElse(0);
+        this.expCap = tag.getInt("ExpCap").orElse(getBaseExpCap());
 
         getActions().forEach(action -> action.load(tag, registries));
     }
 
     @Override
-    protected void applyImplicitComponents(DataComponentInput componentInput) {
+    protected void applyImplicitComponents(DataComponentGetter componentInput) {
         LevelableBlockEntityData levelableBlockEntityData = componentInput.get(DataComponents.LEVELABLE_BLOCK_ENTITY_DATA);
         if (levelableBlockEntityData != null) {
             this.skillPoints = levelableBlockEntityData.skillPoints();

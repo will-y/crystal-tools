@@ -6,11 +6,14 @@ import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.EntityTargeter;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -21,6 +24,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
 
@@ -71,15 +75,15 @@ public class CrystalShield extends ShieldItem implements LevelableItem, EntityTa
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         appendLevelableHoverText(stack, tooltipComponents, this, tooltipFlag);
     }
 
     @Override
-    public void addAdditionalTooltips(ItemStack stack, List<Component> components, LevelableItem item) {
+    public void addAdditionalTooltips(ItemStack stack, Consumer<Component> components, LevelableItem item) {
         int totemSlots = stack.getOrDefault(DataComponents.TOTEM_SLOTS, 0);
         if (totemSlots > 0) {
-            components.add(Component.literal(String.format("\u00A72%d/%d Totems of Undying", stack.getOrDefault(DataComponents.FILLED_TOTEM_SLOTS, 0), totemSlots)));
+            components.accept(Component.literal(String.format("\u00A72%d/%d Totems of Undying", stack.getOrDefault(DataComponents.FILLED_TOTEM_SLOTS, 0), totemSlots)));
         }
     }
 
@@ -122,8 +126,8 @@ public class CrystalShield extends ShieldItem implements LevelableItem, EntityTa
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
-        levelableInventoryTick(stack, level, entity, slotId, isSelected, 1);
+    public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, EquipmentSlot slot) {
+        levelableInventoryTick(stack, level, entity, slot, 1);
     }
 
     @Override

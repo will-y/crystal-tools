@@ -21,6 +21,11 @@ import net.minecraft.world.level.block.Block;
 
 import java.util.stream.Stream;
 
+import static net.minecraft.client.data.models.ItemModelGenerators.TRIM_PREFIX_BOOTS;
+import static net.minecraft.client.data.models.ItemModelGenerators.TRIM_PREFIX_CHESTPLATE;
+import static net.minecraft.client.data.models.ItemModelGenerators.TRIM_PREFIX_HELMET;
+import static net.minecraft.client.data.models.ItemModelGenerators.TRIM_PREFIX_LEGGINGS;
+
 public class CrystalToolsModels extends ModelProvider {
     public CrystalToolsModels(PackOutput output) {
         super(output, CrystalTools.MODID);
@@ -48,10 +53,10 @@ public class CrystalToolsModels extends ModelProvider {
         generateCrystalShield(itemModels);
 
         // Armor
-        itemModels.generateTrimmableItem(Registration.CRYSTAL_HELMET.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, "helmet", false);
-        itemModels.generateTrimmableItem(Registration.CRYSTAL_CHESTPLATE.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, "chestplate", false);
-        itemModels.generateTrimmableItem(Registration.CRYSTAL_LEGGINGS.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, "leggings", false);
-        itemModels.generateTrimmableItem(Registration.CRYSTAL_BOOTS.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, "boots", false);
+        itemModels.generateTrimmableItem(Registration.CRYSTAL_HELMET.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, TRIM_PREFIX_HELMET, false);
+        itemModels.generateTrimmableItem(Registration.CRYSTAL_CHESTPLATE.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, TRIM_PREFIX_CHESTPLATE, false);
+        itemModels.generateTrimmableItem(Registration.CRYSTAL_LEGGINGS.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, TRIM_PREFIX_LEGGINGS, false);
+        itemModels.generateTrimmableItem(Registration.CRYSTAL_BOOTS.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, TRIM_PREFIX_BOOTS, false);
         itemModels.generateFlatItem(Registration.CRYSTAL_ELYTRA.get(), ModelTemplates.FLAT_ITEM);
 
         // Blocks

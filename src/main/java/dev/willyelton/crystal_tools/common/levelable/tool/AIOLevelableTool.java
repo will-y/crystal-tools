@@ -17,15 +17,13 @@ import net.neoforged.neoforge.common.ItemAbility;
 import net.neoforged.neoforge.common.Tags;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import static net.neoforged.neoforge.common.ItemAbilities.DEFAULT_AXE_ACTIONS;
 import static net.neoforged.neoforge.common.ItemAbilities.DEFAULT_HOE_ACTIONS;
-import static net.neoforged.neoforge.common.ItemAbilities.DEFAULT_PICKAXE_ACTIONS;
 import static net.neoforged.neoforge.common.ItemAbilities.DEFAULT_SHOVEL_ACTIONS;
-import static net.neoforged.neoforge.common.ItemAbilities.DEFAULT_SWORD_ACTIONS;
 
 public class AIOLevelableTool extends DiggerLevelableTool {
     public static final Set<ItemAbility> AIOT_ACTIONS = new HashSet<>();
@@ -35,8 +33,6 @@ public class AIOLevelableTool extends DiggerLevelableTool {
         AIOT_ACTIONS.addAll(DEFAULT_AXE_ACTIONS);
         AIOT_ACTIONS.addAll(DEFAULT_HOE_ACTIONS);
         AIOT_ACTIONS.addAll(DEFAULT_SHOVEL_ACTIONS);
-        AIOT_ACTIONS.addAll(DEFAULT_PICKAXE_ACTIONS);
-        AIOT_ACTIONS.addAll(DEFAULT_SWORD_ACTIONS);
     }
 
     @Override
@@ -94,11 +90,11 @@ public class AIOLevelableTool extends DiggerLevelableTool {
     }
 
     @Override
-    public void addAdditionalTooltips(ItemStack stack, List<Component> components, LevelableItem item) {
+    public void addAdditionalTooltips(ItemStack stack, Consumer<Component> components, LevelableItem item) {
         String toolTip = "\u00A79" + "Use Mode: " + StringUtils.capitalize(stack.getOrDefault(DataComponents.USE_MODE, "hoe").toLowerCase(Locale.ROOT));
         if (RegisterKeyBindingsEvent.MODE_SWITCH != null) {
             toolTip = toolTip + " (alt + " + RegisterKeyBindingsEvent.MODE_SWITCH.getKey().getDisplayName().getString() + " to change)";
         }
-        components.add(Component.literal(toolTip));
+        components.accept(Component.literal(toolTip));
     }
 }

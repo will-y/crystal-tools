@@ -19,6 +19,7 @@ import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
@@ -175,7 +176,7 @@ public class CrystalTridentEntity extends AbstractArrow {
     public void readAdditionalSaveData(CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
 
-        this.dealtDamage = pCompound.getBoolean("DealtDamage");
+        this.dealtDamage = pCompound.getBoolean("DealtDamage").orElse(false);
         this.entityData.set(ID_LOYALTY, tridentStack.getOrDefault(DataComponents.LOYALTY, 0).byteValue());
     }
 
@@ -225,7 +226,7 @@ public class CrystalTridentEntity extends AbstractArrow {
                 if (lightningbolt != null) {
                     int damage = 5 + tridentStack.getOrDefault(DataComponents.CHANNELING, 0);
                     lightningbolt.setDamage(damage);
-                    lightningbolt.moveTo(Vec3.atBottomCenterOf(blockPos));
+                    lightningbolt.snapTo(Vec3.atBottomCenterOf(blockPos));
                     lightningbolt.setCause(this.getOwner() instanceof ServerPlayer ? (ServerPlayer) this.getOwner() : null);
                     lightningbolt.addTag(CRYSTAL_TOOLS_TRIDENT_LIGHTNING_TAG);
                     this.level().addFreshEntity(lightningbolt);

@@ -4,10 +4,10 @@ import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.common.levelable.CrystalBackpack;
+import net.minecraft.util.TriState;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
 
 import java.util.List;

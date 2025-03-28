@@ -80,7 +80,6 @@ public class CrystalFurnaceScreen extends AbstractContainerScreen<CrystalFurnace
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
         guiGraphics.blit(RenderType::guiTextured, TEXTURE, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
         this.renderSlotsTexture(guiGraphics);
         this.renderFuelBar(guiGraphics);
