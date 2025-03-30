@@ -33,25 +33,21 @@ public class UpgradeScreen extends BaseUpgradeScreen {
     private final Runnable onClose;
     private int slotIndex = -1;
 
-    public UpgradeScreen(ItemStack itemStack, Player player, Level level) {
-        this(itemStack, player, null, level);
+    public UpgradeScreen(ItemStack itemStack, Player player, SkillData data) {
+        this(itemStack, player, null, data);
     }
 
-    public UpgradeScreen(int slotIndex, Player player, Runnable onClose, Level level) {
-        this(CrystalBackpack.getBackpackFromSlotIndex(player, slotIndex), player, onClose, level);
+    // TODO: Wrap this in something for backpack
+    public UpgradeScreen(int slotIndex, Player player, Runnable onClose, SkillData data) {
+        this(CrystalBackpack.getBackpackFromSlotIndex(player, slotIndex), player, onClose, data);
         this.slotIndex = slotIndex;
     }
 
-    public UpgradeScreen(ItemStack itemStack, Player player, Runnable onClose, Level level) {
+    public UpgradeScreen(ItemStack itemStack, Player player, Runnable onClose, SkillData data) {
         super(player, Component.literal("Upgrade Screen"));
         this.stack = itemStack;
-        // TODO: Extract this into something else, open screen if good, return false and display error if no skill tree for that item
-        // Should allow this to work for vanilla items
-        Optional<Registry<SkillData>> skillDataOptional = level.registryAccess().lookup(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY);
-        ResourceKey<Item> itemKey =  level.registryAccess().lookupOrThrow(Registries.ITEM).getResourceKey(stack.getItem()).get();
-
-        this.data = skillDataOptional.get().get(itemKey.location()).get().value();
         this.onClose = onClose;
+        this.data = data;
     }
 
     /**

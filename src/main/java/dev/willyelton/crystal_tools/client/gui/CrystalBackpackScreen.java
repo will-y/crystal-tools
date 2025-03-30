@@ -117,7 +117,8 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
         this.addRenderableWidget(new BackpackScreenButton(this.leftPos - 21, screenButtonY, Component.literal("Open Skill Tree"),
                 button -> {
                     this.onClose();
-                    ModGUIs.openScreen(new UpgradeScreen(menu.getSlotIndex(), menu.getPlayer(), () -> PacketDistributor.sendToServer(new OpenBackpackPayload(menu.getSlotIndex())), menu.getPlayer().level()));
+                    // TODO: Get data
+                    ModGUIs.openScreen(new UpgradeScreen(menu.getSlotIndex(), menu.getPlayer(), () -> PacketDistributor.sendToServer(new OpenBackpackPayload(menu.getSlotIndex())), null));
                 },
                 (button, guiGraphics, mouseX, mouseY) -> {
                     Component textComponent = Component.literal("Open Skill Tree");
