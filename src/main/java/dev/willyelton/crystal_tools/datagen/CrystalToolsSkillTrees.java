@@ -49,12 +49,14 @@ public class CrystalToolsSkillTrees {
                 .tier()
                     .enchantmentNode(8, SILK_TOUCH, desc.silkTouch(), Enchantments.SILK_TOUCH, 1)
                         .previousTierOrRequirements()
-                        .notNodeRequirement(9, 21)
+                        .notNodeRequirement(9, 11)
                     .enchantmentNode(9, fortune(3), desc.fortune(), Enchantments.FORTUNE, 3)
                         .previousTierOrRequirements()
-                        .notNodeRequirement(8, 21)
+                        .notNodeRequirement(8, 11)
                     .dataComponentNode(10, unbreaking(2), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.1F)
                         .previousTierOrRequirements()
+                .tier()
+                    .dataComponentNode(11, MODE_SWITCH, "Allows you to switch mining modes", DataComponents.MINE_MODE.getId(), 1)
                 .build();
     }
 

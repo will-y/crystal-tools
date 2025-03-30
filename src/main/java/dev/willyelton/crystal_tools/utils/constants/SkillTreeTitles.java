@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.utils.constants;
 
 public class SkillTreeTitles {
     public static final String SILK_TOUCH = "Silk Touch";
+    public static final String MODE_SWITCH = "Mode Switch";
 
     public static String miningSpeed(int level) {
         return String.format("MiningSpeed %s", intToRomanNumeral(level));

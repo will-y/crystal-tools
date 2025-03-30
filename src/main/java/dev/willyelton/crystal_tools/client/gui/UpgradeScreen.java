@@ -3,7 +3,9 @@ package dev.willyelton.crystal_tools.client.gui;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
+import dev.willyelton.crystal_tools.common.events.DatapackRegistryEvents;
 import dev.willyelton.crystal_tools.common.levelable.CrystalBackpack;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
 import dev.willyelton.crystal_tools.common.network.data.ResetSkillsPayload;
 import dev.willyelton.crystal_tools.common.network.data.ToolAttributePayload;
@@ -11,11 +13,18 @@ import dev.willyelton.crystal_tools.common.network.data.ToolHealPayload;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
 
+import java.util.Optional;
 import java.util.Set;
 
 public class UpgradeScreen extends BaseUpgradeScreen {
@@ -24,19 +33,24 @@ public class UpgradeScreen extends BaseUpgradeScreen {
     private final Runnable onClose;
     private int slotIndex = -1;
 
-    public UpgradeScreen(ItemStack itemStack, Player player) {
-        this(itemStack, player, null);
+    public UpgradeScreen(ItemStack itemStack, Player player, Level level) {
+        this(itemStack, player, null, level);
     }
 
-    public UpgradeScreen(int slotIndex, Player player, Runnable onClose) {
-        this(CrystalBackpack.getBackpackFromSlotIndex(player, slotIndex), player, onClose);
+    public UpgradeScreen(int slotIndex, Player player, Runnable onClose, Level level) {
+        this(CrystalBackpack.getBackpackFromSlotIndex(player, slotIndex), player, onClose, level);
         this.slotIndex = slotIndex;
     }
 
-    public UpgradeScreen(ItemStack itemStack, Player player, Runnable onClose) {
+    public UpgradeScreen(ItemStack itemStack, Player player, Runnable onClose, Level level) {
         super(player, Component.literal("Upgrade Screen"));
         this.stack = itemStack;
-        this.data = ToolUtils.getSkillData(itemStack);
+        // TODO: Extract this into something else, open screen if good, return false and display error if no skill tree for that item
+        // Should allow this to work for vanilla items
+        Optional<Registry<SkillData>> skillDataOptional = level.registryAccess().lookup(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY);
+        ResourceKey<Item> itemKey =  level.registryAccess().lookupOrThrow(Registries.ITEM).getResourceKey(stack.getItem()).get();
+
+        this.data = skillDataOptional.get().get(itemKey.location()).get().value();
         this.onClose = onClose;
     }
 

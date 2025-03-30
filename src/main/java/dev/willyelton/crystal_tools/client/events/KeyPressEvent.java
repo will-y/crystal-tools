@@ -55,7 +55,7 @@ public class KeyPressEvent {
 
     public static void handleUpgradeMenu(ItemStack levelableTool, Player player) {
         if (!levelableTool.isEmpty()) {
-            ModGUIs.openScreen(new UpgradeScreen(levelableTool, player));
+            ModGUIs.openScreen(new UpgradeScreen(levelableTool, player, player.level()));
         }
     }
 
