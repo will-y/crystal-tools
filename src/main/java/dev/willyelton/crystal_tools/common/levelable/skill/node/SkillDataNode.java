@@ -4,10 +4,12 @@ import com.mojang.serialization.Codec;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillSubText;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirement;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -122,6 +124,8 @@ public sealed abstract class SkillDataNode permits DataComponentSkillNode, Encha
     }
 
     public abstract SkillNodeType getSkillNodeType();
+
+    public abstract void processNode(ItemStack stack, int pointsToSpend, RegistryAccess registryAccess);
 
     public static Codec<SkillDataNode> CODEC = ResourceLocation.CODEC.xmap(SkillNodeType::fromResourceLocation, SkillNodeType::resourceLocation)
             .dispatch(SkillDataNode::getSkillNodeType, SkillNodeType::codec);

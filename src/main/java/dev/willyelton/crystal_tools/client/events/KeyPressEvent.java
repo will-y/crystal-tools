@@ -88,7 +88,7 @@ public class KeyPressEvent {
 
             if (dataOptional.isPresent()) {
                 SkillData data = dataOptional.get().value();
-                ModGUIs.openScreen(new UpgradeScreen(stack, player, data));
+                ModGUIs.openScreen(new UpgradeScreen(stack, player, data, dataOptional.get().key()));
                 return true;
             }
         }

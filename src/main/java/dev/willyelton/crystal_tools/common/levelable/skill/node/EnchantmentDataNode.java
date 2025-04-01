@@ -4,10 +4,16 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillSubText;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirement;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
 
 import java.util.List;
 import java.util.Optional;
@@ -55,5 +61,16 @@ public final class EnchantmentDataNode extends SkillDataNode {
     @Override
     public SkillNodeType getSkillNodeType() {
         return SkillNodeType.ENCHANTMENT;
+    }
+
+    @Override
+    public void processNode(ItemStack stack, int pointsToSpend, RegistryAccess registryAccess) {
+        Registry<Enchantment> enchantmentRegistry = registryAccess.lookupOrThrow(Registries.ENCHANTMENT);
+
+        for (ResourceLocation key : this.getKeys()) {
+            Optional<Holder.Reference<Enchantment>> enchantmentOptional = enchantmentRegistry.get(key);
+
+            enchantmentOptional.ifPresent(enchantmentReference -> stack.enchant(enchantmentReference, this.level));
+        }
     }
 }

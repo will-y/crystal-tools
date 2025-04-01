@@ -20,12 +20,17 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class SkillData {
     private final List<List<SkillDataNode>> nodes;
     // Flattened nodes, calculated lazily
     private List<SkillDataNode> flatNodes = null;
+    // Map of nodes calculated lazily
+    private Map<Integer, SkillDataNode> nodeMap = null;
     private int totalPoints;
 
     private SkillData(List<List<SkillDataNode>> nodes) {
@@ -66,6 +71,16 @@ public class SkillData {
         }
 
         return flatNodes;
+    }
+
+    public Map<Integer, SkillDataNode> getNodeMap() {
+        if (nodeMap == null) {
+            nodeMap = nodes.stream()
+                    .flatMap(List::stream)
+                    .collect(Collectors.toMap(SkillDataNode::getId, Function.identity()));
+        }
+
+        return nodeMap;
     }
 
     public int getTotalPoints() {

@@ -10,6 +10,7 @@ import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
 import dev.willyelton.crystal_tools.common.network.data.ResetSkillsPayload;
 import dev.willyelton.crystal_tools.common.network.data.ToolAttributePayload;
 import dev.willyelton.crystal_tools.common.network.data.ToolHealPayload;
+import dev.willyelton.crystal_tools.common.network.data.ToolSkillPayload;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
@@ -31,23 +32,25 @@ public class UpgradeScreen extends BaseUpgradeScreen {
     private Button healButton;
     private final ItemStack stack;
     private final Runnable onClose;
+    private final ResourceKey<SkillData> key;
     private int slotIndex = -1;
 
-    public UpgradeScreen(ItemStack itemStack, Player player, SkillData data) {
-        this(itemStack, player, null, data);
+    public UpgradeScreen(ItemStack itemStack, Player player, SkillData data, ResourceKey<SkillData> key) {
+        this(itemStack, player, null, data, key);
     }
 
     // TODO: Wrap this in something for backpack
-    public UpgradeScreen(int slotIndex, Player player, Runnable onClose, SkillData data) {
-        this(CrystalBackpack.getBackpackFromSlotIndex(player, slotIndex), player, onClose, data);
+    public UpgradeScreen(int slotIndex, Player player, Runnable onClose, SkillData data, ResourceKey<SkillData> key) {
+        this(CrystalBackpack.getBackpackFromSlotIndex(player, slotIndex), player, onClose, data, key);
         this.slotIndex = slotIndex;
     }
 
-    public UpgradeScreen(ItemStack itemStack, Player player, Runnable onClose, SkillData data) {
+    public UpgradeScreen(ItemStack itemStack, Player player, Runnable onClose, SkillData data, ResourceKey<SkillData> key) {
         super(player, Component.literal("Upgrade Screen"));
         this.stack = itemStack;
         this.onClose = onClose;
         this.data = data;
+        this.key = key;
     }
 
     /**
@@ -104,13 +107,13 @@ public class UpgradeScreen extends BaseUpgradeScreen {
             }
 
             // TODO
-            PacketDistributor.sendToServer(new ToolAttributePayload(null, 1, node.getId(), slotIndex, pointsToSpend));
+            PacketDistributor.sendToServer(new ToolSkillPayload(node.getId(), key, pointsToSpend));
             node.addPoint(pointsToSpend);
             if (node.isComplete()) {
                 ((SkillButton) button).setComplete();
             }
 
-            changeSkillPoints(-pointsToSpend);
+            // changeSkillPoints(-pointsToSpend);
         }
 
         super.onSkillButtonPress(node, button);

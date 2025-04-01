@@ -4,10 +4,16 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillSubText;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirement;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 import java.util.Optional;
@@ -53,5 +59,29 @@ public final class DataComponentSkillNode extends SkillDataNode {
     @Override
     public SkillNodeType getSkillNodeType() {
         return SkillNodeType.DATA_COMPONENT;
+    }
+
+    @Override
+    public void processNode(ItemStack stack, int pointsToSpend, RegistryAccess registryAccess) {
+        Holder.Reference<Registry<DataComponentType<?>>> dataComponents = registryAccess.getOrThrow(Registries.DATA_COMPONENT_TYPE);
+
+        for (ResourceLocation key : this.getKeys()) {
+            Optional<Holder.Reference<DataComponentType<?>>> dataComponentOptional = dataComponents.value().get(key);
+
+            if (dataComponentOptional.isPresent()) {
+                DataComponentType<?> dataComponent = dataComponentOptional.get().value();
+                Object value = stack.get(dataComponent);
+
+                if (value != null) {
+                    // TODO: is there a better way to do this?
+                    switch (value) {
+                        case Integer i -> stack.set((DataComponentType<Integer>) dataComponent, i + (int) this.value * pointsToSpend);
+                        case Float f -> stack.set((DataComponentType<Float>) dataComponent, f + this.value * pointsToSpend);
+                        case Boolean ignored -> stack.set((DataComponentType<Boolean>) dataComponent, true);
+                        default -> throw new IllegalStateException("Unexpected value: " + value);
+                    }
+                }
+            }
+        }
     }
 }

@@ -103,3 +103,11 @@ New types of nodes:
 
 Could also consider adding the ability to require x points in a node before it is active (creative flight)
 Also want to consider the idea of either a second tree, or just another type of node that is more expensive / new point type (quests?)
+
+- Points can't be stored in the skill data object anymore
+- Mob effect nodes
+- Figure out what to do about block entity trees (probably a special type of NBT node)
+- Backpack is special, does it need to be?
+- Datapack validation (make sure all requirements point to valid nodes / items)...
+- try out some vanilla skill trees
+- redo getting points (each node should probably be able to do the action, so the packet handler should be really simple)

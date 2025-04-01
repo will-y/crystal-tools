@@ -7,6 +7,9 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 
+// Node id
+// Skill tree key
+// Points to spend
 public record ToolAttributePayload(String key, float value, int id, int slotIndex, int pointsToSpend) implements CustomPacketPayload {
     public static final Type<ToolAttributePayload> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "tool_attribute"));
     public static final StreamCodec<RegistryFriendlyByteBuf, ToolAttributePayload> STREAM_CODEC = StreamCodec.composite(
