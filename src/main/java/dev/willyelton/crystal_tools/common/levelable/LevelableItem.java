@@ -121,20 +121,20 @@ public interface LevelableItem {
         } else {
             Map<String, Float> skills = new HashMap<>();
             components.accept(Component.literal("\u00A76Skills:"));
-            SkillData toolData = ToolUtils.getSkillData(stack);
+//            SkillData toolData = ToolUtils.getSkillData(stack);
 
-            if (toolData != null) {
-                for (SkillDataNode dataNode : toolData.getAllNodes()) {
-                    if (dataNode.getPoints() > 0) {
-                        // TODO
-                        skills.compute(null, (key, value) -> value != null ? value + 1 * dataNode.getPoints() : 1 * dataNode.getPoints());
-                    }
-                }
-
-                skills.forEach((s, aFloat) -> {
-                    components.accept(Component.literal(String.format("\u00A76     %s: %s", StringUtils.formatKey(s), StringUtils.formatFloat(aFloat))));
-                });
-            }
+//            if (toolData != null) {
+//                for (SkillDataNode dataNode : toolData.getAllNodes()) {
+//                    if (dataNode.getPoints() > 0) {
+//                        // TODO
+//                        skills.compute(null, (key, value) -> value != null ? value + 1 * dataNode.getPoints() : 1 * dataNode.getPoints());
+//                    }
+//                }
+//
+//                skills.forEach((s, aFloat) -> {
+//                    components.accept(Component.literal(String.format("\u00A76     %s: %s", StringUtils.formatKey(s), StringUtils.formatFloat(aFloat))));
+//                });
+//            }
         }
     }
 

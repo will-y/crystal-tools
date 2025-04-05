@@ -5,7 +5,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.utils.CodecUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -38,7 +38,7 @@ public class SkillItemRequirement implements SkillDataRequirement {
     }
 
     @Override
-    public boolean canLevel(SkillData data, Player player) {
+    public boolean canLevel(SkillPoints points, Player player) {
         // If config is disabled, always allow
         if (!CrystalToolsConfig.ENABLE_ITEM_REQUIREMENTS.get()) return true;
 

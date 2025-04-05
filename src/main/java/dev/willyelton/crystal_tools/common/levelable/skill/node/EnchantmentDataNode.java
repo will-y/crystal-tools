@@ -65,6 +65,7 @@ public final class EnchantmentDataNode extends SkillDataNode {
 
     @Override
     public void processNode(ItemStack stack, int pointsToSpend, RegistryAccess registryAccess) {
+        // TODO: Special casing for incompatible enchantments
         Registry<Enchantment> enchantmentRegistry = registryAccess.lookupOrThrow(Registries.ENCHANTMENT);
 
         for (ResourceLocation key : this.getKeys()) {

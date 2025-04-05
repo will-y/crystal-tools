@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.common.network.handler;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.events.DatapackRegistryEvents;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
 import dev.willyelton.crystal_tools.common.network.data.ToolSkillPayload;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
@@ -15,6 +16,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import java.util.Optional;
 
+// TODO: Points handling
 public class ToolSkillHandler {
     public static final ToolSkillHandler INSTANCE = new ToolSkillHandler();
 
@@ -35,8 +37,13 @@ public class ToolSkillHandler {
                     SkillData data = dataOptional.get().value();
                     SkillDataNode node = data.getNodeMap().get(payload.nodeId());
                     if (node != null) {
+                        SkillPoints points = heldTool.getOrDefault(DataComponents.SKILL_POINT_DATA, new SkillPoints()).copy();
                         int skillPoints = heldTool.getOrDefault(DataComponents.SKILL_POINTS, 0);
-                        node.processNode(heldTool, Math.min(skillPoints, payload.pointsToSpend()), level.registryAccess());
+                        int toSpend = Math.min(skillPoints, payload.pointsToSpend());
+                        node.processNode(heldTool, toSpend, level.registryAccess());
+                        points.addPoints(payload.nodeId(), toSpend);
+                        heldTool.set(DataComponents.SKILL_POINT_DATA, points);
+                        DataComponents.addToComponent(heldTool, DataComponents.SKILL_POINTS, -toSpend);
                     }
                 }
             }

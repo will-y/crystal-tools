@@ -62,18 +62,6 @@ public class ToolUtils {
         stack.remove(DataComponents.EFFECTS);
     }
 
-    public static SkillData getSkillData(ItemStack stack) {
-        List<Integer> points = stack.getOrDefault(DataComponents.POINTS_ARRAY, Collections.emptyList());
-        if (stack.getItem() instanceof LevelableItem) {
-            String toolType = ((LevelableItem) stack.getItem()).getItemType();
-            SkillData data = SkillTreeRegistry.SKILL_TREES.get(toolType);
-            data.applyPoints(points);
-            return data;
-        } else {
-            return null;
-        }
-    }
-
     public static boolean isValidEntity(LivingEntity entity) {
         return !entity.getType().is(CrystalToolsTags.ENTITY_BLACKLIST);
     }

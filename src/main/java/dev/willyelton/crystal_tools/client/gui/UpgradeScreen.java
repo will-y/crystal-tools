@@ -3,9 +3,9 @@ package dev.willyelton.crystal_tools.client.gui;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.events.DatapackRegistryEvents;
 import dev.willyelton.crystal_tools.common.levelable.CrystalBackpack;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
 import dev.willyelton.crystal_tools.common.network.data.ResetSkillsPayload;
 import dev.willyelton.crystal_tools.common.network.data.ToolAttributePayload;
@@ -14,18 +14,12 @@ import dev.willyelton.crystal_tools.common.network.data.ToolSkillPayload;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-import java.util.Optional;
 import java.util.Set;
 
 public class UpgradeScreen extends BaseUpgradeScreen {
@@ -76,10 +70,15 @@ public class UpgradeScreen extends BaseUpgradeScreen {
             PacketDistributor.sendToServer(ResetSkillsPayload.INSTANCE);
             ToolUtils.resetPoints(this.stack);
 
-            data = ToolUtils.getSkillData(this.stack);
+//            data = ToolUtils.getSkillData(this.stack);
         }
 
         this.onClose();
+    }
+
+    @Override
+    public SkillPoints getPoints() {
+        return this.stack.getOrDefault(DataComponents.SKILL_POINT_DATA, new SkillPoints()).copy();
     }
 
     @Override
@@ -106,14 +105,12 @@ public class UpgradeScreen extends BaseUpgradeScreen {
                 pointsToSpend = getPointsToSpend(skillPoints, shift, control);
             }
 
-            // TODO
             PacketDistributor.sendToServer(new ToolSkillPayload(node.getId(), key, pointsToSpend));
-            node.addPoint(pointsToSpend);
-            if (node.isComplete()) {
+            points.addPoints(node.getId(), pointsToSpend);
+            DataComponents.addToComponent(stack, DataComponents.SKILL_POINTS, -pointsToSpend);
+            if (points.getPoints(node.getId()) >= node.getLimit()) {
                 ((SkillButton) button).setComplete();
             }
-
-            // changeSkillPoints(-pointsToSpend);
         }
 
         super.onSkillButtonPress(node, button);

@@ -63,10 +63,10 @@ public final class DataComponentSkillNode extends SkillDataNode {
 
     @Override
     public void processNode(ItemStack stack, int pointsToSpend, RegistryAccess registryAccess) {
-        Holder.Reference<Registry<DataComponentType<?>>> dataComponents = registryAccess.getOrThrow(Registries.DATA_COMPONENT_TYPE);
+        Registry<DataComponentType<?>> dataComponents = registryAccess.lookupOrThrow(Registries.DATA_COMPONENT_TYPE);
 
         for (ResourceLocation key : this.getKeys()) {
-            Optional<Holder.Reference<DataComponentType<?>>> dataComponentOptional = dataComponents.value().get(key);
+            Optional<Holder.Reference<DataComponentType<?>>> dataComponentOptional = dataComponents.get(key);
 
             if (dataComponentOptional.isPresent()) {
                 DataComponentType<?> dataComponent = dataComponentOptional.get().value();

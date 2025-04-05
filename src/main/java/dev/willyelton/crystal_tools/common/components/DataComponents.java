@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.common.components;
 
 import com.mojang.serialization.Codec;
 import dev.willyelton.crystal_tools.CrystalTools;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
@@ -31,6 +32,8 @@ public class DataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> SKILL_EXPERIENCE = register("skill_experience", Codec.INT, ByteBufCodecs.VAR_INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> EXPERIENCE_CAP = register("experience_cap", Codec.INT, ByteBufCodecs.VAR_INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<Integer>>> POINTS_ARRAY = COMPONENTS.register("points", () -> DataComponentType.<List<Integer>>builder().persistent(Codec.INT.listOf()).networkSynchronized(ByteBufCodecs.INT.apply(ByteBufCodecs.list())).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<SkillPoints>> SKILL_POINT_DATA = COMPONENTS.register("skill_point_data", () -> DataComponentType.<SkillPoints>builder().persistent(SkillPoints.CODEC).networkSynchronized(SkillPoints.STREAM_CODEC).build());
+
 
     // All tools
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> REACH = register("reach", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);

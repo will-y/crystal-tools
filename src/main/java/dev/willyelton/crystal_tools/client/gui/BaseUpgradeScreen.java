@@ -7,6 +7,7 @@ import dev.willyelton.crystal_tools.client.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.client.gui.component.XpButton;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillSubText;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.NodeOrSkillDataRequirement;
@@ -58,6 +59,7 @@ public abstract class BaseUpgradeScreen extends Screen {
     private static final int ANIMATION_COUNTER_MAX = 10;
 
     protected final Player player;
+    protected SkillPoints points;
     protected SkillData data;
     private final HashMap<Integer, SkillButton> skillButtons = new HashMap<>();
 
@@ -70,9 +72,12 @@ public abstract class BaseUpgradeScreen extends Screen {
     public BaseUpgradeScreen(Player player, Component title) {
         super(title);
         this.player = player;
+
     }
 
     protected void init() {
+        this.points = getPoints();
+
         List<List<SkillDataNode>> tiers = data.getAllNodesByTier();
 
         int y = Y_PADDING;
@@ -129,8 +134,10 @@ public abstract class BaseUpgradeScreen extends Screen {
 
     protected abstract void resetPoints(boolean crystalRequired);
 
+    public abstract SkillPoints getPoints();
+
     private int getXpCost(int pointsToGain) {
-        int totalPoints = data.getTotalPoints() + getSkillPoints();
+        int totalPoints = points.getTotalPoints() + getSkillPoints();
         int xpLevelCost = CrystalToolsConfig.EXPERIENCE_PER_SKILL_LEVEL.get();
         int levelScaling = CrystalToolsConfig.EXPERIENCE_LEVELING_SCALING.get();
 
@@ -223,12 +230,12 @@ public abstract class BaseUpgradeScreen extends Screen {
 
             if (node.getLimit() == 0) {
                 int pointsToAdd = getPointsToSpend(Integer.MAX_VALUE, hasShiftDown(), hasControlDown());
-                text = String.format("%s\n%d Points", node.getDescription(), node.getPoints());
+                text = String.format("%s\n%d Points", node.getDescription(), points.getPoints(node.getId()));
                 if (pointsToAdd > 1) {
                     text = text + String.format("\n(+ %d Points)", pointsToAdd);
                 }
             } else {
-                text = String.format("%s\n%d/%d Points", node.getDescription(), node.getPoints(), node.getLimit());
+                text = String.format("%s\n%d/%d Points", node.getDescription(), points.getPoints(node.getId()), node.getLimit());
             }
 
             Optional<SkillSubText> subText = Optional.ofNullable(node.getSkillSubText());
@@ -244,7 +251,7 @@ public abstract class BaseUpgradeScreen extends Screen {
                 compositeComponent = FormattedText.composite(textComponent);
             }
             guiGraphics.renderTooltip(this.font, this.font.split(compositeComponent, Math.max(BaseUpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
-        }, this.data, node, this.player));
+        }, node, this.player, this.points));
     }
 
     protected void onSkillButtonPress(SkillDataNode node, Button button) {
@@ -260,8 +267,6 @@ public abstract class BaseUpgradeScreen extends Screen {
             }
         }
 
-        this.data.addPoint();
-
         this.updateButtons();
     }
 
@@ -274,8 +279,8 @@ public abstract class BaseUpgradeScreen extends Screen {
         int skillPoints = this.getSkillPoints();
         for (SkillButton button : this.skillButtons.values()) {
             SkillDataNode node = button.getDataNode();
-            button.active = !button.isComplete && node.canLevel(data, this.player) && skillPoints > 0;
-            if (node.isComplete()) {
+            button.active = !button.isComplete && node.canLevel(points, this.player) && skillPoints > 0;
+            if (points.getPoints(node.getId()) >= node.getLimit()) {
                 button.setComplete();
             }
         }
@@ -316,7 +321,7 @@ public abstract class BaseUpgradeScreen extends Screen {
 
                     for (int j : nodes) {
                         if (this.skillButtons.containsKey(j) && this.skillButtons.get(j).isHovered() || button.isHovered()) {
-                            boolean active = this.skillButtons.get(j).getDataNode().getPoints() > 0;
+                            boolean active = points.getPoints(this.skillButtons.get(j).getDataNode().getId()) > 0;
 
                             if (!active && !not) {
                                 textureY = 0;

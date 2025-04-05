@@ -3,8 +3,8 @@ package dev.willyelton.crystal_tools.common.levelable.skill.requirement;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.utils.CodecUtils;
 import net.minecraft.world.entity.player.Player;
 
@@ -36,21 +36,32 @@ public class NodeSkillDataRequirement implements SkillDataRequirement, SkillData
     }
 
     @Override
-    public boolean canLevel(SkillData data, Player player) {
-        boolean toReturn = true;
-        List<SkillDataNode> nodes = data.getAllNodes();
-        for (SkillDataNode node : nodes) {
-            if (requiredNodes.contains(node.getId())) {
-                if ((!inverse && node.getPoints() == 0) || (inverse && node.getPoints() > 0)) {
-                    toReturn = false;
+    public boolean canLevel(SkillPoints points, Player player) {
+        if (unlessActive(points)) return true;
+
+        for (Integer node : requiredNodes) {
+            int pointsInNode = points.getPoints(node);
+
+            if ((!inverse && pointsInNode == 0) || (inverse && pointsInNode > 0)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean unlessActive(SkillPoints points) {
+        if (inverse) {
+            for (Integer node : unless) {
+                if (points.getPoints(node) == 0) {
+                    return false;
                 }
             }
 
-            if (inverse && unless.contains(node.getId()) & node.getPoints() > 0) {
-                return true;
-            }
+            return true;
         }
-        return toReturn;
+
+        return false;
     }
 
     @Override

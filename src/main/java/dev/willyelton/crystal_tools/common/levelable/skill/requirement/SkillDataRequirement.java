@@ -4,13 +4,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.mojang.serialization.Codec;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.utils.CodecUtils;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.entity.player.Player;
 
 public interface SkillDataRequirement {
-    boolean canLevel(SkillData data, Player player);
+    boolean canLevel(SkillPoints points, Player player);
 
     RequirementType getRequirementType();
 

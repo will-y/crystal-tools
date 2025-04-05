@@ -5,8 +5,8 @@ import dev.willyelton.crystal_tools.client.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.common.inventory.container.LevelableContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.LevelableBlockEntity;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillTreeRegistry;
 import dev.willyelton.crystal_tools.common.network.data.BlockAttributePayload;
 import dev.willyelton.crystal_tools.common.network.data.ResetSkillsBlockPayload;
 import net.minecraft.client.gui.components.Button;
@@ -44,8 +44,8 @@ public class BlockEntityUpgradeScreen extends BaseUpgradeScreen {
     protected SkillData getSkillData() {
         int[] points = this.container.getPoints();
         String blockType = this.container.getBlockType();
-        SkillData data = SkillTreeRegistry.SKILL_TREES.get(blockType);
-        data.applyPoints(points);
+//        SkillData data = SkillTreeRegistry.SKILL_TREES.get(blockType);
+//        data.applyPoints(points);
         return data;
     }
 
@@ -81,8 +81,8 @@ public class BlockEntityUpgradeScreen extends BaseUpgradeScreen {
 
             // TODO
             PacketDistributor.sendToServer(new BlockAttributePayload(null, 1, node.getId(), pointsToSpend));
-            node.addPoint(pointsToSpend);
-            if (node.isComplete()) {
+            points.addPoints(node.getId(), pointsToSpend);
+            if (points.getPoints(node.getId()) >= node.getLimit()) {
                 ((SkillButton) button).setComplete();
             }
 
@@ -109,6 +109,11 @@ public class BlockEntityUpgradeScreen extends BaseUpgradeScreen {
         }
 
         this.onClose();
+    }
+
+    @Override
+    public SkillPoints getPoints() {
+        return null;
     }
 
     @Override

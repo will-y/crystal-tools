@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.common.levelable.skill.node;
 
 import com.mojang.serialization.Codec;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillSubText;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirement;
 import net.minecraft.core.RegistryAccess;
@@ -20,7 +21,6 @@ public sealed abstract class SkillDataNode permits DataComponentSkillNode, Encha
     private final String description;
     // If 0 = infinite, 1 = normal, 2+ = amount of points you can put in
     private final int limit;
-    private int points;
     private final List<SkillDataRequirement> requirements;
     private final List<ResourceLocation> keys;
     private final SkillSubText skillSubText;
@@ -36,7 +36,6 @@ public sealed abstract class SkillDataNode permits DataComponentSkillNode, Encha
         this.name = name;
         this.description = description;
         this.limit = limit;
-        this.points = 0;
         this.keys = keys;
         this.requirements = requirements;
         this.skillSubText = skillSubText;
@@ -58,20 +57,12 @@ public sealed abstract class SkillDataNode permits DataComponentSkillNode, Encha
         return limit;
     }
 
-    public int getPoints() {
-        return points;
-    }
-
     public List<SkillDataRequirement> getRequirements() {
         return requirements;
     }
 
     public void addRequirement(SkillDataRequirement requirement) {
         requirements.add(requirement);
-    }
-
-    public int addPoint() {
-        return addPoint(1);
     }
 
     public List<ResourceLocation> getKeys() {
@@ -82,32 +73,17 @@ public sealed abstract class SkillDataNode permits DataComponentSkillNode, Encha
         return this.skillSubText;
     }
 
-    public int addPoint(int points) {
-        this.points += points;
-        return this.points;
-    }
-
-    public void setPoints(int points) {
-        this.points = points;
-    }
-
     /**
      * Returns true if all of this node's requirements are met, and it can be leveled
      */
-    public boolean canLevel(SkillData data, Player player) {
+    public boolean canLevel(SkillPoints points, Player player) {
         for (SkillDataRequirement requirement : this.requirements) {
-            if (!requirement.canLevel(data, player)) {
+            if (!requirement.canLevel(points, player)) {
                 return false;
             }
         }
 
         return true;
-    }
-
-    public boolean isComplete() {
-        if (limit == 0) return false;
-
-        return this.points >= this.limit;
     }
 
     @Override
@@ -117,7 +93,6 @@ public sealed abstract class SkillDataNode permits DataComponentSkillNode, Encha
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", limit=" + limit +
-                ", points=" + points +
                 ", requirements=" + requirements +
                 ", key='" + keys.stream().map(ResourceLocation::toString).collect(Collectors.joining(", ")) + '\'' +
                 '}';

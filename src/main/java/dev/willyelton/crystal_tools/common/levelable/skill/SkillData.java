@@ -31,34 +31,9 @@ public class SkillData {
     private List<SkillDataNode> flatNodes = null;
     // Map of nodes calculated lazily
     private Map<Integer, SkillDataNode> nodeMap = null;
-    private int totalPoints;
 
     private SkillData(List<List<SkillDataNode>> nodes) {
         this.nodes = nodes;
-    }
-
-    public void applyPoints(int[] points) {
-        List<? extends SkillDataNode> nodes = getAllNodes();
-
-        for (SkillDataNode node : nodes) {
-            node.setPoints(points[node.getId()]);
-        }
-
-        this.totalPoints = Arrays.stream(points).sum();
-    }
-
-    public void applyPoints(List<Integer> points) {
-        List<? extends SkillDataNode> nodes = getAllNodes();
-
-        for (SkillDataNode node : nodes) {
-            if (points.size() > node.getId()) {
-                node.setPoints(points.get(node.getId()));
-            } else {
-                node.setPoints(0);
-            }
-        }
-
-        this.totalPoints = points.stream().mapToInt(Integer::intValue).sum();
     }
 
     public List<List<SkillDataNode>> getAllNodesByTier() {
@@ -81,15 +56,6 @@ public class SkillData {
         }
 
         return nodeMap;
-    }
-
-    public int getTotalPoints() {
-        return totalPoints;
-    }
-
-    // TODO: This should be temporary, maybe include this whole class in the 1.21 redesign. Might not be included in CODECS, check for sync issues
-    public void addPoint() {
-        this.totalPoints++;
     }
 
     public static final Codec<SkillData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
