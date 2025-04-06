@@ -2,8 +2,10 @@ package dev.willyelton.crystal_tools.common.levelable.skill.node;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillSubText;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirement;
+import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
@@ -14,6 +16,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
 
 import java.util.List;
 import java.util.Optional;
@@ -65,11 +68,21 @@ public final class EnchantmentDataNode extends SkillDataNode {
 
     @Override
     public void processNode(ItemStack stack, int pointsToSpend, RegistryAccess registryAccess) {
-        // TODO: Special casing for incompatible enchantments
         Registry<Enchantment> enchantmentRegistry = registryAccess.lookupOrThrow(Registries.ENCHANTMENT);
 
         for (ResourceLocation key : this.getKeys()) {
             Optional<Holder.Reference<Enchantment>> enchantmentOptional = enchantmentRegistry.get(key);
+            if (key.equals(Enchantments.SILK_TOUCH.location())) {
+                stack.set(DataComponents.SILK_TOUCH_BONUS, true);
+                if (EnchantmentUtils.hasEnchantment(stack, Enchantments.FORTUNE)) {
+                    return;
+                }
+            } else if (key.equals(Enchantments.FORTUNE.location())) {
+                stack.set(DataComponents.FORTUNE_BONUS, this.level);
+                if (EnchantmentUtils.hasEnchantment(stack, Enchantments.SILK_TOUCH)) {
+                    return;
+                }
+            }
 
             enchantmentOptional.ifPresent(enchantmentReference -> stack.enchant(enchantmentReference, this.level));
         }

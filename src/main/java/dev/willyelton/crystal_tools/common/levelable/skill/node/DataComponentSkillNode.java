@@ -13,6 +13,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
@@ -70,15 +71,17 @@ public final class DataComponentSkillNode extends SkillDataNode {
 
             if (dataComponentOptional.isPresent()) {
                 DataComponentType<?> dataComponent = dataComponentOptional.get().value();
-                Object value = stack.get(dataComponent);
 
-                if (value != null) {
-                    // TODO: is there a better way to do this?
-                    switch (value) {
-                        case Integer i -> stack.set((DataComponentType<Integer>) dataComponent, i + (int) this.value * pointsToSpend);
-                        case Float f -> stack.set((DataComponentType<Float>) dataComponent, f + this.value * pointsToSpend);
-                        case Boolean ignored -> stack.set((DataComponentType<Boolean>) dataComponent, true);
-                        default -> throw new IllegalStateException("Unexpected value: " + value);
+                // TODO: There still has to be something better ...
+                if (dataComponent.codec() != null) {
+                    if (Codec.BOOL.equals(dataComponent.codec())) {
+                        stack.set((DataComponentType<Boolean>) dataComponent, true);
+                    } else if (Codec.INT.equals(dataComponent.codec()) || ExtraCodecs.POSITIVE_INT.equals(dataComponent.codec()) || ExtraCodecs.NON_NEGATIVE_INT.equals(dataComponent.codec())) {
+                        stack.set((DataComponentType<Integer>) dataComponent, (int) value + (int) this.value * pointsToSpend);
+                    } else if (Codec.FLOAT.equals(dataComponent.codec())) {
+                        stack.set((DataComponentType<Float>) dataComponent, value + this.value * pointsToSpend);
+                    } else {
+                        throw new IllegalStateException("Unexpected skill datacomponent type: " + value);
                     }
                 }
             }
