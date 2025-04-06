@@ -108,7 +108,7 @@ public class UpgradeScreen extends BaseUpgradeScreen {
             PacketDistributor.sendToServer(new ToolSkillPayload(node.getId(), key, pointsToSpend));
             points.addPoints(node.getId(), pointsToSpend);
             DataComponents.addToComponent(stack, DataComponents.SKILL_POINTS, -pointsToSpend);
-            if (points.getPoints(node.getId()) >= node.getLimit()) {
+            if (points.getPoints(node.getId()) >= node.getLimit() && node.getLimit() != 0) {
                 ((SkillButton) button).setComplete();
             }
         }

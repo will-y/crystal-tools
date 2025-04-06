@@ -23,7 +23,7 @@ public sealed abstract class SkillDataNode permits DataComponentSkillNode, Encha
     private final int limit;
     private final List<SkillDataRequirement> requirements;
     private final List<ResourceLocation> keys;
-    private final SkillSubText skillSubText;
+    private SkillSubText skillSubText;
 
     public SkillDataNode(int id, String name, String description, int limit, ResourceLocation key,
                          List<SkillDataRequirement> requirements, SkillSubText skillSubText) {
@@ -71,6 +71,10 @@ public sealed abstract class SkillDataNode permits DataComponentSkillNode, Encha
 
     public SkillSubText getSkillSubText() {
         return this.skillSubText;
+    }
+
+    public void setSubtext(SkillSubText subtext) {
+        this.skillSubText = subtext;
     }
 
     /**

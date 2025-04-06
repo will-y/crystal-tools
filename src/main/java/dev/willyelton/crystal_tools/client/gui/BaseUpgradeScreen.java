@@ -280,7 +280,7 @@ public abstract class BaseUpgradeScreen extends Screen {
         for (SkillButton button : this.skillButtons.values()) {
             SkillDataNode node = button.getDataNode();
             button.active = !button.isComplete && node.canLevel(points, this.player) && skillPoints > 0;
-            if (points.getPoints(node.getId()) >= node.getLimit()) {
+            if (points.getPoints(node.getId()) >= node.getLimit() && node.getLimit() != 0) {
                 button.setComplete();
             }
         }

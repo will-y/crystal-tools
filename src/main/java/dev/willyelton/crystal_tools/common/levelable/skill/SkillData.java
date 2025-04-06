@@ -99,10 +99,28 @@ public class SkillData {
             return this;
         }
 
-        public Builder dataComponentNode(int id, String name, String description, ResourceLocation dataComponent, float value) {
-            currentNode = new DataComponentSkillNode(id, name, description, 1, dataComponent, value, new ArrayList<>(), Optional.empty());
+        public Builder infiniteAttributeNode(int id, String name, String description, ResourceLocation attribute, float value) {
+            return infiniteAttributeNode(id, name, description, List.of(attribute), value);
+        }
+
+        public Builder infiniteAttributeNode(int id, String name, String description, List<ResourceLocation> attributes, float value) {
+            currentNode = new AttributeSkillDataNode(id, name, description, 0, attributes, value, new ArrayList<>(), Optional.empty());
             currentTier.add(currentNode);
             return this;
+        }
+
+        public Builder dataComponentNode(int id, String name, String description, ResourceLocation dataComponent, float value) {
+            return dataComponentNode(id, name, description, dataComponent, value, 1);
+        }
+
+        public Builder dataComponentNode(int id, String name, String description, ResourceLocation dataComponent, float value, int limit) {
+            currentNode = new DataComponentSkillNode(id, name, description, limit, dataComponent, value, new ArrayList<>(), Optional.empty());
+            currentTier.add(currentNode);
+            return this;
+        }
+
+        public Builder infiniteDataComponentNode(int id, String name, String description, ResourceLocation dataComponent, float value) {
+            return dataComponentNode(id, name, description, dataComponent, value, 0);
         }
 
         public Builder enchantmentNode(int id, String name, String description, ResourceKey<Enchantment> enchantment, int level) {
@@ -111,12 +129,21 @@ public class SkillData {
             return this;
         }
 
-        public Builder nodeRequirement(int id) {
+        public Builder subText(String subtext, String color) {
+            if (currentNode == null) {
+                throw new IllegalArgumentException("Cannot add subtext with no node!");
+            }
+
+            currentNode.setSubtext(new SkillSubText(subtext, color));
+            return this;
+        }
+
+        public Builder nodeRequirement(int... nodes) {
             if (currentNode == null) {
                 throw new IllegalArgumentException("Cannot add requirements with no node!");
             }
 
-            currentNode.addRequirement(new NodeSkillDataRequirement(List.of(id)));
+            currentNode.addRequirement(new NodeSkillDataRequirement(Arrays.stream(nodes).boxed().toList()));
             return this;
         }
 
