@@ -6,7 +6,6 @@ import dev.willyelton.crystal_tools.common.events.DatapackRegistryEvents;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.utils.constants.SkillTreeDescriptions;
 import net.minecraft.core.Holder;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -22,25 +21,33 @@ import static dev.willyelton.crystal_tools.utils.constants.SkillConstants.*;
 public class CrystalToolsSkillTrees {
     public static void skillTrees(BootstrapContext<SkillData> context) {
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
-                ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "crystal_pickaxe")), pickaxe(context));
+                ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "crystal_pickaxe")), basicMiningTool("Pickaxe"));
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+                ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "crystal_hoe")), basicMiningTool("Hoe"));
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+                ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "crystal_shovel")), basicMiningTool("Shovel"));
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+                ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "crystal_axe")), basicMiningTool("Axe"));
     }
 
-    private static SkillData pickaxe(BootstrapContext<SkillData> context) {
-        SkillTreeDescriptions desc = new SkillTreeDescriptions("Pickaxe");
+    private static SkillData basicMiningTool(String name) {
+        SkillTreeDescriptions desc = new SkillTreeDescriptions(name);
+
+        boolean axe = name.equals("Axe");
 
         return SkillData.builder()
                 .tier()
-                    .attributeNode(0, miningSpeed(1), desc.miningSpeed(), attr(Attributes.MINING_EFFICIENCY), 0.25F)
+                    .attributeNode(0, miningSpeed(1), desc.miningSpeed(), attr(Attributes.MINING_EFFICIENCY), 6F)
                     .dataComponentNode(1, durability(1), desc.durability(), DURABILITY, 200)
                 .tier()
-                    .attributeNode(2, miningSpeed(2), desc.miningSpeed(), attr(Attributes.MINING_EFFICIENCY), 0.25F)
+                    .attributeNode(2, miningSpeed(2), desc.miningSpeed(), attr(Attributes.MINING_EFFICIENCY), 6F)
                         .nodeRequirement(0)
                     .dataComponentNode(3, durability(2), desc.durability(), DURABILITY, 200)
                         .nodeRequirement(1)
                     .dataComponentNode(4, unbreaking(1), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.1F)
                         .previousTierOrRequirements()
                 .tier()
-                    .attributeNode(5, miningSpeed(3), desc.miningSpeed(), attr(Attributes.MINING_EFFICIENCY), 0.25F)
+                    .attributeNode(5, miningSpeed(3), desc.miningSpeed(), attr(Attributes.MINING_EFFICIENCY), 6F)
                         .nodeRequirement(2)
                     .dataComponentNode(6, durability(3), desc.durability(), DURABILITY, 200)
                         .nodeRequirement(3)
@@ -56,15 +63,19 @@ public class CrystalToolsSkillTrees {
                     .dataComponentNode(10, unbreaking(2), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.1F)
                         .previousTierOrRequirements()
                         .nodeRequirement(4)
+                    .optional(axe)
+                        .dataComponentNode(30, LEAF_MINER, desc.leafMiner(), DataComponents.LEAF_MINE.getId(), 1)
+                            .previousTierOrRequirements()
+                    .endOptional()
                 .tier()
-                    .attributeNode(11, miningSpeed(4), desc.miningSpeed(), attr(Attributes.MINING_EFFICIENCY), 0.25F)
+                    .attributeNode(11, miningSpeed(4), desc.miningSpeed(), attr(Attributes.MINING_EFFICIENCY), 6F)
                         .nodeRequirement(5)
                         .previousTierOrRequirements()
                     .dataComponentNode(12, durability(4), desc.durability(), DURABILITY, 200)
                         .nodeRequirement(6)
                         .previousTierOrRequirements()
                 .tier()
-                    .attributeNode(13, miningSpeed(5), desc.miningSpeed(), attr(Attributes.MINING_EFFICIENCY), 0.25F)
+                    .attributeNode(13, miningSpeed(5), desc.miningSpeed(), attr(Attributes.MINING_EFFICIENCY), 6F)
                         .nodeRequirement(11)
                     .dataComponentNode(14, durability(5), desc.durability(), DURABILITY, 200)
                         .nodeRequirement(12)
@@ -78,15 +89,17 @@ public class CrystalToolsSkillTrees {
                         .previousTierOrRequirements()
                     .dataComponentNode(18, MINING_3x3, desc.mining3x3(), DataComponents.HAS_3x3.getId(), 1)
                         .previousTierOrRequirements()
-                    .dataComponentNode(19, VEIN_MINING, desc.veinMining(), DataComponents.VEIN_MINER.getId(), 1)
+                    .dataComponentNode(19, !axe ? VEIN_MINING : AXE_VEIN_MINING, desc.veinMining(axe), DataComponents.VEIN_MINER.getId(), 1)
                         .previousTierOrRequirements()
                         .subText(VEIN_MINING_SUBTEXT, "#ABABAB")
                     .dataComponentNode(20, AUTO_SMELTING, desc.autoSmelting(), DataComponents.AUTO_SMELT.getId(), 1)
                         .previousTierOrRequirements()
                 .tier()
-                    .dataComponentNode(21, TORCH, desc.torch(), DataComponents.TORCH.getId(), 1)
-                        .previousTierOrRequirements()
-                        .subText(TORCH_SUBTEXT, "#ABABAB")
+                    .optional(name.equals("Pickaxe"))
+                        .dataComponentNode(21, TORCH, desc.torch(), DataComponents.TORCH.getId(), 1)
+                            .previousTierOrRequirements()
+                            .subText(TORCH_SUBTEXT, "#ABABAB")
+                    .endOptional()
                     .dataComponentNode(22, MODE_SWITCH, desc.mineMode(), DataComponents.MINE_MODE.getId(), 1)
                         .previousTierOrRequirements()
                     .dataComponentNode(23, unbreaking(3), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.1F)
@@ -96,7 +109,7 @@ public class CrystalToolsSkillTrees {
                         .nodeRequirement(15)
                         .previousTierOrRequirements()
                 .tier()
-                    .infiniteAttributeNode(25, miningSpeed(0), desc.miningSpeed(), attr(Attributes.MINING_EFFICIENCY), 0.1F)
+                    .infiniteAttributeNode(25, miningSpeed(0), desc.miningSpeed(), attr(Attributes.MINING_EFFICIENCY), 0.2F)
                         .nodeRequirement(13)
                         .previousTierOrRequirements()
                     .infiniteDataComponentNode(26, durability(0), desc.durability(), DURABILITY, 50)

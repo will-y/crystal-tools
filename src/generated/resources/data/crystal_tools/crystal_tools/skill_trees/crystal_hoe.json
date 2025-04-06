@@ -4,7 +4,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Increases the Pickaxe's Mining Speed",
+          "description": "Increases the Hoe's Mining Speed",
           "id": 0,
           "key": [
             "minecraft:mining_efficiency"
@@ -18,7 +18,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Increases the Pickaxe's Durability",
+          "description": "Increases the Hoe's Durability",
           "id": 1,
           "key": [
             "minecraft:max_damage"
@@ -34,7 +34,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Increases the Pickaxe's Mining Speed",
+          "description": "Increases the Hoe's Mining Speed",
           "id": 2,
           "key": [
             "minecraft:mining_efficiency"
@@ -54,7 +54,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Increases the Pickaxe's Durability",
+          "description": "Increases the Hoe's Durability",
           "id": 3,
           "key": [
             "minecraft:max_damage"
@@ -97,7 +97,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Increases the Pickaxe's Mining Speed",
+          "description": "Increases the Hoe's Mining Speed",
           "id": 5,
           "key": [
             "minecraft:mining_efficiency"
@@ -117,7 +117,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Increases the Pickaxe's Durability",
+          "description": "Increases the Hoe's Durability",
           "id": 6,
           "key": [
             "minecraft:max_damage"
@@ -137,7 +137,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Increases the Pickaxe's Reach Distance",
+          "description": "Increases the Hoe's Reach Distance",
           "id": 7,
           "key": [
             "minecraft:block_interaction_range",
@@ -162,7 +162,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives Silk Touch to the Pickaxe",
+          "description": "Gives Silk Touch to the Hoe",
           "enchantment": "minecraft:silk_touch",
           "id": 8,
           "level": 1,
@@ -189,7 +189,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives Fortune III to the Pickaxe",
+          "description": "Gives Fortune III to the Hoe",
           "enchantment": "minecraft:fortune",
           "id": 9,
           "level": 3,
@@ -245,7 +245,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Increases the Pickaxe's Mining Speed",
+          "description": "Increases the Hoe's Mining Speed",
           "id": 11,
           "key": [
             "minecraft:mining_efficiency"
@@ -272,7 +272,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Increases the Pickaxe's Durability",
+          "description": "Increases the Hoe's Durability",
           "id": 12,
           "key": [
             "minecraft:max_damage"
@@ -301,7 +301,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Increases the Pickaxe's Mining Speed",
+          "description": "Increases the Hoe's Mining Speed",
           "id": 13,
           "key": [
             "minecraft:mining_efficiency"
@@ -321,7 +321,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Increases the Pickaxe's Durability",
+          "description": "Increases the Hoe's Durability",
           "id": 14,
           "key": [
             "minecraft:max_damage"
@@ -341,7 +341,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Increases the Pickaxe's Reach Distance",
+          "description": "Increases the Hoe's Reach Distance",
           "id": 15,
           "key": [
             "minecraft:block_interaction_range",
@@ -368,7 +368,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "When you mine block with this Pickaxe, the drops will automatically go into your inventory if there is space",
+          "description": "When you mine block with this Hoe, the drops will automatically go into your inventory if there is space",
           "id": 16,
           "key": [
             "crystal_tools:auto_pickup"
@@ -391,7 +391,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Automatically repairs the Pickaxe over time",
+          "description": "Automatically repairs the Hoe over time",
           "id": 17,
           "key": [
             "crystal_tools:auto_repair"
@@ -414,7 +414,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Allows the Pickaxe to mine in a 3x3 area",
+          "description": "Allows the Hoe to mine in a 3x3 area",
           "id": 18,
           "key": [
             "crystal_tools:3x3"
@@ -489,33 +489,6 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Right-Click to place a torch",
-          "id": 21,
-          "key": [
-            "crystal_tools:torch"
-          ],
-          "limit": 1,
-          "name": "Torch",
-          "requirements": [
-            {
-              "or_node": [
-                17,
-                18,
-                19,
-                20
-              ]
-            }
-          ],
-          "subtext": {
-            "color": "#ABABAB",
-            "text": "Uses 10 durability"
-          },
-          "value": 1.0
-        }
-      },
-      {
-        "type": "crystal_tools:data_component",
-        "node": {
           "description": "Press the mode_switch key to change the mining mode between unlocked modes (Silk Touch or Fortune). Press shift + mode_switch to change the breaking mode (3x3 or 1x1)",
           "id": 22,
           "key": [
@@ -567,7 +540,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Increases the Pickaxe's Reach Distance",
+          "description": "Increases the Hoe's Reach Distance",
           "id": 24,
           "key": [
             "minecraft:block_interaction_range",
@@ -598,7 +571,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Increases the Pickaxe's Mining Speed",
+          "description": "Increases the Hoe's Mining Speed",
           "id": 25,
           "key": [
             "minecraft:mining_efficiency"
@@ -613,7 +586,6 @@
             },
             {
               "or_node": [
-                21,
                 22,
                 23,
                 24
@@ -626,7 +598,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Increases the Pickaxe's Durability",
+          "description": "Increases the Hoe's Durability",
           "id": 26,
           "key": [
             "minecraft:max_damage"
@@ -641,7 +613,6 @@
             },
             {
               "or_node": [
-                21,
                 22,
                 23,
                 24
@@ -669,7 +640,6 @@
             },
             {
               "or_node": [
-                21,
                 22,
                 24
               ]
@@ -681,7 +651,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Increases the Pickaxe's Reach Distance",
+          "description": "Increases the Hoe's Reach Distance",
           "id": 28,
           "key": [
             "minecraft:block_interaction_range",
@@ -697,7 +667,6 @@
             },
             {
               "or_node": [
-                21,
                 22,
                 23
               ]
@@ -711,7 +680,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives Fortune III to the Pickaxe",
+          "description": "Gives Fortune III to the Hoe",
           "enchantment": "minecraft:fortune",
           "id": 29,
           "level": 5,

@@ -43,8 +43,12 @@ public class SkillTreeDescriptions {
         return String.format("Allows the %s to mine in a 3x3 area", toolName);
     }
 
-    public String veinMining() {
-        return "Mines all ores in a vein when pressing the vein mining key";
+    public String veinMining(boolean axe) {
+        if (axe) {
+            return "Hold the vein miner key to chop or strip an entire tree!";
+        } else {
+            return "Mines all ores in a vein when pressing the vein mining key";
+        }
     }
 
     public String autoSmelting() {
@@ -57,5 +61,9 @@ public class SkillTreeDescriptions {
 
     public String mineMode() {
         return "Press the mode_switch key to change the mining mode between unlocked modes (Silk Touch or Fortune). Press shift + mode_switch to change the breaking mode (3x3 or 1x1)";
+    }
+
+    public String leafMiner() {
+        return String.format("The %s now efficiently mines leaves and other similar blocks", toolName);
     }
 }

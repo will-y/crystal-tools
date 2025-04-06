@@ -6,10 +6,12 @@ public class SkillTreeTitles {
     public static final String AUTO_PICKUP = "Auto Pickup";
     public static final String AUTO_REPAIR = "Auto Repair";
     public static final String VEIN_MINING = "Vein Mining";
+    public static final String AXE_VEIN_MINING = "Tree Chopper";
     public static final String VEIN_MINING_SUBTEXT = "#ABABAB";
     public static final String AUTO_SMELTING = "Auto Smelting";
     public static final String TORCH = "Torch";
     public static final String TORCH_SUBTEXT = "Uses 10 durability";
+    public static final String LEAF_MINER = "Leaf Miner";
 
     // TODO: could this be expanded easily?
     public static final String MINING_3x3 = "3x3 Mining";
