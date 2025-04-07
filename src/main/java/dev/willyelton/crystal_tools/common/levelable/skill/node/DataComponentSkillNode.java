@@ -71,15 +71,18 @@ public final class DataComponentSkillNode extends SkillDataNode {
 
             if (dataComponentOptional.isPresent()) {
                 DataComponentType<?> dataComponent = dataComponentOptional.get().value();
+                Object value = stack.get(dataComponent);
 
                 // TODO: There still has to be something better ...
                 if (dataComponent.codec() != null) {
                     if (Codec.BOOL.equals(dataComponent.codec())) {
                         stack.set((DataComponentType<Boolean>) dataComponent, true);
                     } else if (Codec.INT.equals(dataComponent.codec()) || ExtraCodecs.POSITIVE_INT.equals(dataComponent.codec()) || ExtraCodecs.NON_NEGATIVE_INT.equals(dataComponent.codec())) {
-                        stack.set((DataComponentType<Integer>) dataComponent, (int) value + (int) this.value * pointsToSpend);
+                        int intValue = value == null ? 0 : (int) value;
+                        stack.set((DataComponentType<Integer>) dataComponent, intValue + (int) this.value * pointsToSpend);
                     } else if (Codec.FLOAT.equals(dataComponent.codec())) {
-                        stack.set((DataComponentType<Float>) dataComponent, value + this.value * pointsToSpend);
+                        float floatValue = value == null ? 0.0F : (float) value;
+                        stack.set((DataComponentType<Float>) dataComponent, floatValue + this.value * pointsToSpend);
                     } else {
                         throw new IllegalStateException("Unexpected skill datacomponent type: " + value);
                     }

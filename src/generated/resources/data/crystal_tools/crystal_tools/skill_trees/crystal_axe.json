@@ -480,7 +480,7 @@
           ],
           "subtext": {
             "color": "#ABABAB",
-            "text": "#ABABAB"
+            "text": "+1 block range per level"
           },
           "value": 1.0
         }

@@ -80,7 +80,7 @@ public final class AttributeSkillDataNode extends SkillDataNode {
                     }
                 }
 
-                newModifiers = modifiers.withModifierAdded(optionalAttribute.get(),
+                newModifiers = newModifiers.withModifierAdded(optionalAttribute.get(),
                         new AttributeModifier(rl, bonusAmount + value * pointsToSpend, AttributeModifier.Operation.ADD_VALUE),
                         EquipmentSlotGroup.HAND);
             }
