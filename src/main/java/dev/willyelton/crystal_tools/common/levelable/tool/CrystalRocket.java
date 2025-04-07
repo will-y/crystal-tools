@@ -27,7 +27,9 @@ import java.util.function.Consumer;
 
 public class CrystalRocket extends LevelableTool {
     public CrystalRocket(Item.Properties properties) {
-        super(properties.fireResistant().repairable(CrystalToolsTags.REPAIRS_CRYSTAL), null, "crystal_rocket", -4, 0, 100);
+        super(properties
+                .repairable(CrystalToolsTags.REPAIRS_CRYSTAL)
+                .durability(100), "crystal_rocket");
     }
 
     @Override

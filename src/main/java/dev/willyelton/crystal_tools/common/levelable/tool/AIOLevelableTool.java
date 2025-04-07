@@ -21,6 +21,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.function.Consumer;
 
+import static dev.willyelton.crystal_tools.common.tags.CrystalToolsTags.MINABLE_WITH_AIOT;
 import static net.neoforged.neoforge.common.ItemAbilities.DEFAULT_AXE_ACTIONS;
 import static net.neoforged.neoforge.common.ItemAbilities.DEFAULT_HOE_ACTIONS;
 import static net.neoforged.neoforge.common.ItemAbilities.DEFAULT_SHOVEL_ACTIONS;
@@ -29,15 +30,10 @@ public class AIOLevelableTool extends DiggerLevelableTool {
     public static final Set<ItemAbility> AIOT_ACTIONS = new HashSet<>();
 
     public AIOLevelableTool(Item.Properties properties) {
-        super(properties, BlockTags.MINEABLE_WITH_PICKAXE, "aiot", 3, -2.4F);
+        super(properties.tool(CRYSTAL, MINABLE_WITH_AIOT, 3.0F, -2.4F, 5.0F), "aiot");
         AIOT_ACTIONS.addAll(DEFAULT_AXE_ACTIONS);
         AIOT_ACTIONS.addAll(DEFAULT_HOE_ACTIONS);
         AIOT_ACTIONS.addAll(DEFAULT_SHOVEL_ACTIONS);
-    }
-
-    @Override
-    public boolean correctTool(ItemStack tool, BlockState blockState) {
-        return blockState.getDestroySpeed(null, null) != -1;
     }
 
     @Override
@@ -74,9 +70,10 @@ public class AIOLevelableTool extends DiggerLevelableTool {
         return AIOT_ACTIONS.contains(itemAbility);
     }
 
+    // TODO: probably don't need this
     @Override
     public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
-        return correctTool(stack, state);
+        return state.getDestroySpeed(null, null) != -1;
     }
 
     @Override

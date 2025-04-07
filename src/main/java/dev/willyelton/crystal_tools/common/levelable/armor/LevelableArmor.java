@@ -27,9 +27,7 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.ArmorType;
-import net.minecraft.world.level.Level;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 public class LevelableArmor extends Item implements LevelableItem {
@@ -42,31 +40,8 @@ public class LevelableArmor extends Item implements LevelableItem {
     protected final String itemType;
 
     public LevelableArmor(Item.Properties properties, String itemType, ArmorType type) {
-        super(properties.fireResistant().durability(INITIAL_TIER.durability()).humanoidArmor(ARMOR_MATERIAL, type));
+        super(properties.fireResistant().durability(CRYSTAL.durability()).humanoidArmor(ARMOR_MATERIAL, type));
         this.itemType = itemType;
-    }
-
-    @Override
-    public ItemAttributeModifiers getLevelableAttributeModifiers(ItemStack stack) {
-        // Most of this probably go away with my skill tree refactors
-        ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
-        if (!ToolUtils.isBroken(stack) && getEquipmentSlot(stack) != null) {
-            builder.add(Attributes.ARMOR, new AttributeModifier(ARMOR_ID, this.getDefense(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(getEquipmentSlot(stack)));
-            builder.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(ARMOR_TOUGHNESS_ID, this.getToughness(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(getEquipmentSlot(stack)));
-            int health = stack.getOrDefault(DataComponents.HEALTH_BONUS, 0);
-            if (health > 0) {
-                builder.add(Attributes.MAX_HEALTH, new AttributeModifier(MAX_HEALTH_ID, health, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(getEquipmentSlot(stack)));
-            }
-
-            float speedBonus = stack.getOrDefault(DataComponents.SPEED_BONUS, 0F) / 5;
-            if (speedBonus > 0) {
-                builder.add(Attributes.MOVEMENT_SPEED, new AttributeModifier(MOVEMENT_SPEED_ID, speedBonus, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), EquipmentSlotGroup.bySlot(getEquipmentSlot(stack)));
-            }
-
-            return builder.build();
-        } else {
-            return ItemAttributeModifiers.builder().build();
-        }
     }
 
     // Attributes
@@ -108,7 +83,7 @@ public class LevelableArmor extends Item implements LevelableItem {
     @Override
     public int getMaxDamage(ItemStack stack) {
         int bonusDurability = stack.getOrDefault(DataComponents.DURABILITY_BONUS, 0);
-        return INITIAL_TIER.durability() + bonusDurability;
+        return CRYSTAL.durability() + bonusDurability;
     }
 
     @Override

@@ -28,7 +28,7 @@ public class CrystalFishingRod extends LevelableTool {
     public static final String CRYSTAL_TOOLS_FISHING_MAIN_TAG = "crystal_tools.fishing.main";
     public static final String CRYSTAL_TOOLS_FISHING_OFF_TAG = "crystal_tools.fishing.off";
     public CrystalFishingRod(Item.Properties properties) {
-        super(properties, null, "fishing_rod", 1, -2.8F);
+        super(properties, "fishing_rod");
     }
 
     @Override

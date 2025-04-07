@@ -23,7 +23,7 @@ import java.util.Random;
 
 public class HoeLevelableTool extends DiggerLevelableTool {
     public HoeLevelableTool(Item.Properties properties) {
-        super(properties, BlockTags.MINEABLE_WITH_HOE, "hoe", -4, 0);
+        super(properties.hoe(CRYSTAL, -4.0F, 0.0F), "hoe");
     }
 
     @Override

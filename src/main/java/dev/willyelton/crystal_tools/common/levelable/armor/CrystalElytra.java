@@ -27,11 +27,9 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.item.equipment.Equippable;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.neoforge.common.NeoForgeMod;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 // TODO (PORTING): Can make this extend levelable item now
@@ -58,7 +56,7 @@ public class CrystalElytra extends Item implements LevelableItem {
     @Override
     public int getMaxDamage(ItemStack stack) {
         int bonusDurability = stack.getOrDefault(DataComponents.DURABILITY_BONUS, 0);
-        return INITIAL_TIER.durability() + bonusDurability;
+        return CRYSTAL.durability() + bonusDurability;
     }
 
     @Override
@@ -113,35 +111,6 @@ public class CrystalElytra extends Item implements LevelableItem {
             return 0;
         } else {
             return amount;
-        }
-    }
-
-
-    // Armor things
-    @Override
-    public ItemAttributeModifiers getLevelableAttributeModifiers(ItemStack stack) {
-        ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
-        if (!ToolUtils.isBroken(stack)) {
-            builder.add(Attributes.ARMOR, new AttributeModifier(LevelableArmor.ARMOR_ID, this.getDefense(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST);
-            builder.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(LevelableArmor.ARMOR_TOUGHNESS_ID, this.getToughness(stack), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST);
-            int health = stack.getOrDefault(DataComponents.HEALTH_BONUS, 0);
-            if (health > 0) {
-                builder.add(Attributes.MAX_HEALTH, new AttributeModifier(LevelableArmor.MAX_HEALTH_ID, health, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST);
-            }
-
-            float speedBonus = stack.getOrDefault(DataComponents.SPEED_BONUS, 0F) / 5;
-            if (speedBonus > 0) {
-                builder.add(Attributes.MOVEMENT_SPEED, new AttributeModifier(LevelableArmor.MOVEMENT_SPEED_ID, speedBonus, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL), EquipmentSlotGroup.CHEST);
-            }
-
-            if (canUseCreativeFlight(stack)) {
-                builder.add(NeoForgeMod.CREATIVE_FLIGHT, new AttributeModifier(CREATIVE_FLIGHT_ID, 1, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.CHEST);
-
-            }
-
-            return builder.build();
-        } else {
-            return ItemAttributeModifiers.builder().build();
         }
     }
 

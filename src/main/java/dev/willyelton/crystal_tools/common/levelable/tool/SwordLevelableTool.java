@@ -17,11 +17,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class SwordLevelableTool extends LevelableTool {
     public SwordLevelableTool(Item.Properties properties) {
-        this(properties, "sword", 3, -2.4f);
+        this(properties, "sword");
     }
 
-    public SwordLevelableTool(Item.Properties properties, String itemType, float attackDamageModifier, float attackSpeedModifier) {
-        super(properties, null, itemType, attackDamageModifier, attackSpeedModifier);
+    public SwordLevelableTool(Item.Properties properties, String itemType) {
+        super(properties, itemType);
     }
 
     @Override

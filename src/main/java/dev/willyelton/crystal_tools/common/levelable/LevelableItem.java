@@ -3,15 +3,14 @@ package dev.willyelton.crystal_tools.common.levelable;
 import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
-import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
+import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
-import dev.willyelton.crystal_tools.utils.StringUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -25,12 +24,11 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
 public interface LevelableItem {
-   ToolMaterial INITIAL_TIER = ToolMaterial.NETHERITE;
+   ToolMaterial CRYSTAL = new ToolMaterial(BlockTags.INCORRECT_FOR_NETHERITE_TOOL, 2031, 9.0F, 4.0F, 15, CrystalToolsTags.REPAIRS_CRYSTAL);
 
     default void addExp(ItemStack tool, Level level, BlockPos blockPos, LivingEntity player) {
         addExp(tool, level, blockPos, player, 1);
@@ -65,13 +63,7 @@ public interface LevelableItem {
 
     String getItemType();
 
-    int getMaxDamage(ItemStack itemStack);
-
     boolean isDisabled();
-
-    default ItemAttributeModifiers getLevelableAttributeModifiers(ItemStack stack) {
-        return ItemAttributeModifiers.EMPTY;
-    }
 
     default void appendLevelableHoverText(ItemStack stack, Consumer<Component> components, LevelableItem item, TooltipFlag tooltipFlag) {
         if (item.isDisabled()) {
@@ -81,11 +73,11 @@ public interface LevelableItem {
         int newExperience = stack.getOrDefault(DataComponents.SKILL_EXPERIENCE, 0);
         int experienceCap = item.getExperienceCap(stack);
 
-        int durability = item.getMaxDamage(stack) - stack.getDamageValue();
+//        int durability = item.getMaxDamage(stack) - stack.getDamageValue();
 
-        if (durability <= 1 && item.getMaxDamage(stack) != 1) {
-            components.accept(Component.literal("\u00A7c\u00A7l" + "Broken"));
-        }
+//        if (durability <= 1 && item.getMaxDamage(stack) != 1) {
+//            components.accept(Component.literal("\u00A7c\u00A7l" + "Broken"));
+//        }
 
         components.accept(Component.literal(String.format("%d/%d XP To Next Level", newExperience, experienceCap)));
         int skillPoints = stack.getOrDefault(DataComponents.SKILL_POINTS, 0);

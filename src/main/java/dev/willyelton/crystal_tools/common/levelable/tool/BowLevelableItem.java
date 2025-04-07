@@ -44,7 +44,7 @@ import java.util.function.Consumer;
 
 public class BowLevelableItem extends BowItem implements LevelableItem, EntityTargeter {
     public BowLevelableItem(Item.Properties properties) {
-        super(properties.durability(INITIAL_TIER.durability()).fireResistant().repairable(CrystalToolsTags.REPAIRS_CRYSTAL));
+        super(properties.durability(CRYSTAL.durability()).fireResistant().repairable(CrystalToolsTags.REPAIRS_CRYSTAL));
     }
 
     @Override
@@ -183,7 +183,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem, EntityTa
     @Override
     public int getMaxDamage(ItemStack stack) {
         int bonusDurability = stack.getOrDefault(DataComponents.DURABILITY_BONUS, 0);
-        return INITIAL_TIER.durability() + bonusDurability;
+        return CRYSTAL.durability() + bonusDurability;
     }
 
     @Override

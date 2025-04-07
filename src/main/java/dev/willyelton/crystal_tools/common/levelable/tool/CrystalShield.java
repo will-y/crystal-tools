@@ -134,23 +134,4 @@ public class CrystalShield extends ShieldItem implements LevelableItem, EntityTa
     public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
         return CrystalToolsConfig.ENCHANT_TOOLS.get();
     }
-
-    @Override
-    public ItemAttributeModifiers getLevelableAttributeModifiers(ItemStack stack) {
-        ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
-        if (!ToolUtils.isBroken(stack)) {
-            int armor = stack.getOrDefault(DataComponents.ARMOR_BONUS, 0);
-
-            if (armor > 0) {
-                builder.add(Attributes.ARMOR, new AttributeModifier(ARMOR_ID, armor, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.OFFHAND);
-            }
-
-            float attackDamage = stack.getOrDefault(DataComponents.DAMAGE_BONUS, 0F);
-            if (attackDamage > 0) {
-                builder.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_ID, attackDamage, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
-            }
-        }
-
-        return builder.build();
-    }
 }

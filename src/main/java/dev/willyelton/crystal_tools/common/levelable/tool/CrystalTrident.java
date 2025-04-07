@@ -1,6 +1,5 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
-
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.entity.CrystalTridentEntity;
@@ -19,6 +18,8 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
+import net.minecraft.world.item.TridentItem;
+import net.minecraft.world.item.component.Weapon;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -27,7 +28,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class CrystalTrident extends SwordLevelableTool {
     public CrystalTrident(Item.Properties properties) {
-        super(properties, "trident", 4, -2.9F);
+        super(properties.attributes(TridentItem.createAttributes())
+                .component(net.minecraft.core.component.DataComponents.TOOL, TridentItem.createToolProperties())
+                .component(net.minecraft.core.component.DataComponents.WEAPON, new Weapon(1)), "trident");
     }
 
     @Override

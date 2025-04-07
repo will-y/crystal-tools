@@ -24,7 +24,7 @@ import java.util.Collection;
 
 public class AxeLevelableTool extends DiggerLevelableTool {
     public AxeLevelableTool(Item.Properties properties) {
-        super(properties, BlockTags.MINEABLE_WITH_AXE, "axe", 5.0F, -3.0F);
+        super(properties.axe(CRYSTAL, 5.0F, -3.0F), "axe");
     }
 
     @Override
@@ -55,11 +55,6 @@ public class AxeLevelableTool extends DiggerLevelableTool {
     @Override
     public boolean canPerformAction(ItemStack stack, ItemAbility itemAbility) {
         return ItemAbilities.DEFAULT_AXE_ACTIONS.contains(itemAbility);
-    }
-
-    @Override
-    public boolean correctTool(ItemStack tool, BlockState blockState) {
-        return super.correctTool(tool, blockState) || (tool.getOrDefault(DataComponents.LEAF_MINE, false) && blockState.is(BlockTags.LEAVES));
     }
 
     @Override
