@@ -10,7 +10,7 @@
             "minecraft:mining_efficiency"
           ],
           "limit": 1,
-          "name": "MiningSpeed I",
+          "name": "Mining Speed I",
           "requirements": [],
           "value": 6.0
         }
@@ -40,7 +40,7 @@
             "minecraft:mining_efficiency"
           ],
           "limit": 1,
-          "name": "MiningSpeed II",
+          "name": "Mining Speed II",
           "requirements": [
             {
               "node": [
@@ -103,7 +103,7 @@
             "minecraft:mining_efficiency"
           ],
           "limit": 1,
-          "name": "MiningSpeed III",
+          "name": "Mining Speed III",
           "requirements": [
             {
               "node": [
@@ -273,7 +273,7 @@
             "minecraft:mining_efficiency"
           ],
           "limit": 1,
-          "name": "MiningSpeed IV",
+          "name": "Mining Speed IV",
           "requirements": [
             {
               "node": [
@@ -331,7 +331,7 @@
             "minecraft:mining_efficiency"
           ],
           "limit": 1,
-          "name": "MiningSpeed V",
+          "name": "Mining Speed V",
           "requirements": [
             {
               "node": [

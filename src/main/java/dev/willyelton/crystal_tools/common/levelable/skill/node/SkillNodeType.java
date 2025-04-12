@@ -8,9 +8,11 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 
 public enum SkillNodeType {
-    ATTRIBUTE(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "attribute"), AttributeSkillDataNode.CODEC, AttributeSkillDataNode.STREAM_CODEC),
-    DATA_COMPONENT(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "data_component"), DataComponentSkillNode.CODEC, DataComponentSkillNode.STREAM_CODEC),
-    ENCHANTMENT(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "enchantment"), EnchantmentDataNode.CODEC, EnchantmentDataNode.STREAM_CODEC);
+    ATTRIBUTE(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "attribute"), AttributeNode.CODEC, AttributeNode.STREAM_CODEC),
+    DATA_COMPONENT(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "data_component"), DataComponentNode.CODEC, DataComponentNode.STREAM_CODEC),
+    ENCHANTMENT(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "enchantment"), EnchantmentNode.CODEC, EnchantmentNode.STREAM_CODEC),
+    FOOD_DATA_COMPONENT(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "food_data_component"), FoodDataComponentNode.CODEC, FoodDataComponentNode.STREAM_CODEC),
+    EFFECT(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "effect"), EffectNode.CODEC, EffectNode.STREAM_CODEC);
 
     private final ResourceLocation type;
     private final MapCodec<? extends SkillDataNode> codec;

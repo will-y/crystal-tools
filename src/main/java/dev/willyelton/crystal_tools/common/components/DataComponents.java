@@ -34,7 +34,6 @@ public class DataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<Integer>>> POINTS_ARRAY = COMPONENTS.register("points", () -> DataComponentType.<List<Integer>>builder().persistent(Codec.INT.listOf()).networkSynchronized(ByteBufCodecs.INT.apply(ByteBufCodecs.list())).build());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<SkillPoints>> SKILL_POINT_DATA = COMPONENTS.register("skill_point_data", () -> DataComponentType.<SkillPoints>builder().persistent(SkillPoints.CODEC).networkSynchronized(SkillPoints.STREAM_CODEC).build());
 
-
     // All tools
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> REACH = register("reach", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> DURABILITY_BONUS = register("durability_bonus", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);

@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.nimbusds.oauth2.sdk.util.CollectionUtils;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.config.CrystalToolsClientConfig;
 import dev.willyelton.crystal_tools.client.gui.component.SkillButton;
@@ -21,6 +22,7 @@ import dev.willyelton.crystal_tools.common.network.data.RemoveItemPayload;
 import dev.willyelton.crystal_tools.common.network.data.RemoveXpPayload;
 import dev.willyelton.crystal_tools.utils.Colors;
 import dev.willyelton.crystal_tools.utils.InventoryUtils;
+import dev.willyelton.crystal_tools.utils.ListUtils;
 import dev.willyelton.crystal_tools.utils.XpUtils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -84,8 +86,16 @@ public abstract class BaseUpgradeScreen extends Screen {
 
         // add skill tree items
         for (List<SkillDataNode> tier : tiers) {
-            this.addButtonsFromTier(tier, y);
-            y += (Y_PADDING + Y_SIZE);
+            if (tier.size() > 5) {
+                for (List<SkillDataNode> subTier : ListUtils.partition(tier, 5)) {
+                    this.addButtonsFromTier(subTier, y);
+                    y += (Y_PADDING + Y_SIZE);
+                }
+            } else {
+                this.addButtonsFromTier(tier, y);
+                y += (Y_PADDING + Y_SIZE);
+            }
+
         }
 
         this.initComponents();

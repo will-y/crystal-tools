@@ -23,32 +23,32 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 import java.util.List;
 import java.util.Optional;
 
-public final class AttributeSkillDataNode extends SkillDataNode {
-    public static final Codec<AttributeSkillDataNode> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Codec.INT.fieldOf("id").forGetter(AttributeSkillDataNode::getId),
-            Codec.STRING.fieldOf("name").forGetter(AttributeSkillDataNode::getName),
-            Codec.STRING.fieldOf("description").forGetter(AttributeSkillDataNode::getDescription),
-            Codec.INT.fieldOf("limit").forGetter(AttributeSkillDataNode::getLimit),
-            ResourceLocation.CODEC.listOf().fieldOf("key").forGetter(AttributeSkillDataNode::getKeys),
-            Codec.FLOAT.fieldOf("value").forGetter(AttributeSkillDataNode::getValue),
-            SkillDataRequirement.CODEC.listOf().fieldOf("requirements").forGetter(AttributeSkillDataNode::getRequirements),
+public final class AttributeNode extends SkillDataNode {
+    public static final Codec<AttributeNode> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            Codec.INT.fieldOf("id").forGetter(AttributeNode::getId),
+            Codec.STRING.fieldOf("name").forGetter(AttributeNode::getName),
+            Codec.STRING.fieldOf("description").forGetter(AttributeNode::getDescription),
+            Codec.INT.fieldOf("limit").forGetter(AttributeNode::getLimit),
+            ResourceLocation.CODEC.listOf().fieldOf("key").forGetter(AttributeNode::getKeys),
+            Codec.FLOAT.fieldOf("value").forGetter(AttributeNode::getValue),
+            SkillDataRequirement.CODEC.listOf().fieldOf("requirements").forGetter(AttributeNode::getRequirements),
             SkillSubText.CODEC.optionalFieldOf("subtext").forGetter(n -> Optional.ofNullable(n.getSkillSubText()))
-    ).apply(instance, AttributeSkillDataNode::new));
+    ).apply(instance, AttributeNode::new));
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, AttributeSkillDataNode> STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.VAR_INT, AttributeSkillDataNode::getId,
-            ByteBufCodecs.STRING_UTF8, AttributeSkillDataNode::getName,
-            ByteBufCodecs.STRING_UTF8, AttributeSkillDataNode::getDescription,
-            ByteBufCodecs.VAR_INT, AttributeSkillDataNode::getLimit,
-            ResourceLocation.STREAM_CODEC.apply(ByteBufCodecs.list()), AttributeSkillDataNode::getKeys,
-            ByteBufCodecs.FLOAT, AttributeSkillDataNode::getValue,
-            ByteBufCodecs.fromCodec(SkillDataRequirement.CODEC.listOf().fieldOf("requirements").codec()), AttributeSkillDataNode::getRequirements, // TODO
+    public static final StreamCodec<RegistryFriendlyByteBuf, AttributeNode> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.VAR_INT, AttributeNode::getId,
+            ByteBufCodecs.STRING_UTF8, AttributeNode::getName,
+            ByteBufCodecs.STRING_UTF8, AttributeNode::getDescription,
+            ByteBufCodecs.VAR_INT, AttributeNode::getLimit,
+            ResourceLocation.STREAM_CODEC.apply(ByteBufCodecs.list()), AttributeNode::getKeys,
+            ByteBufCodecs.FLOAT, AttributeNode::getValue,
+            ByteBufCodecs.fromCodec(SkillDataRequirement.CODEC.listOf().fieldOf("requirements").codec()), AttributeNode::getRequirements, // TODO
             ByteBufCodecs.fromCodec(SkillSubText.CODEC.optionalFieldOf("subtext").codec()), n -> Optional.ofNullable(n.getSkillSubText()), // TODO
-            AttributeSkillDataNode::new);
+            AttributeNode::new);
     private final float value;
 
     // TODO: Going to need to add slot or something here or in the skill data (probably there)
-    public AttributeSkillDataNode(int id, String name, String description, int limit, List<ResourceLocation> key, float value, List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText) {
+    public AttributeNode(int id, String name, String description, int limit, List<ResourceLocation> key, float value, List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText) {
         super(id, name, description, limit, key, requirements, skillSubText.orElse(null));
         this.value = value;
     }

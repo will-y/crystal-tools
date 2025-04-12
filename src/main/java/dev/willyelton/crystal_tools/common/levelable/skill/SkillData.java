@@ -2,19 +2,27 @@ package dev.willyelton.crystal_tools.common.levelable.skill;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.willyelton.crystal_tools.common.levelable.skill.node.DataComponentSkillNode;
-import dev.willyelton.crystal_tools.common.levelable.skill.node.EnchantmentDataNode;
-import dev.willyelton.crystal_tools.common.levelable.skill.node.AttributeSkillDataNode;
+import dev.willyelton.crystal_tools.common.levelable.skill.node.DataComponentNode;
+import dev.willyelton.crystal_tools.common.levelable.skill.node.EffectNode;
+import dev.willyelton.crystal_tools.common.levelable.skill.node.EnchantmentNode;
+import dev.willyelton.crystal_tools.common.levelable.skill.node.AttributeNode;
+import dev.willyelton.crystal_tools.common.levelable.skill.node.FoodDataComponentNode;
 import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.NodeOrSkillDataRequirement;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.NodeSkillDataRequirement;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.NotNodeSkillDataRequirement;
+import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillItemRequirement;
 import dev.willyelton.crystal_tools.utils.ListUtils;
+import dev.willyelton.crystal_tools.utils.constants.SkillTreeDescriptions;
+import dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
 
 import java.util.ArrayList;
@@ -96,7 +104,7 @@ public class SkillData {
 
         public Builder attributeNode(int id, String name, String description, List<ResourceLocation> attributes, float value) {
             if (including) {
-                currentNode = new AttributeSkillDataNode(id, name, description, 1, attributes, value, new ArrayList<>(), Optional.empty());
+                currentNode = new AttributeNode(id, name, description, 1, attributes, value, new ArrayList<>(), Optional.empty());
                 currentTier.add(currentNode);
             }
 
@@ -109,7 +117,7 @@ public class SkillData {
 
         public Builder infiniteAttributeNode(int id, String name, String description, List<ResourceLocation> attributes, float value) {
             if (including) {
-                currentNode = new AttributeSkillDataNode(id, name, description, 0, attributes, value, new ArrayList<>(), Optional.empty());
+                currentNode = new AttributeNode(id, name, description, 0, attributes, value, new ArrayList<>(), Optional.empty());
                 currentTier.add(currentNode);
             }
 
@@ -122,7 +130,7 @@ public class SkillData {
 
         public Builder dataComponentNode(int id, String name, String description, ResourceLocation dataComponent, float value, int limit) {
             if (including) {
-                currentNode = new DataComponentSkillNode(id, name, description, limit, dataComponent, value, new ArrayList<>(), Optional.empty());
+                currentNode = new DataComponentNode(id, name, description, limit, dataComponent, value, new ArrayList<>(), Optional.empty());
                 currentTier.add(currentNode);
             }
 
@@ -135,7 +143,56 @@ public class SkillData {
 
         public Builder enchantmentNode(int id, String name, String description, ResourceKey<Enchantment> enchantment, int level) {
             if (including) {
-                currentNode = new EnchantmentDataNode(id, name, description, enchantment.location(), level, new ArrayList<>(), Optional.empty());
+                currentNode = new EnchantmentNode(id, name, description, enchantment.location(), level, new ArrayList<>(), Optional.empty());
+                currentTier.add(currentNode);
+            }
+
+            return this;
+        }
+
+        public Builder nutrition(int id, int level, int nutrition, String description) {
+            return nutrition(id, level, nutrition, description, 1);
+        }
+
+        public Builder nutrition(int id, int level, int nutrition, String description, int limit) {
+            if (including) {
+                currentNode = new FoodDataComponentNode(id, SkillTreeTitles.nutrition(level), description, limit,
+                        new FoodProperties(nutrition, 0, false), new ArrayList<>(), Optional.empty());
+                currentTier.add(currentNode);
+            }
+
+            return this;
+        }
+
+        public Builder saturation(int id, int level, float saturation, String description) {
+            return saturation(id, level, saturation, description, 1);
+        }
+
+        public Builder saturation(int id, int level, float saturation, String description, int limit) {
+            if (including) {
+                currentNode = new FoodDataComponentNode(id, SkillTreeTitles.saturation(level), description, limit,
+                        new FoodProperties(0, saturation, false), new ArrayList<>(), Optional.empty());
+                currentTier.add(currentNode);
+            }
+
+            return this;
+        }
+
+        public Builder alwaysEat(int id, String description) {
+            if (including) {
+                currentNode = new FoodDataComponentNode(id, SkillTreeTitles.ALWAYS_EAT, description, 1,
+                        new FoodProperties(0, 0, true), new ArrayList<>(), Optional.empty());
+                currentTier.add(currentNode);
+            }
+
+            return this;
+        }
+
+        public Builder effect(int id, SkillTreeDescriptions description, MobEffectInstance effectInstance) {
+             if (including) {
+                 String effectName = effectInstance.getEffect().value().getDisplayName().getString();
+                currentNode = new EffectNode(id, effectName, description.effect(effectName, effectInstance.getDuration()), 0, new ArrayList<>(),
+                        Optional.of(new SkillSubText(SkillTreeTitles.EFFECT_SUB_TEXT, "#ABABAB")), effectInstance);
                 currentTier.add(currentNode);
             }
 
@@ -184,6 +241,14 @@ public class SkillData {
         public Builder notNodeRequirement(int notNode, int unlessNode) {
             if (including) {
                 currentNode.addRequirement(new NotNodeSkillDataRequirement(List.of(notNode), List.of(unlessNode)));
+            }
+
+            return this;
+        }
+
+        public Builder itemRequirement(Item... items) {
+            if (including) {
+                currentNode.addRequirement(new SkillItemRequirement(Arrays.stream(items).toList()));
             }
 
             return this;

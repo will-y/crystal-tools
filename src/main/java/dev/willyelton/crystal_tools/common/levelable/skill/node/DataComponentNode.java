@@ -19,37 +19,37 @@ import net.minecraft.world.item.ItemStack;
 import java.util.List;
 import java.util.Optional;
 
-public final class DataComponentSkillNode extends SkillDataNode {
-    public static final Codec<DataComponentSkillNode> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Codec.INT.fieldOf("id").forGetter(DataComponentSkillNode::getId),
-            Codec.STRING.fieldOf("name").forGetter(DataComponentSkillNode::getName),
-            Codec.STRING.fieldOf("description").forGetter(DataComponentSkillNode::getDescription),
-            Codec.INT.fieldOf("limit").forGetter(DataComponentSkillNode::getLimit),
-            ResourceLocation.CODEC.listOf().fieldOf("key").forGetter(DataComponentSkillNode::getKeys),
-            Codec.FLOAT.fieldOf("value").forGetter(DataComponentSkillNode::getValue),
-            SkillDataRequirement.CODEC.listOf().fieldOf("requirements").forGetter(DataComponentSkillNode::getRequirements),
+public final class DataComponentNode extends SkillDataNode {
+    public static final Codec<DataComponentNode> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            Codec.INT.fieldOf("id").forGetter(DataComponentNode::getId),
+            Codec.STRING.fieldOf("name").forGetter(DataComponentNode::getName),
+            Codec.STRING.fieldOf("description").forGetter(DataComponentNode::getDescription),
+            Codec.INT.fieldOf("limit").forGetter(DataComponentNode::getLimit),
+            ResourceLocation.CODEC.listOf().fieldOf("key").forGetter(DataComponentNode::getKeys),
+            Codec.FLOAT.fieldOf("value").forGetter(DataComponentNode::getValue),
+            SkillDataRequirement.CODEC.listOf().fieldOf("requirements").forGetter(DataComponentNode::getRequirements),
             SkillSubText.CODEC.optionalFieldOf("subtext").forGetter(n -> Optional.ofNullable(n.getSkillSubText()))
-    ).apply(instance, DataComponentSkillNode::new));
+    ).apply(instance, DataComponentNode::new));
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, DataComponentSkillNode> STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.VAR_INT, DataComponentSkillNode::getId,
-            ByteBufCodecs.STRING_UTF8, DataComponentSkillNode::getName,
-            ByteBufCodecs.STRING_UTF8, DataComponentSkillNode::getDescription,
-            ByteBufCodecs.VAR_INT, DataComponentSkillNode::getLimit,
-            ResourceLocation.STREAM_CODEC.apply(ByteBufCodecs.list()), DataComponentSkillNode::getKeys,
-            ByteBufCodecs.FLOAT, DataComponentSkillNode::getValue,
-            ByteBufCodecs.fromCodec(SkillDataRequirement.CODEC.listOf().fieldOf("requirements").codec()), DataComponentSkillNode::getRequirements, // TODO
+    public static final StreamCodec<RegistryFriendlyByteBuf, DataComponentNode> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.VAR_INT, DataComponentNode::getId,
+            ByteBufCodecs.STRING_UTF8, DataComponentNode::getName,
+            ByteBufCodecs.STRING_UTF8, DataComponentNode::getDescription,
+            ByteBufCodecs.VAR_INT, DataComponentNode::getLimit,
+            ResourceLocation.STREAM_CODEC.apply(ByteBufCodecs.list()), DataComponentNode::getKeys,
+            ByteBufCodecs.FLOAT, DataComponentNode::getValue,
+            ByteBufCodecs.fromCodec(SkillDataRequirement.CODEC.listOf().fieldOf("requirements").codec()), DataComponentNode::getRequirements, // TODO
             ByteBufCodecs.fromCodec(SkillSubText.CODEC.optionalFieldOf("subtext").codec()), n -> Optional.ofNullable(n.getSkillSubText()), // TODO
-            DataComponentSkillNode::new);
+            DataComponentNode::new);
 
     private final float value;
 
-    public DataComponentSkillNode(int id, String name, String description, int limit, List<ResourceLocation> keys, float value, List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText) {
+    public DataComponentNode(int id, String name, String description, int limit, List<ResourceLocation> keys, float value, List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText) {
         super(id, name, description, limit, keys, requirements, skillSubText.orElse(null));
         this.value = value;
     }
 
-    public DataComponentSkillNode(int id, String name, String description, int limit, ResourceLocation key, float value, List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText) {
+    public DataComponentNode(int id, String name, String description, int limit, ResourceLocation key, float value, List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText) {
         this(id, name, description, limit, List.of(key), value, requirements, skillSubText);
     }
 
@@ -84,7 +84,7 @@ public final class DataComponentSkillNode extends SkillDataNode {
                         float floatValue = value == null ? 0.0F : (float) value;
                         stack.set((DataComponentType<Float>) dataComponent, floatValue + this.value * pointsToSpend);
                     } else {
-                        throw new IllegalStateException("Unexpected skill datacomponent type: " + value);
+                        throw new IllegalStateException("Unexpected skill datacomponent type: " + dataComponent);
                     }
                 }
             }

@@ -12,6 +12,8 @@ public class SkillTreeTitles {
     public static final String TORCH = "Torch";
     public static final String TORCH_SUBTEXT = "Uses 10 durability";
     public static final String LEAF_MINER = "Leaf Miner";
+    public static final String ALWAYS_EAT = "Always Edible";
+    public static final String EFFECT_SUB_TEXT = "Increases duration for each level";
 
     // TODO: could this be expanded easily?
     public static final String MINING_3x3 = "3x3 Mining";
@@ -20,32 +22,43 @@ public class SkillTreeTitles {
         if (level == 0) {
             return "Infinite Speed";
         }
-        return String.format("MiningSpeed %s", intToRomanNumeral(level));
+        return String.format("Mining Speed %s", intToRomanNumeral(level));
     }
 
     public static String durability(int level) {
-        if (level == 0) {
-            return "Infinite Durability";
-        }
-        return String.format("Durability %s", intToRomanNumeral(level));
+        return getName("Durability", level);
     }
 
     public static String unbreaking(int level) {
-        if (level == 0) {
-            return "Infinite Unbreaking";
-        }
-        return String.format("Unbreaking %s", intToRomanNumeral(level));
+        return getName("Unbreaking", level);
     }
 
     public static String reach(int level) {
-        if (level == 0) {
-            return "Infinite Reach";
-        }
-        return String.format("Reach %s", intToRomanNumeral(level));
+        return getName("Reach", level);
     }
 
     public static String fortune(int level) {
         return String.format("Fortune %s", intToRomanNumeral(level));
+    }
+
+    public static String nutrition(int level) {
+        return getName("Nutrition", level);
+    }
+
+    public static String saturation(int level) {
+        return getName("Saturation", level);
+    }
+
+    public static String eatSpeed(int level) {
+        return getName("Eat Speed", level);
+    }
+
+    private static String getName(String title, int level) {
+        if (level == 0) {
+            return "Infinite " + title;
+        }
+
+        return String.format(title + " %s", intToRomanNumeral(level));
     }
 
     private static String intToRomanNumeral(int number) {

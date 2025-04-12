@@ -21,32 +21,32 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import java.util.List;
 import java.util.Optional;
 
-public final class EnchantmentDataNode extends SkillDataNode {
-    public static final Codec<EnchantmentDataNode> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Codec.INT.fieldOf("id").forGetter(EnchantmentDataNode::getId),
-            Codec.STRING.fieldOf("name").forGetter(EnchantmentDataNode::getName),
-            Codec.STRING.fieldOf("description").forGetter(EnchantmentDataNode::getDescription),
-            ResourceLocation.CODEC.fieldOf("enchantment").forGetter(EnchantmentDataNode::getEnchantment),
-            Codec.INT.fieldOf("level").forGetter(EnchantmentDataNode::getLevel),
-            SkillDataRequirement.CODEC.listOf().fieldOf("requirements").forGetter(EnchantmentDataNode::getRequirements),
+public final class EnchantmentNode extends SkillDataNode {
+    public static final Codec<EnchantmentNode> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            Codec.INT.fieldOf("id").forGetter(EnchantmentNode::getId),
+            Codec.STRING.fieldOf("name").forGetter(EnchantmentNode::getName),
+            Codec.STRING.fieldOf("description").forGetter(EnchantmentNode::getDescription),
+            ResourceLocation.CODEC.fieldOf("enchantment").forGetter(EnchantmentNode::getEnchantment),
+            Codec.INT.fieldOf("level").forGetter(EnchantmentNode::getLevel),
+            SkillDataRequirement.CODEC.listOf().fieldOf("requirements").forGetter(EnchantmentNode::getRequirements),
             SkillSubText.CODEC.optionalFieldOf("subtext").forGetter(n -> Optional.ofNullable(n.getSkillSubText()))
-    ).apply(instance, EnchantmentDataNode::new));
+    ).apply(instance, EnchantmentNode::new));
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, EnchantmentDataNode> STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.VAR_INT, EnchantmentDataNode::getId,
-            ByteBufCodecs.STRING_UTF8, EnchantmentDataNode::getName,
-            ByteBufCodecs.STRING_UTF8, EnchantmentDataNode::getDescription,
-            ResourceLocation.STREAM_CODEC, EnchantmentDataNode::getEnchantment,
-            ByteBufCodecs.VAR_INT, EnchantmentDataNode::getLevel,
-            ByteBufCodecs.fromCodec(SkillDataRequirement.CODEC.listOf().fieldOf("requirements").codec()), EnchantmentDataNode::getRequirements, // TODO
+    public static final StreamCodec<RegistryFriendlyByteBuf, EnchantmentNode> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.VAR_INT, EnchantmentNode::getId,
+            ByteBufCodecs.STRING_UTF8, EnchantmentNode::getName,
+            ByteBufCodecs.STRING_UTF8, EnchantmentNode::getDescription,
+            ResourceLocation.STREAM_CODEC, EnchantmentNode::getEnchantment,
+            ByteBufCodecs.VAR_INT, EnchantmentNode::getLevel,
+            ByteBufCodecs.fromCodec(SkillDataRequirement.CODEC.listOf().fieldOf("requirements").codec()), EnchantmentNode::getRequirements, // TODO
             ByteBufCodecs.fromCodec(SkillSubText.CODEC.optionalFieldOf("subtext").codec()), n -> Optional.ofNullable(n.getSkillSubText()), // TODO
-            EnchantmentDataNode::new);
+            EnchantmentNode::new);
 
     private final ResourceLocation enchantment;
     private final int level;
 
-    public EnchantmentDataNode(int id, String name, String description, ResourceLocation enchantment, int level,
-                               List<SkillDataRequirement> requirements, Optional<SkillSubText> subText) {
+    public EnchantmentNode(int id, String name, String description, ResourceLocation enchantment, int level,
+                           List<SkillDataRequirement> requirements, Optional<SkillSubText> subText) {
         super(id, name, description, 1, List.of(enchantment), requirements, subText.orElse(null));
 
         this.enchantment = enchantment;

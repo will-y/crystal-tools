@@ -66,4 +66,24 @@ public class SkillTreeDescriptions {
     public String leafMiner() {
         return String.format("The %s now efficiently mines leaves and other similar blocks", toolName);
     }
+
+    public String nutrition() {
+        return String.format("Increases the number of food points the %s restores", toolName);
+    }
+
+    public String saturation() {
+        return String.format("Increases the saturation of the %s", toolName);
+    }
+
+    public String eatSpeed() {
+        return String.format("Increases how fast you can eat the %s", toolName);
+    }
+
+    public String alwaysEat() {
+        return String.format("You can eat the %s even when you are full", toolName);
+    }
+
+    public String effect(String effectName, int duration) {
+        return String.format("Adds the %s effect for %d ticks when you eat the %s", effectName, duration, toolName);
+    }
 }

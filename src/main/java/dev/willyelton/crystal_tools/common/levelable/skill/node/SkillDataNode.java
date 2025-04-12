@@ -1,7 +1,6 @@
 package dev.willyelton.crystal_tools.common.levelable.skill.node;
 
 import com.mojang.serialization.Codec;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillSubText;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirement;
@@ -15,7 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public sealed abstract class SkillDataNode permits DataComponentSkillNode, EnchantmentDataNode, AttributeSkillDataNode {
+public sealed abstract class SkillDataNode permits AttributeNode, DataComponentNode, EffectNode, EnchantmentNode, FoodDataComponentNode {
     private final int id;
     private final String name;
     private final String description;
@@ -27,7 +26,7 @@ public sealed abstract class SkillDataNode permits DataComponentSkillNode, Encha
 
     public SkillDataNode(int id, String name, String description, int limit, ResourceLocation key,
                          List<SkillDataRequirement> requirements, SkillSubText skillSubText) {
-        this(id, name, description, limit, List.of(key), requirements, skillSubText);
+        this(id, name, description, limit, key == null ? List.of() : List.of(key), requirements, skillSubText);
     }
 
     public SkillDataNode(int id, String name, String description, int limit, List<ResourceLocation> keys,
@@ -98,7 +97,7 @@ public sealed abstract class SkillDataNode permits DataComponentSkillNode, Encha
                 ", description='" + description + '\'' +
                 ", limit=" + limit +
                 ", requirements=" + requirements +
-                ", key='" + keys.stream().map(ResourceLocation::toString).collect(Collectors.joining(", ")) + '\'' +
+                ", key='" + (keys != null ? keys.stream().map(ResourceLocation::toString).collect(Collectors.joining(", ")) : "") + '\'' +
                 '}';
     }
 
