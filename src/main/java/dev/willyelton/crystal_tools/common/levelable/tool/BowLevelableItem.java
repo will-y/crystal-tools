@@ -181,12 +181,6 @@ public class BowLevelableItem extends BowItem implements LevelableItem, EntityTa
     }
 
     @Override
-    public int getMaxDamage(ItemStack stack) {
-        int bonusDurability = stack.getOrDefault(DataComponents.DURABILITY_BONUS, 0);
-        return CRYSTAL.durability() + bonusDurability;
-    }
-
-    @Override
     public boolean isFoil(ItemStack stack) {
         return false;
     }

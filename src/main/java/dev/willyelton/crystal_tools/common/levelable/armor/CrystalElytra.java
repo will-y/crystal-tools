@@ -54,12 +54,6 @@ public class CrystalElytra extends Item implements LevelableItem {
     }
 
     @Override
-    public int getMaxDamage(ItemStack stack) {
-        int bonusDurability = stack.getOrDefault(DataComponents.DURABILITY_BONUS, 0);
-        return CRYSTAL.durability() + bonusDurability;
-    }
-
-    @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> components, TooltipFlag flag) {
         String modeSwitchKey = RegisterKeyBindingsEvent.MODE_SWITCH.getKey().getDisplayName().getString();
 
@@ -90,10 +84,10 @@ public class CrystalElytra extends Item implements LevelableItem {
             int nextFlightTick = flightTicks + 1;
             if (nextFlightTick % 10 == 0) {
                 if (nextFlightTick % 20 == 0) {
-                    float unbreakingLevel = stack.getOrDefault(DataComponents.DURABILITY_BONUS, 0) / 200F + 1;
-                    if (1 / unbreakingLevel > Math.random()) {
-                        stack.hurtAndBreak(1, entity, EquipmentSlot.CHEST);
-                    }
+//                    float unbreakingLevel = stack.getOrDefault(DataComponents.DURABILITY_BONUS, 0) / 200F + 1;
+//                    if (1 / unbreakingLevel > Math.random()) {
+//                        stack.hurtAndBreak(1, entity, EquipmentSlot.CHEST);
+//                    }
 
                     this.addExp(stack, entity.level(), entity.getOnPos(), entity);
                 }
@@ -117,14 +111,6 @@ public class CrystalElytra extends Item implements LevelableItem {
     public static boolean canUseCreativeFlight(ItemStack stack) {
         return !stack.getOrDefault(DataComponents.DISABLE_CREATIVE_FLIGHT, false) &&
                 stack.getOrDefault(DataComponents.CREATIVE_FLIGHT, 0) >= CrystalToolsServerConfig.CREATIVE_FLIGHT_POINTS.get();
-    }
-
-    public int getDefense(ItemStack stack) {
-        return CrystalToolsArmorMaterials.CRYSTAL.defense().get(ArmorType.BODY) + stack.getOrDefault(DataComponents.ARMOR_BONUS, 0);
-    }
-
-    public float getToughness(ItemStack stack) {
-        return CrystalToolsArmorMaterials.CRYSTAL.toughness() + stack.getOrDefault(DataComponents.TOUGHNESS_BONUS, 0F);
     }
 
     @Override

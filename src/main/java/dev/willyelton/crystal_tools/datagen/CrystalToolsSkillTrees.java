@@ -1,12 +1,11 @@
 package dev.willyelton.crystal_tools.datagen;
 
-import dev.willyelton.crystal_tools.CrystalTools;
+import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.events.DatapackRegistryEvents;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.utils.constants.SkillTreeDescriptions;
 import net.minecraft.core.Holder;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -17,13 +16,39 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
-import org.checkerframework.checker.units.qual.C;
 
 import java.util.List;
 
 import static dev.willyelton.crystal_tools.utils.StringUtils.formatKey;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.*;
-import static dev.willyelton.crystal_tools.utils.constants.SkillConstants.*;
+import static dev.willyelton.crystal_tools.utils.constants.SkillConstants.DURABILITY;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AUTO_PICKUP;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AUTO_REPAIR;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AUTO_SMELTING;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AXE_VEIN_MINING;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.LEAF_MINER;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.MINING_3x3;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.MODE_SWITCH;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.NIGHT_VISION;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.SILK_TOUCH;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.TORCH;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.TORCH_SUBTEXT;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.VEIN_MINING;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.VEIN_MINING_SUBTEXT;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.baseArmor;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.blastProtection;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.durability;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.eatSpeed;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.fireProtection;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.fortune;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.healthBonus;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.intToRomanNumeral;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.miningSpeed;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.moveSpeed;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.projectileProtection;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.protection;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.reach;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.toughness;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.unbreaking;
 
 public class CrystalToolsSkillTrees {
     private final BootstrapContext<SkillData> context;
@@ -40,21 +65,25 @@ public class CrystalToolsSkillTrees {
     public void registerSkillTrees() {
         // Basic Mining Tools
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
-                ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "crystal_pickaxe")), basicMiningTool("Pickaxe"));
+                Registration.CRYSTAL_PICKAXE.getId()), basicMiningTool("Pickaxe"));
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
-                ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "crystal_hoe")), basicMiningTool("Hoe"));
+                Registration.CRYSTAL_HOE.getId()), basicMiningTool("Hoe"));
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
-                ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "crystal_shovel")), basicMiningTool("Shovel"));
+                Registration.CRYSTAL_SHOVEL.getId()), basicMiningTool("Shovel"));
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
-                ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "crystal_axe")), basicMiningTool("Axe"));
+                Registration.CRYSTAL_AXE.getId()), basicMiningTool("Axe"));
 
         // Food
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
-                ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "crystal_apple")), food("Apple"));
+                Registration.CRYSTAL_APPLE.getId()), food("Apple"));
 
         // Armor
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
-                ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "crystal_helmet")), helmet());
+                Registration.CRYSTAL_HELMET.getId()), helmet());
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+                Registration.CRYSTAL_CHESTPLATE.getId()), chestplate());
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+                Registration.CRYSTAL_LEGGINGS.getId()), leggings());
     }
 
     private SkillData basicMiningTool(String name) {
@@ -292,6 +321,175 @@ public class CrystalToolsSkillTrees {
                     .dataComponentNode(26, NIGHT_VISION, desc.nightVision(), DataComponents.NIGHT_VISION.getId(), 1)
                         .subText("Can be disabled with the mode switch key", "#ABABAB")
                         .previousTierOrRequirements();
+
+
+        return builder.build();
+    }
+
+    private SkillData chestplate() {
+        SkillTreeDescriptions desc = new SkillTreeDescriptions("Chestplate");
+
+        SkillData.Builder builder = SkillData.builder();
+        armorTier(builder, 0, -1, 1, desc);
+        armorTier(builder, 4, 0, 2, desc);
+
+        builder
+                .tier()
+                    .attributeNode(8, baseArmor(1), desc.baseArmor(), attr(Attributes.ARMOR), 1)
+                        .previousTierOrRequirements()
+                    .attributeNode(9, toughness(1), desc.toughness(), attr(Attributes.ARMOR_TOUGHNESS), 0.25F)
+                        .previousTierOrRequirements()
+                    .attributeNode(10, healthBonus(1), desc.healthBonus(),attr(Attributes.MAX_HEALTH), 2)
+                        .previousTierOrRequirements();
+
+        armorTier(builder, 11, 4, 3, desc);
+
+        builder
+                .tier()
+                    .attributeNode(15, baseArmor(2), desc.baseArmor(), attr(Attributes.ARMOR), 1)
+                        .nodeRequirement(8)
+                        .previousTierOrRequirements()
+                    .attributeNode(16, toughness(2), desc.toughness(), attr(Attributes.ARMOR_TOUGHNESS), 0.25F)
+                        .nodeRequirement(9)
+                        .previousTierOrRequirements()
+                    .attributeNode(17, healthBonus(2), desc.healthBonus(), attr(Attributes.MAX_HEALTH), 2)
+                        .nodeRequirement(10)
+                        .previousTierOrRequirements()
+                    .infiniteDataComponentNode(18, AUTO_REPAIR, desc.autoRepair(), DataComponents.AUTO_REPAIR.getId(), 1)
+                        .previousTierOrRequirements();
+
+        armorTier(builder, 19, 11, 4, desc);
+
+        builder
+                .tier()
+                    .attributeNode(23, baseArmor(3), desc.baseArmor(), attr(Attributes.ARMOR), 1)
+                        .nodeRequirement(15)
+                        .previousTierOrRequirements()
+                    .attributeNode(24, toughness(3), desc.toughness(), attr(Attributes.ARMOR_TOUGHNESS), 0.5F)
+                        .nodeRequirement(16)
+                        .previousTierOrRequirements()
+                    .enchantmentNode(25, enchantmentName(Enchantments.THORNS, 3), desc.enchantment(enchantmentName(Enchantments.THORNS, 3)), Enchantments.THORNS, 3)
+                        .previousTierOrRequirements()
+                    .attributeNode(26, healthBonus(3), desc.healthBonus(), attr(Attributes.MAX_HEALTH), 4)
+                        .nodeRequirement(17)
+                        .previousTierOrRequirements();
+
+
+        return builder.build();
+    }
+
+    private SkillData leggings() {
+        SkillTreeDescriptions desc = new SkillTreeDescriptions("Leggings");
+
+        SkillData.Builder builder = SkillData.builder();
+        armorTier(builder, 0, -1, 1, desc);
+        builder.enchantmentNode(4, enchantmentName(Enchantments.SWIFT_SNEAK, 1), desc.enchantment(enchantmentName(Enchantments.SWIFT_SNEAK, 1)), Enchantments.SWIFT_SNEAK, 1);
+        armorTier(builder, 5, 0, 2, desc);
+        builder.enchantmentNode(9, enchantmentName(Enchantments.SWIFT_SNEAK, 2), desc.enchantment(enchantmentName(Enchantments.SWIFT_SNEAK, 2)), Enchantments.SWIFT_SNEAK, 2)
+                .nodeRequirement(4)
+                .previousTierOrRequirements();
+
+        builder
+                .tier()
+                    .attributeNode(10, baseArmor(1), desc.baseArmor(), attr(Attributes.ARMOR), 1)
+                        .previousTierOrRequirements()
+                    .attributeNode(11, toughness(1), desc.toughness(), attr(Attributes.ARMOR_TOUGHNESS), 0.25F)
+                        .previousTierOrRequirements()
+                    .attributeNode(12, moveSpeed(1), desc.moveSpeed(), attr(Attributes.MOVEMENT_SPEED), 1)
+                        .previousTierOrRequirements();
+
+        armorTier(builder, 13, 5, 3, desc);
+        builder.enchantmentNode(17, enchantmentName(Enchantments.SWIFT_SNEAK, 3), desc.enchantment(enchantmentName(Enchantments.SWIFT_SNEAK, 3)), Enchantments.SWIFT_SNEAK, 3)
+                .nodeRequirement(9)
+                .previousTierOrRequirements();
+
+        builder
+                .tier()
+                    .attributeNode(18, baseArmor(2), desc.baseArmor(), attr(Attributes.ARMOR), 1)
+                        .nodeRequirement(10)
+                        .previousTierOrRequirements()
+                    .attributeNode(19, toughness(2), desc.toughness(), attr(Attributes.ARMOR_TOUGHNESS), 0.25F)
+                        .nodeRequirement(11)
+                        .previousTierOrRequirements()
+                    .attributeNode(20, moveSpeed(2), desc.moveSpeed(), attr(Attributes.MOVEMENT_SPEED), 1)
+                        .nodeRequirement(12)
+                        .previousTierOrRequirements()
+                    .infiniteDataComponentNode(21, AUTO_REPAIR, desc.autoRepair(), DataComponents.AUTO_REPAIR.getId(), 1)
+                        .previousTierOrRequirements();
+
+        armorTier(builder, 22, 13, 4, desc);
+        builder.enchantmentNode(26, enchantmentName(Enchantments.SWIFT_SNEAK, 4), desc.enchantment(enchantmentName(Enchantments.SWIFT_SNEAK, 4)), Enchantments.SWIFT_SNEAK, 4)
+                .nodeRequirement(17)
+                .previousTierOrRequirements();
+
+        builder
+                .tier()
+                    .attributeNode(27, baseArmor(3), desc.baseArmor(), attr(Attributes.ARMOR), 1)
+                        .nodeRequirement(18)
+                        .previousTierOrRequirements()
+                    .attributeNode(28, toughness(3), desc.toughness(), attr(Attributes.ARMOR_TOUGHNESS), 0.5F)
+                        .nodeRequirement(19)
+                        .previousTierOrRequirements()
+                    .enchantmentNode(29, enchantmentName(Enchantments.THORNS, 3), desc.enchantment(enchantmentName(Enchantments.THORNS, 3)), Enchantments.THORNS, 3)
+                        .previousTierOrRequirements()
+                    .attributeNode(30, moveSpeed(3), desc.moveSpeed(), attr(Attributes.MOVEMENT_SPEED), 1)
+                        .nodeRequirement(20)
+                        .previousTierOrRequirements()
+                    .enchantmentNode(31, enchantmentName(Enchantments.SWIFT_SNEAK, 5), desc.enchantment(enchantmentName(Enchantments.SWIFT_SNEAK, 5)), Enchantments.SWIFT_SNEAK, 5)
+                        .nodeRequirement(29);
+
+
+        return builder.build();
+    }
+
+    private SkillData boots() {
+        SkillTreeDescriptions desc = new SkillTreeDescriptions("Boots");
+
+        SkillData.Builder builder = SkillData.builder();
+        armorTier(builder, 0, -1, 1, desc);
+        armorTier(builder, 4, 0, 2, desc);
+
+        builder
+                .tier()
+                    .attributeNode(8, baseArmor(1), desc.baseArmor(), attr(Attributes.ARMOR), 1)
+                        .previousTierOrRequirements()
+                    .attributeNode(9, toughness(1), desc.toughness(), attr(Attributes.ARMOR_TOUGHNESS), 0.25F)
+                        .previousTierOrRequirements()
+                    .enchantmentNode(10, enchantmentName(Enchantments.FEATHER_FALLING, 4), desc.enchantment(enchantmentName(Enchantments.FEATHER_FALLING, 4)), Enchantments.FEATHER_FALLING, 4);
+
+        armorTier(builder, 11, 4, 3, desc);
+
+        builder
+                .tier()
+                    .attributeNode(15, baseArmor(2), desc.baseArmor(), attr(Attributes.ARMOR), 1)
+                        .nodeRequirement(8)
+                        .previousTierOrRequirements()
+                    .attributeNode(16, toughness(2), desc.toughness(), attr(Attributes.ARMOR_TOUGHNESS), 0.25F)
+                        .nodeRequirement(9)
+                        .previousTierOrRequirements()
+                    .enchantmentNode(17, enchantmentName(Enchantments.DEPTH_STRIDER, 3), desc.enchantment(enchantmentName(Enchantments.DEPTH_STRIDER, 3)), Enchantments.DEPTH_STRIDER, 3)
+                        .previousTierOrRequirements()
+                    .infiniteDataComponentNode(18, AUTO_REPAIR, desc.autoRepair(), DataComponents.AUTO_REPAIR.getId(), 1)
+                        .previousTierOrRequirements();
+
+        armorTier(builder, 19, 11, 4, desc);
+
+        builder
+                .tier()
+                    .attributeNode(23, baseArmor(3), desc.baseArmor(), attr(Attributes.ARMOR), 1)
+                        .nodeRequirement(15)
+                        .previousTierOrRequirements()
+                    .attributeNode(24, toughness(3), desc.toughness(), attr(Attributes.ARMOR_TOUGHNESS), 0.5F)
+                        .nodeRequirement(16)
+                        .previousTierOrRequirements()
+                    .enchantmentNode(25, enchantmentName(Enchantments.THORNS, 3), desc.enchantment(enchantmentName(Enchantments.THORNS, 3)), Enchantments.THORNS, 3)
+                        .previousTierOrRequirements()
+                    .enchantmentNode(26, enchantmentName(Enchantments.SOUL_SPEED, 3), desc.enchantment(enchantmentName(Enchantments.SOUL_SPEED, 3)), Enchantments.SOUL_SPEED, 3)
+                        .previousTierOrRequirements()
+                // TODO: Need special handling in the enchantment node
+                    .enchantmentNode(27, enchantmentName(Enchantments.FROST_WALKER, 0), desc.enchantment(enchantmentName(Enchantments.FROST_WALKER, 0)), Enchantments.FROST_WALKER, 2)
+                        .previousTierOrRequirements()
+                    .subText("Can be disabled with the mode switch key", "#ABABAB");
 
 
         return builder.build();

@@ -4,7 +4,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Protection I to the Helmet",
+          "description": "Gives the enchantment Protection I to the Leggings",
           "enchantment": "minecraft:protection",
           "id": 0,
           "level": 2,
@@ -15,7 +15,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Fire Protection I to the Helmet",
+          "description": "Gives the enchantment Fire Protection I to the Leggings",
           "enchantment": "minecraft:fire_protection",
           "id": 1,
           "level": 2,
@@ -32,7 +32,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Blast Protection I to the Helmet",
+          "description": "Gives the enchantment Blast Protection I to the Leggings",
           "enchantment": "minecraft:blast_protection",
           "id": 2,
           "level": 2,
@@ -49,7 +49,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Projectile Protection I to the Helmet",
+          "description": "Gives the enchantment Projectile Protection I to the Leggings",
           "enchantment": "minecraft:projectile_protection",
           "id": 3,
           "level": 2,
@@ -62,15 +62,26 @@
             }
           ]
         }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Swift Sneak I to the Leggings",
+          "enchantment": "minecraft:swift_sneak",
+          "id": 4,
+          "level": 1,
+          "name": "Swift Sneak I",
+          "requirements": []
+        }
       }
     ],
     [
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Protection II to the Helmet",
+          "description": "Gives the enchantment Protection II to the Leggings",
           "enchantment": "minecraft:protection",
-          "id": 4,
+          "id": 5,
           "level": 2,
           "name": "Prot II",
           "requirements": [
@@ -85,9 +96,9 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Fire Protection II to the Helmet",
+          "description": "Gives the enchantment Fire Protection II to the Leggings",
           "enchantment": "minecraft:fire_protection",
-          "id": 5,
+          "id": 6,
           "level": 2,
           "name": "Fire Prot II",
           "requirements": [
@@ -102,9 +113,9 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Blast Protection II to the Helmet",
+          "description": "Gives the enchantment Blast Protection II to the Leggings",
           "enchantment": "minecraft:blast_protection",
-          "id": 6,
+          "id": 7,
           "level": 2,
           "name": "Blast Prot II",
           "requirements": [
@@ -119,9 +130,9 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Projectile Protection II to the Helmet",
+          "description": "Gives the enchantment Projectile Protection II to the Leggings",
           "enchantment": "minecraft:projectile_protection",
-          "id": 7,
+          "id": 8,
           "level": 2,
           "name": "Projectile Prot II",
           "requirements": [
@@ -132,14 +143,40 @@
             }
           ]
         }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Swift Sneak II to the Leggings",
+          "enchantment": "minecraft:swift_sneak",
+          "id": 9,
+          "level": 2,
+          "name": "Swift Sneak II",
+          "requirements": [
+            {
+              "node": [
+                4
+              ]
+            },
+            {
+              "or_node": [
+                0,
+                1,
+                2,
+                3,
+                4
+              ]
+            }
+          ]
+        }
       }
     ],
     [
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Gives the Helmet more base armor",
-          "id": 8,
+          "description": "Gives the Leggings more base armor",
+          "id": 10,
           "key": [
             "minecraft:armor"
           ],
@@ -148,10 +185,11 @@
           "requirements": [
             {
               "or_node": [
-                4,
                 5,
                 6,
-                7
+                7,
+                8,
+                9
               ]
             }
           ],
@@ -161,8 +199,8 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Gives the Helmet more armor toughness",
-          "id": 9,
+          "description": "Gives the Leggings more armor toughness",
+          "id": 11,
           "key": [
             "minecraft:armor_toughness"
           ],
@@ -171,10 +209,11 @@
           "requirements": [
             {
               "or_node": [
-                4,
                 5,
                 6,
-                7
+                7,
+                8,
+                9
               ]
             }
           ],
@@ -182,14 +221,27 @@
         }
       },
       {
-        "type": "crystal_tools:enchantment",
+        "type": "crystal_tools:attribute",
         "node": {
-          "description": "Gives the enchantment Aqua Affinity to the Helmet",
-          "enchantment": "minecraft:aqua_affinity",
-          "id": 10,
-          "level": 1,
-          "name": "Aqua Affinity",
-          "requirements": []
+          "description": "Gives you bonus speed while wearing the Leggings",
+          "id": 12,
+          "key": [
+            "minecraft:movement_speed"
+          ],
+          "limit": 1,
+          "name": "Speed Bonus I",
+          "requirements": [
+            {
+              "or_node": [
+                5,
+                6,
+                7,
+                8,
+                9
+              ]
+            }
+          ],
+          "value": 1.0
         }
       }
     ],
@@ -197,28 +249,11 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Protection III to the Helmet",
+          "description": "Gives the enchantment Protection III to the Leggings",
           "enchantment": "minecraft:protection",
-          "id": 11,
+          "id": 13,
           "level": 2,
           "name": "Prot III",
-          "requirements": [
-            {
-              "node": [
-                4
-              ]
-            }
-          ]
-        }
-      },
-      {
-        "type": "crystal_tools:enchantment",
-        "node": {
-          "description": "Gives the enchantment Fire Protection III to the Helmet",
-          "enchantment": "minecraft:fire_protection",
-          "id": 12,
-          "level": 2,
-          "name": "Fire Prot II",
           "requirements": [
             {
               "node": [
@@ -231,11 +266,11 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Blast Protection III to the Helmet",
-          "enchantment": "minecraft:blast_protection",
-          "id": 13,
+          "description": "Gives the enchantment Fire Protection III to the Leggings",
+          "enchantment": "minecraft:fire_protection",
+          "id": 14,
           "level": 2,
-          "name": "Blast Prot II",
+          "name": "Fire Prot II",
           "requirements": [
             {
               "node": [
@@ -248,11 +283,11 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Projectile Protection III to the Helmet",
-          "enchantment": "minecraft:projectile_protection",
-          "id": 14,
+          "description": "Gives the enchantment Blast Protection III to the Leggings",
+          "enchantment": "minecraft:blast_protection",
+          "id": 15,
           "level": 2,
-          "name": "Projectile Prot II",
+          "name": "Blast Prot II",
           "requirements": [
             {
               "node": [
@@ -261,47 +296,32 @@
             }
           ]
         }
-      }
-    ],
-    [
+      },
       {
-        "type": "crystal_tools:attribute",
+        "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the Helmet more base armor",
-          "id": 15,
-          "key": [
-            "minecraft:armor"
-          ],
-          "limit": 1,
-          "name": "Base Armor II",
+          "description": "Gives the enchantment Projectile Protection III to the Leggings",
+          "enchantment": "minecraft:projectile_protection",
+          "id": 16,
+          "level": 2,
+          "name": "Projectile Prot II",
           "requirements": [
             {
               "node": [
                 8
               ]
-            },
-            {
-              "or_node": [
-                11,
-                12,
-                13,
-                14
-              ]
             }
-          ],
-          "value": 1.0
+          ]
         }
       },
       {
-        "type": "crystal_tools:attribute",
+        "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the Helmet more armor toughness",
-          "id": 16,
-          "key": [
-            "minecraft:armor_toughness"
-          ],
-          "limit": 1,
-          "name": "Toughness II",
+          "description": "Gives the enchantment Swift Sneak III to the Leggings",
+          "enchantment": "minecraft:swift_sneak",
+          "id": 17,
+          "level": 3,
+          "name": "Swift Sneak III",
           "requirements": [
             {
               "node": [
@@ -310,10 +330,68 @@
             },
             {
               "or_node": [
+                10,
                 11,
-                12,
+                12
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Gives the Leggings more base armor",
+          "id": 18,
+          "key": [
+            "minecraft:armor"
+          ],
+          "limit": 1,
+          "name": "Base Armor II",
+          "requirements": [
+            {
+              "node": [
+                10
+              ]
+            },
+            {
+              "or_node": [
                 13,
-                14
+                14,
+                15,
+                16,
+                17
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Gives the Leggings more armor toughness",
+          "id": 19,
+          "key": [
+            "minecraft:armor_toughness"
+          ],
+          "limit": 1,
+          "name": "Toughness II",
+          "requirements": [
+            {
+              "node": [
+                11
+              ]
+            },
+            {
+              "or_node": [
+                13,
+                14,
+                15,
+                16,
+                17
               ]
             }
           ],
@@ -321,30 +399,39 @@
         }
       },
       {
-        "type": "crystal_tools:enchantment",
+        "type": "crystal_tools:attribute",
         "node": {
-          "description": "Gives the enchantment Respiration III to the Helmet",
-          "enchantment": "minecraft:respiration",
-          "id": 17,
-          "level": 3,
-          "name": "Respiration III",
+          "description": "Gives you bonus speed while wearing the Leggings",
+          "id": 20,
+          "key": [
+            "minecraft:movement_speed"
+          ],
+          "limit": 1,
+          "name": "Speed Bonus II",
           "requirements": [
             {
+              "node": [
+                12
+              ]
+            },
+            {
               "or_node": [
-                11,
-                12,
                 13,
-                14
+                14,
+                15,
+                16,
+                17
               ]
             }
-          ]
+          ],
+          "value": 1.0
         }
       },
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Automatically repairs the Helmet over time",
-          "id": 18,
+          "description": "Automatically repairs the Leggings over time",
+          "id": 21,
           "key": [
             "crystal_tools:auto_repair"
           ],
@@ -353,10 +440,11 @@
           "requirements": [
             {
               "or_node": [
-                11,
-                12,
                 13,
-                14
+                14,
+                15,
+                16,
+                17
               ]
             }
           ],
@@ -368,45 +456,11 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Protection IV to the Helmet",
+          "description": "Gives the enchantment Protection IV to the Leggings",
           "enchantment": "minecraft:protection",
-          "id": 19,
+          "id": 22,
           "level": 2,
           "name": "Prot IV",
-          "requirements": [
-            {
-              "node": [
-                11
-              ]
-            }
-          ]
-        }
-      },
-      {
-        "type": "crystal_tools:enchantment",
-        "node": {
-          "description": "Gives the enchantment Fire Protection IV to the Helmet",
-          "enchantment": "minecraft:fire_protection",
-          "id": 20,
-          "level": 2,
-          "name": "Fire Prot II",
-          "requirements": [
-            {
-              "node": [
-                12
-              ]
-            }
-          ]
-        }
-      },
-      {
-        "type": "crystal_tools:enchantment",
-        "node": {
-          "description": "Gives the enchantment Blast Protection IV to the Helmet",
-          "enchantment": "minecraft:blast_protection",
-          "id": 21,
-          "level": 2,
-          "name": "Blast Prot II",
           "requirements": [
             {
               "node": [
@@ -419,15 +473,74 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Projectile Protection IV to the Helmet",
+          "description": "Gives the enchantment Fire Protection IV to the Leggings",
+          "enchantment": "minecraft:fire_protection",
+          "id": 23,
+          "level": 2,
+          "name": "Fire Prot II",
+          "requirements": [
+            {
+              "node": [
+                14
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Blast Protection IV to the Leggings",
+          "enchantment": "minecraft:blast_protection",
+          "id": 24,
+          "level": 2,
+          "name": "Blast Prot II",
+          "requirements": [
+            {
+              "node": [
+                15
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Projectile Protection IV to the Leggings",
           "enchantment": "minecraft:projectile_protection",
-          "id": 22,
+          "id": 25,
           "level": 2,
           "name": "Projectile Prot II",
           "requirements": [
             {
               "node": [
-                14
+                16
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Swift Sneak IV to the Leggings",
+          "enchantment": "minecraft:swift_sneak",
+          "id": 26,
+          "level": 4,
+          "name": "Swift Sneak IV",
+          "requirements": [
+            {
+              "node": [
+                17
+              ]
+            },
+            {
+              "or_node": [
+                18,
+                19,
+                20,
+                21
               ]
             }
           ]
@@ -438,8 +551,8 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Gives the Helmet more base armor",
-          "id": 23,
+          "description": "Gives the Leggings more base armor",
+          "id": 27,
           "key": [
             "minecraft:armor"
           ],
@@ -448,15 +561,16 @@
           "requirements": [
             {
               "node": [
-                15
+                18
               ]
             },
             {
               "or_node": [
-                19,
-                20,
-                21,
-                22
+                22,
+                23,
+                24,
+                25,
+                26
               ]
             }
           ],
@@ -466,8 +580,8 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Gives the Helmet more armor toughness",
-          "id": 24,
+          "description": "Gives the Leggings more armor toughness",
+          "id": 28,
           "key": [
             "minecraft:armor_toughness"
           ],
@@ -476,15 +590,16 @@
           "requirements": [
             {
               "node": [
-                16
+                19
               ]
             },
             {
               "or_node": [
-                19,
-                20,
-                21,
-                22
+                22,
+                23,
+                24,
+                25,
+                26
               ]
             }
           ],
@@ -494,48 +609,68 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Thorns III to the Helmet",
+          "description": "Gives the enchantment Thorns III to the Leggings",
           "enchantment": "minecraft:thorns",
-          "id": 25,
+          "id": 29,
           "level": 3,
           "name": "Thorns III",
           "requirements": [
             {
               "or_node": [
-                19,
-                20,
-                21,
-                22
+                22,
+                23,
+                24,
+                25,
+                26
               ]
             }
           ]
         }
       },
       {
-        "type": "crystal_tools:data_component",
+        "type": "crystal_tools:attribute",
         "node": {
-          "description": "Gives you night vision while wearing the Helmet",
-          "id": 26,
+          "description": "Gives you bonus speed while wearing the Leggings",
+          "id": 30,
           "key": [
-            "crystal_tools:night_vision"
+            "minecraft:movement_speed"
           ],
           "limit": 1,
-          "name": "Night Vision",
+          "name": "Speed Bonus III",
           "requirements": [
             {
+              "node": [
+                20
+              ]
+            },
+            {
               "or_node": [
-                19,
-                20,
-                21,
-                22
+                22,
+                23,
+                24,
+                25,
+                26
               ]
             }
           ],
-          "subtext": {
-            "color": "#ABABAB",
-            "text": "Can be disabled with the mode switch key"
-          },
           "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Swift Sneak V to the Leggings",
+          "enchantment": "minecraft:swift_sneak",
+          "id": 31,
+          "level": 5,
+          "name": "Swift Sneak V",
+          "requirements": [
+            {
+              "node": [
+                29
+              ]
+            }
+          ]
         }
       }
     ]

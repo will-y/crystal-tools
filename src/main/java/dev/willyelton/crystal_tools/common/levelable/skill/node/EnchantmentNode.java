@@ -66,6 +66,7 @@ public final class EnchantmentNode extends SkillDataNode {
         return SkillNodeType.ENCHANTMENT;
     }
 
+    // TODO: Special casing for toggleable enchantments (frost walker)
     @Override
     public void processNode(ItemStack stack, int pointsToSpend, RegistryAccess registryAccess) {
         Registry<Enchantment> enchantmentRegistry = registryAccess.lookupOrThrow(Registries.ENCHANTMENT);

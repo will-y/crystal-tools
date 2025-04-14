@@ -48,6 +48,7 @@ public final class AttributeNode extends SkillDataNode {
     private final float value;
 
     // TODO: Going to need to add slot or something here or in the skill data (probably there)
+    // Do a list if possible
     public AttributeNode(int id, String name, String description, int limit, List<ResourceLocation> key, float value, List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText) {
         super(id, name, description, limit, key, requirements, skillSubText.orElse(null));
         this.value = value;

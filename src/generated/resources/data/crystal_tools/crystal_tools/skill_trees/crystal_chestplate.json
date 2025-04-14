@@ -4,7 +4,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Protection I to the Helmet",
+          "description": "Gives the enchantment Protection I to the Chestplate",
           "enchantment": "minecraft:protection",
           "id": 0,
           "level": 2,
@@ -15,7 +15,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Fire Protection I to the Helmet",
+          "description": "Gives the enchantment Fire Protection I to the Chestplate",
           "enchantment": "minecraft:fire_protection",
           "id": 1,
           "level": 2,
@@ -32,7 +32,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Blast Protection I to the Helmet",
+          "description": "Gives the enchantment Blast Protection I to the Chestplate",
           "enchantment": "minecraft:blast_protection",
           "id": 2,
           "level": 2,
@@ -49,7 +49,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Projectile Protection I to the Helmet",
+          "description": "Gives the enchantment Projectile Protection I to the Chestplate",
           "enchantment": "minecraft:projectile_protection",
           "id": 3,
           "level": 2,
@@ -68,7 +68,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Protection II to the Helmet",
+          "description": "Gives the enchantment Protection II to the Chestplate",
           "enchantment": "minecraft:protection",
           "id": 4,
           "level": 2,
@@ -85,7 +85,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Fire Protection II to the Helmet",
+          "description": "Gives the enchantment Fire Protection II to the Chestplate",
           "enchantment": "minecraft:fire_protection",
           "id": 5,
           "level": 2,
@@ -102,7 +102,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Blast Protection II to the Helmet",
+          "description": "Gives the enchantment Blast Protection II to the Chestplate",
           "enchantment": "minecraft:blast_protection",
           "id": 6,
           "level": 2,
@@ -119,7 +119,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Projectile Protection II to the Helmet",
+          "description": "Gives the enchantment Projectile Protection II to the Chestplate",
           "enchantment": "minecraft:projectile_protection",
           "id": 7,
           "level": 2,
@@ -138,7 +138,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Gives the Helmet more base armor",
+          "description": "Gives the Chestplate more base armor",
           "id": 8,
           "key": [
             "minecraft:armor"
@@ -161,7 +161,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Gives the Helmet more armor toughness",
+          "description": "Gives the Chestplate more armor toughness",
           "id": 9,
           "key": [
             "minecraft:armor_toughness"
@@ -182,14 +182,26 @@
         }
       },
       {
-        "type": "crystal_tools:enchantment",
+        "type": "crystal_tools:attribute",
         "node": {
-          "description": "Gives the enchantment Aqua Affinity to the Helmet",
-          "enchantment": "minecraft:aqua_affinity",
+          "description": "Gives you bonus health while wearing the Chestplate",
           "id": 10,
-          "level": 1,
-          "name": "Aqua Affinity",
-          "requirements": []
+          "key": [
+            "minecraft:max_health"
+          ],
+          "limit": 1,
+          "name": "Health Bonus I",
+          "requirements": [
+            {
+              "or_node": [
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          ],
+          "value": 2.0
         }
       }
     ],
@@ -197,7 +209,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Protection III to the Helmet",
+          "description": "Gives the enchantment Protection III to the Chestplate",
           "enchantment": "minecraft:protection",
           "id": 11,
           "level": 2,
@@ -214,7 +226,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Fire Protection III to the Helmet",
+          "description": "Gives the enchantment Fire Protection III to the Chestplate",
           "enchantment": "minecraft:fire_protection",
           "id": 12,
           "level": 2,
@@ -231,7 +243,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Blast Protection III to the Helmet",
+          "description": "Gives the enchantment Blast Protection III to the Chestplate",
           "enchantment": "minecraft:blast_protection",
           "id": 13,
           "level": 2,
@@ -248,7 +260,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Projectile Protection III to the Helmet",
+          "description": "Gives the enchantment Projectile Protection III to the Chestplate",
           "enchantment": "minecraft:projectile_protection",
           "id": 14,
           "level": 2,
@@ -267,7 +279,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Gives the Helmet more base armor",
+          "description": "Gives the Chestplate more base armor",
           "id": 15,
           "key": [
             "minecraft:armor"
@@ -295,7 +307,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Gives the Helmet more armor toughness",
+          "description": "Gives the Chestplate more armor toughness",
           "id": 16,
           "key": [
             "minecraft:armor_toughness"
@@ -321,14 +333,21 @@
         }
       },
       {
-        "type": "crystal_tools:enchantment",
+        "type": "crystal_tools:attribute",
         "node": {
-          "description": "Gives the enchantment Respiration III to the Helmet",
-          "enchantment": "minecraft:respiration",
+          "description": "Gives you bonus health while wearing the Chestplate",
           "id": 17,
-          "level": 3,
-          "name": "Respiration III",
+          "key": [
+            "minecraft:max_health"
+          ],
+          "limit": 1,
+          "name": "Health Bonus II",
           "requirements": [
+            {
+              "node": [
+                10
+              ]
+            },
             {
               "or_node": [
                 11,
@@ -337,13 +356,14 @@
                 14
               ]
             }
-          ]
+          ],
+          "value": 2.0
         }
       },
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Automatically repairs the Helmet over time",
+          "description": "Automatically repairs the Chestplate over time",
           "id": 18,
           "key": [
             "crystal_tools:auto_repair"
@@ -368,7 +388,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Protection IV to the Helmet",
+          "description": "Gives the enchantment Protection IV to the Chestplate",
           "enchantment": "minecraft:protection",
           "id": 19,
           "level": 2,
@@ -385,7 +405,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Fire Protection IV to the Helmet",
+          "description": "Gives the enchantment Fire Protection IV to the Chestplate",
           "enchantment": "minecraft:fire_protection",
           "id": 20,
           "level": 2,
@@ -402,7 +422,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Blast Protection IV to the Helmet",
+          "description": "Gives the enchantment Blast Protection IV to the Chestplate",
           "enchantment": "minecraft:blast_protection",
           "id": 21,
           "level": 2,
@@ -419,7 +439,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Projectile Protection IV to the Helmet",
+          "description": "Gives the enchantment Projectile Protection IV to the Chestplate",
           "enchantment": "minecraft:projectile_protection",
           "id": 22,
           "level": 2,
@@ -438,7 +458,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Gives the Helmet more base armor",
+          "description": "Gives the Chestplate more base armor",
           "id": 23,
           "key": [
             "minecraft:armor"
@@ -466,7 +486,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Gives the Helmet more armor toughness",
+          "description": "Gives the Chestplate more armor toughness",
           "id": 24,
           "key": [
             "minecraft:armor_toughness"
@@ -494,7 +514,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Thorns III to the Helmet",
+          "description": "Gives the enchantment Thorns III to the Chestplate",
           "enchantment": "minecraft:thorns",
           "id": 25,
           "level": 3,
@@ -512,16 +532,21 @@
         }
       },
       {
-        "type": "crystal_tools:data_component",
+        "type": "crystal_tools:attribute",
         "node": {
-          "description": "Gives you night vision while wearing the Helmet",
+          "description": "Gives you bonus health while wearing the Chestplate",
           "id": 26,
           "key": [
-            "crystal_tools:night_vision"
+            "minecraft:max_health"
           ],
           "limit": 1,
-          "name": "Night Vision",
+          "name": "Health Bonus III",
           "requirements": [
+            {
+              "node": [
+                17
+              ]
+            },
             {
               "or_node": [
                 19,
@@ -531,11 +556,7 @@
               ]
             }
           ],
-          "subtext": {
-            "color": "#ABABAB",
-            "text": "Can be disabled with the mode switch key"
-          },
-          "value": 1.0
+          "value": 4.0
         }
       }
     ]

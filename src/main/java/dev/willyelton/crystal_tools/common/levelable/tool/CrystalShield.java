@@ -93,12 +93,6 @@ public class CrystalShield extends ShieldItem implements LevelableItem, EntityTa
     }
 
     @Override
-    public int getMaxDamage(ItemStack stack) {
-        int bonusDurability = stack.getOrDefault(DataComponents.DURABILITY_BONUS, 0);
-        return stack.getOrDefault(net.minecraft.core.component.DataComponents.MAX_DAMAGE, 0) + bonusDurability;
-    }
-
-    @Override
     public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<Item> onBroken) {
         int durability = this.getMaxDamage(stack) - stack.getDamageValue();
 

@@ -105,4 +105,12 @@ public class SkillTreeDescriptions {
     public String nightVision() {
         return String.format("Gives you night vision while wearing the %s", toolName);
     }
+
+    public String healthBonus() {
+        return String.format("Gives you bonus health while wearing the %s", toolName);
+    }
+
+    public String moveSpeed() {
+        return String.format("Gives you bonus speed while wearing the %s", toolName);
+    }
 }

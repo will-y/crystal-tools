@@ -44,15 +44,6 @@ public class LevelableArmor extends Item implements LevelableItem {
         this.itemType = itemType;
     }
 
-    // Attributes
-    public int getDefense(ItemStack stack) {
-        return stack.getOrDefault(DataComponents.ARMOR_BONUS, 0);
-    }
-
-    public float getToughness(ItemStack stack) {
-        return stack.getOrDefault(DataComponents.TOUGHNESS_BONUS, 0F);
-    }
-
     @Override
     public String getItemType() {
         return this.itemType;
@@ -78,12 +69,6 @@ public class LevelableArmor extends Item implements LevelableItem {
         }
 
         appendLevelableHoverText(stack, consumer, this, flag);
-    }
-
-    @Override
-    public int getMaxDamage(ItemStack stack) {
-        int bonusDurability = stack.getOrDefault(DataComponents.DURABILITY_BONUS, 0);
-        return CRYSTAL.durability() + bonusDurability;
     }
 
     @Override

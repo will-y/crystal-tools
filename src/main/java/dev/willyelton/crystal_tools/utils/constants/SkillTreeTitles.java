@@ -78,6 +78,14 @@ public class SkillTreeTitles {
         return getName("Toughness", level);
     }
 
+    public static String healthBonus(int level) {
+        return getName("Health Bonus", level);
+    }
+
+    public static String moveSpeed(int level) {
+        return getName("Speed Bonus", level);
+    }
+
     private static String getName(String title, int level) {
         if (level == 0) {
             return "Infinite " + title;
