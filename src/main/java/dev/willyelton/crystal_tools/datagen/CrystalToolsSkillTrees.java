@@ -6,6 +6,7 @@ import dev.willyelton.crystal_tools.common.events.DatapackRegistryEvents;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.utils.constants.SkillTreeDescriptions;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -14,15 +15,29 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
+import org.checkerframework.checker.units.qual.C;
 
 import java.util.List;
 
+import static dev.willyelton.crystal_tools.utils.StringUtils.formatKey;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.*;
 import static dev.willyelton.crystal_tools.utils.constants.SkillConstants.*;
 
 public class CrystalToolsSkillTrees {
-    public static void skillTrees(BootstrapContext<SkillData> context) {
+    private final BootstrapContext<SkillData> context;
+
+    public static void register(BootstrapContext<SkillData> context) {
+        CrystalToolsSkillTrees skillTrees = new CrystalToolsSkillTrees(context);
+        skillTrees.registerSkillTrees();
+    }
+
+    public CrystalToolsSkillTrees(BootstrapContext<SkillData> context) {
+        this.context = context;
+    }
+
+    public void registerSkillTrees() {
         // Basic Mining Tools
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
                 ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "crystal_pickaxe")), basicMiningTool("Pickaxe"));
@@ -36,9 +51,13 @@ public class CrystalToolsSkillTrees {
         // Food
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
                 ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "crystal_apple")), food("Apple"));
+
+        // Armor
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+                ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "crystal_helmet")), helmet());
     }
 
-    private static SkillData basicMiningTool(String name) {
+    private SkillData basicMiningTool(String name) {
         SkillTreeDescriptions desc = new SkillTreeDescriptions(name);
 
         boolean axe = name.equals("Axe");
@@ -135,7 +154,7 @@ public class CrystalToolsSkillTrees {
                 .build();
     }
 
-    private static SkillData food(String name) {
+    private SkillData food(String name) {
         SkillTreeDescriptions desc = new SkillTreeDescriptions(name);
 
         return SkillData.builder()
@@ -228,12 +247,91 @@ public class CrystalToolsSkillTrees {
                 .build();
     }
 
-    private static ResourceLocation attr(Holder<Attribute> attribute) {
+    private SkillData helmet() {
+        SkillTreeDescriptions desc = new SkillTreeDescriptions("Helmet");
+
+        SkillData.Builder builder = SkillData.builder();
+        armorTier(builder, 0, -1, 1, desc);
+        armorTier(builder, 4, 0, 2, desc);
+
+        builder
+                .tier()
+                    .attributeNode(8, baseArmor(1), desc.baseArmor(), attr(Attributes.ARMOR), 1)
+                        .previousTierOrRequirements()
+                    .attributeNode(9, toughness(1), desc.toughness(), attr(Attributes.ARMOR_TOUGHNESS), 0.25F)
+                        .previousTierOrRequirements()
+                    .enchantmentNode(10, enchantmentName(Enchantments.AQUA_AFFINITY, 0), desc.enchantment(enchantmentName(Enchantments.AQUA_AFFINITY, 0)), Enchantments.AQUA_AFFINITY, 1);
+
+        armorTier(builder, 11, 4, 3, desc);
+
+        builder
+                .tier()
+                    .attributeNode(15, baseArmor(2), desc.baseArmor(), attr(Attributes.ARMOR), 1)
+                        .nodeRequirement(8)
+                        .previousTierOrRequirements()
+                    .attributeNode(16, toughness(2), desc.toughness(), attr(Attributes.ARMOR_TOUGHNESS), 0.25F)
+                        .nodeRequirement(9)
+                        .previousTierOrRequirements()
+                .enchantmentNode(17, enchantmentName(Enchantments.RESPIRATION, 3), desc.enchantment(enchantmentName(Enchantments.RESPIRATION, 3)), Enchantments.RESPIRATION, 3)
+                    .previousTierOrRequirements()
+                .infiniteDataComponentNode(18, AUTO_REPAIR, desc.autoRepair(), DataComponents.AUTO_REPAIR.getId(), 1)
+                    .previousTierOrRequirements();
+
+        armorTier(builder, 19, 11, 4, desc);
+
+        builder
+                .tier()
+                    .attributeNode(23, baseArmor(3), desc.baseArmor(), attr(Attributes.ARMOR), 1)
+                        .nodeRequirement(15)
+                        .previousTierOrRequirements()
+                    .attributeNode(24, toughness(3), desc.toughness(), attr(Attributes.ARMOR_TOUGHNESS), 0.5F)
+                        .nodeRequirement(16)
+                        .previousTierOrRequirements()
+                    .enchantmentNode(25, enchantmentName(Enchantments.THORNS, 3), desc.enchantment(enchantmentName(Enchantments.THORNS, 3)), Enchantments.THORNS, 3)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(26, NIGHT_VISION, desc.nightVision(), DataComponents.NIGHT_VISION.getId(), 1)
+                        .subText("Can be disabled with the mode switch key", "#ABABAB")
+                        .previousTierOrRequirements();
+
+
+        return builder.build();
+    }
+
+    private SkillData.Builder armorTier(SkillData.Builder builder, int indexStart, int prevIndexStart, int level, SkillTreeDescriptions desc) {
+        return builder
+                .tier()
+                    .enchantmentNode(indexStart++, protection(level), desc.enchantment(enchantmentName(Enchantments.PROTECTION, level)), Enchantments.PROTECTION, 2)
+                        .optional(prevIndexStart >= 0)
+                            .nodeRequirement(prevIndexStart++)
+                        .endOptional()
+                    .enchantmentNode(indexStart++, fireProtection(2), desc.enchantment(enchantmentName(Enchantments.FIRE_PROTECTION, level)), Enchantments.FIRE_PROTECTION, 2)
+                        .optional(prevIndexStart >= 0)
+                            .nodeRequirement(prevIndexStart++)
+                        .endOptional()
+                    .enchantmentNode(indexStart++, blastProtection(2), desc.enchantment(enchantmentName(Enchantments.BLAST_PROTECTION, level)), Enchantments.BLAST_PROTECTION, 2)
+                        .optional(prevIndexStart >= 0)
+                            .nodeRequirement(prevIndexStart++)
+                        .endOptional()
+                    .enchantmentNode(indexStart, projectileProtection(2), desc.enchantment(enchantmentName(Enchantments.PROJECTILE_PROTECTION, level)), Enchantments.PROJECTILE_PROTECTION, 2)
+                        .optional(prevIndexStart >= 0)
+                            .nodeRequirement(prevIndexStart)
+                        .endOptional();
+    }
+
+    private ResourceLocation attr(Holder<Attribute> attribute) {
         ResourceKey<?> key = attribute.getKey();
         if (key == null) {
             throw new IllegalArgumentException("Invalid attribute " + attribute);
         }
 
         return key.location();
+    }
+
+    private String enchantmentName(ResourceKey<Enchantment> enchantment, int level) {
+        if (level == 0) {
+            return formatKey(enchantment.location().getPath());
+        } else {
+            return formatKey(enchantment.location().getPath()) + " " + intToRomanNumeral(level);
+        }
     }
 }

@@ -1,0 +1,197 @@
+{
+  "tiers": [
+    [
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Protection I to the Helmet",
+          "enchantment": "minecraft:protection",
+          "id": 0,
+          "level": 2,
+          "name": "Prot I",
+          "requirements": []
+        }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Fire Protection I to the Helmet",
+          "enchantment": "minecraft:fire_protection",
+          "id": 1,
+          "level": 2,
+          "name": "Fire Prot II",
+          "requirements": [
+            {
+              "node": [
+                0
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Blast Protection I to the Helmet",
+          "enchantment": "minecraft:blast_protection",
+          "id": 2,
+          "level": 2,
+          "name": "Blast Prot II",
+          "requirements": [
+            {
+              "node": [
+                1
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Projectile Protection I to the Helmet",
+          "enchantment": "minecraft:projectile_protection",
+          "id": 3,
+          "level": 2,
+          "name": "Projectile Prot II",
+          "requirements": [
+            {
+              "node": [
+                2
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Protection II to the Helmet",
+          "enchantment": "minecraft:protection",
+          "id": 4,
+          "level": 2,
+          "name": "Prot II",
+          "requirements": [
+            {
+              "node": [
+                0
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Fire Protection II to the Helmet",
+          "enchantment": "minecraft:fire_protection",
+          "id": 5,
+          "level": 2,
+          "name": "Fire Prot II",
+          "requirements": [
+            {
+              "node": [
+                1
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Blast Protection II to the Helmet",
+          "enchantment": "minecraft:blast_protection",
+          "id": 6,
+          "level": 2,
+          "name": "Blast Prot II",
+          "requirements": [
+            {
+              "node": [
+                2
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Projectile Protection II to the Helmet",
+          "enchantment": "minecraft:projectile_protection",
+          "id": 7,
+          "level": 2,
+          "name": "Projectile Prot II",
+          "requirements": [
+            {
+              "node": [
+                3
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Gives the Helmet more base armor",
+          "id": 8,
+          "key": [
+            "minecraft:armor"
+          ],
+          "limit": 1,
+          "name": "Base Armor I",
+          "requirements": [
+            {
+              "or_node": [
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Gives the Helmet more armor toughness",
+          "id": 9,
+          "key": [
+            "minecraft:armor_toughness"
+          ],
+          "limit": 1,
+          "name": "Toughness I",
+          "requirements": [
+            {
+              "or_node": [
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Aqua Affinity to the Helmet",
+          "enchantment": "minecraft:aqua_affinity",
+          "id": 10,
+          "level": 1,
+          "name": "Aqua Affinity",
+          "requirements": []
+        }
+      }
+    ]
+  ]
+}

@@ -17,7 +17,6 @@ public class CrystalTools {
     public static final String MODID = "crystal_tools";
 
     public CrystalTools(IEventBus modEventBus, ModContainer container) {
-        modEventBus.addListener(DataGeneration::generate);
 
         // Register everything
         Registration.init(modEventBus);

@@ -14,6 +14,7 @@ public class SkillTreeTitles {
     public static final String LEAF_MINER = "Leaf Miner";
     public static final String ALWAYS_EAT = "Always Edible";
     public static final String EFFECT_SUB_TEXT = "Increases duration for each level";
+    public static final String NIGHT_VISION = "Night Vision";
 
     // TODO: could this be expanded easily?
     public static final String MINING_3x3 = "3x3 Mining";
@@ -53,6 +54,30 @@ public class SkillTreeTitles {
         return getName("Eat Speed", level);
     }
 
+    public static String protection(int level) {
+        return getName("Prot", level);
+    }
+
+    public static String fireProtection(int level) {
+        return getName("Fire Prot", level);
+    }
+
+    public static String blastProtection(int level) {
+        return getName("Blast Prot", level);
+    }
+
+    public static String projectileProtection(int level) {
+        return getName("Projectile Prot", level);
+    }
+
+    public static String baseArmor(int level) {
+        return getName("Base Armor", level);
+    }
+
+    public static String toughness(int level) {
+        return getName("Toughness", level);
+    }
+
     private static String getName(String title, int level) {
         if (level == 0) {
             return "Infinite " + title;
@@ -61,7 +86,7 @@ public class SkillTreeTitles {
         return String.format(title + " %s", intToRomanNumeral(level));
     }
 
-    private static String intToRomanNumeral(int number) {
+    public static String intToRomanNumeral(int number) {
         return switch (number) {
             case 1 -> "I";
             case 2 -> "II";

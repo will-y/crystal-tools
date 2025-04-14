@@ -1,5 +1,8 @@
 package dev.willyelton.crystal_tools.utils.constants;
 
+import net.minecraft.core.Holder;
+import net.minecraft.world.item.enchantment.Enchantment;
+
 public class SkillTreeDescriptions {
     private final String toolName;
 
@@ -85,5 +88,21 @@ public class SkillTreeDescriptions {
 
     public String effect(String effectName, int duration) {
         return String.format("Adds the %s effect for %d ticks when you eat the %s", effectName, duration, toolName);
+    }
+
+    public String enchantment(String enchantmentName) {
+        return String.format("Gives the enchantment %s to the %s", enchantmentName, toolName);
+    }
+
+    public String baseArmor() {
+        return String.format("Gives the %s more base armor", toolName);
+    }
+
+    public String toughness() {
+        return String.format("Gives the %s more armor toughness", toolName);
+    }
+
+    public String nightVision() {
+        return String.format("Gives you night vision while wearing the %s", toolName);
     }
 }
