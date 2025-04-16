@@ -1,4 +1,5 @@
 {
+  "equipmentSlot": "chest",
   "tiers": [
     [
       {
@@ -7,7 +8,7 @@
           "description": "Gives the enchantment Protection I to the Chestplate",
           "enchantment": "minecraft:protection",
           "id": 0,
-          "level": 2,
+          "level": 1,
           "name": "Prot I",
           "requirements": []
         }
@@ -18,8 +19,8 @@
           "description": "Gives the enchantment Fire Protection I to the Chestplate",
           "enchantment": "minecraft:fire_protection",
           "id": 1,
-          "level": 2,
-          "name": "Fire Prot II",
+          "level": 1,
+          "name": "Fire Prot I",
           "requirements": [
             {
               "node": [
@@ -35,8 +36,8 @@
           "description": "Gives the enchantment Blast Protection I to the Chestplate",
           "enchantment": "minecraft:blast_protection",
           "id": 2,
-          "level": 2,
-          "name": "Blast Prot II",
+          "level": 1,
+          "name": "Blast Prot I",
           "requirements": [
             {
               "node": [
@@ -52,8 +53,8 @@
           "description": "Gives the enchantment Projectile Protection I to the Chestplate",
           "enchantment": "minecraft:projectile_protection",
           "id": 3,
-          "level": 2,
-          "name": "Projectile Prot II",
+          "level": 1,
+          "name": "Projectile Prot I",
           "requirements": [
             {
               "node": [
@@ -212,7 +213,7 @@
           "description": "Gives the enchantment Protection III to the Chestplate",
           "enchantment": "minecraft:protection",
           "id": 11,
-          "level": 2,
+          "level": 3,
           "name": "Prot III",
           "requirements": [
             {
@@ -229,8 +230,8 @@
           "description": "Gives the enchantment Fire Protection III to the Chestplate",
           "enchantment": "minecraft:fire_protection",
           "id": 12,
-          "level": 2,
-          "name": "Fire Prot II",
+          "level": 3,
+          "name": "Fire Prot III",
           "requirements": [
             {
               "node": [
@@ -246,8 +247,8 @@
           "description": "Gives the enchantment Blast Protection III to the Chestplate",
           "enchantment": "minecraft:blast_protection",
           "id": 13,
-          "level": 2,
-          "name": "Blast Prot II",
+          "level": 3,
+          "name": "Blast Prot III",
           "requirements": [
             {
               "node": [
@@ -263,8 +264,8 @@
           "description": "Gives the enchantment Projectile Protection III to the Chestplate",
           "enchantment": "minecraft:projectile_protection",
           "id": 14,
-          "level": 2,
-          "name": "Projectile Prot II",
+          "level": 3,
+          "name": "Projectile Prot III",
           "requirements": [
             {
               "node": [
@@ -391,7 +392,7 @@
           "description": "Gives the enchantment Protection IV to the Chestplate",
           "enchantment": "minecraft:protection",
           "id": 19,
-          "level": 2,
+          "level": 4,
           "name": "Prot IV",
           "requirements": [
             {
@@ -408,8 +409,8 @@
           "description": "Gives the enchantment Fire Protection IV to the Chestplate",
           "enchantment": "minecraft:fire_protection",
           "id": 20,
-          "level": 2,
-          "name": "Fire Prot II",
+          "level": 4,
+          "name": "Fire Prot IV",
           "requirements": [
             {
               "node": [
@@ -425,8 +426,8 @@
           "description": "Gives the enchantment Blast Protection IV to the Chestplate",
           "enchantment": "minecraft:blast_protection",
           "id": 21,
-          "level": 2,
-          "name": "Blast Prot II",
+          "level": 4,
+          "name": "Blast Prot IV",
           "requirements": [
             {
               "node": [
@@ -442,8 +443,8 @@
           "description": "Gives the enchantment Projectile Protection IV to the Chestplate",
           "enchantment": "minecraft:projectile_protection",
           "id": 22,
-          "level": 2,
-          "name": "Projectile Prot II",
+          "level": 4,
+          "name": "Projectile Prot IV",
           "requirements": [
             {
               "node": [

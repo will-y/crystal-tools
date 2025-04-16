@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.common.levelable.skill.node;
 
 import com.mojang.serialization.Codec;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillSubText;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirement;
@@ -103,7 +104,7 @@ public sealed abstract class SkillDataNode permits AttributeNode, DataComponentN
 
     public abstract SkillNodeType getSkillNodeType();
 
-    public abstract void processNode(ItemStack stack, int pointsToSpend, RegistryAccess registryAccess);
+    public abstract void processNode(SkillData skillData, ItemStack stack, int pointsToSpend, RegistryAccess registryAccess);
 
     public static Codec<SkillDataNode> CODEC = ResourceLocation.CODEC.xmap(SkillNodeType::fromResourceLocation, SkillNodeType::resourceLocation)
             .dispatch(SkillDataNode::getSkillNodeType, SkillNodeType::codec);

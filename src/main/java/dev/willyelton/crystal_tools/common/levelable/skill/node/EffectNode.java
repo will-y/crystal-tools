@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.common.levelable.skill.node;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillSubText;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirement;
 import net.minecraft.core.RegistryAccess;
@@ -58,7 +59,7 @@ public final class EffectNode extends SkillDataNode {
     }
 
     @Override
-    public void processNode(ItemStack stack, int pointsToSpend, RegistryAccess registryAccess) {
+    public void processNode(SkillData skillData, ItemStack stack, int pointsToSpend, RegistryAccess registryAccess) {
         Consumable consumable = stack.get(DataComponents.CONSUMABLE);
 
         if (consumable != null) {

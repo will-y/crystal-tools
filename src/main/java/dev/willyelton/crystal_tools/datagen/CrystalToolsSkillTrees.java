@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Items;
@@ -84,6 +85,8 @@ public class CrystalToolsSkillTrees {
                 Registration.CRYSTAL_CHESTPLATE.getId()), chestplate());
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
                 Registration.CRYSTAL_LEGGINGS.getId()), leggings());
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+                Registration.CRYSTAL_BOOTS.getId()), boots());
     }
 
     private SkillData basicMiningTool(String name) {
@@ -91,7 +94,7 @@ public class CrystalToolsSkillTrees {
 
         boolean axe = name.equals("Axe");
 
-        return SkillData.builder()
+        return SkillData.builder(EquipmentSlot.MAINHAND)
                 .tier()
                     .attributeNode(0, miningSpeed(1), desc.miningSpeed(), attr(Attributes.MINING_EFFICIENCY), 6F)
                     .dataComponentNode(1, durability(1), desc.durability(), DURABILITY, 200)
@@ -186,7 +189,7 @@ public class CrystalToolsSkillTrees {
     private SkillData food(String name) {
         SkillTreeDescriptions desc = new SkillTreeDescriptions(name);
 
-        return SkillData.builder()
+        return SkillData.builder(EquipmentSlot.MAINHAND)
                 .tier()
                     .nutrition(0, 1, 2, desc.nutrition())
                     .saturation(1, 1, 0.4F, desc.saturation())
@@ -279,7 +282,7 @@ public class CrystalToolsSkillTrees {
     private SkillData helmet() {
         SkillTreeDescriptions desc = new SkillTreeDescriptions("Helmet");
 
-        SkillData.Builder builder = SkillData.builder();
+        SkillData.Builder builder = SkillData.builder(EquipmentSlot.HEAD);
         armorTier(builder, 0, -1, 1, desc);
         armorTier(builder, 4, 0, 2, desc);
 
@@ -329,7 +332,7 @@ public class CrystalToolsSkillTrees {
     private SkillData chestplate() {
         SkillTreeDescriptions desc = new SkillTreeDescriptions("Chestplate");
 
-        SkillData.Builder builder = SkillData.builder();
+        SkillData.Builder builder = SkillData.builder(EquipmentSlot.CHEST);
         armorTier(builder, 0, -1, 1, desc);
         armorTier(builder, 4, 0, 2, desc);
 
@@ -381,7 +384,7 @@ public class CrystalToolsSkillTrees {
     private SkillData leggings() {
         SkillTreeDescriptions desc = new SkillTreeDescriptions("Leggings");
 
-        SkillData.Builder builder = SkillData.builder();
+        SkillData.Builder builder = SkillData.builder(EquipmentSlot.LEGS);
         armorTier(builder, 0, -1, 1, desc);
         builder.enchantmentNode(4, enchantmentName(Enchantments.SWIFT_SNEAK, 1), desc.enchantment(enchantmentName(Enchantments.SWIFT_SNEAK, 1)), Enchantments.SWIFT_SNEAK, 1);
         armorTier(builder, 5, 0, 2, desc);
@@ -445,7 +448,7 @@ public class CrystalToolsSkillTrees {
     private SkillData boots() {
         SkillTreeDescriptions desc = new SkillTreeDescriptions("Boots");
 
-        SkillData.Builder builder = SkillData.builder();
+        SkillData.Builder builder = SkillData.builder(EquipmentSlot.FEET);
         armorTier(builder, 0, -1, 1, desc);
         armorTier(builder, 4, 0, 2, desc);
 
@@ -455,7 +458,8 @@ public class CrystalToolsSkillTrees {
                         .previousTierOrRequirements()
                     .attributeNode(9, toughness(1), desc.toughness(), attr(Attributes.ARMOR_TOUGHNESS), 0.25F)
                         .previousTierOrRequirements()
-                    .enchantmentNode(10, enchantmentName(Enchantments.FEATHER_FALLING, 4), desc.enchantment(enchantmentName(Enchantments.FEATHER_FALLING, 4)), Enchantments.FEATHER_FALLING, 4);
+                    .enchantmentNode(10, enchantmentName(Enchantments.FEATHER_FALLING, 4), desc.enchantment(enchantmentName(Enchantments.FEATHER_FALLING, 4)), Enchantments.FEATHER_FALLING, 4)
+                        .previousTierOrRequirements();
 
         armorTier(builder, 11, 4, 3, desc);
 
@@ -495,25 +499,25 @@ public class CrystalToolsSkillTrees {
         return builder.build();
     }
 
-    private SkillData.Builder armorTier(SkillData.Builder builder, int indexStart, int prevIndexStart, int level, SkillTreeDescriptions desc) {
-        return builder
-                .tier()
-                    .enchantmentNode(indexStart++, protection(level), desc.enchantment(enchantmentName(Enchantments.PROTECTION, level)), Enchantments.PROTECTION, 2)
-                        .optional(prevIndexStart >= 0)
-                            .nodeRequirement(prevIndexStart++)
-                        .endOptional()
-                    .enchantmentNode(indexStart++, fireProtection(2), desc.enchantment(enchantmentName(Enchantments.FIRE_PROTECTION, level)), Enchantments.FIRE_PROTECTION, 2)
-                        .optional(prevIndexStart >= 0)
-                            .nodeRequirement(prevIndexStart++)
-                        .endOptional()
-                    .enchantmentNode(indexStart++, blastProtection(2), desc.enchantment(enchantmentName(Enchantments.BLAST_PROTECTION, level)), Enchantments.BLAST_PROTECTION, 2)
-                        .optional(prevIndexStart >= 0)
-                            .nodeRequirement(prevIndexStart++)
-                        .endOptional()
-                    .enchantmentNode(indexStart, projectileProtection(2), desc.enchantment(enchantmentName(Enchantments.PROJECTILE_PROTECTION, level)), Enchantments.PROJECTILE_PROTECTION, 2)
-                        .optional(prevIndexStart >= 0)
-                            .nodeRequirement(prevIndexStart)
-                        .endOptional();
+    private void armorTier(SkillData.Builder builder, int indexStart, int prevIndexStart, int level, SkillTreeDescriptions desc) {
+        builder
+            .tier()
+                .enchantmentNode(indexStart++, protection(level), desc.enchantment(enchantmentName(Enchantments.PROTECTION, level)), Enchantments.PROTECTION, level)
+                    .optional(prevIndexStart >= 0)
+                        .nodeRequirement(prevIndexStart++)
+                    .endOptional()
+                .enchantmentNode(indexStart++, fireProtection(level), desc.enchantment(enchantmentName(Enchantments.FIRE_PROTECTION, level)), Enchantments.FIRE_PROTECTION, level)
+                    .optional(prevIndexStart >= 0)
+                        .nodeRequirement(prevIndexStart++)
+                    .endOptional()
+                .enchantmentNode(indexStart++, blastProtection(level), desc.enchantment(enchantmentName(Enchantments.BLAST_PROTECTION, level)), Enchantments.BLAST_PROTECTION, level)
+                    .optional(prevIndexStart >= 0)
+                        .nodeRequirement(prevIndexStart++)
+                    .endOptional()
+                .enchantmentNode(indexStart, projectileProtection(level), desc.enchantment(enchantmentName(Enchantments.PROJECTILE_PROTECTION, level)), Enchantments.PROJECTILE_PROTECTION, level)
+                    .optional(prevIndexStart >= 0)
+                        .nodeRequirement(prevIndexStart)
+                    .endOptional();
     }
 
     private ResourceLocation attr(Holder<Attribute> attribute) {

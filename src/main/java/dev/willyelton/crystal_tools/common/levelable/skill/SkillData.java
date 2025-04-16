@@ -21,6 +21,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -34,18 +35,24 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class SkillData {
+    private final EquipmentSlot equipmentSlot;
     private final List<List<SkillDataNode>> nodes;
     // Flattened nodes, calculated lazily
     private List<SkillDataNode> flatNodes = null;
     // Map of nodes calculated lazily
     private Map<Integer, SkillDataNode> nodeMap = null;
 
-    private SkillData(List<List<SkillDataNode>> nodes) {
+    private SkillData(List<List<SkillDataNode>> nodes, EquipmentSlot equipmentSlot) {
         this.nodes = nodes;
+        this.equipmentSlot = equipmentSlot;
     }
 
     public List<List<SkillDataNode>> getAllNodesByTier() {
         return this.nodes;
+    }
+
+    public EquipmentSlot getEquipmentSlot() {
+        return this.equipmentSlot;
     }
 
     public List<SkillDataNode> getAllNodes() {
@@ -68,26 +75,30 @@ public class SkillData {
 
     public static final Codec<SkillData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             SkillDataNode.CODEC.listOf().listOf()
-                    .fieldOf("tiers").forGetter(SkillData::getAllNodesByTier)
+                    .fieldOf("tiers").forGetter(SkillData::getAllNodesByTier),
+            EquipmentSlot.CODEC.fieldOf("equipmentSlot").forGetter(SkillData::getEquipmentSlot)
     ).apply(instance, SkillData::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, SkillData> STREAM_CODEC = StreamCodec.composite(
             SkillDataNode.STREAM_CODEC.apply(ByteBufCodecs.list()).apply(ByteBufCodecs.list()), SkillData::getAllNodesByTier,
+            EquipmentSlot.STREAM_CODEC, SkillData::getEquipmentSlot,
             SkillData::new);
 
-    public static Builder builder() {
-        return new Builder();
+    public static Builder builder(EquipmentSlot slot) {
+        return new Builder(slot);
     }
 
     public static class Builder {
         private final List<List<SkillDataNode>> nodes;
+        private final EquipmentSlot equipmentSlot;
         private List<SkillDataNode> currentTier;
         private List<SkillDataNode> previousTier;
         private SkillDataNode currentNode = null;
         private boolean including = true;
 
-        private Builder() {
+        private Builder(EquipmentSlot slot) {
             nodes = new ArrayList<>();
+            equipmentSlot = slot;
         }
 
         public Builder tier() {
@@ -265,7 +276,7 @@ public class SkillData {
         }
 
         public SkillData build() {
-            return new SkillData(nodes);
+            return new SkillData(nodes, equipmentSlot);
         }
     }
 }

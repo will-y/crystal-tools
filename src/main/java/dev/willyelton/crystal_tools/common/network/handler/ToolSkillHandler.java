@@ -40,7 +40,7 @@ public class ToolSkillHandler {
                         SkillPoints points = heldTool.getOrDefault(DataComponents.SKILL_POINT_DATA, new SkillPoints()).copy();
                         int skillPoints = heldTool.getOrDefault(DataComponents.SKILL_POINTS, 0);
                         int toSpend = Math.min(skillPoints, payload.pointsToSpend());
-                        node.processNode(heldTool, toSpend, level.registryAccess());
+                        node.processNode(data, heldTool, toSpend, level.registryAccess());
                         points.addPoints(payload.nodeId(), toSpend);
                         heldTool.set(DataComponents.SKILL_POINT_DATA, points);
                         DataComponents.addToComponent(heldTool, DataComponents.SKILL_POINTS, -toSpend);

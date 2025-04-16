@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.common.levelable.skill.node;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.willyelton.crystal_tools.CrystalTools;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillSubText;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirement;
 import net.minecraft.core.Holder;
@@ -63,8 +64,9 @@ public final class AttributeNode extends SkillDataNode {
         return SkillNodeType.ATTRIBUTE;
     }
 
+    // TODO: Pass in skill data
     @Override
-    public void processNode(ItemStack stack, int pointsToSpend, RegistryAccess registryAccess) {
+    public void processNode(SkillData skillData, ItemStack stack, int pointsToSpend, RegistryAccess registryAccess) {
         ItemAttributeModifiers modifiers = stack.getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.EMPTY);
         Registry<Attribute> attributeRegistry = registryAccess.lookupOrThrow(Registries.ATTRIBUTE);
         ItemAttributeModifiers newModifiers = modifiers;
@@ -75,7 +77,7 @@ public final class AttributeNode extends SkillDataNode {
             double bonusAmount = 0;
             if (optionalAttribute.isPresent()) {
                 for (ItemAttributeModifiers.Entry entry : modifiers.modifiers()) {
-                    if (entry.attribute().is(key)) {
+                    if (entry.modifier().id().equals(rl)) {
                         bonusAmount = entry.modifier().amount();
                         break;
                     }
@@ -83,7 +85,7 @@ public final class AttributeNode extends SkillDataNode {
 
                 newModifiers = newModifiers.withModifierAdded(optionalAttribute.get(),
                         new AttributeModifier(rl, bonusAmount + value * pointsToSpend, AttributeModifier.Operation.ADD_VALUE),
-                        EquipmentSlotGroup.HAND);
+                        EquipmentSlotGroup.bySlot(skillData.getEquipmentSlot()));
             }
         }
 
