@@ -298,7 +298,7 @@ public class CrystalToolsSkillTrees {
                         .previousTierOrRequirements()
                     .enchantmentNode(10, enchantmentName(Enchantments.AQUA_AFFINITY, 0), desc.enchantment(enchantmentName(Enchantments.AQUA_AFFINITY, 0)), Enchantments.AQUA_AFFINITY, 1);
 
-        armorTier(builder, 11, 4, 3, desc);
+        armorTier(builder, 11, 4, 3, desc, true);
 
         builder
                 .tier()
@@ -313,7 +313,7 @@ public class CrystalToolsSkillTrees {
                 .infiniteDataComponentNode(18, AUTO_REPAIR, desc.autoRepair(), DataComponents.AUTO_REPAIR.getId(), 1)
                     .previousTierOrRequirements();
 
-        armorTier(builder, 19, 11, 4, desc);
+        armorTier(builder, 19, 11, 4, desc, true);
 
         builder
                 .tier()
@@ -349,7 +349,7 @@ public class CrystalToolsSkillTrees {
                     .attributeNode(10, healthBonus(1), desc.healthBonus(),attr(Attributes.MAX_HEALTH), 2)
                         .previousTierOrRequirements();
 
-        armorTier(builder, 11, 4, 3, desc);
+        armorTier(builder, 11, 4, 3, desc, true);
 
         builder
                 .tier()
@@ -365,7 +365,7 @@ public class CrystalToolsSkillTrees {
                     .infiniteDataComponentNode(18, AUTO_REPAIR, desc.autoRepair(), DataComponents.AUTO_REPAIR.getId(), 1)
                         .previousTierOrRequirements();
 
-        armorTier(builder, 19, 11, 4, desc);
+        armorTier(builder, 19, 11, 4, desc, true);
 
         builder
                 .tier()
@@ -386,7 +386,6 @@ public class CrystalToolsSkillTrees {
                     .attributeNode(27, CREATIVE_FLIGHT, desc.creativeFlight(), attr(NeoForgeMod.CREATIVE_FLIGHT), 1, 100, true)
                         .nodeRequirement(23, 24, 25, 26);
         }
-
 
         return builder.build();
     }
@@ -411,7 +410,7 @@ public class CrystalToolsSkillTrees {
                     .attributeNode(12, moveSpeed(1), desc.moveSpeed(), attr(Attributes.MOVEMENT_SPEED), 1)
                         .previousTierOrRequirements();
 
-        armorTier(builder, 13, 5, 3, desc);
+        armorTier(builder, 13, 5, 3, desc, true);
         builder.enchantmentNode(17, enchantmentName(Enchantments.SWIFT_SNEAK, 3), desc.enchantment(enchantmentName(Enchantments.SWIFT_SNEAK, 3)), Enchantments.SWIFT_SNEAK, 3)
                 .nodeRequirement(9)
                 .previousTierOrRequirements();
@@ -430,7 +429,7 @@ public class CrystalToolsSkillTrees {
                     .infiniteDataComponentNode(21, AUTO_REPAIR, desc.autoRepair(), DataComponents.AUTO_REPAIR.getId(), 1)
                         .previousTierOrRequirements();
 
-        armorTier(builder, 22, 13, 4, desc);
+        armorTier(builder, 22, 13, 4, desc, true);
         builder.enchantmentNode(26, enchantmentName(Enchantments.SWIFT_SNEAK, 4), desc.enchantment(enchantmentName(Enchantments.SWIFT_SNEAK, 4)), Enchantments.SWIFT_SNEAK, 4)
                 .nodeRequirement(17)
                 .previousTierOrRequirements();
@@ -471,7 +470,7 @@ public class CrystalToolsSkillTrees {
                     .enchantmentNode(10, enchantmentName(Enchantments.FEATHER_FALLING, 4), desc.enchantment(enchantmentName(Enchantments.FEATHER_FALLING, 4)), Enchantments.FEATHER_FALLING, 4)
                         .previousTierOrRequirements();
 
-        armorTier(builder, 11, 4, 3, desc);
+        armorTier(builder, 11, 4, 3, desc, true);
 
         builder
                 .tier()
@@ -486,7 +485,7 @@ public class CrystalToolsSkillTrees {
                     .infiniteDataComponentNode(18, AUTO_REPAIR, desc.autoRepair(), DataComponents.AUTO_REPAIR.getId(), 1)
                         .previousTierOrRequirements();
 
-        armorTier(builder, 19, 11, 4, desc);
+        armorTier(builder, 19, 11, 4, desc, true);
 
         builder
                 .tier()
@@ -508,23 +507,39 @@ public class CrystalToolsSkillTrees {
     }
 
     private void armorTier(SkillData.Builder builder, int indexStart, int prevIndexStart, int level, SkillTreeDescriptions desc) {
+        armorTier(builder, indexStart, prevIndexStart, level, desc, false);
+    }
+
+    private void armorTier(SkillData.Builder builder, int indexStart, int prevIndexStart, int level, SkillTreeDescriptions desc, boolean previousTierOrRequirements) {
         builder
             .tier()
                 .enchantmentNode(indexStart++, protection(level), desc.enchantment(enchantmentName(Enchantments.PROTECTION, level)), Enchantments.PROTECTION, level)
                     .optional(prevIndexStart >= 0)
                         .nodeRequirement(prevIndexStart++)
                     .endOptional()
+                    .optional(previousTierOrRequirements)
+                        .previousTierOrRequirements()
+                    .endOptional()
                 .enchantmentNode(indexStart++, fireProtection(level), desc.enchantment(enchantmentName(Enchantments.FIRE_PROTECTION, level)), Enchantments.FIRE_PROTECTION, level)
                     .optional(prevIndexStart >= 0)
                         .nodeRequirement(prevIndexStart++)
+                    .endOptional()
+                    .optional(previousTierOrRequirements)
+                        .previousTierOrRequirements()
                     .endOptional()
                 .enchantmentNode(indexStart++, blastProtection(level), desc.enchantment(enchantmentName(Enchantments.BLAST_PROTECTION, level)), Enchantments.BLAST_PROTECTION, level)
                     .optional(prevIndexStart >= 0)
                         .nodeRequirement(prevIndexStart++)
                     .endOptional()
+                    .optional(previousTierOrRequirements)
+                        .previousTierOrRequirements()
+                    .endOptional()
                 .enchantmentNode(indexStart, projectileProtection(level), desc.enchantment(enchantmentName(Enchantments.PROJECTILE_PROTECTION, level)), Enchantments.PROJECTILE_PROTECTION, level)
                     .optional(prevIndexStart >= 0)
                         .nodeRequirement(prevIndexStart)
+                    .endOptional()
+                    .optional(previousTierOrRequirements)
+                        .previousTierOrRequirements()
                     .endOptional();
     }
 
