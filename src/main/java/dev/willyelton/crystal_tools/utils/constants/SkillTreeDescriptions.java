@@ -113,4 +113,8 @@ public class SkillTreeDescriptions {
     public String moveSpeed() {
         return String.format("Gives you bonus speed while wearing the %s", toolName);
     }
+
+    public String creativeFlight() {
+        return "Gives you Creative Flight!";
+    }
 }

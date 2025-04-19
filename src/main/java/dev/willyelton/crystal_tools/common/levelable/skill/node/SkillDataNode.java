@@ -15,7 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public sealed abstract class SkillDataNode permits AttributeNode, DataComponentNode, EffectNode, EnchantmentNode, FoodDataComponentNode {
+public abstract class SkillDataNode {
     private final int id;
     private final String name;
     private final String description;

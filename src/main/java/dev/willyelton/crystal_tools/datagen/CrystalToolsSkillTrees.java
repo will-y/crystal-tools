@@ -17,6 +17,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.neoforged.neoforge.common.NeoForgeMod;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AUTO_
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AUTO_REPAIR;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AUTO_SMELTING;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AXE_VEIN_MINING;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.CREATIVE_FLIGHT;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.LEAF_MINER;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.MINING_3x3;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.MODE_SWITCH;
@@ -82,11 +84,13 @@ public class CrystalToolsSkillTrees {
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
                 Registration.CRYSTAL_HELMET.getId()), helmet());
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
-                Registration.CRYSTAL_CHESTPLATE.getId()), chestplate());
+                Registration.CRYSTAL_CHESTPLATE.getId()), chestplate(false));
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
                 Registration.CRYSTAL_LEGGINGS.getId()), leggings());
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
                 Registration.CRYSTAL_BOOTS.getId()), boots());
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+                Registration.CRYSTAL_ELYTRA.getId()), chestplate(true));
     }
 
     private SkillData basicMiningTool(String name) {
@@ -329,8 +333,8 @@ public class CrystalToolsSkillTrees {
         return builder.build();
     }
 
-    private SkillData chestplate() {
-        SkillTreeDescriptions desc = new SkillTreeDescriptions("Chestplate");
+    private SkillData chestplate(boolean elytra) {
+        SkillTreeDescriptions desc = new SkillTreeDescriptions(elytra ? "Elytra" : "Chestplate");
 
         SkillData.Builder builder = SkillData.builder(EquipmentSlot.CHEST);
         armorTier(builder, 0, -1, 1, desc);
@@ -376,6 +380,12 @@ public class CrystalToolsSkillTrees {
                     .attributeNode(26, healthBonus(3), desc.healthBonus(), attr(Attributes.MAX_HEALTH), 4)
                         .nodeRequirement(17)
                         .previousTierOrRequirements();
+
+        if (elytra) {
+            builder.tier()
+                    .attributeNode(27, CREATIVE_FLIGHT, desc.creativeFlight(), attr(NeoForgeMod.CREATIVE_FLIGHT), 1, 100, true)
+                        .nodeRequirement(23, 24, 25, 26);
+        }
 
 
         return builder.build();
@@ -490,11 +500,9 @@ public class CrystalToolsSkillTrees {
                         .previousTierOrRequirements()
                     .enchantmentNode(26, enchantmentName(Enchantments.SOUL_SPEED, 3), desc.enchantment(enchantmentName(Enchantments.SOUL_SPEED, 3)), Enchantments.SOUL_SPEED, 3)
                         .previousTierOrRequirements()
-                // TODO: Need special handling in the enchantment node
                     .enchantmentNode(27, enchantmentName(Enchantments.FROST_WALKER, 0), desc.enchantment(enchantmentName(Enchantments.FROST_WALKER, 0)), Enchantments.FROST_WALKER, 2)
                         .previousTierOrRequirements()
                     .subText("Can be disabled with the mode switch key", "#ABABAB");
-
 
         return builder.build();
     }

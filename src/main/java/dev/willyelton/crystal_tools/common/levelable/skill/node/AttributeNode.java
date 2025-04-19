@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillSubText;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirement;
 import net.minecraft.core.Holder;
@@ -33,7 +34,8 @@ public final class AttributeNode extends SkillDataNode {
             ResourceLocation.CODEC.listOf().fieldOf("key").forGetter(AttributeNode::getKeys),
             Codec.FLOAT.fieldOf("value").forGetter(AttributeNode::getValue),
             SkillDataRequirement.CODEC.listOf().fieldOf("requirements").forGetter(AttributeNode::getRequirements),
-            SkillSubText.CODEC.optionalFieldOf("subtext").forGetter(n -> Optional.ofNullable(n.getSkillSubText()))
+            SkillSubText.CODEC.optionalFieldOf("subtext").forGetter(n -> Optional.ofNullable(n.getSkillSubText())),
+            Codec.BOOL.optionalFieldOf("threshold", false).forGetter(AttributeNode::isThreshold)
     ).apply(instance, AttributeNode::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, AttributeNode> STREAM_CODEC = StreamCodec.composite(
@@ -46,17 +48,30 @@ public final class AttributeNode extends SkillDataNode {
             ByteBufCodecs.fromCodec(SkillDataRequirement.CODEC.listOf().fieldOf("requirements").codec()), AttributeNode::getRequirements, // TODO
             ByteBufCodecs.fromCodec(SkillSubText.CODEC.optionalFieldOf("subtext").codec()), n -> Optional.ofNullable(n.getSkillSubText()), // TODO
             AttributeNode::new);
-    private final float value;
 
-    // TODO: Going to need to add slot or something here or in the skill data (probably there)
-    // Do a list if possible
-    public AttributeNode(int id, String name, String description, int limit, List<ResourceLocation> key, float value, List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText) {
-        super(id, name, description, limit, key, requirements, skillSubText.orElse(null));
+    private final float value;
+    private final boolean threshold;
+
+    public AttributeNode(int id, String name, String description, int limit, List<ResourceLocation> keys, float value, List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText, boolean threshold) {
+        super(id, name, description, limit, keys, requirements, skillSubText.orElse(null));
         this.value = value;
+        this.threshold = threshold;
+
+        if (threshold) {
+            this.setSubtext(new SkillSubText(String.format("Will activate after you put %s points in this node", this.getLimit()), "#ABABAB"));
+        }
+    }
+
+    public AttributeNode(int id, String name, String description, int limit, List<ResourceLocation> keys, float value, List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText) {
+        this(id, name, description, limit, keys, value, requirements, skillSubText, false);
     }
 
     public float getValue() {
         return value;
+    }
+
+    public boolean isThreshold() {
+        return threshold;
     }
 
     @Override
@@ -64,9 +79,16 @@ public final class AttributeNode extends SkillDataNode {
         return SkillNodeType.ATTRIBUTE;
     }
 
-    // TODO: Pass in skill data
     @Override
     public void processNode(SkillData skillData, ItemStack stack, int pointsToSpend, RegistryAccess registryAccess) {
+        if (threshold) {
+            int totalPoints = stack.getOrDefault(dev.willyelton.crystal_tools.common.components.DataComponents.SKILL_POINT_DATA, new SkillPoints()).getPoints(this.getId());
+
+            if (totalPoints < this.getLimit()) {
+                return;
+            }
+        }
+
         ItemAttributeModifiers modifiers = stack.getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.EMPTY);
         Registry<Attribute> attributeRegistry = registryAccess.lookupOrThrow(Registries.ATTRIBUTE);
         ItemAttributeModifiers newModifiers = modifiers;

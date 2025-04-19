@@ -78,7 +78,7 @@ public class CrystalElytra extends Item implements LevelableItem {
 //        return !canUseCreativeFlight(stack) && ElytraItem.isFlyEnabled(stack);
 //    }
 
-    // TODO (PORTING): This no longer exists. Will probably have to be a check in normal inventory tick
+    // TODO (PORTING): This no longer exists. Will probably have to be a check in normal inventory tick, see how the normal one does it
     public boolean elytraFlightTick(ItemStack stack, LivingEntity entity, int flightTicks) {
         if (!entity.level().isClientSide) {
             int nextFlightTick = flightTicks + 1;

@@ -107,7 +107,7 @@ public class Registration {
     public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_CHESTPLATE = ITEMS.registerItem("crystal_chestplate", (properties) -> new LevelableArmor(properties, "chestplate", ArmorType.CHESTPLATE));
     public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_LEGGINGS = ITEMS.registerItem("crystal_leggings", (properties) -> new LevelableArmor(properties, "leggings",  ArmorType.LEGGINGS));
     public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_BOOTS = ITEMS.registerItem("crystal_boots", (properties) -> new LevelableArmor(properties, "boots",  ArmorType.BOOTS));
-    public static final DeferredHolder<Item, CrystalElytra> CRYSTAL_ELYTRA = ITEMS.registerItem("crystal_elytra", (properties) -> new CrystalElytra(properties.durability(1000)));
+    public static final DeferredHolder<Item, CrystalElytra> CRYSTAL_ELYTRA = ITEMS.registerItem("crystal_elytra", CrystalElytra::new);
 
     // Blocks
     public static final DeferredHolder<Block, DropExperienceBlock> CRYSTAL_ORE = BLOCKS.registerBlock("crystal_ore", (properties) -> new DropExperienceBlock(UniformInt.of(3, 7), properties), Block.Properties.ofFullCopy(Blocks.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F));

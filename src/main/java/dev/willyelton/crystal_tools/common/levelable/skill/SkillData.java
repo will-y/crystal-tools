@@ -114,8 +114,16 @@ public class SkillData {
         }
 
         public Builder attributeNode(int id, String name, String description, List<ResourceLocation> attributes, float value) {
+            return attributeNode(id, name, description, attributes, value, 1, false);
+        }
+
+        public Builder attributeNode(int id, String name, String description, ResourceLocation attribute, float value, int limit, boolean threshold) {
+            return attributeNode(id, name, description, List.of(attribute), value, limit, threshold);
+        }
+
+        public Builder attributeNode(int id, String name, String description, List<ResourceLocation> attributes, float value, int limit, boolean threshold) {
             if (including) {
-                currentNode = new AttributeNode(id, name, description, 1, attributes, value, new ArrayList<>(), Optional.empty());
+                currentNode = new AttributeNode(id, name, description, limit, attributes, value, new ArrayList<>(), Optional.empty(), threshold);
                 currentTier.add(currentNode);
             }
 
@@ -127,12 +135,7 @@ public class SkillData {
         }
 
         public Builder infiniteAttributeNode(int id, String name, String description, List<ResourceLocation> attributes, float value) {
-            if (including) {
-                currentNode = new AttributeNode(id, name, description, 0, attributes, value, new ArrayList<>(), Optional.empty());
-                currentTier.add(currentNode);
-            }
-
-            return this;
+            return attributeNode(id, name, description, attributes, value, 0, false);
         }
 
         public Builder dataComponentNode(int id, String name, String description, ResourceLocation dataComponent, float value) {
