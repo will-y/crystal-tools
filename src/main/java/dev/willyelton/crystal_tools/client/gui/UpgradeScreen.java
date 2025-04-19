@@ -101,8 +101,12 @@ public class UpgradeScreen extends BaseUpgradeScreen {
 
         if (skillPoints > 0) {
             int pointsToSpend = 1;
-            if (node.getLimit() == 0) {
+            if (node.getLimit() == 0 || node.getLimit() > 1) {
                 pointsToSpend = getPointsToSpend(skillPoints, shift, control);
+
+                if (pointsToSpend > node.getLimit() && node.getLimit() > 1) {
+                    pointsToSpend = node.getLimit();
+                }
             }
 
             PacketDistributor.sendToServer(new ToolSkillPayload(node.getId(), key, pointsToSpend));

@@ -10,6 +10,7 @@ import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillData
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -21,8 +22,11 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public final class AttributeNode extends SkillDataNode {
@@ -48,6 +52,10 @@ public final class AttributeNode extends SkillDataNode {
             ByteBufCodecs.fromCodec(SkillDataRequirement.CODEC.listOf().fieldOf("requirements").codec()), AttributeNode::getRequirements, // TODO
             ByteBufCodecs.fromCodec(SkillSubText.CODEC.optionalFieldOf("subtext").codec()), n -> Optional.ofNullable(n.getSkillSubText()), // TODO
             AttributeNode::new);
+
+    public static final Map<Attribute, DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>>> TOGGLEABLE_ATTRIBUTES = Map.of(
+            NeoForgeMod.CREATIVE_FLIGHT.value(),
+            dev.willyelton.crystal_tools.common.components.DataComponents.CREATIVE_FLIGHT);
 
     private final float value;
     private final boolean threshold;
@@ -79,6 +87,7 @@ public final class AttributeNode extends SkillDataNode {
         return SkillNodeType.ATTRIBUTE;
     }
 
+    // TODO: Toggleable ones (Creative Flight) going to require weird handling in mode switch probably
     @Override
     public void processNode(SkillData skillData, ItemStack stack, int pointsToSpend, RegistryAccess registryAccess) {
         if (threshold) {
@@ -98,6 +107,12 @@ public final class AttributeNode extends SkillDataNode {
             Optional<Holder.Reference<Attribute>> optionalAttribute = attributeRegistry.get(key);
             double bonusAmount = 0;
             if (optionalAttribute.isPresent()) {
+                Holder<Attribute> attributeHolder = optionalAttribute.get();
+
+                if (TOGGLEABLE_ATTRIBUTES.containsKey(attributeHolder.value())) {
+                    stack.set(TOGGLEABLE_ATTRIBUTES.get(attributeHolder.value()), true);
+                }
+
                 for (ItemAttributeModifiers.Entry entry : modifiers.modifiers()) {
                     if (entry.modifier().id().equals(rl)) {
                         bonusAmount = entry.modifier().amount();
@@ -105,7 +120,7 @@ public final class AttributeNode extends SkillDataNode {
                     }
                 }
 
-                newModifiers = newModifiers.withModifierAdded(optionalAttribute.get(),
+                newModifiers = newModifiers.withModifierAdded(attributeHolder,
                         new AttributeModifier(rl, bonusAmount + value * pointsToSpend, AttributeModifier.Operation.ADD_VALUE),
                         EquipmentSlotGroup.bySlot(skillData.getEquipmentSlot()));
             }

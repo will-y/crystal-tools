@@ -22,7 +22,7 @@ public class ToolSkillHandler {
     public void handle(final ToolSkillPayload payload, final IPayloadContext context) {
         Player player  = context.player();
 
-        // TODO: Backpack special logic
+        // TODO: Backpack special logic + lookup by registry
         ItemStack heldTool = ItemStackUtils.getHeldLevelableTool(player);
 
         if (!heldTool.isEmpty()) {

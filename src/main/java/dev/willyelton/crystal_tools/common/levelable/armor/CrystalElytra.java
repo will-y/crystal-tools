@@ -57,7 +57,7 @@ public class CrystalElytra extends Item implements LevelableItem {
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> components, TooltipFlag flag) {
         String modeSwitchKey = RegisterKeyBindingsEvent.MODE_SWITCH.getKey().getDisplayName().getString();
 
-        if (stack.getOrDefault(DataComponents.CREATIVE_FLIGHT, 0) >= CrystalToolsServerConfig.CREATIVE_FLIGHT_POINTS.get()) {
+        if (stack.getOrDefault(DataComponents.CREATIVE_FLIGHT, false)) {
             if (stack.getOrDefault(DataComponents.DISABLE_CREATIVE_FLIGHT, false)) {
                 components.accept(Component.literal("\u00A7c\u00A7l" + "Creative Flight Disabled (Ctrl + " + modeSwitchKey + ") To Enable"));
             } else {
@@ -106,11 +106,6 @@ public class CrystalElytra extends Item implements LevelableItem {
         } else {
             return amount;
         }
-    }
-
-    public static boolean canUseCreativeFlight(ItemStack stack) {
-        return !stack.getOrDefault(DataComponents.DISABLE_CREATIVE_FLIGHT, false) &&
-                stack.getOrDefault(DataComponents.CREATIVE_FLIGHT, 0) >= CrystalToolsServerConfig.CREATIVE_FLIGHT_POINTS.get();
     }
 
     @Override
