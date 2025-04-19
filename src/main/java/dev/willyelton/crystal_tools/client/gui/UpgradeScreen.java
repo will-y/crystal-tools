@@ -105,7 +105,7 @@ public class UpgradeScreen extends BaseUpgradeScreen {
                 pointsToSpend = getPointsToSpend(skillPoints, shift, control);
 
                 if (pointsToSpend > node.getLimit() && node.getLimit() > 1) {
-                    pointsToSpend = node.getLimit();
+                    pointsToSpend = node.getLimit() - points.getPoints(node.getId());
                 }
             }
 
