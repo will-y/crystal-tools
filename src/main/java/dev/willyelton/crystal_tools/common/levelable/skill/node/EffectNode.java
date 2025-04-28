@@ -18,6 +18,7 @@ import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.item.consume_effects.ConsumeEffect;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,6 +65,10 @@ public final class EffectNode extends SkillDataNode {
 
         if (consumable != null) {
             stack.set(DataComponents.CONSUMABLE, withEffects(consumable, this.effects));
+        } else {
+            List<MobEffectInstance> instances = new ArrayList<>(stack.getOrDefault(dev.willyelton.crystal_tools.common.components.DataComponents.EFFECTS, Collections.emptyList()));
+            List<MobEffectInstance> newEffects = addEffects(instances, new ArrayList<>(this.effects));
+            stack.set(dev.willyelton.crystal_tools.common.components.DataComponents.EFFECTS, newEffects);
         }
     }
 
@@ -71,7 +76,7 @@ public final class EffectNode extends SkillDataNode {
         return effects;
     }
 
-    private static Consumable withEffects(Consumable c, List<MobEffectInstance> effects) {
+    private Consumable withEffects(Consumable c, List<MobEffectInstance> effects) {
         List<ConsumeEffect> consumeEffects = new ArrayList<>();
         boolean foundConsumeEffect = false;
         for (ConsumeEffect consumeEffect : c.onConsumeEffects()) {
@@ -108,7 +113,30 @@ public final class EffectNode extends SkillDataNode {
         return new Consumable(c.consumeSeconds(), c.animation(), c.sound(), c.hasConsumeParticles(), consumeEffects);
     }
 
-    private static MobEffectInstance combine(MobEffectInstance effect1, MobEffectInstance effect2) {
+    private List<MobEffectInstance> addEffects(List<MobEffectInstance> initialEffects, List<MobEffectInstance> newEffects) {
+        List<MobEffectInstance> effects = new ArrayList<>(initialEffects);
+
+        for (MobEffectInstance initialEffect : initialEffects) {
+            boolean matched = false;
+            for (int i = 0; i < newEffects.size(); i++) {
+                MobEffectInstance newEffect = newEffects.get(i);
+                if (initialEffect.getEffect().equals(newEffect.getEffect())) {
+                    effects.add(combine(initialEffect, newEffect));
+                    newEffects.remove(i);
+                    matched = true;
+                    break;
+                }
+            }
+
+            if (!matched) {
+                effects.add(initialEffect);
+            }
+        }
+
+        return effects;
+    }
+
+    private MobEffectInstance combine(MobEffectInstance effect1, MobEffectInstance effect2) {
         // TODO: Do I want to let more things change than duration somehow?
         return new MobEffectInstance(effect1.getEffect(), effect1.getDuration() + effect2.getDuration(),
                 effect1.getAmplifier(), effect1.isAmbient(), effect1.isVisible(), effect1.showIcon());

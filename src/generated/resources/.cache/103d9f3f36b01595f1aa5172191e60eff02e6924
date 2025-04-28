@@ -1,7 +1,8 @@
-// 1.21.5	2025-04-19T17:48:00.3344858	Registries
+// 1.21.5	2025-04-24T18:00:33.1794332	Registries
 622bfcb4f12add8cbc0deada2f2cca265279b885 data/crystal_tools/crystal_tools/skill_trees/crystal_apple.json
 3ab2fcde194f7fb80159874a5b5450a61b6931ee data/crystal_tools/crystal_tools/skill_trees/crystal_axe.json
 0517a714aa995fad3db038175d5a5cf6755dfa75 data/crystal_tools/crystal_tools/skill_trees/crystal_boots.json
+4213d232bb4c396794f60bd05da42a58453456ad data/crystal_tools/crystal_tools/skill_trees/crystal_bow.json
 8f0ebfc418bad097e1299427d90e8ead6187259e data/crystal_tools/crystal_tools/skill_trees/crystal_chestplate.json
 291215b92f918658fc589af95f30435ea431a217 data/crystal_tools/crystal_tools/skill_trees/crystal_elytra.json
 d742ba31ec6d9897a9011317c5e7aa25479eb699 data/crystal_tools/crystal_tools/skill_trees/crystal_helmet.json

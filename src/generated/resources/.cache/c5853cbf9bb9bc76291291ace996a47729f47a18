@@ -1,4 +1,4 @@
-// 1.21.5	2025-04-12T22:35:07.1349252	Model Definitions - crystal_tools
+// 1.21.5	2025-04-28T19:06:07.0140769	Model Definitions - crystal_tools
 44eb603a54aabeb5d4f7c1fd34fc281a6fbb6170 assets/crystal_tools/blockstates/crystal_block.json
 16c7f01ecbdd437f59531bd56029a2d12186c9a6 assets/crystal_tools/blockstates/crystal_deepslate_ore.json
 b45cd6d350dcfbffe28c7a2e3695c880e9ac5b54 assets/crystal_tools/blockstates/crystal_furnace.json
@@ -14,7 +14,7 @@ ff9c786f1fa076aed866cf72cc25915d4988d4f6 assets/crystal_tools/items/crystal_appl
 d23fb3b0ba340ef511e8eb72d091be267649213e assets/crystal_tools/items/crystal_backpack.json
 626f68a4a48556d40842606c47ea437895db7b90 assets/crystal_tools/items/crystal_block.json
 2adc6e3617a0dd6e71e55d8bd4aa5f46952f9288 assets/crystal_tools/items/crystal_boots.json
-9b89026b74d672ef8f781841d5ca3e9e57ebc3b8 assets/crystal_tools/items/crystal_bow.json
+021599118f9cdd5f5f13e3a15b2e90c49c657027 assets/crystal_tools/items/crystal_bow.json
 6c4143fd145a69d2ff08410ef3f8b9eaec8d862c assets/crystal_tools/items/crystal_chestplate.json
 c254325971b0be7cd261f219520f716530cae7c8 assets/crystal_tools/items/crystal_deepslate_ore.json
 468d894a0346b718aa80972163bdb9aca668637e assets/crystal_tools/items/crystal_elytra.json

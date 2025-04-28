@@ -4,6 +4,7 @@ import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.renderer.CrystalShieldRenderer;
 import dev.willyelton.crystal_tools.client.renderer.CrystalTridentSpecialRenderer;
+import dev.willyelton.crystal_tools.client.renderer.item.properties.BowUseDuration;
 import dev.willyelton.crystal_tools.common.levelable.armor.CrystalToolsArmorMaterials;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
@@ -92,8 +93,8 @@ public class CrystalToolsModels extends ModelProvider {
                         ItemModelUtils.conditional(
                                 ItemModelUtils.isUsingItem(),
                                 ItemModelUtils.rangeSelect(
-                                        new UseDuration(false),
-                                        0.05F,
+                                        new BowUseDuration(),
+                                        1F,
                                         itemmodel$unbaked1,
                                         ItemModelUtils.override(itemmodel$unbaked2, 0.65F),
                                         ItemModelUtils.override(itemmodel$unbaked3, 0.9F)

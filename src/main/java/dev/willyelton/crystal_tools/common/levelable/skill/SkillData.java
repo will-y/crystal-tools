@@ -34,6 +34,8 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static dev.willyelton.crystal_tools.datagen.CrystalToolsSkillTrees.enchantmentName;
+
 public class SkillData {
     private final EquipmentSlot equipmentSlot;
     private final List<List<SkillDataNode>> nodes;
@@ -164,6 +166,12 @@ public class SkillData {
             return this;
         }
 
+        public Builder enchantmentNode(int id, SkillTreeDescriptions desc, ResourceKey<Enchantment> enchantment, int level) {
+            String name = enchantmentName(enchantment, level);
+
+            return enchantmentNode(id, name, desc.enchantment(name), enchantment, level == 0 ? 1 : level);
+        }
+
         public Builder nutrition(int id, int level, int nutrition, String description) {
             return nutrition(id, level, nutrition, description, 1);
         }
@@ -203,10 +211,21 @@ public class SkillData {
         }
 
         public Builder effect(int id, SkillTreeDescriptions description, MobEffectInstance effectInstance) {
-             if (including) {
-                 String effectName = effectInstance.getEffect().value().getDisplayName().getString();
-                currentNode = new EffectNode(id, effectName, description.effect(effectName, effectInstance.getDuration()), 0, new ArrayList<>(),
-                        Optional.of(new SkillSubText(SkillTreeTitles.EFFECT_SUB_TEXT, "#ABABAB")), effectInstance);
+             return effect(id, description, effectInstance, "");
+        }
+
+        public Builder effect(int id, SkillTreeDescriptions description, MobEffectInstance effectInstance, String prefix) {
+            return effect(id, description, effectInstance, prefix, true);
+        }
+
+        public Builder effect(int id, SkillTreeDescriptions description, MobEffectInstance effectInstance, String prefix, boolean infinite) {
+            if (including) {
+                String effectName = prefix + effectInstance.getEffect().value().getDisplayName().getString();
+                currentNode = new EffectNode(id, effectName, description.effect(effectName, effectInstance.getDuration()), infinite ? 0 : 1, new ArrayList<>(),
+                        Optional.empty(), effectInstance);
+                if (infinite) {
+                    currentNode.setSubtext(new SkillSubText(SkillTreeTitles.EFFECT_SUB_TEXT, "#ABABAB"));
+                }
                 currentTier.add(currentNode);
             }
 
@@ -244,6 +263,21 @@ public class SkillData {
                 }
 
                 currentNode.addRequirement(new NodeOrSkillDataRequirement(previousTier.stream()
+                        .filter(n -> !n.getDescription().equals(currentNode.getDescription()))
+                        .map(SkillDataNode::getId)
+                        .toList()));
+            }
+
+            return this;
+        }
+
+        public Builder previousTierAndRequirements() {
+            if (including) {
+                if (previousTier == null) {
+                    throw new IllegalArgumentException("Cannot add previous tier or requirements with no previous tier!");
+                }
+
+                currentNode.addRequirement(new NodeSkillDataRequirement(previousTier.stream()
                         .filter(n -> !n.getDescription().equals(currentNode.getDescription()))
                         .map(SkillDataNode::getId)
                         .toList()));

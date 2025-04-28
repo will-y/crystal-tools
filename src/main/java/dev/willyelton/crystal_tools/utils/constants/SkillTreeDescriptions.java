@@ -87,7 +87,13 @@ public class SkillTreeDescriptions {
     }
 
     public String effect(String effectName, int duration) {
-        return String.format("Adds the %s effect for %d ticks when you eat the %s", effectName, duration, toolName);
+        if (toolName.equalsIgnoreCase("apple")) {
+            return String.format("Adds the %s effect for %d ticks when you eat the %s", effectName, duration, toolName);
+        } else if (toolName.equalsIgnoreCase("bow")) {
+            return String.format("Adds the %s effect to shot arrows", effectName);
+        } else {
+            return "TODO: Wrong Description";
+        }
     }
 
     public String enchantment(String enchantmentName) {
@@ -116,5 +122,21 @@ public class SkillTreeDescriptions {
 
     public String creativeFlight() {
         return "Gives you Creative Flight!";
+    }
+
+    public String arrowDamage() {
+        return String.format("Arrows shot from the %s will do more damage", toolName);
+    }
+
+    public String arrowSpeed() {
+        return String.format("Arrows shot from the %s will have higher speed", toolName);
+    }
+
+    public String drawSpeed() {
+        return String.format("The %s will shoot arrows faster", toolName);
+    }
+
+    public String autoTarget() {
+        return "Fired projectiles automatically track targeted mobs";
     }
 }

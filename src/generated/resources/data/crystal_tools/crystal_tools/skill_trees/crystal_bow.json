@@ -1,0 +1,996 @@
+{
+  "equipmentSlot": "mainhand",
+  "tiers": [
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Arrows shot from the Bow will do more damage",
+          "id": 0,
+          "key": [
+            "crystal_tools:arrow_damage"
+          ],
+          "limit": 1,
+          "name": "Arrow Damage I",
+          "requirements": [],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Arrows shot from the Bow will have higher speed",
+          "id": 1,
+          "key": [
+            "crystal_tools:arrow_speed_bonus"
+          ],
+          "limit": 1,
+          "name": "Arrow Speed I",
+          "requirements": [],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "The Bow will shoot arrows faster",
+          "id": 2,
+          "key": [
+            "crystal_tools:draw_speed"
+          ],
+          "limit": 1,
+          "name": "Draw Speed I",
+          "requirements": [],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Bow's Durability",
+          "id": 3,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability I",
+          "requirements": [],
+          "value": 200.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Arrows shot from the Bow will do more damage",
+          "id": 4,
+          "key": [
+            "crystal_tools:arrow_damage"
+          ],
+          "limit": 1,
+          "name": "Arrow Damage II",
+          "requirements": [
+            {
+              "node": [
+                0
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Arrows shot from the Bow will have higher speed",
+          "id": 5,
+          "key": [
+            "crystal_tools:arrow_speed_bonus"
+          ],
+          "limit": 1,
+          "name": "Arrow Speed II",
+          "requirements": [
+            {
+              "node": [
+                1
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "The Bow will shoot arrows faster",
+          "id": 6,
+          "key": [
+            "crystal_tools:draw_speed"
+          ],
+          "limit": 1,
+          "name": "Draw Speed II",
+          "requirements": [
+            {
+              "node": [
+                2
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Bow's Durability",
+          "id": 7,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability II",
+          "requirements": [
+            {
+              "node": [
+                3
+              ]
+            }
+          ],
+          "value": 200.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Punch I to the Bow",
+          "enchantment": "minecraft:punch",
+          "id": 8,
+          "level": 1,
+          "name": "Punch I",
+          "requirements": [
+            {
+              "or_node": [
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Flame to the Bow",
+          "enchantment": "minecraft:flame",
+          "id": 9,
+          "level": 1,
+          "name": "Flame",
+          "requirements": [
+            {
+              "or_node": [
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not use durability",
+          "id": 10,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking I",
+          "requirements": [
+            {
+              "or_node": [
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Arrows shot from the Bow will do more damage",
+          "id": 11,
+          "key": [
+            "crystal_tools:arrow_damage"
+          ],
+          "limit": 1,
+          "name": "Arrow Damage III",
+          "requirements": [
+            {
+              "node": [
+                4
+              ]
+            },
+            {
+              "or_node": [
+                8,
+                9,
+                10
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Arrows shot from the Bow will have higher speed",
+          "id": 12,
+          "key": [
+            "crystal_tools:arrow_speed_bonus"
+          ],
+          "limit": 1,
+          "name": "Arrow Speed III",
+          "requirements": [
+            {
+              "node": [
+                5
+              ]
+            },
+            {
+              "or_node": [
+                8,
+                9,
+                10
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "The Bow will shoot arrows faster",
+          "id": 13,
+          "key": [
+            "crystal_tools:draw_speed"
+          ],
+          "limit": 1,
+          "name": "Draw Speed III",
+          "requirements": [
+            {
+              "node": [
+                6
+              ]
+            },
+            {
+              "or_node": [
+                8,
+                9,
+                10
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Bow's Durability",
+          "id": 14,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability III",
+          "requirements": [
+            {
+              "node": [
+                7
+              ]
+            },
+            {
+              "or_node": [
+                8,
+                9,
+                10
+              ]
+            }
+          ],
+          "value": 200.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Punch II to the Bow",
+          "enchantment": "minecraft:punch",
+          "id": 15,
+          "level": 2,
+          "name": "Punch II",
+          "requirements": [
+            {
+              "node": [
+                8
+              ]
+            },
+            {
+              "or_node": [
+                11,
+                12,
+                13,
+                14
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Infinity to the Bow",
+          "enchantment": "minecraft:infinity",
+          "id": 16,
+          "level": 1,
+          "name": "Infinity",
+          "requirements": [
+            {
+              "or_node": [
+                11,
+                12,
+                13,
+                14
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not use durability",
+          "id": 17,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking II",
+          "requirements": [
+            {
+              "node": [
+                10
+              ]
+            },
+            {
+              "or_node": [
+                11,
+                12,
+                13,
+                14
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Arrows shot from the Bow will do more damage",
+          "id": 18,
+          "key": [
+            "crystal_tools:arrow_damage"
+          ],
+          "limit": 1,
+          "name": "Arrow Damage IV",
+          "requirements": [
+            {
+              "node": [
+                11
+              ]
+            },
+            {
+              "or_node": [
+                15,
+                16,
+                17
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Arrows shot from the Bow will have higher speed",
+          "id": 19,
+          "key": [
+            "crystal_tools:arrow_speed_bonus"
+          ],
+          "limit": 1,
+          "name": "Arrow Speed IV",
+          "requirements": [
+            {
+              "node": [
+                12
+              ]
+            },
+            {
+              "or_node": [
+                15,
+                16,
+                17
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "The Bow will shoot arrows faster",
+          "id": 20,
+          "key": [
+            "crystal_tools:draw_speed"
+          ],
+          "limit": 1,
+          "name": "Draw Speed IV",
+          "requirements": [
+            {
+              "node": [
+                13
+              ]
+            },
+            {
+              "or_node": [
+                15,
+                16,
+                17
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Bow's Durability",
+          "id": 21,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability IV",
+          "requirements": [
+            {
+              "node": [
+                14
+              ]
+            },
+            {
+              "or_node": [
+                15,
+                16,
+                17
+              ]
+            }
+          ],
+          "value": 200.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Punch III to the Bow",
+          "enchantment": "minecraft:punch",
+          "id": 22,
+          "level": 3,
+          "name": "Punch III",
+          "requirements": [
+            {
+              "node": [
+                15
+              ]
+            },
+            {
+              "or_node": [
+                18,
+                19,
+                20,
+                21
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Automatically repairs the Bow over time",
+          "id": 23,
+          "key": [
+            "crystal_tools:auto_repair"
+          ],
+          "limit": 0,
+          "name": "Auto Repair",
+          "requirements": [
+            {
+              "or_node": [
+                18,
+                19,
+                20,
+                21
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not use durability",
+          "id": 24,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking III",
+          "requirements": [
+            {
+              "node": [
+                17
+              ]
+            },
+            {
+              "or_node": [
+                18,
+                19,
+                20,
+                21
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Fired projectiles automatically track targeted mobs",
+          "id": 25,
+          "key": [
+            "crystal_tools:auto_target"
+          ],
+          "limit": 1,
+          "name": "Auto Target Mobs",
+          "requirements": [
+            {
+              "or_node": [
+                18,
+                19,
+                20,
+                21
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Arrows shot from the Bow will do more damage",
+          "id": 26,
+          "key": [
+            "crystal_tools:arrow_damage"
+          ],
+          "limit": 1,
+          "name": "Arrow Damage V",
+          "requirements": [
+            {
+              "node": [
+                18
+              ]
+            },
+            {
+              "or_node": [
+                22,
+                23,
+                24,
+                25
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Arrows shot from the Bow will have higher speed",
+          "id": 27,
+          "key": [
+            "crystal_tools:arrow_speed_bonus"
+          ],
+          "limit": 1,
+          "name": "Arrow Speed V",
+          "requirements": [
+            {
+              "node": [
+                19
+              ]
+            },
+            {
+              "or_node": [
+                22,
+                23,
+                24,
+                25
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "The Bow will shoot arrows faster",
+          "id": 28,
+          "key": [
+            "crystal_tools:draw_speed"
+          ],
+          "limit": 1,
+          "name": "Draw Speed V",
+          "requirements": [
+            {
+              "node": [
+                20
+              ]
+            },
+            {
+              "or_node": [
+                22,
+                23,
+                24,
+                25
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Bow's Durability",
+          "id": 29,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability V",
+          "requirements": [
+            {
+              "node": [
+                21
+              ]
+            },
+            {
+              "or_node": [
+                22,
+                23,
+                24,
+                25
+              ]
+            }
+          ],
+          "value": 200.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Arrows shot from the Bow will do more damage",
+          "id": 30,
+          "key": [
+            "crystal_tools:arrow_damage"
+          ],
+          "limit": 0,
+          "name": "Infinite Arrow Damage",
+          "requirements": [
+            {
+              "node": [
+                26
+              ]
+            }
+          ],
+          "value": 0.2
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Arrows shot from the Bow will have higher speed",
+          "id": 31,
+          "key": [
+            "crystal_tools:arrow_speed_bonus"
+          ],
+          "limit": 0,
+          "name": "Infinite Arrow Speed",
+          "requirements": [
+            {
+              "node": [
+                27
+              ]
+            }
+          ],
+          "value": 0.2
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "The Bow will shoot arrows faster",
+          "id": 32,
+          "key": [
+            "crystal_tools:draw_speed"
+          ],
+          "limit": 0,
+          "name": "Infinite Draw Speed",
+          "requirements": [
+            {
+              "node": [
+                28
+              ]
+            }
+          ],
+          "value": 0.2
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Bow's Durability",
+          "id": 33,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 0,
+          "name": "Infinite Durability",
+          "requirements": [
+            {
+              "node": [
+                29
+              ]
+            }
+          ],
+          "value": 50.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not use durability",
+          "id": 34,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 70,
+          "name": "Infinite Unbreaking",
+          "requirements": [
+            {
+              "node": [
+                24
+              ]
+            },
+            {
+              "or_node": [
+                26,
+                27,
+                28,
+                29
+              ]
+            }
+          ],
+          "value": 0.01
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:effect",
+        "node": {
+          "description": "Adds the Tipped: Poison effect to shot arrows",
+          "effects": [
+            {
+              "amplifier": 1,
+              "duration": 120,
+              "id": "minecraft:poison",
+              "show_icon": false,
+              "show_particles": false
+            }
+          ],
+          "id": 35,
+          "limit": 0,
+          "name": "Tipped: Poison",
+          "requirements": [
+            {
+              "item": [
+                "minecraft:nether_wart",
+                "minecraft:spider_eye",
+                "minecraft:fermented_spider_eye",
+                "minecraft:glowstone_dust"
+              ]
+            },
+            {
+              "or_node": [
+                30,
+                31,
+                32,
+                33,
+                34
+              ]
+            }
+          ],
+          "subtext": {
+            "color": "#ABABAB",
+            "text": "Increases duration for each level"
+          }
+        }
+      },
+      {
+        "type": "crystal_tools:effect",
+        "node": {
+          "description": "Adds the Tipped: Weakness effect to shot arrows",
+          "effects": [
+            {
+              "amplifier": 1,
+              "duration": 240,
+              "id": "minecraft:weakness",
+              "show_icon": false,
+              "show_particles": false
+            }
+          ],
+          "id": 36,
+          "limit": 0,
+          "name": "Tipped: Weakness",
+          "requirements": [
+            {
+              "item": [
+                "minecraft:nether_wart",
+                "minecraft:blaze_powder",
+                "minecraft:fermented_spider_eye",
+                "minecraft:glowstone_dust"
+              ]
+            },
+            {
+              "or_node": [
+                30,
+                31,
+                32,
+                33,
+                34
+              ]
+            }
+          ],
+          "subtext": {
+            "color": "#ABABAB",
+            "text": "Increases duration for each level"
+          }
+        }
+      },
+      {
+        "type": "crystal_tools:effect",
+        "node": {
+          "description": "Adds the Tipped: Slowness effect to shot arrows",
+          "effects": [
+            {
+              "amplifier": 1,
+              "duration": 240,
+              "id": "minecraft:slowness",
+              "show_icon": false,
+              "show_particles": false
+            }
+          ],
+          "id": 37,
+          "limit": 0,
+          "name": "Tipped: Slowness",
+          "requirements": [
+            {
+              "item": [
+                "minecraft:nether_wart",
+                "minecraft:sugar",
+                "minecraft:fermented_spider_eye",
+                "minecraft:glowstone_dust"
+              ]
+            },
+            {
+              "or_node": [
+                30,
+                31,
+                32,
+                33,
+                34
+              ]
+            }
+          ],
+          "subtext": {
+            "color": "#ABABAB",
+            "text": "Increases duration for each level"
+          }
+        }
+      },
+      {
+        "type": "crystal_tools:effect",
+        "node": {
+          "description": "Adds the Tipped: Wither effect to shot arrows",
+          "effects": [
+            {
+              "amplifier": 1,
+              "duration": 120,
+              "id": "minecraft:wither",
+              "show_icon": false,
+              "show_particles": false
+            }
+          ],
+          "id": 38,
+          "limit": 0,
+          "name": "Tipped: Wither",
+          "requirements": [
+            {
+              "item": [
+                "minecraft:nether_wart",
+                "minecraft:bone",
+                "minecraft:fermented_spider_eye",
+                "minecraft:glowstone_dust"
+              ]
+            },
+            {
+              "or_node": [
+                30,
+                31,
+                32,
+                33,
+                34
+              ]
+            }
+          ],
+          "subtext": {
+            "color": "#ABABAB",
+            "text": "Increases duration for each level"
+          }
+        }
+      }
+    ]
+  ]
+}

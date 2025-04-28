@@ -58,7 +58,7 @@ public class ToolAttributeHandler {
                         EnchantmentUtils.addEnchantment(heldTool, enchantment, (int) payload.value(), player);
                     }
                 } else if (payload.key().contains("effect_")) {
-                    addEffectToList(heldTool, payload.key(), payload.value());
+//                    addEffectToList(heldTool, payload.key(), payload.value());
                 } else {
                     DataComponents.addToComponent(heldTool, payload.key(), payload.value() * pointsToAdd);
                 }
@@ -85,28 +85,28 @@ public class ToolAttributeHandler {
         return player.getInventory().getItem(slotIndex);
     }
 
-    private void addEffectToList(ItemStack stack, String key, float value) {
-        String effectKey = key.substring(7);
-
-        List<EffectData> currentEffects = stack.getOrDefault(DataComponents.EFFECTS, new ArrayList<>());
-        List<EffectData> newEffects = new ArrayList<>();
-        boolean added = false;
-
-        for (EffectData effect : currentEffects) {
-            if (effect.resourceLocation().equals(effectKey)) {
-                newEffects.add(new EffectData(effectKey, effect.duration() + (int) value));
-                added = true;
-            } else {
-                newEffects.add(new EffectData(effect.resourceLocation(), effect.duration()));
-            }
-        }
-
-        if (!added) {
-            newEffects.add(new EffectData(effectKey, (int) value));
-        }
-
-        stack.set(DataComponents.EFFECTS, newEffects);
-    }
+//    private void addEffectToList(ItemStack stack, String key, float value) {
+//        String effectKey = key.substring(7);
+//
+//        List<EffectData> currentEffects = stack.getOrDefault(DataComponents.EFFECTS, new ArrayList<>());
+//        List<EffectData> newEffects = new ArrayList<>();
+//        boolean added = false;
+//
+//        for (EffectData effect : currentEffects) {
+//            if (effect.resourceLocation().equals(effectKey)) {
+//                newEffects.add(new EffectData(effectKey, effect.duration() + (int) value));
+//                added = true;
+//            } else {
+//                newEffects.add(new EffectData(effect.resourceLocation(), effect.duration()));
+//            }
+//        }
+//
+//        if (!added) {
+//            newEffects.add(new EffectData(effectKey, (int) value));
+//        }
+//
+//        stack.set(DataComponents.EFFECTS, newEffects);
+//    }
 
     private static ResourceKey<Enchantment> enchantmentFromString(String string) {
         return switch (string) {

@@ -26,6 +26,7 @@ import static dev.willyelton.crystal_tools.utils.constants.SkillConstants.DURABI
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AUTO_PICKUP;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AUTO_REPAIR;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AUTO_SMELTING;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AUTO_TARGET;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AXE_VEIN_MINING;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.CREATIVE_FLIGHT;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.LEAF_MINER;
@@ -37,8 +38,11 @@ import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.TORCH
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.TORCH_SUBTEXT;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.VEIN_MINING;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.VEIN_MINING_SUBTEXT;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.arrowDamage;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.arrowSpeed;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.baseArmor;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.blastProtection;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.drawSpeed;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.durability;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.eatSpeed;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.fireProtection;
@@ -75,6 +79,10 @@ public class CrystalToolsSkillTrees {
                 Registration.CRYSTAL_SHOVEL.getId()), basicMiningTool("Shovel"));
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
                 Registration.CRYSTAL_AXE.getId()), basicMiningTool("Axe"));
+
+        // Weapons
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+                Registration.CRYSTAL_BOW.getId()), bow());
 
         // Food
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
@@ -506,6 +514,119 @@ public class CrystalToolsSkillTrees {
         return builder.build();
     }
 
+    private SkillData bow() {
+        SkillTreeDescriptions desc = new SkillTreeDescriptions("Bow");
+        SkillData.Builder builder = SkillData.builder(EquipmentSlot.MAINHAND);
+
+        return builder
+                .tier()
+                    .dataComponentNode(0, arrowDamage(1), desc.arrowDamage(), DataComponents.ARROW_DAMAGE.getId(), 1)
+                    .dataComponentNode(1, arrowSpeed(1), desc.arrowSpeed(), DataComponents.ARROW_SPEED.getId(), 1)
+                    .dataComponentNode(2, drawSpeed(1), desc.drawSpeed(), DataComponents.DRAW_SPEED.getId(), 1)
+                    .dataComponentNode(3, durability(1), desc.durability(), DURABILITY, 200)
+                .tier()
+                    .dataComponentNode(4, arrowDamage(2), desc.arrowDamage(), DataComponents.ARROW_DAMAGE.getId(), 1)
+                        .nodeRequirement(0)
+                    .dataComponentNode(5, arrowSpeed(2), desc.arrowSpeed(), DataComponents.ARROW_SPEED.getId(), 1)
+                        .nodeRequirement(1)
+                    .dataComponentNode(6, drawSpeed(2), desc.drawSpeed(), DataComponents.DRAW_SPEED.getId(), 1)
+                        .nodeRequirement(2)
+                    .dataComponentNode(7, durability(2), desc.durability(), DURABILITY, 200)
+                        .nodeRequirement(3)
+                .tier()
+                    .enchantmentNode(8, desc, Enchantments.PUNCH, 1)
+                        .previousTierOrRequirements()
+                    .enchantmentNode(9, desc, Enchantments.FLAME, 0)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(10, unbreaking(1), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.1F)
+                        .previousTierOrRequirements()
+                .tier()
+                    .dataComponentNode(11, arrowDamage(3), desc.arrowDamage(), DataComponents.ARROW_DAMAGE.getId(), 1)
+                        .nodeRequirement(4)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(12, arrowSpeed(3), desc.arrowSpeed(), DataComponents.ARROW_SPEED.getId(), 1)
+                        .nodeRequirement(5)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(13, drawSpeed(3), desc.drawSpeed(), DataComponents.DRAW_SPEED.getId(), 1)
+                        .nodeRequirement(6)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(14, durability(3), desc.durability(), DURABILITY, 200)
+                        .nodeRequirement(7)
+                        .previousTierOrRequirements()
+                .tier()
+                    .enchantmentNode(15, desc, Enchantments.PUNCH, 2)
+                        .nodeRequirement(8)
+                       .previousTierOrRequirements()
+                    .enchantmentNode(16, desc, Enchantments.INFINITY, 0)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(17, unbreaking(2), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.1F)
+                        .nodeRequirement(10)
+                        .previousTierOrRequirements()
+                .tier()
+                    .dataComponentNode(18, arrowDamage(4), desc.arrowDamage(), DataComponents.ARROW_DAMAGE.getId(), 1)
+                        .nodeRequirement(11)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(19, arrowSpeed(4), desc.arrowSpeed(), DataComponents.ARROW_SPEED.getId(), 1)
+                        .nodeRequirement(12)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(20, drawSpeed(4), desc.drawSpeed(), DataComponents.DRAW_SPEED.getId(), 1)
+                        .nodeRequirement(13)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(21, durability(4), desc.durability(), DURABILITY, 200)
+                        .nodeRequirement(14)
+                        .previousTierOrRequirements()
+                .tier()
+                    .enchantmentNode(22, desc, Enchantments.PUNCH, 3)
+                        .nodeRequirement(15)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(23, AUTO_REPAIR, desc.autoRepair(), DataComponents.AUTO_REPAIR.getId(), 1, 0)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(24, unbreaking(3), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.1F)
+                        .nodeRequirement(17)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(25, AUTO_TARGET, desc.autoTarget(), DataComponents.AUTO_TARGET.getId(), 1F)
+                        .previousTierOrRequirements()
+                .tier()
+                    .dataComponentNode(26, arrowDamage(5), desc.arrowDamage(), DataComponents.ARROW_DAMAGE.getId(), 1)
+                        .nodeRequirement(18)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(27, arrowSpeed(5), desc.arrowSpeed(), DataComponents.ARROW_SPEED.getId(), 1)
+                        .nodeRequirement(19)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(28, drawSpeed(5), desc.drawSpeed(), DataComponents.DRAW_SPEED.getId(), 1)
+                        .nodeRequirement(20)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(29, durability(5), desc.durability(), DURABILITY, 200)
+                        .nodeRequirement(21)
+                        .previousTierOrRequirements()
+                .tier()
+                    .infiniteDataComponentNode(30, arrowDamage(0), desc.arrowDamage(), DataComponents.ARROW_DAMAGE.getId(), 0.2F)
+                        .nodeRequirement(26)
+                    .infiniteDataComponentNode(31, arrowSpeed(0), desc.arrowSpeed(), DataComponents.ARROW_SPEED.getId(), 0.2F)
+                        .nodeRequirement(27)
+                    .infiniteDataComponentNode(32, drawSpeed(0), desc.drawSpeed(), DataComponents.DRAW_SPEED.getId(), 0.2F)
+                        .nodeRequirement(28)
+                    .infiniteDataComponentNode(33, durability(0), desc.durability(), DURABILITY, 50)
+                        .nodeRequirement(29)
+                    .dataComponentNode(34, unbreaking(0), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.01F, 70)
+                        .nodeRequirement(24)
+                        .previousTierOrRequirements()
+                .tier()
+                    .effect(35, desc, new MobEffectInstance(MobEffects.POISON, 120, 1, false, false), "Tipped: ")
+                        .itemRequirement(Items.NETHER_WART, Items.SPIDER_EYE, Items.FERMENTED_SPIDER_EYE, Items.GLOWSTONE_DUST)
+                        .previousTierOrRequirements()
+                    .effect(36, desc, new MobEffectInstance(MobEffects.WEAKNESS, 240, 1, false, false), "Tipped: ")
+                        .itemRequirement(Items.NETHER_WART, Items.BLAZE_POWDER, Items.FERMENTED_SPIDER_EYE, Items.GLOWSTONE_DUST)
+                        .previousTierOrRequirements()
+                    .effect(37, desc, new MobEffectInstance(MobEffects.SLOWNESS, 240, 1, false, false), "Tipped: ")
+                        .itemRequirement(Items.NETHER_WART, Items.SUGAR, Items.FERMENTED_SPIDER_EYE, Items.GLOWSTONE_DUST)
+                        .previousTierOrRequirements()
+                    .effect(38, desc, new MobEffectInstance(MobEffects.WITHER, 120, 1, false, false), "Tipped: ")
+                        .itemRequirement(Items.NETHER_WART, Items.BONE, Items.FERMENTED_SPIDER_EYE, Items.GLOWSTONE_DUST)
+                        .previousTierOrRequirements()
+                .build();
+    }
+
     private void armorTier(SkillData.Builder builder, int indexStart, int prevIndexStart, int level, SkillTreeDescriptions desc) {
         armorTier(builder, indexStart, prevIndexStart, level, desc, false);
     }
@@ -552,7 +673,7 @@ public class CrystalToolsSkillTrees {
         return key.location();
     }
 
-    private String enchantmentName(ResourceKey<Enchantment> enchantment, int level) {
+    public static String enchantmentName(ResourceKey<Enchantment> enchantment, int level) {
         if (level == 0) {
             return formatKey(enchantment.location().getPath());
         } else {

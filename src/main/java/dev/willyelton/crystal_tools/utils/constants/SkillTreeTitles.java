@@ -16,6 +16,7 @@ public class SkillTreeTitles {
     public static final String EFFECT_SUB_TEXT = "Increases duration for each level";
     public static final String NIGHT_VISION = "Night Vision";
     public static final String CREATIVE_FLIGHT = "Creative Flight";
+    public static final String AUTO_TARGET = "Auto Target Mobs";
 
     // TODO: could this be expanded easily?
     public static final String MINING_3x3 = "3x3 Mining";
@@ -85,6 +86,18 @@ public class SkillTreeTitles {
 
     public static String moveSpeed(int level) {
         return getName("Speed Bonus", level);
+    }
+
+    public static String arrowDamage(int level) {
+        return getName("Arrow Damage", level);
+    }
+
+    public static String arrowSpeed(int level) {
+        return getName("Arrow Speed", level);
+    }
+
+    public static String drawSpeed(int level) {
+        return getName("Draw Speed", level);
     }
 
     private static String getName(String title, int level) {

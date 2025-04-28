@@ -10,6 +10,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -75,17 +76,15 @@ public class DataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> FROST_WALKER = register("frost_walker", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
 
     // Bow
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> INFINITY = register("infinity", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> ARROW_DAMAGE = register("arrow_damage", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> ARROW_SPEED = register("arrow_speed_bonus", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> FLAME = register("flame", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> DRAW_SPEED = register("draw_speed", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
 
     // Food Things
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> EAT_SPEED_BONUS = register("eat_speed_bonus", Codec.INT, ByteBufCodecs.INT, SkillType.INT);
 
     // Effects
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<EffectData>>> EFFECTS = register("effects", EffectData.CODEC.listOf(), EffectData.STREAM_CODEC.apply(ByteBufCodecs.list()));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<MobEffectInstance>>> EFFECTS = register("effects", MobEffectInstance.CODEC.listOf(), MobEffectInstance.STREAM_CODEC.apply(ByteBufCodecs.list()));
 
     // Firework
     // TODO (breaking): Refactor to just use vanilla firework component?
