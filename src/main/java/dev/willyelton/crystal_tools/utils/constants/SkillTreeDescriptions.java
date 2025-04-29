@@ -139,4 +139,8 @@ public class SkillTreeDescriptions {
     public String autoTarget() {
         return "Fired projectiles automatically track targeted mobs";
     }
+
+    public String flightDuration() {
+        return "Increases flight time";
+    }
 }

@@ -46,6 +46,7 @@ import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.drawS
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.durability;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.eatSpeed;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.fireProtection;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.flightDuration;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.fortune;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.healthBonus;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.intToRomanNumeral;
@@ -99,6 +100,10 @@ public class CrystalToolsSkillTrees {
                 Registration.CRYSTAL_BOOTS.getId()), boots());
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
                 Registration.CRYSTAL_ELYTRA.getId()), chestplate(true));
+
+        // Misc
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+                Registration.CRYSTAL_ROCKET.getId()), rocket());
     }
 
     private SkillData basicMiningTool(String name) {
@@ -623,6 +628,29 @@ public class CrystalToolsSkillTrees {
                         .previousTierOrRequirements()
                     .effect(38, desc, new MobEffectInstance(MobEffects.WITHER, 120, 1, false, false), "Tipped: ")
                         .itemRequirement(Items.NETHER_WART, Items.BONE, Items.FERMENTED_SPIDER_EYE, Items.GLOWSTONE_DUST)
+                        .previousTierOrRequirements()
+                .build();
+    }
+
+    private SkillData rocket() {
+        SkillTreeDescriptions desc = new SkillTreeDescriptions("Rocket");
+        SkillData.Builder builder = SkillData.builder(EquipmentSlot.MAINHAND);
+
+        return builder
+                .tier()
+                    .dataComponentNode(0, durability(1), desc.durability(), DURABILITY, 25)
+                    .dataComponentNode(1, flightDuration(1), desc.flightDuration(), DataComponents.FLIGHT_TIME.getId(), 2)
+                        .itemRequirement(Items.GUNPOWDER)
+                .tier()
+                    .dataComponentNode(2, durability(2), desc.durability(), DURABILITY, 25)
+                        .nodeRequirement(0)
+                    .dataComponentNode(3, flightDuration(2), desc.flightDuration(), DataComponents.FLIGHT_TIME.getId(), 2)
+                        .nodeRequirement(1)
+                        .itemRequirement(Items.GUNPOWDER)
+                .tier()
+                    .infiniteDataComponentNode(4, durability(0), desc.durability(), DURABILITY, 10)
+                        .nodeRequirement(2)
+                    .infiniteDataComponentNode(5, AUTO_REPAIR, desc.autoRepair(), DataComponents.AUTO_REPAIR.getId(), 1)
                         .previousTierOrRequirements()
                 .build();
     }

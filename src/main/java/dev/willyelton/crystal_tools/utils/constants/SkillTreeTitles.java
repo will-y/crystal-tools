@@ -100,6 +100,10 @@ public class SkillTreeTitles {
         return getName("Draw Speed", level);
     }
 
+    public static String flightDuration(int level) {
+        return getName("Flight Duration", level);
+    }
+
     private static String getName(String title, int level) {
         if (level == 0) {
             return "Infinite " + title;
