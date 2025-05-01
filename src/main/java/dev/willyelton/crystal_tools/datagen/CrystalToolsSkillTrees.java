@@ -42,6 +42,7 @@ import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.arrow
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.arrowSpeed;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.baseArmor;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.blastProtection;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.doubleItems;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.drawSpeed;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.durability;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.eatSpeed;
@@ -80,6 +81,10 @@ public class CrystalToolsSkillTrees {
                 Registration.CRYSTAL_SHOVEL.getId()), basicMiningTool("Shovel"));
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
                 Registration.CRYSTAL_AXE.getId()), basicMiningTool("Axe"));
+
+        // Other Tools
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+                Registration.CRYSTAL_FISHING_ROD.getId()), fishingRod());
 
         // Weapons
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
@@ -634,9 +639,7 @@ public class CrystalToolsSkillTrees {
 
     private SkillData rocket() {
         SkillTreeDescriptions desc = new SkillTreeDescriptions("Rocket");
-        SkillData.Builder builder = SkillData.builder(EquipmentSlot.MAINHAND);
-
-        return builder
+        return SkillData.builder(EquipmentSlot.MAINHAND)
                 .tier()
                     .dataComponentNode(0, durability(1), desc.durability(), DURABILITY, 25)
                     .dataComponentNode(1, flightDuration(1), desc.flightDuration(), DataComponents.FLIGHT_TIME.getId(), 2)
@@ -652,6 +655,77 @@ public class CrystalToolsSkillTrees {
                         .nodeRequirement(2)
                     .infiniteDataComponentNode(5, AUTO_REPAIR, desc.autoRepair(), DataComponents.AUTO_REPAIR.getId(), 1)
                         .previousTierOrRequirements()
+                .build();
+    }
+
+    private SkillData fishingRod() {
+        SkillTreeDescriptions desc = new SkillTreeDescriptions("Fishing Rod");
+
+        return SkillData.builder(EquipmentSlot.MAINHAND)
+                .tier()
+                    .enchantmentNode(0, desc, Enchantments.LURE, 1)
+                    .enchantmentNode(1, desc, Enchantments.LUCK_OF_THE_SEA, 1)
+                    .dataComponentNode(2, durability(1), desc.durability(), DURABILITY, 50)
+                .tier()
+                    .enchantmentNode(3, desc, Enchantments.LURE, 2)
+                        .nodeRequirement(0)
+                    .enchantmentNode(4, desc, Enchantments.LUCK_OF_THE_SEA, 2)
+                        .nodeRequirement(1)
+                    .dataComponentNode(5, durability(2), desc.durability(), DURABILITY, 50)
+                        .nodeRequirement(2)
+                .tier()
+                    .dataComponentNode(6, unbreaking(1), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.1F)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(7, doubleItems(1), desc.doubleItems(), DataComponents.DOUBLE_DROPS.getId(), 0.2F)
+                        .previousTierAndRequirements()
+                .tier()
+                    .enchantmentNode(8, desc, Enchantments.LURE, 3)
+                        .nodeRequirement(3)
+                        .previousTierAndRequirements()
+                    .enchantmentNode(9, desc, Enchantments.LUCK_OF_THE_SEA, 3)
+                        .nodeRequirement(4)
+                        .previousTierAndRequirements()
+                    .dataComponentNode(10, durability(3), desc.durability(), DURABILITY, 50)
+                        .nodeRequirement(5)
+                        .previousTierAndRequirements()
+                .tier()
+                    .dataComponentNode(11, unbreaking(2), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.1F)
+                        .nodeRequirement(6)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(12, doubleItems(2), desc.doubleItems(), DataComponents.DOUBLE_DROPS.getId(), 0.2F)
+                        .nodeRequirement(7)
+                        .previousTierAndRequirements()
+                .tier()
+                    .enchantmentNode(13, desc, Enchantments.LURE, 4)
+                        .nodeRequirement(8)
+                        .previousTierAndRequirements()
+                    .enchantmentNode(14, desc, Enchantments.LUCK_OF_THE_SEA, 4)
+                        .nodeRequirement(9)
+                        .previousTierAndRequirements()
+                    .dataComponentNode(15, durability(4), desc.durability(), DURABILITY, 50)
+                        .nodeRequirement(10)
+                        .previousTierAndRequirements()
+                .tier()
+                    .dataComponentNode(16, unbreaking(3), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.1F)
+                        .nodeRequirement(11)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(17, doubleItems(3), desc.doubleItems(), DataComponents.DOUBLE_DROPS.getId(), 0.2F)
+                        .nodeRequirement(12)
+                        .previousTierAndRequirements()
+                    .dataComponentNode(18, AUTO_REPAIR, desc.autoRepair(), DataComponents.AUTO_REPAIR.getId(), 1, 0)
+                        .previousTierAndRequirements()
+                .tier()
+                    .enchantmentNode(19, desc, Enchantments.LURE, 5)
+                        .nodeRequirement(13)
+                        .previousTierAndRequirements()
+                    .enchantmentNode(20, desc, Enchantments.LUCK_OF_THE_SEA, 5)
+                        .nodeRequirement(14)
+                        .previousTierAndRequirements()
+                    .dataComponentNode(21, durability(5), desc.durability(), DURABILITY, 50)
+                        .nodeRequirement(15)
+                        .previousTierAndRequirements()
+                .tier()
+                    .dataComponentNode(22, unbreaking(0), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.01F, 70)
                 .build();
     }
 

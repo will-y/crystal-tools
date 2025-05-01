@@ -143,4 +143,8 @@ public class SkillTreeDescriptions {
     public String flightDuration() {
         return "Increases flight time";
     }
+
+    public String doubleItems() {
+        return String.format("Adds a chance to double drops from the %s", toolName);
+    }
 }

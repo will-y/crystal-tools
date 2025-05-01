@@ -104,6 +104,10 @@ public class SkillTreeTitles {
         return getName("Flight Duration", level);
     }
 
+    public static String doubleItems(int level) {
+        return getName("Double Items", level);
+    }
+
     private static String getName(String title, int level) {
         if (level == 0) {
             return "Infinite " + title;
