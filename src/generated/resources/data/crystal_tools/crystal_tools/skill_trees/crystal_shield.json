@@ -146,7 +146,7 @@
             }
           ],
           "id": 7,
-          "limit": 0,
+          "limit": 1,
           "name": "Slowness",
           "requirements": [
             {
@@ -157,11 +157,7 @@
                 3
               ]
             }
-          ],
-          "subtext": {
-            "color": "#ABABAB",
-            "text": "Increases duration for each level"
-          }
+          ]
         }
       }
     ],
@@ -407,7 +403,7 @@
             }
           ],
           "id": 16,
-          "limit": 0,
+          "limit": 1,
           "name": "Poison",
           "requirements": [
             {
@@ -419,11 +415,7 @@
                 12
               ]
             }
-          ],
-          "subtext": {
-            "color": "#ABABAB",
-            "text": "Increases duration for each level"
-          }
+          ]
         }
       }
     ],
@@ -638,7 +630,7 @@
             }
           ],
           "id": 24,
-          "limit": 0,
+          "limit": 1,
           "name": "Wither",
           "requirements": [
             {
@@ -649,11 +641,7 @@
                 20
               ]
             }
-          ],
-          "subtext": {
-            "color": "#ABABAB",
-            "text": "Increases duration for each level"
-          }
+          ]
         }
       }
     ],

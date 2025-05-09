@@ -133,6 +133,8 @@ public final class EffectNode extends SkillDataNode {
             }
         }
 
+        effects.addAll(newEffects);
+
         return effects;
     }
 

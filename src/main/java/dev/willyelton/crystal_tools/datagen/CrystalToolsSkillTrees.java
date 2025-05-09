@@ -739,7 +739,6 @@ public class CrystalToolsSkillTrees {
                 .build();
     }
 
-    // TODO: Effects don't work
     private SkillData shield() {
         SkillTreeDescriptions desc = new SkillTreeDescriptions("Shield");
 
@@ -757,8 +756,7 @@ public class CrystalToolsSkillTrees {
                     .dataComponentNode(6, totemSlot(1), desc.totemSlot(), DataComponents.TOTEM_SLOTS.getId(), 1)
                         .subText(TOTEM_SLOT_SUBTEXT, "#ABABAB")
                         .previousTierOrRequirements()
-                // TODO: Might need a shield specific one
-                    .effect(7, desc, new MobEffectInstance(MobEffects.SLOWNESS, 100, 1))
+                    .effect(7, desc, new MobEffectInstance(MobEffects.SLOWNESS, 100, 1), "", false)
                         .previousTierOrRequirements()
                 .tier()
                     .dataComponentNode(8, durability(2), desc.durability(), DURABILITY, 200)
@@ -786,7 +784,7 @@ public class CrystalToolsSkillTrees {
                         .subText(TOTEM_SLOT_SUBTEXT, "#ABABAB")
                         .nodeRequirement(6)
                         .previousTierOrRequirements()
-                    .effect(16, desc, new MobEffectInstance(MobEffects.POISON, 100, 1))
+                    .effect(16, desc, new MobEffectInstance(MobEffects.POISON, 100, 1), "", false)
                         .previousTierOrRequirements()
                 .tier()
                     .dataComponentNode(17, durability(3), desc.durability(), DURABILITY, 200)
@@ -811,7 +809,7 @@ public class CrystalToolsSkillTrees {
                         .subText(TOTEM_SLOT_SUBTEXT, "#ABABAB")
                         .nodeRequirement(15)
                         .previousTierOrRequirements()
-                    .effect(24, desc, new MobEffectInstance(MobEffects.WITHER, 100, 1))
+                    .effect(24, desc, new MobEffectInstance(MobEffects.WITHER, 100, 1), "", false)
                         .previousTierOrRequirements()
                 .tier()
                     .dataComponentNode(25, durability(4), desc.durability(), DURABILITY, 200)
