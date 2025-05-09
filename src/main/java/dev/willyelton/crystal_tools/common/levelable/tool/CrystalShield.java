@@ -7,6 +7,8 @@ import dev.willyelton.crystal_tools.common.levelable.EntityTargeter;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -18,10 +20,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 public class CrystalShield extends ShieldItem implements LevelableItem, EntityTargeter {
@@ -29,6 +34,18 @@ public class CrystalShield extends ShieldItem implements LevelableItem, EntityTa
     public CrystalShield(Item.Properties properties) {
         super(properties.durability(1000)
                 .component(net.minecraft.core.component.DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY)
+                .component(
+                        net.minecraft.core.component.DataComponents.BLOCKS_ATTACKS,
+                        new BlocksAttacks(
+                                0.25F,
+                                1.0F,
+                                List.of(new BlocksAttacks.DamageReduction(90.0F, Optional.empty(), 0.0F, 1.0F)),
+                                new BlocksAttacks.ItemDamageFunction(3.0F, 1.0F, 1.0F),
+                                Optional.of(DamageTypeTags.BYPASSES_SHIELD),
+                                Optional.of(SoundEvents.SHIELD_BLOCK),
+                                Optional.of(SoundEvents.SHIELD_BREAK)
+                        )
+                )
                 .fireResistant()
                 .repairable(Registration.CRYSTAL.get()));
     }

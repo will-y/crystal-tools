@@ -1,8 +1,5 @@
 package dev.willyelton.crystal_tools.utils.constants;
 
-import net.minecraft.core.Holder;
-import net.minecraft.world.item.enchantment.Enchantment;
-
 public class SkillTreeDescriptions {
     private final String toolName;
 
@@ -12,6 +9,10 @@ public class SkillTreeDescriptions {
 
     public String miningSpeed() {
         return String.format("Increases the %s's Mining Speed", toolName);
+    }
+
+    public String attackDamage() {
+        return String.format("Increases the %s's Attack Damage", toolName);
     }
 
     public String durability() {
@@ -91,6 +92,8 @@ public class SkillTreeDescriptions {
             return String.format("Adds the %s effect for %d ticks when you eat the %s", effectName, duration, toolName);
         } else if (toolName.equalsIgnoreCase("bow")) {
             return String.format("Adds the %s effect to shot arrows", effectName);
+        } else if (toolName.equalsIgnoreCase("shield")) {
+            return String.format("Mobs blocked by this shield will get the %s effect", effectName);
         } else {
             return "TODO: Wrong Description";
         }
@@ -136,7 +139,11 @@ public class SkillTreeDescriptions {
         return String.format("The %s will shoot arrows faster", toolName);
     }
 
-    public String autoTarget() {
+    public String autoTarget(boolean shield) {
+        if (shield) {
+            return "Reflected projectiles will auto-target mob";
+        }
+
         return "Fired projectiles automatically track targeted mobs";
     }
 
@@ -146,5 +153,25 @@ public class SkillTreeDescriptions {
 
     public String doubleItems() {
         return String.format("Adds a chance to double drops from the %s", toolName);
+    }
+
+    public String thorns() {
+        return String.format("Mobs blocked by this %s will take damage", toolName);
+    }
+
+    public String shieldCooldown() {
+        return String.format("Reduces the %s cooldown when it gets disabled", toolName);
+    }
+
+    public String flamingShield() {
+        return "Mobs blocked by this shield will catch on fire";
+    }
+
+    public String totemSlot() {
+        return String.format("Adds 1 slot for a Totem of Undying to the %s", toolName);
+    }
+
+    public String shieldKnockback() {
+        return String.format("Mobs blocked by this %s will be knocked back", toolName);
     }
 }

@@ -17,6 +17,8 @@ public class SkillTreeTitles {
     public static final String NIGHT_VISION = "Night Vision";
     public static final String CREATIVE_FLIGHT = "Creative Flight";
     public static final String AUTO_TARGET = "Auto Target Mobs";
+    public static final String TOTEM_SLOT_SUBTEXT = "Craft with a Totem of Undying to add one";
+    public static final String SHIELD_KNOCKBACK = "Shield Knockback";
 
     // TODO: could this be expanded easily?
     public static final String MINING_3x3 = "3x3 Mining";
@@ -26,6 +28,13 @@ public class SkillTreeTitles {
             return "Infinite Speed";
         }
         return String.format("Mining Speed %s", intToRomanNumeral(level));
+    }
+
+    public static String attackDamage(int level) {
+        if (level == 0) {
+            return "Infinite Damage";
+        }
+        return String.format("Attack Damage %s", intToRomanNumeral(level));
     }
 
     public static String durability(int level) {
@@ -106,6 +115,22 @@ public class SkillTreeTitles {
 
     public static String doubleItems(int level) {
         return getName("Double Items", level);
+    }
+
+    public static String thorns(int level) {
+        return getName("Thorns", level);
+    }
+
+    public static String shieldCooldown(int level) {
+        return getName("Reduce Cooldown", level);
+    }
+
+    public static String flamingShield(int level) {
+        return getName("Flaming Shield", level);
+    }
+
+    public static String totemSlot(int level) {
+        return getName("Totem Slot", level);
     }
 
     private static String getName(String title, int level) {

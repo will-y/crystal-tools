@@ -1,0 +1,849 @@
+{
+  "equipmentSlot": "offhand",
+  "tiers": [
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Shield's Durability",
+          "id": 0,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability I",
+          "requirements": [],
+          "value": 200.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Gives the Shield more base armor",
+          "id": 1,
+          "key": [
+            "minecraft:armor"
+          ],
+          "limit": 1,
+          "name": "Base Armor I",
+          "requirements": [],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs blocked by this Shield will take damage",
+          "id": 2,
+          "key": [
+            "crystal_tools:shield_thorns"
+          ],
+          "limit": 1,
+          "name": "Thorns I",
+          "requirements": [],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Reduces the Shield cooldown when it gets disabled",
+          "id": 3,
+          "key": [
+            "minecraft:blocks_attacks"
+          ],
+          "limit": 1,
+          "name": "Reduce Cooldown I",
+          "requirements": [],
+          "value": 0.1
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Shield's Attack Damage",
+          "id": 4,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 1,
+          "name": "Attack Damage I",
+          "requirements": [
+            {
+              "or_node": [
+                0,
+                1,
+                2,
+                3
+              ]
+            }
+          ],
+          "value": 2.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs blocked by this shield will catch on fire",
+          "id": 5,
+          "key": [
+            "crystal_tools:flaming_shield"
+          ],
+          "limit": 1,
+          "name": "Flaming Shield I",
+          "requirements": [
+            {
+              "or_node": [
+                0,
+                1,
+                2,
+                3
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 1 slot for a Totem of Undying to the Shield",
+          "id": 6,
+          "key": [
+            "crystal_tools:totem_slots"
+          ],
+          "limit": 1,
+          "name": "Totem Slot I",
+          "requirements": [
+            {
+              "or_node": [
+                0,
+                1,
+                2,
+                3
+              ]
+            }
+          ],
+          "subtext": {
+            "color": "#ABABAB",
+            "text": "Craft with a Totem of Undying to add one"
+          },
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:effect",
+        "node": {
+          "description": "Mobs blocked by this shield will get the Slowness effect",
+          "effects": [
+            {
+              "amplifier": 1,
+              "duration": 100,
+              "id": "minecraft:slowness",
+              "show_icon": true
+            }
+          ],
+          "id": 7,
+          "limit": 0,
+          "name": "Slowness",
+          "requirements": [
+            {
+              "or_node": [
+                0,
+                1,
+                2,
+                3
+              ]
+            }
+          ],
+          "subtext": {
+            "color": "#ABABAB",
+            "text": "Increases duration for each level"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Shield's Durability",
+          "id": 8,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability II",
+          "requirements": [
+            {
+              "node": [
+                0
+              ]
+            },
+            {
+              "or_node": [
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          ],
+          "value": 200.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Gives the Shield more base armor",
+          "id": 9,
+          "key": [
+            "minecraft:armor"
+          ],
+          "limit": 1,
+          "name": "Base Armor II",
+          "requirements": [
+            {
+              "node": [
+                1
+              ]
+            },
+            {
+              "or_node": [
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs blocked by this Shield will take damage",
+          "id": 10,
+          "key": [
+            "crystal_tools:shield_thorns"
+          ],
+          "limit": 1,
+          "name": "Thorns II",
+          "requirements": [
+            {
+              "node": [
+                2
+              ]
+            },
+            {
+              "or_node": [
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Reduces the Shield cooldown when it gets disabled",
+          "id": 11,
+          "key": [
+            "minecraft:blocks_attacks"
+          ],
+          "limit": 1,
+          "name": "Reduce Cooldown II",
+          "requirements": [
+            {
+              "node": [
+                3
+              ]
+            },
+            {
+              "or_node": [
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Automatically repairs the Shield over time",
+          "id": 12,
+          "key": [
+            "crystal_tools:auto_repair"
+          ],
+          "limit": 0,
+          "name": "Auto Repair",
+          "requirements": [
+            {
+              "or_node": [
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Shield's Attack Damage",
+          "id": 13,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 1,
+          "name": "Attack Damage II",
+          "requirements": [
+            {
+              "node": [
+                4
+              ]
+            },
+            {
+              "or_node": [
+                8,
+                9,
+                10,
+                11,
+                12
+              ]
+            }
+          ],
+          "value": 2.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs blocked by this Shield will be knocked back",
+          "id": 14,
+          "key": [
+            "crystal_tools:shield_knockback"
+          ],
+          "limit": 1,
+          "name": "Shield Knockback",
+          "requirements": [
+            {
+              "item": [
+                "minecraft:wind_charge"
+              ]
+            },
+            {
+              "or_node": [
+                8,
+                9,
+                10,
+                11,
+                12
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 1 slot for a Totem of Undying to the Shield",
+          "id": 15,
+          "key": [
+            "crystal_tools:totem_slots"
+          ],
+          "limit": 1,
+          "name": "Totem Slot I",
+          "requirements": [
+            {
+              "node": [
+                6
+              ]
+            },
+            {
+              "or_node": [
+                8,
+                9,
+                10,
+                11,
+                12
+              ]
+            }
+          ],
+          "subtext": {
+            "color": "#ABABAB",
+            "text": "Craft with a Totem of Undying to add one"
+          },
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:effect",
+        "node": {
+          "description": "Mobs blocked by this shield will get the Poison effect",
+          "effects": [
+            {
+              "amplifier": 1,
+              "duration": 100,
+              "id": "minecraft:poison",
+              "show_icon": true
+            }
+          ],
+          "id": 16,
+          "limit": 0,
+          "name": "Poison",
+          "requirements": [
+            {
+              "or_node": [
+                8,
+                9,
+                10,
+                11,
+                12
+              ]
+            }
+          ],
+          "subtext": {
+            "color": "#ABABAB",
+            "text": "Increases duration for each level"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Shield's Durability",
+          "id": 17,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability III",
+          "requirements": [
+            {
+              "node": [
+                8
+              ]
+            },
+            {
+              "or_node": [
+                13,
+                14,
+                15,
+                16
+              ]
+            }
+          ],
+          "value": 200.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Gives the Shield more base armor",
+          "id": 18,
+          "key": [
+            "minecraft:armor"
+          ],
+          "limit": 1,
+          "name": "Base Armor III",
+          "requirements": [
+            {
+              "node": [
+                9
+              ]
+            },
+            {
+              "or_node": [
+                13,
+                14,
+                15,
+                16
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs blocked by this Shield will take damage",
+          "id": 19,
+          "key": [
+            "crystal_tools:shield_thorns"
+          ],
+          "limit": 1,
+          "name": "Thorns III",
+          "requirements": [
+            {
+              "node": [
+                10
+              ]
+            },
+            {
+              "or_node": [
+                13,
+                14,
+                15,
+                16
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Reduces the Shield cooldown when it gets disabled",
+          "id": 20,
+          "key": [
+            "minecraft:blocks_attacks"
+          ],
+          "limit": 1,
+          "name": "Reduce Cooldown III",
+          "requirements": [
+            {
+              "node": [
+                11
+              ]
+            },
+            {
+              "or_node": [
+                13,
+                14,
+                15,
+                16
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Shield's Attack Damage",
+          "id": 21,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 1,
+          "name": "Attack Damage III",
+          "requirements": [
+            {
+              "node": [
+                13
+              ]
+            },
+            {
+              "or_node": [
+                17,
+                18,
+                19,
+                20
+              ]
+            }
+          ],
+          "value": 2.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Reflected projectiles will auto-target mob",
+          "id": 22,
+          "key": [
+            "crystal_tools:auto_target"
+          ],
+          "limit": 1,
+          "name": "Auto Target Mobs",
+          "requirements": [
+            {
+              "or_node": [
+                17,
+                18,
+                19,
+                20
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 1 slot for a Totem of Undying to the Shield",
+          "id": 23,
+          "key": [
+            "crystal_tools:totem_slots"
+          ],
+          "limit": 1,
+          "name": "Totem Slot I",
+          "requirements": [
+            {
+              "node": [
+                15
+              ]
+            },
+            {
+              "or_node": [
+                17,
+                18,
+                19,
+                20
+              ]
+            }
+          ],
+          "subtext": {
+            "color": "#ABABAB",
+            "text": "Craft with a Totem of Undying to add one"
+          },
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:effect",
+        "node": {
+          "description": "Mobs blocked by this shield will get the Wither effect",
+          "effects": [
+            {
+              "amplifier": 1,
+              "duration": 100,
+              "id": "minecraft:wither",
+              "show_icon": true
+            }
+          ],
+          "id": 24,
+          "limit": 0,
+          "name": "Wither",
+          "requirements": [
+            {
+              "or_node": [
+                17,
+                18,
+                19,
+                20
+              ]
+            }
+          ],
+          "subtext": {
+            "color": "#ABABAB",
+            "text": "Increases duration for each level"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Shield's Durability",
+          "id": 25,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability IV",
+          "requirements": [
+            {
+              "node": [
+                17
+              ]
+            },
+            {
+              "or_node": [
+                21,
+                22,
+                23,
+                24
+              ]
+            }
+          ],
+          "value": 200.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Gives the Shield more base armor",
+          "id": 26,
+          "key": [
+            "minecraft:armor"
+          ],
+          "limit": 1,
+          "name": "Base Armor IV",
+          "requirements": [
+            {
+              "node": [
+                18
+              ]
+            },
+            {
+              "or_node": [
+                21,
+                22,
+                23,
+                24
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs blocked by this Shield will take damage",
+          "id": 27,
+          "key": [
+            "crystal_tools:shield_thorns"
+          ],
+          "limit": 1,
+          "name": "Thorns IV",
+          "requirements": [
+            {
+              "node": [
+                19
+              ]
+            },
+            {
+              "or_node": [
+                21,
+                22,
+                23,
+                24
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Reduces the Shield cooldown when it gets disabled",
+          "id": 28,
+          "key": [
+            "minecraft:blocks_attacks"
+          ],
+          "limit": 1,
+          "name": "Reduce Cooldown IV",
+          "requirements": [
+            {
+              "node": [
+                20
+              ]
+            },
+            {
+              "or_node": [
+                21,
+                22,
+                23,
+                24
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Shield's Durability",
+          "id": 29,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 0,
+          "name": "Infinite Durability",
+          "requirements": [
+            {
+              "node": [
+                25
+              ]
+            }
+          ],
+          "value": 50.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Shield's Attack Damage",
+          "id": 30,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 0,
+          "name": "Infinite Damage",
+          "requirements": [
+            {
+              "node": [
+                21
+              ]
+            },
+            {
+              "or_node": [
+                25,
+                26,
+                27,
+                28
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Reduces the Shield cooldown when it gets disabled",
+          "id": 31,
+          "key": [
+            "minecraft:blocks_attacks"
+          ],
+          "limit": 24,
+          "name": "Infinite Reduce Cooldown",
+          "requirements": [
+            {
+              "node": [
+                28
+              ]
+            }
+          ],
+          "subtext": {
+            "color": "#ABABAB",
+            "text": "When you have all points here, the shield can't be disabled!"
+          },
+          "value": 0.25
+        }
+      }
+    ]
+  ]
+}

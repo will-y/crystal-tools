@@ -22,6 +22,7 @@ import net.neoforged.neoforge.common.NeoForgeMod;
 import java.util.List;
 
 import static dev.willyelton.crystal_tools.utils.StringUtils.formatKey;
+import static dev.willyelton.crystal_tools.utils.constants.SkillConstants.BLOCKS_ATTACKS;
 import static dev.willyelton.crystal_tools.utils.constants.SkillConstants.DURABILITY;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AUTO_PICKUP;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AUTO_REPAIR;
@@ -33,13 +34,16 @@ import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.LEAF_
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.MINING_3x3;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.MODE_SWITCH;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.NIGHT_VISION;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.SHIELD_KNOCKBACK;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.SILK_TOUCH;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.TORCH;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.TORCH_SUBTEXT;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.TOTEM_SLOT_SUBTEXT;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.VEIN_MINING;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.VEIN_MINING_SUBTEXT;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.arrowDamage;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.arrowSpeed;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.attackDamage;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.baseArmor;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.blastProtection;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.doubleItems;
@@ -47,6 +51,7 @@ import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.drawS
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.durability;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.eatSpeed;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.fireProtection;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.flamingShield;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.flightDuration;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.fortune;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.healthBonus;
@@ -56,6 +61,9 @@ import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.moveS
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.projectileProtection;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.protection;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.reach;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.shieldCooldown;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.thorns;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.totemSlot;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.toughness;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.unbreaking;
 
@@ -85,6 +93,8 @@ public class CrystalToolsSkillTrees {
         // Other Tools
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
                 Registration.CRYSTAL_FISHING_ROD.getId()), fishingRod());
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+                Registration.CRYSTAL_SHIELD.getId()), shield());
 
         // Weapons
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
@@ -594,7 +604,7 @@ public class CrystalToolsSkillTrees {
                     .dataComponentNode(24, unbreaking(3), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.1F)
                         .nodeRequirement(17)
                         .previousTierOrRequirements()
-                    .dataComponentNode(25, AUTO_TARGET, desc.autoTarget(), DataComponents.AUTO_TARGET.getId(), 1F)
+                    .dataComponentNode(25, AUTO_TARGET, desc.autoTarget(false), DataComponents.AUTO_TARGET.getId(), 1F)
                         .previousTierOrRequirements()
                 .tier()
                     .dataComponentNode(26, arrowDamage(5), desc.arrowDamage(), DataComponents.ARROW_DAMAGE.getId(), 1)
@@ -726,6 +736,105 @@ public class CrystalToolsSkillTrees {
                         .previousTierAndRequirements()
                 .tier()
                     .dataComponentNode(22, unbreaking(0), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.01F, 70)
+                .build();
+    }
+
+    // TODO: Effects don't work
+    private SkillData shield() {
+        SkillTreeDescriptions desc = new SkillTreeDescriptions("Shield");
+
+        return SkillData.builder(EquipmentSlot.OFFHAND)
+                .tier()
+                    .dataComponentNode(0, durability(1), desc.durability(), DURABILITY, 200)
+                    .attributeNode(1, baseArmor(1), desc.baseArmor(), attr(Attributes.ARMOR), 1)
+                    .dataComponentNode(2, thorns(1), desc.thorns(), DataComponents.SHIELD_THORNS.getId(), 1)
+                    .dataComponentNode(3, shieldCooldown(1), desc.shieldCooldown(), BLOCKS_ATTACKS, 0.1F)
+                .tier()
+                    .attributeNode(4, attackDamage(1), desc.attackDamage(), attr(Attributes.ATTACK_DAMAGE), 2)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(5, flamingShield(1), desc.flamingShield(), DataComponents.FLAMING_SHIELD.getId(), 1)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(6, totemSlot(1), desc.totemSlot(), DataComponents.TOTEM_SLOTS.getId(), 1)
+                        .subText(TOTEM_SLOT_SUBTEXT, "#ABABAB")
+                        .previousTierOrRequirements()
+                // TODO: Might need a shield specific one
+                    .effect(7, desc, new MobEffectInstance(MobEffects.SLOWNESS, 100, 1))
+                        .previousTierOrRequirements()
+                .tier()
+                    .dataComponentNode(8, durability(2), desc.durability(), DURABILITY, 200)
+                        .nodeRequirement(0)
+                        .previousTierOrRequirements()
+                    .attributeNode(9, baseArmor(2), desc.baseArmor(), attr(Attributes.ARMOR), 1)
+                        .nodeRequirement(1)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(10, thorns(2), desc.thorns(), DataComponents.SHIELD_THORNS.getId(), 1)
+                        .nodeRequirement(2)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(11, shieldCooldown(2), desc.shieldCooldown(), BLOCKS_ATTACKS, 0.1F)
+                        .nodeRequirement(3)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(12, AUTO_REPAIR, desc.autoRepair(), DataComponents.AUTO_REPAIR.getId(), 1, 0)
+                        .previousTierOrRequirements()
+                .tier()
+                    .attributeNode(13, attackDamage(2), desc.attackDamage(), attr(Attributes.ATTACK_DAMAGE), 2)
+                        .nodeRequirement(4)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(14, SHIELD_KNOCKBACK, desc.shieldKnockback(), DataComponents.SHIELD_KNOCKBACK.getId(), 1)
+                        .itemRequirement(Items.WIND_CHARGE)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(15, totemSlot(1), desc.totemSlot(), DataComponents.TOTEM_SLOTS.getId(), 1)
+                        .subText(TOTEM_SLOT_SUBTEXT, "#ABABAB")
+                        .nodeRequirement(6)
+                        .previousTierOrRequirements()
+                    .effect(16, desc, new MobEffectInstance(MobEffects.POISON, 100, 1))
+                        .previousTierOrRequirements()
+                .tier()
+                    .dataComponentNode(17, durability(3), desc.durability(), DURABILITY, 200)
+                        .nodeRequirement(8)
+                        .previousTierOrRequirements()
+                    .attributeNode(18, baseArmor(3), desc.baseArmor(), attr(Attributes.ARMOR), 1)
+                        .nodeRequirement(9)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(19, thorns(3), desc.thorns(), DataComponents.SHIELD_THORNS.getId(), 1)
+                        .nodeRequirement(10)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(20, shieldCooldown(3), desc.shieldCooldown(), BLOCKS_ATTACKS, 0.1F)
+                        .nodeRequirement(11)
+                        .previousTierOrRequirements()
+                .tier()
+                    .attributeNode(21, attackDamage(3), desc.attackDamage(), attr(Attributes.ATTACK_DAMAGE), 2)
+                        .nodeRequirement(13)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(22, AUTO_TARGET, desc.autoTarget(true), DataComponents.AUTO_TARGET.getId(), 1)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(23, totemSlot(1), desc.totemSlot(), DataComponents.TOTEM_SLOTS.getId(), 1)
+                        .subText(TOTEM_SLOT_SUBTEXT, "#ABABAB")
+                        .nodeRequirement(15)
+                        .previousTierOrRequirements()
+                    .effect(24, desc, new MobEffectInstance(MobEffects.WITHER, 100, 1))
+                        .previousTierOrRequirements()
+                .tier()
+                    .dataComponentNode(25, durability(4), desc.durability(), DURABILITY, 200)
+                        .nodeRequirement(17)
+                        .previousTierOrRequirements()
+                    .attributeNode(26, baseArmor(4), desc.baseArmor(), attr(Attributes.ARMOR), 1)
+                        .nodeRequirement(18)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(27, thorns(4), desc.thorns(), DataComponents.SHIELD_THORNS.getId(), 1)
+                        .nodeRequirement(19)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(28, shieldCooldown(4), desc.shieldCooldown(), BLOCKS_ATTACKS, 0.1F)
+                        .nodeRequirement(20)
+                        .previousTierOrRequirements()
+                .tier()
+                    .infiniteDataComponentNode(29, durability(0), desc.durability(), DURABILITY, 50)
+                        .nodeRequirement(25)
+                    .infiniteAttributeNode(30, attackDamage(0), desc.attackDamage(), attr(Attributes.ATTACK_DAMAGE), 0.1F)
+                        .nodeRequirement(21)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(31, shieldCooldown(0), desc.shieldCooldown(), BLOCKS_ATTACKS, 0.25F, 24)
+                        .subText("When you have all points here, the shield can't be disabled!", "#ABABAB")
+                        .nodeRequirement(28)
                 .build();
     }
 

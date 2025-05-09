@@ -2,13 +2,16 @@ package dev.willyelton.crystal_tools.common.levelable.skill.node;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillSubText;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirement;
+import dev.willyelton.crystal_tools.utils.constants.SkillConstants;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -16,6 +19,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.BlocksAttacks;
 
 import java.util.List;
 import java.util.Optional;
@@ -84,6 +88,15 @@ public class DataComponentNode extends SkillDataNode {
                     } else if (Codec.FLOAT.equals(dataComponent.codec())) {
                         float floatValue = value == null ? 0.0F : (float) value;
                         stack.set((DataComponentType<Float>) dataComponent, floatValue + this.value * pointsToSpend);
+                    } else if (DataComponents.BLOCKS_ATTACKS.equals(dataComponent)) {
+                        if (value instanceof  BlocksAttacks oldBlocks) {
+                            BlocksAttacks newBlock = new BlocksAttacks(oldBlocks.blockDelaySeconds(), oldBlocks.disableCooldownScale() - this.value,
+                                    oldBlocks.damageReductions(), oldBlocks.itemDamage(), oldBlocks.bypassedBy(), oldBlocks.blockSound(), oldBlocks.disableSound());
+
+                            stack.set(DataComponents.BLOCKS_ATTACKS, newBlock);
+                        } else {
+                            CrystalTools.LOGGER.warn("Attempting to apply blocking data component to an Item without a BlocksAttacks data component");
+                        }
                     } else {
                         throw new IllegalStateException("Unexpected skill datacomponent type: " + dataComponent);
                     }
