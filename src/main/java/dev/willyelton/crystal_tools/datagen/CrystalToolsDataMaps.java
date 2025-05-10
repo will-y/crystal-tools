@@ -54,7 +54,7 @@ public class CrystalToolsDataMaps extends DataMapProvider {
                 .add(Tags.Items.INGOTS, new GeneratorFuelData(800, 5), false)
                 .build();
 
-        builder(DataMaps.MOB_SKULLS)
+        builder(DataMaps.MOB_HEADS)
                 .add(EntityType.ZOMBIE.builtInRegistryHolder(), Items.ZOMBIE_HEAD, false)
                 .add(EntityType.CREEPER.builtInRegistryHolder(), Items.CREEPER_HEAD, false)
                 .add(EntityType.PIGLIN.builtInRegistryHolder(), Items.PIGLIN_HEAD, false)

@@ -23,8 +23,8 @@ public class DataMaps {
             .synced(GeneratorFuelData.CODEC, false)
             .build();
 
-    public static final DataMapType<EntityType<?>, Item> MOB_SKULLS = DataMapType.builder(
-                    ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "mob_skills"),
+    public static final DataMapType<EntityType<?>, Item> MOB_HEADS = DataMapType.builder(
+                    ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "mob_heads"),
                     Registries.ENTITY_TYPE,
                     BuiltInRegistries.ITEM.byNameCodec())
             .synced(BuiltInRegistries.ITEM.byNameCodec(), false)

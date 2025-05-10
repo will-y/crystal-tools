@@ -22,7 +22,7 @@ public class LivingDeathEvent {
 
             if (weaponStack != null && deadEntity.level() instanceof ServerLevel serverLevel) {
                 if (weaponStack.getOrDefault(DataComponents.BEHEADING, 0).floatValue() > serverLevel.getRandom().nextFloat()) {
-                    Item skullItem = deadEntity.getType().builtInRegistryHolder().getData(DataMaps.MOB_SKULLS);
+                    Item skullItem = deadEntity.getType().builtInRegistryHolder().getData(DataMaps.MOB_HEADS);
                     spawnItem(serverLevel, deadEntity, skullItem);
                 }
 

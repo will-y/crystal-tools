@@ -1,9 +1,17 @@
 # Crystal Tools Change Log
+## 3.0.0
+### Changes
+- Renames data map `mob_skills` to `mob_heads`
+
 ## 2.3.2
 ### Additions
 - Adds two new upgrade for the sword, bow, AIOT, and trident
   - Beheading: Adds a chance for killed mobs to drop their heads
   - Capturing: Adds a small chance for killed mobs to drop a spawn egg
+- Adds auto targeting to the trident
+- Adds a toggle to disable auto targeting (shift + mode switch key)
+- Adds a sweeping edge upgrade to the sword and aiot
+- Adds a swift sneak upgrade to the leggings
 
 ## 2.3.1
 ### Additions
