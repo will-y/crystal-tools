@@ -78,6 +78,6 @@ public interface EntityTargeter {
     }
 
     default boolean isEnabled(ItemStack stack) {
-        return stack.getOrDefault(DataComponents.AUTO_TARGET, false);
+        return !stack.getOrDefault(DataComponents.DISABLE_AUTO_TARGET, false) && stack.getOrDefault(DataComponents.AUTO_TARGET, false);
     }
 }

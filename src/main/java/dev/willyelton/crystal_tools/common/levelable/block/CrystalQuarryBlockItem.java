@@ -65,7 +65,7 @@ public class CrystalQuarryBlockItem extends LevelableBlockItem {
                     components.accept(Component.literal("\u00A76     Redstone Control"));
                 }
                 if (quarryUpgrades.fortuneLevel() > 0) {
-                    components.accept(Component.literal(String.format("\u00A76     %s %s", "Fortune", StringUtils.formatFloat(quarryUpgrades.speedUpgrade()))));
+                    components.accept(Component.literal(String.format("\u00A76     %s %s", "Fortune", StringUtils.formatFloat(quarryUpgrades.fortuneLevel()))));
                 }
                 if (quarryUpgrades.silkTouch()) {
                     components.accept(Component.literal("\u00A76     Silk Touch"));

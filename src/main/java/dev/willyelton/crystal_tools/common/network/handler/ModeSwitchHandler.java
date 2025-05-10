@@ -2,8 +2,6 @@ package dev.willyelton.crystal_tools.common.network.handler;
 
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.config.CrystalToolsServerConfig;
-import dev.willyelton.crystal_tools.common.events.DatapackRegistryEvents;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.tool.UseMode;
 import dev.willyelton.crystal_tools.common.network.data.ModeSwitchPayload;
@@ -12,17 +10,12 @@ import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
 import dev.willyelton.crystal_tools.utils.InventoryUtils;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import dev.willyelton.crystal_tools.utils.RegistryUtils;
-import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
-
-import java.util.Optional;
 
 public class ModeSwitchHandler {
     public static final ModeSwitchHandler INSTANCE = new ModeSwitchHandler();
@@ -102,6 +95,12 @@ public class ModeSwitchHandler {
             boolean riptideDisabled = tool.getOrDefault(DataComponents.RIPTIDE_DISABLED, false);
             tool.set(DataComponents.RIPTIDE_DISABLED, !riptideDisabled);
             player.displayClientMessage(Component.literal("Riptide " + (riptideDisabled ? "Enabled" : "Disabled")), true);
+        }
+
+        if (tool.getOrDefault(DataComponents.AUTO_TARGET, false) && payload.hasShiftDown()) {
+            boolean autoTargetDisabled = tool.getOrDefault(DataComponents.DISABLE_AUTO_TARGET, false);
+            tool.set(DataComponents.DISABLE_AUTO_TARGET, !autoTargetDisabled);
+            player.displayClientMessage(Component.literal("Auto Target " + (autoTargetDisabled ? "Enabled" : "Disabled")), true);
         }
 
         // Elytra
