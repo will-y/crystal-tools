@@ -133,6 +133,14 @@ public class SkillTreeTitles {
         return getName("Totem Slot", level);
     }
 
+    public static String beheading(int level) {
+        return getName("Beheading", level);
+    }
+
+    public static String capturing(int level) {
+        return getName("Capturing", level);
+    }
+
     private static String getName(String title, int level) {
         if (level == 0) {
             return "Infinite " + title;

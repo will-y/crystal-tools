@@ -204,6 +204,29 @@
           ],
           "value": 0.1
         }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs killed by this Bow will have a chance to drop their head",
+          "id": 39,
+          "key": [
+            "crystal_tools:beheading"
+          ],
+          "limit": 1,
+          "name": "Beheading I",
+          "requirements": [
+            {
+              "or_node": [
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          ],
+          "value": 0.1
+        }
       }
     ],
     [
@@ -227,7 +250,8 @@
               "or_node": [
                 8,
                 9,
-                10
+                10,
+                39
               ]
             }
           ],
@@ -254,7 +278,8 @@
               "or_node": [
                 8,
                 9,
-                10
+                10,
+                39
               ]
             }
           ],
@@ -281,7 +306,8 @@
               "or_node": [
                 8,
                 9,
-                10
+                10,
+                39
               ]
             }
           ],
@@ -308,11 +334,35 @@
               "or_node": [
                 8,
                 9,
-                10
+                10,
+                39
               ]
             }
           ],
           "value": 200.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs killed by this Bow will havev a chance to drop their spawn egg",
+          "id": 42,
+          "key": [
+            "crystal_tools:capture"
+          ],
+          "limit": 1,
+          "name": "Capturing I",
+          "requirements": [
+            {
+              "or_node": [
+                8,
+                9,
+                10,
+                39
+              ]
+            }
+          ],
+          "value": 0.01
         }
       }
     ],
@@ -336,7 +386,8 @@
                 11,
                 12,
                 13,
-                14
+                14,
+                42
               ]
             }
           ]
@@ -356,7 +407,8 @@
                 11,
                 12,
                 13,
-                14
+                14,
+                42
               ]
             }
           ]
@@ -383,7 +435,37 @@
                 11,
                 12,
                 13,
-                14
+                14,
+                42
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs killed by this Bow will have a chance to drop their head",
+          "id": 40,
+          "key": [
+            "crystal_tools:beheading"
+          ],
+          "limit": 1,
+          "name": "Beheading II",
+          "requirements": [
+            {
+              "node": [
+                39
+              ]
+            },
+            {
+              "or_node": [
+                11,
+                12,
+                13,
+                14,
+                42
               ]
             }
           ],
@@ -412,7 +494,8 @@
               "or_node": [
                 15,
                 16,
-                17
+                17,
+                40
               ]
             }
           ],
@@ -439,7 +522,8 @@
               "or_node": [
                 15,
                 16,
-                17
+                17,
+                40
               ]
             }
           ],
@@ -466,7 +550,8 @@
               "or_node": [
                 15,
                 16,
-                17
+                17,
+                40
               ]
             }
           ],
@@ -493,11 +578,40 @@
               "or_node": [
                 15,
                 16,
-                17
+                17,
+                40
               ]
             }
           ],
           "value": 200.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs killed by this Bow will havev a chance to drop their spawn egg",
+          "id": 43,
+          "key": [
+            "crystal_tools:capture"
+          ],
+          "limit": 1,
+          "name": "Capturing II",
+          "requirements": [
+            {
+              "node": [
+                42
+              ]
+            },
+            {
+              "or_node": [
+                15,
+                16,
+                17,
+                40
+              ]
+            }
+          ],
+          "value": 0.01
         }
       }
     ],
@@ -521,7 +635,8 @@
                 18,
                 19,
                 20,
-                21
+                21,
+                43
               ]
             }
           ]
@@ -543,7 +658,8 @@
                 18,
                 19,
                 20,
-                21
+                21,
+                43
               ]
             }
           ],
@@ -571,7 +687,8 @@
                 18,
                 19,
                 20,
-                21
+                21,
+                43
               ]
             }
           ],
@@ -594,11 +711,41 @@
                 18,
                 19,
                 20,
-                21
+                21,
+                43
               ]
             }
           ],
           "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs killed by this Bow will have a chance to drop their head",
+          "id": 41,
+          "key": [
+            "crystal_tools:beheading"
+          ],
+          "limit": 1,
+          "name": "Beheading III",
+          "requirements": [
+            {
+              "node": [
+                40
+              ]
+            },
+            {
+              "or_node": [
+                18,
+                19,
+                20,
+                21,
+                43
+              ]
+            }
+          ],
+          "value": 0.1
         }
       }
     ],
@@ -624,7 +771,8 @@
                 22,
                 23,
                 24,
-                25
+                25,
+                41
               ]
             }
           ],
@@ -652,7 +800,8 @@
                 22,
                 23,
                 24,
-                25
+                25,
+                41
               ]
             }
           ],
@@ -680,7 +829,8 @@
                 22,
                 23,
                 24,
-                25
+                25,
+                41
               ]
             }
           ],
@@ -708,11 +858,41 @@
                 22,
                 23,
                 24,
-                25
+                25,
+                41
               ]
             }
           ],
           "value": 200.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs killed by this Bow will havev a chance to drop their spawn egg",
+          "id": 44,
+          "key": [
+            "crystal_tools:capture"
+          ],
+          "limit": 1,
+          "name": "Capturing III",
+          "requirements": [
+            {
+              "node": [
+                43
+              ]
+            },
+            {
+              "or_node": [
+                22,
+                23,
+                24,
+                25,
+                41
+              ]
+            }
+          ],
+          "value": 0.01
         }
       }
     ],
@@ -818,7 +998,8 @@
                 26,
                 27,
                 28,
-                29
+                29,
+                44
               ]
             }
           ],

@@ -174,4 +174,12 @@ public class SkillTreeDescriptions {
     public String shieldKnockback() {
         return String.format("Mobs blocked by this %s will be knocked back", toolName);
     }
+
+    public String beheading() {
+        return String.format("Mobs killed by this %s will have a chance to drop their head", toolName);
+    }
+
+    public String capturing() {
+        return String.format("Mobs killed by this %s will havev a chance to drop their spawn egg", toolName);
+    }
 }

@@ -45,7 +45,9 @@ import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.arrow
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.arrowSpeed;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.attackDamage;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.baseArmor;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.beheading;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.blastProtection;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.capturing;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.doubleItems;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.drawSpeed;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.durability;
@@ -560,6 +562,8 @@ public class CrystalToolsSkillTrees {
                         .previousTierOrRequirements()
                     .dataComponentNode(10, unbreaking(1), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.1F)
                         .previousTierOrRequirements()
+                    .dataComponentNode(39, beheading(1), desc.beheading(), DataComponents.BEHEADING.getId(), 0.1F)
+                        .previousTierOrRequirements()
                 .tier()
                     .dataComponentNode(11, arrowDamage(3), desc.arrowDamage(), DataComponents.ARROW_DAMAGE.getId(), 1)
                         .nodeRequirement(4)
@@ -573,6 +577,8 @@ public class CrystalToolsSkillTrees {
                     .dataComponentNode(14, durability(3), desc.durability(), DURABILITY, 200)
                         .nodeRequirement(7)
                         .previousTierOrRequirements()
+                    .dataComponentNode(42, capturing(1), desc.capturing(), DataComponents.CAPTURING.getId(), 0.01F)
+                        .previousTierOrRequirements()
                 .tier()
                     .enchantmentNode(15, desc, Enchantments.PUNCH, 2)
                         .nodeRequirement(8)
@@ -581,6 +587,9 @@ public class CrystalToolsSkillTrees {
                         .previousTierOrRequirements()
                     .dataComponentNode(17, unbreaking(2), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.1F)
                         .nodeRequirement(10)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(40, beheading(2), desc.beheading(), DataComponents.BEHEADING.getId(), 0.1F)
+                        .nodeRequirement(39)
                         .previousTierOrRequirements()
                 .tier()
                     .dataComponentNode(18, arrowDamage(4), desc.arrowDamage(), DataComponents.ARROW_DAMAGE.getId(), 1)
@@ -595,6 +604,9 @@ public class CrystalToolsSkillTrees {
                     .dataComponentNode(21, durability(4), desc.durability(), DURABILITY, 200)
                         .nodeRequirement(14)
                         .previousTierOrRequirements()
+                .dataComponentNode(43, capturing(2), desc.capturing(), DataComponents.CAPTURING.getId(), 0.01F)
+                    .nodeRequirement(42)
+                    .previousTierOrRequirements()
                 .tier()
                     .enchantmentNode(22, desc, Enchantments.PUNCH, 3)
                         .nodeRequirement(15)
@@ -605,6 +617,9 @@ public class CrystalToolsSkillTrees {
                         .nodeRequirement(17)
                         .previousTierOrRequirements()
                     .dataComponentNode(25, AUTO_TARGET, desc.autoTarget(false), DataComponents.AUTO_TARGET.getId(), 1F)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(41, beheading(3), desc.beheading(), DataComponents.BEHEADING.getId(), 0.1F)
+                        .nodeRequirement(40)
                         .previousTierOrRequirements()
                 .tier()
                     .dataComponentNode(26, arrowDamage(5), desc.arrowDamage(), DataComponents.ARROW_DAMAGE.getId(), 1)
@@ -618,6 +633,9 @@ public class CrystalToolsSkillTrees {
                         .previousTierOrRequirements()
                     .dataComponentNode(29, durability(5), desc.durability(), DURABILITY, 200)
                         .nodeRequirement(21)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(44, capturing(3), desc.capturing(), DataComponents.CAPTURING.getId(), 0.01F)
+                        .nodeRequirement(43)
                         .previousTierOrRequirements()
                 .tier()
                     .infiniteDataComponentNode(30, arrowDamage(0), desc.arrowDamage(), DataComponents.ARROW_DAMAGE.getId(), 0.2F)
