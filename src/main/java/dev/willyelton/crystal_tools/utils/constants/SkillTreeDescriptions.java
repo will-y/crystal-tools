@@ -15,6 +15,18 @@ public class SkillTreeDescriptions {
         return String.format("Increases the %s's Attack Damage", toolName);
     }
 
+    public String attackSpeed() {
+        return String.format("Increases the %s's Attack Speed", toolName);
+    }
+
+    public String knockbackResistance() {
+        return String.format("Adds Knockback Resistance when holding the %s", toolName);
+    }
+
+    public String knockback() {
+        return String.format("Adds Knockback to the %s", toolName);
+    }
+
     public String durability() {
         return String.format("Increases the %s's Durability", toolName);
     }
@@ -181,5 +193,9 @@ public class SkillTreeDescriptions {
 
     public String capturing() {
         return String.format("Mobs killed by this %s will havev a chance to drop their spawn egg", toolName);
+    }
+
+    public String lifesteal() {
+        return String.format("You gain 1 heart back on each attack with the %s", toolName);
     }
 }

@@ -350,6 +350,17 @@
         ],
         "key": "beheading",
         "value": 0.1
+      },
+      {
+        "id": 41,
+        "name": "Sweeping Edge",
+        "description": "Adds sweeping edge to the sword",
+        "limit": 1,
+        "requirements": [
+          {"or_node": [15, 16, 17, 31, 39]}
+        ],
+        "key": "sweeping_edge",
+        "value": 3
       }
     ],
     [
@@ -359,7 +370,7 @@
         "description": "Increases Sword's Attack Damage",
         "limit": 1,
         "requirements": [
-          {"or_node": [18, 19, 28, 37]},
+          {"or_node": [18, 19, 28, 37, 41]},
           {"node": [15]}
         ],
         "key": "damage_bonus",
@@ -371,7 +382,7 @@
         "description": "Increases Sword's Attack Speed",
         "limit": 1,
         "requirements": [
-          {"or_node": [18, 19, 28, 37]},
+          {"or_node": [18, 19, 28, 37, 41]},
           {"node": [16]}
         ],
         "key": "attack_speed_bonus",
@@ -383,7 +394,7 @@
         "description": "Increases Sword's Durability",
         "limit": 1,
         "requirements": [
-          {"or_node": [18, 19, 28, 37]},
+          {"or_node": [18, 19, 28, 37, 41]},
           {"node": [17]}
         ],
         "key": "durability_bonus",
@@ -395,7 +406,7 @@
         "description": "Increases Sword's Reach Distance",
         "limit": 1,
         "requirements": [
-          {"or_node": [18, 19, 28, 37]},
+          {"or_node": [18, 19, 28, 37, 41]},
           {"node": [31]}
         ],
         "key": "reach",
@@ -407,7 +418,7 @@
         "description": "Adds a chance for a mob to drop a spawn egg",
         "limit": 1,
         "requirements": [
-          {"or_node": [18, 19, 28, 37]},
+          {"or_node": [18, 19, 28, 37, 41]},
           {"node": [39]}
         ],
         "key": "capture",

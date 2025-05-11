@@ -37,6 +37,22 @@ public class SkillTreeTitles {
         return String.format("Attack Damage %s", intToRomanNumeral(level));
     }
 
+    public static String attackSpeed(int level) {
+        return getName("Attack Speed", level);
+    }
+
+    public static String knockbackResistance(int level) {
+        return getName("Knockback Res", level);
+    }
+
+    public static String knockback(int level) {
+        return getName("Knockback", level);
+    }
+
+    public static String lifesteal(int level) {
+        return getName("Lifesteal", level);
+    }
+
     public static String durability(int level) {
         return getName("Durability", level);
     }

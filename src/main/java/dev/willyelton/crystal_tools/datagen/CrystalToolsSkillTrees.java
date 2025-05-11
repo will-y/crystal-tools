@@ -44,6 +44,7 @@ import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.VEIN_
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.arrowDamage;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.arrowSpeed;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.attackDamage;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.attackSpeed;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.baseArmor;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.beheading;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.blastProtection;
@@ -58,6 +59,9 @@ import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.fligh
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.fortune;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.healthBonus;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.intToRomanNumeral;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.knockback;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.knockbackResistance;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.lifesteal;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.miningSpeed;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.moveSpeed;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.projectileProtection;
@@ -99,6 +103,8 @@ public class CrystalToolsSkillTrees {
                 Registration.CRYSTAL_SHIELD.getId()), shield());
 
         // Weapons
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+                Registration.CRYSTAL_SWORD.getId()), sword());
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
                 Registration.CRYSTAL_BOW.getId()), bow());
 
@@ -217,6 +223,124 @@ public class CrystalToolsSkillTrees {
                 .tier()
                     .enchantmentNode(29, fortune(5), desc.fortune(), Enchantments.FORTUNE, 5)
                         .nodeRequirement(9, 25, 26, 27, 28)
+                .build();
+    }
+
+    private SkillData sword() {
+        SkillTreeDescriptions desc = new SkillTreeDescriptions("Sword");
+
+        return SkillData.builder(EquipmentSlot.MAINHAND)
+                .tier()
+                    .attributeNode(0, attackDamage(1), desc.attackDamage(), attr(Attributes.ATTACK_DAMAGE), 1)
+                    .attributeNode(1, attackSpeed(1), desc.attackSpeed(), attr(Attributes.ATTACK_SPEED), 1)
+                    .dataComponentNode(2, durability(1), desc.durability(), DURABILITY, 200)
+                .tier()
+                    .attributeNode(3, attackDamage(2), desc.attackDamage(), attr(Attributes.ATTACK_DAMAGE), 1)
+                        .nodeRequirement(0)
+                    .attributeNode(4, attackSpeed(2), desc.attackSpeed(), attr(Attributes.ATTACK_SPEED), 1)
+                        .nodeRequirement(1)
+                    .dataComponentNode(5, durability(2), desc.durability(), DURABILITY, 200)
+                        .nodeRequirement(2)
+                .tier()
+                    .enchantmentNode(6, desc, Enchantments.FIRE_ASPECT, 2)
+                        .previousTierOrRequirements()
+                    .attributeNode(7, knockbackResistance(1), desc.knockbackResistance(), attr(Attributes.KNOCKBACK_RESISTANCE), 0.1F)
+                        .previousTierOrRequirements()
+                    .attributeNode(8, knockback(1), desc.knockback(), attr(Attributes.KNOCKBACK_RESISTANCE), 1)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(9, unbreaking(1), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.1F)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(10, beheading(1), desc.beheading(), DataComponents.BEHEADING.getId(), 0.1F)
+                        .previousTierOrRequirements()
+                .tier()
+                    .attributeNode(11, attackDamage(3), desc.attackDamage(), attr(Attributes.ATTACK_DAMAGE), 1)
+                        .nodeRequirement(3)
+                        .previousTierOrRequirements()
+                    .attributeNode(12, attackSpeed(3), desc.attackSpeed(), attr(Attributes.ATTACK_SPEED), 1)
+                        .nodeRequirement(4)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(13, durability(3), desc.durability(), DURABILITY, 200)
+                        .nodeRequirement(5)
+                        .previousTierOrRequirements()
+                    .attributeNode(14, reach(1), desc.reach(), List.of(attr(Attributes.ENTITY_INTERACTION_RANGE), attr(Attributes.BLOCK_INTERACTION_RANGE)), 1)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(15, capturing(1), desc.capturing(), DataComponents.CAPTURING.getId(), 1)
+                        .previousTierOrRequirements()
+                .tier()
+                    .dataComponentNode(16, lifesteal(1), desc.lifesteal(), DataComponents.LIFESTEAL.getId(), 2)
+                        .previousTierOrRequirements()
+                    .attributeNode(17, knockbackResistance(2), desc.knockbackResistance(), attr(Attributes.KNOCKBACK_RESISTANCE), 0.1F)
+                        .nodeRequirement(7)
+                        .previousTierOrRequirements()
+                    .attributeNode(18, knockback(2), desc.knockback(), attr(Attributes.KNOCKBACK_RESISTANCE), 1)
+                        .nodeRequirement(8)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(19, unbreaking(2), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.1F)
+                        .nodeRequirement(9)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(20, beheading(2), desc.beheading(), DataComponents.BEHEADING.getId(), 0.1F)
+                        .nodeRequirement(10)
+                        .previousTierOrRequirements()
+                .tier()
+                    .attributeNode(21, attackDamage(4), desc.attackDamage(), attr(Attributes.ATTACK_DAMAGE), 1)
+                        .nodeRequirement(11)
+                        .previousTierOrRequirements()
+                    .attributeNode(22, attackSpeed(4), desc.attackSpeed(), attr(Attributes.ATTACK_SPEED), 1)
+                        .nodeRequirement(12)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(23, durability(4), desc.durability(), DURABILITY, 200)
+                        .nodeRequirement(13)
+                        .previousTierOrRequirements()
+                    .attributeNode(24, reach(2), desc.reach(), List.of(attr(Attributes.ENTITY_INTERACTION_RANGE), attr(Attributes.BLOCK_INTERACTION_RANGE)), 1)
+                        .nodeRequirement(14)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(25, capturing(2), desc.capturing(), DataComponents.CAPTURING.getId(), 1)
+                        .nodeRequirement(15)
+                        .previousTierOrRequirements()
+                .tier()
+                    .enchantmentNode(26, desc, Enchantments.LOOTING, 3)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(27, AUTO_REPAIR, desc.autoRepair(), DataComponents.AUTO_REPAIR.getId(), 1, 0)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(28, unbreaking(3), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.1F)
+                        .nodeRequirement(19)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(29, beheading(3), desc.beheading(), DataComponents.BEHEADING.getId(), 0.1F)
+                        .nodeRequirement(20)
+                        .previousTierOrRequirements()
+                    .enchantmentNode(30, desc, Enchantments.SWEEPING_EDGE, 3)
+                        .previousTierOrRequirements()
+                .tier()
+                    .attributeNode(31, attackDamage(5), desc.attackDamage(), attr(Attributes.ATTACK_DAMAGE), 1)
+                        .nodeRequirement(21)
+                        .previousTierOrRequirements()
+                    .attributeNode(32, attackSpeed(5), desc.attackSpeed(), attr(Attributes.ATTACK_SPEED), 1)
+                        .nodeRequirement(22)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(33, durability(4), desc.durability(), DURABILITY, 200)
+                        .nodeRequirement(23)
+                        .previousTierOrRequirements()
+                    .attributeNode(34, reach(3), desc.reach(), List.of(attr(Attributes.ENTITY_INTERACTION_RANGE), attr(Attributes.BLOCK_INTERACTION_RANGE)), 1)
+                        .nodeRequirement(24)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(35, capturing(3), desc.capturing(), DataComponents.CAPTURING.getId(), 1)
+                        .nodeRequirement(25)
+                        .previousTierOrRequirements()
+                .tier()
+                    .infiniteAttributeNode(36, attackDamage(0), desc.attackDamage(), attr(Attributes.ATTACK_DAMAGE), 0.25F)
+                        .nodeRequirement(31)
+                    .infiniteDataComponentNode(37, attackSpeed(0), desc.attackSpeed(), attr(Attributes.ATTACK_SPEED), 0.25F)
+                        .nodeRequirement(32)
+                    .infiniteDataComponentNode(38, durability(0), desc.durability(), DURABILITY, 50)
+                        .nodeRequirement(33)
+                    .dataComponentNode(39, unbreaking(0), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.1F, 70)
+                        .nodeRequirement(28)
+                        .previousTierOrRequirements()
+                    .infiniteAttributeNode(40, reach(0), desc.reach(), List.of(attr(Attributes.ENTITY_INTERACTION_RANGE), attr(Attributes.BLOCK_INTERACTION_RANGE)), 0.1F)
+                        .nodeRequirement(34)
+                .tier()
+                    .enchantmentNode(41, desc, Enchantments.LOOTING, 5)
+                        .previousTierAndRequirements()
                 .build();
     }
 

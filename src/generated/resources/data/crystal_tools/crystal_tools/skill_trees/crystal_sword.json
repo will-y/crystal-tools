@@ -1,0 +1,1057 @@
+{
+  "equipmentSlot": "mainhand",
+  "tiers": [
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Attack Damage",
+          "id": 0,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 1,
+          "name": "Attack Damage I",
+          "requirements": [],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Attack Speed",
+          "id": 1,
+          "key": [
+            "minecraft:attack_speed"
+          ],
+          "limit": 1,
+          "name": "Attack Speed I",
+          "requirements": [],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Sword's Durability",
+          "id": 2,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability I",
+          "requirements": [],
+          "value": 200.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Attack Damage",
+          "id": 3,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 1,
+          "name": "Attack Damage II",
+          "requirements": [
+            {
+              "node": [
+                0
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Attack Speed",
+          "id": 4,
+          "key": [
+            "minecraft:attack_speed"
+          ],
+          "limit": 1,
+          "name": "Attack Speed II",
+          "requirements": [
+            {
+              "node": [
+                1
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Sword's Durability",
+          "id": 5,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability II",
+          "requirements": [
+            {
+              "node": [
+                2
+              ]
+            }
+          ],
+          "value": 200.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Fire Aspect II to the Sword",
+          "enchantment": "minecraft:fire_aspect",
+          "id": 6,
+          "level": 2,
+          "name": "Fire Aspect II",
+          "requirements": [
+            {
+              "or_node": [
+                3,
+                4,
+                5
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Adds Knockback Resistance when holding the Sword",
+          "id": 7,
+          "key": [
+            "minecraft:knockback_resistance"
+          ],
+          "limit": 1,
+          "name": "Knockback Res I",
+          "requirements": [
+            {
+              "or_node": [
+                3,
+                4,
+                5
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Adds Knockback to the Sword",
+          "id": 8,
+          "key": [
+            "minecraft:knockback_resistance"
+          ],
+          "limit": 1,
+          "name": "Knockback I",
+          "requirements": [
+            {
+              "or_node": [
+                3,
+                4,
+                5
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not use durability",
+          "id": 9,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking I",
+          "requirements": [
+            {
+              "or_node": [
+                3,
+                4,
+                5
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs killed by this Sword will have a chance to drop their head",
+          "id": 10,
+          "key": [
+            "crystal_tools:beheading"
+          ],
+          "limit": 1,
+          "name": "Beheading I",
+          "requirements": [
+            {
+              "or_node": [
+                3,
+                4,
+                5
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Attack Damage",
+          "id": 11,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 1,
+          "name": "Attack Damage III",
+          "requirements": [
+            {
+              "node": [
+                3
+              ]
+            },
+            {
+              "or_node": [
+                6,
+                7,
+                8,
+                9,
+                10
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Attack Speed",
+          "id": 12,
+          "key": [
+            "minecraft:attack_speed"
+          ],
+          "limit": 1,
+          "name": "Attack Speed III",
+          "requirements": [
+            {
+              "node": [
+                4
+              ]
+            },
+            {
+              "or_node": [
+                6,
+                7,
+                8,
+                9,
+                10
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Sword's Durability",
+          "id": 13,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability III",
+          "requirements": [
+            {
+              "node": [
+                5
+              ]
+            },
+            {
+              "or_node": [
+                6,
+                7,
+                8,
+                9,
+                10
+              ]
+            }
+          ],
+          "value": 200.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Reach Distance",
+          "id": 14,
+          "key": [
+            "minecraft:entity_interaction_range",
+            "minecraft:block_interaction_range"
+          ],
+          "limit": 1,
+          "name": "Reach I",
+          "requirements": [
+            {
+              "or_node": [
+                6,
+                7,
+                8,
+                9,
+                10
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs killed by this Sword will havev a chance to drop their spawn egg",
+          "id": 15,
+          "key": [
+            "crystal_tools:capture"
+          ],
+          "limit": 1,
+          "name": "Capturing I",
+          "requirements": [
+            {
+              "or_node": [
+                6,
+                7,
+                8,
+                9,
+                10
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "You gain 1 heart back on each attack with the Sword",
+          "id": 16,
+          "key": [
+            "crystal_tools:lifesteal"
+          ],
+          "limit": 1,
+          "name": "Lifesteal I",
+          "requirements": [
+            {
+              "or_node": [
+                11,
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "value": 2.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Adds Knockback Resistance when holding the Sword",
+          "id": 17,
+          "key": [
+            "minecraft:knockback_resistance"
+          ],
+          "limit": 1,
+          "name": "Knockback Res II",
+          "requirements": [
+            {
+              "node": [
+                7
+              ]
+            },
+            {
+              "or_node": [
+                11,
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Adds Knockback to the Sword",
+          "id": 18,
+          "key": [
+            "minecraft:knockback_resistance"
+          ],
+          "limit": 1,
+          "name": "Knockback II",
+          "requirements": [
+            {
+              "node": [
+                8
+              ]
+            },
+            {
+              "or_node": [
+                11,
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not use durability",
+          "id": 19,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking II",
+          "requirements": [
+            {
+              "node": [
+                9
+              ]
+            },
+            {
+              "or_node": [
+                11,
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs killed by this Sword will have a chance to drop their head",
+          "id": 20,
+          "key": [
+            "crystal_tools:beheading"
+          ],
+          "limit": 1,
+          "name": "Beheading II",
+          "requirements": [
+            {
+              "node": [
+                10
+              ]
+            },
+            {
+              "or_node": [
+                11,
+                12,
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Attack Damage",
+          "id": 21,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 1,
+          "name": "Attack Damage IV",
+          "requirements": [
+            {
+              "node": [
+                11
+              ]
+            },
+            {
+              "or_node": [
+                16,
+                17,
+                18,
+                19,
+                20
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Attack Speed",
+          "id": 22,
+          "key": [
+            "minecraft:attack_speed"
+          ],
+          "limit": 1,
+          "name": "Attack Speed IV",
+          "requirements": [
+            {
+              "node": [
+                12
+              ]
+            },
+            {
+              "or_node": [
+                16,
+                17,
+                18,
+                19,
+                20
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Sword's Durability",
+          "id": 23,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability IV",
+          "requirements": [
+            {
+              "node": [
+                13
+              ]
+            },
+            {
+              "or_node": [
+                16,
+                17,
+                18,
+                19,
+                20
+              ]
+            }
+          ],
+          "value": 200.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Reach Distance",
+          "id": 24,
+          "key": [
+            "minecraft:entity_interaction_range",
+            "minecraft:block_interaction_range"
+          ],
+          "limit": 1,
+          "name": "Reach II",
+          "requirements": [
+            {
+              "node": [
+                14
+              ]
+            },
+            {
+              "or_node": [
+                16,
+                17,
+                18,
+                19,
+                20
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs killed by this Sword will havev a chance to drop their spawn egg",
+          "id": 25,
+          "key": [
+            "crystal_tools:capture"
+          ],
+          "limit": 1,
+          "name": "Capturing II",
+          "requirements": [
+            {
+              "node": [
+                15
+              ]
+            },
+            {
+              "or_node": [
+                16,
+                17,
+                18,
+                19,
+                20
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Looting III to the Sword",
+          "enchantment": "minecraft:looting",
+          "id": 26,
+          "level": 3,
+          "name": "Looting III",
+          "requirements": [
+            {
+              "or_node": [
+                21,
+                22,
+                23,
+                24,
+                25
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Automatically repairs the Sword over time",
+          "id": 27,
+          "key": [
+            "crystal_tools:auto_repair"
+          ],
+          "limit": 0,
+          "name": "Auto Repair",
+          "requirements": [
+            {
+              "or_node": [
+                21,
+                22,
+                23,
+                24,
+                25
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not use durability",
+          "id": 28,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking III",
+          "requirements": [
+            {
+              "node": [
+                19
+              ]
+            },
+            {
+              "or_node": [
+                21,
+                22,
+                23,
+                24,
+                25
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs killed by this Sword will have a chance to drop their head",
+          "id": 29,
+          "key": [
+            "crystal_tools:beheading"
+          ],
+          "limit": 1,
+          "name": "Beheading III",
+          "requirements": [
+            {
+              "node": [
+                20
+              ]
+            },
+            {
+              "or_node": [
+                21,
+                22,
+                23,
+                24,
+                25
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Sweeping Edge III to the Sword",
+          "enchantment": "minecraft:sweeping_edge",
+          "id": 30,
+          "level": 3,
+          "name": "Sweeping Edge III",
+          "requirements": [
+            {
+              "or_node": [
+                21,
+                22,
+                23,
+                24,
+                25
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Attack Damage",
+          "id": 31,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 1,
+          "name": "Attack Damage V",
+          "requirements": [
+            {
+              "node": [
+                21
+              ]
+            },
+            {
+              "or_node": [
+                26,
+                27,
+                28,
+                29,
+                30
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Attack Speed",
+          "id": 32,
+          "key": [
+            "minecraft:attack_speed"
+          ],
+          "limit": 1,
+          "name": "Attack Speed V",
+          "requirements": [
+            {
+              "node": [
+                22
+              ]
+            },
+            {
+              "or_node": [
+                26,
+                27,
+                28,
+                29,
+                30
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Sword's Durability",
+          "id": 33,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability IV",
+          "requirements": [
+            {
+              "node": [
+                23
+              ]
+            },
+            {
+              "or_node": [
+                26,
+                27,
+                28,
+                29,
+                30
+              ]
+            }
+          ],
+          "value": 200.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Reach Distance",
+          "id": 34,
+          "key": [
+            "minecraft:entity_interaction_range",
+            "minecraft:block_interaction_range"
+          ],
+          "limit": 1,
+          "name": "Reach III",
+          "requirements": [
+            {
+              "node": [
+                24
+              ]
+            },
+            {
+              "or_node": [
+                26,
+                27,
+                28,
+                29,
+                30
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs killed by this Sword will havev a chance to drop their spawn egg",
+          "id": 35,
+          "key": [
+            "crystal_tools:capture"
+          ],
+          "limit": 1,
+          "name": "Capturing III",
+          "requirements": [
+            {
+              "node": [
+                25
+              ]
+            },
+            {
+              "or_node": [
+                26,
+                27,
+                28,
+                29,
+                30
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Attack Damage",
+          "id": 36,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 0,
+          "name": "Infinite Damage",
+          "requirements": [
+            {
+              "node": [
+                31
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Sword's Attack Speed",
+          "id": 37,
+          "key": [
+            "minecraft:attack_speed"
+          ],
+          "limit": 0,
+          "name": "Infinite Attack Speed",
+          "requirements": [
+            {
+              "node": [
+                32
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Sword's Durability",
+          "id": 38,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 0,
+          "name": "Infinite Durability",
+          "requirements": [
+            {
+              "node": [
+                33
+              ]
+            }
+          ],
+          "value": 50.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not use durability",
+          "id": 39,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 70,
+          "name": "Infinite Unbreaking",
+          "requirements": [
+            {
+              "node": [
+                28
+              ]
+            },
+            {
+              "or_node": [
+                31,
+                32,
+                33,
+                34,
+                35
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Reach Distance",
+          "id": 40,
+          "key": [
+            "minecraft:entity_interaction_range",
+            "minecraft:block_interaction_range"
+          ],
+          "limit": 0,
+          "name": "Infinite Reach",
+          "requirements": [
+            {
+              "node": [
+                34
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Looting V to the Sword",
+          "enchantment": "minecraft:looting",
+          "id": 41,
+          "level": 5,
+          "name": "Looting V",
+          "requirements": [
+            {
+              "node": [
+                36,
+                37,
+                38,
+                39,
+                40
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  ]
+}
