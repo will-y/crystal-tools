@@ -29,11 +29,13 @@ import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AUTO_
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AUTO_SMELTING;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AUTO_TARGET;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AXE_VEIN_MINING;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.CHANNELING;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.CREATIVE_FLIGHT;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.LEAF_MINER;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.MINING_3x3;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.MODE_SWITCH;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.NIGHT_VISION;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.RIPTIDE_TOGGLE;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.SHIELD_KNOCKBACK;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.SILK_TOUCH;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.TORCH;
@@ -64,9 +66,12 @@ import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.knock
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.lifesteal;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.miningSpeed;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.moveSpeed;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.projectileDamage;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.projectileProtection;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.projectileSpeed;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.protection;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.reach;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.riptide;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.shieldCooldown;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.thorns;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.totemSlot;
@@ -107,6 +112,8 @@ public class CrystalToolsSkillTrees {
                 Registration.CRYSTAL_SWORD.getId()), sword());
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
                 Registration.CRYSTAL_BOW.getId()), bow());
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+                Registration.CRYSTAL_TRIDENT.getId()), trident());
 
         // Food
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
@@ -975,6 +982,139 @@ public class CrystalToolsSkillTrees {
                     .dataComponentNode(31, shieldCooldown(0), desc.shieldCooldown(), BLOCKS_ATTACKS, 0.25F, 24)
                         .subText("When you have all points here, the shield can't be disabled!", "#ABABAB")
                         .nodeRequirement(28)
+                .build();
+    }
+
+    private SkillData trident() {
+        SkillTreeDescriptions desc = new SkillTreeDescriptions("Trident");
+
+        return SkillData.builder(EquipmentSlot.MAINHAND)
+                .tier()
+                    .attributeNode(0, attackDamage(1), desc.attackDamage(), attr(Attributes.ATTACK_DAMAGE), 1)
+                    .dataComponentNode(1, projectileDamage(1), desc.projectileDamage(), DataComponents.PROJECTILE_DAMAGE.getId(), 1)
+                    .dataComponentNode(2, durability(1), desc.durability(), DURABILITY, 200)
+                .tier()
+                    .dataComponentNode(3, unbreaking(1), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.1F)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(4, projectileSpeed(1), desc.projectileSpeed(), DataComponents.PROJECTILE_SPEED.getId(), 1)
+                        .previousTierOrRequirements()
+                    .attributeNode(5, reach(1), desc.reach(), List.of(attr(Attributes.ENTITY_INTERACTION_RANGE), attr(Attributes.BLOCK_INTERACTION_RANGE)), 1)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(6, beheading(1), desc.beheading(), DataComponents.BEHEADING.getId(), 0.1F)
+                        .previousTierOrRequirements()
+                .tier()
+                    .dataComponentNode(7, riptide(1), desc.riptide(), DataComponents.RIPTIDE.getId(), 1)
+                        .previousTierOrRequirements()
+                        .notNodeRequirement(8, 32)
+                    .enchantmentNode(8, desc, Enchantments.LOYALTY, 1)
+                        .previousTierOrRequirements()
+                        .notNodeRequirement(7, 32)
+                    .dataComponentNode(9, CHANNELING, desc.channeling(), DataComponents.CHANNELING.getId(), 1, 0)
+                        .previousTierOrRequirements()
+                        .notNodeRequirement(7, 32)
+                    .dataComponentNode(10, capturing(1), desc.capturing(), DataComponents.CAPTURING.getId(), 0.01F)
+                        .previousTierOrRequirements()
+                .tier()
+                    .attributeNode(11, attackDamage(2), desc.attackDamage(), attr(Attributes.ATTACK_DAMAGE), 1)
+                        .nodeRequirement(0)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(12, projectileDamage(2), desc.projectileDamage(), DataComponents.PROJECTILE_DAMAGE.getId(), 1)
+                        .nodeRequirement(1)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(13, durability(2), desc.durability(), DURABILITY, 200)
+                        .nodeRequirement(2)
+                        .previousTierOrRequirements()
+                .tier()
+                    .dataComponentNode(14, unbreaking(2), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.1F)
+                        .nodeRequirement(3)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(15, projectileSpeed(2), desc.projectileSpeed(), DataComponents.PROJECTILE_SPEED.getId(), 1)
+                        .nodeRequirement(4)
+                        .previousTierOrRequirements()
+                    .attributeNode(16, reach(2), desc.reach(), List.of(attr(Attributes.ENTITY_INTERACTION_RANGE), attr(Attributes.BLOCK_INTERACTION_RANGE)), 1)
+                        .nodeRequirement(5)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(17, beheading(2), desc.beheading(), DataComponents.BEHEADING.getId(), 0.1F)
+                        .nodeRequirement(6)
+                        .previousTierOrRequirements()
+                .tier()
+                    .dataComponentNode(18, riptide(2), desc.riptide(), DataComponents.RIPTIDE.getId(), 1)
+                        .nodeRequirement(7)
+                        .previousTierOrRequirements()
+                        .notNodeRequirement(8, 32)
+                    .enchantmentNode(19, desc, Enchantments.LOYALTY, 2)
+                        .nodeRequirement(8)
+                        .previousTierOrRequirements()
+                        .notNodeRequirement(7, 32)
+                    .dataComponentNode(20, capturing(1), desc.capturing(), DataComponents.CAPTURING.getId(), 0.01F)
+                        .nodeRequirement(10)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(21, AUTO_REPAIR, desc.autoRepair(), DataComponents.AUTO_REPAIR.getId(), 1, 0)
+                        .previousTierOrRequirements()
+                .tier()
+                    .attributeNode(22, attackDamage(3), desc.attackDamage(), attr(Attributes.ATTACK_DAMAGE), 1)
+                        .nodeRequirement(11)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(23, projectileDamage(3), desc.projectileDamage(), DataComponents.PROJECTILE_DAMAGE.getId(), 1)
+                        .nodeRequirement(12)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(24, durability(3), desc.durability(), DURABILITY, 200)
+                        .nodeRequirement(13)
+                        .previousTierOrRequirements()
+                .tier()
+                    .dataComponentNode(25, unbreaking(3), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.1F)
+                        .nodeRequirement(14)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(26, projectileSpeed(3), desc.projectileSpeed(), DataComponents.PROJECTILE_SPEED.getId(), 1)
+                        .nodeRequirement(15)
+                        .previousTierOrRequirements()
+                    .attributeNode(27, reach(3), desc.reach(), List.of(attr(Attributes.ENTITY_INTERACTION_RANGE), attr(Attributes.BLOCK_INTERACTION_RANGE)), 1)
+                        .nodeRequirement(16)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(28, beheading(3), desc.beheading(), DataComponents.BEHEADING.getId(), 0.1F)
+                        .nodeRequirement(17)
+                        .previousTierOrRequirements()
+                .tier()
+                    .dataComponentNode(29, riptide(3), desc.riptide(), DataComponents.RIPTIDE.getId(), 1)
+                        .nodeRequirement(18)
+                        .previousTierOrRequirements()
+                        .notNodeRequirement(8, 32)
+                    .enchantmentNode(30, desc, Enchantments.LOYALTY, 3)
+                        .nodeRequirement(19)
+                        .previousTierOrRequirements()
+                        .notNodeRequirement(7, 32)
+                    .dataComponentNode(31, capturing(1), desc.capturing(), DataComponents.CAPTURING.getId(), 0.01F)
+                        .nodeRequirement(20)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(32, RIPTIDE_TOGGLE, desc.riptideToggle(), DataComponents.MINE_MODE.getId(), 1)
+                        .previousTierOrRequirements()
+                .tier()
+                    .infiniteAttributeNode(33, attackDamage(0), desc.attackDamage(), attr(Attributes.ATTACK_DAMAGE), 0.25F)
+                        .nodeRequirement(22)
+                        .previousTierOrRequirements()
+                    .infiniteDataComponentNode(34, projectileDamage(0), desc.projectileDamage(), DataComponents.PROJECTILE_DAMAGE.getId(), 0.25F)
+                        .nodeRequirement(23)
+                        .previousTierOrRequirements()
+                    .infiniteDataComponentNode(35, durability(0), desc.durability(), DURABILITY, 50)
+                        .nodeRequirement(24)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(36, unbreaking(0), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.01F, 70)
+                        .nodeRequirement(25)
+                        .previousTierOrRequirements()
+                    .infiniteDataComponentNode(37, projectileSpeed(0), desc.projectileSpeed(), DataComponents.PROJECTILE_SPEED.getId(), 0.25F)
+                        .nodeRequirement(26)
+                        .previousTierOrRequirements()
+                    .infiniteAttributeNode(38, reach(0), desc.reach(), List.of(attr(Attributes.ENTITY_INTERACTION_RANGE), attr(Attributes.BLOCK_INTERACTION_RANGE)), 0.1F)
+                        .nodeRequirement(27)
+                        .previousTierOrRequirements()
+                    .infiniteDataComponentNode(39, riptide(0), desc.riptide(), DataComponents.RIPTIDE.getId(), 0.25F)
+                        .nodeRequirement()
+                        .previousTierOrRequirements()
+                .tier()
+                    .dataComponentNode(40, "Always Riptide", "Allows you to Riptide even when it isn't raining", DataComponents.ALWAYS_RIPTIDE.getId(), 1)
+                        .previousTierOrRequirements()
+                    .dataComponentNode(41, "Instant Loyalty", "The Trident instantly comes back to you", DataComponents.INSTANT_LOYALTY.getId(), 1)
+                        .previousTierAndRequirements()
                 .build();
     }
 

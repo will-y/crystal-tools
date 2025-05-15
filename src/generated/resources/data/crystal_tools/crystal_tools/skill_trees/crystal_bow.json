@@ -345,7 +345,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Mobs killed by this Bow will havev a chance to drop their spawn egg",
+          "description": "Mobs killed by this Bow will have a chance to drop their spawn egg",
           "id": 42,
           "key": [
             "crystal_tools:capture"
@@ -589,7 +589,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Mobs killed by this Bow will havev a chance to drop their spawn egg",
+          "description": "Mobs killed by this Bow will have a chance to drop their spawn egg",
           "id": 43,
           "key": [
             "crystal_tools:capture"
@@ -869,7 +869,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Mobs killed by this Bow will havev a chance to drop their spawn egg",
+          "description": "Mobs killed by this Bow will have a chance to drop their spawn egg",
           "id": 44,
           "key": [
             "crystal_tools:capture"

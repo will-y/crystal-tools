@@ -332,7 +332,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Mobs killed by this Sword will havev a chance to drop their spawn egg",
+          "description": "Mobs killed by this Sword will have a chance to drop their spawn egg",
           "id": 15,
           "key": [
             "crystal_tools:capture"
@@ -617,7 +617,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Mobs killed by this Sword will havev a chance to drop their spawn egg",
+          "description": "Mobs killed by this Sword will have a chance to drop their spawn egg",
           "id": 25,
           "key": [
             "crystal_tools:capture"
@@ -891,7 +891,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Mobs killed by this Sword will havev a chance to drop their spawn egg",
+          "description": "Mobs killed by this Sword will have a chance to drop their spawn egg",
           "id": 35,
           "key": [
             "crystal_tools:capture"

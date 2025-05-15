@@ -192,10 +192,30 @@ public class SkillTreeDescriptions {
     }
 
     public String capturing() {
-        return String.format("Mobs killed by this %s will havev a chance to drop their spawn egg", toolName);
+        return String.format("Mobs killed by this %s will have a chance to drop their spawn egg", toolName);
     }
 
     public String lifesteal() {
         return String.format("You gain 1 heart back on each attack with the %s", toolName);
+    }
+
+    public String projectileDamage() {
+        return String.format("Increases the %s's projectile damage", toolName);
+    }
+
+    public String projectileSpeed() {
+        return String.format("Increases the %s's projectile speed", toolName);
+    }
+
+    public String channeling() {
+        return "Adds Channeling to the Trident. Does not have to be during a thunderstorm. The more points added, the more damage the lightning does. Lightning created by this will not hurt you.";
+    }
+
+    public String riptide() {
+        return String.format("Increases the %s's Riptide Level", toolName);
+    }
+
+    public String riptideToggle() {
+        return "Allows you to toggle Riptide off";
     }
 }

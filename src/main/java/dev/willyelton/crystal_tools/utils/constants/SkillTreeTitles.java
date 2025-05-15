@@ -19,6 +19,8 @@ public class SkillTreeTitles {
     public static final String AUTO_TARGET = "Auto Target Mobs";
     public static final String TOTEM_SLOT_SUBTEXT = "Craft with a Totem of Undying to add one";
     public static final String SHIELD_KNOCKBACK = "Shield Knockback";
+    public static final String CHANNELING = "Channeling";
+    public static final String RIPTIDE_TOGGLE = "Riptide Toggle";
 
     // TODO: could this be expanded easily?
     public static final String MINING_3x3 = "3x3 Mining";
@@ -155,6 +157,18 @@ public class SkillTreeTitles {
 
     public static String capturing(int level) {
         return getName("Capturing", level);
+    }
+
+    public static String projectileDamage(int level) {
+        return getName("Projectile Damage", level);
+    }
+
+    public static String projectileSpeed(int level) {
+        return getName("Projectile Speed", level);
+    }
+
+    public static String riptide(int level) {
+        return getName("Riptide", level);
     }
 
     private static String getName(String title, int level) {

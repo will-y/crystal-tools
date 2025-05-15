@@ -111,3 +111,4 @@ Also want to consider the idea of either a second tree, or just another type of 
 - Datapack validation (make sure all requirements point to valid nodes / items)...
 - try out some vanilla skill trees
 - redo getting points (each node should probably be able to do the action, so the packet handler should be really simple)
+- Resizing the screen after you spend a point resets it?
