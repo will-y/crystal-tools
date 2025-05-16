@@ -25,6 +25,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
+import org.codehaus.plexus.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -271,16 +272,21 @@ public class SkillData {
             return this;
         }
 
-        public Builder previousTierAndRequirements() {
+        public Builder previousTierAndRequirements(int... otherNodes) {
             if (including) {
                 if (previousTier == null) {
                     throw new IllegalArgumentException("Cannot add previous tier or requirements with no previous tier!");
                 }
 
-                currentNode.addRequirement(new NodeSkillDataRequirement(previousTier.stream()
+                List<Integer> prevNodes = previousTier.stream()
                         .filter(n -> !n.getDescription().equals(currentNode.getDescription()))
                         .map(SkillDataNode::getId)
-                        .toList()));
+                        .toList();
+
+                List<Integer> finalNodes = new ArrayList<>(prevNodes);
+                finalNodes.addAll(Arrays.stream(otherNodes).boxed().toList());
+
+                currentNode.addRequirement(new NodeSkillDataRequirement(finalNodes));
             }
 
             return this;

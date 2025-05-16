@@ -1,7 +1,6 @@
 package dev.willyelton.crystal_tools.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.nimbusds.oauth2.sdk.util.CollectionUtils;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.config.CrystalToolsClientConfig;
 import dev.willyelton.crystal_tools.client.gui.component.SkillButton;
@@ -9,8 +8,8 @@ import dev.willyelton.crystal_tools.client.gui.component.XpButton;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
-import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillSubText;
+import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.NodeOrSkillDataRequirement;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.NodeSkillDataRequirement;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.NotNodeSkillDataRequirement;
@@ -54,6 +53,7 @@ public abstract class BaseUpgradeScreen extends Screen {
     private static final float DEPENDENCY_LINE_WIDTH = 9;
     private static final int DEPENDENCY_LINE_IMAGE_WIDTH = 252;
     private static final int DEPENDENCY_LINE_IMAGE_HEIGHT = 256;
+    private static final int MAX_PER_TIER = 6;
 
     private static int ANIMATION_FRAME = 0;
     private static final int ANIMATION_FRAME_MIN = 0;
@@ -86,7 +86,7 @@ public abstract class BaseUpgradeScreen extends Screen {
 
         // add skill tree items
         for (List<SkillDataNode> tier : tiers) {
-            if (tier.size() > 5) {
+            if (tier.size() > MAX_PER_TIER) {
                 for (List<SkillDataNode> subTier : ListUtils.partition(tier, 5)) {
                     this.addButtonsFromTier(subTier, y);
                     y += (Y_PADDING + Y_SIZE);

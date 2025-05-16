@@ -61,9 +61,9 @@
 - https://jademc.readthedocs.io/en/latest/plugins20/getting-started/
 - Look at mekanism vein mining, might want to call playerBreak.
 - Fix xp gaining points being controlled by the client (hard because adding skill points is different for blocks and items)
-- Remove repair in hand, just store the game time instead of writing a counter
 - Furnace should auto split on insert
 - Exclude hoppers from auto outputting (maybe create a tag?)
+- GLM for auto smelting
 
 ## Bugs
 - Furnace skill screen doesn't fully refresh when open when point is gained
@@ -112,3 +112,8 @@ Also want to consider the idea of either a second tree, or just another type of 
 - try out some vanilla skill trees
 - redo getting points (each node should probably be able to do the action, so the packet handler should be really simple)
 - Resizing the screen after you spend a point resets it?
+
+Before release:
+- remove all old datacomponents
+- trident loyalty broken still maybe?
+- block entities
