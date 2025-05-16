@@ -115,5 +115,4 @@ Also want to consider the idea of either a second tree, or just another type of 
 
 Before release:
 - remove all old datacomponents
-- trident loyalty broken still maybe?
 - block entities
