@@ -218,4 +218,28 @@ public class SkillTreeDescriptions {
     public String riptideToggle() {
         return "Allows you to toggle Riptide off";
     }
+
+    public String capacity() {
+        return String.format("Increases the number of slots in the %s by 9", toolName);
+    }
+
+    public String backpackPickup() {
+        return String.format("Items matching the %s's filter will automatically go into the %s when picked up", toolName, toolName);
+    }
+
+    public String filterSlots() {
+        return String.format("Adds 5 filter slots to the %s", toolName);
+    }
+
+    public String sort() {
+        return String.format("Adds the option sort the %s's contents", toolName);
+    }
+
+    public String store() {
+        return "Shift right click on an inventory to store all items in that inventory";
+    }
+
+    public String compress() {
+        return "Allows you to compress certain items (gold nuggets into gold ingots)";
+    }
 }

@@ -21,6 +21,9 @@ public class SkillTreeTitles {
     public static final String SHIELD_KNOCKBACK = "Shield Knockback";
     public static final String CHANNELING = "Channeling";
     public static final String RIPTIDE_TOGGLE = "Riptide Toggle";
+    public static final String SORT = "Sort";
+    public static final String STORE = "Store in Inventory";
+    public static final String COMPRESS = "Compress";
 
     // TODO: could this be expanded easily?
     public static final String MINING_3x3 = "3x3 Mining";
@@ -169,6 +172,14 @@ public class SkillTreeTitles {
 
     public static String riptide(int level) {
         return getName("Riptide", level);
+    }
+
+    public static String capacity(int level) {
+        return getName("Capacity", level);
+    }
+
+    public static String filterSlots(int level) {
+        return getName("Filter Slots", level);
     }
 
     private static String getName(String title, int level) {

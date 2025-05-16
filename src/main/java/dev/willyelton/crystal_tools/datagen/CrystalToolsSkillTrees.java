@@ -30,6 +30,7 @@ import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AUTO_
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AUTO_TARGET;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AXE_VEIN_MINING;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.CHANNELING;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.COMPRESS;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.CREATIVE_FLIGHT;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.LEAF_MINER;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.MINING_3x3;
@@ -38,6 +39,8 @@ import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.NIGHT
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.RIPTIDE_TOGGLE;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.SHIELD_KNOCKBACK;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.SILK_TOUCH;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.SORT;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.STORE;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.TORCH;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.TORCH_SUBTEXT;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.TOTEM_SLOT_SUBTEXT;
@@ -50,11 +53,13 @@ import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.attac
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.baseArmor;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.beheading;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.blastProtection;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.capacity;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.capturing;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.doubleItems;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.drawSpeed;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.durability;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.eatSpeed;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.filterSlots;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.fireProtection;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.flamingShield;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.flightDuration;
@@ -136,6 +141,8 @@ public class CrystalToolsSkillTrees {
         // Misc
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
                 Registration.CRYSTAL_ROCKET.getId()), rocket());
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+                Registration.CRYSTAL_BACKPACK.getId()), backpack());
     }
 
     private SkillData basicMiningTool(String name) {
@@ -1273,6 +1280,51 @@ public class CrystalToolsSkillTrees {
                         .previousTierAndRequirements(9)
                     .enchantmentNode(56, desc, Enchantments.LOOTING, 5)
                         .previousTierAndRequirements(41)
+                .build();
+    }
+
+    private SkillData backpack() {
+        SkillTreeDescriptions desc = new SkillTreeDescriptions("Backpack");
+
+        return SkillData.builder(EquipmentSlot.MAINHAND)
+                .tier()
+                    .dataComponentNode(0, capacity(1), desc.capacity(), DataComponents.CAPACITY.getId(), 1)
+                    .dataComponentNode(1, filterSlots(1), desc.filterSlots(), DataComponents.FILTER_CAPACITY.getId(), 1)
+                    .dataComponentNode(2, AUTO_PICKUP, desc.backpackPickup(), DataComponents.BACKPACK_AUTO_PICKUP.getId(), 1)
+                .tier()
+                    .dataComponentNode(3, capacity(2), desc.capacity(), DataComponents.CAPACITY.getId(), 1)
+                        .nodeRequirement(0)
+                    .dataComponentNode(4, filterSlots(2), desc.filterSlots(), DataComponents.FILTER_CAPACITY.getId(), 1)
+                        .nodeRequirement(1)
+                .tier()
+                    .dataComponentNode(5, capacity(3), desc.capacity(), DataComponents.CAPACITY.getId(), 1)
+                        .nodeRequirement(3)
+                    .dataComponentNode(6, filterSlots(3), desc.filterSlots(), DataComponents.FILTER_CAPACITY.getId(), 1)
+                        .nodeRequirement(4)
+                    .dataComponentNode(7, SORT, desc.sort(), DataComponents.SORT_ENABLED.getId(), 1)
+                        .previousTierOrRequirements()
+                .tier()
+                    .dataComponentNode(8, capacity(4), desc.capacity(), DataComponents.CAPACITY.getId(), 1)
+                        .nodeRequirement(5)
+                    .dataComponentNode(9, filterSlots(4), desc.filterSlots(), DataComponents.FILTER_CAPACITY.getId(), 1)
+                        .nodeRequirement(6)
+                .tier()
+                    .dataComponentNode(10, capacity(5), desc.capacity(), DataComponents.CAPACITY.getId(), 1)
+                        .nodeRequirement(8)
+                    .dataComponentNode(11, filterSlots(5), desc.filterSlots(), DataComponents.FILTER_CAPACITY.getId(), 1)
+                        .nodeRequirement(9)
+                    .dataComponentNode(12, STORE, desc.store(), DataComponents.INVENTORY_STORE.getId(), 1)
+                        .previousTierOrRequirements()
+                .tier()
+                    .dataComponentNode(13, capacity(6), desc.capacity(), DataComponents.CAPACITY.getId(), 1)
+                        .nodeRequirement(10)
+                    .dataComponentNode(14, filterSlots(6), desc.filterSlots(), DataComponents.FILTER_CAPACITY.getId(), 1)
+                        .nodeRequirement(11)
+                    .dataComponentNode(15, COMPRESS, desc.compress(), DataComponents.COMPRESSION_ENABLED.getId(), 1)
+                        .previousTierOrRequirements()
+                .tier()
+                    .infiniteDataComponentNode(16, capacity(0), desc.capacity(), DataComponents.CAPACITY.getId(), 1)
+                        .previousTierAndRequirements()
                 .build();
     }
 
