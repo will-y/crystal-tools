@@ -33,6 +33,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -62,7 +63,8 @@ public abstract class BaseUpgradeScreen extends Screen {
 
     protected final Player player;
     protected SkillPoints points;
-    protected SkillData data;
+    protected final SkillData data;
+    protected final ResourceKey<SkillData> key;
     private final HashMap<Integer, SkillButton> skillButtons = new HashMap<>();
 
     private int xOffset = 0;
@@ -71,10 +73,11 @@ public abstract class BaseUpgradeScreen extends Screen {
     private XpButton xpButton;
     private Button resetButton;
 
-    public BaseUpgradeScreen(Player player, Component title) {
+    public BaseUpgradeScreen(Player player, Component title, SkillData data, ResourceKey<SkillData> key) {
         super(title);
         this.player = player;
-
+        this.data = data;
+        this.key = key;
     }
 
     protected void init() {

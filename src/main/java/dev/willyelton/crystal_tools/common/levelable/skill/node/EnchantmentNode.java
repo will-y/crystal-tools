@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public final class EnchantmentNode extends SkillDataNode {
+public final class EnchantmentNode extends SkillDataNode implements ItemStackNode {
     public static final Codec<EnchantmentNode> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.INT.fieldOf("id").forGetter(EnchantmentNode::getId),
             Codec.STRING.fieldOf("name").forGetter(EnchantmentNode::getName),

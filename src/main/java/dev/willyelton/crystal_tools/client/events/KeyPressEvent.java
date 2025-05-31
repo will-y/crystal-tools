@@ -9,7 +9,6 @@ import dev.willyelton.crystal_tools.common.network.data.ModeSwitchPayload;
 import dev.willyelton.crystal_tools.common.network.data.OpenBackpackPayload;
 import dev.willyelton.crystal_tools.common.network.data.TriggerRocketPayload;
 import dev.willyelton.crystal_tools.common.network.data.VeinMiningPayload;
-import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -78,7 +77,7 @@ public class KeyPressEvent {
         }
 
         Level level = player.level();
-        Optional<Registry<SkillData>> skillDataOptional = level.registryAccess().lookup(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY);
+        Optional<Registry<SkillData>> skillDataOptional = level.registryAccess().lookup(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS);
         Optional<ResourceKey<Item>> itemKeyOptional = level.registryAccess().lookupOrThrow(Registries.ITEM).getResourceKey(stack.getItem());
         if (skillDataOptional.isPresent() && itemKeyOptional.isPresent()) {
             Registry<SkillData> skillData = skillDataOptional.get();

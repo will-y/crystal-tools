@@ -19,7 +19,7 @@ import java.util.Optional;
 
 import static dev.willyelton.crystal_tools.common.levelable.skill.node.SkillNodeType.FOOD_DATA_COMPONENT;
 
-public final class FoodDataComponentNode extends SkillDataNode {
+public final class FoodDataComponentNode extends SkillDataNode implements ItemStackNode {
     public static final Codec<FoodDataComponentNode> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.INT.fieldOf("id").forGetter(FoodDataComponentNode::getId),
             Codec.STRING.fieldOf("name").forGetter(FoodDataComponentNode::getName),

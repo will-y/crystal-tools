@@ -21,7 +21,7 @@ public class RegistryUtils {
      * @return The stack's SkillData instance if it exists, null otherwise
      */
     public static @Nullable SkillData getSkillData(ItemStack stack, RegistryAccess registryAccess) {
-        Optional<Registry<SkillData>> skillDataOptional = registryAccess.lookup(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY);
+        Optional<Registry<SkillData>> skillDataOptional = registryAccess.lookup(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS);
 
         if (skillDataOptional.isPresent()) {
             Registry<SkillData> skillDataRegistry = skillDataOptional.get();

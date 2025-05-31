@@ -24,124 +24,67 @@ import java.util.List;
 import static dev.willyelton.crystal_tools.utils.StringUtils.formatKey;
 import static dev.willyelton.crystal_tools.utils.constants.SkillConstants.BLOCKS_ATTACKS;
 import static dev.willyelton.crystal_tools.utils.constants.SkillConstants.DURABILITY;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AUTO_PICKUP;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AUTO_REPAIR;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AUTO_SMELTING;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AUTO_TARGET;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AXE_VEIN_MINING;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.CHANNELING;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.COMPRESS;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.CREATIVE_FLIGHT;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.LEAF_MINER;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.MINING_3x3;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.MODE_SWITCH;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.NIGHT_VISION;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.RIPTIDE_TOGGLE;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.SHIELD_KNOCKBACK;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.SILK_TOUCH;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.SORT;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.STORE;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.TORCH;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.TORCH_SUBTEXT;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.TOTEM_SLOT_SUBTEXT;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.VEIN_MINING;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.VEIN_MINING_SUBTEXT;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.arrowDamage;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.arrowSpeed;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.attackDamage;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.attackSpeed;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.baseArmor;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.beheading;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.blastProtection;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.capacity;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.capturing;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.doubleItems;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.drawSpeed;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.durability;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.eatSpeed;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.filterSlots;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.fireProtection;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.flamingShield;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.flightDuration;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.fortune;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.healthBonus;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.intToRomanNumeral;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.knockback;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.knockbackResistance;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.lifesteal;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.miningSpeed;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.moveSpeed;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.projectileDamage;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.projectileProtection;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.projectileSpeed;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.protection;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.reach;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.riptide;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.shieldCooldown;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.thorns;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.totemSlot;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.toughness;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.unbreaking;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.*;
 
-public class CrystalToolsSkillTrees {
+public class CrystalToolsItemSkillTrees {
     private final BootstrapContext<SkillData> context;
 
     public static void register(BootstrapContext<SkillData> context) {
-        CrystalToolsSkillTrees skillTrees = new CrystalToolsSkillTrees(context);
+        CrystalToolsItemSkillTrees skillTrees = new CrystalToolsItemSkillTrees(context);
         skillTrees.registerSkillTrees();
     }
 
-    public CrystalToolsSkillTrees(BootstrapContext<SkillData> context) {
+    public CrystalToolsItemSkillTrees(BootstrapContext<SkillData> context) {
         this.context = context;
     }
 
     public void registerSkillTrees() {
         // Basic Mining Tools
-        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
                 Registration.CRYSTAL_PICKAXE.getId()), basicMiningTool("Pickaxe"));
-        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
                 Registration.CRYSTAL_HOE.getId()), basicMiningTool("Hoe"));
-        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
                 Registration.CRYSTAL_SHOVEL.getId()), basicMiningTool("Shovel"));
-        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
                 Registration.CRYSTAL_AXE.getId()), basicMiningTool("Axe"));
-        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
                 Registration.CRYSTAL_AIOT.getId()), aiot());
 
         // Other Tools
-        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
                 Registration.CRYSTAL_FISHING_ROD.getId()), fishingRod());
-        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
                 Registration.CRYSTAL_SHIELD.getId()), shield());
 
         // Weapons
-        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
                 Registration.CRYSTAL_SWORD.getId()), sword());
-        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
                 Registration.CRYSTAL_BOW.getId()), bow());
-        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
                 Registration.CRYSTAL_TRIDENT.getId()), trident());
 
         // Food
-        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
                 Registration.CRYSTAL_APPLE.getId()), food("Apple"));
 
         // Armor
-        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
                 Registration.CRYSTAL_HELMET.getId()), helmet());
-        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
                 Registration.CRYSTAL_CHESTPLATE.getId()), chestplate(false));
-        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
                 Registration.CRYSTAL_LEGGINGS.getId()), leggings());
-        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
                 Registration.CRYSTAL_BOOTS.getId()), boots());
-        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
                 Registration.CRYSTAL_ELYTRA.getId()), chestplate(true));
 
         // Misc
-        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
                 Registration.CRYSTAL_ROCKET.getId()), rocket());
-        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY,
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
                 Registration.CRYSTAL_BACKPACK.getId()), backpack());
     }
 

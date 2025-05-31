@@ -25,6 +25,8 @@ public class AttributeUtils {
      * @return True if the attribute was added
      */
     public static boolean toggleAttribute(ItemStack stack, Holder<Attribute> attribute, SkillData data) {
+        if (data.getEquipmentSlot() == null) return false;
+
         ItemAttributeModifiers modifiers = stack.getAttributeModifiers();
 
         List<ItemAttributeModifiers.Entry> newModifiers = new ArrayList<>();

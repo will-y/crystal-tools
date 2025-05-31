@@ -22,7 +22,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-public final class EffectNode extends SkillDataNode {
+public final class EffectNode extends SkillDataNode implements ItemStackNode {
     public static final Codec<EffectNode> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.INT.fieldOf("id").forGetter(EffectNode::getId),
             Codec.STRING.fieldOf("name").forGetter(EffectNode::getName),

@@ -4,6 +4,7 @@ import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload;
 import dev.willyelton.crystal_tools.common.network.data.BlockAttributePayload;
 import dev.willyelton.crystal_tools.common.network.data.BlockBreakPayload;
+import dev.willyelton.crystal_tools.common.network.data.BlockSkillPayload;
 import dev.willyelton.crystal_tools.common.network.data.BlockStripPayload;
 import dev.willyelton.crystal_tools.common.network.data.ContainerRowsPayload;
 import dev.willyelton.crystal_tools.common.network.data.ModeSwitchPayload;
@@ -24,6 +25,7 @@ import dev.willyelton.crystal_tools.common.network.data.VeinMiningPayload;
 import dev.willyelton.crystal_tools.common.network.handler.BackpackScreenHandler;
 import dev.willyelton.crystal_tools.common.network.handler.BlockAttributeHandler;
 import dev.willyelton.crystal_tools.common.network.handler.BlockBreakHandler;
+import dev.willyelton.crystal_tools.common.network.handler.BlockSkillHandler;
 import dev.willyelton.crystal_tools.common.network.handler.BlockStripHandler;
 import dev.willyelton.crystal_tools.common.network.handler.ContainerRowsHandler;
 import dev.willyelton.crystal_tools.common.network.handler.ModeSwitchHandler;
@@ -48,6 +50,7 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 @EventBusSubscriber(modid = CrystalTools.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class RegisterPackets {
+
     @SubscribeEvent
     public static void registerNetworking(final RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar(CrystalTools.MODID);
@@ -56,6 +59,7 @@ public class RegisterPackets {
         registrar.playToServer(ToolAttributePayload.TYPE, ToolAttributePayload.STREAM_CODEC, ToolAttributeHandler.INSTANCE::handle);
         registrar.playToServer(ToolSkillPayload.TYPE, ToolSkillPayload.STREAM_CODEC, ToolSkillHandler.INSTANCE::handle);
         registrar.playToServer(BlockAttributePayload.TYPE, BlockAttributePayload.STREAM_CODEC, BlockAttributeHandler.INSTANCE::handle);
+        registrar.playToServer(BlockSkillPayload.TYPE, BlockSkillPayload.STREAM_CODEC, BlockSkillHandler.INSTANCE::handle);
         registrar.playToServer(ModeSwitchPayload.TYPE, ModeSwitchPayload.STREAM_CODEC, ModeSwitchHandler.INSTANCE::handle);
         registrar.playToServer(RemoveItemPayload.TYPE, RemoveItemPayload.STREAM_CODEC, RemoveItemHandler.INSTANCE::handle);
         registrar.playToServer(ResetSkillsPayload.TYPE, ResetSkillsPayload.STREAM_CODEC, ResetSkillsHandler.INSTANCE::handle);

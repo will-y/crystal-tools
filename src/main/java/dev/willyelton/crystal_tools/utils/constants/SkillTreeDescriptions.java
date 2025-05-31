@@ -242,4 +242,17 @@ public class SkillTreeDescriptions {
     public String compress() {
         return "Allows you to compress certain items (gold nuggets into gold ingots)";
     }
+
+    // Block Entity Descriptions
+    public String furnaceSpeed() {
+        return "Increases smelting speed";
+    }
+
+    public String fuelEfficiency() {
+        return "Increases time that fuel burns";
+    }
+
+    public String expBoost() {
+        return "Increases experience gained from smelting";
+    }
 }

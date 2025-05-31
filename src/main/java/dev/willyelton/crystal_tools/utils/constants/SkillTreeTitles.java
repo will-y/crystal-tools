@@ -182,6 +182,19 @@ public class SkillTreeTitles {
         return getName("Filter Slots", level);
     }
 
+    // Block Entity Titles
+    public static String furnaceSpeed(int level) {
+        return getName("Furnace Speed", level);
+    }
+
+    public static String fuelEfficiency(int level) {
+        return getName("Fuel Efficiency", level);
+    }
+
+    public static String expBoost(int level) {
+        return getName("Exp. Boost", level);
+    }
+
     private static String getName(String title, int level) {
         if (level == 0) {
             return "Infinite " + title;

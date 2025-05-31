@@ -45,7 +45,6 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.items.IItemHandler;
@@ -58,6 +57,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.*;
 
 // TODO: Audit / comment code, don't use WordlyContainer, extract out things that will be common to a generator / other
 public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements WorldlyContainer, MenuProvider, AutoOutputable {
@@ -340,14 +341,20 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
 
     @Override
     protected void addToExtraData(String key, float value) {
-        switch (key) {
-            case "speed_bonus" -> this.speedUpgrade += value;
-            case "fuel_bonus" -> this.fuelEfficiencyUpgrade += (int) value;
-            case "slot_bonus" -> this.bonusSlots += (int) value;
-            case "fuel_slot_bonus" -> this.bonusFuelSlots += (int) value;
-            case "auto_balance" -> this.balance = value == 1;
-            case "exp_boost" -> this.expModifier += value;
-            case "save_fuel" -> this.saveFuel = value == 1;
+        if (FURNACE_SPEED.toString().equals(key)) {
+            this.speedUpgrade += value;
+        } else if (FUEL_EFFICIENCY.toString().equals(key)) {
+            this.fuelEfficiencyUpgrade += (int) value;
+        } else if (SLOT_BONUS.toString().equals(key)) {
+            this.bonusSlots += (int) value;
+        } else if (FUEL_SLOT_BONUS.toString().equals(key)) {
+            this.bonusFuelSlots += (int) value;
+        } else if (AUTO_BALANCE.toString().equals(key)) {
+            this.balance = value == 1;
+        } else if (EXP_BOOST.toString().equals(key)) {
+            this.expModifier += value;
+        } else if (SAVE_FUEL.toString().equals(key)) {
+            this.saveFuel = value == 1;
         }
     }
 
@@ -452,6 +459,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     }
 
     protected RecipeHolder<AbstractCookingRecipe> getRecipe(ItemStack item) {
+        if (this.level != null && this.level.isClientSide) return null;
         Optional<RecipeHolder<AbstractCookingRecipe>> recipeHolderOptional = (item.getItem() instanceof AirItem)
                 ? Optional.empty()
                 : ((ServerLevel)this.level).recipeAccess().getRecipeFor((RecipeType<AbstractCookingRecipe>) recipeType, new SingleRecipeInput(item), this.level);

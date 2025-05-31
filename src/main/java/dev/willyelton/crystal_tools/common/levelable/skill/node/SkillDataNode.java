@@ -15,7 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class SkillDataNode {
+public abstract  class  SkillDataNode {
     private final int id;
     private final String name;
     private final String description;
@@ -103,8 +103,6 @@ public abstract class SkillDataNode {
     }
 
     public abstract SkillNodeType getSkillNodeType();
-
-    public abstract void processNode(SkillData skillData, ItemStack stack, int pointsToSpend, RegistryAccess registryAccess);
 
     public static Codec<SkillDataNode> CODEC = ResourceLocation.CODEC.xmap(SkillNodeType::fromResourceLocation, SkillNodeType::resourceLocation)
             .dispatch(SkillDataNode::getSkillNodeType, SkillNodeType::codec);

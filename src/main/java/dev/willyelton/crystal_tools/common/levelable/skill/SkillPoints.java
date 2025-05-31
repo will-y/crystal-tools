@@ -1,7 +1,6 @@
 package dev.willyelton.crystal_tools.common.levelable.skill;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -13,6 +12,7 @@ import java.util.Objects;
 /**
  * Object that is actually stored in itemstacks (maybe block entities too?)
  */
+// TODO: This isn't immutable, need to probably do that? (Recreate on all operations?)
 public class SkillPoints {
     // Json doesn't like integer key maps
     private static final Codec<Integer> STRINT = Codec.STRING.xmap(Integer::parseInt, String::valueOf);
@@ -45,6 +45,10 @@ public class SkillPoints {
 
     public int getPoints(int id) {
         return pointMap.get(id) == null ? 0 : pointMap.get(id);
+    }
+
+    public void setPoints(int id, int points) {
+        pointMap.put(id, points);
     }
 
     public SkillPoints copy() {

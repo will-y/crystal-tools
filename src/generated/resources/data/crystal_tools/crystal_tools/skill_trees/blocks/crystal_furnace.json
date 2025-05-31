@@ -1,0 +1,48 @@
+{
+  "tiers": [
+    [
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases smelting speed",
+          "id": 0,
+          "key": [
+            "crystal_tools:furnace_speed"
+          ],
+          "limit": 1,
+          "name": "Furnace Speed I",
+          "requirements": [],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases time that fuel burns",
+          "id": 1,
+          "key": [
+            "crystal_tools:fuel_efficiency"
+          ],
+          "limit": 1,
+          "name": "Fuel Efficiency I",
+          "requirements": [],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases experience gained from smelting",
+          "id": 2,
+          "key": [
+            "crystal_tools:exp_boost"
+          ],
+          "limit": 1,
+          "name": "Exp. Boost I",
+          "requirements": [],
+          "value": 1.0
+        }
+      }
+    ]
+  ]
+}

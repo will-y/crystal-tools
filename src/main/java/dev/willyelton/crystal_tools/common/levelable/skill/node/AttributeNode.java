@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public final class AttributeNode extends SkillDataNode {
+public final class AttributeNode extends SkillDataNode implements ItemStackNode {
     public static final Codec<AttributeNode> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.INT.fieldOf("id").forGetter(AttributeNode::getId),
             Codec.STRING.fieldOf("name").forGetter(AttributeNode::getName),
@@ -87,7 +87,6 @@ public final class AttributeNode extends SkillDataNode {
         return SkillNodeType.ATTRIBUTE;
     }
 
-    // TODO: Toggleable ones (Creative Flight) going to require weird handling in mode switch probably
     @Override
     public void processNode(SkillData skillData, ItemStack stack, int pointsToSpend, RegistryAccess registryAccess) {
         if (threshold) {
@@ -97,6 +96,8 @@ public final class AttributeNode extends SkillDataNode {
                 return;
             }
         }
+
+        if (skillData.getEquipmentSlot() == null) return;
 
         ItemAttributeModifiers modifiers = stack.getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.EMPTY);
         Registry<Attribute> attributeRegistry = registryAccess.lookupOrThrow(Registries.ATTRIBUTE);

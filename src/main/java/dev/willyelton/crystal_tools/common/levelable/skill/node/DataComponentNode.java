@@ -24,7 +24,7 @@ import net.minecraft.world.item.component.BlocksAttacks;
 import java.util.List;
 import java.util.Optional;
 
-public class DataComponentNode extends SkillDataNode {
+public class DataComponentNode extends SkillDataNode implements ItemStackNode {
     public static final Codec<DataComponentNode> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.INT.fieldOf("id").forGetter(DataComponentNode::getId),
             Codec.STRING.fieldOf("name").forGetter(DataComponentNode::getName),

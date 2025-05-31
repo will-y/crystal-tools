@@ -14,7 +14,7 @@ public record ToolSkillPayload(int nodeId, ResourceKey<SkillData> key, int point
     public static final Type<ToolSkillPayload> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "tool_skill"));
     public static final StreamCodec<RegistryFriendlyByteBuf, ToolSkillPayload> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT, ToolSkillPayload::nodeId,
-            ResourceKey.streamCodec(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY), ToolSkillPayload::key,
+            ResourceKey.streamCodec(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS), ToolSkillPayload::key,
             ByteBufCodecs.INT, ToolSkillPayload::pointsToSpend,
             ToolSkillPayload::new);
 

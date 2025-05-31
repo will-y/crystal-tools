@@ -2,10 +2,11 @@ package dev.willyelton.crystal_tools.common.levelable.skill;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.willyelton.crystal_tools.common.levelable.skill.node.AttributeNode;
+import dev.willyelton.crystal_tools.common.levelable.skill.node.BlockEntityNbtNode;
 import dev.willyelton.crystal_tools.common.levelable.skill.node.DataComponentNode;
 import dev.willyelton.crystal_tools.common.levelable.skill.node.EffectNode;
 import dev.willyelton.crystal_tools.common.levelable.skill.node.EnchantmentNode;
-import dev.willyelton.crystal_tools.common.levelable.skill.node.AttributeNode;
 import dev.willyelton.crystal_tools.common.levelable.skill.node.FoodDataComponentNode;
 import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.NodeOrSkillDataRequirement;
@@ -25,7 +26,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
-import org.codehaus.plexus.util.CollectionUtils;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,9 +36,20 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static dev.willyelton.crystal_tools.datagen.CrystalToolsSkillTrees.enchantmentName;
+import static dev.willyelton.crystal_tools.datagen.CrystalToolsItemSkillTrees.enchantmentName;
 
 public class SkillData {
+    public static final Codec<SkillData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            SkillDataNode.CODEC.listOf().listOf()
+                    .fieldOf("tiers").forGetter(SkillData::getAllNodesByTier),
+            EquipmentSlot.CODEC.optionalFieldOf("equipmentSlot").forGetter(s -> Optional.ofNullable(s.getEquipmentSlot()))
+    ).apply(instance, SkillData::new));
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, SkillData> STREAM_CODEC = StreamCodec.composite(
+            SkillDataNode.STREAM_CODEC.apply(ByteBufCodecs.list()).apply(ByteBufCodecs.list()), SkillData::getAllNodesByTier,
+            ByteBufCodecs.optional(EquipmentSlot.STREAM_CODEC), s -> Optional.ofNullable(s.getEquipmentSlot()),
+            SkillData::new);
+
     private final EquipmentSlot equipmentSlot;
     private final List<List<SkillDataNode>> nodes;
     // Flattened nodes, calculated lazily
@@ -50,11 +62,15 @@ public class SkillData {
         this.equipmentSlot = equipmentSlot;
     }
 
+    private SkillData(List<List<SkillDataNode>> nodes, Optional<EquipmentSlot> equipmentSlotOptional) {
+        this(nodes, equipmentSlotOptional.orElse(null));
+    }
+
     public List<List<SkillDataNode>> getAllNodesByTier() {
         return this.nodes;
     }
 
-    public EquipmentSlot getEquipmentSlot() {
+    public @Nullable EquipmentSlot getEquipmentSlot() {
         return this.equipmentSlot;
     }
 
@@ -75,17 +91,6 @@ public class SkillData {
 
         return nodeMap;
     }
-
-    public static final Codec<SkillData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            SkillDataNode.CODEC.listOf().listOf()
-                    .fieldOf("tiers").forGetter(SkillData::getAllNodesByTier),
-            EquipmentSlot.CODEC.fieldOf("equipmentSlot").forGetter(SkillData::getEquipmentSlot)
-    ).apply(instance, SkillData::new));
-
-    public static final StreamCodec<RegistryFriendlyByteBuf, SkillData> STREAM_CODEC = StreamCodec.composite(
-            SkillDataNode.STREAM_CODEC.apply(ByteBufCodecs.list()).apply(ByteBufCodecs.list()), SkillData::getAllNodesByTier,
-            EquipmentSlot.STREAM_CODEC, SkillData::getEquipmentSlot,
-            SkillData::new);
 
     public static Builder builder(EquipmentSlot slot) {
         return new Builder(slot);
@@ -227,6 +232,16 @@ public class SkillData {
                 if (infinite) {
                     currentNode.setSubtext(new SkillSubText(SkillTreeTitles.EFFECT_SUB_TEXT, "#ABABAB"));
                 }
+                currentTier.add(currentNode);
+            }
+
+            return this;
+        }
+
+        public Builder blockNode(int id, String name, String description, ResourceLocation key, float value) {
+            if (including) {
+                currentNode = new BlockEntityNbtNode(id, name, description, 1, List.of(key), value,
+                        new ArrayList<>(), Optional.empty());
                 currentTier.add(currentNode);
             }
 

@@ -26,7 +26,6 @@ public class UpgradeScreen extends BaseUpgradeScreen {
     private Button healButton;
     private final ItemStack stack;
     private final Runnable onClose;
-    private final ResourceKey<SkillData> key;
     private int slotIndex = -1;
 
     public UpgradeScreen(ItemStack itemStack, Player player, SkillData data, ResourceKey<SkillData> key) {
@@ -40,11 +39,9 @@ public class UpgradeScreen extends BaseUpgradeScreen {
     }
 
     public UpgradeScreen(ItemStack itemStack, Player player, Runnable onClose, SkillData data, ResourceKey<SkillData> key) {
-        super(player, Component.literal("Upgrade Screen"));
+        super(player, Component.literal("Upgrade Screen"), data, key);
         this.stack = itemStack;
         this.onClose = onClose;
-        this.data = data;
-        this.key = key;
     }
 
     /**
@@ -69,8 +66,6 @@ public class UpgradeScreen extends BaseUpgradeScreen {
         if (!crystalRequired || this.player.getInventory().hasAnyOf(Set.of(Registration.CRYSTAL.get()))) {
             PacketDistributor.sendToServer(ResetSkillsPayload.INSTANCE);
             ToolUtils.resetPoints(this.stack);
-
-//            data = ToolUtils.getSkillData(this.stack);
         }
 
         this.onClose();
@@ -123,6 +118,7 @@ public class UpgradeScreen extends BaseUpgradeScreen {
     @Override
     protected void changeSkillPoints(int change) {
         DataComponents.addToComponent(stack, DataComponents.SKILL_POINTS, change);
+        // TODO update this
         PacketDistributor.sendToServer(new ToolAttributePayload("skill_points", change, -1, slotIndex, 1));
     }
 
