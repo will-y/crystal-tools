@@ -119,3 +119,4 @@ Before release:
 - todo stream codecs
 - looks like something to do in the handler (backpack logic?)
 - Remove old packets and handlers (will probably need 2 new packets for handling skill point changes), probably only used for exp now
+- Enchantment config option is broken

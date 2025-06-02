@@ -36,6 +36,7 @@ public class CrystalToolsConfig {
     public static ModConfigSpec.BooleanValue REQUIRE_CRYSTAL_FOR_RESET;
 
     public static ModConfigSpec.DoubleValue REACH_INCREASE;
+    // TODO: This is broken now. Need to use events or look into other enchantment extensions
     public static ModConfigSpec.BooleanValue ENCHANT_TOOLS;
     public static ModConfigSpec.IntValue EXPERIENCE_LEVELING_SCALING;
     public static ModConfigSpec.IntValue EXPERIENCE_PER_SKILL_LEVEL;

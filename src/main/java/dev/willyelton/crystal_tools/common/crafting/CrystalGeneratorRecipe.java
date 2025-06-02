@@ -49,7 +49,7 @@ public class CrystalGeneratorRecipe extends CrystalToolsRecipe {
 
         LevelableBlockEntityData furnaceData = furnaceItem.get(DataComponents.LEVELABLE_BLOCK_ENTITY_DATA);
         if (furnaceData != null) {
-            int points = furnaceData.points().stream().mapToInt(Integer::intValue).sum() + furnaceData.skillPoints();
+            int points = furnaceData.points().getTotalPoints() + furnaceData.skillPoints();
             int cap = ToolUtils.getNewCap(CrystalToolsConfig.GENERATOR_BASE_EXPERIENCE_CAP.get(), points);
             LevelableBlockEntityData generatorData = new LevelableBlockEntityData(points, cap);
             result.set(DataComponents.LEVELABLE_BLOCK_ENTITY_DATA, generatorData);

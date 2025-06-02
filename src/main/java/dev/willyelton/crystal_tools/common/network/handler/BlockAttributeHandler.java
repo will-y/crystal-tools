@@ -24,7 +24,6 @@ public class BlockAttributeHandler {
                 }
 
                 int skillPoints = blockEntity.getSkillPoints();
-
                 int pointsToAdd = Math.min(skillPoints, payload.pointsToSpend());
 
                 blockEntity.addToData(payload.key(), payload.value() * pointsToAdd);

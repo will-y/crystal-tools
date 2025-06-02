@@ -125,11 +125,6 @@ public class LevelableArmor extends Item implements LevelableItem {
     }
 
     @Override
-    public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
-        return CrystalToolsConfig.ENCHANT_TOOLS.get();
-    }
-
-    @Override
     public boolean shouldCauseBlockBreakReset(ItemStack oldStack, ItemStack newStack) {
         // Just ignore data components for now
         return !newStack.is(oldStack.getItem());

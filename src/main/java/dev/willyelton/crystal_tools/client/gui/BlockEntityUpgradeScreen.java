@@ -71,9 +71,8 @@ public class BlockEntityUpgradeScreen extends BaseUpgradeScreen {
             // TODO
             this.container.addToPoints(node.getId(), (int) 1 * pointsToSpend);
 
-            // TODO
-            PacketDistributor.sendToServer(new BlockAttributePayload(null, 1, node.getId(), pointsToSpend));
-            // TODO: get the resource key somehow, look at at other upgrade screen
+            // TODO iterate and send all keys
+            PacketDistributor.sendToServer(new BlockAttributePayload(node.getKeys().get(0).toString(), 1, node.getId(), pointsToSpend));
             PacketDistributor.sendToServer(new BlockSkillPayload(node.getId(), key, pointsToSpend, container.getBlockEntity().getBlockPos()));
             points.addPoints(node.getId(), pointsToSpend);
             if (points.getPoints(node.getId()) >= node.getLimit()) {
@@ -103,7 +102,6 @@ public class BlockEntityUpgradeScreen extends BaseUpgradeScreen {
 
     @Override
     public SkillPoints getPoints() {
-        // TODO: This has to be a change in ILevelableContainerData
         return this.container.getPoints();
     }
 

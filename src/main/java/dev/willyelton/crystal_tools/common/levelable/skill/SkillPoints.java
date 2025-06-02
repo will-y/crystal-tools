@@ -30,7 +30,7 @@ public class SkillPoints {
     }
 
     private SkillPoints(Map<Integer, Integer> pointMap) {
-        this.pointMap = pointMap;
+        this.pointMap = new HashMap<>(pointMap);
         this.totalPoints = pointMap.values().stream().mapToInt(integer -> integer).sum();
     }
 
