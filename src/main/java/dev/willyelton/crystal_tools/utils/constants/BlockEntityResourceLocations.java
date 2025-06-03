@@ -12,5 +12,6 @@ public class BlockEntityResourceLocations {
     public static final ResourceLocation FUEL_SLOT_BONUS = rl("fuel_slot_bonus");
     public static final ResourceLocation AUTO_BALANCE = rl("auto_balance");
     public static final ResourceLocation EXP_BOOST = rl("exp_boost");
+    public static final ResourceLocation AUTO_OUTPUT = rl("auto_output");
     public static final ResourceLocation SAVE_FUEL = rl("save_fuel");
 }

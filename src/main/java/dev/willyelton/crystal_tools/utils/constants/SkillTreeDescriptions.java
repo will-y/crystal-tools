@@ -255,4 +255,24 @@ public class SkillTreeDescriptions {
     public String expBoost() {
         return "Increases experience gained from smelting";
     }
+
+    public String furnaceSlot() {
+        return "Adds another input and output slot that work in parallel";
+    }
+
+    public String furnaceFuelSlot() {
+        return String.format("Adds another fuel slot to the %s", toolName);
+    }
+
+    public String autoSplit() {
+        return "Automatically splits the input stacks over all available slots";
+    }
+
+    public String autoOutput() {
+        return String.format("Automatically outputs to inventories next to or below the %s", toolName);
+    }
+
+    public String saveFuel() {
+        return "No longer consumes fuel when not burning an item";
+    }
 }

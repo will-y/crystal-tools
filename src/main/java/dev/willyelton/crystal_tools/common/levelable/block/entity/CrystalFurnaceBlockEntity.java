@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity;
 
+import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.components.FurnaceData;
@@ -65,6 +66,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     public static final int[] INPUT_SLOTS = new int[] {0, 1, 2, 3, 4};
     public static final int[] OUTPUT_SLOTS = new int[] {5, 6, 7, 8, 9};
     public static final int[] FUEL_SLOTS = new int[] {10, 11, 12};
+    public static final int MAX_SLOTS = 5;
 
     public static final int SIZE = 13;
     public static final int DATA_SIZE = 14;
@@ -88,8 +90,8 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     // Furnace related fields
     private int litTime = 0;
     private int litTotalTime = 0;
-    private int[] cookingProgress = new int[5];
-    private int[] cookingTotalTime = new int[5];
+    private int[] cookingProgress = new int[MAX_SLOTS];
+    private int[] cookingTotalTime = new int[MAX_SLOTS];
     private float expHeld = 0;
 
     // Things that can be upgraded
@@ -259,8 +261,8 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
 
         this.litTime = tag.getInt("LitTime").orElse(0);
         this.litTotalTime = tag.getInt("LitDuration").orElse(0);
-        this.cookingProgress = NBTUtils.getIntArray(tag, "CookingProgress", 5);
-        this.cookingTotalTime = NBTUtils.getIntArray(tag, "CookingTotalTime", 5);
+        this.cookingProgress = NBTUtils.getIntArray(tag, "CookingProgress", MAX_SLOTS);
+        this.cookingTotalTime = NBTUtils.getIntArray(tag, "CookingTotalTime", MAX_SLOTS);
         this.expHeld = tag.getFloat("ExpHeld").orElse(0F);
 
         // Upgrade things
@@ -346,7 +348,11 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         } else if (FUEL_EFFICIENCY.toString().equals(key)) {
             this.fuelEfficiencyUpgrade += (int) value;
         } else if (SLOT_BONUS.toString().equals(key)) {
-            this.bonusSlots += (int) value;
+            if (bonusSlots > MAX_SLOTS) {
+                CrystalTools.LOGGER.warn("Furnace Max Slot Size Reached");
+            } else {
+                this.bonusSlots += (int) value;
+            }
         } else if (FUEL_SLOT_BONUS.toString().equals(key)) {
             this.bonusFuelSlots += (int) value;
         } else if (AUTO_BALANCE.toString().equals(key)) {
@@ -376,8 +382,8 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         // Furnace things
         this.litTime = 0;
         this.litTotalTime = 0;
-        this.cookingProgress = new int[5];
-        this.cookingTotalTime = new int[5];
+        this.cookingProgress = new int[MAX_SLOTS];
+        this.cookingTotalTime = new int[MAX_SLOTS];
         this.expHeld = 0;
 
         // Upgrades
@@ -563,7 +569,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     }
 
     private boolean canBurn(RegistryAccess registryAccess, RecipeHolder<?> recipe, int slot) {
-        int outputSlot = slot + 5;
+        int outputSlot = slot + MAX_SLOTS;
         if (!this.getItem(slot).isEmpty() && recipe != null) {
             ItemStack recipeOutput = ((RecipeHolder<? extends AbstractCookingRecipe>) recipe).value().assemble(new SingleRecipeInput(this.getItem(slot)), registryAccess);
 
@@ -581,16 +587,16 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         if (recipe != null && this.canBurn(registryAccess, recipe, slot)) {
             AbstractCookingRecipe castedRecipe = ((RecipeHolder<? extends AbstractCookingRecipe>) recipe).value();
             ItemStack input = this.items.get(slot);
-            ItemStack output = this.items.get(slot + 5);
+            ItemStack output = this.items.get(slot + MAX_SLOTS);
             ItemStack recipeOutput = castedRecipe.assemble(new SingleRecipeInput(this.getItem(slot)), registryAccess);
             if (output.isEmpty()) {
-                this.items.set(slot + 5, recipeOutput.copy());
+                this.items.set(slot + MAX_SLOTS, recipeOutput.copy());
             } else if (output.is(recipeOutput.getItem())) {
                 output.grow(recipeOutput.getCount());
             }
 
             if (input.is(Blocks.WET_SPONGE.asItem()) && !this.items.get(slot).isEmpty() && this.items.get(slot).is(Items.BUCKET)) {
-                this.items.set(slot + 5, new ItemStack(Items.WATER_BUCKET));
+                this.items.set(slot + MAX_SLOTS, new ItemStack(Items.WATER_BUCKET));
             }
 
             input.shrink(1);

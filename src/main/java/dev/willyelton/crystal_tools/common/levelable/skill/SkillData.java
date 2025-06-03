@@ -239,8 +239,12 @@ public class SkillData {
         }
 
         public Builder blockNode(int id, String name, String description, ResourceLocation key, float value) {
+            return blockNode(id, name, description, key, value, 1);
+        }
+
+        public Builder blockNode(int id, String name, String description, ResourceLocation key, float value, int limit) {
             if (including) {
-                currentNode = new BlockEntityNbtNode(id, name, description, 1, List.of(key), value,
+                currentNode = new BlockEntityNbtNode(id, name, description, limit, List.of(key), value,
                         new ArrayList<>(), Optional.empty());
                 currentTier.add(currentNode);
             }

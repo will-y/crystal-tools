@@ -67,15 +67,12 @@ public class BlockEntityUpgradeScreen extends BaseUpgradeScreen {
             if (node.getLimit() == 0) {
                 pointsToSpend = getPointsToSpend(skillPoints, shift, control);
             }
-            // Idk if this is a problem that this is int because it is just to sync client
-            // TODO
-            this.container.addToPoints(node.getId(), (int) 1 * pointsToSpend);
 
-            // TODO iterate and send all keys
-            PacketDistributor.sendToServer(new BlockAttributePayload(node.getKeys().get(0).toString(), 1, node.getId(), pointsToSpend));
+            this.container.addToPoints(node.getId(), pointsToSpend);
+
             PacketDistributor.sendToServer(new BlockSkillPayload(node.getId(), key, pointsToSpend, container.getBlockEntity().getBlockPos()));
             points.addPoints(node.getId(), pointsToSpend);
-            if (points.getPoints(node.getId()) >= node.getLimit()) {
+            if (points.getPoints(node.getId()) >= node.getLimit() && node.getLimit() != 0) {
                 ((SkillButton) button).setComplete();
             }
         }

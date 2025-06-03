@@ -10,10 +10,11 @@ import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
+
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.AUTO_OUTPUT;
 
 public class AutoOutputAction extends Action {
     private static final Direction[] POSSIBLE_INVENTORIES = new Direction[] {Direction.DOWN, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
@@ -65,7 +66,7 @@ public class AutoOutputAction extends Action {
 
     @Override
     public boolean addToExtra(String key, float value) {
-        if ("auto_output".equals(key)) {
+        if (AUTO_OUTPUT.toString().equals(key)) {
             this.autoOutputEnabled = true;
             return true;
         }

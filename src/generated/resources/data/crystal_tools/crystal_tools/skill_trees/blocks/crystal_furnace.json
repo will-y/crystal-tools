@@ -43,6 +43,617 @@
           "value": 1.0
         }
       }
+    ],
+    [
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases smelting speed",
+          "id": 3,
+          "key": [
+            "crystal_tools:furnace_speed"
+          ],
+          "limit": 1,
+          "name": "Furnace Speed II",
+          "requirements": [
+            {
+              "node": [
+                0
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases time that fuel burns",
+          "id": 4,
+          "key": [
+            "crystal_tools:fuel_efficiency"
+          ],
+          "limit": 1,
+          "name": "Fuel Efficiency II",
+          "requirements": [
+            {
+              "node": [
+                1
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases experience gained from smelting",
+          "id": 5,
+          "key": [
+            "crystal_tools:exp_boost"
+          ],
+          "limit": 1,
+          "name": "Exp. Boost II",
+          "requirements": [
+            {
+              "node": [
+                2
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Adds another input and output slot that work in parallel",
+          "id": 6,
+          "key": [
+            "crystal_tools:slot_bonus"
+          ],
+          "limit": 1,
+          "name": "Slot I",
+          "requirements": [
+            {
+              "or_node": [
+                3,
+                4,
+                5
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Adds another fuel slot to the Furnace",
+          "id": 7,
+          "key": [
+            "crystal_tools:fuel_slot_bonus"
+          ],
+          "limit": 1,
+          "name": "Fuel Slot I",
+          "requirements": [
+            {
+              "or_node": [
+                3,
+                4,
+                5
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases smelting speed",
+          "id": 8,
+          "key": [
+            "crystal_tools:furnace_speed"
+          ],
+          "limit": 1,
+          "name": "Furnace Speed III",
+          "requirements": [
+            {
+              "node": [
+                3
+              ]
+            },
+            {
+              "or_node": [
+                6,
+                7
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases time that fuel burns",
+          "id": 9,
+          "key": [
+            "crystal_tools:fuel_efficiency"
+          ],
+          "limit": 1,
+          "name": "Fuel Efficiency III",
+          "requirements": [
+            {
+              "node": [
+                4
+              ]
+            },
+            {
+              "or_node": [
+                6,
+                7
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases experience gained from smelting",
+          "id": 10,
+          "key": [
+            "crystal_tools:exp_boost"
+          ],
+          "limit": 1,
+          "name": "Exp. Boost III",
+          "requirements": [
+            {
+              "node": [
+                5
+              ]
+            },
+            {
+              "or_node": [
+                6,
+                7
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Adds another fuel slot to the Furnace",
+          "id": 11,
+          "key": [
+            "crystal_tools:slot_bonus"
+          ],
+          "limit": 1,
+          "name": "Slot II",
+          "requirements": [
+            {
+              "node": [
+                6
+              ]
+            },
+            {
+              "or_node": [
+                8,
+                9,
+                10
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Automatically splits the input stacks over all available slots",
+          "id": 12,
+          "key": [
+            "crystal_tools:auto_balance"
+          ],
+          "limit": 1,
+          "name": "Auto Split",
+          "requirements": [
+            {
+              "or_node": [
+                8,
+                9,
+                10
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases smelting speed",
+          "id": 13,
+          "key": [
+            "crystal_tools:furnace_speed"
+          ],
+          "limit": 1,
+          "name": "Furnace Speed IV",
+          "requirements": [
+            {
+              "node": [
+                8
+              ]
+            },
+            {
+              "or_node": [
+                11,
+                12
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases time that fuel burns",
+          "id": 14,
+          "key": [
+            "crystal_tools:fuel_efficiency"
+          ],
+          "limit": 1,
+          "name": "Fuel Efficiency IV",
+          "requirements": [
+            {
+              "node": [
+                9
+              ]
+            },
+            {
+              "or_node": [
+                11,
+                12
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases experience gained from smelting",
+          "id": 15,
+          "key": [
+            "crystal_tools:exp_boost"
+          ],
+          "limit": 1,
+          "name": "Exp. Boost IV",
+          "requirements": [
+            {
+              "node": [
+                10
+              ]
+            },
+            {
+              "or_node": [
+                11,
+                12
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Adds another input and output slot that work in parallel",
+          "id": 16,
+          "key": [
+            "crystal_tools:slot_bonus"
+          ],
+          "limit": 1,
+          "name": "Slot III",
+          "requirements": [
+            {
+              "node": [
+                11
+              ]
+            },
+            {
+              "or_node": [
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Adds another fuel slot to the Furnace",
+          "id": 17,
+          "key": [
+            "crystal_tools:fuel_slot_bonus"
+          ],
+          "limit": 1,
+          "name": "Fuel Slot II",
+          "requirements": [
+            {
+              "node": [
+                7
+              ]
+            },
+            {
+              "or_node": [
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases smelting speed",
+          "id": 18,
+          "key": [
+            "crystal_tools:furnace_speed"
+          ],
+          "limit": 1,
+          "name": "Furnace Speed V",
+          "requirements": [
+            {
+              "node": [
+                13
+              ]
+            },
+            {
+              "or_node": [
+                16,
+                17
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases time that fuel burns",
+          "id": 19,
+          "key": [
+            "crystal_tools:fuel_efficiency"
+          ],
+          "limit": 1,
+          "name": "Fuel Efficiency V",
+          "requirements": [
+            {
+              "node": [
+                14
+              ]
+            },
+            {
+              "or_node": [
+                16,
+                17
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases experience gained from smelting",
+          "id": 20,
+          "key": [
+            "crystal_tools:exp_boost"
+          ],
+          "limit": 1,
+          "name": "Exp. Boost V",
+          "requirements": [
+            {
+              "node": [
+                15
+              ]
+            },
+            {
+              "or_node": [
+                16,
+                17
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Adds another input and output slot that work in parallel",
+          "id": 21,
+          "key": [
+            "crystal_tools:slot_bonus"
+          ],
+          "limit": 1,
+          "name": "Slot IV",
+          "requirements": [
+            {
+              "node": [
+                16
+              ]
+            },
+            {
+              "or_node": [
+                18,
+                19,
+                20
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Automatically outputs to inventories next to or below the Furnace",
+          "id": 22,
+          "key": [
+            "crystal_tools:auto_output"
+          ],
+          "limit": 1,
+          "name": "Auto Output",
+          "requirements": [
+            {
+              "or_node": [
+                18,
+                19,
+                20
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "No longer consumes fuel when not burning an item",
+          "id": 23,
+          "key": [
+            "crystal_tools:save_fuel"
+          ],
+          "limit": 1,
+          "name": "Save Fuel",
+          "requirements": [
+            {
+              "or_node": [
+                18,
+                19,
+                20
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases smelting speed",
+          "id": 24,
+          "key": [
+            "crystal_tools:furnace_speed"
+          ],
+          "limit": 0,
+          "name": "Infinite Furnace Speed",
+          "requirements": [
+            {
+              "node": [
+                18
+              ]
+            },
+            {
+              "or_node": [
+                21,
+                22,
+                23
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases time that fuel burns",
+          "id": 25,
+          "key": [
+            "crystal_tools:fuel_efficiency"
+          ],
+          "limit": 0,
+          "name": "Infinite Fuel Efficiency",
+          "requirements": [
+            {
+              "node": [
+                19
+              ]
+            },
+            {
+              "or_node": [
+                21,
+                22,
+                23
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases experience gained from smelting",
+          "id": 26,
+          "key": [
+            "crystal_tools:exp_boost"
+          ],
+          "limit": 0,
+          "name": "Infinite Exp. Boost",
+          "requirements": [
+            {
+              "node": [
+                20
+              ]
+            },
+            {
+              "or_node": [
+                21,
+                22,
+                23
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      }
     ]
   ]
 }

@@ -24,9 +24,13 @@ public class SkillTreeTitles {
     public static final String SORT = "Sort";
     public static final String STORE = "Store in Inventory";
     public static final String COMPRESS = "Compress";
-
     // TODO: could this be expanded easily?
     public static final String MINING_3x3 = "3x3 Mining";
+
+    // Block Entity Titles
+    public static final String AUTO_SPLIT = "Auto Split";
+    public static final String AUTO_OUTPUT = "Auto Output";
+    public static final String SAVE_FUEL = "Save Fuel";
 
     public static String miningSpeed(int level) {
         if (level == 0) {
@@ -193,6 +197,14 @@ public class SkillTreeTitles {
 
     public static String expBoost(int level) {
         return getName("Exp. Boost", level);
+    }
+
+    public static String furnaceSlot(int level) {
+        return getName("Slot", level);
+    }
+
+    public static String furnaceFuelSlot(int level) {
+        return getName("Fuel Slot", level);
     }
 
     private static String getName(String title, int level) {
