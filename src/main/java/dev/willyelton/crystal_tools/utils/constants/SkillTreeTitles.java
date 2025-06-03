@@ -31,6 +31,8 @@ public class SkillTreeTitles {
     public static final String AUTO_SPLIT = "Auto Split";
     public static final String AUTO_OUTPUT = "Auto Output";
     public static final String SAVE_FUEL = "Save Fuel";
+    public static final String REDSTONE_CONTROL = "Redstone Control";
+    public static final String CHUNK_LOADING = "Chunk Loading";
 
     public static String miningSpeed(int level) {
         if (level == 0) {
@@ -205,6 +207,10 @@ public class SkillTreeTitles {
 
     public static String furnaceFuelSlot(int level) {
         return getName("Fuel Slot", level);
+    }
+
+    public static String trashFilter(int level) {
+        return getName("Trash Filter", level);
     }
 
     private static String getName(String title, int level) {

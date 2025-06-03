@@ -275,4 +275,24 @@ public class SkillTreeDescriptions {
     public String saveFuel() {
         return "No longer consumes fuel when not burning an item";
     }
+
+    public String redstoneControl() {
+        return String.format("Apply a redstone signal to disable the %s", toolName);
+    }
+
+    public String trashFilter() {
+        return "Adds 1 row of trash filter slots";
+    }
+
+    public String quarrySilkTouch() {
+        return String.format("Applies Silk Touch to the blocks the %s mines", toolName);
+    }
+
+    public String quarryFortune() {
+        return String.format("Applies Fortune III to the blocks the %s mines", toolName);
+    }
+
+    public String chunkLoading() {
+        return String.format("Keeps the chunks the %s is mining loaded", toolName);
+    }
 }

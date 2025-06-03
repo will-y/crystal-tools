@@ -252,6 +252,10 @@ public class SkillData {
             return this;
         }
 
+        public Builder energyCost() {
+            return subText("Increases Energy Cost", "#FF0000");
+        }
+
         public Builder subText(String subtext, String color) {
             if (including) {
                 if (currentNode == null) {

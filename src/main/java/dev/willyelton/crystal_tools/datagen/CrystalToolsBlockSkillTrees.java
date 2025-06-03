@@ -10,18 +10,27 @@ import net.minecraft.resources.ResourceKey;
 
 import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.AUTO_BALANCE;
 import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.EXP_BOOST;
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.FORTUNE;
 import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.FUEL_EFFICIENCY;
 import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.FUEL_SLOT_BONUS;
 import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.FURNACE_SPEED;
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.MINING_SPEED;
 import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.SLOT_BONUS;
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.TRASH_FILTER;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AUTO_OUTPUT;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AUTO_SPLIT;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.CHUNK_LOADING;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.REDSTONE_CONTROL;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.SAVE_FUEL;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.SILK_TOUCH;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.expBoost;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.fortune;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.fuelEfficiency;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.furnaceFuelSlot;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.furnaceSlot;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.furnaceSpeed;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.miningSpeed;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.trashFilter;
 
 public class CrystalToolsBlockSkillTrees {
     private final BootstrapContext<SkillData> context;
@@ -38,6 +47,8 @@ public class CrystalToolsBlockSkillTrees {
     public void registerSkillTrees() {
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_BLOCKS,
                 Registration.CRYSTAL_FURNACE.getId()), furnace());
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_BLOCKS,
+                Registration.CRYSTAL_QUARRY.getId()), quarry());
     }
 
     private SkillData furnace() {
@@ -121,6 +132,67 @@ public class CrystalToolsBlockSkillTrees {
                     .blockNode(26, expBoost(0), desc.expBoost(), EXP_BOOST, 0.25F, 0)
                         .nodeRequirement(20)
                         .previousTierOrRequirements()
+                .build();
+    }
+
+    private SkillData quarry() {
+        SkillTreeDescriptions desc = new SkillTreeDescriptions("Quarry");
+
+        return SkillData.builder(null)
+                .tier()
+                    .blockNode(0, miningSpeed(1), desc.miningSpeed(), MINING_SPEED, 1)
+                    .energyCost()
+                .tier()
+                    .blockNode(1, miningSpeed(2), desc.miningSpeed(), MINING_SPEED, 1)
+                        .energyCost()
+                        .nodeRequirement(0)
+                    .blockNode(2, REDSTONE_CONTROL, desc.redstoneControl(), BlockEntityResourceLocations.REDSTONE_CONTROL, 1)
+                        .nodeRequirement(0)
+                    .blockNode(3, trashFilter(1), desc.trashFilter(), TRASH_FILTER, 1)
+                        .nodeRequirement(0)
+                .tier()
+                    .blockNode(4, miningSpeed(3), desc.miningSpeed(), MINING_SPEED, 1)
+                        .energyCost()
+                        .nodeRequirement(1)
+                .tier()
+                    .blockNode(5, miningSpeed(4), desc.miningSpeed(), MINING_SPEED, 1)
+                        .energyCost()
+                        .nodeRequirement(4)
+                    .blockNode(6, AUTO_OUTPUT, desc.autoOutput(), BlockEntityResourceLocations.AUTO_OUTPUT, 1)
+                        .nodeRequirement(4)
+                    .blockNode(7, trashFilter(2), desc.trashFilter(), TRASH_FILTER, 1)
+                        .nodeRequirement(4)
+                .tier()
+                    .blockNode(8, miningSpeed(5), desc.miningSpeed(), MINING_SPEED, 1)
+                        .energyCost()
+                        .nodeRequirement(5)
+                .tier()
+                    .blockNode(9, miningSpeed(6), desc.miningSpeed(), MINING_SPEED, 1)
+                        .energyCost()
+                        .nodeRequirement(8)
+                    .blockNode(10, SILK_TOUCH, desc.quarrySilkTouch(), BlockEntityResourceLocations.SILK_TOUCH, 1)
+                        .energyCost()
+                        .nodeRequirement(8)
+                    .blockNode(11, fortune(3), desc.quarryFortune(), FORTUNE, 3)
+                        .energyCost()
+                        .nodeRequirement(8)
+                    .blockNode(12, trashFilter(3), desc.trashFilter(), TRASH_FILTER, 1)
+                        .nodeRequirement(8)
+                .tier()
+                    .blockNode(13, miningSpeed(7), desc.miningSpeed(), MINING_SPEED, 1)
+                        .energyCost()
+                        .nodeRequirement(9)
+                .tier()
+                    .blockNode(14, miningSpeed(8), desc.miningSpeed(), MINING_SPEED, 1)
+                        .energyCost()
+                        .nodeRequirement(13)
+                    .blockNode(15, CHUNK_LOADING, desc.chunkLoading(), BlockEntityResourceLocations.CHUNK_LOADING, 1)
+                        .subText("NOTE: Will only tick the chunk that the quarry block is in.\nMake sure to keep your power generation in the same chunk.", "#ABABAB")
+                        .nodeRequirement(13)
+                .tier()
+                    .blockNode(16, miningSpeed(0), desc.miningSpeed(), MINING_SPEED, 0.05F)
+                        .energyCost()
+                        .nodeRequirement(14)
                 .build();
     }
 
