@@ -58,6 +58,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.FORTUNE;
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.MINING_SPEED;
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.REDSTONE_CONTROL;
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.SILK_TOUCH;
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.TRASH_FILTER;
+
 public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements MenuProvider, AutoOutputable, ChunkLoader {
     public static final int DATA_SIZE = 14;
 
@@ -348,28 +354,26 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
     @Override
     protected void addToExtraData(String key, float value) {
-        switch (key) {
-            case "quarry_speed" -> {
-                this.speedUpgrade += value;
-                this.extraEnergyCost += Math.max(1, (int) (CrystalToolsConfig.QUARRY_SPEED_COST_INCREASE.get() * value));
-                updateEnergyStorage();
-            }
-            case "redstone_control" -> this.redstoneControl = true;
-            case "fortune" -> {
-                this.fortuneLevel += (int) value;
-                this.fortuneEnabled = !silkTouch || !silkTouchEnabled;
-                this.enchantTempItems(level);
-                this.extraEnergyCost += CrystalToolsConfig.QUARRY_FORTUNE_COST_INCREASE.get();
-                updateEnergyStorage();
-            }
-            case "silk_touch" -> {
-                this.silkTouch = true;
-                this.silkTouchEnabled = fortuneLevel == 0 || !fortuneEnabled;
-                this.enchantTempItems(level);
-                this.extraEnergyCost += CrystalToolsConfig.QUARRY_SILK_TOUCH_COST_INCREASE.get();
-                updateEnergyStorage();
-            }
-            case "filter_capacity" -> this.filterRows += (int) value;
+        if (MINING_SPEED.toString().equals(key)) {
+            this.speedUpgrade += value;
+            this.extraEnergyCost += Math.max(1, (int) (CrystalToolsConfig.QUARRY_SPEED_COST_INCREASE.get() * value));
+            updateEnergyStorage();
+        } else if (REDSTONE_CONTROL.toString().equals(key)) {
+            this.redstoneControl = true;
+        } else if (FORTUNE.toString().equals(key)) {
+            this.fortuneLevel += (int) value;
+            this.fortuneEnabled = !silkTouch || !silkTouchEnabled;
+            this.enchantTempItems(level);
+            this.extraEnergyCost += CrystalToolsConfig.QUARRY_FORTUNE_COST_INCREASE.get();
+            updateEnergyStorage();
+        } else if (SILK_TOUCH.toString().equals(key)) {
+            this.silkTouch = true;
+            this.silkTouchEnabled = fortuneLevel == 0 || !fortuneEnabled;
+            this.enchantTempItems(level);
+            this.extraEnergyCost += CrystalToolsConfig.QUARRY_SILK_TOUCH_COST_INCREASE.get();
+            updateEnergyStorage();
+        } else if (TRASH_FILTER.toString().equals(key)) {
+            this.filterRows += (int) value;
         }
     }
 

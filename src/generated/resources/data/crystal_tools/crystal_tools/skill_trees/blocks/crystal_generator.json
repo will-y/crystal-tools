@@ -1,0 +1,572 @@
+{
+  "tiers": [
+    [
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases FE generated per tick",
+          "id": 0,
+          "key": [
+            "crystal_tools:fe_generation"
+          ],
+          "limit": 1,
+          "name": "FE Generation I",
+          "requirements": [],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases time that fuel burns",
+          "id": 1,
+          "key": [
+            "crystal_tools:fuel_efficiency"
+          ],
+          "limit": 1,
+          "name": "Fuel Efficiency I",
+          "requirements": [],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases the FE capacity of the Generator",
+          "id": 2,
+          "key": [
+            "crystal_tools:fe_capacity"
+          ],
+          "limit": 1,
+          "name": "FE Capacity I",
+          "requirements": [],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases FE generated per tick",
+          "id": 3,
+          "key": [
+            "crystal_tools:fe_generation"
+          ],
+          "limit": 1,
+          "name": "FE Generation II",
+          "requirements": [
+            {
+              "node": [
+                0
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases time that fuel burns",
+          "id": 4,
+          "key": [
+            "crystal_tools:fuel_efficiency"
+          ],
+          "limit": 1,
+          "name": "Fuel Efficiency II",
+          "requirements": [
+            {
+              "node": [
+                1
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases the FE capacity of the Generator",
+          "id": 5,
+          "key": [
+            "crystal_tools:fe_capacity"
+          ],
+          "limit": 1,
+          "name": "FE Capacity II",
+          "requirements": [
+            {
+              "node": [
+                2
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Apply a redstone signal to disable the Generator",
+          "id": 6,
+          "key": [
+            "crystal_tools:redstone_control"
+          ],
+          "limit": 1,
+          "name": "Redstone Control",
+          "requirements": [
+            {
+              "or_node": [
+                3,
+                4,
+                5
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Allows the Generator to burn metals for power!",
+          "id": 7,
+          "key": [
+            "crystal_tools:metal_generator"
+          ],
+          "limit": 1,
+          "name": "Metal Generator",
+          "requirements": [
+            {
+              "or_node": [
+                3,
+                4,
+                5
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases FE generated per tick",
+          "id": 8,
+          "key": [
+            "crystal_tools:fe_generation"
+          ],
+          "limit": 1,
+          "name": "FE Generation III",
+          "requirements": [
+            {
+              "node": [
+                3
+              ]
+            },
+            {
+              "or_node": [
+                6,
+                7
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases time that fuel burns",
+          "id": 9,
+          "key": [
+            "crystal_tools:fuel_efficiency"
+          ],
+          "limit": 1,
+          "name": "Fuel Efficiency III",
+          "requirements": [
+            {
+              "node": [
+                4
+              ]
+            },
+            {
+              "or_node": [
+                6,
+                7
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases the FE capacity of the Generator",
+          "id": 10,
+          "key": [
+            "crystal_tools:fe_capacity"
+          ],
+          "limit": 1,
+          "name": "FE Capacity III",
+          "requirements": [
+            {
+              "node": [
+                5
+              ]
+            },
+            {
+              "or_node": [
+                6,
+                7
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases FE generated per tick",
+          "id": 11,
+          "key": [
+            "crystal_tools:fe_generation"
+          ],
+          "limit": 1,
+          "name": "FE Generation IV",
+          "requirements": [
+            {
+              "node": [
+                8
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases time that fuel burns",
+          "id": 12,
+          "key": [
+            "crystal_tools:fuel_efficiency"
+          ],
+          "limit": 1,
+          "name": "Fuel Efficiency IV",
+          "requirements": [
+            {
+              "node": [
+                9
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases the FE capacity of the Generator",
+          "id": 13,
+          "key": [
+            "crystal_tools:fe_capacity"
+          ],
+          "limit": 1,
+          "name": "FE Capacity IV",
+          "requirements": [
+            {
+              "node": [
+                10
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "No longer consumes fuel when not burning an item",
+          "id": 14,
+          "key": [
+            "crystal_tools:save_fuel"
+          ],
+          "limit": 1,
+          "name": "Save Fuel",
+          "requirements": [
+            {
+              "or_node": [
+                11,
+                12,
+                13
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Allows the Generator to burn food items for power!",
+          "id": 15,
+          "key": [
+            "crystal_tools:food_generator"
+          ],
+          "limit": 1,
+          "name": "Food Generator",
+          "requirements": [
+            {
+              "or_node": [
+                11,
+                12,
+                13
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases FE generated per tick",
+          "id": 16,
+          "key": [
+            "crystal_tools:fe_generation"
+          ],
+          "limit": 1,
+          "name": "FE Generation V",
+          "requirements": [
+            {
+              "node": [
+                11
+              ]
+            },
+            {
+              "or_node": [
+                14,
+                15
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases time that fuel burns",
+          "id": 17,
+          "key": [
+            "crystal_tools:fuel_efficiency"
+          ],
+          "limit": 1,
+          "name": "Fuel Efficiency V",
+          "requirements": [
+            {
+              "node": [
+                12
+              ]
+            },
+            {
+              "or_node": [
+                14,
+                15
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases the FE capacity of the Generator",
+          "id": 18,
+          "key": [
+            "crystal_tools:fe_capacity"
+          ],
+          "limit": 1,
+          "name": "FE Capacity V",
+          "requirements": [
+            {
+              "node": [
+                13
+              ]
+            },
+            {
+              "or_node": [
+                14,
+                15
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases FE generated per tick",
+          "id": 19,
+          "key": [
+            "crystal_tools:fe_generation"
+          ],
+          "limit": 1,
+          "name": "FE Generation VI",
+          "requirements": [
+            {
+              "node": [
+                16
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases time that fuel burns",
+          "id": 20,
+          "key": [
+            "crystal_tools:fuel_efficiency"
+          ],
+          "limit": 1,
+          "name": "Fuel Efficiency VI",
+          "requirements": [
+            {
+              "node": [
+                17
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases the FE capacity of the Generator",
+          "id": 21,
+          "key": [
+            "crystal_tools:fe_capacity"
+          ],
+          "limit": 1,
+          "name": "FE Capacity VI",
+          "requirements": [
+            {
+              "node": [
+                18
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Allows the Generator to consume gems for power!",
+          "id": 22,
+          "key": [
+            "crystal_tools:gem_generator"
+          ],
+          "limit": 1,
+          "name": "Gem Generator",
+          "requirements": [
+            {
+              "node": [
+                19,
+                20,
+                21
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases FE generated per tick",
+          "id": 23,
+          "key": [
+            "crystal_tools:fe_generation"
+          ],
+          "limit": 0,
+          "name": "Infinite FE Generation",
+          "requirements": [
+            {
+              "node": [
+                22
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases time that fuel burns",
+          "id": 24,
+          "key": [
+            "crystal_tools:fuel_efficiency"
+          ],
+          "limit": 0,
+          "name": "Infinite Fuel Efficiency",
+          "requirements": [
+            {
+              "node": [
+                22
+              ]
+            }
+          ],
+          "value": 0.01
+        }
+      },
+      {
+        "type": "crystal_tools:block_entity_nbt",
+        "node": {
+          "description": "Increases the FE capacity of the Generator",
+          "id": 25,
+          "key": [
+            "crystal_tools:fe_capacity"
+          ],
+          "limit": 0,
+          "name": "Infinite FE Capacity",
+          "requirements": [
+            {
+              "node": [
+                22
+              ]
+            }
+          ],
+          "value": 0.5
+        }
+      }
+    ]
+  ]
+}

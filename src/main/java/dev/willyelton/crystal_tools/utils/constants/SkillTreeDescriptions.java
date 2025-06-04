@@ -295,4 +295,28 @@ public class SkillTreeDescriptions {
     public String chunkLoading() {
         return String.format("Keeps the chunks the %s is mining loaded", toolName);
     }
+
+    public String feGeneration() {
+        return "Increases FE generated per tick";
+    }
+
+    public String feCapacity() {
+        return String.format("Increases the FE capacity of the %s", toolName);
+    }
+
+    public String generatorSaveFuel() {
+        return "Won't burn fuel if it cannot output power";
+    }
+
+    public String metalGenerator() {
+        return String.format("Allows the %s to burn metals for power!", toolName);
+    }
+
+    public String foodGenerator() {
+        return String.format("Allows the %s to burn food items for power!", toolName);
+    }
+
+    public String gemGenerator() {
+        return String.format("Allows the %s to consume gems for power!", toolName);
+    }
 }

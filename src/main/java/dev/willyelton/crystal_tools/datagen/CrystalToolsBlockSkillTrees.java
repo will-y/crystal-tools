@@ -10,6 +10,8 @@ import net.minecraft.resources.ResourceKey;
 
 import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.AUTO_BALANCE;
 import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.EXP_BOOST;
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.FE_CAPACITY;
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.FE_GENERATION;
 import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.FORTUNE;
 import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.FUEL_EFFICIENCY;
 import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.FUEL_SLOT_BONUS;
@@ -20,10 +22,15 @@ import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLo
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AUTO_OUTPUT;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AUTO_SPLIT;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.CHUNK_LOADING;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.FOOD_GENERATOR;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.GEM_GENERATOR;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.METAL_GENERATOR;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.REDSTONE_CONTROL;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.SAVE_FUEL;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.SILK_TOUCH;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.expBoost;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.feCapacity;
+import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.feGeneration;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.fortune;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.fuelEfficiency;
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.furnaceFuelSlot;
@@ -49,6 +56,8 @@ public class CrystalToolsBlockSkillTrees {
                 Registration.CRYSTAL_FURNACE.getId()), furnace());
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_BLOCKS,
                 Registration.CRYSTAL_QUARRY.getId()), quarry());
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_BLOCKS,
+                Registration.CRYSTAL_GENERATOR.getId()), generator());
     }
 
     private SkillData furnace() {
@@ -190,10 +199,81 @@ public class CrystalToolsBlockSkillTrees {
                         .subText("NOTE: Will only tick the chunk that the quarry block is in.\nMake sure to keep your power generation in the same chunk.", "#ABABAB")
                         .nodeRequirement(13)
                 .tier()
-                    .blockNode(16, miningSpeed(0), desc.miningSpeed(), MINING_SPEED, 0.05F)
+                    .blockNode(16, miningSpeed(0), desc.miningSpeed(), MINING_SPEED, 0.05F, 0)
                         .energyCost()
                         .nodeRequirement(14)
                 .build();
     }
 
+    private SkillData generator() {
+        SkillTreeDescriptions desc = new SkillTreeDescriptions("Generator");
+
+        return SkillData.builder(null)
+                .tier()
+                    .blockNode(0, feGeneration(1), desc.feGeneration(), FE_GENERATION, 1)
+                    .blockNode(1, fuelEfficiency(1), desc.fuelEfficiency(), FUEL_EFFICIENCY, 0.1F)
+                    .blockNode(2, feCapacity(1), desc.feCapacity(), FE_CAPACITY, 1)
+                .tier()
+                    .blockNode(3, feGeneration(2), desc.feGeneration(), FE_GENERATION, 1)
+                        .nodeRequirement(0)
+                    .blockNode(4, fuelEfficiency(2), desc.fuelEfficiency(), FUEL_EFFICIENCY, 0.1F)
+                        .nodeRequirement(1)
+                    .blockNode(5, feCapacity(2), desc.feCapacity(), FE_CAPACITY, 1)
+                        .nodeRequirement(2)
+                .tier()
+                    .blockNode(6, REDSTONE_CONTROL, desc.redstoneControl(), BlockEntityResourceLocations.REDSTONE_CONTROL, 1)
+                        .previousTierOrRequirements()
+                    .blockNode(7, METAL_GENERATOR, desc.metalGenerator(), BlockEntityResourceLocations.METAL_GENERATOR, 1)
+                        .previousTierOrRequirements()
+                .tier()
+                    .blockNode(8, feGeneration(3), desc.feGeneration(), FE_GENERATION, 1)
+                        .nodeRequirement(3)
+                        .previousTierOrRequirements()
+                    .blockNode(9, fuelEfficiency(3), desc.fuelEfficiency(), FUEL_EFFICIENCY, 0.1F)
+                        .nodeRequirement(4)
+                        .previousTierOrRequirements()
+                    .blockNode(10, feCapacity(3), desc.feCapacity(), FE_CAPACITY, 1)
+                        .nodeRequirement(5)
+                        .previousTierOrRequirements()
+                .tier()
+                    .blockNode(11, feGeneration(4), desc.feGeneration(), FE_GENERATION, 1)
+                        .nodeRequirement(8)
+                    .blockNode(12, fuelEfficiency(4), desc.fuelEfficiency(), FUEL_EFFICIENCY, 0.1F)
+                        .nodeRequirement(9)
+                    .blockNode(13, feCapacity(4), desc.feCapacity(), FE_CAPACITY, 1)
+                        .nodeRequirement(10)
+                .tier()
+                    .blockNode(14, SAVE_FUEL, desc.saveFuel(), BlockEntityResourceLocations.SAVE_FUEL, 1)
+                        .previousTierOrRequirements()
+                    .blockNode(15, FOOD_GENERATOR, desc.foodGenerator(), BlockEntityResourceLocations.FOOD_GENERATOR, 1)
+                        .previousTierOrRequirements()
+                .tier()
+                    .blockNode(16, feGeneration(5), desc.feGeneration(), FE_GENERATION, 1)
+                        .nodeRequirement(11)
+                        .previousTierOrRequirements()
+                    .blockNode(17, fuelEfficiency(5), desc.fuelEfficiency(), FUEL_EFFICIENCY, 0.1F)
+                        .nodeRequirement(12)
+                        .previousTierOrRequirements()
+                    .blockNode(18, feCapacity(5), desc.feCapacity(), FE_CAPACITY, 1)
+                        .nodeRequirement(13)
+                        .previousTierOrRequirements()
+                .tier()
+                    .blockNode(19, feGeneration(6), desc.feGeneration(), FE_GENERATION, 1)
+                        .nodeRequirement(16)
+                    .blockNode(20, fuelEfficiency(6), desc.fuelEfficiency(), FUEL_EFFICIENCY, 0.1F)
+                        .nodeRequirement(17)
+                    .blockNode(21, feCapacity(6), desc.feCapacity(), FE_CAPACITY, 1)
+                        .nodeRequirement(18)
+                .tier()
+                    .blockNode(22, GEM_GENERATOR, desc.gemGenerator(), BlockEntityResourceLocations.GEM_GENERATOR, 1)
+                        .previousTierAndRequirements()
+                .tier()
+                    .blockNode(23, feGeneration(0), desc.feGeneration(), FE_GENERATION, 0.1F, 0)
+                        .nodeRequirement(22)
+                    .blockNode(24, fuelEfficiency(0), desc.fuelEfficiency(), FUEL_EFFICIENCY, 0.01F, 0)
+                        .nodeRequirement(22)
+                    .blockNode(25, feCapacity(0), desc.feCapacity(), FE_CAPACITY, 0.5F, 0)
+                        .nodeRequirement(22)
+                .build();
+    }
 }

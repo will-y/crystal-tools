@@ -23,4 +23,11 @@ public class BlockEntityResourceLocations {
     public static final ResourceLocation SILK_TOUCH = rl("silk_touch");
     public static final ResourceLocation FORTUNE = rl("fortune");
     public static final ResourceLocation CHUNK_LOADING = rl("chunk_loading");
+
+    // Generator
+    public static final ResourceLocation FE_GENERATION = rl("fe_generation");
+    public static final ResourceLocation FE_CAPACITY = rl("fe_capacity");
+    public static final ResourceLocation METAL_GENERATOR = rl("metal_generator");
+    public static final ResourceLocation FOOD_GENERATOR = rl("food_generator");
+    public static final ResourceLocation GEM_GENERATOR = rl("gem_generator");
 }

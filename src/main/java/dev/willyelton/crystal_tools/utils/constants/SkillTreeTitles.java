@@ -33,6 +33,9 @@ public class SkillTreeTitles {
     public static final String SAVE_FUEL = "Save Fuel";
     public static final String REDSTONE_CONTROL = "Redstone Control";
     public static final String CHUNK_LOADING = "Chunk Loading";
+    public static final String METAL_GENERATOR = "Metal Generator";
+    public static final String FOOD_GENERATOR = "Food Generator";
+    public static final String GEM_GENERATOR = "Gem Generator";
 
     public static String miningSpeed(int level) {
         if (level == 0) {
@@ -211,6 +214,14 @@ public class SkillTreeTitles {
 
     public static String trashFilter(int level) {
         return getName("Trash Filter", level);
+    }
+
+    public static String feGeneration(int level) {
+        return getName("FE Generation", level);
+    }
+
+    public static String feCapacity(int level) {
+        return getName("FE Capacity", level);
     }
 
     private static String getName(String title, int level) {

@@ -25,6 +25,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.CHUNK_LOADING;
+
 public class ChunkLoadingAction<T extends LevelableBlockEntity & ChunkLoader> extends Action {
     public static final TicketController TICKET_CONTROLLER = new TicketController(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "chunk_loader"), ChunkLoadingValidationCallback.INSTANCE);
 
@@ -63,7 +65,7 @@ public class ChunkLoadingAction<T extends LevelableBlockEntity & ChunkLoader> ex
 
     @Override
     public boolean addToExtra(String key, float value) {
-        if ("chunkloading".equals(key)) {
+        if (CHUNK_LOADING.toString().equals(key)) {
             this.chunkLoadingEnabled = true;
             this.loadChunk((ServerLevel) blockEntity.getLevel(), new ChunkPos(blockEntity.getBlockPos()));
             return true;

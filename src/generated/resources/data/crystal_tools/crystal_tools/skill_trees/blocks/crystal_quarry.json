@@ -383,7 +383,7 @@
           "key": [
             "crystal_tools:mining_speed"
           ],
-          "limit": 1,
+          "limit": 0,
           "name": "Infinite Speed",
           "requirements": [
             {

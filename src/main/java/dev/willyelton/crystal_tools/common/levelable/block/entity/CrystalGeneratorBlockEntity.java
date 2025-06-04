@@ -40,6 +40,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.FE_CAPACITY;
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.FE_GENERATION;
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.FOOD_GENERATOR;
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.FUEL_EFFICIENCY;
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.GEM_GENERATOR;
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.METAL_GENERATOR;
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.REDSTONE_CONTROL;
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.SAVE_FUEL;
+
 public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements MenuProvider {
     public static final int DATA_SIZE = 5;
     private static final int SIZE = 1;
@@ -200,23 +209,26 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
 
     @Override
     protected void addToExtraData(String key, float value) {
-        switch (key) {
-            case "fe_generation" -> {
-                float generationToAdd = value * CrystalToolsConfig.FE_GENERATION_PER_LEVEL.get();
-                this.addedFEGeneration += generationToAdd;
-                this.energyStorage.setMaxExtract(this.energyStorage.getMaxExtract() + (int) generationToAdd * 2);
-            }
-            case "fuel_efficiency" -> this.fuelEfficiency += value;
-            case "fe_capacity" -> {
-                float storageToAdd = value * CrystalToolsConfig.FE_STORAGE_PER_LEVEL.get();
-                this.addedFEStorage += storageToAdd;
-                this.energyStorage.setCapacity(this.energyStorage.getMaxEnergyStored() + (int) storageToAdd);
-            }
-            case "redstone_control" -> this.redstoneControl = value == 1F;
-            case "save_fuel" -> this.saveFuel = value == 1F;
-            case "metal_generator" -> this.metalGenerator = value == 1F;
-            case "food_generator" -> this.foodGenerator = value == 1F;
-            case "gem_generator" -> this.gemGenerator = value == 1F;
+        if (FE_GENERATION.toString().equals(key)) {
+            float generationToAdd = value * CrystalToolsConfig.FE_GENERATION_PER_LEVEL.get();
+            this.addedFEGeneration += generationToAdd;
+            this.energyStorage.setMaxExtract(this.energyStorage.getMaxExtract() + (int) generationToAdd * 2);
+        } else if (FUEL_EFFICIENCY.toString().equals(key)) {
+            this.fuelEfficiency += value;
+        } else if (FE_CAPACITY.toString().equals(key)) {
+            float storageToAdd = value * CrystalToolsConfig.FE_STORAGE_PER_LEVEL.get();
+            this.addedFEStorage += storageToAdd;
+            this.energyStorage.setCapacity(this.energyStorage.getMaxEnergyStored() + (int) storageToAdd);
+        } else if (REDSTONE_CONTROL.toString().equals(key)) {
+            this.redstoneControl = value == 1F;
+        } else if (SAVE_FUEL.toString().equals(key)) {
+            this.saveFuel = value == 1F;
+        } else if (METAL_GENERATOR.toString().equals(key)) {
+            this.metalGenerator = value == 1F;
+        } else if (FOOD_GENERATOR.toString().equals(key)) {
+            this.foodGenerator = value == 1F;
+        } else if (GEM_GENERATOR.toString().equals(key)) {
+            this.gemGenerator = value == 1F;
         }
     }
 
