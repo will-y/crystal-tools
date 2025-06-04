@@ -228,7 +228,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
             contents.copyInto(this.storedItems);
         }
 
-        ItemContainerContents filterContents = componentInput.get(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_FILTER);
+        ItemContainerContents filterContents = componentInput.get(dev.willyelton.crystal_tools.common.components.DataComponents.FILTER_INVENTORY);
         if (filterContents != null) {
             filterContents.copyInto(this.filterItems);
         }
@@ -332,7 +332,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         components.set(DataComponents.CONTAINER, contents);
 
         ItemContainerContents filterContents = ItemContainerContents.fromItems(this.filterItems);
-        components.set(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_FILTER, filterContents);
+        components.set(dev.willyelton.crystal_tools.common.components.DataComponents.FILTER_INVENTORY, filterContents);
 
         QuarryData quarryData = new QuarryData(miningAt == null ? BlockPos.ZERO : miningAt, currentProgress, miningState, finished, waitingStacks, energyStorage.getEnergyStored(), whitelist);
         components.set(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_DATA, quarryData);

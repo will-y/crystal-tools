@@ -278,7 +278,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     @Override
     protected void applyImplicitComponents(DataComponentGetter componentInput) {
         super.applyImplicitComponents(componentInput);
-        ItemContainerContents contents = componentInput.get(DataComponents.FURNACE_INVENTORY);
+        ItemContainerContents contents = componentInput.get(net.minecraft.core.component.DataComponents.CONTAINER);
         this.items = NonNullList.withSize(SIZE, ItemStack.EMPTY);
         if (contents != null) {
             contents.copyInto(this.items);
@@ -338,7 +338,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         components.set(DataComponents.FURNACE_UPGRADES, furnaceUpgrades);
 
         ItemContainerContents contents = ItemContainerContents.fromItems(this.items);
-        components.set(DataComponents.FURNACE_INVENTORY, contents);
+        components.set(net.minecraft.core.component.DataComponents.CONTAINER, contents);
     }
 
     @Override

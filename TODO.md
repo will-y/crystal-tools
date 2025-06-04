@@ -104,19 +104,20 @@ New types of nodes:
 Could also consider adding the ability to require x points in a node before it is active (creative flight)
 Also want to consider the idea of either a second tree, or just another type of node that is more expensive / new point type (quests?)
 
-- Points can't be stored in the skill data object anymore
-- Mob effect nodes
-- Figure out what to do about block entity trees (probably a special type of NBT node)
-- Backpack is special, does it need to be?
-- Datapack validation (make sure all requirements point to valid nodes / items)...
-- try out some vanilla skill trees
-- redo getting points (each node should probably be able to do the action, so the packet handler should be really simple)
-- Resizing the screen after you spend a point resets it?
-
-Before release:
-- remove all old datacomponents
-- block entities
+Before beta release:
 - todo stream codecs
 - looks like something to do in the handler (backpack logic?)
 - Remove old packets and handlers (will probably need 2 new packets for handling skill point changes), probably only used for exp now
+- Remove old datapack reading things
+- short server test
+
+Before full release
 - Enchantment config option is broken
+- remove as much as possible from the tool classes
+- All checks should be registry or datacomponent checks, not instanceof checks
+
+Eventually
+- Backpack is special, does it need to be?
+- Datapack validation (make sure all requirements point to valid nodes / items)...
+- try out some vanilla skill trees
+- Resizing the screen after you spend a point resets it?

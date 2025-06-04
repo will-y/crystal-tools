@@ -16,7 +16,6 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 public class LevelableBlockItem extends BlockItem {
@@ -118,12 +117,6 @@ public class LevelableBlockItem extends BlockItem {
     }
 
     private @Nullable ItemContainerContents getContainer(ItemStack stack) {
-        ItemContainerContents container = stack.get(DataComponents.FURNACE_INVENTORY);
-
-        if (container == null) {
-            container = stack.get(net.minecraft.core.component.DataComponents.CONTAINER);
-        }
-
-        return container;
+        return stack.get(net.minecraft.core.component.DataComponents.CONTAINER);
     }
 }

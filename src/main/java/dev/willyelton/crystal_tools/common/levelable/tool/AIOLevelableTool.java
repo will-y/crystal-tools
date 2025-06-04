@@ -45,7 +45,7 @@ public class AIOLevelableTool extends DiggerLevelableTool {
             return InteractionResult.FAIL;
         }
 
-        UseMode mode = UseMode.fromString(stack.getOrDefault(DataComponents.USE_MODE, ""));
+        UseMode mode = stack.getOrDefault(DataComponents.USE_MODE, UseMode.HOE);
 
         switch (mode) {
             case HOE -> {
@@ -88,7 +88,7 @@ public class AIOLevelableTool extends DiggerLevelableTool {
 
     @Override
     public void addAdditionalTooltips(ItemStack stack, Consumer<Component> components, LevelableItem item) {
-        String toolTip = "\u00A79" + "Use Mode: " + StringUtils.capitalize(stack.getOrDefault(DataComponents.USE_MODE, "hoe").toLowerCase(Locale.ROOT));
+        String toolTip = "\u00A79" + "Use Mode: " + StringUtils.capitalize(stack.getOrDefault(DataComponents.USE_MODE, "hoe").toString().toLowerCase(Locale.ROOT));
         if (RegisterKeyBindingsEvent.MODE_SWITCH != null) {
             toolTip = toolTip + " (alt + " + RegisterKeyBindingsEvent.MODE_SWITCH.getKey().getDisplayName().getString() + " to change)";
         }

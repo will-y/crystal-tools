@@ -13,6 +13,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -60,7 +62,7 @@ public abstract class LevelableTool extends Item implements LevelableItem {
                     attacker.heal(heal);
                 }
 
-                addExp(tool, target.level(), attacker.getOnPos(), attacker, (int) (getAttackDamage(tool) * getAttackExperienceBoost()));
+                addExp(tool, target.level(), attacker.getOnPos(), attacker, (int) (getAttackDamage(attacker, tool) * getAttackExperienceBoost()));
             }
         }
     }
@@ -150,8 +152,13 @@ public abstract class LevelableTool extends Item implements LevelableItem {
         }
     }
 
-    protected float getAttackDamage(ItemStack stack) {
-        return CRYSTAL.attackDamageBonus() + stack.getOrDefault(DataComponents.DAMAGE_BONUS, 0F);
+    protected float getAttackDamage(LivingEntity attacker, ItemStack stack) {
+        AttributeInstance attackDamageAttribute = attacker.getAttribute(Attributes.ATTACK_DAMAGE);
+        if (attackDamageAttribute != null) {
+            return CRYSTAL.attackDamageBonus() + (float) attackDamageAttribute.getValue();
+        } else {
+            return CRYSTAL.attackDamageBonus();
+        }
     }
 
     protected double getAttackExperienceBoost() {

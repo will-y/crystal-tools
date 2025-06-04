@@ -76,8 +76,8 @@ public class ModeSwitchHandler {
         if (payload.hasAltDown() && !payload.hasShiftDown() && !payload.hasCtrlDown()) {
             // Use mode for AIOT
             if (tool.is(Registration.CRYSTAL_AIOT.get())) {
-                UseMode currentMode = UseMode.fromString(tool.getOrDefault(DataComponents.USE_MODE, ""));
-                tool.set(DataComponents.USE_MODE, UseMode.nextMode(tool, currentMode).toString());
+                UseMode currentMode = tool.getOrDefault(DataComponents.USE_MODE, UseMode.HOE);
+                tool.set(DataComponents.USE_MODE, UseMode.nextMode(tool, currentMode));
                 player.displayClientMessage(Component.literal("Mode: " + UseMode.nextMode(tool, currentMode)), true);
             }
         }
