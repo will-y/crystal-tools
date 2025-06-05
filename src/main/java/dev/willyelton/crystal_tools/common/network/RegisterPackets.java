@@ -2,7 +2,6 @@ package dev.willyelton.crystal_tools.common.network;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload;
-import dev.willyelton.crystal_tools.common.network.data.BlockAttributePayload;
 import dev.willyelton.crystal_tools.common.network.data.BlockBreakPayload;
 import dev.willyelton.crystal_tools.common.network.data.BlockSkillPayload;
 import dev.willyelton.crystal_tools.common.network.data.BlockStripPayload;
@@ -16,13 +15,11 @@ import dev.willyelton.crystal_tools.common.network.data.RemoveItemPayload;
 import dev.willyelton.crystal_tools.common.network.data.ResetSkillsBlockPayload;
 import dev.willyelton.crystal_tools.common.network.data.ResetSkillsPayload;
 import dev.willyelton.crystal_tools.common.network.data.ScrollPayload;
-import dev.willyelton.crystal_tools.common.network.data.ToolAttributePayload;
 import dev.willyelton.crystal_tools.common.network.data.ToolHealPayload;
 import dev.willyelton.crystal_tools.common.network.data.ToolSkillPayload;
 import dev.willyelton.crystal_tools.common.network.data.TriggerRocketPayload;
 import dev.willyelton.crystal_tools.common.network.data.VeinMiningPayload;
 import dev.willyelton.crystal_tools.common.network.handler.BackpackScreenHandler;
-import dev.willyelton.crystal_tools.common.network.handler.BlockAttributeHandler;
 import dev.willyelton.crystal_tools.common.network.handler.BlockBreakHandler;
 import dev.willyelton.crystal_tools.common.network.handler.BlockSkillHandler;
 import dev.willyelton.crystal_tools.common.network.handler.BlockStripHandler;
@@ -36,7 +33,6 @@ import dev.willyelton.crystal_tools.common.network.handler.RemoveItemHandler;
 import dev.willyelton.crystal_tools.common.network.handler.ResetSkillsBlockHandler;
 import dev.willyelton.crystal_tools.common.network.handler.ResetSkillsHandler;
 import dev.willyelton.crystal_tools.common.network.handler.ScrollHandler;
-import dev.willyelton.crystal_tools.common.network.handler.ToolAttributeHandler;
 import dev.willyelton.crystal_tools.common.network.handler.ToolHealHandler;
 import dev.willyelton.crystal_tools.common.network.handler.ToolSkillHandler;
 import dev.willyelton.crystal_tools.common.network.handler.TriggerRocketHandler;
@@ -54,9 +50,7 @@ public class RegisterPackets {
         final PayloadRegistrar registrar = event.registrar(CrystalTools.MODID);
 
         // Client to Server
-        registrar.playToServer(ToolAttributePayload.TYPE, ToolAttributePayload.STREAM_CODEC, ToolAttributeHandler.INSTANCE::handle);
         registrar.playToServer(ToolSkillPayload.TYPE, ToolSkillPayload.STREAM_CODEC, ToolSkillHandler.INSTANCE::handle);
-        registrar.playToServer(BlockAttributePayload.TYPE, BlockAttributePayload.STREAM_CODEC, BlockAttributeHandler.INSTANCE::handle);
         registrar.playToServer(BlockSkillPayload.TYPE, BlockSkillPayload.STREAM_CODEC, BlockSkillHandler.INSTANCE::handle);
         registrar.playToServer(ModeSwitchPayload.TYPE, ModeSwitchPayload.STREAM_CODEC, ModeSwitchHandler.INSTANCE::handle);
         registrar.playToServer(RemoveItemPayload.TYPE, RemoveItemPayload.STREAM_CODEC, RemoveItemHandler.INSTANCE::handle);
@@ -77,5 +71,4 @@ public class RegisterPackets {
         // Server to Client
         registrar.playToClient(QuarryMineBlockPayload.TYPE, QuarryMineBlockPayload.STREAM_CODEC, QuarryMineBlockHandler.INSTANCE::handle);
     }
-
 }

@@ -7,7 +7,6 @@ import dev.willyelton.crystal_tools.common.levelable.block.entity.LevelableBlock
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
-import dev.willyelton.crystal_tools.common.network.data.BlockAttributePayload;
 import dev.willyelton.crystal_tools.common.network.data.BlockSkillPayload;
 import dev.willyelton.crystal_tools.common.network.data.ResetSkillsBlockPayload;
 import net.minecraft.client.gui.components.Button;

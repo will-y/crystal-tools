@@ -1,7 +1,6 @@
 package dev.willyelton.crystal_tools.common.network.handler;
 
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.inventory.container.LevelableContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.LevelableBlockEntity;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
@@ -21,7 +20,7 @@ public class PointsFromXpHandler {
         Player player = context.player();
 
         int totalPoints = getTotalPoints(payload.item(), player);
-        int xpCost = getXpCost(payload.points(), totalPoints);
+        int xpCost = XpUtils.getXpCost(payload.points(), totalPoints);
 
         if (XpUtils.getPlayerTotalXp(player) >= xpCost) {
             player.giveExperiencePoints(-xpCost);
@@ -44,46 +43,6 @@ public class PointsFromXpHandler {
             }
 
             return -1;
-        }
-    }
-
-    private int getXpCost(int pointsToGain, int totalPoints) {
-        int xpLevelCost = CrystalToolsConfig.EXPERIENCE_PER_SKILL_LEVEL.get();
-        int levelScaling = CrystalToolsConfig.EXPERIENCE_LEVELING_SCALING.get();
-
-        if (levelScaling > 0) {
-            long totalCost = 0;
-
-            int pointsAtLowerLevelLeft = Math.min(levelScaling - totalPoints % levelScaling, pointsToGain);
-
-            // TODO: Look at this 500 value, could be bad if the xp level cost configs are changed
-            int pointCost1 = Math.min(totalPoints / levelScaling, 500);
-            totalCost += pointsAtLowerLevelLeft * XpUtils.getXPForLevel(xpLevelCost + pointCost1);
-
-            int pointsLeft = pointsToGain - pointsAtLowerLevelLeft;
-            int i = pointsAtLowerLevelLeft == 0 ? 0 : 1;
-            while (pointsLeft > 0) {
-                int pointsToSpend = Math.min(levelScaling, pointsLeft);
-                int pointCost = Math.min(totalPoints / levelScaling, 500);
-                totalCost += pointsToSpend * XpUtils.getXPForLevel(xpLevelCost + pointCost + i);
-                i++;
-                pointsLeft -= pointsToSpend;
-            }
-
-            // Overflow
-            if (totalCost >= Integer.MAX_VALUE) {
-                return Integer.MAX_VALUE;
-            } else {
-                return (int) totalCost;
-            }
-        } else {
-            int totalCost = pointsToGain * xpLevelCost;
-
-            if (totalCost < 0) {
-                return Integer.MAX_VALUE;
-            } else {
-                return totalCost;
-            }
         }
     }
 
