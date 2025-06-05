@@ -23,6 +23,7 @@
           "name": "Fire Prot I",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 0
               ]
@@ -40,6 +41,7 @@
           "name": "Blast Prot I",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 1
               ]
@@ -57,6 +59,7 @@
           "name": "Projectile Prot I",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 2
               ]
@@ -76,6 +79,7 @@
           "name": "Prot II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 0
               ]
@@ -93,6 +97,7 @@
           "name": "Fire Prot II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 1
               ]
@@ -110,6 +115,7 @@
           "name": "Blast Prot II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 2
               ]
@@ -127,6 +133,7 @@
           "name": "Projectile Prot II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 3
               ]
@@ -148,6 +155,7 @@
           "name": "Base Armor I",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 4,
                 5,
@@ -171,6 +179,7 @@
           "name": "Toughness I",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 4,
                 5,
@@ -205,11 +214,13 @@
           "name": "Prot III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 4
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 8,
                 9,
@@ -229,11 +240,13 @@
           "name": "Fire Prot III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 5
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 8,
                 9,
@@ -253,11 +266,13 @@
           "name": "Blast Prot III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 6
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 8,
                 9,
@@ -277,11 +292,13 @@
           "name": "Projectile Prot III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 7
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 8,
                 9,
@@ -305,11 +322,13 @@
           "name": "Base Armor II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 8
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 11,
                 12,
@@ -333,11 +352,13 @@
           "name": "Toughness II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 9
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 11,
                 12,
@@ -359,6 +380,7 @@
           "name": "Respiration III",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 11,
                 12,
@@ -381,6 +403,7 @@
           "name": "Auto Repair",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 11,
                 12,
@@ -404,11 +427,13 @@
           "name": "Prot IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 11
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 15,
                 16,
@@ -429,11 +454,13 @@
           "name": "Fire Prot IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 12
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 15,
                 16,
@@ -454,11 +481,13 @@
           "name": "Blast Prot IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 13
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 15,
                 16,
@@ -479,11 +508,13 @@
           "name": "Projectile Prot IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 14
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 15,
                 16,
@@ -508,11 +539,13 @@
           "name": "Base Armor III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 15
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 19,
                 20,
@@ -536,11 +569,13 @@
           "name": "Toughness III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 16
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 19,
                 20,
@@ -562,6 +597,7 @@
           "name": "Thorns III",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 19,
                 20,
@@ -584,6 +620,7 @@
           "name": "Night Vision",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 19,
                 20,

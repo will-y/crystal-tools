@@ -1,19 +1,29 @@
 package dev.willyelton.crystal_tools.common.levelable.skill.requirement;
 
-import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
-import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
-import dev.willyelton.crystal_tools.utils.CodecUtils;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
 
 public class NodeSkillDataRequirement implements SkillDataRequirement, SkillDataNodeRequirement {
-    List<Integer> requiredNodes;
-    boolean inverse;
-    List<Integer> unless;
+    public static final MapCodec<NodeSkillDataRequirement> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            Codec.INT.listOf().fieldOf("node").forGetter(NodeSkillDataRequirement::getRequiredNodes)
+    ).apply(instance, NodeSkillDataRequirement::new));
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, NodeSkillDataRequirement> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.INT.apply(ByteBufCodecs.list()), NodeSkillDataRequirement::getRequiredNodes,
+            NodeSkillDataRequirement::new);
+
+    private final List<Integer> requiredNodes;
+    private final boolean inverse;
+
+    protected final List<Integer> unless;
 
     public NodeSkillDataRequirement(List<Integer> requiredNodes) {
         this(requiredNodes, false);
@@ -79,11 +89,7 @@ public class NodeSkillDataRequirement implements SkillDataRequirement, SkillData
     }
 
     @Override
-    public JsonElement toJson() {
-        return CodecUtils.encodeOrThrow(CODEC, this);
+    public MapCodec<? extends SkillDataRequirement> codec() {
+        return MAP_CODEC;
     }
-
-    public static final Codec<NodeSkillDataRequirement> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Codec.INT.listOf().fieldOf("node").forGetter(NodeSkillDataRequirement::getRequiredNodes)
-    ).apply(instance, NodeSkillDataRequirement::new));
 }

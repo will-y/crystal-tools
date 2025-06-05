@@ -5,6 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillSubText;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirement;
+import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirements;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -26,7 +27,7 @@ public final class FoodDataComponentNode extends SkillDataNode implements ItemSt
             Codec.STRING.fieldOf("description").forGetter(FoodDataComponentNode::getDescription),
             Codec.INT.fieldOf("limit").forGetter(FoodDataComponentNode::getLimit),
             FoodProperties.DIRECT_CODEC.fieldOf("value").forGetter(FoodDataComponentNode::getValue),
-            SkillDataRequirement.CODEC.listOf().fieldOf("requirements").forGetter(FoodDataComponentNode::getRequirements),
+            SkillDataRequirements.CODEC.listOf().fieldOf("requirements").forGetter(FoodDataComponentNode::getRequirements),
             SkillSubText.CODEC.optionalFieldOf("subtext").forGetter(n -> Optional.ofNullable(n.getSkillSubText()))
     ).apply(instance, FoodDataComponentNode::new));
 
@@ -36,8 +37,8 @@ public final class FoodDataComponentNode extends SkillDataNode implements ItemSt
             ByteBufCodecs.STRING_UTF8, FoodDataComponentNode::getDescription,
             ByteBufCodecs.VAR_INT, FoodDataComponentNode::getLimit,
             FoodProperties.DIRECT_STREAM_CODEC, FoodDataComponentNode::getValue,
-            ByteBufCodecs.fromCodec(SkillDataRequirement.CODEC.listOf().fieldOf("requirements").codec()), FoodDataComponentNode::getRequirements, // TODO
-            ByteBufCodecs.fromCodec(SkillSubText.CODEC.optionalFieldOf("subtext").codec()), n -> Optional.ofNullable(n.getSkillSubText()), // TODO
+            SkillDataRequirements.STREAM_CODEC.apply(ByteBufCodecs.list()), FoodDataComponentNode::getRequirements,
+            ByteBufCodecs.optional(SkillSubText.STREAM_CODEC), n -> Optional.ofNullable(n.getSkillSubText()),
             FoodDataComponentNode::new);
     private final FoodProperties value;
 

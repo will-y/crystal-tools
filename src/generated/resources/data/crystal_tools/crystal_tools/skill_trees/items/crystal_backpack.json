@@ -58,6 +58,7 @@
           "name": "Capacity II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 0
               ]
@@ -78,6 +79,7 @@
           "name": "Filter Slots II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 1
               ]
@@ -100,6 +102,7 @@
           "name": "Capacity III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 3
               ]
@@ -120,6 +123,7 @@
           "name": "Filter Slots III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 4
               ]
@@ -140,6 +144,7 @@
           "name": "Sort",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 3,
                 4
@@ -163,6 +168,7 @@
           "name": "Capacity IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 5
               ]
@@ -183,6 +189,7 @@
           "name": "Filter Slots IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 6
               ]
@@ -205,6 +212,7 @@
           "name": "Capacity V",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 8
               ]
@@ -225,6 +233,7 @@
           "name": "Filter Slots V",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 9
               ]
@@ -245,6 +254,7 @@
           "name": "Store in Inventory",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 8,
                 9
@@ -268,6 +278,7 @@
           "name": "Capacity VI",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 10
               ]
@@ -288,6 +299,7 @@
           "name": "Filter Slots VI",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 11
               ]
@@ -308,6 +320,7 @@
           "name": "Compress",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 10,
                 11,
@@ -332,6 +345,7 @@
           "name": "Infinite Capacity",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 14,
                 15

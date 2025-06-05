@@ -72,6 +72,7 @@
           "name": "Arrow Damage II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 0
               ]
@@ -92,6 +93,7 @@
           "name": "Arrow Speed II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 1
               ]
@@ -112,6 +114,7 @@
           "name": "Draw Speed II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 2
               ]
@@ -132,6 +135,7 @@
           "name": "Durability II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 3
               ]
@@ -152,6 +156,7 @@
           "name": "Punch I",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 4,
                 5,
@@ -172,6 +177,7 @@
           "name": "Flame",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 4,
                 5,
@@ -194,6 +200,7 @@
           "name": "Unbreaking I",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 4,
                 5,
@@ -217,6 +224,7 @@
           "name": "Beheading I",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 4,
                 5,
@@ -242,11 +250,13 @@
           "name": "Arrow Damage III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 4
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 8,
                 9,
@@ -270,11 +280,13 @@
           "name": "Arrow Speed III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 5
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 8,
                 9,
@@ -298,11 +310,13 @@
           "name": "Draw Speed III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 6
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 8,
                 9,
@@ -326,11 +340,13 @@
           "name": "Durability III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 7
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 8,
                 9,
@@ -354,6 +370,7 @@
           "name": "Capturing I",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 8,
                 9,
@@ -377,11 +394,13 @@
           "name": "Punch II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 8
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 11,
                 12,
@@ -403,6 +422,7 @@
           "name": "Infinity",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 11,
                 12,
@@ -426,11 +446,13 @@
           "name": "Unbreaking II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 10
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 11,
                 12,
@@ -455,11 +477,13 @@
           "name": "Beheading II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 39
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 11,
                 12,
@@ -486,11 +510,13 @@
           "name": "Arrow Damage IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 11
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 15,
                 16,
@@ -514,11 +540,13 @@
           "name": "Arrow Speed IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 12
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 15,
                 16,
@@ -542,11 +570,13 @@
           "name": "Draw Speed IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 13
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 15,
                 16,
@@ -570,11 +600,13 @@
           "name": "Durability IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 14
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 15,
                 16,
@@ -598,11 +630,13 @@
           "name": "Capturing II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 42
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 15,
                 16,
@@ -626,11 +660,13 @@
           "name": "Punch III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 15
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 18,
                 19,
@@ -654,6 +690,7 @@
           "name": "Auto Repair",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 18,
                 19,
@@ -678,11 +715,13 @@
           "name": "Unbreaking III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 17
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 18,
                 19,
@@ -707,6 +746,7 @@
           "name": "Auto Target Mobs",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 18,
                 19,
@@ -731,11 +771,13 @@
           "name": "Beheading III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 40
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 18,
                 19,
@@ -762,11 +804,13 @@
           "name": "Arrow Damage V",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 18
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 22,
                 23,
@@ -791,11 +835,13 @@
           "name": "Arrow Speed V",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 19
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 22,
                 23,
@@ -820,11 +866,13 @@
           "name": "Draw Speed V",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 20
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 22,
                 23,
@@ -849,11 +897,13 @@
           "name": "Durability V",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 21
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 22,
                 23,
@@ -878,11 +928,13 @@
           "name": "Capturing III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 43
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 22,
                 23,
@@ -909,6 +961,7 @@
           "name": "Infinite Arrow Damage",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 26
               ]
@@ -929,6 +982,7 @@
           "name": "Infinite Arrow Speed",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 27
               ]
@@ -949,6 +1003,7 @@
           "name": "Infinite Draw Speed",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 28
               ]
@@ -969,6 +1024,7 @@
           "name": "Infinite Durability",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 29
               ]
@@ -989,11 +1045,13 @@
           "name": "Infinite Unbreaking",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 24
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 26,
                 27,
@@ -1026,6 +1084,7 @@
           "name": "Tipped: Poison",
           "requirements": [
             {
+              "type": "crystal_tools:item_requirement",
               "item": [
                 "minecraft:nether_wart",
                 "minecraft:spider_eye",
@@ -1034,6 +1093,7 @@
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 30,
                 31,
@@ -1067,6 +1127,7 @@
           "name": "Tipped: Weakness",
           "requirements": [
             {
+              "type": "crystal_tools:item_requirement",
               "item": [
                 "minecraft:nether_wart",
                 "minecraft:blaze_powder",
@@ -1075,6 +1136,7 @@
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 30,
                 31,
@@ -1108,6 +1170,7 @@
           "name": "Tipped: Slowness",
           "requirements": [
             {
+              "type": "crystal_tools:item_requirement",
               "item": [
                 "minecraft:nether_wart",
                 "minecraft:sugar",
@@ -1116,6 +1179,7 @@
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 30,
                 31,
@@ -1149,6 +1213,7 @@
           "name": "Tipped: Wither",
           "requirements": [
             {
+              "type": "crystal_tools:item_requirement",
               "item": [
                 "minecraft:nether_wart",
                 "minecraft:bone",
@@ -1157,6 +1222,7 @@
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 30,
                 31,

@@ -72,6 +72,7 @@
           "name": "Attack Damage I",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 0,
                 1,
@@ -95,6 +96,7 @@
           "name": "Flaming Shield I",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 0,
                 1,
@@ -118,6 +120,7 @@
           "name": "Totem Slot I",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 0,
                 1,
@@ -150,6 +153,7 @@
           "name": "Slowness",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 0,
                 1,
@@ -174,11 +178,13 @@
           "name": "Durability II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 0
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 4,
                 5,
@@ -202,11 +208,13 @@
           "name": "Base Armor II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 1
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 4,
                 5,
@@ -230,11 +238,13 @@
           "name": "Thorns II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 2
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 4,
                 5,
@@ -258,11 +268,13 @@
           "name": "Reduce Cooldown II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 3
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 4,
                 5,
@@ -286,6 +298,7 @@
           "name": "Auto Repair",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 4,
                 5,
@@ -311,11 +324,13 @@
           "name": "Attack Damage II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 4
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 8,
                 9,
@@ -340,11 +355,13 @@
           "name": "Shield Knockback",
           "requirements": [
             {
+              "type": "crystal_tools:item_requirement",
               "item": [
                 "minecraft:wind_charge"
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 8,
                 9,
@@ -369,11 +386,13 @@
           "name": "Totem Slot I",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 6
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 8,
                 9,
@@ -407,6 +426,7 @@
           "name": "Poison",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 8,
                 9,
@@ -432,11 +452,13 @@
           "name": "Durability III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 8
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 13,
                 14,
@@ -460,11 +482,13 @@
           "name": "Base Armor III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 9
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 13,
                 14,
@@ -488,11 +512,13 @@
           "name": "Thorns III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 10
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 13,
                 14,
@@ -516,11 +542,13 @@
           "name": "Reduce Cooldown III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 11
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 13,
                 14,
@@ -546,11 +574,13 @@
           "name": "Attack Damage III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 13
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 17,
                 18,
@@ -574,6 +604,7 @@
           "name": "Auto Target Mobs",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 17,
                 18,
@@ -597,11 +628,13 @@
           "name": "Totem Slot I",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 15
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 17,
                 18,
@@ -634,6 +667,7 @@
           "name": "Wither",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 17,
                 18,
@@ -658,11 +692,13 @@
           "name": "Durability IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 17
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 21,
                 22,
@@ -686,11 +722,13 @@
           "name": "Base Armor IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 18
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 21,
                 22,
@@ -714,11 +752,13 @@
           "name": "Thorns IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 19
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 21,
                 22,
@@ -742,11 +782,13 @@
           "name": "Reduce Cooldown IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 20
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 21,
                 22,
@@ -772,6 +814,7 @@
           "name": "Infinite Durability",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 25
               ]
@@ -792,11 +835,13 @@
           "name": "Infinite Damage",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 21
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 25,
                 26,
@@ -820,6 +865,7 @@
           "name": "Infinite Reduce Cooldown",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 28
               ]

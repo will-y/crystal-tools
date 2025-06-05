@@ -58,6 +58,7 @@
           "name": "Attack Damage II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 0
               ]
@@ -78,6 +79,7 @@
           "name": "Attack Speed II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 1
               ]
@@ -98,6 +100,7 @@
           "name": "Durability II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 2
               ]
@@ -118,6 +121,7 @@
           "name": "Fire Aspect II",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 3,
                 4,
@@ -139,6 +143,7 @@
           "name": "Knockback Res I",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 3,
                 4,
@@ -161,6 +166,7 @@
           "name": "Knockback I",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 3,
                 4,
@@ -183,6 +189,7 @@
           "name": "Unbreaking I",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 3,
                 4,
@@ -205,6 +212,7 @@
           "name": "Beheading I",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 3,
                 4,
@@ -229,11 +237,13 @@
           "name": "Attack Damage III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 3
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 6,
                 7,
@@ -258,11 +268,13 @@
           "name": "Attack Speed III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 4
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 6,
                 7,
@@ -287,11 +299,13 @@
           "name": "Durability III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 5
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 6,
                 7,
@@ -317,6 +331,7 @@
           "name": "Reach I",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 6,
                 7,
@@ -341,6 +356,7 @@
           "name": "Capturing I",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 6,
                 7,
@@ -367,6 +383,7 @@
           "name": "Lifesteal I",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 11,
                 12,
@@ -391,11 +408,13 @@
           "name": "Knockback Res II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 7
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 11,
                 12,
@@ -420,11 +439,13 @@
           "name": "Knockback II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 8
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 11,
                 12,
@@ -449,11 +470,13 @@
           "name": "Unbreaking II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 9
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 11,
                 12,
@@ -478,11 +501,13 @@
           "name": "Beheading II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 10
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 11,
                 12,
@@ -509,11 +534,13 @@
           "name": "Attack Damage IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 11
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 16,
                 17,
@@ -538,11 +565,13 @@
           "name": "Attack Speed IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 12
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 16,
                 17,
@@ -567,11 +596,13 @@
           "name": "Durability IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 13
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 16,
                 17,
@@ -597,11 +628,13 @@
           "name": "Reach II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 14
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 16,
                 17,
@@ -626,11 +659,13 @@
           "name": "Capturing II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 15
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 16,
                 17,
@@ -655,6 +690,7 @@
           "name": "Looting III",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 21,
                 22,
@@ -678,6 +714,7 @@
           "name": "Auto Repair",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 21,
                 22,
@@ -702,11 +739,13 @@
           "name": "Unbreaking III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 19
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 21,
                 22,
@@ -731,11 +770,13 @@
           "name": "Beheading III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 20
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 21,
                 22,
@@ -758,6 +799,7 @@
           "name": "Sweeping Edge III",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 21,
                 22,
@@ -783,11 +825,13 @@
           "name": "Attack Damage V",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 21
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 26,
                 27,
@@ -812,11 +856,13 @@
           "name": "Attack Speed V",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 22
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 26,
                 27,
@@ -841,11 +887,13 @@
           "name": "Durability IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 23
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 26,
                 27,
@@ -871,11 +919,13 @@
           "name": "Reach III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 24
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 26,
                 27,
@@ -900,11 +950,13 @@
           "name": "Capturing III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 25
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 26,
                 27,
@@ -931,6 +983,7 @@
           "name": "Infinite Damage",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 31
               ]
@@ -951,6 +1004,7 @@
           "name": "Infinite Attack Speed",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 32
               ]
@@ -971,6 +1025,7 @@
           "name": "Infinite Durability",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 33
               ]
@@ -991,11 +1046,13 @@
           "name": "Infinite Unbreaking",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 28
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 31,
                 32,
@@ -1021,6 +1078,7 @@
           "name": "Infinite Reach",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 34
               ]
@@ -1041,6 +1099,7 @@
           "name": "Looting V",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 36,
                 37,

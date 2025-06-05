@@ -105,11 +105,11 @@ Could also consider adding the ability to require x points in a node before it i
 Also want to consider the idea of either a second tree, or just another type of node that is more expensive / new point type (quests?)
 
 Before beta release:
-- todo stream codecs
 - looks like something to do in the handler (backpack logic?)
 - Remove old packets and handlers (will probably need 2 new packets for handling skill point changes), probably only used for exp now
 - Remove old datapack reading things
 - short server test
+- tooltips
 
 Before full release
 - Enchantment config option is broken

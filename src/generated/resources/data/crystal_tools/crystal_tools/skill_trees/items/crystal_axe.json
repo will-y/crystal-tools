@@ -44,6 +44,7 @@
           "name": "Mining Speed II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 0
               ]
@@ -64,6 +65,7 @@
           "name": "Durability II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 1
               ]
@@ -84,6 +86,7 @@
           "name": "Unbreaking I",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 0,
                 1
@@ -107,6 +110,7 @@
           "name": "Mining Speed III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 2
               ]
@@ -127,6 +131,7 @@
           "name": "Durability III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 3
               ]
@@ -148,6 +153,7 @@
           "name": "Reach I",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 2,
                 3,
@@ -170,6 +176,7 @@
           "name": "Silk Touch",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 5,
                 6,
@@ -177,6 +184,7 @@
               ]
             },
             {
+              "type": "crystal_tools:not_node_requirement",
               "not_node": [
                 9
               ],
@@ -197,6 +205,7 @@
           "name": "Fortune III",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 5,
                 6,
@@ -204,6 +213,7 @@
               ]
             },
             {
+              "type": "crystal_tools:not_node_requirement",
               "not_node": [
                 8
               ],
@@ -226,6 +236,7 @@
           "name": "Unbreaking II",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 5,
                 6,
@@ -233,6 +244,7 @@
               ]
             },
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 4
               ]
@@ -253,6 +265,7 @@
           "name": "Leaf Miner",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 5,
                 6,
@@ -277,11 +290,13 @@
           "name": "Mining Speed IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 5
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 8,
                 9,
@@ -305,11 +320,13 @@
           "name": "Durability IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 6
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 8,
                 9,
@@ -335,6 +352,7 @@
           "name": "Mining Speed V",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 11
               ]
@@ -355,6 +373,7 @@
           "name": "Durability V",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 12
               ]
@@ -376,11 +395,13 @@
           "name": "Reach II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 7
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 11,
                 12
@@ -402,6 +423,7 @@
           "name": "Auto Pickup",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 11,
                 12
@@ -425,6 +447,7 @@
           "name": "Auto Repair",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 13,
                 14,
@@ -448,6 +471,7 @@
           "name": "3x3 Mining",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 13,
                 14,
@@ -471,6 +495,7 @@
           "name": "Tree Chopper",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 13,
                 14,
@@ -498,6 +523,7 @@
           "name": "Auto Smelting",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 13,
                 14,
@@ -523,6 +549,7 @@
           "name": "Mode Switch",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 17,
                 18,
@@ -546,6 +573,7 @@
           "name": "Unbreaking III",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 17,
                 18,
@@ -554,6 +582,7 @@
               ]
             },
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 10
               ]
@@ -575,11 +604,13 @@
           "name": "Reach III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 15
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 17,
                 18,
@@ -605,11 +636,13 @@
           "name": "Infinite Speed",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 13
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 22,
                 23,
@@ -632,11 +665,13 @@
           "name": "Infinite Durability",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 14
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 22,
                 23,
@@ -659,11 +694,13 @@
           "name": "Infinite Unbreaking",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 23
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 22,
                 24
@@ -686,11 +723,13 @@
           "name": "Infinite Reach",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 24
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 22,
                 23
@@ -712,6 +751,7 @@
           "name": "Fortune V",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 9,
                 25,

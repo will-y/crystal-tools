@@ -57,6 +57,7 @@
           "name": "FE Generation II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 0
               ]
@@ -77,6 +78,7 @@
           "name": "Fuel Efficiency II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 1
               ]
@@ -97,6 +99,7 @@
           "name": "FE Capacity II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 2
               ]
@@ -119,6 +122,7 @@
           "name": "Redstone Control",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 3,
                 4,
@@ -141,6 +145,7 @@
           "name": "Metal Generator",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 3,
                 4,
@@ -165,11 +170,13 @@
           "name": "FE Generation III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 3
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 6,
                 7
@@ -191,11 +198,13 @@
           "name": "Fuel Efficiency III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 4
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 6,
                 7
@@ -217,11 +226,13 @@
           "name": "FE Capacity III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 5
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 6,
                 7
@@ -245,6 +256,7 @@
           "name": "FE Generation IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 8
               ]
@@ -265,6 +277,7 @@
           "name": "Fuel Efficiency IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 9
               ]
@@ -285,6 +298,7 @@
           "name": "FE Capacity IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 10
               ]
@@ -307,6 +321,7 @@
           "name": "Save Fuel",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 11,
                 12,
@@ -329,6 +344,7 @@
           "name": "Food Generator",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 11,
                 12,
@@ -353,11 +369,13 @@
           "name": "FE Generation V",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 11
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 14,
                 15
@@ -379,11 +397,13 @@
           "name": "Fuel Efficiency V",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 12
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 14,
                 15
@@ -405,11 +425,13 @@
           "name": "FE Capacity V",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 13
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 14,
                 15
@@ -433,6 +455,7 @@
           "name": "FE Generation VI",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 16
               ]
@@ -453,6 +476,7 @@
           "name": "Fuel Efficiency VI",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 17
               ]
@@ -473,6 +497,7 @@
           "name": "FE Capacity VI",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 18
               ]
@@ -495,6 +520,7 @@
           "name": "Gem Generator",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 19,
                 20,
@@ -519,6 +545,7 @@
           "name": "Infinite FE Generation",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 22
               ]
@@ -539,6 +566,7 @@
           "name": "Infinite Fuel Efficiency",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 22
               ]
@@ -559,6 +587,7 @@
           "name": "Infinite FE Capacity",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 22
               ]

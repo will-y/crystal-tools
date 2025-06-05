@@ -1,16 +1,14 @@
 package dev.willyelton.crystal_tools.common.levelable.skill.node;
 
 import com.mojang.serialization.Codec;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillSubText;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirement;
-import net.minecraft.core.RegistryAccess;
+import dev.willyelton.crystal_tools.utils.CodecUtils;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -107,7 +105,7 @@ public abstract  class  SkillDataNode {
     public static Codec<SkillDataNode> CODEC = ResourceLocation.CODEC.xmap(SkillNodeType::fromResourceLocation, SkillNodeType::resourceLocation)
             .dispatch(SkillDataNode::getSkillNodeType, SkillNodeType::codec);
 
-    public static StreamCodec<RegistryFriendlyByteBuf, SkillDataNode> STREAM_CODEC = StreamCodec.of(RegistryFriendlyByteBuf::writeResourceLocation, RegistryFriendlyByteBuf::readResourceLocation)
+    public static StreamCodec<RegistryFriendlyByteBuf, SkillDataNode> STREAM_CODEC = CodecUtils.RESOURCE_LOCATION_STREAM_CODEC
             .map(SkillNodeType::fromResourceLocation, SkillNodeType::resourceLocation)
             .dispatch(SkillDataNode::getSkillNodeType, SkillNodeType::streamCodec);
 }

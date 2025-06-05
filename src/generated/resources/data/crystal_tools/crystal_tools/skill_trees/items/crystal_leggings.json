@@ -23,6 +23,7 @@
           "name": "Fire Prot I",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 0
               ]
@@ -40,6 +41,7 @@
           "name": "Blast Prot I",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 1
               ]
@@ -57,6 +59,7 @@
           "name": "Projectile Prot I",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 2
               ]
@@ -87,6 +90,7 @@
           "name": "Prot II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 0
               ]
@@ -104,6 +108,7 @@
           "name": "Fire Prot II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 1
               ]
@@ -121,6 +126,7 @@
           "name": "Blast Prot II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 2
               ]
@@ -138,6 +144,7 @@
           "name": "Projectile Prot II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 3
               ]
@@ -155,11 +162,13 @@
           "name": "Swift Sneak II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 4
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 0,
                 1,
@@ -185,6 +194,7 @@
           "name": "Base Armor I",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 5,
                 6,
@@ -209,6 +219,7 @@
           "name": "Toughness I",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 5,
                 6,
@@ -233,6 +244,7 @@
           "name": "Speed Bonus I",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 5,
                 6,
@@ -257,11 +269,13 @@
           "name": "Prot III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 5
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 10,
                 11,
@@ -281,11 +295,13 @@
           "name": "Fire Prot III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 6
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 10,
                 11,
@@ -305,11 +321,13 @@
           "name": "Blast Prot III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 7
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 10,
                 11,
@@ -329,11 +347,13 @@
           "name": "Projectile Prot III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 8
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 10,
                 11,
@@ -353,11 +373,13 @@
           "name": "Swift Sneak III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 9
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 10,
                 11,
@@ -381,11 +403,13 @@
           "name": "Base Armor II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 10
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 13,
                 14,
@@ -410,11 +434,13 @@
           "name": "Toughness II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 11
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 13,
                 14,
@@ -439,11 +465,13 @@
           "name": "Speed Bonus II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 12
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 13,
                 14,
@@ -468,6 +496,7 @@
           "name": "Auto Repair",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 13,
                 14,
@@ -492,11 +521,13 @@
           "name": "Prot IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 13
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 18,
                 19,
@@ -517,11 +548,13 @@
           "name": "Fire Prot IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 14
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 18,
                 19,
@@ -542,11 +575,13 @@
           "name": "Blast Prot IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 15
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 18,
                 19,
@@ -567,11 +602,13 @@
           "name": "Projectile Prot IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 16
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 18,
                 19,
@@ -592,11 +629,13 @@
           "name": "Swift Sneak IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 17
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 18,
                 19,
@@ -621,11 +660,13 @@
           "name": "Base Armor III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 18
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 22,
                 23,
@@ -650,11 +691,13 @@
           "name": "Toughness III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 19
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 22,
                 23,
@@ -677,6 +720,7 @@
           "name": "Thorns III",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 22,
                 23,
@@ -700,11 +744,13 @@
           "name": "Speed Bonus III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 20
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 22,
                 23,
@@ -727,6 +773,7 @@
           "name": "Swift Sneak V",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 29
               ]

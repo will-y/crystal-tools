@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools;
 
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsServerConfig;
+import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirements;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -17,13 +18,14 @@ public class CrystalTools {
     public static final String MODID = "crystal_tools";
 
     public CrystalTools(IEventBus modEventBus, ModContainer container) {
-
         // Register everything
         Registration.init(modEventBus);
 
         // Register configs
         container.registerConfig(ModConfig.Type.COMMON, CrystalToolsConfig.COMMON_CONFIG, "crystal_tools.toml");
         container.registerConfig(ModConfig.Type.SERVER, CrystalToolsServerConfig.SERVER_CONFIG, "crystal_tools-server.toml");
+
+        SkillDataRequirements.bootstrap();
     }
 
     public static ResourceLocation rl(String path) {

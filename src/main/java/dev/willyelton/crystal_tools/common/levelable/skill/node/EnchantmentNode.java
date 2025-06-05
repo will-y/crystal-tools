@@ -6,6 +6,7 @@ import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillSubText;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirement;
+import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirements;
 import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -33,7 +34,7 @@ public final class EnchantmentNode extends SkillDataNode implements ItemStackNod
             Codec.STRING.fieldOf("description").forGetter(EnchantmentNode::getDescription),
             ResourceLocation.CODEC.fieldOf("enchantment").forGetter(EnchantmentNode::getEnchantment),
             Codec.INT.fieldOf("level").forGetter(EnchantmentNode::getLevel),
-            SkillDataRequirement.CODEC.listOf().fieldOf("requirements").forGetter(EnchantmentNode::getRequirements),
+            SkillDataRequirements.CODEC.listOf().fieldOf("requirements").forGetter(EnchantmentNode::getRequirements),
             SkillSubText.CODEC.optionalFieldOf("subtext").forGetter(n -> Optional.ofNullable(n.getSkillSubText()))
     ).apply(instance, EnchantmentNode::new));
 
@@ -43,8 +44,8 @@ public final class EnchantmentNode extends SkillDataNode implements ItemStackNod
             ByteBufCodecs.STRING_UTF8, EnchantmentNode::getDescription,
             ResourceLocation.STREAM_CODEC, EnchantmentNode::getEnchantment,
             ByteBufCodecs.VAR_INT, EnchantmentNode::getLevel,
-            ByteBufCodecs.fromCodec(SkillDataRequirement.CODEC.listOf().fieldOf("requirements").codec()), EnchantmentNode::getRequirements, // TODO
-            ByteBufCodecs.fromCodec(SkillSubText.CODEC.optionalFieldOf("subtext").codec()), n -> Optional.ofNullable(n.getSkillSubText()), // TODO
+            SkillDataRequirements.STREAM_CODEC.apply(ByteBufCodecs.list()), EnchantmentNode::getRequirements,
+            ByteBufCodecs.optional(SkillSubText.STREAM_CODEC), n -> Optional.ofNullable(n.getSkillSubText()),
             EnchantmentNode::new);
 
     public static final Map<ResourceKey<Enchantment>, DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>>> TOGGLE_ENCHANTMENTS =

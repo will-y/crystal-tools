@@ -7,6 +7,7 @@ import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillSubText;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirement;
+import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirements;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
@@ -37,7 +38,7 @@ public final class AttributeNode extends SkillDataNode implements ItemStackNode 
             Codec.INT.fieldOf("limit").forGetter(AttributeNode::getLimit),
             ResourceLocation.CODEC.listOf().fieldOf("key").forGetter(AttributeNode::getKeys),
             Codec.FLOAT.fieldOf("value").forGetter(AttributeNode::getValue),
-            SkillDataRequirement.CODEC.listOf().fieldOf("requirements").forGetter(AttributeNode::getRequirements),
+            SkillDataRequirements.CODEC.listOf().fieldOf("requirements").forGetter(AttributeNode::getRequirements),
             SkillSubText.CODEC.optionalFieldOf("subtext").forGetter(n -> Optional.ofNullable(n.getSkillSubText())),
             Codec.BOOL.optionalFieldOf("threshold", false).forGetter(AttributeNode::isThreshold)
     ).apply(instance, AttributeNode::new));
@@ -49,8 +50,8 @@ public final class AttributeNode extends SkillDataNode implements ItemStackNode 
             ByteBufCodecs.VAR_INT, AttributeNode::getLimit,
             ResourceLocation.STREAM_CODEC.apply(ByteBufCodecs.list()), AttributeNode::getKeys,
             ByteBufCodecs.FLOAT, AttributeNode::getValue,
-            ByteBufCodecs.fromCodec(SkillDataRequirement.CODEC.listOf().fieldOf("requirements").codec()), AttributeNode::getRequirements, // TODO
-            ByteBufCodecs.fromCodec(SkillSubText.CODEC.optionalFieldOf("subtext").codec()), n -> Optional.ofNullable(n.getSkillSubText()), // TODO
+            SkillDataRequirements.STREAM_CODEC.apply(ByteBufCodecs.list()), AttributeNode::getRequirements,
+            ByteBufCodecs.optional(SkillSubText.STREAM_CODEC), n -> Optional.ofNullable(n.getSkillSubText()),
             AttributeNode::new);
 
     public static final Map<Attribute, DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>>> TOGGLEABLE_ATTRIBUTES = Map.of(

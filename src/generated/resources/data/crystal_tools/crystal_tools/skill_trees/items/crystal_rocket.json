@@ -28,6 +28,7 @@
           "name": "Flight Duration I",
           "requirements": [
             {
+              "type": "crystal_tools:item_requirement",
               "item": [
                 "minecraft:gunpowder"
               ]
@@ -50,6 +51,7 @@
           "name": "Durability II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 0
               ]
@@ -70,11 +72,13 @@
           "name": "Flight Duration II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 1
               ]
             },
             {
+              "type": "crystal_tools:item_requirement",
               "item": [
                 "minecraft:gunpowder"
               ]
@@ -97,6 +101,7 @@
           "name": "Infinite Durability",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 2
               ]
@@ -117,6 +122,7 @@
           "name": "Auto Repair",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 2,
                 3

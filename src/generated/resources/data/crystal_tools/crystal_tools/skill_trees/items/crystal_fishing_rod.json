@@ -50,6 +50,7 @@
           "name": "Lure II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 0
               ]
@@ -67,6 +68,7 @@
           "name": "Luck Of The Sea II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 1
               ]
@@ -86,6 +88,7 @@
           "name": "Durability II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 2
               ]
@@ -108,6 +111,7 @@
           "name": "Unbreaking I",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 3,
                 4,
@@ -130,6 +134,7 @@
           "name": "Double Items I",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 3,
                 4,
@@ -152,11 +157,13 @@
           "name": "Lure III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 3
               ]
             },
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 6,
                 7
@@ -175,11 +182,13 @@
           "name": "Luck Of The Sea III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 4
               ]
             },
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 6,
                 7
@@ -200,11 +209,13 @@
           "name": "Durability III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 5
               ]
             },
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 6,
                 7
@@ -228,11 +239,13 @@
           "name": "Unbreaking II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 6
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 8,
                 9,
@@ -255,11 +268,13 @@
           "name": "Double Items II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 7
               ]
             },
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 8,
                 9,
@@ -282,11 +297,13 @@
           "name": "Lure IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 8
               ]
             },
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 11,
                 12
@@ -305,11 +322,13 @@
           "name": "Luck Of The Sea IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 9
               ]
             },
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 11,
                 12
@@ -330,11 +349,13 @@
           "name": "Durability IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 10
               ]
             },
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 11,
                 12
@@ -358,11 +379,13 @@
           "name": "Unbreaking III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 11
               ]
             },
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 13,
                 14,
@@ -385,11 +408,13 @@
           "name": "Double Items III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 12
               ]
             },
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 13,
                 14,
@@ -412,6 +437,7 @@
           "name": "Auto Repair",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 13,
                 14,
@@ -434,11 +460,13 @@
           "name": "Lure V",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 13
               ]
             },
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 16,
                 17,
@@ -458,11 +486,13 @@
           "name": "Luck Of The Sea V",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 14
               ]
             },
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 16,
                 17,
@@ -484,11 +514,13 @@
           "name": "Durability V",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 15
               ]
             },
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 16,
                 17,

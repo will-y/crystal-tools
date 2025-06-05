@@ -69,6 +69,7 @@
           "name": "Nutrition II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 0
               ]
@@ -89,6 +90,7 @@
           "name": "Saturation II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 1
               ]
@@ -112,6 +114,7 @@
           "name": "Eat Speed II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 2
               ]
@@ -132,6 +135,7 @@
           "name": "Durability II",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 3
               ]
@@ -154,6 +158,7 @@
           "name": "Auto Repair",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 4,
                 5,
@@ -174,6 +179,7 @@
           "name": "Always Edible",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 4,
                 5,
@@ -200,6 +206,7 @@
           "name": "Nutrition III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 4
               ]
@@ -220,6 +227,7 @@
           "name": "Saturation III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 5
               ]
@@ -243,6 +251,7 @@
           "name": "Eat Speed III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 6
               ]
@@ -263,6 +272,7 @@
           "name": "Durability III",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 7
               ]
@@ -282,6 +292,7 @@
           "name": "Nutrition IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 10
               ]
@@ -302,6 +313,7 @@
           "name": "Saturation IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 11
               ]
@@ -325,6 +337,7 @@
           "name": "Eat Speed IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 12
               ]
@@ -345,6 +358,7 @@
           "name": "Durability IV",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 13
               ]
@@ -364,6 +378,7 @@
           "name": "Infinite Nutrition",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 14
               ]
@@ -384,6 +399,7 @@
           "name": "Infinite Saturation",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 15
               ]
@@ -407,6 +423,7 @@
           "name": "Infinite Eat Speed",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 16
               ]
@@ -427,6 +444,7 @@
           "name": "Infinite Durability",
           "requirements": [
             {
+              "type": "crystal_tools:node_requirement",
               "node": [
                 17
               ]
@@ -454,6 +472,7 @@
           "name": "Speed",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 18,
                 19,
@@ -462,6 +481,7 @@
               ]
             },
             {
+              "type": "crystal_tools:item_requirement",
               "item": [
                 "minecraft:nether_wart",
                 "minecraft:sugar",
@@ -492,6 +512,7 @@
           "name": "Haste",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 18,
                 19,
@@ -500,6 +521,7 @@
               ]
             },
             {
+              "type": "crystal_tools:item_requirement",
               "item": [
                 "minecraft:nether_wart",
                 "minecraft:gold_ingot",
@@ -530,6 +552,7 @@
           "name": "Strength",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 18,
                 19,
@@ -538,6 +561,7 @@
               ]
             },
             {
+              "type": "crystal_tools:item_requirement",
               "item": [
                 "minecraft:nether_wart",
                 "minecraft:blaze_powder",
@@ -568,6 +592,7 @@
           "name": "Jump Boost",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 18,
                 19,
@@ -576,6 +601,7 @@
               ]
             },
             {
+              "type": "crystal_tools:item_requirement",
               "item": [
                 "minecraft:nether_wart",
                 "minecraft:rabbit_foot",
@@ -606,6 +632,7 @@
           "name": "Regeneration",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 18,
                 19,
@@ -614,6 +641,7 @@
               ]
             },
             {
+              "type": "crystal_tools:item_requirement",
               "item": [
                 "minecraft:nether_wart",
                 "minecraft:ghast_tear",
@@ -644,6 +672,7 @@
           "name": "Resistance",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 18,
                 19,
@@ -652,6 +681,7 @@
               ]
             },
             {
+              "type": "crystal_tools:item_requirement",
               "item": [
                 "minecraft:nether_wart",
                 "minecraft:iron_ingot",
@@ -682,6 +712,7 @@
           "name": "Fire Resistance",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 18,
                 19,
@@ -690,6 +721,7 @@
               ]
             },
             {
+              "type": "crystal_tools:item_requirement",
               "item": [
                 "minecraft:nether_wart",
                 "minecraft:magma_cream"
@@ -719,6 +751,7 @@
           "name": "Water Breathing",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 18,
                 19,
@@ -727,6 +760,7 @@
               ]
             },
             {
+              "type": "crystal_tools:item_requirement",
               "item": [
                 "minecraft:nether_wart",
                 "minecraft:pufferfish"
@@ -756,6 +790,7 @@
           "name": "Invisibility",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 18,
                 19,
@@ -764,6 +799,7 @@
               ]
             },
             {
+              "type": "crystal_tools:item_requirement",
               "item": [
                 "minecraft:nether_wart",
                 "minecraft:golden_carrot",
@@ -794,6 +830,7 @@
           "name": "Night Vision",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 18,
                 19,
@@ -802,6 +839,7 @@
               ]
             },
             {
+              "type": "crystal_tools:item_requirement",
               "item": [
                 "minecraft:nether_wart",
                 "minecraft:golden_carrot"
@@ -831,6 +869,7 @@
           "name": "Absorption",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 18,
                 19,
@@ -839,6 +878,7 @@
               ]
             },
             {
+              "type": "crystal_tools:item_requirement",
               "item": [
                 "minecraft:nether_wart",
                 "minecraft:glistering_melon_slice",
@@ -869,6 +909,7 @@
           "name": "Saturation",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 18,
                 19,
@@ -877,6 +918,7 @@
               ]
             },
             {
+              "type": "crystal_tools:item_requirement",
               "item": [
                 "minecraft:nether_wart",
                 "minecraft:cooked_beef",
@@ -907,6 +949,7 @@
           "name": "Slow Falling",
           "requirements": [
             {
+              "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 18,
                 19,
@@ -915,6 +958,7 @@
               ]
             },
             {
+              "type": "crystal_tools:item_requirement",
               "item": [
                 "minecraft:nether_wart",
                 "minecraft:phantom_membrane"

@@ -6,6 +6,7 @@ import dev.willyelton.crystal_tools.common.levelable.block.entity.LevelableBlock
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillSubText;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirement;
+import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirements;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -23,7 +24,7 @@ public class BlockEntityNbtNode extends SkillDataNode implements BlockEntityNode
             Codec.INT.fieldOf("limit").forGetter(BlockEntityNbtNode::getLimit),
             ResourceLocation.CODEC.listOf().fieldOf("key").forGetter(BlockEntityNbtNode::getKeys),
             Codec.FLOAT.fieldOf("value").forGetter(BlockEntityNbtNode::getValue),
-            SkillDataRequirement.CODEC.listOf().fieldOf("requirements").forGetter(BlockEntityNbtNode::getRequirements),
+            SkillDataRequirements.CODEC.listOf().fieldOf("requirements").forGetter(BlockEntityNbtNode::getRequirements),
             SkillSubText.CODEC.optionalFieldOf("subtext").forGetter(n -> Optional.ofNullable(n.getSkillSubText()))
     ).apply(instance, BlockEntityNbtNode::new));
 
@@ -34,8 +35,8 @@ public class BlockEntityNbtNode extends SkillDataNode implements BlockEntityNode
             ByteBufCodecs.VAR_INT, BlockEntityNbtNode::getLimit,
             ResourceLocation.STREAM_CODEC.apply(ByteBufCodecs.list()), BlockEntityNbtNode::getKeys,
             ByteBufCodecs.FLOAT, BlockEntityNbtNode::getValue,
-            ByteBufCodecs.fromCodec(SkillDataRequirement.CODEC.listOf().fieldOf("requirements").codec()), BlockEntityNbtNode::getRequirements, // TODO
-            ByteBufCodecs.fromCodec(SkillSubText.CODEC.optionalFieldOf("subtext").codec()), n -> Optional.ofNullable(n.getSkillSubText()), // TODO
+            SkillDataRequirements.STREAM_CODEC.apply(ByteBufCodecs.list()), BlockEntityNbtNode::getRequirements,
+            ByteBufCodecs.optional(SkillSubText.STREAM_CODEC), n -> Optional.ofNullable(n.getSkillSubText()),
             BlockEntityNbtNode::new);
 
     private final float value;

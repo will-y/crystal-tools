@@ -6,6 +6,7 @@ import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillSubText;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirement;
+import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirements;
 import dev.willyelton.crystal_tools.utils.constants.SkillConstants;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -32,7 +33,7 @@ public class DataComponentNode extends SkillDataNode implements ItemStackNode {
             Codec.INT.fieldOf("limit").forGetter(DataComponentNode::getLimit),
             ResourceLocation.CODEC.listOf().fieldOf("key").forGetter(DataComponentNode::getKeys),
             Codec.FLOAT.fieldOf("value").forGetter(DataComponentNode::getValue),
-            SkillDataRequirement.CODEC.listOf().fieldOf("requirements").forGetter(DataComponentNode::getRequirements),
+            SkillDataRequirements.CODEC.listOf().fieldOf("requirements").forGetter(DataComponentNode::getRequirements),
             SkillSubText.CODEC.optionalFieldOf("subtext").forGetter(n -> Optional.ofNullable(n.getSkillSubText()))
     ).apply(instance, DataComponentNode::new));
 
@@ -43,8 +44,8 @@ public class DataComponentNode extends SkillDataNode implements ItemStackNode {
             ByteBufCodecs.VAR_INT, DataComponentNode::getLimit,
             ResourceLocation.STREAM_CODEC.apply(ByteBufCodecs.list()), DataComponentNode::getKeys,
             ByteBufCodecs.FLOAT, DataComponentNode::getValue,
-            ByteBufCodecs.fromCodec(SkillDataRequirement.CODEC.listOf().fieldOf("requirements").codec()), DataComponentNode::getRequirements, // TODO
-            ByteBufCodecs.fromCodec(SkillSubText.CODEC.optionalFieldOf("subtext").codec()), n -> Optional.ofNullable(n.getSkillSubText()), // TODO
+            SkillDataRequirements.STREAM_CODEC.apply(ByteBufCodecs.list()), DataComponentNode::getRequirements,
+            ByteBufCodecs.optional(SkillSubText.STREAM_CODEC), n -> Optional.ofNullable(n.getSkillSubText()),
             DataComponentNode::new);
 
     private final float value;

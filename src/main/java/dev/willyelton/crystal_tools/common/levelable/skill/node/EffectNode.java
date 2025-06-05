@@ -5,6 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillSubText;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirement;
+import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirements;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -28,7 +29,7 @@ public final class EffectNode extends SkillDataNode implements ItemStackNode {
             Codec.STRING.fieldOf("name").forGetter(EffectNode::getName),
             Codec.STRING.fieldOf("description").forGetter(EffectNode::getDescription),
             Codec.INT.fieldOf("limit").forGetter(EffectNode::getLimit),
-            SkillDataRequirement.CODEC.listOf().fieldOf("requirements").forGetter(EffectNode::getRequirements),
+            SkillDataRequirements.CODEC.listOf().fieldOf("requirements").forGetter(EffectNode::getRequirements),
             SkillSubText.CODEC.optionalFieldOf("subtext").forGetter(n -> Optional.ofNullable(n.getSkillSubText())),
             MobEffectInstance.CODEC.listOf().fieldOf("effects").forGetter(EffectNode::getEffects)
     ).apply(instance, EffectNode::new));
@@ -38,8 +39,8 @@ public final class EffectNode extends SkillDataNode implements ItemStackNode {
             ByteBufCodecs.STRING_UTF8, EffectNode::getName,
             ByteBufCodecs.STRING_UTF8, EffectNode::getDescription,
             ByteBufCodecs.VAR_INT, EffectNode::getLimit,
-            ByteBufCodecs.fromCodec(SkillDataRequirement.CODEC.listOf().fieldOf("requirements").codec()), EffectNode::getRequirements, // TODO
-            ByteBufCodecs.fromCodec(SkillSubText.CODEC.optionalFieldOf("subtext").codec()), n -> Optional.ofNullable(n.getSkillSubText()), // TODO
+            SkillDataRequirements.STREAM_CODEC.apply(ByteBufCodecs.list()), EffectNode::getRequirements,
+            ByteBufCodecs.optional(SkillSubText.STREAM_CODEC), n -> Optional.ofNullable(n.getSkillSubText()),
             MobEffectInstance.STREAM_CODEC.apply(ByteBufCodecs.list()), EffectNode::getEffects,
             EffectNode::new);
 
