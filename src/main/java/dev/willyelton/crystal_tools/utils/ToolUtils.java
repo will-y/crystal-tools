@@ -5,22 +5,17 @@ import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.events.DatapackRegistryEvents;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.core.component.DataComponentType;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 public class ToolUtils {
@@ -46,25 +41,15 @@ public class ToolUtils {
     }
 
     public static void resetPoints(ItemStack stack) {
-        List<Integer> points = stack.getOrDefault(DataComponents.POINTS_ARRAY, Collections.emptyList());
+        // TODO: This will remove other enchantments again. That is probably fine for now?
+        stack.applyComponents(stack.getItem().components());
+        SkillPoints points = stack.getOrDefault(DataComponents.SKILL_POINT_DATA, new SkillPoints());
         int skillPoints = stack.getOrDefault(DataComponents.SKILL_POINTS, 0);
 
-        List<ResourceLocation> resourceLocations = new ArrayList<>(DataComponents.FLOAT_COMPONENTS.values());
-        resourceLocations.addAll(DataComponents.INT_COMPONENTS.values());
-        resourceLocations.addAll(DataComponents.BOOLEAN_COMPONENTS.values());
-        for (ResourceLocation resourceLocation : resourceLocations) {
-            Optional<Holder.Reference<DataComponentType<?>>> dataComponent = BuiltInRegistries.DATA_COMPONENT_TYPE.get(resourceLocation);
-            if (dataComponent.isEmpty()) {
-                continue;
-            }
-            stack.remove(dataComponent.get().value());
-        }
+        skillPoints += points.getTotalPoints();
 
-        skillPoints += points.stream().reduce(0, Integer::sum);
-
-        stack.set(DataComponents.POINTS_ARRAY, Collections.emptyList());
+        stack.set(DataComponents.SKILL_POINT_DATA, new SkillPoints());
         stack.set(DataComponents.SKILL_POINTS, skillPoints);
-        stack.remove(DataComponents.EFFECTS);
     }
 
     public static boolean isValidEntity(LivingEntity entity) {

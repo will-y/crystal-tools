@@ -105,18 +105,16 @@ Could also consider adding the ability to require x points in a node before it i
 Also want to consider the idea of either a second tree, or just another type of node that is more expensive / new point type (quests?)
 
 Before beta release:
-- looks like something to do in the handler (backpack logic?)
 - short server test
-  - reset skills
-    - Doesn't work, POINTS_ARRAY datacomponent needs to go away, also recipes still use that
 
 Before full release
 - Enchantment config option is broken
 - remove as much as possible from the tool classes
 - All checks should be registry or datacomponent checks, not instanceof checks
+- Upgrading backpack in curios slot
 
 Eventually
-- Backpack is special, does it need to be?
+- Better way to get tools on server (could technically change positions)
 - Datapack validation (make sure all requirements point to valid nodes / items)...
 - try out some vanilla skill trees
 - Resizing the screen after you spend a point resets it?

@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.common.crafting;
 
 import dev.willyelton.crystal_tools.common.components.DataComponents;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
@@ -11,7 +12,6 @@ import net.minecraft.world.item.crafting.display.RecipeDisplay;
 import net.minecraft.world.item.crafting.display.ShapelessCraftingRecipeDisplay;
 import net.minecraft.world.item.crafting.display.SlotDisplay;
 
-import java.util.Collections;
 import java.util.List;
 
 public abstract class CrystalToolsRecipe extends CustomRecipe {
@@ -24,8 +24,8 @@ public abstract class CrystalToolsRecipe extends CustomRecipe {
     public abstract ItemStack getOutput();
 
     protected int getPoints(ItemStack stack) {
-        List<Integer> points = stack.getOrDefault(DataComponents.POINTS_ARRAY, Collections.emptyList());
-        return points.stream().mapToInt(Integer::intValue).sum() + stack.getOrDefault(DataComponents.SKILL_POINTS, 0);
+        SkillPoints points = stack.getOrDefault(DataComponents.SKILL_POINT_DATA, new SkillPoints());
+        return points.getTotalPoints() + stack.getOrDefault(DataComponents.SKILL_POINTS, 0);
     }
 
     @Override
