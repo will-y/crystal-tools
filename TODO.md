@@ -106,9 +106,10 @@ Also want to consider the idea of either a second tree, or just another type of 
 
 Before beta release:
 - looks like something to do in the handler (backpack logic?)
-- Remove old packets and handlers (will probably need 2 new packets for handling skill point changes), probably only used for exp now
 - Remove old datapack reading things
 - short server test
+  - reset skills
+    - Doesn't work, POINTS_ARRAY datacomponent needs to go away, also recipes still use that
 
 Before full release
 - Enchantment config option is broken

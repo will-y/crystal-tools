@@ -116,10 +116,8 @@ public class UpgradeScreen extends BaseUpgradeScreen {
     }
 
     @Override
-    protected void changeSkillPoints(int change) {
+    protected void changeClientSkillPoints(int change) {
         DataComponents.addToComponent(stack, DataComponents.SKILL_POINTS, change);
-        // TODO update this
-        PacketDistributor.sendToServer(new ToolAttributePayload("skill_points", change, -1, slotIndex, 1));
     }
 
     @Override

@@ -162,6 +162,10 @@ public abstract class LevelableBlockEntity extends BlockEntity {
         return skillPoints;
     }
 
+    public SkillPoints getPoints() {
+        return points;
+    }
+
     public void setSkillPoints(int skillPoints) {
         this.skillPoints = skillPoints;
     }

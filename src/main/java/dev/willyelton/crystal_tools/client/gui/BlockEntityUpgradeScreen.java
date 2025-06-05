@@ -81,9 +81,8 @@ public class BlockEntityUpgradeScreen extends BaseUpgradeScreen {
     }
 
     @Override
-    protected void changeSkillPoints(int change) {
+    protected void changeClientSkillPoints(int change) {
         this.container.addSkillPoints(change);
-        PacketDistributor.sendToServer(new BlockAttributePayload("skill_points", change, -1, 1));
     }
 
     @Override

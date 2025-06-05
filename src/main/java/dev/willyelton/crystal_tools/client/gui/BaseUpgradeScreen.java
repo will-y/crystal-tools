@@ -17,8 +17,8 @@ import dev.willyelton.crystal_tools.common.levelable.skill.requirement.Requireme
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataNodeRequirement;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirement;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillItemRequirement;
+import dev.willyelton.crystal_tools.common.network.data.PointsFromXpPayload;
 import dev.willyelton.crystal_tools.common.network.data.RemoveItemPayload;
-import dev.willyelton.crystal_tools.common.network.data.RemoveXpPayload;
 import dev.willyelton.crystal_tools.utils.Colors;
 import dev.willyelton.crystal_tools.utils.InventoryUtils;
 import dev.willyelton.crystal_tools.utils.ListUtils;
@@ -112,18 +112,17 @@ public abstract class BaseUpgradeScreen extends Screen {
         if (CrystalToolsConfig.EXPERIENCE_PER_SKILL_LEVEL.get() > 0) {
             xpButton = addRenderableWidget(new XpButton(5, getXpButtonY(), 30, Y_SIZE, pButton -> {
                 int pointsToGain = getPointsToSpend(Integer.MAX_VALUE, hasShiftDown(), hasControlDown());
-                int xpCost = getXpCost(pointsToGain);
-                // TODO: Refactor to make everything server side eventually
+                int xpCost = XpUtils.getXpCost(pointsToGain, points.getTotalPoints() + getSkillPoints());
                 if (XpUtils.getPlayerTotalXp(player) >= xpCost) {
                     player.giveExperiencePoints(-xpCost);
-                    PacketDistributor.sendToServer(new RemoveXpPayload(xpCost));
-                    changeSkillPoints(pointsToGain);
+                    changeClientSkillPoints(pointsToGain);
+                    PacketDistributor.sendToServer(new PointsFromXpPayload(pointsToGain, this instanceof UpgradeScreen));
                     updateButtons();
                 }
             }, (pButton, guiGraphics, mouseX, mouseY) -> {
                 Component textComponent = Component.literal(String.format("Use Experience To Gain Skill Points (+%d Points)", getPointsToSpend(Integer.MAX_VALUE, Screen.hasShiftDown(), Screen.hasControlDown())));
                 guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(BaseUpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
-            }, () -> XpUtils.getLevelForXp(getXpCost(getPointsToSpend(Integer.MAX_VALUE, Screen.hasShiftDown(), Screen.hasControlDown())))));
+            }, () -> XpUtils.getLevelForXp(XpUtils.getXpCost(getPointsToSpend(Integer.MAX_VALUE, Screen.hasShiftDown(), Screen.hasControlDown()), points.getTotalPoints() + getSkillPoints()))));
         }
 
         boolean resetRequiresCrystal = CrystalToolsConfig.REQUIRE_CRYSTAL_FOR_RESET.get();
@@ -143,52 +142,11 @@ public abstract class BaseUpgradeScreen extends Screen {
 
     protected abstract int getXpButtonY();
 
-    protected abstract void changeSkillPoints(int change);
-
     protected abstract void resetPoints(boolean crystalRequired);
 
     public abstract SkillPoints getPoints();
 
-    private int getXpCost(int pointsToGain) {
-        int totalPoints = points.getTotalPoints() + getSkillPoints();
-        int xpLevelCost = CrystalToolsConfig.EXPERIENCE_PER_SKILL_LEVEL.get();
-        int levelScaling = CrystalToolsConfig.EXPERIENCE_LEVELING_SCALING.get();
-
-        if (levelScaling > 0) {
-            long totalCost = 0;
-
-            int pointsAtLowerLevelLeft = Math.min(levelScaling - totalPoints % levelScaling, pointsToGain);
-
-            // TODO: Look at this 500 value, could be bad if the xp level cost configs are changed
-            int pointCost1 = Math.min(totalPoints / levelScaling, 500);
-            totalCost += pointsAtLowerLevelLeft * XpUtils.getXPForLevel(xpLevelCost + pointCost1);
-
-            int pointsLeft = pointsToGain - pointsAtLowerLevelLeft;
-            int i = pointsAtLowerLevelLeft == 0 ? 0 : 1;
-            while (pointsLeft > 0) {
-                int pointsToSpend = Math.min(levelScaling, pointsLeft);
-                int pointCost = Math.min(totalPoints / levelScaling, 500);
-                totalCost += pointsToSpend * XpUtils.getXPForLevel(xpLevelCost + pointCost + i);
-                i++;
-                pointsLeft -= pointsToSpend;
-            }
-
-            // Overflow
-            if (totalCost >= Integer.MAX_VALUE) {
-                return Integer.MAX_VALUE;
-            } else {
-                return (int) totalCost;
-            }
-        } else {
-            int totalCost = pointsToGain * xpLevelCost;
-
-            if (totalCost < 0) {
-                return Integer.MAX_VALUE;
-            } else {
-                return totalCost;
-            }
-        }
-    }
+    protected abstract void changeClientSkillPoints(int change);
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
@@ -302,7 +260,7 @@ public abstract class BaseUpgradeScreen extends Screen {
         }
 
         if (xpButton != null) {
-            xpButton.update(getXpCost(1), player);
+            xpButton.update(XpUtils.getXpCost(1, points.getTotalPoints() + getSkillPoints()), player);
         }
 
         if (resetButton != null) {
@@ -439,7 +397,7 @@ public abstract class BaseUpgradeScreen extends Screen {
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (keyCode == GLFW.GLFW_KEY_LEFT_SHIFT || keyCode == GLFW.GLFW_KEY_LEFT_CONTROL || keyCode == GLFW.GLFW_KEY_RIGHT_SHIFT || keyCode == GLFW.GLFW_KEY_RIGHT_CONTROL) {
-            xpButton.update(getXpCost(getPointsToSpend(Integer.MAX_VALUE, Screen.hasShiftDown(), Screen.hasControlDown())), player);
+            xpButton.update(XpUtils.getXpCost(getPointsToSpend(Integer.MAX_VALUE, Screen.hasShiftDown(), Screen.hasControlDown()), points.getTotalPoints() + getSkillPoints()), player);
         }
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
@@ -447,7 +405,7 @@ public abstract class BaseUpgradeScreen extends Screen {
     @Override
     public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
         if (keyCode == GLFW.GLFW_KEY_LEFT_SHIFT || keyCode == GLFW.GLFW_KEY_LEFT_CONTROL || keyCode == GLFW.GLFW_KEY_RIGHT_SHIFT || keyCode == GLFW.GLFW_KEY_RIGHT_CONTROL) {
-            xpButton.update(getXpCost(getPointsToSpend(Integer.MAX_VALUE, Screen.hasShiftDown(), Screen.hasControlDown())), player);
+            xpButton.update(XpUtils.getXpCost(getPointsToSpend(Integer.MAX_VALUE, Screen.hasShiftDown(), Screen.hasControlDown()), points.getTotalPoints() + getSkillPoints()), player);
         }
         return super.keyReleased(keyCode, scanCode, modifiers);
     }

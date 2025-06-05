@@ -10,9 +10,9 @@ import dev.willyelton.crystal_tools.common.network.data.ContainerRowsPayload;
 import dev.willyelton.crystal_tools.common.network.data.ModeSwitchPayload;
 import dev.willyelton.crystal_tools.common.network.data.OpenBackpackPayload;
 import dev.willyelton.crystal_tools.common.network.data.OpenContainerPayload;
+import dev.willyelton.crystal_tools.common.network.data.PointsFromXpPayload;
 import dev.willyelton.crystal_tools.common.network.data.QuarryMineBlockPayload;
 import dev.willyelton.crystal_tools.common.network.data.RemoveItemPayload;
-import dev.willyelton.crystal_tools.common.network.data.RemoveXpPayload;
 import dev.willyelton.crystal_tools.common.network.data.ResetSkillsBlockPayload;
 import dev.willyelton.crystal_tools.common.network.data.ResetSkillsPayload;
 import dev.willyelton.crystal_tools.common.network.data.ScrollPayload;
@@ -31,9 +31,9 @@ import dev.willyelton.crystal_tools.common.network.handler.ContainerRowsHandler;
 import dev.willyelton.crystal_tools.common.network.handler.ModeSwitchHandler;
 import dev.willyelton.crystal_tools.common.network.handler.OpenBackpackHandler;
 import dev.willyelton.crystal_tools.common.network.handler.OpenContainerHandler;
+import dev.willyelton.crystal_tools.common.network.handler.PointsFromXpHandler;
 import dev.willyelton.crystal_tools.common.network.handler.QuarryMineBlockHandler;
 import dev.willyelton.crystal_tools.common.network.handler.RemoveItemHandler;
-import dev.willyelton.crystal_tools.common.network.handler.RemoveXpHandler;
 import dev.willyelton.crystal_tools.common.network.handler.ResetSkillsBlockHandler;
 import dev.willyelton.crystal_tools.common.network.handler.ResetSkillsHandler;
 import dev.willyelton.crystal_tools.common.network.handler.ScrollHandler;
@@ -70,11 +70,11 @@ public class RegisterPackets {
         registrar.playToServer(BlockBreakPayload.TYPE, BlockBreakPayload.STREAM_CODEC, BlockBreakHandler.INSTANCE::handle);
         registrar.playToServer(BlockStripPayload.TYPE, BlockStripPayload.STREAM_CODEC, BlockStripHandler.INSTANCE::handle);
         registrar.playToServer(OpenBackpackPayload.TYPE, OpenBackpackPayload.STREAM_CODEC, OpenBackpackHandler.INSTANCE::handle);
-        registrar.playToServer(RemoveXpPayload.TYPE, RemoveXpPayload.STREAM_CODEC, RemoveXpHandler.INSTANCE::handle);
         registrar.playToServer(VeinMiningPayload.TYPE, VeinMiningPayload.STREAM_CODEC, VeinMiningHandler.INSTANCE::handle);
         registrar.playToServer(ResetSkillsBlockPayload.TYPE, ResetSkillsBlockPayload.STREAM_CODEC, ResetSkillsBlockHandler.INSTANCE::handle);
         registrar.playToServer(OpenContainerPayload.TYPE, OpenContainerPayload.STREAM_CODEC, OpenContainerHandler.INSTANCE::handle);
         registrar.playToServer(TriggerRocketPayload.TYPE, TriggerRocketPayload.STREAM_CODEC, TriggerRocketHandler.INSTANCE::handle);
+        registrar.playToServer(PointsFromXpPayload.TYPE, PointsFromXpPayload.STREAM_CODEC, PointsFromXpHandler.INSTANCE::handle);
 
         // Server to Client
         registrar.playToClient(SkillCacheUpdatePayload.TYPE, SkillCacheUpdatePayload.STREAM_CODEC, SkillCacheUpdateHandler.INSTANCE::handle);
