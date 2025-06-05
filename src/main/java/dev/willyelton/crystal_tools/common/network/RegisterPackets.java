@@ -16,7 +16,6 @@ import dev.willyelton.crystal_tools.common.network.data.RemoveItemPayload;
 import dev.willyelton.crystal_tools.common.network.data.ResetSkillsBlockPayload;
 import dev.willyelton.crystal_tools.common.network.data.ResetSkillsPayload;
 import dev.willyelton.crystal_tools.common.network.data.ScrollPayload;
-import dev.willyelton.crystal_tools.common.network.data.SkillCacheUpdatePayload;
 import dev.willyelton.crystal_tools.common.network.data.ToolAttributePayload;
 import dev.willyelton.crystal_tools.common.network.data.ToolHealPayload;
 import dev.willyelton.crystal_tools.common.network.data.ToolSkillPayload;
@@ -37,7 +36,6 @@ import dev.willyelton.crystal_tools.common.network.handler.RemoveItemHandler;
 import dev.willyelton.crystal_tools.common.network.handler.ResetSkillsBlockHandler;
 import dev.willyelton.crystal_tools.common.network.handler.ResetSkillsHandler;
 import dev.willyelton.crystal_tools.common.network.handler.ScrollHandler;
-import dev.willyelton.crystal_tools.common.network.handler.SkillCacheUpdateHandler;
 import dev.willyelton.crystal_tools.common.network.handler.ToolAttributeHandler;
 import dev.willyelton.crystal_tools.common.network.handler.ToolHealHandler;
 import dev.willyelton.crystal_tools.common.network.handler.ToolSkillHandler;
@@ -77,7 +75,6 @@ public class RegisterPackets {
         registrar.playToServer(PointsFromXpPayload.TYPE, PointsFromXpPayload.STREAM_CODEC, PointsFromXpHandler.INSTANCE::handle);
 
         // Server to Client
-        registrar.playToClient(SkillCacheUpdatePayload.TYPE, SkillCacheUpdatePayload.STREAM_CODEC, SkillCacheUpdateHandler.INSTANCE::handle);
         registrar.playToClient(QuarryMineBlockPayload.TYPE, QuarryMineBlockPayload.STREAM_CODEC, QuarryMineBlockHandler.INSTANCE::handle);
     }
 

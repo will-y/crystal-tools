@@ -106,7 +106,6 @@ Also want to consider the idea of either a second tree, or just another type of 
 
 Before beta release:
 - looks like something to do in the handler (backpack logic?)
-- Remove old datapack reading things
 - short server test
   - reset skills
     - Doesn't work, POINTS_ARRAY datacomponent needs to go away, also recipes still use that
