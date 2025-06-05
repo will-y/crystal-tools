@@ -121,7 +121,7 @@ public class CrystalBackpack extends Item implements LevelableItem {
             components.accept(Component.literal(toolTip));
         }
 
-        appendLevelableHoverText(itemStack, components, this, flag);
+        appendLevelableHoverText(itemStack, components, this, flag, context);
     }
 
     @Override

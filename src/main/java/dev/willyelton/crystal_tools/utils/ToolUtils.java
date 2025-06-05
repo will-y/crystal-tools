@@ -2,16 +2,21 @@ package dev.willyelton.crystal_tools.utils;
 
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
+import dev.willyelton.crystal_tools.common.events.DatapackRegistryEvents;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillTreeRegistry;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,5 +69,20 @@ public class ToolUtils {
 
     public static boolean isValidEntity(LivingEntity entity) {
         return !entity.getType().is(CrystalToolsTags.ENTITY_BLACKLIST);
+    }
+
+    // Need to use this in more places
+    public static Optional<Holder.Reference<SkillData>> getSkillData(Level level, ItemStack stack) {
+        if (level == null) return Optional.empty();
+
+        Optional<Registry<SkillData>> skillDataOptional = level.registryAccess().lookup(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS);
+        Optional<ResourceKey<Item>> itemKeyOptional = level.registryAccess().lookupOrThrow(Registries.ITEM).getResourceKey(stack.getItem());
+
+        if (skillDataOptional.isPresent() && itemKeyOptional.isPresent()) {
+            ResourceKey<Item> itemKey = itemKeyOptional.get();
+            return skillDataOptional.get().get(itemKey.location());
+        }
+
+        return Optional.empty();
     }
 }

@@ -183,7 +183,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem, EntityTa
 
     @Override
     public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> components, TooltipFlag flag) {
-        appendLevelableHoverText(itemStack, components, this, flag);
+        appendLevelableHoverText(itemStack, components, this, flag, context);
     }
 
     @Override

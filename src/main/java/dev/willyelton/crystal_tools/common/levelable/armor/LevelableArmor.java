@@ -57,7 +57,7 @@ public class LevelableArmor extends Item implements LevelableItem {
             }
         }
 
-        appendLevelableHoverText(stack, consumer, this, flag);
+        appendLevelableHoverText(stack, consumer, this, flag, context);
     }
 
     @Override

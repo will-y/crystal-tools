@@ -82,7 +82,7 @@ public class CrystalShield extends ShieldItem implements LevelableItem, EntityTa
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        appendLevelableHoverText(stack, tooltipComponents, this, tooltipFlag);
+        appendLevelableHoverText(stack, tooltipComponents, this, tooltipFlag, context);
     }
 
     @Override

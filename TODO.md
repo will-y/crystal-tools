@@ -109,7 +109,6 @@ Before beta release:
 - Remove old packets and handlers (will probably need 2 new packets for handling skill point changes), probably only used for exp now
 - Remove old datapack reading things
 - short server test
-- tooltips
 
 Before full release
 - Enchantment config option is broken

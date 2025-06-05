@@ -57,7 +57,7 @@ public class CrystalElytra extends Item implements LevelableItem {
             }
         }
 
-        appendLevelableHoverText(stack, components, this, flag);
+        appendLevelableHoverText(stack, components, this, flag, context);
     }
 
     @Override

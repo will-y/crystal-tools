@@ -128,7 +128,7 @@ public abstract class LevelableTool extends Item implements LevelableItem {
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> tooltipComponents, TooltipFlag flag) {
-        appendLevelableHoverText(stack, tooltipComponents, this, flag);
+        appendLevelableHoverText(stack, tooltipComponents, this, flag, context);
     }
 
     // TODO: These that I have to override the same in armor / bow ... should probably be a default method I can call

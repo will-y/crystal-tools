@@ -3,10 +3,15 @@ package dev.willyelton.crystal_tools.common.levelable;
 import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
+import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
+import dev.willyelton.crystal_tools.utils.StringUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -15,16 +20,17 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 public interface LevelableItem {
@@ -65,7 +71,7 @@ public interface LevelableItem {
 
     boolean isDisabled();
 
-    default void appendLevelableHoverText(ItemStack stack, Consumer<Component> components, LevelableItem item, TooltipFlag tooltipFlag) {
+    default void appendLevelableHoverText(ItemStack stack, Consumer<Component> components, LevelableItem item, TooltipFlag tooltipFlag, Item.TooltipContext context) {
         if (item.isDisabled()) {
             components.accept(Component.literal("\u00A7c\u00A7l" + "Disabled"));
             return;
@@ -73,11 +79,11 @@ public interface LevelableItem {
         int newExperience = stack.getOrDefault(DataComponents.SKILL_EXPERIENCE, 0);
         int experienceCap = item.getExperienceCap(stack);
 
-//        int durability = item.getMaxDamage(stack) - stack.getDamageValue();
+        int durability = stack.getMaxDamage() - stack.getDamageValue();
 
-//        if (durability <= 1 && item.getMaxDamage(stack) != 1) {
-//            components.accept(Component.literal("\u00A7c\u00A7l" + "Broken"));
-//        }
+        if (durability <= 1 && stack.getMaxDamage() != 1) {
+            components.accept(Component.literal("\u00A7c\u00A7l" + "Broken"));
+        }
 
         components.accept(Component.literal(String.format("%d/%d XP To Next Level", newExperience, experienceCap)));
         int skillPoints = stack.getOrDefault(DataComponents.SKILL_POINTS, 0);
@@ -119,20 +125,22 @@ public interface LevelableItem {
         } else {
             Map<String, Float> skills = new HashMap<>();
             components.accept(Component.literal("\u00A76Skills:"));
-//            SkillData toolData = ToolUtils.getSkillData(stack);
+            Optional<Holder.Reference<SkillData>> toolData = ToolUtils.getSkillData(context.level(), stack);
+            SkillPoints points = stack.getOrDefault(DataComponents.SKILL_POINT_DATA, new SkillPoints());
 
-//            if (toolData != null) {
-//                for (SkillDataNode dataNode : toolData.getAllNodes()) {
-//                    if (dataNode.getPoints() > 0) {
-//                        // TODO
-//                        skills.compute(null, (key, value) -> value != null ? value + 1 * dataNode.getPoints() : 1 * dataNode.getPoints());
-//                    }
-//                }
-//
-//                skills.forEach((s, aFloat) -> {
-//                    components.accept(Component.literal(String.format("\u00A76     %s: %s", StringUtils.formatKey(s), StringUtils.formatFloat(aFloat))));
-//                });
-//            }
+            if (toolData.isPresent()) {
+                SkillData skillData = toolData.get().value();
+                for (SkillDataNode dataNode : skillData.getAllNodes()) {
+                    int nodePoints = points.getPoints(dataNode.getId());
+                    if (nodePoints > 0) {
+                        skills.compute(StringUtils.stripRomanNumeral(dataNode.getName()), (key, value) -> value != null ? value + nodePoints : nodePoints);
+                    }
+                }
+
+                skills.forEach((s, aFloat) -> {
+                    components.accept(Component.literal(String.format("\u00A76     %s: %s", StringUtils.formatKey(s), StringUtils.formatFloat(aFloat))));
+                });
+            }
         }
     }
 
