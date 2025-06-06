@@ -89,6 +89,10 @@ There will be upgrades that are common to most tools, and tools will each get un
 - Lifesteal
   - You heal each time you hit an enemy
 - Looting
+- Capturing
+  - Mobs you kill have a chance to drop their spawn egg
+- Beheading
+  - Mobs you kill have a chance to drop their head
 
 ### Trident
 - Attack Damage
@@ -131,7 +135,7 @@ There will be upgrades that are common to most tools, and tools will each get un
   - Mobs who attack the shield are slowed
 - Totem Slot
   - Adds a slot of a Totem of Undying. Craft the shield with a Totem of Undying to insert it.
-- Shild Knockback
+- Shield Knockback
   - Mobs who attack the shield are knocked back
 - Poison Mobs
   - Mobs who attack the shield are poisoned
@@ -170,7 +174,6 @@ There will be upgrades that are common to most tools, and tools will each get un
 - Negate Fall Damage
 
 ### Elytra
-- Durability + Unbreaking
 - Creative Flight
 
 ### Rocket
@@ -445,7 +448,6 @@ You can change these values in `config/crystal_tools.toml` or in the in-game UI.
 There are a couple of features that can be customized using datapacks.
 
 ## Tags
-
 - `entity_type/entity_blacklist`: Entities that have this tag will not level up the sword, bow, or AIOT when attacked.
   - Default Value: `[minecraft:armor_stand]`
 - `block/auto_output_blacklist`: The Crystal Furnace and Crystal Quarry will not auto output to blocks with this tag.
@@ -466,6 +468,7 @@ Add a file `entity_blacklist.json` in a datapack in the location `crystal_tools/
 ## Datamaps
 - `generator_gems`: Controls the gems that can be burned with the gem generator upgrade in the crystal generator.
 - `generator_metals`: Controls the gems that can be burned with the gem generator upgrade in the crystal generator.
+- `mob_heads`: Controls which heads which mobs drop with the beheading upgrade.
 
 More information on datamaps can be found [here](https://docs.neoforged.net/docs/resources/server/datamaps/).
 

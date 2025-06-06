@@ -1,7 +1,12 @@
 # Crystal Tools Change Log
-## 3.0.0
+## 3.0.0 - beta 1
 ### Changes
 - Renames data map `mob_skills` to `mob_heads`
+- Redesigns skill trees to now be a registry
+  - The format of all skill trees is changed
+    - See built in datapack for examples
+  - Skill trees are now located in `crystal_tools/crystal_tools/skill_trees/item` and `crystal_tools/crystal_tools/skill_trees/block`
+  - This should allow for easier customization for datapacks
 
 ## 2.3.2
 ### Additions
