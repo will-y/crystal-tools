@@ -1,4 +1,4 @@
-// 1.21.5	2025-06-05T21:16:38.0324701	Registries
+// 1.21.5	2025-06-05T23:14:20.042326496	Registries
 fc5742856159734f886e60a3e6559bbe51c57d92 data/crystal_tools/crystal_tools/skill_trees/blocks/crystal_furnace.json
 fb8a1629d246fd61cd03af3ef5eec6ce7869dbba data/crystal_tools/crystal_tools/skill_trees/blocks/crystal_generator.json
 864b0773e2a28be44ba79d150e23cda8cff8944d data/crystal_tools/crystal_tools/skill_trees/blocks/crystal_quarry.json
@@ -20,3 +20,4 @@ e25ec1d7d8bdd83deba9352f463913ed0c0a6843 data/crystal_tools/crystal_tools/skill_
 55293cb3906b4e858eb7997a0b7305fdd86acb86 data/crystal_tools/crystal_tools/skill_trees/items/crystal_shovel.json
 47a7a7edf997dcfd356d7132d669b63135256697 data/crystal_tools/crystal_tools/skill_trees/items/crystal_sword.json
 aeff9538378e6df7e8f8cb62f7ee7cdc5bd96269 data/crystal_tools/crystal_tools/skill_trees/items/crystal_trident.json
+722679c90e1b7df039be514e0608dd2552f578f4 data/minecraft/crystal_tools/skill_trees/items/netherite_pickaxe.json

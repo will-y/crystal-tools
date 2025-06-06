@@ -14,6 +14,7 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 @EventBusSubscriber(modid = CrystalTools.MODID, bus = EventBusSubscriber.Bus.MOD)
@@ -45,6 +46,7 @@ public class DataGeneration {
 
         event.createDatapackRegistryObjects(
                 new RegistrySetBuilder().add(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS, CrystalToolsItemSkillTrees::register)
-                        .add(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_BLOCKS, CrystalToolsBlockSkillTrees::register));
+                        .add(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_BLOCKS, CrystalToolsBlockSkillTrees::register),
+                Set.of("crystal_tools", "minecraft"));
     }
 }

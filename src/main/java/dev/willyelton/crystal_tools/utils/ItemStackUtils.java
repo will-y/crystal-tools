@@ -1,13 +1,17 @@
 package dev.willyelton.crystal_tools.utils;
 
-import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
+import net.minecraft.core.Holder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+
+import java.util.Optional;
 
 public class ItemStackUtils {
     public static ItemStack getHeldLevelableTool(Player player) {
         for (ItemStack i : InventoryUtils.getHandItems(player)) {
-            if (i.getItem() instanceof LevelableItem) {
+            Optional<Holder.Reference<SkillData>> optionalReference = ToolUtils.getSkillData(player.level(), i);
+            if (optionalReference.isPresent()) {
                 return i;
             }
         }

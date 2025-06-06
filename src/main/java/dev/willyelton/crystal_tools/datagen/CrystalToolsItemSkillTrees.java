@@ -32,6 +32,8 @@ public class CrystalToolsItemSkillTrees {
     public static void register(BootstrapContext<SkillData> context) {
         CrystalToolsItemSkillTrees skillTrees = new CrystalToolsItemSkillTrees(context);
         skillTrees.registerSkillTrees();
+
+        MinecraftItemSkillTrees.registerSkillTrees(context);
     }
 
     public CrystalToolsItemSkillTrees(BootstrapContext<SkillData> context) {
@@ -1326,7 +1328,7 @@ public class CrystalToolsItemSkillTrees {
                     .endOptional();
     }
 
-    private ResourceLocation attr(Holder<Attribute> attribute) {
+    public static ResourceLocation attr(Holder<Attribute> attribute) {
         ResourceKey<?> key = attribute.getKey();
         if (key == null) {
             throw new IllegalArgumentException("Invalid attribute " + attribute);
