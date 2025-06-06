@@ -104,9 +104,6 @@ New types of nodes:
 Could also consider adding the ability to require x points in a node before it is active (creative flight)
 Also want to consider the idea of either a second tree, or just another type of node that is more expensive / new point type (quests?)
 
-Before beta release:
-- short server test
-
 Before full release
 - Enchantment config option is broken
 - remove as much as possible from the tool classes

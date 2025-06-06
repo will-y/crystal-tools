@@ -6,18 +6,23 @@ import dev.willyelton.crystal_tools.client.gui.component.backpack.BackpackScreen
 import dev.willyelton.crystal_tools.client.gui.component.backpack.CompressButton;
 import dev.willyelton.crystal_tools.client.gui.component.backpack.SortButton;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalBackpackContainerMenu;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.network.data.OpenBackpackPayload;
+import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBackpackContainerMenu> implements SubScreenContainerScreen {
     public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/gui/crystal_backpack.png");
@@ -29,10 +34,12 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
     static final int ROW_HEIGHT = 18;
 
     private final CrystalBackpackContainerMenu container;
+    private final Player player;
 
     public CrystalBackpackScreen(CrystalBackpackContainerMenu container, Inventory inventory, Component name) {
         super(container, inventory, name, INVENTORY_WIDTH - 3, TOP_BAR_HEIGHT, 128);
         this.container = container;
+        player = inventory.player;
         this.inventoryLabelX = 8;
     }
 
@@ -117,8 +124,11 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
         this.addRenderableWidget(new BackpackScreenButton(this.leftPos - 21, screenButtonY, Component.literal("Open Skill Tree"),
                 button -> {
                     this.onClose();
-                    // TODO: Get data
-                    ModGUIs.openScreen(new UpgradeScreen(menu.getSlotIndex(), menu.getPlayer(), () -> PacketDistributor.sendToServer(new OpenBackpackPayload(menu.getSlotIndex())), null, null));
+                    Optional<Holder.Reference<SkillData>> dataOptional = ToolUtils.getSkillData(player.level(), container.getBackpackStack());
+                    if (dataOptional.isPresent()) {
+                        SkillData data = dataOptional.get().value();
+                        ModGUIs.openScreen(new UpgradeScreen(menu.getSlotIndex(), menu.getPlayer(), () -> PacketDistributor.sendToServer(new OpenBackpackPayload(menu.getSlotIndex())), data, dataOptional.get().key()));
+                    }
                 },
                 (button, guiGraphics, mouseX, mouseY) -> {
                     Component textComponent = Component.literal("Open Skill Tree");
