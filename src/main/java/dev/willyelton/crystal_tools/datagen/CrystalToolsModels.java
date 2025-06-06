@@ -14,7 +14,6 @@ import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TexturedModel;
 import net.minecraft.client.renderer.item.ItemModel;
-import net.minecraft.client.renderer.item.properties.numeric.UseDuration;
 import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.Item;
@@ -22,6 +21,7 @@ import net.minecraft.world.level.block.Block;
 
 import java.util.stream.Stream;
 
+import static dev.willyelton.crystal_tools.CrystalTools.rl;
 import static net.minecraft.client.data.models.ItemModelGenerators.TRIM_PREFIX_BOOTS;
 import static net.minecraft.client.data.models.ItemModelGenerators.TRIM_PREFIX_CHESTPLATE;
 import static net.minecraft.client.data.models.ItemModelGenerators.TRIM_PREFIX_HELMET;
@@ -109,11 +109,11 @@ public class CrystalToolsModels extends ModelProvider {
 
         ItemModel.Unbaked itemmodel$unbaked = ItemModelUtils.plainModel(itemModels.createFlatItemModel(tridentItem, ModelTemplates.FLAT_ITEM));
         ItemModel.Unbaked itemmodel$unbaked1 = ItemModelUtils.specialModel(
-                CrystalToolsModelTemplates.CRYSTAL_TRIDENT_IN_HAND.create(tridentItem, TextureMapping.particle(Registration.CRYSTAL_TRIDENT.getKey().location()), itemModels.modelOutput),
+                CrystalToolsModelTemplates.CRYSTAL_TRIDENT_IN_HAND.create(tridentItem, TextureMapping.particle(rl("block/crystal_block")), itemModels.modelOutput),
                 new CrystalTridentSpecialRenderer.Unbaked()
         );
         ItemModel.Unbaked itemmodel$unbaked2 = ItemModelUtils.specialModel(
-                CrystalToolsModelTemplates.CRYSTAL_TRIDENT_THROWING.create(tridentItem, TextureMapping.particle(Registration.CRYSTAL_TRIDENT.getKey().location()), itemModels.modelOutput),
+                CrystalToolsModelTemplates.CRYSTAL_TRIDENT_THROWING.create(tridentItem, TextureMapping.particle(rl("block/crystal_block")), itemModels.modelOutput),
                 new CrystalTridentSpecialRenderer.Unbaked()
         );
         ItemModel.Unbaked itemmodel$unbaked3 = ItemModelUtils.conditional(ItemModelUtils.isUsingItem(), itemmodel$unbaked2, itemmodel$unbaked1);

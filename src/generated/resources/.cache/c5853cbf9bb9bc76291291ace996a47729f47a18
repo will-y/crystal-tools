@@ -1,4 +1,4 @@
-// 1.21.5	2025-04-28T19:06:07.0140769	Model Definitions - crystal_tools
+// 1.21.5	2025-06-05T19:51:26.258421521	Model Definitions - crystal_tools
 44eb603a54aabeb5d4f7c1fd34fc281a6fbb6170 assets/crystal_tools/blockstates/crystal_block.json
 16c7f01ecbdd437f59531bd56029a2d12186c9a6 assets/crystal_tools/blockstates/crystal_deepslate_ore.json
 b45cd6d350dcfbffe28c7a2e3695c880e9ac5b54 assets/crystal_tools/blockstates/crystal_furnace.json
@@ -121,7 +121,7 @@ b6df0e05c7de1568a352d0ff037f4f8ea2e890df assets/crystal_tools/models/item/crysta
 4fb0d98449e05753ae35dcb85ba96c978dd8afbb assets/crystal_tools/models/item/crystal_sword.json
 74378f8c3d3a814952fd981fd234be56deb1e3a8 assets/crystal_tools/models/item/crystal_torch.json
 5d05547fe23a73c427e5efe3b415dd99d36b3605 assets/crystal_tools/models/item/crystal_trident.json
-bfabcce4bd65573ff8b57be824c85bd89364d98e assets/crystal_tools/models/item/crystal_trident_in_hand.json
-acf1382d1b6ca19e5316a984d3509c18d2373275 assets/crystal_tools/models/item/crystal_trident_throwing.json
+b7b29410dc8878bd2e242d0420de588070cd59e7 assets/crystal_tools/models/item/crystal_trident_in_hand.json
+9b6c8b289c9b1e5f37e8bb4400eb909422689b88 assets/crystal_tools/models/item/crystal_trident_throwing.json
 262fc5eead91eb8bf7240fc3070896f875aeddbd assets/crystal_tools/models/item/netherite_stick.json
 7ef356f2445cabe5cc552b89e9d313ddf36900ec assets/crystal_tools/models/item/quarry_stabilizer.json

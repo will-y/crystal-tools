@@ -2,6 +2,6 @@
   "parent": "minecraft:item/trident_in_hand",
   "gui_light": "front",
   "textures": {
-    "particle": "crystal_tools:crystal_trident"
+    "particle": "crystal_tools:block/crystal_block"
   }
 }

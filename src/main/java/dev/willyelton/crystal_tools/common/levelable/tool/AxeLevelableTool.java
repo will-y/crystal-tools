@@ -72,4 +72,13 @@ public class AxeLevelableTool extends DiggerLevelableTool {
     public boolean canVeinMin(ItemStack stack, BlockState blockState) {
         return blockState.is(BlockTags.MINEABLE_WITH_AXE) || (stack.getOrDefault(DataComponents.LEAF_MINE, false) && blockState.is(BlockTags.LEAVES));
     }
+
+    // TODO: Need to find a way to do this another way so I don't need this class.
+    @Override
+    public float getDestroySpeed(ItemStack stack, BlockState state) {
+        if (state.is(BlockTags.LEAVES) && stack.getOrDefault(DataComponents.LEAF_MINE, false)) {
+            return 10.0F;
+        }
+        return super.getDestroySpeed(stack, state);
+    }
 }

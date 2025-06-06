@@ -2,7 +2,6 @@ package dev.willyelton.crystal_tools.client.renderer;
 
 import com.mojang.blaze3d.pipeline.BlendFunction;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
-import com.mojang.blaze3d.shaders.UniformType;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import dev.willyelton.crystal_tools.CrystalTools;
@@ -12,7 +11,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.TriState;
 
-import static net.minecraft.client.renderer.RenderStateShard.BLOCK_SHEET_MIPPED;
 import static net.minecraft.client.renderer.RenderStateShard.LIGHTMAP;
 import static net.minecraft.client.renderer.RenderStateShard.NO_LIGHTMAP;
 import static net.minecraft.client.renderer.RenderStateShard.NO_TEXTURE;
@@ -35,7 +33,7 @@ public class CrystalToolsRenderTypes {
             .withLocation(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "pipeline/block_overlay"))
             .withVertexShader("core/position_color")
             .withFragmentShader("core/position_color")
-            .withSampler("Sampler0")
+//            .withSampler("Sampler0")
             .build();
 
     public static final RenderType BLOCK_OVERLAY = create(
