@@ -24,7 +24,6 @@ import net.minecraft.world.level.gameevent.GameEvent;
 
 import java.util.function.Consumer;
 
-// TODO (PORTING): Can make this extend levelable item now
 public class CrystalElytra extends Item implements LevelableItem {
     private static final ResourceLocation CREATIVE_FLIGHT_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "creative_flight");
 
@@ -64,11 +63,6 @@ public class CrystalElytra extends Item implements LevelableItem {
     public  EquipmentSlot getEquipmentSlot(ItemStack stack) {
         return EquipmentSlot.CHEST;
     }
-
-    // TODO (PORTING): This is going to need to be different, going to have to hot-swap the components
-//    public boolean canElytraFly(ItemStack stack, LivingEntity entity) {
-//        return !canUseCreativeFlight(stack) && ElytraItem.isFlyEnabled(stack);
-//    }
 
     // TODO (PORTING): This no longer exists. Will probably have to be a check in normal inventory tick, see how the normal one does it
     public boolean elytraFlightTick(ItemStack stack, LivingEntity entity, int flightTicks) {

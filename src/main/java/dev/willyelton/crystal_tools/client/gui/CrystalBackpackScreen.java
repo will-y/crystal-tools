@@ -65,8 +65,6 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        // TODO (PORTING): remove a shader set texture call here, should be fine because it is specified below
-
         int rowsToDraw = getDisplayRows();
 
         // Backpack top bar

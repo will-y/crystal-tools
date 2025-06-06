@@ -134,12 +134,9 @@ public class ModeSwitchHandler {
         if (stack.getOrDefault(DataComponents.FROST_WALKER, false) || EnchantmentUtils.hasEnchantment(stack, Enchantments.FROST_WALKER)) {
             if (EnchantmentUtils.hasEnchantment(stack, Enchantments.FROST_WALKER)) {
                 EnchantmentUtils.removeEnchantment(stack, Enchantments.FROST_WALKER);
-
-                // TODO 1.22: Remove only here for backwards compatability
                 stack.set(DataComponents.FROST_WALKER, true);
 
                 player.displayClientMessage(Component.literal("Frost Walker Disabled"), true);
-
             } else if (stack.getOrDefault(DataComponents.FROST_WALKER, false)) {
                 EnchantmentUtils.addEnchantment(stack, Enchantments.FROST_WALKER, 2, player);
 

@@ -310,7 +310,6 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         super.saveAdditional(tag, registries);
         ContainerHelper.saveAllItems(tag, this.items, registries);
         tag.putInt("LitTime", this.litTime);
-        // TODO (Breaking): Rename
         tag.putInt("LitDuration", this.litTotalTime);
         tag.putIntArray("CookingProgress", this.cookingProgress);
         tag.putIntArray("CookingTotalTime", this.cookingTotalTime);
