@@ -4,18 +4,19 @@ import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.components.LevelableBlockEntityData;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.Action;
-import dev.willyelton.crystal_tools.utils.NBTUtils;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,7 @@ public abstract class LevelableBlockEntity extends BlockEntity {
     public static final List<String> NBT_TAGS = List.of("SkillPoints", "Points", "Exp", "ExpCap");
 
     protected int skillPoints = 0;
-    protected int[] points = new int[100];
+    protected SkillPoints points = new SkillPoints();
     protected int exp = 0;
     protected int expCap = getExpCap();
 
@@ -66,22 +67,21 @@ public abstract class LevelableBlockEntity extends BlockEntity {
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        this.skillPoints = tag.getInt("SkillPoints");
-        this.points = NBTUtils.getIntArray(tag, "Points", 100);
-        this.exp = tag.getInt("Exp");
-        this.expCap = tag.getInt("ExpCap");
-
-        if (this.expCap == 0) this.expCap = getBaseExpCap();
+        this.skillPoints = tag.getInt("SkillPoints").orElse(0);
+        // TODO: More validation
+        this.points = SkillPoints.CODEC.parse(NbtOps.INSTANCE, tag.get("Points")).getOrThrow();
+        this.exp = tag.getInt("Exp").orElse(0);
+        this.expCap = tag.getInt("ExpCap").orElse(getBaseExpCap());
 
         getActions().forEach(action -> action.load(tag, registries));
     }
 
     @Override
-    protected void applyImplicitComponents(DataComponentInput componentInput) {
+    protected void applyImplicitComponents(DataComponentGetter componentInput) {
         LevelableBlockEntityData levelableBlockEntityData = componentInput.get(DataComponents.LEVELABLE_BLOCK_ENTITY_DATA);
         if (levelableBlockEntityData != null) {
             this.skillPoints = levelableBlockEntityData.skillPoints();
-            this.points = levelableBlockEntityData.points().stream().mapToInt(Integer::intValue).toArray();
+            this.points = levelableBlockEntityData.points();
             this.exp = levelableBlockEntityData.exp();
             this.expCap = levelableBlockEntityData.expCap();
         }
@@ -98,7 +98,8 @@ public abstract class LevelableBlockEntity extends BlockEntity {
         super.saveAdditional(tag, registries);
 
         tag.putInt("SkillPoints", this.skillPoints);
-        tag.putIntArray("Points", this.points);
+        // TODO: Validation
+        tag.put("Points", SkillPoints.CODEC.encodeStart(NbtOps.INSTANCE, this.points).getOrThrow());
         tag.putInt("Exp", this.exp);
         tag.putInt("ExpCap", this.expCap);
 
@@ -109,7 +110,7 @@ public abstract class LevelableBlockEntity extends BlockEntity {
     protected void collectImplicitComponents(DataComponentMap.Builder components) {
         super.collectImplicitComponents(components);
         LevelableBlockEntityData levelableBlockEntityData = new LevelableBlockEntityData(skillPoints,
-                Arrays.stream(points).boxed().toList(), exp, expCap);
+                points, exp, expCap);
         components.set(DataComponents.LEVELABLE_BLOCK_ENTITY_DATA, levelableBlockEntityData);
 
         for (Action action : getActions()) {
@@ -143,7 +144,7 @@ public abstract class LevelableBlockEntity extends BlockEntity {
     protected abstract void addToExtraData(String key, float value);
 
     public void addToPoints(int id, int value) {
-        this.points[id] += value;
+        this.points.addPoints(id, value);
         this.setChanged();
     }
 
@@ -161,16 +162,20 @@ public abstract class LevelableBlockEntity extends BlockEntity {
         return skillPoints;
     }
 
+    public SkillPoints getPoints() {
+        return points;
+    }
+
     public void setSkillPoints(int skillPoints) {
         this.skillPoints = skillPoints;
     }
 
     public int getPoint(int index) {
-        return points[index];
+        return points.getPoints(index);
     }
 
     public void setPoints(int index, int value) {
-        this.points[index] = value;
+        this.points.setPoints(index, value);
     }
 
     public int getExp() {
@@ -190,8 +195,8 @@ public abstract class LevelableBlockEntity extends BlockEntity {
     }
 
     public void resetSkills() {
-        this.skillPoints = skillPoints + (int) Arrays.stream(this.points).asLongStream().sum();
-        this.points = new int[100];
+        this.skillPoints = skillPoints + this.points.getTotalPoints();
+        this.points = new SkillPoints();
         this.exp = 0;
         this.expCap = getBaseExpCap();
         this.resetExtraSkills();

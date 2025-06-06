@@ -13,7 +13,7 @@ import net.neoforged.neoforge.common.ItemAbility;
 
 public class ShovelLevelableTool extends DiggerLevelableTool {
     public ShovelLevelableTool(Item.Properties properties) {
-        super(properties, BlockTags.MINEABLE_WITH_SHOVEL, "shovel", 1.5F, -3.0F);
+        super(properties.shovel(CRYSTAL, 1.5F, -3.0F), "shovel");
     }
 
     @Override

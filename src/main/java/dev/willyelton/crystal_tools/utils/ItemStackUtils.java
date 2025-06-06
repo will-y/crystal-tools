@@ -6,7 +6,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class ItemStackUtils {
     public static ItemStack getHeldLevelableTool(Player player) {
-        for (ItemStack i : player.getHandSlots()) {
+        for (ItemStack i : InventoryUtils.getHandItems(player)) {
             if (i.getItem() instanceof LevelableItem) {
                 return i;
             }

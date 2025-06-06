@@ -1,7 +1,6 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.components.EffectData;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.events.LevelTickEvent;
 import dev.willyelton.crystal_tools.common.levelable.EntityTargeter;
@@ -9,18 +8,17 @@ import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.Holder;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -31,6 +29,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.event.EventHooks;
 
@@ -41,7 +42,7 @@ import java.util.function.Consumer;
 
 public class BowLevelableItem extends BowItem implements LevelableItem, EntityTargeter {
     public BowLevelableItem(Item.Properties properties) {
-        super(properties.durability(INITIAL_TIER.durability()).fireResistant().repairable(CrystalToolsTags.REPAIRS_CRYSTAL));
+        super(properties.durability(CRYSTAL.durability()).fireResistant().repairable(CrystalToolsTags.REPAIRS_CRYSTAL));
     }
 
     @Override
@@ -51,7 +52,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem, EntityTa
 
             ItemStack itemstack;
 
-            if (stack.getOrDefault(DataComponents.INFINITY, false)) {
+            if (hasInfinity(stack, level)) {
                 itemstack = new ItemStack(Items.ARROW);
             } else {
                 itemstack = getProjectile(stack, player);
@@ -83,27 +84,20 @@ public class BowLevelableItem extends BowItem implements LevelableItem, EntityTa
 
                         float j = stack.getOrDefault(DataComponents.ARROW_DAMAGE.get(), 0F);
                         if (j > 0) {
-                            abstractarrow.setBaseDamage(abstractarrow.getBaseDamage() + (double)j + 0.5D);
+                            abstractarrow.setBaseDamage(2 + (double)j + 0.5D);
                         }
 
-                        if (stack.getOrDefault(DataComponents.FLAME, false)) {
-                            abstractarrow.setRemainingFireTicks(100);
+                        if (hasFlame(stack, level)) {
+                            abstractarrow.setRemainingFireTicks(200);
                         }
 
                         if (abstractarrow instanceof Arrow arrow) {
-                            List<EffectData> effects = stack.getOrDefault(DataComponents.EFFECTS, Collections.emptyList());
-
-                            for (EffectData effect : effects) {
-                                Optional<Holder.Reference<MobEffect>> mobEffect = BuiltInRegistries.MOB_EFFECT.get(ResourceLocation.withDefaultNamespace(effect.resourceLocation()));
-                                if (mobEffect.isPresent()) {
-                                    MobEffectInstance instance = new MobEffectInstance(mobEffect.get(), effect.duration() * 20, 1, false, false);
-                                    arrow.addEffect(instance);
-                                }
-                            }
+                            List<MobEffectInstance> effects = stack.getOrDefault(DataComponents.EFFECTS, Collections.emptyList());
+                            effects.forEach(arrow::addEffect);
                         }
 
                         stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(player.getUsedItemHand()));
-                        if (infinity || stack.getOrDefault(DataComponents.INFINITY, false)) {
+                        if (infinity || hasInfinity(stack, level)) {
                             abstractarrow.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                         }
 
@@ -138,7 +132,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem, EntityTa
             stack.shrink(1);
             return InteractionResult.FAIL;
         }
-        boolean flag = !getProjectile(stack, player).isEmpty() || stack.getOrDefault(DataComponents.INFINITY, false);
+        boolean flag = !getProjectile(stack, player).isEmpty() || hasInfinity(stack, level);
 
         InteractionResult ret = EventHooks.onArrowNock(stack, level, player, hand, flag);
         if (ret != null) return ret;
@@ -178,36 +172,18 @@ public class BowLevelableItem extends BowItem implements LevelableItem, EntityTa
     }
 
     @Override
-    public int getMaxDamage(ItemStack stack) {
-        int bonusDurability = stack.getOrDefault(DataComponents.DURABILITY_BONUS, 0);
-        return INITIAL_TIER.durability() + bonusDurability;
-    }
-
-    @Override
     public boolean isFoil(ItemStack stack) {
         return false;
     }
 
-    // Changing these two to what they should be @minecraft
     @Override
-    public int getBarWidth(ItemStack itemStack) {
-        return Math.round(13.0F - (float) itemStack.getDamageValue() * 13.0F / (float) itemStack.getMaxDamage());
+    public void inventoryTick(ItemStack itemStack, ServerLevel level, Entity entity, EquipmentSlot slot) {
+        levelableInventoryTick(itemStack, level, entity, slot, 1);
     }
 
     @Override
-    public int getBarColor(ItemStack itemStack) {
-        float f = Math.max(0.0F, ((float)itemStack.getMaxDamage() - (float)itemStack.getDamageValue()) / (float) itemStack.getMaxDamage());
-        return Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
-    }
-
-    @Override
-    public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand) {
-        levelableInventoryTick(itemStack, level, entity, inventorySlot, inHand, 1);
-    }
-
-    @Override
-    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
-        appendLevelableHoverText(itemStack, components, this, flag);
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> components, TooltipFlag flag) {
+        appendLevelableHoverText(itemStack, components, this, flag, context);
     }
 
     @Override
@@ -221,16 +197,12 @@ public class BowLevelableItem extends BowItem implements LevelableItem, EntityTa
         }
     }
 
+    @Override
     public boolean isDisabled() {
         return CrystalToolsConfig.DISABLE_BOW.get();
     }
 
-    @Override
-    public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
-        return CrystalToolsConfig.ENCHANT_TOOLS.get();
-    }
-
-    public float getChargeTime(ItemStack stack) {
+    public static float getChargeTime(ItemStack stack) {
         return Math.max(1F, 20F - stack.getOrDefault(DataComponents.DRAW_SPEED, 0F));
     }
 
@@ -242,6 +214,18 @@ public class BowLevelableItem extends BowItem implements LevelableItem, EntityTa
         }
 
         return f;
+    }
+
+    private boolean hasInfinity(ItemStack stack, Level level) {
+        Optional<Holder.Reference<Enchantment>> infinityHolder = level.holderLookup(Registries.ENCHANTMENT).get(Enchantments.INFINITY);
+
+        return infinityHolder.filter(enchantmentReference -> stack.getEnchantmentLevel(enchantmentReference) > 0).isPresent();
+    }
+
+    private boolean hasFlame(ItemStack stack, Level level) {
+        Optional<Holder.Reference<Enchantment>> infinityHolder = level.holderLookup(Registries.ENCHANTMENT).get(Enchantments.FLAME);
+
+        return infinityHolder.filter(enchantmentReference -> stack.getEnchantmentLevel(enchantmentReference) > 0).isPresent();
     }
 
     @Override

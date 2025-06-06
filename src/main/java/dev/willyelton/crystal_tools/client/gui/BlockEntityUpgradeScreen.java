@@ -5,13 +5,14 @@ import dev.willyelton.crystal_tools.client.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.common.inventory.container.LevelableContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.LevelableBlockEntity;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillDataNode;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillTreeRegistry;
-import dev.willyelton.crystal_tools.common.network.data.BlockAttributePayload;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
+import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
+import dev.willyelton.crystal_tools.common.network.data.BlockSkillPayload;
 import dev.willyelton.crystal_tools.common.network.data.ResetSkillsBlockPayload;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.Nullable;
@@ -25,28 +26,18 @@ public class BlockEntityUpgradeScreen extends BaseUpgradeScreen {
     @Nullable
     private final Runnable onClose;
 
-    public BlockEntityUpgradeScreen(LevelableContainerMenu container, Player player, Runnable onClose) {
-        super(player, Component.literal("Upgrade Furnace"));
+    public BlockEntityUpgradeScreen(LevelableContainerMenu container, Player player, Runnable onClose, SkillData data, ResourceKey<SkillData> key) {
+        super(player, Component.literal("Upgrade Furnace"), data, key);
         this.container = container;
-        this.data = this.getSkillData();
-        screen = null;
+        this.screen = null;
         this.onClose = onClose;
     }
 
-    public BlockEntityUpgradeScreen(LevelableContainerMenu container, Player player, Screen toOpen) {
-        super(player, Component.literal("Upgrade Furnace"));
+    public BlockEntityUpgradeScreen(LevelableContainerMenu container, Player player, Screen toOpen, SkillData data, ResourceKey<SkillData> key) {
+        super(player, Component.literal("Upgrade Furnace"), data, key);
         this.container = container;
-        this.data = this.getSkillData();
         this.screen = toOpen;
         this.onClose = null;
-    }
-
-    protected SkillData getSkillData() {
-        int[] points = this.container.getPoints();
-        String blockType = this.container.getBlockType();
-        SkillData data = SkillTreeRegistry.SKILL_TREES.get(blockType);
-        data.applyPoints(points);
-        return data;
     }
 
     @Override
@@ -75,25 +66,22 @@ public class BlockEntityUpgradeScreen extends BaseUpgradeScreen {
             if (node.getLimit() == 0) {
                 pointsToSpend = getPointsToSpend(skillPoints, shift, control);
             }
-            // Idk if this is a problem that this is int because it is just to sync client
-            this.container.addToPoints(node.getId(), (int) node.getValue() * pointsToSpend);
 
-            PacketDistributor.sendToServer(new BlockAttributePayload(node.getKey(), node.getValue(), node.getId(), pointsToSpend));
-            node.addPoint(pointsToSpend);
-            if (node.isComplete()) {
+            this.container.addToPoints(node.getId(), pointsToSpend);
+
+            PacketDistributor.sendToServer(new BlockSkillPayload(node.getId(), key, pointsToSpend, container.getBlockEntity().getBlockPos()));
+            points.addPoints(node.getId(), pointsToSpend);
+            if (points.getPoints(node.getId()) >= node.getLimit() && node.getLimit() != 0) {
                 ((SkillButton) button).setComplete();
             }
-
-            changeSkillPoints(-pointsToSpend);
         }
 
         super.onSkillButtonPress(node, button);
     }
 
     @Override
-    protected void changeSkillPoints(int change) {
+    protected void changeClientSkillPoints(int change) {
         this.container.addSkillPoints(change);
-        PacketDistributor.sendToServer(new BlockAttributePayload("skill_points", change, -1, 1));
     }
 
     @Override
@@ -102,11 +90,14 @@ public class BlockEntityUpgradeScreen extends BaseUpgradeScreen {
             LevelableBlockEntity blockEntity = this.container.getBlockEntity();
             PacketDistributor.sendToServer(new ResetSkillsBlockPayload(blockEntity.getBlockPos()));
             blockEntity.resetSkills();
-
-            data = getSkillData();
         }
 
         this.onClose();
+    }
+
+    @Override
+    public SkillPoints getPoints() {
+        return this.container.getPoints();
     }
 
     @Override

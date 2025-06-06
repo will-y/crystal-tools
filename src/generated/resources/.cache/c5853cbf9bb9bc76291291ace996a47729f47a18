@@ -1,4 +1,4 @@
-// 1.21.4	2025-03-15T14:51:17.127033392	Model Definitions - crystal_tools
+// 1.21.5	2025-06-05T19:51:26.258421521	Model Definitions - crystal_tools
 44eb603a54aabeb5d4f7c1fd34fc281a6fbb6170 assets/crystal_tools/blockstates/crystal_block.json
 16c7f01ecbdd437f59531bd56029a2d12186c9a6 assets/crystal_tools/blockstates/crystal_deepslate_ore.json
 b45cd6d350dcfbffe28c7a2e3695c880e9ac5b54 assets/crystal_tools/blockstates/crystal_furnace.json
@@ -14,7 +14,7 @@ ff9c786f1fa076aed866cf72cc25915d4988d4f6 assets/crystal_tools/items/crystal_appl
 d23fb3b0ba340ef511e8eb72d091be267649213e assets/crystal_tools/items/crystal_backpack.json
 626f68a4a48556d40842606c47ea437895db7b90 assets/crystal_tools/items/crystal_block.json
 2adc6e3617a0dd6e71e55d8bd4aa5f46952f9288 assets/crystal_tools/items/crystal_boots.json
-9b89026b74d672ef8f781841d5ca3e9e57ebc3b8 assets/crystal_tools/items/crystal_bow.json
+021599118f9cdd5f5f13e3a15b2e90c49c657027 assets/crystal_tools/items/crystal_bow.json
 6c4143fd145a69d2ff08410ef3f8b9eaec8d862c assets/crystal_tools/items/crystal_chestplate.json
 c254325971b0be7cd261f219520f716530cae7c8 assets/crystal_tools/items/crystal_deepslate_ore.json
 468d894a0346b718aa80972163bdb9aca668637e assets/crystal_tools/items/crystal_elytra.json
@@ -121,7 +121,7 @@ b6df0e05c7de1568a352d0ff037f4f8ea2e890df assets/crystal_tools/models/item/crysta
 4fb0d98449e05753ae35dcb85ba96c978dd8afbb assets/crystal_tools/models/item/crystal_sword.json
 74378f8c3d3a814952fd981fd234be56deb1e3a8 assets/crystal_tools/models/item/crystal_torch.json
 5d05547fe23a73c427e5efe3b415dd99d36b3605 assets/crystal_tools/models/item/crystal_trident.json
-bfabcce4bd65573ff8b57be824c85bd89364d98e assets/crystal_tools/models/item/crystal_trident_in_hand.json
-acf1382d1b6ca19e5316a984d3509c18d2373275 assets/crystal_tools/models/item/crystal_trident_throwing.json
+b7b29410dc8878bd2e242d0420de588070cd59e7 assets/crystal_tools/models/item/crystal_trident_in_hand.json
+9b6c8b289c9b1e5f37e8bb4400eb909422689b88 assets/crystal_tools/models/item/crystal_trident_throwing.json
 262fc5eead91eb8bf7240fc3070896f875aeddbd assets/crystal_tools/models/item/netherite_stick.json
 7ef356f2445cabe5cc552b89e9d313ddf36900ec assets/crystal_tools/models/item/quarry_stabilizer.json

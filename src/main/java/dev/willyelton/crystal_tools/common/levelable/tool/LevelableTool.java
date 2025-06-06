@@ -1,93 +1,47 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
-import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.common.network.data.BlockBreakPayload;
-import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.tags.TagKey;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.function.Consumer;
 
 public abstract class LevelableTool extends Item implements LevelableItem {
-    protected static final ResourceLocation ATTACK_DAMAGE_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "attack_damage");
-    protected static final ResourceLocation ATTACK_SPEED_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "attack_speed");
-    protected static final ResourceLocation ATTACK_KNOCKBACK_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "attack_knockback");
-    protected static final ResourceLocation KNOCKBACK_RESISTANCE_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "knockback_resistance");
-    protected static final ResourceLocation REACH_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "reach");
-    protected static final ResourceLocation ATTACK_RANGE_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "attack_range");
-
     // Blocks that can be mined by default, null for none
-    protected final TagKey<Block> blocks;
     protected final String itemType;
-    protected final int initialDurability;
-    private final float initialAttackDamage;
 
-    public LevelableTool(Item.Properties properties, TagKey<Block> mineableBlocks, String itemType, float attackDamageModifier, float attackSpeedModifier) {
-        this(properties, mineableBlocks, itemType, attackDamageModifier, attackSpeedModifier, INITIAL_TIER.durability());
-    }
-
-    public LevelableTool(Item.Properties properties, TagKey<Block> mineableBlocks, String itemType, float attackDamageModifier, float attackSpeedModifier, int durability) {
+    public LevelableTool(Item.Properties properties, String itemType) {
         super(properties.fireResistant()
-                .repairable(CrystalToolsTags.REPAIRS_CRYSTAL)
-                .rarity(Rarity.RARE)
-                .attributes(ItemAttributeModifiers.builder()
-                        .add(Attributes.ATTACK_DAMAGE,
-                                new AttributeModifier(BASE_ATTACK_DAMAGE_ID, INITIAL_TIER.attackDamageBonus() + attackDamageModifier, AttributeModifier.Operation.ADD_VALUE),
-                                EquipmentSlotGroup.MAINHAND)
-                        .add(Attributes.ATTACK_SPEED,
-                                new AttributeModifier(BASE_ATTACK_SPEED_ID, attackSpeedModifier, AttributeModifier.Operation.ADD_VALUE),
-                                EquipmentSlotGroup.MAINHAND)
-                        .build()));
-        this.blocks = mineableBlocks;
+                .rarity(Rarity.RARE));
         this.itemType = itemType;
-        this.initialDurability = durability;
-        this.initialAttackDamage = INITIAL_TIER.attackDamageBonus() + attackDamageModifier;
     }
 
     @Override
-    public float getDestroySpeed(ItemStack tool, BlockState blockState) {
-        float bonus = tool.getOrDefault(DataComponents.MINING_SPEED, 0F);
-        if (ToolUtils.isBroken(tool)) {
-            // broken
-            return 0.1F;
-        }
-        return correctTool(tool, blockState) ? INITIAL_TIER.speed() + bonus * 20 : 1.0F;
-    }
-
-    public boolean correctTool(ItemStack tool, BlockState blockState) {
-        return this.blocks != null && blockState.is(this.blocks);
-    }
-
-    @Override
-    public boolean hurtEnemy(ItemStack tool, LivingEntity target, LivingEntity attacker) {
+    public void hurtEnemy(ItemStack tool, LivingEntity target, LivingEntity attacker) {
         if (this.isDisabled()) {
             tool.shrink(1);
-            return false;
+            return;
         }
 
         tool.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
@@ -104,11 +58,9 @@ public abstract class LevelableTool extends Item implements LevelableItem {
                     attacker.heal(heal);
                 }
 
-                addExp(tool, target.level(), attacker.getOnPos(), attacker, (int) (getAttackDamage(tool) * getAttackExperienceBoost()));
+                addExp(tool, target.level(), attacker.getOnPos(), attacker, (int) (getAttackDamage(attacker, tool) * getAttackExperienceBoost()));
             }
         }
-
-        return true;
     }
 
     @Override
@@ -156,22 +108,8 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     }
 
     @Override
-    public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
-        // TODO (PORTING)
-        // This uses the TOOL datacomponent, might want to move to that finally
-        // && INITIAL_TIER.createToolProperties(blocks).isCorrectForDrops(state)
-        return correctTool(stack, state);
-    }
-
-    @Override
     public String getItemType() {
         return this.itemType;
-    }
-
-    @Override
-    public int getMaxDamage(ItemStack stack) {
-        int bonusDurability = stack.getOrDefault(DataComponents.DURABILITY_BONUS, 0);
-        return this.initialDurability + bonusDurability;
     }
 
     @Override
@@ -179,29 +117,16 @@ public abstract class LevelableTool extends Item implements LevelableItem {
         return false;
     }
 
-    // Changing these two to what they should be @minecraft
     @Override
-    public int getBarWidth(ItemStack itemStack) {
-        return Math.round(13.0F - (float) itemStack.getDamageValue() * 13.0F / (float) itemStack.getMaxDamage());
+    public void inventoryTick(ItemStack itemStack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot) {
+        levelableInventoryTick(itemStack, level, entity, slot, 1);
     }
 
     @Override
-    public int getBarColor(ItemStack itemStack) {
-        float f = Math.max(0.0F, ((float) itemStack.getMaxDamage() - (float) itemStack.getDamageValue()) / (float) itemStack.getMaxDamage());
-        return Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> tooltipComponents, TooltipFlag flag) {
+        appendLevelableHoverText(stack, tooltipComponents, this, flag, context);
     }
 
-    @Override
-    public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand) {
-        levelableInventoryTick(itemStack, level, entity, inventorySlot, inHand, 1);
-    }
-
-    @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag flag) {
-        appendLevelableHoverText(stack, tooltipComponents, this, flag);
-    }
-
-    // TODO: These that I have to override the same in armor / bow ... should probably be a default method I can call
     @Override
     public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<Item> onBroken) {
         int durability = this.getMaxDamage(stack) - stack.getDamageValue();
@@ -222,50 +147,13 @@ public abstract class LevelableTool extends Item implements LevelableItem {
         }
     }
 
-    @Override
-    public ItemAttributeModifiers getLevelableAttributeModifiers(ItemStack stack) {
-        if (!ToolUtils.isBroken(stack)) {
-            ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
-
-            float attackDamage = stack.getOrDefault(DataComponents.DAMAGE_BONUS, 0F);
-            if (attackDamage > 0) {
-                builder.add(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_ID, attackDamage, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
-            }
-
-            float attackSpeed = stack.getOrDefault(DataComponents.ATTACK_SPEED, 0F);
-            if (attackSpeed > 0) {
-                builder.add(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_ID, attackSpeed, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
-            }
-
-            float attackKnockback = stack.getOrDefault(DataComponents.KNOCKBACK, 0F);
-            if (attackKnockback > 0) {
-                builder.add(Attributes.ATTACK_KNOCKBACK, new AttributeModifier(ATTACK_KNOCKBACK_ID, attackKnockback, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
-            }
-
-            float knockbackResistance = stack.getOrDefault(DataComponents.KNOCKBACK_RESISTANCE, 0F);
-            if (knockbackResistance > 0) {
-                builder.add(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(KNOCKBACK_RESISTANCE_ID, knockbackResistance, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
-            }
-
-            float reach = stack.getOrDefault(DataComponents.REACH, 0F);
-            if (reach > 0) {
-                builder.add(Attributes.BLOCK_INTERACTION_RANGE, new AttributeModifier(REACH_ID, reach, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
-                builder.add(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(ATTACK_RANGE_ID, reach, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND);
-            }
-
-            return builder.build();
+    protected float getAttackDamage(LivingEntity attacker, ItemStack stack) {
+        AttributeInstance attackDamageAttribute = attacker.getAttribute(Attributes.ATTACK_DAMAGE);
+        if (attackDamageAttribute != null) {
+            return CRYSTAL.attackDamageBonus() + (float) attackDamageAttribute.getValue();
         } else {
-            return ItemAttributeModifiers.builder().build();
+            return CRYSTAL.attackDamageBonus();
         }
-    }
-
-    @Override
-    public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
-        return CrystalToolsConfig.ENCHANT_TOOLS.get();
-    }
-
-    protected float getAttackDamage(ItemStack stack) {
-        return initialAttackDamage + stack.getOrDefault(DataComponents.DAMAGE_BONUS, 0F);
     }
 
     protected double getAttackExperienceBoost() {

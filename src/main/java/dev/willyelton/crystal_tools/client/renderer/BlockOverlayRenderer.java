@@ -60,7 +60,7 @@ public class BlockOverlayRenderer {
             for (BlockPos renderPos : blockPosCollection) {
                 BlockState state = level.getBlockState(renderPos);
                 // TODO: Can hoe somehow
-                if (state.isAir() || (!toolItem.correctTool(stack, state) && !hoe)) continue;
+                if (state.isAir() || (!toolItem.isCorrectToolForDrops(stack, state) && !hoe)) continue;
                 BlockOverlayRenderer.renderBlockPos(pose, builder, renderPos, 80.8F / 255, 94.5F / 255, 92.2F / 255);
             }
             pose.popPose();

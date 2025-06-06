@@ -4,6 +4,7 @@ import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.renderer.CrystalShieldRenderer;
 import dev.willyelton.crystal_tools.client.renderer.CrystalTridentSpecialRenderer;
+import dev.willyelton.crystal_tools.client.renderer.item.properties.BowUseDuration;
 import dev.willyelton.crystal_tools.common.levelable.armor.CrystalToolsArmorMaterials;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
@@ -13,13 +14,18 @@ import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TexturedModel;
 import net.minecraft.client.renderer.item.ItemModel;
-import net.minecraft.client.renderer.item.properties.numeric.UseDuration;
 import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
 import java.util.stream.Stream;
+
+import static dev.willyelton.crystal_tools.CrystalTools.rl;
+import static net.minecraft.client.data.models.ItemModelGenerators.TRIM_PREFIX_BOOTS;
+import static net.minecraft.client.data.models.ItemModelGenerators.TRIM_PREFIX_CHESTPLATE;
+import static net.minecraft.client.data.models.ItemModelGenerators.TRIM_PREFIX_HELMET;
+import static net.minecraft.client.data.models.ItemModelGenerators.TRIM_PREFIX_LEGGINGS;
 
 public class CrystalToolsModels extends ModelProvider {
     public CrystalToolsModels(PackOutput output) {
@@ -48,10 +54,10 @@ public class CrystalToolsModels extends ModelProvider {
         generateCrystalShield(itemModels);
 
         // Armor
-        itemModels.generateTrimmableItem(Registration.CRYSTAL_HELMET.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, "helmet", false);
-        itemModels.generateTrimmableItem(Registration.CRYSTAL_CHESTPLATE.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, "chestplate", false);
-        itemModels.generateTrimmableItem(Registration.CRYSTAL_LEGGINGS.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, "leggings", false);
-        itemModels.generateTrimmableItem(Registration.CRYSTAL_BOOTS.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, "boots", false);
+        itemModels.generateTrimmableItem(Registration.CRYSTAL_HELMET.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, TRIM_PREFIX_HELMET, false);
+        itemModels.generateTrimmableItem(Registration.CRYSTAL_CHESTPLATE.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, TRIM_PREFIX_CHESTPLATE, false);
+        itemModels.generateTrimmableItem(Registration.CRYSTAL_LEGGINGS.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, TRIM_PREFIX_LEGGINGS, false);
+        itemModels.generateTrimmableItem(Registration.CRYSTAL_BOOTS.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, TRIM_PREFIX_BOOTS, false);
         itemModels.generateFlatItem(Registration.CRYSTAL_ELYTRA.get(), ModelTemplates.FLAT_ITEM);
 
         // Blocks
@@ -87,8 +93,8 @@ public class CrystalToolsModels extends ModelProvider {
                         ItemModelUtils.conditional(
                                 ItemModelUtils.isUsingItem(),
                                 ItemModelUtils.rangeSelect(
-                                        new UseDuration(false),
-                                        0.05F,
+                                        new BowUseDuration(),
+                                        1F,
                                         itemmodel$unbaked1,
                                         ItemModelUtils.override(itemmodel$unbaked2, 0.65F),
                                         ItemModelUtils.override(itemmodel$unbaked3, 0.9F)
@@ -103,11 +109,11 @@ public class CrystalToolsModels extends ModelProvider {
 
         ItemModel.Unbaked itemmodel$unbaked = ItemModelUtils.plainModel(itemModels.createFlatItemModel(tridentItem, ModelTemplates.FLAT_ITEM));
         ItemModel.Unbaked itemmodel$unbaked1 = ItemModelUtils.specialModel(
-                CrystalToolsModelTemplates.CRYSTAL_TRIDENT_IN_HAND.create(tridentItem, TextureMapping.particle(Registration.CRYSTAL_TRIDENT.getKey().location()), itemModels.modelOutput),
+                CrystalToolsModelTemplates.CRYSTAL_TRIDENT_IN_HAND.create(tridentItem, TextureMapping.particle(rl("block/crystal_block")), itemModels.modelOutput),
                 new CrystalTridentSpecialRenderer.Unbaked()
         );
         ItemModel.Unbaked itemmodel$unbaked2 = ItemModelUtils.specialModel(
-                CrystalToolsModelTemplates.CRYSTAL_TRIDENT_THROWING.create(tridentItem, TextureMapping.particle(Registration.CRYSTAL_TRIDENT.getKey().location()), itemModels.modelOutput),
+                CrystalToolsModelTemplates.CRYSTAL_TRIDENT_THROWING.create(tridentItem, TextureMapping.particle(rl("block/crystal_block")), itemModels.modelOutput),
                 new CrystalTridentSpecialRenderer.Unbaked()
         );
         ItemModel.Unbaked itemmodel$unbaked3 = ItemModelUtils.conditional(ItemModelUtils.isUsingItem(), itemmodel$unbaked2, itemmodel$unbaked1);

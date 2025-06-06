@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.common.inventory.container;
 
 import dev.willyelton.crystal_tools.common.levelable.block.entity.LevelableBlockEntity;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.data.ILevelableContainerData;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
@@ -35,7 +36,7 @@ public abstract class LevelableContainerMenu extends BaseContainerMenu {
         return levelableContainerData.getExpCap();
     }
 
-    public int[] getPoints() {
+    public SkillPoints getPoints() {
         return levelableContainerData.getPoints();
     }
 

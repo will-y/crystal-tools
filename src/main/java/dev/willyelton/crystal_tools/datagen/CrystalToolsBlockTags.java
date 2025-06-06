@@ -29,5 +29,12 @@ public class CrystalToolsBlockTags extends BlockTagsProvider {
 
         tag(CrystalToolsTags.AUTO_OUTPUT_BLACKLIST).add(
                 Blocks.HOPPER);
+
+        tag(CrystalToolsTags.MINABLE_WITH_AIOT)
+                .addTag(BlockTags.MINEABLE_WITH_AXE)
+                .addTag(BlockTags.MINEABLE_WITH_HOE)
+                .addTag(BlockTags.MINEABLE_WITH_PICKAXE)
+                .addTag(BlockTags.MINEABLE_WITH_SHOVEL)
+                .addTag(BlockTags.SWORD_EFFICIENT);
     }
 }

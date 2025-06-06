@@ -18,6 +18,7 @@ public class CrystalToolsTags {
 
     // Block
     public static final TagKey<Block> AUTO_OUTPUT_BLACKLIST = BlockTags.create(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "auto_output_blacklist"));
+    public static final TagKey<Block> MINABLE_WITH_AIOT = BlockTags.create(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "mineable/pickaxe"));
 
     // Entity Type
     public static final TagKey<EntityType<?>> ENTITY_BLACKLIST = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "entity_blacklist"));

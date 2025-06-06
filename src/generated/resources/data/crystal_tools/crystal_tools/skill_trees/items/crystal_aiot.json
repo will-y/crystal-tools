@@ -1,0 +1,1535 @@
+{
+  "equipmentSlot": "mainhand",
+  "tiers": [
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the AIOT's Mining Speed",
+          "id": 0,
+          "key": [
+            "minecraft:mining_efficiency"
+          ],
+          "limit": 1,
+          "name": "Mining Speed I",
+          "requirements": [],
+          "value": 6.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the AIOT's Attack Damage",
+          "id": 1,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 1,
+          "name": "Attack Damage I",
+          "requirements": [],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the AIOT's Attack Speed",
+          "id": 2,
+          "key": [
+            "minecraft:attack_speed"
+          ],
+          "limit": 1,
+          "name": "Attack Speed I",
+          "requirements": [],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the AIOT's Durability",
+          "id": 3,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability I",
+          "requirements": [],
+          "value": 200.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the AIOT's Mining Speed",
+          "id": 4,
+          "key": [
+            "minecraft:mining_efficiency"
+          ],
+          "limit": 1,
+          "name": "Mining Speed II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                0
+              ]
+            }
+          ],
+          "value": 6.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the AIOT's Attack Damage",
+          "id": 5,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 1,
+          "name": "Attack Damage II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                1
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the AIOT's Attack Speed",
+          "id": 6,
+          "key": [
+            "minecraft:attack_speed"
+          ],
+          "limit": 1,
+          "name": "Attack Speed II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                2
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the AIOT's Durability",
+          "id": 7,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                3
+              ]
+            }
+          ],
+          "value": 200.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Silk Touch I to the AIOT",
+          "enchantment": "minecraft:silk_touch",
+          "id": 8,
+          "level": 1,
+          "name": "Silk Touch I",
+          "requirements": [
+            {
+              "type": "crystal_tools:not_node_requirement",
+              "not_node": [
+                9
+              ],
+              "unless": [
+                40
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Fortune III to the AIOT",
+          "enchantment": "minecraft:fortune",
+          "id": 9,
+          "level": 3,
+          "name": "Fortune III",
+          "requirements": [
+            {
+              "type": "crystal_tools:not_node_requirement",
+              "not_node": [
+                8
+              ],
+              "unless": [
+                40
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not use durability",
+          "id": 10,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking I",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the AIOT's Reach Distance",
+          "id": 11,
+          "key": [
+            "minecraft:entity_interaction_range",
+            "minecraft:block_interaction_range"
+          ],
+          "limit": 1,
+          "name": "Reach I",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs killed by this AIOT will have a chance to drop their head",
+          "id": 12,
+          "key": [
+            "crystal_tools:beheading"
+          ],
+          "limit": 1,
+          "name": "Beheading I",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Fire Aspect II to the AIOT",
+          "enchantment": "minecraft:fire_aspect",
+          "id": 13,
+          "level": 2,
+          "name": "Fire Aspect II",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                8,
+                9,
+                10,
+                11,
+                12
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Adds Knockback to the AIOT",
+          "id": 14,
+          "key": [
+            "minecraft:attack_knockback"
+          ],
+          "limit": 1,
+          "name": "Knockback I",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                8,
+                9,
+                10,
+                11,
+                12
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Adds Knockback Resistance when holding the AIOT",
+          "id": 15,
+          "key": [
+            "minecraft:knockback_resistance"
+          ],
+          "limit": 1,
+          "name": "Knockback Res I",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                8,
+                9,
+                10,
+                11,
+                12
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs killed by this AIOT will have a chance to drop their spawn egg",
+          "id": 16,
+          "key": [
+            "crystal_tools:capture"
+          ],
+          "limit": 1,
+          "name": "Capturing I",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                8,
+                9,
+                10,
+                11,
+                12
+              ]
+            }
+          ],
+          "value": 0.01
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the AIOT's Mining Speed",
+          "id": 17,
+          "key": [
+            "minecraft:mining_efficiency"
+          ],
+          "limit": 1,
+          "name": "Mining Speed III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                4
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                13,
+                14,
+                15,
+                16
+              ]
+            }
+          ],
+          "value": 6.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the AIOT's Attack Damage",
+          "id": 18,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 1,
+          "name": "Attack Damage III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                5
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                13,
+                14,
+                15,
+                16
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the AIOT's Attack Speed",
+          "id": 19,
+          "key": [
+            "minecraft:attack_speed"
+          ],
+          "limit": 1,
+          "name": "Attack Speed III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                6
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                13,
+                14,
+                15,
+                16
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the AIOT's Durability",
+          "id": 20,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                7
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                13,
+                14,
+                15,
+                16
+              ]
+            }
+          ],
+          "value": 200.0
+        }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Sweeping Edge III to the AIOT",
+          "enchantment": "minecraft:sweeping_edge",
+          "id": 21,
+          "level": 3,
+          "name": "Sweeping Edge III",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                13,
+                14,
+                15,
+                16
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Automatically repairs the AIOT over time",
+          "id": 22,
+          "key": [
+            "crystal_tools:auto_repair"
+          ],
+          "limit": 0,
+          "name": "Auto Repair",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                17,
+                18,
+                19,
+                20,
+                21
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Allows the AIOT to mine in a 3x3 area",
+          "id": 23,
+          "key": [
+            "crystal_tools:3x3"
+          ],
+          "limit": 1,
+          "name": "3x3 Mining",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                17,
+                18,
+                19,
+                20,
+                21
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mines all ores in a vein when pressing the vein mining key",
+          "id": 24,
+          "key": [
+            "crystal_tools:vein_miner"
+          ],
+          "limit": 0,
+          "name": "Vein Mining",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                17,
+                18,
+                19,
+                20,
+                21
+              ]
+            }
+          ],
+          "subtext": {
+            "color": "#ABABAB",
+            "text": "+1 block range per level"
+          },
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Automatically smelts the blocks that you mine",
+          "id": 25,
+          "key": [
+            "crystal_tools:auto_smelt"
+          ],
+          "limit": 1,
+          "name": "Auto Smelting",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                17,
+                18,
+                19,
+                20,
+                21
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs killed by this AIOT will have a chance to drop their spawn egg",
+          "id": 26,
+          "key": [
+            "crystal_tools:capture"
+          ],
+          "limit": 1,
+          "name": "Capturing II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                16
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                17,
+                18,
+                19,
+                20,
+                21
+              ]
+            }
+          ],
+          "value": 0.01
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "You gain 1 heart back on each attack with the AIOT",
+          "id": 27,
+          "key": [
+            "crystal_tools:lifesteal"
+          ],
+          "limit": 1,
+          "name": "Lifesteal I",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                22,
+                23,
+                24,
+                25,
+                26
+              ]
+            }
+          ],
+          "value": 2.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Adds Knockback to the AIOT",
+          "id": 28,
+          "key": [
+            "minecraft:attack_knockback"
+          ],
+          "limit": 1,
+          "name": "Knockback II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                14
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                22,
+                23,
+                24,
+                25,
+                26
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Adds Knockback Resistance when holding the AIOT",
+          "id": 29,
+          "key": [
+            "minecraft:knockback_resistance"
+          ],
+          "limit": 1,
+          "name": "Knockback Res II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                15
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                22,
+                23,
+                24,
+                25,
+                26
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not use durability",
+          "id": 30,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                10
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                22,
+                23,
+                24,
+                25,
+                26
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the AIOT's Reach Distance",
+          "id": 31,
+          "key": [
+            "minecraft:entity_interaction_range",
+            "minecraft:block_interaction_range"
+          ],
+          "limit": 1,
+          "name": "Reach II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                11
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                22,
+                23,
+                24,
+                25,
+                26
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs killed by this AIOT will have a chance to drop their head",
+          "id": 32,
+          "key": [
+            "crystal_tools:beheading"
+          ],
+          "limit": 1,
+          "name": "Beheading II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                12
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                22,
+                23,
+                24,
+                25,
+                26
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the AIOT's Mining Speed",
+          "id": 33,
+          "key": [
+            "minecraft:mining_efficiency"
+          ],
+          "limit": 1,
+          "name": "Mining Speed IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                17
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                27,
+                28,
+                29,
+                30,
+                31,
+                32
+              ]
+            }
+          ],
+          "value": 6.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the AIOT's Attack Damage",
+          "id": 34,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 1,
+          "name": "Attack Damage IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                18
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                27,
+                28,
+                29,
+                30,
+                31,
+                32
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the AIOT's Attack Speed",
+          "id": 35,
+          "key": [
+            "minecraft:attack_speed"
+          ],
+          "limit": 1,
+          "name": "Attack Speed IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                19
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                27,
+                28,
+                29,
+                30,
+                31,
+                32
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the AIOT's Durability",
+          "id": 36,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                20
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                27,
+                28,
+                29,
+                30,
+                31,
+                32
+              ]
+            }
+          ],
+          "value": 200.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "When you mine block with this AIOT, the drops will automatically go into your inventory if there is space",
+          "id": 37,
+          "key": [
+            "crystal_tools:auto_pickup"
+          ],
+          "limit": 1,
+          "name": "Auto Pickup",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                27,
+                28,
+                29,
+                30,
+                31,
+                32
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs killed by this AIOT will have a chance to drop their spawn egg",
+          "id": 38,
+          "key": [
+            "crystal_tools:capture"
+          ],
+          "limit": 1,
+          "name": "Capturing III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                26
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                27,
+                28,
+                29,
+                30,
+                31,
+                32
+              ]
+            }
+          ],
+          "value": 0.01
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Right-Click to place a torch",
+          "id": 39,
+          "key": [
+            "crystal_tools:torch"
+          ],
+          "limit": 1,
+          "name": "Torch",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                33,
+                34,
+                35,
+                36,
+                37,
+                38
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Press the mode_switch key to change the mining mode between unlocked modes (Silk Touch or Fortune). Press shift + mode_switch to change the breaking mode (3x3 or 1x1)",
+          "id": 40,
+          "key": [
+            "crystal_tools:mine_mode"
+          ],
+          "limit": 1,
+          "name": "Mode Switch",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                33,
+                34,
+                35,
+                36,
+                37,
+                38
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Looting III to the AIOT",
+          "enchantment": "minecraft:looting",
+          "id": 41,
+          "level": 3,
+          "name": "Looting III",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                33,
+                34,
+                35,
+                36,
+                37,
+                38
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not use durability",
+          "id": 42,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                30
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                33,
+                34,
+                35,
+                36,
+                37,
+                38
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the AIOT's Reach Distance",
+          "id": 43,
+          "key": [
+            "minecraft:entity_interaction_range",
+            "minecraft:block_interaction_range"
+          ],
+          "limit": 1,
+          "name": "Reach III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                31
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                33,
+                34,
+                35,
+                36,
+                37,
+                38
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs killed by this AIOT will have a chance to drop their head",
+          "id": 44,
+          "key": [
+            "crystal_tools:beheading"
+          ],
+          "limit": 1,
+          "name": "Beheading III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                32
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                33,
+                34,
+                35,
+                36,
+                37,
+                38
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the AIOT's Mining Speed",
+          "id": 45,
+          "key": [
+            "minecraft:mining_efficiency"
+          ],
+          "limit": 1,
+          "name": "Mining Speed V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                33
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                39,
+                40,
+                41,
+                42,
+                43,
+                44
+              ]
+            }
+          ],
+          "value": 6.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the AIOT's Attack Damage",
+          "id": 46,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 1,
+          "name": "Attack Damage V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                34
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                39,
+                40,
+                41,
+                42,
+                43,
+                44
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the AIOT's Attack Speed",
+          "id": 47,
+          "key": [
+            "minecraft:attack_speed"
+          ],
+          "limit": 1,
+          "name": "Attack Speed V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                35
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                39,
+                40,
+                41,
+                42,
+                43,
+                44
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the AIOT's Durability",
+          "id": 48,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                36
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                39,
+                40,
+                41,
+                42,
+                43,
+                44
+              ]
+            }
+          ],
+          "value": 200.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the AIOT's Mining Speed",
+          "id": 49,
+          "key": [
+            "minecraft:mining_efficiency"
+          ],
+          "limit": 0,
+          "name": "Infinite Speed",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                45
+              ]
+            }
+          ],
+          "value": 0.05
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the AIOT's Attack Damage",
+          "id": 50,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 0,
+          "name": "Infinite Damage",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                46
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the AIOT's Attack Speed",
+          "id": 51,
+          "key": [
+            "minecraft:attack_speed"
+          ],
+          "limit": 0,
+          "name": "Infinite Attack Speed",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                47
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the AIOT's Durability",
+          "id": 52,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 0,
+          "name": "Infinite Durability",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                48
+              ]
+            }
+          ],
+          "value": 50.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not use durability",
+          "id": 53,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 70,
+          "name": "Infinite Unbreaking",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                42
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                45,
+                46,
+                47,
+                48
+              ]
+            }
+          ],
+          "value": 0.01
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the AIOT's Reach Distance",
+          "id": 54,
+          "key": [
+            "minecraft:entity_interaction_range",
+            "minecraft:block_interaction_range"
+          ],
+          "limit": 0,
+          "name": "Infinite Reach",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                43
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                45,
+                46,
+                47,
+                48
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Fortune V to the AIOT",
+          "enchantment": "minecraft:fortune",
+          "id": 55,
+          "level": 5,
+          "name": "Fortune V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                49,
+                50,
+                51,
+                52,
+                53,
+                54,
+                9
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Looting V to the AIOT",
+          "enchantment": "minecraft:looting",
+          "id": 56,
+          "level": 5,
+          "name": "Looting V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                49,
+                50,
+                51,
+                52,
+                53,
+                54,
+                41
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  ]
+}

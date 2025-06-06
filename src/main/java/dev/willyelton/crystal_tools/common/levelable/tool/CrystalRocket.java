@@ -6,6 +6,7 @@ import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -17,14 +18,18 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.Fireworks;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class CrystalRocket extends LevelableTool {
     public CrystalRocket(Item.Properties properties) {
-        super(properties.fireResistant().repairable(CrystalToolsTags.REPAIRS_CRYSTAL), null, "crystal_rocket", -4, 0, 100);
+        super(properties
+                .repairable(CrystalToolsTags.REPAIRS_CRYSTAL)
+                .durability(100), "crystal_rocket");
     }
 
     @Override
@@ -63,8 +68,8 @@ public class CrystalRocket extends LevelableTool {
     }
 
     @Override
-    public void inventoryTick(ItemStack itemStack, Level level, Entity entity, int inventorySlot, boolean inHand) {
-        levelableInventoryTick(itemStack, level, entity, inventorySlot, inHand, CrystalToolsConfig.ROCKET_REPAIR_MODIFIER.get());
+    public void inventoryTick(ItemStack itemStack, ServerLevel level, Entity entity, EquipmentSlot slot) {
+        levelableInventoryTick(itemStack, level, entity, slot, CrystalToolsConfig.ROCKET_REPAIR_MODIFIER.get());
     }
 
     @Override
@@ -73,8 +78,8 @@ public class CrystalRocket extends LevelableTool {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag flag) {
-        tooltipComponents.add(Component.literal(String.format("Press %s while this is in your inventory to automatically use!", RegisterKeyBindingsEvent.TRIGGER_ROCKET.getKey().getDisplayName().getString())));
-        super.appendHoverText(stack, context, tooltipComponents, flag);
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltipComponents, TooltipFlag flag) {
+        tooltipComponents.accept(Component.literal(String.format("Press %s while this is in your inventory to automatically use!", RegisterKeyBindingsEvent.TRIGGER_ROCKET.getKey().getDisplayName().getString())));
+        super.appendHoverText(stack, context, display, tooltipComponents, flag);
     }
 }

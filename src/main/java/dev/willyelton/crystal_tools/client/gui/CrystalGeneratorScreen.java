@@ -3,18 +3,14 @@ package dev.willyelton.crystal_tools.client.gui;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.client.gui.component.EnergyBarWidget;
-import dev.willyelton.crystal_tools.client.gui.component.BlockEntityUpgradeButton;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalGeneratorContainerMenu;
-import dev.willyelton.crystal_tools.utils.IntegerUtils;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
-// TODO: Superclass for this and furnace could be useful. Drawing fire + animations + upgrade button + skill point bar, abstract the "bar" component?
-public class CrystalGeneratorScreen extends AbstractContainerScreen<CrystalGeneratorContainerMenu> {
+public class CrystalGeneratorScreen extends BaseMenuUpgradeScreen<CrystalGeneratorContainerMenu> {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID ,"textures/gui/crystal_generator.png");
 
     private static final int ENERGY_X = 8;
@@ -30,25 +26,16 @@ public class CrystalGeneratorScreen extends AbstractContainerScreen<CrystalGener
     private static final int FIRE_TEXTURE_OFF_X = 190;
     private static final int FIRE_TEXTURE_Y = 0;
 
-    private static final int UPGRADE_BUTTON_X = 155;
-    private static final int UPGRADE_BUTTON_Y = 6;
-    private static final int UPGRADE_BUTTON_WIDTH = 12;
-    private static final int UPGRADE_BUTTON_HEIGHT = 12;
-
-    private final float expLabelX;
-
     public CrystalGeneratorScreen(CrystalGeneratorContainerMenu container, Inventory inventory, Component title) {
-        super(container, inventory, title);
+        super(container, inventory, title, ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "crystal_generator"));
 
         this.imageHeight = 191;
         this.inventoryLabelY = this.imageHeight - 94;
-        this.expLabelX = this.inventoryLabelX + 112;
     }
 
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
         guiGraphics.blit(RenderType::guiTextured, TEXTURE, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
         this.renderFire(guiGraphics);
     }
@@ -62,12 +49,6 @@ public class CrystalGeneratorScreen extends AbstractContainerScreen<CrystalGener
     @Override
     protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         super.renderLabels(guiGraphics, mouseX, mouseY);
-        int xOffset = (IntegerUtils.getDigits(this.menu.getExp()) - 1) * 6 + (IntegerUtils.getDigits(this.menu.getExpCap()) - 2) * 6;
-        guiGraphics.drawString(this.font,
-                Component.literal(String.format("Exp: %d/%d", this.menu.getExp(), this.menu.getExpCap())),
-                (int) (this.expLabelX - xOffset),
-                this.inventoryLabelY,
-                4210752, false);
 
         guiGraphics.drawString(this.font,
                 Component.literal(String.format("Generating %s FE/Tick", this.menu.getCurrentGeneration())),
@@ -79,18 +60,6 @@ public class CrystalGeneratorScreen extends AbstractContainerScreen<CrystalGener
     @Override
     protected void init() {
         super.init();
-        this.addRenderableWidget(
-                new BlockEntityUpgradeButton(UPGRADE_BUTTON_X + this.leftPos,
-                        UPGRADE_BUTTON_Y + this.topPos,
-                        UPGRADE_BUTTON_WIDTH,
-                        UPGRADE_BUTTON_HEIGHT,
-                        Component.literal("+"),
-                        pButton -> ModGUIs.openScreen(new BlockEntityUpgradeScreen(this.menu, this.menu.getPlayer(), this)),
-                        (button, guiGraphics, mouseX, mouseY) -> {
-                            Component textComponent = Component.literal(this.menu.getSkillPoints() + " Point(s) Available");
-                            guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalGeneratorScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
-                        },
-                        false));
 
         this.addRenderableWidget(
                 new EnergyBarWidget(this.leftPos + ENERGY_X, this.topPos + ENERGY_Y, ENERGY_WIDTH, ENERGY_HEIGHT, Component.empty(), this.font, this.menu)

@@ -61,9 +61,9 @@
 - https://jademc.readthedocs.io/en/latest/plugins20/getting-started/
 - Look at mekanism vein mining, might want to call playerBreak.
 - Fix xp gaining points being controlled by the client (hard because adding skill points is different for blocks and items)
-- Remove repair in hand, just store the game time instead of writing a counter
 - Furnace should auto split on insert
 - Exclude hoppers from auto outputting (maybe create a tag?)
+- GLM for auto smelting
 
 ## Bugs
 - Furnace skill screen doesn't fully refresh when open when point is gained
@@ -88,3 +88,30 @@
 - There needs to be multiple types of node
   - Add to data component (the normal way)
   - Toggle boolean (toggles?, include everything in json (like shift + x does y...))
+
+## 1.22 Skill Json Redesign:
+Most things should be handled by attributes. Attributes also have their own codecs, so that could just be thrown in (maybe not because we want to add to things)
+
+New types of nodes:
+1. boolean datacomponent
+2. add to float datacomponent
+3. set float datacomponent (would this be used?)
+4. attribute modifier (should just work out as a modifier because we can add multiple that just add +1 to speed or armor or whatever). Can probably use their codecs
+5. enchantment (probably just datacomponents, either still special-case fortune / silk touch or make a field for not also this?)
+6. What to do about complex datacomponents (food)?
+7. Mob Effects (can do different things depending on the item, sword adds to mob hit, shield to mob blocked, apple to what it eats, bow to target ...)
+
+Could also consider adding the ability to require x points in a node before it is active (creative flight)
+Also want to consider the idea of either a second tree, or just another type of node that is more expensive / new point type (quests?)
+
+Before full release
+- Enchantment config option is broken
+- remove as much as possible from the tool classes
+- All checks should be registry or datacomponent checks, not instanceof checks
+- Upgrading backpack in curios slot
+
+Eventually
+- Better way to get tools on server (could technically change positions)
+- Datapack validation (make sure all requirements point to valid nodes / items)...
+- try out some vanilla skill trees
+- Resizing the screen after you spend a point resets it?

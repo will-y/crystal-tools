@@ -13,6 +13,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
@@ -28,6 +29,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 
+// TODO: why doesn't this extend trident?
 public class CrystalTridentEntity extends AbstractArrow {
     public static final String CRYSTAL_TOOLS_TRIDENT_LIGHTNING_TAG = "crystal_tools.trident.lightning";
     private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(CrystalTridentEntity.class, EntityDataSerializers.BYTE);
@@ -44,7 +46,7 @@ public class CrystalTridentEntity extends AbstractArrow {
     public CrystalTridentEntity(Level level, LivingEntity shooter, ItemStack stack) {
         super(Registration.CRYSTAL_TRIDENT_ENTITY.get(), shooter, level, stack, null);
         this.tridentStack = stack;
-        this.entityData.set(ID_LOYALTY, stack.getOrDefault(DataComponents.LOYALTY, 0).byteValue());
+        this.entityData.set(ID_LOYALTY, this.getLoyaltyFromItem(stack));
     }
 
     @Override
@@ -172,11 +174,11 @@ public class CrystalTridentEntity extends AbstractArrow {
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag pCompound) {
-        super.readAdditionalSaveData(pCompound);
+    public void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
 
-        this.dealtDamage = pCompound.getBoolean("DealtDamage");
-        this.entityData.set(ID_LOYALTY, tridentStack.getOrDefault(DataComponents.LOYALTY, 0).byteValue());
+        this.dealtDamage = compound.getBoolean("DealtDamage").orElse(false);
+        this.entityData.set(ID_LOYALTY, this.getLoyaltyFromItem(this.getPickupItemStackOrigin()));
     }
 
     @Override
@@ -225,7 +227,7 @@ public class CrystalTridentEntity extends AbstractArrow {
                 if (lightningbolt != null) {
                     int damage = 5 + tridentStack.getOrDefault(DataComponents.CHANNELING, 0);
                     lightningbolt.setDamage(damage);
-                    lightningbolt.moveTo(Vec3.atBottomCenterOf(blockPos));
+                    lightningbolt.snapTo(Vec3.atBottomCenterOf(blockPos));
                     lightningbolt.setCause(this.getOwner() instanceof ServerPlayer ? (ServerPlayer) this.getOwner() : null);
                     lightningbolt.addTag(CRYSTAL_TOOLS_TRIDENT_LIGHTNING_TAG);
                     this.level().addFreshEntity(lightningbolt);
@@ -236,5 +238,11 @@ public class CrystalTridentEntity extends AbstractArrow {
         }
 
         return false;
+    }
+
+    private byte getLoyaltyFromItem(ItemStack stack) {
+        return this.level() instanceof ServerLevel serverlevel
+                ? (byte) Mth.clamp(EnchantmentHelper.getTridentReturnToOwnerAcceleration(serverlevel, stack, this), 0, 127)
+                : 0;
     }
 }

@@ -1,19 +1,29 @@
 package dev.willyelton.crystal_tools.common.levelable.skill.requirement;
 
-import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillDataNode;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
-import dev.willyelton.crystal_tools.utils.CodecUtils;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
 
 public class NodeSkillDataRequirement implements SkillDataRequirement, SkillDataNodeRequirement {
-    List<Integer> requiredNodes;
-    boolean inverse;
-    List<Integer> unless;
+    public static final MapCodec<NodeSkillDataRequirement> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            Codec.INT.listOf().fieldOf("node").forGetter(NodeSkillDataRequirement::getRequiredNodes)
+    ).apply(instance, NodeSkillDataRequirement::new));
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, NodeSkillDataRequirement> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.INT.apply(ByteBufCodecs.list()), NodeSkillDataRequirement::getRequiredNodes,
+            NodeSkillDataRequirement::new);
+
+    private final List<Integer> requiredNodes;
+    private final boolean inverse;
+
+    protected final List<Integer> unless;
 
     public NodeSkillDataRequirement(List<Integer> requiredNodes) {
         this(requiredNodes, false);
@@ -36,21 +46,32 @@ public class NodeSkillDataRequirement implements SkillDataRequirement, SkillData
     }
 
     @Override
-    public boolean canLevel(SkillData data, Player player) {
-        boolean toReturn = true;
-        List<SkillDataNode> nodes = data.getAllNodes();
-        for (SkillDataNode node : nodes) {
-            if (requiredNodes.contains(node.getId())) {
-                if ((!inverse && node.getPoints() == 0) || (inverse && node.getPoints() > 0)) {
-                    toReturn = false;
+    public boolean canLevel(SkillPoints points, Player player) {
+        if (unlessActive(points)) return true;
+
+        for (Integer node : requiredNodes) {
+            int pointsInNode = points.getPoints(node);
+
+            if ((!inverse && pointsInNode == 0) || (inverse && pointsInNode > 0)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean unlessActive(SkillPoints points) {
+        if (inverse) {
+            for (Integer node : unless) {
+                if (points.getPoints(node) == 0) {
+                    return false;
                 }
             }
 
-            if (inverse && unless.contains(node.getId()) & node.getPoints() > 0) {
-                return true;
-            }
+            return true;
         }
-        return toReturn;
+
+        return false;
     }
 
     @Override
@@ -68,11 +89,7 @@ public class NodeSkillDataRequirement implements SkillDataRequirement, SkillData
     }
 
     @Override
-    public JsonElement toJson() {
-        return CodecUtils.encodeOrThrow(CODEC, this);
+    public MapCodec<? extends SkillDataRequirement> codec() {
+        return MAP_CODEC;
     }
-
-    public static final Codec<NodeSkillDataRequirement> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Codec.INT.listOf().fieldOf("node").forGetter(NodeSkillDataRequirement::getRequiredNodes)
-    ).apply(instance, NodeSkillDataRequirement::new));
 }

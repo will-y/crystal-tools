@@ -1,6 +1,5 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
-import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -16,6 +15,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -28,7 +28,7 @@ public class CrystalFishingRod extends LevelableTool {
     public static final String CRYSTAL_TOOLS_FISHING_MAIN_TAG = "crystal_tools.fishing.main";
     public static final String CRYSTAL_TOOLS_FISHING_OFF_TAG = "crystal_tools.fishing.off";
     public CrystalFishingRod(Item.Properties properties) {
-        super(properties, null, "fishing_rod", 1, -2.8F);
+        super(properties, "fishing_rod");
     }
 
     @Override
@@ -49,9 +49,9 @@ public class CrystalFishingRod extends LevelableTool {
             player.gameEvent(GameEvent.ITEM_INTERACT_FINISH);
         } else {
             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.FISHING_BOBBER_THROW, SoundSource.NEUTRAL, 0.5F, getRandomPitch(level));
-            if (!level.isClientSide) {
-                int fishingSpeedBonus = stack.getOrDefault(DataComponents.LURE, 0);
-                int luckBonus = stack.getOrDefault(DataComponents.LUCK_OF_THE_SEA, 0);
+            if (level instanceof ServerLevel serverlevel) {
+                int fishingSpeedBonus = (int)(EnchantmentHelper.getFishingTimeReduction(serverlevel, stack, player) * 20.0F);
+                int luckBonus = EnchantmentHelper.getFishingLuckBonus(serverlevel, stack, player);
                 FishingHook fishingHook = new FishingHook(player, level, fishingSpeedBonus, luckBonus);
                 if (hand == InteractionHand.MAIN_HAND) {
                     fishingHook.addTag(CRYSTAL_TOOLS_FISHING_MAIN_TAG);

@@ -21,8 +21,6 @@ public abstract class CrystalToolsButton extends Button {
         Minecraft minecraft = Minecraft.getInstance();
         Font font = minecraft.font;
         int textureY = this.getTextureY(this.isHoveredOrFocused());
-        RenderSystem.enableBlend();
-        RenderSystem.enableDepthTest();
         this.blitButton(guiGraphics, textureY);
         int j = getFGColor();
         this.drawButtonText(guiGraphics, font, j);

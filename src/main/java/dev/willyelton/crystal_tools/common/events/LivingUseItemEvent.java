@@ -11,8 +11,8 @@ import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
 public class LivingUseItemEvent {
     @SubscribeEvent
     public static void livingUseItem(LivingEntityUseItemEvent.Start event) {
-        if (event.getEntity() instanceof Player && event.getItem().getItem() instanceof BowLevelableItem bowItem) {
-            event.setDuration(event.getDuration() - (20 - (int) bowItem.getChargeTime(event.getItem())));
+        if (event.getEntity() instanceof Player && event.getItem().getItem() instanceof BowLevelableItem) {
+            event.setDuration(event.getDuration() - (20 - (int) BowLevelableItem.getChargeTime(event.getItem())));
         }
     }
 }

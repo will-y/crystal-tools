@@ -33,9 +33,9 @@ public class ProjectileHitEvent {
                         if (event.getProjectile() instanceof AbstractArrow arrow) {
                             float f = (float) arrow.getDeltaMovement().length();
                             // This is how they get damage, ignore crits for now
-                            int damage = Mth.ceil(Mth.clamp((double) f * arrow.getBaseDamage(), 0.0D, 2.147483647E9D));
+                            int damage = Mth.ceil(Mth.clamp((double) f * 2, 0.0D, 2.147483647E9D));
 
-                            LevelableItem item = (LevelableItem) Registration.CRYSTAL_BOW.get();
+                            LevelableItem item = Registration.CRYSTAL_BOW.get();
                             item.addExp(heldItem, player.level(), player.getOnPos(), player, (int) (damage * CrystalToolsConfig.BOW_EXPERIENCE_BOOST.get()));
                         }
                     }

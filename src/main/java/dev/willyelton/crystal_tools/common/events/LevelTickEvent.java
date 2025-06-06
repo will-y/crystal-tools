@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.ThrownTrident;
 import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -38,7 +39,7 @@ public class LevelTickEvent {
 
                 if (projectile != null && target != null && !projectile.isRemoved()
                         && !target.isRemoved() && projectile instanceof Projectile projectileEntity &&
-                        !(projectileEntity instanceof AbstractArrow arrow && arrow.isInGround())) {
+                        !(projectileEntity instanceof AbstractArrow arrow && arrow.isInGround()) && !(projectileEntity instanceof ThrownTrident trident && trident.dealtDamage)) {
                     double speed = Math.max(projectileData.initialSpeed, 1);
                     projectileEntity.lookAt(EntityAnchorArgument.Anchor.EYES, target.position());
                     projectileEntity.setNoGravity(true);

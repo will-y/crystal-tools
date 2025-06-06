@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity.data;
 
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import net.minecraft.world.inventory.ContainerData;
 
 public interface ILevelableContainerData extends ContainerData {
@@ -13,5 +14,5 @@ public interface ILevelableContainerData extends ContainerData {
 
     int getExpCap();
 
-    int[] getPoints();
+    SkillPoints getPoints();
 }

@@ -1,0 +1,1216 @@
+{
+  "equipmentSlot": "mainhand",
+  "tiers": [
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Trident's Attack Damage",
+          "id": 0,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 1,
+          "name": "Attack Damage I",
+          "requirements": [],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Trident's projectile damage",
+          "id": 1,
+          "key": [
+            "crystal_tools:projectile_damage"
+          ],
+          "limit": 1,
+          "name": "Projectile Damage I",
+          "requirements": [],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Trident's Durability",
+          "id": 2,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability I",
+          "requirements": [],
+          "value": 200.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not use durability",
+          "id": 3,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking I",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                0,
+                1,
+                2
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Trident's projectile speed",
+          "id": 4,
+          "key": [
+            "crystal_tools:projectile_speed"
+          ],
+          "limit": 1,
+          "name": "Projectile Speed I",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                0,
+                1,
+                2
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Trident's Reach Distance",
+          "id": 5,
+          "key": [
+            "minecraft:entity_interaction_range",
+            "minecraft:block_interaction_range"
+          ],
+          "limit": 1,
+          "name": "Reach I",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                0,
+                1,
+                2
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs killed by this Trident will have a chance to drop their head",
+          "id": 6,
+          "key": [
+            "crystal_tools:beheading"
+          ],
+          "limit": 1,
+          "name": "Beheading I",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                0,
+                1,
+                2
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Trident's Riptide Level",
+          "id": 7,
+          "key": [
+            "crystal_tools:riptide"
+          ],
+          "limit": 1,
+          "name": "Riptide I",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                3,
+                4,
+                5,
+                6
+              ]
+            },
+            {
+              "type": "crystal_tools:not_node_requirement",
+              "not_node": [
+                8
+              ],
+              "unless": [
+                32
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Loyalty I to the Trident",
+          "enchantment": "minecraft:loyalty",
+          "id": 8,
+          "level": 1,
+          "name": "Loyalty I",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                3,
+                4,
+                5,
+                6
+              ]
+            },
+            {
+              "type": "crystal_tools:not_node_requirement",
+              "not_node": [
+                7
+              ],
+              "unless": [
+                32
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds Channeling to the Trident. Does not have to be during a thunderstorm. The more points added, the more damage the lightning does. Lightning created by this will not hurt you.",
+          "id": 9,
+          "key": [
+            "crystal_tools:channeling"
+          ],
+          "limit": 0,
+          "name": "Channeling",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                3,
+                4,
+                5,
+                6
+              ]
+            },
+            {
+              "type": "crystal_tools:not_node_requirement",
+              "not_node": [
+                7
+              ],
+              "unless": [
+                32
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs killed by this Trident will have a chance to drop their spawn egg",
+          "id": 10,
+          "key": [
+            "crystal_tools:capture"
+          ],
+          "limit": 1,
+          "name": "Capturing I",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                3,
+                4,
+                5,
+                6
+              ]
+            }
+          ],
+          "value": 0.01
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Trident's Attack Damage",
+          "id": 11,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 1,
+          "name": "Attack Damage II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                0
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                7,
+                8,
+                9,
+                10
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Trident's projectile damage",
+          "id": 12,
+          "key": [
+            "crystal_tools:projectile_damage"
+          ],
+          "limit": 1,
+          "name": "Projectile Damage II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                1
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                7,
+                8,
+                9,
+                10
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Trident's Durability",
+          "id": 13,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                2
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                7,
+                8,
+                9,
+                10
+              ]
+            }
+          ],
+          "value": 200.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not use durability",
+          "id": 14,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                3
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                11,
+                12,
+                13
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Trident's projectile speed",
+          "id": 15,
+          "key": [
+            "crystal_tools:projectile_speed"
+          ],
+          "limit": 1,
+          "name": "Projectile Speed II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                4
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                11,
+                12,
+                13
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Trident's Reach Distance",
+          "id": 16,
+          "key": [
+            "minecraft:entity_interaction_range",
+            "minecraft:block_interaction_range"
+          ],
+          "limit": 1,
+          "name": "Reach II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                5
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                11,
+                12,
+                13
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs killed by this Trident will have a chance to drop their head",
+          "id": 17,
+          "key": [
+            "crystal_tools:beheading"
+          ],
+          "limit": 1,
+          "name": "Beheading II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                6
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                11,
+                12,
+                13
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Trident's Riptide Level",
+          "id": 18,
+          "key": [
+            "crystal_tools:riptide"
+          ],
+          "limit": 1,
+          "name": "Riptide II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                7
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                14,
+                15,
+                16,
+                17
+              ]
+            },
+            {
+              "type": "crystal_tools:not_node_requirement",
+              "not_node": [
+                8
+              ],
+              "unless": [
+                32
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Loyalty II to the Trident",
+          "enchantment": "minecraft:loyalty",
+          "id": 19,
+          "level": 2,
+          "name": "Loyalty II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                8
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                14,
+                15,
+                16,
+                17
+              ]
+            },
+            {
+              "type": "crystal_tools:not_node_requirement",
+              "not_node": [
+                7
+              ],
+              "unless": [
+                32
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs killed by this Trident will have a chance to drop their spawn egg",
+          "id": 20,
+          "key": [
+            "crystal_tools:capture"
+          ],
+          "limit": 1,
+          "name": "Capturing I",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                10
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                14,
+                15,
+                16,
+                17
+              ]
+            }
+          ],
+          "value": 0.01
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Automatically repairs the Trident over time",
+          "id": 21,
+          "key": [
+            "crystal_tools:auto_repair"
+          ],
+          "limit": 0,
+          "name": "Auto Repair",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                14,
+                15,
+                16,
+                17
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Trident's Attack Damage",
+          "id": 22,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 1,
+          "name": "Attack Damage III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                11
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                18,
+                19,
+                20,
+                21
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Trident's projectile damage",
+          "id": 23,
+          "key": [
+            "crystal_tools:projectile_damage"
+          ],
+          "limit": 1,
+          "name": "Projectile Damage III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                12
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                18,
+                19,
+                20,
+                21
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Trident's Durability",
+          "id": 24,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                13
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                18,
+                19,
+                20,
+                21
+              ]
+            }
+          ],
+          "value": 200.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not use durability",
+          "id": 25,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                14
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                22,
+                23,
+                24
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Trident's projectile speed",
+          "id": 26,
+          "key": [
+            "crystal_tools:projectile_speed"
+          ],
+          "limit": 1,
+          "name": "Projectile Speed III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                15
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                22,
+                23,
+                24
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Trident's Reach Distance",
+          "id": 27,
+          "key": [
+            "minecraft:entity_interaction_range",
+            "minecraft:block_interaction_range"
+          ],
+          "limit": 1,
+          "name": "Reach III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                16
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                22,
+                23,
+                24
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs killed by this Trident will have a chance to drop their head",
+          "id": 28,
+          "key": [
+            "crystal_tools:beheading"
+          ],
+          "limit": 1,
+          "name": "Beheading III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                17
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                22,
+                23,
+                24
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Trident's Riptide Level",
+          "id": 29,
+          "key": [
+            "crystal_tools:riptide"
+          ],
+          "limit": 1,
+          "name": "Riptide III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                18
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                25,
+                26,
+                27,
+                28
+              ]
+            },
+            {
+              "type": "crystal_tools:not_node_requirement",
+              "not_node": [
+                8
+              ],
+              "unless": [
+                32
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Loyalty III to the Trident",
+          "enchantment": "minecraft:loyalty",
+          "id": 30,
+          "level": 3,
+          "name": "Loyalty III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                19
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                25,
+                26,
+                27,
+                28
+              ]
+            },
+            {
+              "type": "crystal_tools:not_node_requirement",
+              "not_node": [
+                7
+              ],
+              "unless": [
+                32
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Mobs killed by this Trident will have a chance to drop their spawn egg",
+          "id": 31,
+          "key": [
+            "crystal_tools:capture"
+          ],
+          "limit": 1,
+          "name": "Capturing I",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                20
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                25,
+                26,
+                27,
+                28
+              ]
+            }
+          ],
+          "value": 0.01
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Allows you to toggle Riptide off",
+          "id": 32,
+          "key": [
+            "crystal_tools:mine_mode"
+          ],
+          "limit": 1,
+          "name": "Riptide Toggle",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                25,
+                26,
+                27,
+                28
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Trident's Attack Damage",
+          "id": 33,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 0,
+          "name": "Infinite Damage",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                22
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                29,
+                30,
+                31,
+                32
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Trident's projectile damage",
+          "id": 34,
+          "key": [
+            "crystal_tools:projectile_damage"
+          ],
+          "limit": 0,
+          "name": "Infinite Projectile Damage",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                23
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                29,
+                30,
+                31,
+                32
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Trident's Durability",
+          "id": 35,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 0,
+          "name": "Infinite Durability",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                24
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                29,
+                30,
+                31,
+                32
+              ]
+            }
+          ],
+          "value": 50.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not use durability",
+          "id": 36,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 70,
+          "name": "Infinite Unbreaking",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                25
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                29,
+                30,
+                31,
+                32
+              ]
+            }
+          ],
+          "value": 0.01
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Trident's projectile speed",
+          "id": 37,
+          "key": [
+            "crystal_tools:projectile_speed"
+          ],
+          "limit": 0,
+          "name": "Infinite Projectile Speed",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                26
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                29,
+                30,
+                31,
+                32
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Trident's Reach Distance",
+          "id": 38,
+          "key": [
+            "minecraft:entity_interaction_range",
+            "minecraft:block_interaction_range"
+          ],
+          "limit": 0,
+          "name": "Infinite Reach",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                27
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                29,
+                30,
+                31,
+                32
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Trident's Riptide Level",
+          "id": 39,
+          "key": [
+            "crystal_tools:riptide"
+          ],
+          "limit": 0,
+          "name": "Infinite Riptide",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": []
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                30,
+                31,
+                32
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Allows you to Riptide even when it isn't raining",
+          "id": 40,
+          "key": [
+            "crystal_tools:always_riptide"
+          ],
+          "limit": 1,
+          "name": "Always Riptide",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                39
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "The Trident instantly comes back to you",
+          "id": 41,
+          "key": [
+            "crystal_tools:instant_loyalty"
+          ],
+          "limit": 1,
+          "name": "Instant Loyalty",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                39
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ]
+  ]
+}

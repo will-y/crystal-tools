@@ -20,6 +20,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
@@ -56,6 +57,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.FORTUNE;
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.MINING_SPEED;
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.REDSTONE_CONTROL;
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.SILK_TOUCH;
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.TRASH_FILTER;
 
 public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements MenuProvider, AutoOutputable, ChunkLoader {
     public static final int DATA_SIZE = 14;
@@ -163,57 +170,57 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         ContainerHelper.loadAllItems(tag, this.storedItems, registries);
 
         if (tag.contains("FilterInventory")) {
-            ContainerHelper.loadAllItems(tag.getCompound("FilterInventory"), this.filterItems, registries);
+            ContainerHelper.loadAllItems(tag.getCompound("FilterInventory").orElse(new CompoundTag()), this.filterItems, registries);
         }
-        this.filterRows = tag.getInt("FilterRows");
-        this.whitelist = tag.getBoolean("Whitelist");
+        this.filterRows = tag.getInt("FilterRows").orElse(0);
+        this.whitelist = tag.getBoolean("Whitelist").orElse(false);
 
         if (tag.contains("MiningAt")) {
-            this.miningAt = BlockPos.of(tag.getLong("MiningAt"));
+            this.miningAt = BlockPos.of(tag.getLong("MiningAt").orElse(0L));
         }
-        this.currentProgress = tag.getFloat("CurrentProgress");
+        this.currentProgress = tag.getFloat("CurrentProgress").orElse(0F);
         if (tag.contains("WaitingStacks")) {
-            this.waitingStacks = NBTUtils.getItemStackArray(tag.getCompound("WaitingStacks"), registries);
+            this.waitingStacks = NBTUtils.getItemStackArray(tag.getCompound("WaitingStacks").orElse(new CompoundTag()), registries);
         } else {
             this.waitingStacks = new ArrayList<>();
         }
-        this.finished = tag.getBoolean("Finished");
+        this.finished = tag.getBoolean("Finished").orElse(false);
 
-        this.useDirt = tag.getBoolean("UseDirt");
-        this.silkTouchEnabled = tag.getBoolean("SilkTouchEnabled");
-        this.fortuneEnabled = tag.getBoolean("FortuneEnabled");
-        this.autoOutputEnabled = tag.getBoolean("AutoOutputEnabled");
+        this.useDirt = tag.getBoolean("UseDirt").orElse(false);
+        this.silkTouchEnabled = tag.getBoolean("SilkTouchEnabled").orElse(false);
+        this.fortuneEnabled = tag.getBoolean("FortuneEnabled").orElse(false);
+        this.autoOutputEnabled = tag.getBoolean("AutoOutputEnabled").orElse(false);
         this.autoOutputAction.setDisabled(!autoOutputEnabled);
 
-        this.minX = tag.getInt("MinX");
-        this.maxX = tag.getInt("MaxX");
-        this.minZ = tag.getInt("MinZ");
-        this.maxZ = tag.getInt("MaxZ");
-        this.minY = tag.getInt("MinY");
-        this.maxY = tag.getInt("MaxY");
+        this.minX = tag.getInt("MinX").orElse(0);
+        this.maxX = tag.getInt("MaxX").orElse(0);
+        this.minZ = tag.getInt("MinZ").orElse(0);
+        this.maxZ = tag.getInt("MaxZ").orElse(0);
+        this.minY = tag.getInt("MinY").orElse(0);
+        this.maxY = tag.getInt("MaxY").orElse(0);
 
-        this.centerX = tag.getFloat("CenterX");
-        this.centerY = tag.getFloat("CenterY");
-        this.centerZ = tag.getFloat("CenterZ");
+        this.centerX = tag.getFloat("CenterX").orElse(0F);
+        this.centerY = tag.getFloat("CenterY").orElse(0F);
+        this.centerZ = tag.getFloat("CenterZ").orElse(0F);
 
-        this.speedUpgrade = tag.getFloat("SpeedUpgrade");
-        this.redstoneControl = tag.getBoolean("RedstoneControl");
-        this.fortuneLevel = tag.getInt("FortuneLevel");
-        this.silkTouch = tag.getBoolean("SilkTouch");
-        this.extraEnergyCost = tag.getInt("ExtraEnergyCost");
+        this.speedUpgrade = tag.getFloat("SpeedUpgrade").orElse(0F);
+        this.redstoneControl = tag.getBoolean("RedstoneControl").orElse(false);
+        this.fortuneLevel = tag.getInt("FortuneLevel").orElse(0);
+        this.silkTouch = tag.getBoolean("SilkTouch").orElse(false);
+        this.extraEnergyCost = tag.getInt("ExtraEnergyCost").orElse(0);
 
-        int energy = tag.getInt("Energy");
+        int energy = tag.getInt("Energy").orElse(0);
         energyStorage = new CrystalEnergyStorage(10000, getEnergyCost() * 2, 0, energy);
 
         if (tag.contains("StabilizerPositions")) {
-            this.stabilizerPositions = Arrays.stream(tag.getLongArray("StabilizerPositions")).mapToObj(BlockPos::of).toList();
+            this.stabilizerPositions = Arrays.stream(tag.getLongArray("StabilizerPositions").orElse(new long[0])).mapToObj(BlockPos::of).toList();
         }
 
         createAABB();
     }
 
     @Override
-    protected void applyImplicitComponents(DataComponentInput componentInput) {
+    protected void applyImplicitComponents(DataComponentGetter componentInput) {
         super.applyImplicitComponents(componentInput);
 
         ItemContainerContents contents = componentInput.get(DataComponents.CONTAINER);
@@ -221,7 +228,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
             contents.copyInto(this.storedItems);
         }
 
-        ItemContainerContents filterContents = componentInput.get(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_FILTER);
+        ItemContainerContents filterContents = componentInput.get(dev.willyelton.crystal_tools.common.components.DataComponents.FILTER_INVENTORY);
         if (filterContents != null) {
             filterContents.copyInto(this.filterItems);
         }
@@ -274,7 +281,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         ContainerHelper.saveAllItems(tag, this.storedItems, registries);
 
         tag.put("FilterInventory", new CompoundTag());
-        ContainerHelper.saveAllItems(tag.getCompound("FilterInventory"), this.filterItems, registries);
+        ContainerHelper.saveAllItems(tag.getCompound("FilterInventory").orElse(new CompoundTag()), this.filterItems, registries);
         tag.putInt("FilterRows", this.filterRows);
         tag.putBoolean("Whitelist", this.whitelist);
 
@@ -284,7 +291,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         tag.putFloat("CurrentProgress", this.currentProgress);
         if (!this.waitingStacks.isEmpty()) {
             tag.put("WaitingStacks", new CompoundTag());
-            NBTUtils.storeItemStackArray(tag.getCompound("WaitingStacks"), this.waitingStacks, registries);
+            NBTUtils.storeItemStackArray(tag.getCompound("WaitingStacks").orElse(new CompoundTag()), this.waitingStacks, registries);
         }
         tag.putBoolean("Finished", this.finished);
 
@@ -325,7 +332,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         components.set(DataComponents.CONTAINER, contents);
 
         ItemContainerContents filterContents = ItemContainerContents.fromItems(this.filterItems);
-        components.set(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_FILTER, filterContents);
+        components.set(dev.willyelton.crystal_tools.common.components.DataComponents.FILTER_INVENTORY, filterContents);
 
         QuarryData quarryData = new QuarryData(miningAt == null ? BlockPos.ZERO : miningAt, currentProgress, miningState, finished, waitingStacks, energyStorage.getEnergyStored(), whitelist);
         components.set(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_DATA, quarryData);
@@ -347,28 +354,26 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
     @Override
     protected void addToExtraData(String key, float value) {
-        switch (key) {
-            case "quarry_speed" -> {
-                this.speedUpgrade += value;
-                this.extraEnergyCost += Math.max(1, (int) (CrystalToolsConfig.QUARRY_SPEED_COST_INCREASE.get() * value));
-                updateEnergyStorage();
-            }
-            case "redstone_control" -> this.redstoneControl = true;
-            case "fortune" -> {
-                this.fortuneLevel += (int) value;
-                this.fortuneEnabled = !silkTouch || !silkTouchEnabled;
-                this.enchantTempItems(level);
-                this.extraEnergyCost += CrystalToolsConfig.QUARRY_FORTUNE_COST_INCREASE.get();
-                updateEnergyStorage();
-            }
-            case "silk_touch" -> {
-                this.silkTouch = true;
-                this.silkTouchEnabled = fortuneLevel == 0 || !fortuneEnabled;
-                this.enchantTempItems(level);
-                this.extraEnergyCost += CrystalToolsConfig.QUARRY_SILK_TOUCH_COST_INCREASE.get();
-                updateEnergyStorage();
-            }
-            case "filter_capacity" -> this.filterRows += (int) value;
+        if (MINING_SPEED.toString().equals(key)) {
+            this.speedUpgrade += value;
+            this.extraEnergyCost += Math.max(1, (int) (CrystalToolsConfig.QUARRY_SPEED_COST_INCREASE.get() * value));
+            updateEnergyStorage();
+        } else if (REDSTONE_CONTROL.toString().equals(key)) {
+            this.redstoneControl = true;
+        } else if (FORTUNE.toString().equals(key)) {
+            this.fortuneLevel += (int) value;
+            this.fortuneEnabled = !silkTouch || !silkTouchEnabled;
+            this.enchantTempItems(level);
+            this.extraEnergyCost += CrystalToolsConfig.QUARRY_FORTUNE_COST_INCREASE.get();
+            updateEnergyStorage();
+        } else if (SILK_TOUCH.toString().equals(key)) {
+            this.silkTouch = true;
+            this.silkTouchEnabled = fortuneLevel == 0 || !fortuneEnabled;
+            this.enchantTempItems(level);
+            this.extraEnergyCost += CrystalToolsConfig.QUARRY_SILK_TOUCH_COST_INCREASE.get();
+            updateEnergyStorage();
+        } else if (TRASH_FILTER.toString().equals(key)) {
+            this.filterRows += (int) value;
         }
     }
 

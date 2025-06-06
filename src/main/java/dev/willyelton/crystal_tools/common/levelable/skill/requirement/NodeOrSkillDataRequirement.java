@@ -1,32 +1,41 @@
 package dev.willyelton.crystal_tools.common.levelable.skill.requirement;
 
-import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillDataNode;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
-import dev.willyelton.crystal_tools.utils.CodecUtils;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
 
 public class NodeOrSkillDataRequirement implements SkillDataRequirement, SkillDataNodeRequirement {
-    List<Integer>nodes;
+    public static final MapCodec<NodeOrSkillDataRequirement> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+            Codec.INT.listOf().fieldOf("or_node").forGetter(NodeOrSkillDataRequirement::getRequiredNodes)
+    ).apply(instance, NodeOrSkillDataRequirement::new));
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, NodeOrSkillDataRequirement> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.INT.apply(ByteBufCodecs.list()), NodeOrSkillDataRequirement::getRequiredNodes,
+            NodeOrSkillDataRequirement::new);
+
+    private final List<Integer> nodes;
 
     public NodeOrSkillDataRequirement(List<Integer> nodes) {
         this.nodes = nodes;
     }
 
     @Override
-    public boolean canLevel(SkillData data, Player player) {
-        List<SkillDataNode> nodes = data.getAllNodes();
-        for (SkillDataNode node : nodes) {
-            if (this.nodes.contains(node.getId())) {
-                if (node.getPoints() > 0) {
-                    return true;
-                }
+    public boolean canLevel(SkillPoints points, Player player) {
+        for (Integer requiredNode : nodes) {
+            int pointsInNode = points.getPoints(requiredNode);
+
+            if (pointsInNode > 0) {
+                return true;
             }
         }
+
         return false;
     }
 
@@ -41,11 +50,7 @@ public class NodeOrSkillDataRequirement implements SkillDataRequirement, SkillDa
     }
 
     @Override
-    public JsonElement toJson() {
-        return CodecUtils.encodeOrThrow(CODEC, this);
+    public MapCodec<? extends SkillDataRequirement> codec() {
+        return MAP_CODEC;
     }
-
-    public static final Codec<NodeOrSkillDataRequirement> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Codec.INT.listOf().fieldOf("or_node").forGetter(NodeOrSkillDataRequirement::getRequiredNodes)
-    ).apply(instance, NodeOrSkillDataRequirement::new));
 }

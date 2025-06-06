@@ -4,14 +4,17 @@ import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.CrystalBackpack;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillDataNode;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
+import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
 import dev.willyelton.crystal_tools.common.network.data.ResetSkillsPayload;
-import dev.willyelton.crystal_tools.common.network.data.ToolAttributePayload;
 import dev.willyelton.crystal_tools.common.network.data.ToolHealPayload;
+import dev.willyelton.crystal_tools.common.network.data.ToolSkillPayload;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -24,19 +27,19 @@ public class UpgradeScreen extends BaseUpgradeScreen {
     private final Runnable onClose;
     private int slotIndex = -1;
 
-    public UpgradeScreen(ItemStack itemStack, Player player) {
-        this(itemStack, player, null);
+    public UpgradeScreen(ItemStack itemStack, Player player, SkillData data, ResourceKey<SkillData> key) {
+        this(itemStack, player, null, data, key);
     }
 
-    public UpgradeScreen(int slotIndex, Player player, Runnable onClose) {
-        this(CrystalBackpack.getBackpackFromSlotIndex(player, slotIndex), player, onClose);
+    // TODO: Wrap this in something for backpack
+    public UpgradeScreen(int slotIndex, Player player, Runnable onClose, SkillData data, ResourceKey<SkillData> key) {
+        this(CrystalBackpack.getBackpackFromSlotIndex(player, slotIndex), player, onClose, data, key);
         this.slotIndex = slotIndex;
     }
 
-    public UpgradeScreen(ItemStack itemStack, Player player, Runnable onClose) {
-        super(player, Component.literal("Upgrade Screen"));
+    public UpgradeScreen(ItemStack itemStack, Player player, Runnable onClose, SkillData data, ResourceKey<SkillData> key) {
+        super(player, Component.literal("Upgrade Screen"), data, key);
         this.stack = itemStack;
-        this.data = ToolUtils.getSkillData(itemStack);
         this.onClose = onClose;
     }
 
@@ -62,11 +65,14 @@ public class UpgradeScreen extends BaseUpgradeScreen {
         if (!crystalRequired || this.player.getInventory().hasAnyOf(Set.of(Registration.CRYSTAL.get()))) {
             PacketDistributor.sendToServer(ResetSkillsPayload.INSTANCE);
             ToolUtils.resetPoints(this.stack);
-
-            data = ToolUtils.getSkillData(this.stack);
         }
 
         this.onClose();
+    }
+
+    @Override
+    public SkillPoints getPoints() {
+        return this.stack.getOrDefault(DataComponents.SKILL_POINT_DATA, new SkillPoints()).copy();
     }
 
     @Override
@@ -89,26 +95,28 @@ public class UpgradeScreen extends BaseUpgradeScreen {
 
         if (skillPoints > 0) {
             int pointsToSpend = 1;
-            if (node.getLimit() == 0) {
+            if (node.getLimit() == 0 || node.getLimit() > 1) {
                 pointsToSpend = getPointsToSpend(skillPoints, shift, control);
+
+                if (pointsToSpend > node.getLimit() && node.getLimit() > 1) {
+                    pointsToSpend = node.getLimit() - points.getPoints(node.getId());
+                }
             }
 
-            PacketDistributor.sendToServer(new ToolAttributePayload(node.getKey(), node.getValue(), node.getId(), slotIndex, pointsToSpend));
-            node.addPoint(pointsToSpend);
-            if (node.isComplete()) {
+            PacketDistributor.sendToServer(new ToolSkillPayload(node.getId(), key, pointsToSpend));
+            points.addPoints(node.getId(), pointsToSpend);
+            DataComponents.addToComponent(stack, DataComponents.SKILL_POINTS, -pointsToSpend);
+            if (points.getPoints(node.getId()) >= node.getLimit() && node.getLimit() != 0) {
                 ((SkillButton) button).setComplete();
             }
-
-            changeSkillPoints(-pointsToSpend);
         }
 
         super.onSkillButtonPress(node, button);
     }
 
     @Override
-    protected void changeSkillPoints(int change) {
+    protected void changeClientSkillPoints(int change) {
         DataComponents.addToComponent(stack, DataComponents.SKILL_POINTS, change);
-        PacketDistributor.sendToServer(new ToolAttributePayload("skill_points", change, -1, slotIndex, 1));
     }
 
     @Override

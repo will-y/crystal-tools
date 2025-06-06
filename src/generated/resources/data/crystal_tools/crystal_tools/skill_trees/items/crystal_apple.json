@@ -1,0 +1,976 @@
+{
+  "equipmentSlot": "mainhand",
+  "tiers": [
+    [
+      {
+        "type": "crystal_tools:food_data_component",
+        "node": {
+          "description": "Increases the number of food points the Apple restores",
+          "id": 0,
+          "limit": 1,
+          "name": "Nutrition I",
+          "requirements": [],
+          "value": {
+            "nutrition": 2,
+            "saturation": 0.0
+          }
+        }
+      },
+      {
+        "type": "crystal_tools:food_data_component",
+        "node": {
+          "description": "Increases the saturation of the Apple",
+          "id": 1,
+          "limit": 1,
+          "name": "Saturation I",
+          "requirements": [],
+          "value": {
+            "nutrition": 0,
+            "saturation": 0.4
+          }
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases how fast you can eat the Apple",
+          "id": 2,
+          "key": [
+            "crystal_tools:eat_speed_bonus"
+          ],
+          "limit": 1,
+          "name": "Eat Speed I",
+          "requirements": [],
+          "value": 6.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Apple's Durability",
+          "id": 3,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability I",
+          "requirements": [],
+          "value": 25.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:food_data_component",
+        "node": {
+          "description": "Increases the number of food points the Apple restores",
+          "id": 4,
+          "limit": 1,
+          "name": "Nutrition II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                0
+              ]
+            }
+          ],
+          "value": {
+            "nutrition": 2,
+            "saturation": 0.0
+          }
+        }
+      },
+      {
+        "type": "crystal_tools:food_data_component",
+        "node": {
+          "description": "Increases the saturation of the Apple",
+          "id": 5,
+          "limit": 1,
+          "name": "Saturation II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                1
+              ]
+            }
+          ],
+          "value": {
+            "nutrition": 0,
+            "saturation": 0.4
+          }
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases how fast you can eat the Apple",
+          "id": 6,
+          "key": [
+            "crystal_tools:eat_speed_bonus"
+          ],
+          "limit": 1,
+          "name": "Eat Speed II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                2
+              ]
+            }
+          ],
+          "value": 6.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Apple's Durability",
+          "id": 7,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                3
+              ]
+            }
+          ],
+          "value": 25.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Automatically repairs the Apple over time",
+          "id": 8,
+          "key": [
+            "crystal_tools:auto_repair"
+          ],
+          "limit": 0,
+          "name": "Auto Repair",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:food_data_component",
+        "node": {
+          "description": "You can eat the Apple even when you are full",
+          "id": 9,
+          "limit": 1,
+          "name": "Always Edible",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          ],
+          "value": {
+            "can_always_eat": true,
+            "nutrition": 0,
+            "saturation": 0.0
+          }
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:food_data_component",
+        "node": {
+          "description": "Increases the number of food points the Apple restores",
+          "id": 10,
+          "limit": 1,
+          "name": "Nutrition III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                4
+              ]
+            }
+          ],
+          "value": {
+            "nutrition": 2,
+            "saturation": 0.0
+          }
+        }
+      },
+      {
+        "type": "crystal_tools:food_data_component",
+        "node": {
+          "description": "Increases the saturation of the Apple",
+          "id": 11,
+          "limit": 1,
+          "name": "Saturation III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                5
+              ]
+            }
+          ],
+          "value": {
+            "nutrition": 0,
+            "saturation": 0.4
+          }
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases how fast you can eat the Apple",
+          "id": 12,
+          "key": [
+            "crystal_tools:eat_speed_bonus"
+          ],
+          "limit": 1,
+          "name": "Eat Speed III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                6
+              ]
+            }
+          ],
+          "value": 6.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Apple's Durability",
+          "id": 13,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                7
+              ]
+            }
+          ],
+          "value": 25.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:food_data_component",
+        "node": {
+          "description": "Increases the number of food points the Apple restores",
+          "id": 14,
+          "limit": 1,
+          "name": "Nutrition IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                10
+              ]
+            }
+          ],
+          "value": {
+            "nutrition": 2,
+            "saturation": 0.0
+          }
+        }
+      },
+      {
+        "type": "crystal_tools:food_data_component",
+        "node": {
+          "description": "Increases the saturation of the Apple",
+          "id": 15,
+          "limit": 1,
+          "name": "Saturation IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                11
+              ]
+            }
+          ],
+          "value": {
+            "nutrition": 0,
+            "saturation": 0.4
+          }
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases how fast you can eat the Apple",
+          "id": 16,
+          "key": [
+            "crystal_tools:eat_speed_bonus"
+          ],
+          "limit": 1,
+          "name": "Eat Speed IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                12
+              ]
+            }
+          ],
+          "value": 6.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Apple's Durability",
+          "id": 17,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                13
+              ]
+            }
+          ],
+          "value": 25.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:food_data_component",
+        "node": {
+          "description": "Increases the number of food points the Apple restores",
+          "id": 18,
+          "limit": 0,
+          "name": "Infinite Nutrition",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                14
+              ]
+            }
+          ],
+          "value": {
+            "nutrition": 1,
+            "saturation": 0.0
+          }
+        }
+      },
+      {
+        "type": "crystal_tools:food_data_component",
+        "node": {
+          "description": "Increases the saturation of the Apple",
+          "id": 19,
+          "limit": 0,
+          "name": "Infinite Saturation",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                15
+              ]
+            }
+          ],
+          "value": {
+            "nutrition": 0,
+            "saturation": 0.1
+          }
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases how fast you can eat the Apple",
+          "id": 20,
+          "key": [
+            "crystal_tools:eat_speed_bonus"
+          ],
+          "limit": 7,
+          "name": "Infinite Eat Speed",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                16
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Apple's Durability",
+          "id": 21,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 0,
+          "name": "Infinite Durability",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                17
+              ]
+            }
+          ],
+          "value": 10.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:effect",
+        "node": {
+          "description": "Adds the Speed effect for 20 ticks when you eat the Apple",
+          "effects": [
+            {
+              "amplifier": 1,
+              "duration": 20,
+              "id": "minecraft:speed",
+              "show_icon": true
+            }
+          ],
+          "id": 22,
+          "limit": 0,
+          "name": "Speed",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                18,
+                19,
+                20,
+                21
+              ]
+            },
+            {
+              "type": "crystal_tools:item_requirement",
+              "item": [
+                "minecraft:nether_wart",
+                "minecraft:sugar",
+                "minecraft:glowstone_dust"
+              ]
+            }
+          ],
+          "subtext": {
+            "color": "#ABABAB",
+            "text": "Increases duration for each level"
+          }
+        }
+      },
+      {
+        "type": "crystal_tools:effect",
+        "node": {
+          "description": "Adds the Haste effect for 20 ticks when you eat the Apple",
+          "effects": [
+            {
+              "amplifier": 1,
+              "duration": 20,
+              "id": "minecraft:haste",
+              "show_icon": true
+            }
+          ],
+          "id": 23,
+          "limit": 0,
+          "name": "Haste",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                18,
+                19,
+                20,
+                21
+              ]
+            },
+            {
+              "type": "crystal_tools:item_requirement",
+              "item": [
+                "minecraft:nether_wart",
+                "minecraft:gold_ingot",
+                "minecraft:glowstone_dust"
+              ]
+            }
+          ],
+          "subtext": {
+            "color": "#ABABAB",
+            "text": "Increases duration for each level"
+          }
+        }
+      },
+      {
+        "type": "crystal_tools:effect",
+        "node": {
+          "description": "Adds the Strength effect for 20 ticks when you eat the Apple",
+          "effects": [
+            {
+              "amplifier": 1,
+              "duration": 20,
+              "id": "minecraft:strength",
+              "show_icon": true
+            }
+          ],
+          "id": 24,
+          "limit": 0,
+          "name": "Strength",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                18,
+                19,
+                20,
+                21
+              ]
+            },
+            {
+              "type": "crystal_tools:item_requirement",
+              "item": [
+                "minecraft:nether_wart",
+                "minecraft:blaze_powder",
+                "minecraft:glowstone_dust"
+              ]
+            }
+          ],
+          "subtext": {
+            "color": "#ABABAB",
+            "text": "Increases duration for each level"
+          }
+        }
+      },
+      {
+        "type": "crystal_tools:effect",
+        "node": {
+          "description": "Adds the Jump Boost effect for 20 ticks when you eat the Apple",
+          "effects": [
+            {
+              "amplifier": 1,
+              "duration": 20,
+              "id": "minecraft:jump_boost",
+              "show_icon": true
+            }
+          ],
+          "id": 25,
+          "limit": 0,
+          "name": "Jump Boost",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                18,
+                19,
+                20,
+                21
+              ]
+            },
+            {
+              "type": "crystal_tools:item_requirement",
+              "item": [
+                "minecraft:nether_wart",
+                "minecraft:rabbit_foot",
+                "minecraft:glowstone_dust"
+              ]
+            }
+          ],
+          "subtext": {
+            "color": "#ABABAB",
+            "text": "Increases duration for each level"
+          }
+        }
+      },
+      {
+        "type": "crystal_tools:effect",
+        "node": {
+          "description": "Adds the Regeneration effect for 10 ticks when you eat the Apple",
+          "effects": [
+            {
+              "amplifier": 1,
+              "duration": 10,
+              "id": "minecraft:regeneration",
+              "show_icon": true
+            }
+          ],
+          "id": 26,
+          "limit": 0,
+          "name": "Regeneration",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                18,
+                19,
+                20,
+                21
+              ]
+            },
+            {
+              "type": "crystal_tools:item_requirement",
+              "item": [
+                "minecraft:nether_wart",
+                "minecraft:ghast_tear",
+                "minecraft:glowstone_dust"
+              ]
+            }
+          ],
+          "subtext": {
+            "color": "#ABABAB",
+            "text": "Increases duration for each level"
+          }
+        }
+      },
+      {
+        "type": "crystal_tools:effect",
+        "node": {
+          "description": "Adds the Resistance effect for 20 ticks when you eat the Apple",
+          "effects": [
+            {
+              "amplifier": 1,
+              "duration": 20,
+              "id": "minecraft:resistance",
+              "show_icon": true
+            }
+          ],
+          "id": 27,
+          "limit": 0,
+          "name": "Resistance",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                18,
+                19,
+                20,
+                21
+              ]
+            },
+            {
+              "type": "crystal_tools:item_requirement",
+              "item": [
+                "minecraft:nether_wart",
+                "minecraft:iron_ingot",
+                "minecraft:glowstone_dust"
+              ]
+            }
+          ],
+          "subtext": {
+            "color": "#ABABAB",
+            "text": "Increases duration for each level"
+          }
+        }
+      },
+      {
+        "type": "crystal_tools:effect",
+        "node": {
+          "description": "Adds the Fire Resistance effect for 20 ticks when you eat the Apple",
+          "effects": [
+            {
+              "amplifier": 1,
+              "duration": 20,
+              "id": "minecraft:fire_resistance",
+              "show_icon": true
+            }
+          ],
+          "id": 28,
+          "limit": 0,
+          "name": "Fire Resistance",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                18,
+                19,
+                20,
+                21
+              ]
+            },
+            {
+              "type": "crystal_tools:item_requirement",
+              "item": [
+                "minecraft:nether_wart",
+                "minecraft:magma_cream"
+              ]
+            }
+          ],
+          "subtext": {
+            "color": "#ABABAB",
+            "text": "Increases duration for each level"
+          }
+        }
+      },
+      {
+        "type": "crystal_tools:effect",
+        "node": {
+          "description": "Adds the Water Breathing effect for 20 ticks when you eat the Apple",
+          "effects": [
+            {
+              "amplifier": 1,
+              "duration": 20,
+              "id": "minecraft:water_breathing",
+              "show_icon": true
+            }
+          ],
+          "id": 29,
+          "limit": 0,
+          "name": "Water Breathing",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                18,
+                19,
+                20,
+                21
+              ]
+            },
+            {
+              "type": "crystal_tools:item_requirement",
+              "item": [
+                "minecraft:nether_wart",
+                "minecraft:pufferfish"
+              ]
+            }
+          ],
+          "subtext": {
+            "color": "#ABABAB",
+            "text": "Increases duration for each level"
+          }
+        }
+      },
+      {
+        "type": "crystal_tools:effect",
+        "node": {
+          "description": "Adds the Invisibility effect for 20 ticks when you eat the Apple",
+          "effects": [
+            {
+              "amplifier": 1,
+              "duration": 20,
+              "id": "minecraft:invisibility",
+              "show_icon": true
+            }
+          ],
+          "id": 30,
+          "limit": 0,
+          "name": "Invisibility",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                18,
+                19,
+                20,
+                21
+              ]
+            },
+            {
+              "type": "crystal_tools:item_requirement",
+              "item": [
+                "minecraft:nether_wart",
+                "minecraft:golden_carrot",
+                "minecraft:fermented_spider_eye"
+              ]
+            }
+          ],
+          "subtext": {
+            "color": "#ABABAB",
+            "text": "Increases duration for each level"
+          }
+        }
+      },
+      {
+        "type": "crystal_tools:effect",
+        "node": {
+          "description": "Adds the Night Vision effect for 20 ticks when you eat the Apple",
+          "effects": [
+            {
+              "amplifier": 1,
+              "duration": 20,
+              "id": "minecraft:night_vision",
+              "show_icon": true
+            }
+          ],
+          "id": 31,
+          "limit": 0,
+          "name": "Night Vision",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                18,
+                19,
+                20,
+                21
+              ]
+            },
+            {
+              "type": "crystal_tools:item_requirement",
+              "item": [
+                "minecraft:nether_wart",
+                "minecraft:golden_carrot"
+              ]
+            }
+          ],
+          "subtext": {
+            "color": "#ABABAB",
+            "text": "Increases duration for each level"
+          }
+        }
+      },
+      {
+        "type": "crystal_tools:effect",
+        "node": {
+          "description": "Adds the Absorption effect for 20 ticks when you eat the Apple",
+          "effects": [
+            {
+              "amplifier": 1,
+              "duration": 20,
+              "id": "minecraft:absorption",
+              "show_icon": true
+            }
+          ],
+          "id": 32,
+          "limit": 0,
+          "name": "Absorption",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                18,
+                19,
+                20,
+                21
+              ]
+            },
+            {
+              "type": "crystal_tools:item_requirement",
+              "item": [
+                "minecraft:nether_wart",
+                "minecraft:glistering_melon_slice",
+                "minecraft:glowstone_dust"
+              ]
+            }
+          ],
+          "subtext": {
+            "color": "#ABABAB",
+            "text": "Increases duration for each level"
+          }
+        }
+      },
+      {
+        "type": "crystal_tools:effect",
+        "node": {
+          "description": "Adds the Saturation effect for 20 ticks when you eat the Apple",
+          "effects": [
+            {
+              "amplifier": 1,
+              "duration": 20,
+              "id": "minecraft:saturation",
+              "show_icon": true
+            }
+          ],
+          "id": 33,
+          "limit": 0,
+          "name": "Saturation",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                18,
+                19,
+                20,
+                21
+              ]
+            },
+            {
+              "type": "crystal_tools:item_requirement",
+              "item": [
+                "minecraft:nether_wart",
+                "minecraft:cooked_beef",
+                "minecraft:glowstone_dust"
+              ]
+            }
+          ],
+          "subtext": {
+            "color": "#ABABAB",
+            "text": "Increases duration for each level"
+          }
+        }
+      },
+      {
+        "type": "crystal_tools:effect",
+        "node": {
+          "description": "Adds the Slow Falling effect for 20 ticks when you eat the Apple",
+          "effects": [
+            {
+              "amplifier": 1,
+              "duration": 20,
+              "id": "minecraft:slow_falling",
+              "show_icon": true
+            }
+          ],
+          "id": 34,
+          "limit": 0,
+          "name": "Slow Falling",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                18,
+                19,
+                20,
+                21
+              ]
+            },
+            {
+              "type": "crystal_tools:item_requirement",
+              "item": [
+                "minecraft:nether_wart",
+                "minecraft:phantom_membrane"
+              ]
+            }
+          ],
+          "subtext": {
+            "color": "#ABABAB",
+            "text": "Increases duration for each level"
+          }
+        }
+      }
+    ]
+  ]
+}

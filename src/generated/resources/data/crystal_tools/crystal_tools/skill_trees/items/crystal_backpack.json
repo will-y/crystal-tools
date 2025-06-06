@@ -1,0 +1,360 @@
+{
+  "equipmentSlot": "mainhand",
+  "tiers": [
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the number of slots in the Backpack by 9",
+          "id": 0,
+          "key": [
+            "crystal_tools:capacity"
+          ],
+          "limit": 1,
+          "name": "Capacity I",
+          "requirements": [],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 5 filter slots to the Backpack",
+          "id": 1,
+          "key": [
+            "crystal_tools:filter_capacity"
+          ],
+          "limit": 1,
+          "name": "Filter Slots I",
+          "requirements": [],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Items matching the Backpack's filter will automatically go into the Backpack when picked up",
+          "id": 2,
+          "key": [
+            "crystal_tools:backpack_auto_pickup"
+          ],
+          "limit": 1,
+          "name": "Auto Pickup",
+          "requirements": [],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the number of slots in the Backpack by 9",
+          "id": 3,
+          "key": [
+            "crystal_tools:capacity"
+          ],
+          "limit": 1,
+          "name": "Capacity II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                0
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 5 filter slots to the Backpack",
+          "id": 4,
+          "key": [
+            "crystal_tools:filter_capacity"
+          ],
+          "limit": 1,
+          "name": "Filter Slots II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                1
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the number of slots in the Backpack by 9",
+          "id": 5,
+          "key": [
+            "crystal_tools:capacity"
+          ],
+          "limit": 1,
+          "name": "Capacity III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                3
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 5 filter slots to the Backpack",
+          "id": 6,
+          "key": [
+            "crystal_tools:filter_capacity"
+          ],
+          "limit": 1,
+          "name": "Filter Slots III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                4
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds the option sort the Backpack's contents",
+          "id": 7,
+          "key": [
+            "crystal_tools:sort_enabled"
+          ],
+          "limit": 1,
+          "name": "Sort",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                3,
+                4
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the number of slots in the Backpack by 9",
+          "id": 8,
+          "key": [
+            "crystal_tools:capacity"
+          ],
+          "limit": 1,
+          "name": "Capacity IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                5
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 5 filter slots to the Backpack",
+          "id": 9,
+          "key": [
+            "crystal_tools:filter_capacity"
+          ],
+          "limit": 1,
+          "name": "Filter Slots IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                6
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the number of slots in the Backpack by 9",
+          "id": 10,
+          "key": [
+            "crystal_tools:capacity"
+          ],
+          "limit": 1,
+          "name": "Capacity V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                8
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 5 filter slots to the Backpack",
+          "id": 11,
+          "key": [
+            "crystal_tools:filter_capacity"
+          ],
+          "limit": 1,
+          "name": "Filter Slots V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                9
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Shift right click on an inventory to store all items in that inventory",
+          "id": 12,
+          "key": [
+            "crystal_tools:inventory_store"
+          ],
+          "limit": 1,
+          "name": "Store in Inventory",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                8,
+                9
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the number of slots in the Backpack by 9",
+          "id": 13,
+          "key": [
+            "crystal_tools:capacity"
+          ],
+          "limit": 1,
+          "name": "Capacity VI",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                10
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 5 filter slots to the Backpack",
+          "id": 14,
+          "key": [
+            "crystal_tools:filter_capacity"
+          ],
+          "limit": 1,
+          "name": "Filter Slots VI",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                11
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Allows you to compress certain items (gold nuggets into gold ingots)",
+          "id": 15,
+          "key": [
+            "crystal_tools:compression_enabled"
+          ],
+          "limit": 1,
+          "name": "Compress",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                10,
+                11,
+                12
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the number of slots in the Backpack by 9",
+          "id": 16,
+          "key": [
+            "crystal_tools:capacity"
+          ],
+          "limit": 0,
+          "name": "Infinite Capacity",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                14,
+                15
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ]
+  ]
+}

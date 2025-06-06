@@ -1,9 +1,10 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
-
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.entity.CrystalTridentEntity;
+import dev.willyelton.crystal_tools.common.events.LevelTickEvent;
+import dev.willyelton.crystal_tools.common.levelable.EntityTargeter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -19,15 +20,19 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
+import net.minecraft.world.item.TridentItem;
+import net.minecraft.world.item.component.Weapon;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.NotNull;
 
-public class CrystalTrident extends SwordLevelableTool {
+public class CrystalTrident extends SwordLevelableTool implements EntityTargeter {
     public CrystalTrident(Item.Properties properties) {
-        super(properties, "trident", 4, -2.9F);
+        super(properties.attributes(TridentItem.createAttributes())
+                .component(net.minecraft.core.component.DataComponents.TOOL, TridentItem.createToolProperties())
+                .component(net.minecraft.core.component.DataComponents.WEAPON, new Weapon(1)), "trident");
     }
 
     @Override
@@ -62,14 +67,14 @@ public class CrystalTrident extends SwordLevelableTool {
 
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
-        ItemStack itemstack = player.getItemInHand(hand);
+        ItemStack stack = player.getItemInHand(hand);
         if (this.isDisabled()) {
-            itemstack.shrink(1);
+            stack.shrink(1);
         }
 
-        if (itemstack.getDamageValue() >= itemstack.getMaxDamage() - 1) {
+        if (stack.getDamageValue() >= stack.getMaxDamage() - 1) {
             return InteractionResult.FAIL;
-        } else if (riptideEnabled(itemstack) && !canRiptide(itemstack, player)) {
+        } else if (riptideEnabled(stack) && !canRiptide(stack, player)) {
             return InteractionResult.FAIL;
         } else {
             player.startUsingItem(hand);
@@ -95,6 +100,12 @@ public class CrystalTrident extends SwordLevelableTool {
                         }
 
                         level.addFreshEntity(tridentEntity);
+
+                        int target = stack.getOrDefault(DataComponents.ENTITY_TARGET, -1);
+                        if (target != -1) {
+                            LevelTickEvent.startTracking(level, tridentEntity.getId(), target, velocity / 2);
+                        }
+
                         level.playSound(null, tridentEntity, SoundEvents.TRIDENT_THROW.value(), SoundSource.PLAYERS, 1.0F, 1.0F);
                         if (!player.getAbilities().instabuild) {
                             player.getInventory().removeItem(stack);
@@ -137,6 +148,19 @@ public class CrystalTrident extends SwordLevelableTool {
         }
 
         return true;
+    }
+
+    @Override
+    public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration) {
+        refreshTarget(stack, level, livingEntity);
+
+        super.onUseTick(level, livingEntity, stack, remainingUseDuration);
+    }
+
+    @Override
+    public void onStopUsing(ItemStack stack, LivingEntity entity, int count) {
+        clearTarget(stack, entity.level());
+        super.onStopUsing(stack, entity, count);
     }
 
     @Override

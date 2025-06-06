@@ -5,7 +5,9 @@ import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalQuarryB
 import dev.willyelton.crystal_tools.common.levelable.block.entity.LevelableBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -98,13 +100,7 @@ public class CrystalQuarryBlock extends BaseEntityBlock implements CrystalToolsM
     }
 
     @Override
-    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
-        if (!state.is(newState.getBlock())) {
-            BlockEntity blockEntity = level.getBlockEntity(pos);
-            if (blockEntity instanceof LevelableBlockEntity levelableBlockEntity) {
-                levelableBlockEntity.onBlockRemoved();
-            }
-            super.onRemove(state, level, pos, newState, movedByPiston);
-        }
+    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean p_393627_) {
+        Containers.updateNeighboursAfterDestroy(state, level, pos);
     }
 }

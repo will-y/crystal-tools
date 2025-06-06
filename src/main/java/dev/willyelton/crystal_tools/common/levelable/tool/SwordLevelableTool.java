@@ -2,30 +2,19 @@ package dev.willyelton.crystal_tools.common.levelable.tool;
 
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
-import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.ItemAbilities;
-import net.neoforged.neoforge.common.ItemAbility;
-import org.jetbrains.annotations.NotNull;
 
 public class SwordLevelableTool extends LevelableTool {
     public SwordLevelableTool(Item.Properties properties) {
-        this(properties, "sword", 3, -2.4f);
+        this(properties.sword(CRYSTAL, 3.0F, -2.4F), "sword");
     }
 
-    public SwordLevelableTool(Item.Properties properties, String itemType, float attackDamageModifier, float attackSpeedModifier) {
-        super(properties, null, itemType, attackDamageModifier, attackSpeedModifier);
-    }
-
-    @Override
-    public boolean canAttackBlock(BlockState state, Level level, @NotNull BlockPos pos, Player player) {
-        return !player.isCreative();
+    public SwordLevelableTool(Item.Properties properties, String itemType) {
+        super(properties, itemType);
     }
 
     @Override
@@ -40,11 +29,6 @@ public class SwordLevelableTool extends LevelableTool {
     @Override
     public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
         return state.is(Blocks.COBWEB);
-    }
-
-    @Override
-    public boolean canPerformAction(ItemStack stack, ItemAbility itemAbility) {
-        return ItemAbilities.DEFAULT_SWORD_ACTIONS.contains(itemAbility);
     }
 
     @Override

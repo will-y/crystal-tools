@@ -11,11 +11,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class CrystalQuarryBlockItem extends LevelableBlockItem {
     public CrystalQuarryBlockItem(Block block, Properties properties) {
@@ -48,45 +50,45 @@ public class CrystalQuarryBlockItem extends LevelableBlockItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag tooltipFlag) {
-        components.add(Component.literal("Quarry is currently still a WIP. Please report any issues or comment suggestions!").withStyle(ChatFormatting.RED));
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> components, TooltipFlag tooltipFlag) {
+        components.accept(Component.literal("Quarry is currently still a WIP. Please report any issues or comment suggestions!").withStyle(ChatFormatting.RED));
 
-        super.appendHoverText(stack, context, components, tooltipFlag);
+        super.appendHoverText(stack, context, display, components, tooltipFlag);
 
         if (tooltipFlag.hasShiftDown()) {
             QuarryUpgrades quarryUpgrades = stack.get(DataComponents.QUARRY_UPGRADES);
             if (quarryUpgrades != null) {
                 if (quarryUpgrades.speedUpgrade() > 0) {
-                    components.add(Component.literal(String.format("\u00A76     %s: %s", "Speed", StringUtils.formatFloat(quarryUpgrades.speedUpgrade()))));
+                    components.accept(Component.literal(String.format("\u00A76     %s: %s", "Speed", StringUtils.formatFloat(quarryUpgrades.speedUpgrade()))));
                 }
                 if (quarryUpgrades.redstoneControl()) {
-                    components.add(Component.literal("\u00A76     Redstone Control"));
+                    components.accept(Component.literal("\u00A76     Redstone Control"));
                 }
                 if (quarryUpgrades.fortuneLevel() > 0) {
-                    components.add(Component.literal(String.format("\u00A76     %s %s", "Fortune", StringUtils.formatFloat(quarryUpgrades.speedUpgrade()))));
+                    components.accept(Component.literal(String.format("\u00A76     %s %s", "Fortune", StringUtils.formatFloat(quarryUpgrades.fortuneLevel()))));
                 }
                 if (quarryUpgrades.silkTouch()) {
-                    components.add(Component.literal("\u00A76     Silk Touch"));
+                    components.accept(Component.literal("\u00A76     Silk Touch"));
                 }
                 if (quarryUpgrades.extraEnergyCost() > 0) {
-                    components.add(Component.literal(String.format("\u00A7c     +%s Extra Energy", StringUtils.formatFloat(quarryUpgrades.extraEnergyCost()))));
+                    components.accept(Component.literal(String.format("\u00A7c     +%s Extra Energy", StringUtils.formatFloat(quarryUpgrades.extraEnergyCost()))));
                 }
             }
         }
 
         List<BlockPos> stabilizers = stack.get(DataComponents.QUARRY_BOUNDS);
         if (stabilizers != null && !stabilizers.isEmpty()) {
-            components.add(Component.literal("\u00A7bLinked Stabilizer Positions"));
+            components.accept(Component.literal("\u00A7bLinked Stabilizer Positions"));
             for (BlockPos stabilizer : stabilizers) {
-                components.add(Component.literal(String.format(" \u00A7b  - [%s, %s, %s]", stabilizer.getX(), stabilizer.getY(), stabilizer.getZ())));
+                components.accept(Component.literal(String.format(" \u00A7b  - [%s, %s, %s]", stabilizer.getX(), stabilizer.getY(), stabilizer.getZ())));
             }
         } else {
-            components.add(Component.literal("No Linked Stabilizers. Right click a square of stabilizers to link!").withStyle(ChatFormatting.RED, ChatFormatting.BOLD));
+            components.accept(Component.literal("No Linked Stabilizers. Right click a square of stabilizers to link!").withStyle(ChatFormatting.RED, ChatFormatting.BOLD));
         }
 
         QuarryData quarryData = stack.get(DataComponents.QUARRY_DATA);
         if (quarryData != null) {
-            components.add(Component.literal(String.format("%d FE Stored", quarryData.currentEnergy())));
+            components.accept(Component.literal(String.format("%d FE Stored", quarryData.currentEnergy())));
         }
     }
 

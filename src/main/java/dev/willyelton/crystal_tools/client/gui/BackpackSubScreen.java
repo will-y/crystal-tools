@@ -38,7 +38,6 @@ public abstract class BackpackSubScreen<T extends BaseContainerMenu & SubScreenC
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
 
         int containerRows = getContainerRows();
         // Either filter rows or compression rows

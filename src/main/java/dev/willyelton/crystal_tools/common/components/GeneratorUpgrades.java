@@ -20,7 +20,7 @@ public record GeneratorUpgrades(int feGeneration, float fuelEfficiency, int feSt
             Codec.BOOL.fieldOf("gemGenerator").forGetter(GeneratorUpgrades::gemGenerator)
     ).apply(instance, GeneratorUpgrades::new));
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, GeneratorUpgrades> STREAM_CODEC = CodecUtils.composite(
+    public static final StreamCodec<RegistryFriendlyByteBuf, GeneratorUpgrades> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT, GeneratorUpgrades::feGeneration,
             ByteBufCodecs.FLOAT, GeneratorUpgrades::fuelEfficiency,
             ByteBufCodecs.INT, GeneratorUpgrades::feStorage,

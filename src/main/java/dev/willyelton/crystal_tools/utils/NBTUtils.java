@@ -13,7 +13,7 @@ public class NBTUtils {
         int[] array;
 
         if (tag.contains(arrayKey)) {
-            array = tag.getIntArray(arrayKey);
+            array = tag.getIntArray(arrayKey).orElse(new int[size]);
             if (array.length == 0 && size > 0) {
                 array = new int[size];
             }
@@ -43,10 +43,10 @@ public class NBTUtils {
 
     public static List<ItemStack> getItemStackArray(CompoundTag tag, HolderLookup.Provider levelRegistry) {
         List<ItemStack> stacks = new ArrayList<>();
-        ListTag listTag = tag.getList("Items", 10);
+        ListTag listTag = tag.getList("Items").orElse(new ListTag());
 
         for (int i = 0; i < listTag.size(); i++) {
-            CompoundTag stackTag = listTag.getCompound(i);
+            CompoundTag stackTag = listTag.getCompound(i).orElse(new CompoundTag());
             ItemStack stack = ItemStack.parse(levelRegistry, stackTag).orElse(ItemStack.EMPTY);
 
             if (!stack.isEmpty()) {

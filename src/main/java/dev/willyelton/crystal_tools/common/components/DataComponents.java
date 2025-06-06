@@ -2,6 +2,8 @@ package dev.willyelton.crystal_tools.common.components;
 
 import com.mojang.serialization.Codec;
 import dev.willyelton.crystal_tools.CrystalTools;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
+import dev.willyelton.crystal_tools.common.levelable.tool.UseMode;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
@@ -9,6 +11,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -21,7 +24,7 @@ import java.util.Map;
 
 public class DataComponents {
     public static final DeferredRegister<DataComponentType<?>> COMPONENTS = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, CrystalTools.MODID);
-    // TODO: Maybe use reflection instead?
+
     public static final Map<String, ResourceLocation> INT_COMPONENTS = new HashMap<>();
     public static final Map<String, ResourceLocation> FLOAT_COMPONENTS = new HashMap<>();
     public static final Map<String, ResourceLocation> BOOLEAN_COMPONENTS = new HashMap<>();
@@ -30,16 +33,13 @@ public class DataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> SKILL_POINTS = register("skill_points", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> SKILL_EXPERIENCE = register("skill_experience", Codec.INT, ByteBufCodecs.VAR_INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> EXPERIENCE_CAP = register("experience_cap", Codec.INT, ByteBufCodecs.VAR_INT);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<Integer>>> POINTS_ARRAY = COMPONENTS.register("points", () -> DataComponentType.<List<Integer>>builder().persistent(Codec.INT.listOf()).networkSynchronized(ByteBufCodecs.INT.apply(ByteBufCodecs.list())).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<SkillPoints>> SKILL_POINT_DATA = COMPONENTS.register("skill_point_data", () -> DataComponentType.<SkillPoints>builder().persistent(SkillPoints.CODEC).networkSynchronized(SkillPoints.STREAM_CODEC).build());
 
     // All tools
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> REACH = register("reach", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> DURABILITY_BONUS = register("durability_bonus", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> UNBREAKING = register("unbreaking", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> TORCH = register("torch", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
 
     // Mining tools
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> MINING_SPEED = register("speed_bonus", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> AUTO_PICKUP = register("auto_pickup", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> AUTO_SMELT = register("auto_smelt", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> DISABLE_AUTO_SMELT = register("disable_auto_smelt", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
@@ -50,8 +50,6 @@ public class DataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> SILK_TOUCH_BONUS = register("silk_touch_bonus", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> FORTUNE_BONUS = register("fortune_bonus", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> AUTO_REPAIR = register("auto_repair", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
-    // TODO: Remove (maybe breaking so keeping just in case)
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> AUTO_REPAIR_COUNTER = register("auto_repair_counter", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Long>> AUTO_REPAIR_GAME_TIME = register("auto_repair_game_time", Codec.LONG, ByteBufCodecs.VAR_LONG);
 
     // Axe
@@ -61,53 +59,40 @@ public class DataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> SHEAR = register("shear", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
 
     // AIOT
-    // TODO (breaking): Can just make this an enum component
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> USE_MODE = register("use_mode", Codec.STRING, ByteBufCodecs.STRING_UTF8);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<UseMode>> USE_MODE = register("use_mode", UseMode.CODEC, UseMode.STREAM_CODEC);
 
     // Weapons
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> DAMAGE_BONUS = register("damage_bonus", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> ATTACK_SPEED = register("attack_speed_bonus", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> KNOCKBACK = register("knockback", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> KNOCKBACK_RESISTANCE = register("knockback_resistance", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> FIRE = register("fire", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> LIFESTEAL = register("lifesteal", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> BEHEADING = register("beheading", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> CAPTURING = register("capture", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
 
     // Armor
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> HEALTH_BONUS = register("health_bonus", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> SPEED_BONUS = register("move_speed_bonus", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> ARMOR_BONUS = register("armor_bonus", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> TOUGHNESS_BONUS = register("toughness_bonus", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> NIGHT_VISION = register("night_vision", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> DISABLE_NIGHT_VISION = register("disable_night_vision", Codec.BOOL, ByteBufCodecs.BOOL);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> NO_FALL_DAMAGE = register("no_fall_damage", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> CREATIVE_FLIGHT = register("creative_flight", Codec.INT, ByteBufCodecs.INT, SkillType.INT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> CREATIVE_FLIGHT = register("creative_flight", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> DISABLE_CREATIVE_FLIGHT = register("disable_creative_flight", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> FROST_WALKER = register("frost_walker", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
 
     // Bow
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> INFINITY = register("infinity", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> ARROW_DAMAGE = register("arrow_damage", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> ARROW_SPEED = register("arrow_speed_bonus", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> FLAME = register("flame", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> DRAW_SPEED = register("draw_speed", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
 
     // Food Things
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> NUTRITION_BONUS = register("nutrition_bonus", Codec.INT, ByteBufCodecs.INT, SkillType.INT);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> SATURATION_BONUS = register("saturation_bonus", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> ALWAYS_EAT = register("always_eat", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> EAT_SPEED_BONUS = register("eat_speed_bonus", Codec.INT, ByteBufCodecs.INT, SkillType.INT);
 
     // Effects
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<EffectData>>> EFFECTS = register("effects", EffectData.CODEC.listOf(), EffectData.STREAM_CODEC.apply(ByteBufCodecs.list()));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<MobEffectInstance>>> EFFECTS = register("effects", MobEffectInstance.CODEC.listOf(), MobEffectInstance.STREAM_CODEC.apply(ByteBufCodecs.list()));
 
     // Firework
-    // TODO (breaking): Refactor to just use vanilla firework component?
+    // At some point could use vanilla component if I ever have a better way to use not primitive types
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> FLIGHT_TIME = register("flight_time", Codec.INT, ByteBufCodecs.INT, SkillType.INT);
 
     // Backpack
-    // TODO (breaking): remove this component
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ItemContainerContents>> INVENTORY_OLD = register("inventory", ItemContainerContents.CODEC, ItemContainerContents.STREAM_CODEC);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ItemContainerContents>>> BACKPACK_INVENTORY = register("backpack_inventory", ItemContainerContents.CODEC.listOf(), ItemContainerContents.STREAM_CODEC.apply(ByteBufCodecs.list()));
+    // Also used for quarry
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ItemContainerContents>> FILTER_INVENTORY = register("filter_inventory", ItemContainerContents.CODEC, ItemContainerContents.STREAM_CODEC);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ItemContainerContents>> COMPRESSION_INVENTORY = register("compression_inventory", ItemContainerContents.CODEC, ItemContainerContents.STREAM_CODEC);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<Integer>>> COMPRESSION_MODES = register("compression_modes", Codec.INT.listOf(), ByteBufCodecs.INT.apply(ByteBufCodecs.list()));
@@ -126,14 +111,10 @@ public class DataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> ALWAYS_RIPTIDE = register("always_riptide", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> PROJECTILE_SPEED = register("projectile_speed", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> PROJECTILE_DAMAGE = register("projectile_damage", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
-    // TODO: Should be a byte?
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> LOYALTY = register("loyalty", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> INSTANT_LOYALTY = register("instant_loyalty", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> CHANNELING = register("channeling", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
 
     // Fishing Rod
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> LURE = register("lure", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> LUCK_OF_THE_SEA = register("luck_of_the_sea", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> DOUBLE_DROPS = register("double_drops", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
 
     // Block Entities
@@ -142,8 +123,6 @@ public class DataComponents {
     // Furnace
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<FurnaceData>> FURNACE_DATA = register("furnace_data", FurnaceData.CODEC, FurnaceData.STREAM_CODEC);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<FurnaceUpgrades>> FURNACE_UPGRADES = register("furnace_upgrades", FurnaceUpgrades.CODEC, FurnaceUpgrades.STREAM_CODEC);
-    // TODO (breaking): Probably no reason not to use vanilla's
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ItemContainerContents>> FURNACE_INVENTORY = register("furnace_inventory", ItemContainerContents.CODEC, ItemContainerContents.STREAM_CODEC);
 
     // Generator
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<GeneratorData>> GENERATOR_DATA = register("generator_data", GeneratorData.CODEC, GeneratorData.STREAM_CODEC);
@@ -154,16 +133,15 @@ public class DataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<QuarryData>> QUARRY_DATA = register("quarry_data", QuarryData.CODEC, QuarryData.STREAM_CODEC);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<QuarryUpgrades>> QUARRY_UPGRADES = register("quarry_upgrades", QuarryUpgrades.CODEC, QuarryUpgrades.STREAM_CODEC);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<QuarrySettings>> QUARRY_SETTINGS = register("quarry_settings", QuarrySettings.CODEC, QuarrySettings.STREAM_CODEC);
-    // TODO (breaking): use same component as backpack
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ItemContainerContents>> QUARRY_FILTER = register("quarry_filter", ItemContainerContents.CODEC, ItemContainerContents.STREAM_CODEC);
 
-    // Actions (TODO: Is there a better way to do this?)
+    // Actions
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> AUTO_OUTPUT = register("auto_output", Codec.BOOL, ByteBufCodecs.BOOL);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> CHUNKLOADING = register("chunkloading", Codec.BOOL, ByteBufCodecs.BOOL);
 
     // Auto Targeting
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> AUTO_TARGET = register("auto_target", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> ENTITY_TARGET = register("entity_target", Codec.INT, ByteBufCodecs.VAR_INT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> DISABLE_AUTO_TARGET = register("disable_auto_target", Codec.BOOL, ByteBufCodecs.BOOL);
 
     // Shield
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> FLAMING_SHIELD = register("flaming_shield", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
@@ -171,7 +149,6 @@ public class DataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> SHIELD_KNOCKBACK = register("shield_knockback", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> TOTEM_SLOTS = register("totem_slots", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> FILLED_TOTEM_SLOTS = register("filled_totem_slots", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> BLOCK_COOLDOWN_REDUCTION = register("block_cooldown_reduction", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
 
 
     // Utilities
@@ -187,7 +164,6 @@ public class DataComponents {
             result = COMPONENTS.register(key, () -> DataComponentType.<T>builder().persistent(codec).networkSynchronized(streamCodec).build());
         }
 
-        // TODO: Not sure if this will work
         switch (skillType) {
             case INT:
                 INT_COMPONENTS.put(key, result.getId());
@@ -215,7 +191,6 @@ public class DataComponents {
         return newValue;
     }
 
-    // TODO: Value should always be a float probably
     public static void addToComponent(ItemStack stack, String componentKey, float value) {
         ResourceLocation resourceLocation = FLOAT_COMPONENTS.get(componentKey);
 

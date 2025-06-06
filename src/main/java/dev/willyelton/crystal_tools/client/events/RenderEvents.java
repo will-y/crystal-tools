@@ -62,7 +62,7 @@ public class RenderEvents {
             if (stack.getItem() instanceof LevelableTool toolItem
                     && stack.getOrDefault(DataComponents.HAS_3x3, false)
                     && !stack.getOrDefault(DataComponents.DISABLE_3x3, false)) {
-                if (toolItem.correctTool(stack, state)) {
+                if (toolItem.isCorrectToolForDrops(stack, state)) {
                     event.setCanceled(true);
                 }
             }
