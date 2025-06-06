@@ -1,16 +1,14 @@
 package dev.willyelton.crystal_tools.common.levelable.armor;
 
-import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
+import dev.willyelton.crystal_tools.common.levelable.tool.LevelableTool;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.Mth;
 import net.minecraft.util.Unit;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -20,28 +18,21 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.equipment.Equippable;
-import net.minecraft.world.level.gameevent.GameEvent;
 
 import java.util.function.Consumer;
 
-public class CrystalElytra extends Item implements LevelableItem {
-    private static final ResourceLocation CREATIVE_FLIGHT_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "creative_flight");
-
+public class CrystalElytra extends LevelableTool implements LevelableItem {
     public CrystalElytra(Properties properties) {
         super(properties
                 .fireResistant()
+                .durability(CRYSTAL.durability())
                 .component(net.minecraft.core.component.DataComponents.GLIDER, Unit.INSTANCE)
                 .component(net.minecraft.core.component.DataComponents.EQUIPPABLE,
                         Equippable.builder(EquipmentSlot.CHEST)
                                 .setEquipSound(SoundEvents.ARMOR_EQUIP_ELYTRA)
                                 .setAsset(CrystalToolsArmorMaterials.CRYSTAL_ELYTRA)
                                 .build())
-                .repairable(CrystalToolsTags.REPAIRS_CRYSTAL));
-    }
-
-    @Override
-    public String getItemType() {
-        return "crystal_elytra";
+                .repairable(CrystalToolsTags.REPAIRS_CRYSTAL), "crystal_elytra");
     }
 
     @Override
@@ -64,69 +55,25 @@ public class CrystalElytra extends Item implements LevelableItem {
         return EquipmentSlot.CHEST;
     }
 
-    // TODO (PORTING): This no longer exists. Will probably have to be a check in normal inventory tick, see how the normal one does it
-    public boolean elytraFlightTick(ItemStack stack, LivingEntity entity, int flightTicks) {
-        if (!entity.level().isClientSide) {
-            int nextFlightTick = flightTicks + 1;
-            if (nextFlightTick % 10 == 0) {
-                if (nextFlightTick % 20 == 0) {
-//                    float unbreakingLevel = stack.getOrDefault(DataComponents.DURABILITY_BONUS, 0) / 200F + 1;
-//                    if (1 / unbreakingLevel > Math.random()) {
-//                        stack.hurtAndBreak(1, entity, EquipmentSlot.CHEST);
-//                    }
-
-                    this.addExp(stack, entity.level(), entity.getOnPos(), entity);
-                }
-                entity.gameEvent(GameEvent.ELYTRA_GLIDE);
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<Item> onBroken) {
-        int durability = this.getMaxDamage(stack) - stack.getDamageValue();
-
-        if (durability - amount <= 0) {
-            return 0;
-        } else {
-            return amount;
-        }
-    }
-
-    @Override
-    public int getBarWidth(ItemStack itemStack) {
-        return Math.round(13.0F - (float) itemStack.getDamageValue() * 13.0F / (float) itemStack.getMaxDamage());
-    }
-
-    @Override
-    public int getBarColor(ItemStack itemStack) {
-        float f = Math.max(0.0F, ((float)itemStack.getMaxDamage() - (float)itemStack.getDamageValue()) / (float) itemStack.getMaxDamage());
-        return Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
-    }
-
     @Override
     public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, EquipmentSlot slot) {
         if (this.isDisabled()) {
             stack.shrink(1);
         }
 
-        levelableInventoryTick(stack, level, entity, slot, 1);
+        super.inventoryTick(stack, level, entity, slot);
+
+        if (entity instanceof LivingEntity livingEntity) {
+            if (livingEntity.isFallFlying()) {
+                if (livingEntity.getFallFlyingTicks() % 20 == 0) {
+                    this.addExp(stack, entity.level(), entity.getOnPos(), livingEntity);
+                }
+            }
+        }
     }
 
     @Override
     public boolean isDisabled() {
         return CrystalToolsConfig.DISABLE_ELYTRA.get();
-    }
-
-    @Override
-    public boolean isFoil(ItemStack stack) {
-        return false;
-    }
-
-    @Override
-    public boolean shouldCauseBlockBreakReset(ItemStack oldStack, ItemStack newStack) {
-        // Just ignore data components for now
-        return !newStack.is(oldStack.getItem());
     }
 }

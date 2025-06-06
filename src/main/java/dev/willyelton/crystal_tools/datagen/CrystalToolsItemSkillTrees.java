@@ -461,6 +461,10 @@ public class CrystalToolsItemSkillTrees {
                         .previousTierOrRequirements()
                     .attributeNode(10, healthBonus(1), desc.healthBonus(),attr(Attributes.MAX_HEALTH), 2)
                         .previousTierOrRequirements();
+        if (elytra) {
+            builder.dataComponentNode(28, unbreaking(1), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.1F)
+                    .previousTierOrRequirements();
+        }
 
         armorTier(builder, 11, 4, 3, desc, true);
 
@@ -477,6 +481,12 @@ public class CrystalToolsItemSkillTrees {
                         .previousTierOrRequirements()
                     .infiniteDataComponentNode(18, AUTO_REPAIR, desc.autoRepair(), DataComponents.AUTO_REPAIR.getId(), 1)
                         .previousTierOrRequirements();
+
+        if (elytra) {
+            builder.dataComponentNode(29, unbreaking(2), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.1F)
+                    .nodeRequirement(28)
+                    .previousTierOrRequirements();
+        }
 
         armorTier(builder, 19, 11, 4, desc, true);
 
@@ -495,9 +505,17 @@ public class CrystalToolsItemSkillTrees {
                         .previousTierOrRequirements();
 
         if (elytra) {
+            builder.dataComponentNode(30, unbreaking(3), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.1F)
+                    .nodeRequirement(29)
+                    .previousTierOrRequirements();
+        }
+
+        if (elytra) {
             builder.tier()
+                    .dataComponentNode(31, unbreaking(0), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.01F, 70)
+                        .nodeRequirement(30)
                     .attributeNode(27, CREATIVE_FLIGHT, desc.creativeFlight(), attr(NeoForgeMod.CREATIVE_FLIGHT), 1, 100, true)
-                        .nodeRequirement(23, 24, 25, 26);
+                        .nodeRequirement(23, 24, 25, 26, 30);
         }
 
         return builder.build();

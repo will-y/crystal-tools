@@ -1,13 +1,11 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
-import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.common.network.data.BlockBreakPayload;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -30,8 +28,6 @@ import java.util.Collection;
 import java.util.function.Consumer;
 
 public abstract class LevelableTool extends Item implements LevelableItem {
-    protected static final ResourceLocation ATTACK_DAMAGE_ID = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "attack_damage");
-
     // Blocks that can be mined by default, null for none
     protected final String itemType;
 
@@ -131,7 +127,6 @@ public abstract class LevelableTool extends Item implements LevelableItem {
         appendLevelableHoverText(stack, tooltipComponents, this, flag, context);
     }
 
-    // TODO: These that I have to override the same in armor / bow ... should probably be a default method I can call
     @Override
     public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<Item> onBroken) {
         int durability = this.getMaxDamage(stack) - stack.getDamageValue();

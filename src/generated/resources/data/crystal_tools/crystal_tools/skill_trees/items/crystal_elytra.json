@@ -214,6 +214,30 @@
           ],
           "value": 2.0
         }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not use durability",
+          "id": 28,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking I",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          ],
+          "value": 0.1
+        }
       }
     ],
     [
@@ -237,7 +261,8 @@
               "or_node": [
                 8,
                 9,
-                10
+                10,
+                28
               ]
             }
           ]
@@ -263,7 +288,8 @@
               "or_node": [
                 8,
                 9,
-                10
+                10,
+                28
               ]
             }
           ]
@@ -289,7 +315,8 @@
               "or_node": [
                 8,
                 9,
-                10
+                10,
+                28
               ]
             }
           ]
@@ -315,7 +342,8 @@
               "or_node": [
                 8,
                 9,
-                10
+                10,
+                28
               ]
             }
           ]
@@ -436,6 +464,36 @@
           ],
           "value": 1.0
         }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not use durability",
+          "id": 29,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                28
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                11,
+                12,
+                13,
+                14
+              ]
+            }
+          ],
+          "value": 0.1
+        }
       }
     ],
     [
@@ -460,7 +518,8 @@
                 15,
                 16,
                 17,
-                18
+                18,
+                29
               ]
             }
           ]
@@ -487,7 +546,8 @@
                 15,
                 16,
                 17,
-                18
+                18,
+                29
               ]
             }
           ]
@@ -514,7 +574,8 @@
                 15,
                 16,
                 17,
-                18
+                18,
+                29
               ]
             }
           ]
@@ -541,7 +602,8 @@
                 15,
                 16,
                 17,
-                18
+                18,
+                29
               ]
             }
           ]
@@ -659,9 +721,60 @@
           ],
           "value": 4.0
         }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not use durability",
+          "id": 30,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                29
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                19,
+                20,
+                21,
+                22
+              ]
+            }
+          ],
+          "value": 0.1
+        }
       }
     ],
     [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not use durability",
+          "id": 31,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 70,
+          "name": "Infinite Unbreaking",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                30
+              ]
+            }
+          ],
+          "value": 0.01
+        }
+      },
       {
         "type": "crystal_tools:attribute",
         "node": {
@@ -679,7 +792,8 @@
                 23,
                 24,
                 25,
-                26
+                26,
+                30
               ]
             }
           ],
