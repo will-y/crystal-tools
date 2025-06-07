@@ -201,7 +201,7 @@ public class Registration {
 
     public static void init(IEventBus modEventBus) {
         // Conditions
-        Registry.register(NeoForgeRegistries.CONDITION_SERIALIZERS, ItemDisabledCondition.NAME, ItemDisabledCondition.ITEM_DISABLED_CODEC);
+        Registry.register(NeoForgeRegistries.CONDITION_SERIALIZERS, ItemDisabledCondition.NAME, ItemDisabledCondition.CODEC);
 
         ITEMS.register(modEventBus);
         BLOCKS.register(modEventBus);

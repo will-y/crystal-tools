@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ItemDisabledCondition implements ICondition {
     public static final ResourceLocation NAME = ResourceLocation.fromNamespaceAndPath("crystal_tools", "item_disabled");
-    public static final MapCodec<? extends ICondition> ITEM_DISABLED_CODEC = MapCodec.assumeMapUnsafe(RecordCodecBuilder.<ItemDisabledCondition>create(instance -> instance.group(
+    public static final MapCodec<? extends ICondition> CODEC = MapCodec.assumeMapUnsafe(RecordCodecBuilder.<ItemDisabledCondition>create(instance -> instance.group(
             ResourceLocation.CODEC.fieldOf("itemLocation").forGetter(ItemDisabledCondition::getItemLocation)
     ).apply(instance, ItemDisabledCondition::new)));
 
@@ -34,7 +34,7 @@ public class ItemDisabledCondition implements ICondition {
 
     @Override
     public @NotNull MapCodec<? extends ICondition> codec() {
-        return ITEM_DISABLED_CODEC;
+        return CODEC;
     }
 
     public ResourceLocation getItemLocation() {

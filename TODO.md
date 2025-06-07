@@ -86,6 +86,7 @@ Before full release
 - remove as much as possible from the tool classes
 - All checks should be registry or datacomponent checks, not instanceof checks
 - Upgrading backpack in curios slot
+- Quarry cube is black again
 
 Eventually
 - Better way to get tools on server (could technically change positions)

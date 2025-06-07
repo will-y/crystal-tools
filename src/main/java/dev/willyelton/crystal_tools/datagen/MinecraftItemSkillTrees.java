@@ -15,9 +15,14 @@ import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.durab
 import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.miningSpeed;
 
 public class MinecraftItemSkillTrees {
-    public static void registerSkillTrees(BootstrapContext<SkillData> context) {
+    public static void registerSkillTrees(BootstrapContext<SkillData> context, boolean full) {
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
                 ResourceLocation.withDefaultNamespace("netherite_pickaxe")), simpleMiningTool("Pickaxe"));
+
+        if (full) {
+            context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
+                    ResourceLocation.withDefaultNamespace("diamond_pickaxe")), simpleMiningTool("Pickaxe"));
+        }
     }
 
     private static SkillData simpleMiningTool(String name) {
