@@ -32,4 +32,10 @@ public interface Levelable {
     SkillPoints getPointData();
 
     ResourceKey<SkillData> getKey();
+
+    void increaseExpCap(int levelIncrease);
+
+    default void increaseExpCap() {
+        increaseExpCap(1);
+    }
 }

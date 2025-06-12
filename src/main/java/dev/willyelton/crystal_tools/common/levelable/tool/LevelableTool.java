@@ -28,7 +28,6 @@ import java.util.Collection;
 import java.util.function.Consumer;
 
 public abstract class LevelableTool extends Item implements LevelableItem {
-    // Blocks that can be mined by default, null for none
     protected final String itemType;
 
     public LevelableTool(Item.Properties properties, String itemType) {
@@ -74,8 +73,6 @@ public abstract class LevelableTool extends Item implements LevelableItem {
         if (!level.isClientSide) {
             tool.hurtAndBreak(1, entity, EquipmentSlot.MAINHAND);
         }
-
-        addExp(tool, level, blockPos, entity);
 
         return true;
     }

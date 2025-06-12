@@ -26,6 +26,8 @@ public class ToolUtils {
         increaseExpCap(stack, 1);
     }
 
+    @Deprecated
+    // TODO: remove from recipes
     public static void increaseExpCap(ItemStack stack, int levelIncrease) {
         if (stack.getItem() instanceof LevelableItem item) {
             int experienceCap = item.getExperienceCap(stack);

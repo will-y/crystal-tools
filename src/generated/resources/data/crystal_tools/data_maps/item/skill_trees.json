@@ -1,5 +1,6 @@
 {
   "values": {
-    "crystal_tools:crystal_pickaxe": "crystal_tools:crystal_pickaxe"
+    "crystal_tools:crystal_pickaxe": "crystal_tools:crystal_pickaxe",
+    "minecraft:netherite_pickaxe": "crystal_tools:simple_pickaxe"
   }
 }

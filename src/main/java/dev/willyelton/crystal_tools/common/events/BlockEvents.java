@@ -1,6 +1,8 @@
 package dev.willyelton.crystal_tools.common.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
+import dev.willyelton.crystal_tools.common.capability.Capabilities;
+import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.CrystalBackpack;
 import net.minecraft.core.Holder;
@@ -9,10 +11,12 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -20,6 +24,7 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
+import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.level.BlockDropsEvent;
@@ -32,8 +37,19 @@ import java.util.Optional;
 public class BlockEvents {
     @SubscribeEvent
     public static void breakEvent(BlockEvent.BreakEvent event) {
+        Player player = event.getPlayer();
+
         // Backpack levels
-        CrystalBackpack.addXpToBackpacks(event.getPlayer(), 1);
+        CrystalBackpack.addXpToBackpacks(player, 1);
+
+        // Level other tools
+        Level level = player.level();
+        ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
+        Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level);
+
+        if (levelable != null) {
+            levelable.addExp(level, event.getPos(), player);
+        }
     }
 
     @SubscribeEvent

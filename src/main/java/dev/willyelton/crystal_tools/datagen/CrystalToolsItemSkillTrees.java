@@ -32,6 +32,7 @@ public class CrystalToolsItemSkillTrees {
     public static void register(BootstrapContext<SkillData> context) {
         CrystalToolsItemSkillTrees skillTrees = new CrystalToolsItemSkillTrees(context);
         skillTrees.registerSkillTrees();
+        MinecraftItemSkillTrees.registerSkillTrees(context, false);
     }
 
     public CrystalToolsItemSkillTrees(BootstrapContext<SkillData> context) {

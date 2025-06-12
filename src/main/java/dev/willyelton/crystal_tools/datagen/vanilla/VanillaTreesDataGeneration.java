@@ -10,6 +10,7 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.Set;
 
+// TODO: This should only be used for datamap now?
 /**
  * This is going to be a little hacky.
  * Using different run configs and parameters to determine where

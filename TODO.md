@@ -97,3 +97,5 @@ Eventually
   - Tooltip is main concern (skilldata on component would fix)
   - Partial `Levelable` without level access could also work?
   - Actually disabled isn't even on the levelable object. I guess could look up config by item somehow?
+  - Config by item map initialized in some event (when items are ready)
+- Maybe: Move repairing items to `EntityTickEvent` and iterate the inventory (would allow curios items to be ticked + repairing for vanilla tools if wanted)

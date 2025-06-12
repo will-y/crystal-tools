@@ -3,7 +3,6 @@ package dev.willyelton.crystal_tools.common.capability;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.datamap.DataMaps;
-import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
@@ -105,12 +104,10 @@ public class LevelableStack implements Levelable {
             // play level up sound
             level.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.PLAYER_LEVELUP, SoundSource.NEUTRAL, 0.8F, 1.0F);
             if (livingEntity instanceof Player player) {
-                if (stack.getItem() instanceof LevelableItem item) {
-                    player.displayClientMessage(Component.literal("\u00A7b" + stack.getItem().getName(stack).getString() + " Leveled Up (" + item.getSkillPoints(stack) + " Unspent Points)"), true);
-                }
+                player.displayClientMessage(Component.literal("\u00A7b" + stack.getItem().getName(stack).getString() + " Leveled Up (" + getSkillPoints() + " Unspent Points)"), true);
             }
             stack.set(DataComponents.SKILL_EXPERIENCE, Math.max(0, newExperience - experienceCap));
-            ToolUtils.increaseExpCap(stack);
+            increaseExpCap();
         }
     }
 
@@ -137,5 +134,12 @@ public class LevelableStack implements Levelable {
     @Override
     public ResourceKey<SkillData> getKey() {
         return key;
+    }
+
+    @Override
+    public void increaseExpCap(int levelIncrease) {
+        int experienceCap = getExperienceCap();
+        int newCap = ToolUtils.getNewCap(experienceCap, levelIncrease);
+        stack.set(DataComponents.EXPERIENCE_CAP, newCap);
     }
 }

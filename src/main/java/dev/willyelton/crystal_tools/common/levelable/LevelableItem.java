@@ -52,6 +52,7 @@ public interface LevelableItem {
         return stack.getOrDefault(DataComponents.SKILL_POINTS, 0);
     }
 
+    @Deprecated
     default int getExperienceCap(ItemStack tool) {
         return tool.getOrDefault(DataComponents.EXPERIENCE_CAP, CrystalToolsConfig.BASE_EXPERIENCE_CAP.get());
     }

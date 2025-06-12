@@ -4,6 +4,7 @@ import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
+import dev.willyelton.crystal_tools.common.datamap.DataMaps;
 import dev.willyelton.crystal_tools.common.levelable.LevelableTooltip;
 import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
 import net.minecraft.network.chat.Component;
@@ -21,6 +22,9 @@ public class ItemTooltipEvent {
         int index = 1;
         // TODO: Config Map from items -> configs (will have to be initialized late probably)
         ItemStack stack = event.getItemStack();
+
+        if (stack.getItemHolder().getData(DataMaps.SKILL_TREES) == null) return;
+
         List<Component> tooltips = event.getToolTip();
 
         int durability = stack.getMaxDamage() - stack.getDamageValue();
