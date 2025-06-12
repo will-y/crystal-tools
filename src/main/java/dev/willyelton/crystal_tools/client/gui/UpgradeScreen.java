@@ -27,11 +27,12 @@ public class UpgradeScreen extends BaseUpgradeScreen {
     private final Runnable onClose;
     private int slotIndex = -1;
 
+    // TODO: Just pass in a `Levelable` object here?
     public UpgradeScreen(ItemStack itemStack, Player player, SkillData data, ResourceKey<SkillData> key) {
         this(itemStack, player, null, data, key);
     }
 
-    // TODO: Wrap this in something for backpack
+    // TODO: Wrap this in something for backpack (for curios)
     public UpgradeScreen(int slotIndex, Player player, Runnable onClose, SkillData data, ResourceKey<SkillData> key) {
         this(CrystalBackpack.getBackpackFromSlotIndex(player, slotIndex), player, onClose, data, key);
         this.slotIndex = slotIndex;

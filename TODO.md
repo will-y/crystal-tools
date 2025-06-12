@@ -93,3 +93,7 @@ Eventually
 - Datapack validation (make sure all requirements point to valid nodes / items)...
 - try out some vanilla skill trees
 - Resizing the screen after you spend a point resets it?
+- Figure out if I want to keep disabling tools
+  - Tooltip is main concern (skilldata on component would fix)
+  - Partial `Levelable` without level access could also work?
+  - Actually disabled isn't even on the levelable object. I guess could look up config by item somehow?

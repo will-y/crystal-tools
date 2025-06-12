@@ -12,6 +12,8 @@ import net.neoforged.neoforge.common.data.DataMapProvider;
 
 import java.util.concurrent.CompletableFuture;
 
+import static dev.willyelton.crystal_tools.CrystalTools.rl;
+
 public class CrystalToolsDataMaps extends DataMapProvider {
     public CrystalToolsDataMaps(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider) {
         super(packOutput, lookupProvider);
@@ -63,5 +65,8 @@ public class CrystalToolsDataMaps extends DataMapProvider {
                 .add(EntityType.SKELETON.builtInRegistryHolder(), Items.SKELETON_SKULL, false)
                 .add(EntityType.WITHER_SKELETON.builtInRegistryHolder(), Items.WITHER_SKELETON_SKULL, false)
                 .add(EntityType.PLAYER.builtInRegistryHolder(), Items.PLAYER_HEAD, false);
+
+        builder(DataMaps.SKILL_TREES)
+                .add(Registration.CRYSTAL_PICKAXE, rl("crystal_pickaxe"), false);
     }
 }

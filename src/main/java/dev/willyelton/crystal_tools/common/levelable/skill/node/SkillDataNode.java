@@ -13,7 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract  class  SkillDataNode {
+public abstract class SkillDataNode {
     private final int id;
     private final String name;
     private final String description;

@@ -86,6 +86,7 @@ public class AIOLevelableTool extends DiggerLevelableTool {
         return blockState.is(Tags.Blocks.ORES) || blockState.is(BlockTags.LOGS) || (blockState.is(BlockTags.LEAVES));
     }
 
+    // TODO: Goes somewhere else now probably
     @Override
     public void addAdditionalTooltips(ItemStack stack, Consumer<Component> components, LevelableItem item) {
         String toolTip = "\u00A79" + "Use Mode: " + StringUtils.capitalize(stack.getOrDefault(DataComponents.USE_MODE, "hoe").toString().toLowerCase(Locale.ROOT));
