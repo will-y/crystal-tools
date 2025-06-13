@@ -68,6 +68,7 @@ public class CrystalToolsDataMaps extends DataMapProvider {
 
         builder(DataMaps.SKILL_TREES)
                 .add(Registration.CRYSTAL_PICKAXE, rl("crystal_pickaxe"), false)
+                .add(Registration.CRYSTAL_SWORD, rl("crystal_sword"), false)
                 .add(Items.NETHERITE_PICKAXE.builtInRegistryHolder(), rl("simple_pickaxe"), false);
     }
 }

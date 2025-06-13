@@ -35,7 +35,7 @@ public class ProjectileHitEvent {
                             // This is how they get damage, ignore crits for now
                             int damage = Mth.ceil(Mth.clamp((double) f * 2, 0.0D, 2.147483647E9D));
 
-                            levelable.addExp(player.level(), player.getOnPos(), player, (int) (damage * CrystalToolsConfig.BOW_EXPERIENCE_BOOST.get()));
+                            levelable.addExp(player.level(), player.getOnPos(), player, (float) (damage * CrystalToolsConfig.BOW_EXPERIENCE_BOOST.get()));
                         }
                     }
                 }

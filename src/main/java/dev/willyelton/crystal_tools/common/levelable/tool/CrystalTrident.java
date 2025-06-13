@@ -164,11 +164,6 @@ public class CrystalTrident extends SwordLevelableTool implements EntityTargeter
     }
 
     @Override
-    protected double getAttackExperienceBoost() {
-        return CrystalToolsConfig.TRIDENT_EXPERIENCE_BOOST.get();
-    }
-
-    @Override
     public boolean mineBlock(@NotNull ItemStack tool, Level level, @NotNull BlockState blockState, @NotNull BlockPos blockPos, @NotNull LivingEntity entity) {
         return false;
     }

@@ -34,7 +34,7 @@ public class ShieldBlockEvent {
         Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, blockingEntity.level());
 
         if (levelable != null && event.getBlocked() && event.getBlockedDamage() > 0) {
-            levelable.addExp(blockingEntity.level(), blockingEntity.getOnPos(), blockingEntity, (int) Math.ceil(event.getBlockedDamage()));
+            levelable.addExp(blockingEntity.level(), blockingEntity.getOnPos(), blockingEntity, event.getBlockedDamage());
 
             if (attackingEntity instanceof LivingEntity targetEntity) {
                 handleTargetEffects(targetEntity, stack, blockingEntity, blockingEntity.level());

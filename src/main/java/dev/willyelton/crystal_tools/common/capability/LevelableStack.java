@@ -78,24 +78,31 @@ public class LevelableStack implements Levelable {
 
         Optional<Holder.Reference<SkillData>> skillData = ToolUtils.getSkillData(level, treeLocation);
 
-        return skillData.map(skillDataReference -> new LevelableStack(stack, skillDataReference.value(), skillDataReference.key())).orElse(null);
+        return skillData.map(skillDataReference -> new LevelableStack(stack, skillDataReference.value(), skillDataReference.key(), getExperienceModifier(stack))).orElse(null);
+    }
+
+    // Will come from datamap later
+    private static double getExperienceModifier(ItemStack stack) {
+        return 1;
     }
 
     private final ItemStack stack;
     private final SkillData skillData;
     private final SkillPoints points;
     private final ResourceKey<SkillData> key;
+    private final double experienceModifier;
 
-    private LevelableStack(ItemStack stack, SkillData skillData, ResourceKey<SkillData> key) {
+    private LevelableStack(ItemStack stack, SkillData skillData, ResourceKey<SkillData> key, double experienceModifier) {
         this.stack = stack;
         this.skillData = skillData;
         this.points = stack.getOrDefault(DataComponents.SKILL_POINT_DATA, new SkillPoints());
         this.key = key;
+        this.experienceModifier = experienceModifier;
     }
 
     @Override
-    public void addExp(Level level, BlockPos blockPos, LivingEntity livingEntity, int amount) {
-        int newExperience = DataComponents.addToComponent(stack, DataComponents.SKILL_EXPERIENCE, amount);
+    public void addExp(Level level, BlockPos blockPos, LivingEntity livingEntity, float amount) {
+        int newExperience = DataComponents.addToComponent(stack, DataComponents.SKILL_EXPERIENCE, (int) (amount * experienceModifier));
         int experienceCap = getExperienceCap();
 
         if (newExperience >= experienceCap) {

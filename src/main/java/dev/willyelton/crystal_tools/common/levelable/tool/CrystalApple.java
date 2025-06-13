@@ -50,7 +50,7 @@ public class CrystalApple extends LevelableTool {
         if (levelable != null) {
             FoodProperties food = stack.getOrDefault(net.minecraft.core.component.DataComponents.FOOD, new FoodProperties(0, 0, false));
             int effectiveHunger = (int) (food.nutrition() * food.saturation() * 2) + food.nutrition();
-            levelable.addExp(level, player.getOnPos(), player, (int) (effectiveHunger * CrystalToolsConfig.APPLE_EXPERIENCE_BOOST.get()));
+            levelable.addExp(level, player.getOnPos(), player, effectiveHunger);
             stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
         }
 

@@ -13,7 +13,7 @@ import net.minecraft.world.level.Level;
  */
 public interface Levelable {
 
-    void addExp(Level level, BlockPos blockPos, LivingEntity livingEntity, int amount);
+    void addExp(Level level, BlockPos blockPos, LivingEntity livingEntity, float amount);
 
     default void addExp(Level level, BlockPos blockPos, LivingEntity livingEntity) {
         addExp(level, blockPos, livingEntity, 1);
