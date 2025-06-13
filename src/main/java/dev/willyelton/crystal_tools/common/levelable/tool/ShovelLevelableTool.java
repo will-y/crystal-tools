@@ -2,7 +2,6 @@ package dev.willyelton.crystal_tools.common.levelable.tool;
 
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.ToolUseUtils;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -17,12 +16,12 @@ public class ShovelLevelableTool extends DiggerLevelableTool {
     }
 
     @Override
-    public InteractionResult useOn(UseOnContext pContext) {
+    public InteractionResult useOn(UseOnContext context) {
         if (this.isDisabled()) {
-            pContext.getItemInHand().shrink(1);
+            context.getItemInHand().shrink(1);
             return InteractionResult.FAIL;
         }
-        return ToolUseUtils.useOnShovel3x3(pContext, this);
+        return ToolUseUtils.useOnShovel3x3(context);
     }
 
     @Override

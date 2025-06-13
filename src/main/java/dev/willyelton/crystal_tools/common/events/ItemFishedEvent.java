@@ -1,8 +1,10 @@
 package dev.willyelton.crystal_tools.common.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.common.capability.Capabilities;
+import dev.willyelton.crystal_tools.common.capability.Levelable;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.tool.CrystalFishingRod;
 import net.minecraft.world.entity.player.Player;
@@ -28,15 +30,17 @@ public class ItemFishedEvent {
             return;
         }
 
-        CrystalFishingRod rodItem = (CrystalFishingRod) rodStack.getItem();
-
         if (!rodStack.isEmpty()) {
             if (rodStack.getOrDefault(DataComponents.DOUBLE_DROPS, 0F) > player.level().getRandom().nextFloat()) {
                 Collection<ItemStack> copiedDrops = event.getDrops().stream().map(ItemStack::copy).toList();
                 CrystalFishingRod.dropExtraItems(copiedDrops, player, hook);
             }
 
-            rodItem.addExp(rodStack, player.level(), player.getOnPos(), player, CrystalToolsConfig.FISHING_ROD_EXP.get());
+            Levelable levelable = rodStack.getCapability(Capabilities.ITEM_SKILL, player.level());
+
+            if (levelable != null) {
+                levelable.addExp(player.level(), player.getOnPos(), player, CrystalToolsConfig.FISHING_ROD_EXP.get());
+            }
         }
     }
 }

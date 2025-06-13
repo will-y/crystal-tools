@@ -3,7 +3,6 @@ package dev.willyelton.crystal_tools.common.levelable.tool;
 import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.utils.StringUtils;
 import dev.willyelton.crystal_tools.utils.ToolUseUtils;
 import net.minecraft.network.chat.Component;
@@ -11,6 +10,8 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.ItemAbility;
@@ -49,16 +50,16 @@ public class AIOLevelableTool extends DiggerLevelableTool {
 
         switch (mode) {
             case HOE -> {
-                return ToolUseUtils.useOnHoe3x3(context, this);
+                return ToolUseUtils.useOnHoe3x3(context);
             }
             case SHOVEL -> {
-                return ToolUseUtils.useOnShovel3x3(context, this);
+                return ToolUseUtils.useOnShovel3x3(context);
             }
             case AXE -> {
                 return ToolUseUtils.useOnAxeVeinStrip(context, this);
             }
             case TORCH -> {
-                return ToolUseUtils.useOnTorch(context, this);
+                return ToolUseUtils.useOnTorch(context);
             }
         }
 
@@ -86,9 +87,8 @@ public class AIOLevelableTool extends DiggerLevelableTool {
         return blockState.is(Tags.Blocks.ORES) || blockState.is(BlockTags.LOGS) || (blockState.is(BlockTags.LEAVES));
     }
 
-    // TODO: Goes somewhere else now probably
     @Override
-    public void addAdditionalTooltips(ItemStack stack, Consumer<Component> components, LevelableItem item) {
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> components, TooltipFlag flag) {
         String toolTip = "\u00A79" + "Use Mode: " + StringUtils.capitalize(stack.getOrDefault(DataComponents.USE_MODE, "hoe").toString().toLowerCase(Locale.ROOT));
         if (RegisterKeyBindingsEvent.MODE_SWITCH != null) {
             toolTip = toolTip + " (alt + " + RegisterKeyBindingsEvent.MODE_SWITCH.getKey().getDisplayName().getString() + " to change)";

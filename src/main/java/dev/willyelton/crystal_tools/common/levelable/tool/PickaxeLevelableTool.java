@@ -17,7 +17,7 @@ public class PickaxeLevelableTool extends DiggerLevelableTool {
             return InteractionResult.FAIL;
         }
 
-        return ToolUseUtils.useOnTorch(context, this);
+        return ToolUseUtils.useOnTorch(context);
     }
 
     @Override

@@ -87,6 +87,10 @@ Before full release
 - All checks should be registry or datacomponent checks, not instanceof checks
 - Upgrading backpack in curios slot
 - Quarry cube is black again
+- Object in the datamap
+  - Rl for tree
+  - Base config
+  - Exp scaling
 
 Eventually
 - Better way to get tools on server (could technically change positions)
@@ -99,3 +103,5 @@ Eventually
   - Actually disabled isn't even on the levelable object. I guess could look up config by item somehow?
   - Config by item map initialized in some event (when items are ready)
 - Maybe: Move repairing items to `EntityTickEvent` and iterate the inventory (would allow curios items to be ticked + repairing for vanilla tools if wanted)
+- Config option for exp for non-crystal tools (maybe make it a part of the datamap). There could be lots of other useful stuff in there too
+- Use actions should probably be datacomponents and all handled either in that event or the base levelable class

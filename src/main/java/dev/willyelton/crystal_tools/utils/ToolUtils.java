@@ -22,12 +22,8 @@ public class ToolUtils {
         return durability <= 1;
     }
 
-    public static void increaseExpCap(ItemStack stack) {
-        increaseExpCap(stack, 1);
-    }
-
     @Deprecated
-    // TODO: remove from recipes
+    // TODO: remove from recipes. Might have to change the capability to registryaccess :(
     public static void increaseExpCap(ItemStack stack, int levelIncrease) {
         if (stack.getItem() instanceof LevelableItem item) {
             int experienceCap = item.getExperienceCap(stack);

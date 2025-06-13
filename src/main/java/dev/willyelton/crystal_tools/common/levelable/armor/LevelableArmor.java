@@ -56,8 +56,6 @@ public class LevelableArmor extends Item implements LevelableItem {
                 consumer.accept(Component.literal("\u00A7c\u00A7l" + "Frost Walker Disabled (Shift + " + modeSwitchKey + ") To Enable"));
             }
         }
-
-        appendLevelableHoverText(stack, consumer, this, flag, context);
     }
 
     @Override

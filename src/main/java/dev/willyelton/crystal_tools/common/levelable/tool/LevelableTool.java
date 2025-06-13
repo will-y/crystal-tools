@@ -1,11 +1,12 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
+import dev.willyelton.crystal_tools.common.capability.Capabilities;
+import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.common.network.data.BlockBreakPayload;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -16,8 +17,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -57,7 +56,7 @@ public abstract class LevelableTool extends Item implements LevelableItem {
                     attacker.heal(heal);
                 }
 
-                addExp(tool, target.level(), attacker.getOnPos(), attacker, (int) (getAttackDamage(attacker, tool) * getAttackExperienceBoost()));
+                // addExp(tool, target.level(), attacker.getOnPos(), attacker, (int) (getAttackDamage(attacker, tool) * getAttackExperienceBoost()));
             }
         }
     }
@@ -77,15 +76,21 @@ public abstract class LevelableTool extends Item implements LevelableItem {
         return true;
     }
 
-    public void breakBlock(ItemStack tool, Level level, BlockPos blockPos, LivingEntity entity) {
+    public void breakBlock(ItemStack stack, Level level, BlockPos blockPos, LivingEntity entity) {
         BlockState blockState = level.getBlockState(blockPos);
-        if (isCorrectToolForDrops(tool, blockState) && !ToolUtils.isBroken(tool) && entity instanceof ServerPlayer) {
+        if (isCorrectToolForDrops(stack, blockState) && !ToolUtils.isBroken(stack) && entity instanceof ServerPlayer) {
             if (!level.isClientSide) {
-                Block.dropResources(blockState, level, blockPos, level.getBlockEntity(blockPos), entity, tool);
+                Block.dropResources(blockState, level, blockPos, level.getBlockEntity(blockPos), entity, stack);
                 level.destroyBlock(blockPos, false, entity);
-                tool.hurtAndBreak(1, entity, EquipmentSlot.MAINHAND);
+                stack.hurtAndBreak(1, entity, EquipmentSlot.MAINHAND);
             }
-            addExp(tool, level, blockPos, entity);
+
+            Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level);
+            if (levelable == null) {
+                return;
+            }
+
+            levelable.addExp(level, blockPos, entity);
         }
     }
 
@@ -117,11 +122,6 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     @Override
     public void inventoryTick(ItemStack itemStack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot) {
         levelableInventoryTick(itemStack, level, entity, slot, 1);
-    }
-
-    @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> tooltipComponents, TooltipFlag flag) {
-        appendLevelableHoverText(stack, tooltipComponents, this, flag, context);
     }
 
     @Override

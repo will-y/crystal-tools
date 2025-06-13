@@ -1,6 +1,8 @@
 package dev.willyelton.crystal_tools.common.levelable.armor;
 
 import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
+import dev.willyelton.crystal_tools.common.capability.Capabilities;
+import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
@@ -46,8 +48,6 @@ public class CrystalElytra extends LevelableTool implements LevelableItem {
                 components.accept(Component.literal("\u00A79" + "Ctrl + " + modeSwitchKey + " To Disable Creative Flight"));
             }
         }
-
-        appendLevelableHoverText(stack, components, this, flag, context);
     }
 
     @Override
@@ -66,7 +66,10 @@ public class CrystalElytra extends LevelableTool implements LevelableItem {
         if (entity instanceof LivingEntity livingEntity) {
             if (livingEntity.isFallFlying()) {
                 if (livingEntity.getFallFlyingTicks() % 20 == 0) {
-                    this.addExp(stack, entity.level(), entity.getOnPos(), livingEntity);
+                    Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level);
+                    if (levelable != null) {
+                        levelable.addExp(entity.level(), entity.getOnPos(), livingEntity);
+                    }
                 }
             }
         }

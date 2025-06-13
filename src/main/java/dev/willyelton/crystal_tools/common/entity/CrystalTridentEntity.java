@@ -1,6 +1,8 @@
 package dev.willyelton.crystal_tools.common.entity;
 
 import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.common.capability.Capabilities;
+import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.tool.CrystalTrident;
@@ -137,7 +139,8 @@ public class CrystalTridentEntity extends AbstractArrow {
             }
 
             if (damagingEntity instanceof Player player) {
-                tridentItem.addExp(tridentStack, level(), damagingEntity.getOnPos(), player, (int) damage);
+                Levelable levelable = tridentStack.getCapability(Capabilities.ITEM_SKILL, level());
+                levelable.addExp(level(), damagingEntity.getOnPos(), player, (int) damage);
             }
         }
 

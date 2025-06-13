@@ -1,18 +1,14 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
+import dev.willyelton.crystal_tools.common.capability.Capabilities;
+import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.components.EffectData;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,15 +17,8 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
-import net.minecraft.world.item.component.Consumable;
-import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
 
 public class CrystalApple extends LevelableTool {
     private static final int BASE_EAT_SPEED = 32;
@@ -57,11 +46,13 @@ public class CrystalApple extends LevelableTool {
             stack.grow(1);
         }
 
-        FoodProperties food = stack.getOrDefault(net.minecraft.core.component.DataComponents.FOOD, new FoodProperties(0, 0, false));
-        int effectiveHunger = (int) (food.nutrition() * food.saturation() * 2) + food.nutrition();
-        this.addExp(stack, level, player.getOnPos(), player, (int) (effectiveHunger * CrystalToolsConfig.APPLE_EXPERIENCE_BOOST.get()));
-        stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
-
+        Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level);
+        if (levelable != null) {
+            FoodProperties food = stack.getOrDefault(net.minecraft.core.component.DataComponents.FOOD, new FoodProperties(0, 0, false));
+            int effectiveHunger = (int) (food.nutrition() * food.saturation() * 2) + food.nutrition();
+            levelable.addExp(level, player.getOnPos(), player, (int) (effectiveHunger * CrystalToolsConfig.APPLE_EXPERIENCE_BOOST.get()));
+            stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
+        }
 
         return super.finishUsingItem(stack, level, player);
     }

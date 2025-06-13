@@ -1,6 +1,8 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
 import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
+import dev.willyelton.crystal_tools.common.capability.Capabilities;
+import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
@@ -22,7 +24,6 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.function.Consumer;
 
 public class CrystalRocket extends LevelableTool {
@@ -58,7 +59,11 @@ public class CrystalRocket extends LevelableTool {
                 player.awardStat(Stats.ITEM_USED.get(this));
             }
 
-            addExp(stack, level, player.getOnPos(), player, CrystalToolsConfig.ROCKET_EXPERIENCE_BOOST.get());
+            Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level);
+            if (levelable != null) {
+                levelable.addExp(level, player.getOnPos(), player, CrystalToolsConfig.ROCKET_EXPERIENCE_BOOST.get());
+            }
+
             stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
 
             return InteractionResult.SUCCESS;
