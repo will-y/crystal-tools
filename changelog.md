@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 3.0.0 - beta 3
+### Fixes
+- Fixes part of the quarry renderer being all black
+
 ## 3.0.0 - beta 2
 ### Changes
 - Skill trees can now be applied to vanilla (or other modded) tools

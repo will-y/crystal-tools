@@ -11,7 +11,8 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.TriState;
 
-import static net.minecraft.client.renderer.RenderStateShard.LIGHTMAP;
+import static dev.willyelton.crystal_tools.CrystalTools.rl;
+import static net.minecraft.client.renderer.RenderPipelines.ENTITY_SNIPPET;
 import static net.minecraft.client.renderer.RenderStateShard.NO_LIGHTMAP;
 import static net.minecraft.client.renderer.RenderStateShard.NO_TEXTURE;
 import static net.minecraft.client.renderer.RenderStateShard.OVERLAY;
@@ -30,10 +31,20 @@ public class CrystalToolsRenderTypes {
             .buildSnippet();
 
     public static RenderPipeline POSITION_COLOR_PIPELINE = RenderPipeline.builder(POSITION_COLOR_SNIPPET)
-            .withLocation(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "pipeline/block_overlay"))
+            .withLocation(rl("pipeline/block_overlay"))
             .withVertexShader("core/position_color")
             .withFragmentShader("core/position_color")
-//            .withSampler("Sampler0")
+            .build();
+
+    public static RenderPipeline QUARRY_CUBE_PIPELINE = RenderPipeline.builder(ENTITY_SNIPPET)
+            .withLocation(rl("pipeline/quarry_cube"))
+            .withVertexShader("core/position_color_tex_lightmap")
+            .withFragmentShader("core/position_color_tex_lightmap")
+            .withShaderDefine("ALPHA_CUTOUT", 0.1F)
+            .withSampler("Sampler1")
+            .withBlend(BlendFunction.TRANSLUCENT)
+            .withCull(false)
+            .withVertexFormat(DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS)
             .build();
 
     public static final RenderType BLOCK_OVERLAY = create(
@@ -62,10 +73,12 @@ public class CrystalToolsRenderTypes {
             1536,
             true,
             false,
-            RenderPipelines.ENTITY_CUTOUT_NO_CULL,
+            QUARRY_CUBE_PIPELINE,
             RenderType.CompositeState.builder()
                     .setTextureState(new RenderStateShard.TextureStateShard(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/entity/crystal_quarry_cube.png"), TriState.FALSE, false))
-                    .setLightmapState(LIGHTMAP)
+                    .setLightmapState(NO_LIGHTMAP)
                     .setOverlayState(OVERLAY)
                     .createCompositeState(true));
+
+    public static final RenderType QUARRY_CUBE_2 = RenderType.entityCutoutNoCull(rl("textures/entity/crystal_quarry_cube.png"));
 }

@@ -29,5 +29,6 @@ public class ClientEvents {
     @SubscribeEvent
     public static void registerPipeline(RegisterRenderPipelinesEvent event) {
         event.registerPipeline(CrystalToolsRenderTypes.POSITION_COLOR_PIPELINE);
+        event.registerPipeline(CrystalToolsRenderTypes.QUARRY_CUBE_PIPELINE);
     }
 }
