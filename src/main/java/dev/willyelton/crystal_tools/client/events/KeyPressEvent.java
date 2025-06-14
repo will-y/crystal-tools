@@ -3,17 +3,16 @@ package dev.willyelton.crystal_tools.client.events;
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.client.gui.ModGUIs;
 import dev.willyelton.crystal_tools.client.gui.UpgradeScreen;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
+import dev.willyelton.crystal_tools.common.capability.Capabilities;
+import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.network.data.ModeSwitchPayload;
 import dev.willyelton.crystal_tools.common.network.data.OpenBackpackPayload;
 import dev.willyelton.crystal_tools.common.network.data.TriggerRocketPayload;
 import dev.willyelton.crystal_tools.common.network.data.VeinMiningPayload;
-import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
@@ -24,8 +23,6 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
-
-import java.util.Optional;
 
 @EventBusSubscriber(modid = CrystalTools.MODID, value = Dist.CLIENT)
 public class KeyPressEvent {
@@ -74,10 +71,10 @@ public class KeyPressEvent {
 
         Level level = player.level();
 
-        Optional<Holder.Reference<SkillData>> dataOptional = ToolUtils.getSkillData(level, stack);
-        if (dataOptional.isPresent()) {
-            SkillData data = dataOptional.get().value();
-            ModGUIs.openScreen(new UpgradeScreen(stack, player, data, dataOptional.get().key()));
+        Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level);
+
+        if (levelable != null) {
+            ModGUIs.openScreen(new UpgradeScreen(stack, player, levelable));
             return true;
         }
 

@@ -2,9 +2,10 @@ package dev.willyelton.crystal_tools.client.gui;
 
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.gui.component.SkillButton;
+import dev.willyelton.crystal_tools.common.capability.Levelable;
+import dev.willyelton.crystal_tools.common.capability.LevelableStack;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.CrystalBackpack;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
 import dev.willyelton.crystal_tools.common.network.data.ResetSkillsPayload;
@@ -14,33 +15,37 @@ import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
 public class UpgradeScreen extends BaseUpgradeScreen {
+    @Nullable
     private Button healButton;
     private final ItemStack stack;
     private final Runnable onClose;
+    private final Levelable levelable;
+
     private int slotIndex = -1;
 
-    public UpgradeScreen(ItemStack itemStack, Player player, SkillData data, ResourceKey<SkillData> key) {
-        this(itemStack, player, null, data, key);
+    public UpgradeScreen(ItemStack itemStack, Player player, Levelable levelable) {
+        this(itemStack, player, null, levelable);
     }
 
-    // TODO: Wrap this in something for backpack
-    public UpgradeScreen(int slotIndex, Player player, Runnable onClose, SkillData data, ResourceKey<SkillData> key) {
-        this(CrystalBackpack.getBackpackFromSlotIndex(player, slotIndex), player, onClose, data, key);
+    // TODO: Wrap this in something for backpack (for curios)
+    public UpgradeScreen(int slotIndex, Player player, Runnable onClose, Levelable levelable) {
+        this(CrystalBackpack.getBackpackFromSlotIndex(player, slotIndex), player, onClose, levelable);
         this.slotIndex = slotIndex;
     }
 
-    public UpgradeScreen(ItemStack itemStack, Player player, Runnable onClose, SkillData data, ResourceKey<SkillData> key) {
-        super(player, Component.literal("Upgrade Screen"), data, key);
+    public UpgradeScreen(ItemStack itemStack, Player player, Runnable onClose, Levelable levelable) {
+        super(player, Component.literal("Upgrade Screen"), levelable.getSkillTree(), levelable.getKey());
         this.stack = itemStack;
         this.onClose = onClose;
+        this.levelable = levelable;
     }
 
     /**
@@ -49,6 +54,9 @@ public class UpgradeScreen extends BaseUpgradeScreen {
     @Override
     protected void initComponents() {
         super.initComponents();
+
+        if (levelable instanceof LevelableStack levelableStack && !levelableStack.allowRepair()) return;
+
         // add button to spend skill points to heal tool
         healButton = addRenderableWidget(Button.builder(Component.literal("Heal"), (button) -> {
             PacketDistributor.sendToServer(ToolHealPayload.INSTANCE);
@@ -84,7 +92,9 @@ public class UpgradeScreen extends BaseUpgradeScreen {
     protected void updateButtons() {
         super.updateButtons();
         int skillPoints = getSkillPoints();
-        this.healButton.active = skillPoints > 0 && this.stack.isDamaged();
+        if (this.healButton != null) {
+            this.healButton.active = skillPoints > 0 && this.stack.isDamaged();
+        }
     }
 
     @Override
@@ -130,5 +140,15 @@ public class UpgradeScreen extends BaseUpgradeScreen {
         if (this.onClose != null) {
             this.onClose.run();
         }
+    }
+
+    @Override
+    protected boolean allowReset() {
+        return levelable.allowReset();
+    }
+
+    @Override
+    protected boolean allowXpLevels() {
+        return levelable.allowXpLevels();
     }
 }

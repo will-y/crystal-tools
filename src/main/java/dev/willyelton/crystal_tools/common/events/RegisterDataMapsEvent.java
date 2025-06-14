@@ -13,5 +13,6 @@ public class RegisterDataMapsEvent {
         event.register(DataMaps.GENERATOR_GEMS);
         event.register(DataMaps.GENERATOR_METALS);
         event.register(DataMaps.MOB_HEADS);
+        event.register(DataMaps.SKILL_TREES);
     }
 }

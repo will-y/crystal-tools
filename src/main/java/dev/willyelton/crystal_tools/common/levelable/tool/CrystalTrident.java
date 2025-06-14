@@ -31,6 +31,8 @@ import org.jetbrains.annotations.NotNull;
 public class CrystalTrident extends SwordLevelableTool implements EntityTargeter {
     public CrystalTrident(Item.Properties properties) {
         super(properties.attributes(TridentItem.createAttributes())
+                .stacksTo(1)
+                .durability(CRYSTAL.durability())
                 .component(net.minecraft.core.component.DataComponents.TOOL, TridentItem.createToolProperties())
                 .component(net.minecraft.core.component.DataComponents.WEAPON, new Weapon(1)), "trident");
     }
@@ -161,11 +163,6 @@ public class CrystalTrident extends SwordLevelableTool implements EntityTargeter
     public void onStopUsing(ItemStack stack, LivingEntity entity, int count) {
         clearTarget(stack, entity.level());
         super.onStopUsing(stack, entity, count);
-    }
-
-    @Override
-    protected double getAttackExperienceBoost() {
-        return CrystalToolsConfig.TRIDENT_EXPERIENCE_BOOST.get();
     }
 
     @Override

@@ -5,14 +5,13 @@ import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.client.gui.component.backpack.BackpackScreenButton;
 import dev.willyelton.crystal_tools.client.gui.component.backpack.CompressButton;
 import dev.willyelton.crystal_tools.client.gui.component.backpack.SortButton;
+import dev.willyelton.crystal_tools.common.capability.Capabilities;
+import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalBackpackContainerMenu;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.network.data.OpenBackpackPayload;
-import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -22,7 +21,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBackpackContainerMenu> implements SubScreenContainerScreen {
     public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/gui/crystal_backpack.png");
@@ -122,10 +120,9 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
         this.addRenderableWidget(new BackpackScreenButton(this.leftPos - 21, screenButtonY, Component.literal("Open Skill Tree"),
                 button -> {
                     this.onClose();
-                    Optional<Holder.Reference<SkillData>> dataOptional = ToolUtils.getSkillData(player.level(), container.getBackpackStack());
-                    if (dataOptional.isPresent()) {
-                        SkillData data = dataOptional.get().value();
-                        ModGUIs.openScreen(new UpgradeScreen(menu.getSlotIndex(), menu.getPlayer(), () -> PacketDistributor.sendToServer(new OpenBackpackPayload(menu.getSlotIndex())), data, dataOptional.get().key()));
+                    Levelable levelable = this.container.getBackpackStack().getCapability(Capabilities.ITEM_SKILL, player.level());
+                    if (levelable != null) {
+                        ModGUIs.openScreen(new UpgradeScreen(menu.getSlotIndex(), menu.getPlayer(), () -> PacketDistributor.sendToServer(new OpenBackpackPayload(menu.getSlotIndex())), levelable));
                     }
                 },
                 (button, guiGraphics, mouseX, mouseY) -> {

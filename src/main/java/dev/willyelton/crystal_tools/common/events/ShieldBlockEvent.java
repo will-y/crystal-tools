@@ -1,17 +1,14 @@
 package dev.willyelton.crystal_tools.common.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
+import dev.willyelton.crystal_tools.common.capability.Capabilities;
+import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.components.EffectData;
-import dev.willyelton.crystal_tools.common.levelable.tool.CrystalShield;
 import net.minecraft.core.Holder;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -24,7 +21,6 @@ import net.neoforged.neoforge.event.entity.living.LivingShieldBlockEvent;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @EventBusSubscriber(modid = CrystalTools.MODID)
 public class ShieldBlockEvent {
@@ -35,20 +31,19 @@ public class ShieldBlockEvent {
         Entity attackingEntity = event.getDamageSource().getEntity();
         Entity directEntity = event.getDamageSource().getDirectEntity();
         ItemStack stack = blockingEntity.getUseItem();
+        Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, blockingEntity.level());
 
-        if (stack.getItem() instanceof CrystalShield crystalShield) {
-            if (event.getBlocked() && event.getBlockedDamage() > 0) {
-                crystalShield.addExp(blockingEntity.getUseItem(), blockingEntity.level(), blockingEntity.getOnPos(), blockingEntity, (int) Math.ceil(event.getBlockedDamage()));
+        if (levelable != null && event.getBlocked() && event.getBlockedDamage() > 0) {
+            levelable.addExp(blockingEntity.level(), blockingEntity.getOnPos(), blockingEntity, event.getBlockedDamage());
 
-                if (attackingEntity instanceof LivingEntity targetEntity) {
-                    handleTargetEffects(targetEntity, stack, blockingEntity, blockingEntity.level());
-                }
+            if (attackingEntity instanceof LivingEntity targetEntity) {
+                handleTargetEffects(targetEntity, stack, blockingEntity, blockingEntity.level());
+            }
 
-                if (directEntity instanceof Projectile projectile) {
-                    int target = stack.getOrDefault(DataComponents.ENTITY_TARGET, -1);
-                    if (target != -1) {
-                        LevelTickEvent.startTracking(attackingEntity.level(), projectile.getId(), target, projectile.getDeltaMovement().length());
-                    }
+            if (directEntity instanceof Projectile projectile) {
+                int target = stack.getOrDefault(DataComponents.ENTITY_TARGET, -1);
+                if (target != -1) {
+                    LevelTickEvent.startTracking(attackingEntity.level(), projectile.getId(), target, projectile.getDeltaMovement().length());
                 }
             }
         }

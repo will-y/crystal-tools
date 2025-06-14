@@ -32,6 +32,7 @@ public class CrystalToolsItemSkillTrees {
     public static void register(BootstrapContext<SkillData> context) {
         CrystalToolsItemSkillTrees skillTrees = new CrystalToolsItemSkillTrees(context);
         skillTrees.registerSkillTrees();
+        MinecraftItemSkillTrees.registerSkillTrees(context);
     }
 
     public CrystalToolsItemSkillTrees(BootstrapContext<SkillData> context) {
@@ -42,6 +43,7 @@ public class CrystalToolsItemSkillTrees {
         // Basic Mining Tools
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
                 Registration.CRYSTAL_PICKAXE.getId()), basicMiningTool("Pickaxe"));
+        // TODO: Probably missing shear
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
                 Registration.CRYSTAL_HOE.getId()), basicMiningTool("Hoe"));
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
@@ -1326,7 +1328,7 @@ public class CrystalToolsItemSkillTrees {
                     .endOptional();
     }
 
-    private ResourceLocation attr(Holder<Attribute> attribute) {
+    public static ResourceLocation attr(Holder<Attribute> attribute) {
         ResourceKey<?> key = attribute.getKey();
         if (key == null) {
             throw new IllegalArgumentException("Invalid attribute " + attribute);

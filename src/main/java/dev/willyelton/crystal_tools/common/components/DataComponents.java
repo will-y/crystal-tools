@@ -2,6 +2,8 @@ package dev.willyelton.crystal_tools.common.components;
 
 import com.mojang.serialization.Codec;
 import dev.willyelton.crystal_tools.CrystalTools;
+import dev.willyelton.crystal_tools.common.levelable.LevelableTooltip;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.common.levelable.tool.UseMode;
 import net.minecraft.core.BlockPos;
@@ -34,6 +36,8 @@ public class DataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> SKILL_EXPERIENCE = register("skill_experience", Codec.INT, ByteBufCodecs.VAR_INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> EXPERIENCE_CAP = register("experience_cap", Codec.INT, ByteBufCodecs.VAR_INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<SkillPoints>> SKILL_POINT_DATA = COMPONENTS.register("skill_point_data", () -> DataComponentType.<SkillPoints>builder().persistent(SkillPoints.CODEC).networkSynchronized(SkillPoints.STREAM_CODEC).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<SkillData>> SKILL_DATA = COMPONENTS.register("skill_data", () -> DataComponentType.<SkillData>builder().persistent(SkillData.CODEC).networkSynchronized(SkillData.STREAM_CODEC).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<LevelableTooltip>> SKILL_TOOLTIP = COMPONENTS.register("skill_tooltip", () -> DataComponentType.<LevelableTooltip>builder().persistent(LevelableTooltip.CODEC).networkSynchronized(LevelableTooltip.STREAM_CODEC).build());
 
     // All tools
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> UNBREAKING = register("unbreaking", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);

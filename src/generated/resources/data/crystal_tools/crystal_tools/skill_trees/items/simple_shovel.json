@@ -1,0 +1,448 @@
+{
+  "equipmentSlot": "mainhand",
+  "tiers": [
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Shovel's Mining Speed",
+          "id": 0,
+          "key": [
+            "minecraft:mining_efficiency"
+          ],
+          "limit": 1,
+          "name": "Mining Speed I",
+          "requirements": [],
+          "value": 2.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Shovel's Durability",
+          "id": 1,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability I",
+          "requirements": [],
+          "value": 50.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Shovel's Mining Speed",
+          "id": 2,
+          "key": [
+            "minecraft:mining_efficiency"
+          ],
+          "limit": 1,
+          "name": "Mining Speed II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                0
+              ]
+            }
+          ],
+          "value": 2.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Shovel's Durability",
+          "id": 3,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                1
+              ]
+            }
+          ],
+          "value": 50.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Shovel's Reach Distance",
+          "id": 4,
+          "key": [
+            "minecraft:block_interaction_range",
+            "minecraft:entity_interaction_range"
+          ],
+          "limit": 1,
+          "name": "Reach I",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                2,
+                3
+              ]
+            }
+          ],
+          "value": 0.5
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 5% to the chance not to use durability",
+          "id": 5,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking I",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                2,
+                3
+              ]
+            }
+          ],
+          "value": 0.05
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Shovel's Mining Speed",
+          "id": 6,
+          "key": [
+            "minecraft:mining_efficiency"
+          ],
+          "limit": 1,
+          "name": "Mining Speed III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                2
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                4,
+                5
+              ]
+            }
+          ],
+          "value": 2.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Shovel's Durability",
+          "id": 7,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                3
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                4,
+                5
+              ]
+            }
+          ],
+          "value": 50.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Shovel's Mining Speed",
+          "id": 8,
+          "key": [
+            "minecraft:mining_efficiency"
+          ],
+          "limit": 1,
+          "name": "Mining Speed IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                6
+              ]
+            }
+          ],
+          "value": 2.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Shovel's Durability",
+          "id": 9,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                7
+              ]
+            }
+          ],
+          "value": 50.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Shovel's Reach Distance",
+          "id": 10,
+          "key": [
+            "minecraft:block_interaction_range",
+            "minecraft:entity_interaction_range"
+          ],
+          "limit": 1,
+          "name": "Reach II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                4
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                8,
+                9
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 5% to the chance not to use durability",
+          "id": 11,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                5
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                8,
+                9
+              ]
+            }
+          ],
+          "value": 0.05
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Shovel's Mining Speed",
+          "id": 12,
+          "key": [
+            "minecraft:mining_efficiency"
+          ],
+          "limit": 1,
+          "name": "Mining Speed V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                8
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                10,
+                11
+              ]
+            }
+          ],
+          "value": 2.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Shovel's Durability",
+          "id": 13,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                9
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                10,
+                11
+              ]
+            }
+          ],
+          "value": 50.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Shovel's Mining Speed",
+          "id": 14,
+          "key": [
+            "minecraft:mining_efficiency"
+          ],
+          "limit": 1,
+          "name": "Mining Speed V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                12
+              ]
+            }
+          ],
+          "value": 2.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Shovel's Durability",
+          "id": 15,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                13
+              ]
+            }
+          ],
+          "value": 50.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Shovel's Reach Distance",
+          "id": 16,
+          "key": [
+            "minecraft:block_interaction_range",
+            "minecraft:entity_interaction_range"
+          ],
+          "limit": 1,
+          "name": "Reach III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                10
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                14,
+                15
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 5% to the chance not to use durability",
+          "id": 17,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                11
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                14,
+                15
+              ]
+            }
+          ],
+          "value": 0.05
+        }
+      }
+    ]
+  ]
+}

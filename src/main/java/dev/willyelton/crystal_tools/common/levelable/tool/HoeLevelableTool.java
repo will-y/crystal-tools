@@ -5,7 +5,6 @@ import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.ToolUseUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
@@ -33,7 +32,7 @@ public class HoeLevelableTool extends DiggerLevelableTool {
             return InteractionResult.FAIL;
         }
 
-        return ToolUseUtils.useOnHoe3x3(context, this);
+        return ToolUseUtils.useOnHoe3x3(context);
     }
 
     @Override

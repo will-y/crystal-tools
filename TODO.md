@@ -64,6 +64,9 @@
 - Furnace should auto split on insert
 - Exclude hoppers from auto outputting (maybe create a tag?)
 - GLM for auto smelting
+- Armor piercing upgrade: https://docs.neoforged.net/docs/entities/livingentity/#damage-events
+- Something to do with extra points (turn to xp?)
+- Gradle task or something to generate the 2 new datapacks
 
 ## Bugs
 - Furnace skill screen doesn't fully refresh when open when point is gained
@@ -76,19 +79,27 @@
 
 ### 1.21 Things
 - Sometimes leveling skills scrolls to the top of the menu
-- Remove JEI access transformers
-
-### Next breaking changes
-- Skill data should probably be a capability, at least on items
 
 Before full release
 - Enchantment config option is broken
-- remove as much as possible from the tool classes
-- All checks should be registry or datacomponent checks, not instanceof checks
 - Upgrading backpack in curios slot
+- Quarry cube is black again
+- Shears for hoe upgrade probably broken
+- Vanilla armor trees
+- Vanilla bow tree (mixins probably)
+- Vanilla trident tree
 
 Eventually
-- Better way to get tools on server (could technically change positions)
+- Better way to get tools on server (could technically change positions) (this is relating to client to server packets)
 - Datapack validation (make sure all requirements point to valid nodes / items)...
 - try out some vanilla skill trees
 - Resizing the screen after you spend a point resets it?
+- Figure out if I want to keep disabling tools
+  - Tooltip is main concern (skilldata on component would fix)
+  - Partial `Levelable` without level access could also work?
+  - Actually disabled isn't even on the levelable object. I guess could look up config by item somehow?
+  - Config by item map initialized in some event (when items are ready)
+- Maybe: Move repairing items to `EntityTickEvent` and iterate the inventory (would allow curios items to be ticked + repairing for vanilla tools if wanted)
+- Use actions should probably be datacomponents and all handled either in that event or the base levelable class
+- Block entities should have and use levelable capability
+- Tooltip is wrong for unused items

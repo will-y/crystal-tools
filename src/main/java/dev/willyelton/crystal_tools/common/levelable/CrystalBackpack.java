@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.common.levelable;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.compat.curios.CuriosCompatibility;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
@@ -120,8 +121,6 @@ public class CrystalBackpack extends Item implements LevelableItem {
             String toolTip = "\u00A79" + "Auto Pickup " + (itemStack.getOrDefault(DataComponents.PICKUP_DISABLED, false) ? "Disabled" : "Enabled");
             components.accept(Component.literal(toolTip));
         }
-
-        appendLevelableHoverText(itemStack, components, this, flag, context);
     }
 
     @Override
@@ -295,8 +294,10 @@ public class CrystalBackpack extends Item implements LevelableItem {
     public static void addXpToBackpacks(Player player, int exp) {
         findBackpackStacks(player)
                 .forEach(stack -> {
-                    LevelableItem item = (LevelableItem) stack.getItem();
-                    item.addExp(stack, player.level(), player.blockPosition(), player, exp);
+                    Levelable levelable = stack.getCapability(dev.willyelton.crystal_tools.common.capability.Capabilities.ITEM_SKILL, player.level());
+                    if (levelable != null) {
+                        levelable.addExp(player.level(), player.blockPosition(), player, exp);
+                    }
                 });
     }
 }

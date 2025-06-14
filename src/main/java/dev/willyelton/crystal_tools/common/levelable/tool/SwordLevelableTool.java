@@ -35,9 +35,4 @@ public class SwordLevelableTool extends LevelableTool {
     public boolean isDisabled() {
         return CrystalToolsConfig.DISABLE_SWORD.get();
     }
-
-    @Override
-    protected double getAttackExperienceBoost() {
-        return CrystalToolsConfig.SWORD_EXPERIENCE_BOOST.get();
-    }
 }

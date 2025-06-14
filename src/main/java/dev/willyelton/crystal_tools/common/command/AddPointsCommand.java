@@ -5,8 +5,9 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import dev.willyelton.crystal_tools.common.capability.Capabilities;
+import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.world.InteractionHand;
@@ -30,7 +31,8 @@ public class AddPointsCommand {
 
         if (entity instanceof LivingEntity livingEntity) {
             ItemStack stack = livingEntity.getItemInHand(InteractionHand.MAIN_HAND);
-            if (stack.getItem() instanceof LevelableItem) {
+            Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, livingEntity.level());
+            if (levelable != null) {
                 DataComponents.addToComponent(stack, DataComponents.SKILL_POINTS, points);
             }
         }

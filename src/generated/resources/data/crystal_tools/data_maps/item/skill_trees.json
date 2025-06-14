@@ -1,0 +1,65 @@
+{
+  "values": {
+    "crystal_tools:crystal_aiot": {
+      "treeLocation": "crystal_tools:crystal_aiot"
+    },
+    "crystal_tools:crystal_apple": {
+      "experienceScaling": 0.5,
+      "treeLocation": "crystal_tools:crystal_apple"
+    },
+    "crystal_tools:crystal_axe": {
+      "treeLocation": "crystal_tools:crystal_axe"
+    },
+    "crystal_tools:crystal_backpack": {
+      "treeLocation": "crystal_tools:crystal_backpack"
+    },
+    "crystal_tools:crystal_boots": {
+      "experienceScaling": 2.0,
+      "treeLocation": "crystal_tools:crystal_boots"
+    },
+    "crystal_tools:crystal_bow": {
+      "treeLocation": "crystal_tools:crystal_bow"
+    },
+    "crystal_tools:crystal_chestplate": {
+      "experienceScaling": 2.0,
+      "treeLocation": "crystal_tools:crystal_chestplate"
+    },
+    "crystal_tools:crystal_elytra": {
+      "treeLocation": "crystal_tools:crystal_elytra"
+    },
+    "crystal_tools:crystal_fishing_rod": {
+      "treeLocation": "crystal_tools:crystal_fishing_rod"
+    },
+    "crystal_tools:crystal_helmet": {
+      "experienceScaling": 2.0,
+      "treeLocation": "crystal_tools:crystal_helmet"
+    },
+    "crystal_tools:crystal_hoe": {
+      "treeLocation": "crystal_tools:crystal_hoe"
+    },
+    "crystal_tools:crystal_leggings": {
+      "experienceScaling": 2.0,
+      "treeLocation": "crystal_tools:crystal_leggings"
+    },
+    "crystal_tools:crystal_pickaxe": {
+      "treeLocation": "crystal_tools:crystal_pickaxe"
+    },
+    "crystal_tools:crystal_rocket": {
+      "experienceScaling": 5.0,
+      "treeLocation": "crystal_tools:crystal_rocket"
+    },
+    "crystal_tools:crystal_shield": {
+      "treeLocation": "crystal_tools:crystal_shield"
+    },
+    "crystal_tools:crystal_shovel": {
+      "treeLocation": "crystal_tools:crystal_shovel"
+    },
+    "crystal_tools:crystal_sword": {
+      "experienceScaling": 0.8,
+      "treeLocation": "crystal_tools:crystal_sword"
+    },
+    "crystal_tools:crystal_trident": {
+      "treeLocation": "crystal_tools:crystal_trident"
+    }
+  }
+}

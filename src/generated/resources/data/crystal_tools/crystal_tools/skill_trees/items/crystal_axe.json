@@ -77,7 +77,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Adds 10% to the chance not use durability",
+          "description": "Adds 10% to the chance not to use durability",
           "id": 4,
           "key": [
             "crystal_tools:unbreaking"
@@ -227,7 +227,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Adds 10% to the chance not use durability",
+          "description": "Adds 10% to the chance not to use durability",
           "id": 10,
           "key": [
             "crystal_tools:unbreaking"
@@ -564,7 +564,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Adds 10% to the chance not use durability",
+          "description": "Adds 10% to the chance not to use durability",
           "id": 23,
           "key": [
             "crystal_tools:unbreaking"
@@ -685,7 +685,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Adds 10% to the chance not use durability",
+          "description": "Adds 10% to the chance not to use durability",
           "id": 27,
           "key": [
             "minecraft:max_damage"

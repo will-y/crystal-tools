@@ -1,4 +1,11 @@
 # Crystal Tools Change Log
+## 3.0.0 - beta 2
+- Skill trees can now be applied to vanilla (or other modded) tools
+- Skill trees are now assigned to items through a datamap `skill_trees` (see readme for more details)
+- Skill trees are now a capability
+- Removed all experience boost configs (they are configured through the datamap now)
+- Removed the reach config option (was no longer used)
+
 ## 3.0.0 - beta 1
 ### Changes
 - Renames data map `mob_skills` to `mob_heads`

@@ -1,0 +1,448 @@
+{
+  "equipmentSlot": "mainhand",
+  "tiers": [
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Attack Damage",
+          "id": 0,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 1,
+          "name": "Attack Damage I",
+          "requirements": [],
+          "value": 0.25
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Attack Speed",
+          "id": 1,
+          "key": [
+            "minecraft:attack_speed"
+          ],
+          "limit": 1,
+          "name": "Attack Speed I",
+          "requirements": [],
+          "value": 0.25
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Attack Damage",
+          "id": 2,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 1,
+          "name": "Attack Damage II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                0
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Attack Speed",
+          "id": 3,
+          "key": [
+            "minecraft:attack_speed"
+          ],
+          "limit": 1,
+          "name": "Attack Speed II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                1
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Reach Distance",
+          "id": 4,
+          "key": [
+            "minecraft:block_interaction_range",
+            "minecraft:entity_interaction_range"
+          ],
+          "limit": 1,
+          "name": "Reach I",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                2,
+                3
+              ]
+            }
+          ],
+          "value": 0.5
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 5% to the chance not to use durability",
+          "id": 5,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking I",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                2,
+                3
+              ]
+            }
+          ],
+          "value": 0.05
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Attack Damage",
+          "id": 6,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 1,
+          "name": "Attack Damage III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                2
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                4,
+                5
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Attack Speed",
+          "id": 7,
+          "key": [
+            "minecraft:attack_speed"
+          ],
+          "limit": 1,
+          "name": "Attack Speed III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                3
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                4,
+                5
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Attack Damage",
+          "id": 8,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 1,
+          "name": "Attack Damage IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                6
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Attack Speed",
+          "id": 9,
+          "key": [
+            "minecraft:attack_speed"
+          ],
+          "limit": 1,
+          "name": "Attack Speed IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                7
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Reach Distance",
+          "id": 10,
+          "key": [
+            "minecraft:block_interaction_range",
+            "minecraft:entity_interaction_range"
+          ],
+          "limit": 1,
+          "name": "Reach II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                4
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                8,
+                9
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 5% to the chance not to use durability",
+          "id": 11,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                5
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                8,
+                9
+              ]
+            }
+          ],
+          "value": 0.05
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Attack Damage",
+          "id": 12,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 1,
+          "name": "Attack Damage V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                8
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                10,
+                11
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      },
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Attack Speed",
+          "id": 13,
+          "key": [
+            "minecraft:attack_speed"
+          ],
+          "limit": 1,
+          "name": "Attack Speed V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                9
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                10,
+                11
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Attack Damage",
+          "id": 14,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 1,
+          "name": "Attack Damage V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                12
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Sword's Attack Speed",
+          "id": 15,
+          "key": [
+            "minecraft:attack_speed"
+          ],
+          "limit": 1,
+          "name": "Attack Speed V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                13
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:attribute",
+        "node": {
+          "description": "Increases the Sword's Reach Distance",
+          "id": 16,
+          "key": [
+            "minecraft:block_interaction_range",
+            "minecraft:entity_interaction_range"
+          ],
+          "limit": 1,
+          "name": "Reach III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                10
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                14,
+                15
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 5% to the chance not to use durability",
+          "id": 17,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                11
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                14,
+                15
+              ]
+            }
+          ],
+          "value": 0.05
+        }
+      }
+    ]
+  ]
+}

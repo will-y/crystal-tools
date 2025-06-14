@@ -12,13 +12,7 @@ public class CrystalToolsConfig {
     public static ModConfigSpec.DoubleValue EXPERIENCE_MULTIPLIER;
 
     // Exp Boosts
-    public static ModConfigSpec.DoubleValue ARMOR_EXPERIENCE_BOOST;
-    public static ModConfigSpec.DoubleValue BOW_EXPERIENCE_BOOST;
-    public static ModConfigSpec.DoubleValue SWORD_EXPERIENCE_BOOST;
-    public static ModConfigSpec.IntValue ROCKET_EXPERIENCE_BOOST;
-    public static ModConfigSpec.DoubleValue APPLE_EXPERIENCE_BOOST;
     public static ModConfigSpec.DoubleValue FURNACE_EXPERIENCE_BOOST;
-    public static ModConfigSpec.DoubleValue TRIDENT_EXPERIENCE_BOOST;
     public static ModConfigSpec.IntValue FISHING_ROD_EXP;
 
     // Repair
@@ -35,7 +29,6 @@ public class CrystalToolsConfig {
     public static ModConfigSpec.BooleanValue ENABLE_ITEM_REQUIREMENTS;
     public static ModConfigSpec.BooleanValue REQUIRE_CRYSTAL_FOR_RESET;
 
-    public static ModConfigSpec.DoubleValue REACH_INCREASE;
     // TODO: This is broken now. Need to use events or look into other enchantment extensions
     public static ModConfigSpec.BooleanValue ENCHANT_TOOLS;
     public static ModConfigSpec.IntValue EXPERIENCE_LEVELING_SCALING;
@@ -112,20 +105,8 @@ public class CrystalToolsConfig {
                 .defineInRange("max_exp", 1000, 1, 100000);
         EXPERIENCE_MULTIPLIER = builder.comment("Multiplier for the experience to the next duration")
                 .defineInRange("experience_multiplier", 1.1D, 1D, 5);
-        ARMOR_EXPERIENCE_BOOST = builder.comment("Multiplies how much experience Armor gets. (EXP_GAINED = DAMAGE_TAKEN * ARMOR_EXPERIENCE_BOOST)")
-                .defineInRange("armor_experience_boost", 2D, 0.1D, 10000D);
-        BOW_EXPERIENCE_BOOST = builder.comment("Multiplies how much experience Bows get. (EXP_GAINED = DAMAGE_DONE * BOW_EXPERIENCE_BOOST)")
-                .defineInRange("bow_experience_boost", 1D, 0.1D, 10000D);
-        SWORD_EXPERIENCE_BOOST = builder.comment("Multiplies how much experience Swords get. (EXP_GAINED = DAMAGE_DONE * SWORD_EXPERIENCE_BOOST")
-                .defineInRange("sword_experience_boost", 0.8D, 0.1D, 10000D);
-        ROCKET_EXPERIENCE_BOOST = builder.comment("Determines how much experience rockets get when used")
-                .defineInRange("rocket_experience_boost", 5, 1, 100);
-        APPLE_EXPERIENCE_BOOST = builder.comment("Multiplies how much experience Apples get. (EXP_GAINED = EFFECTIVE_HUNGER_RESTORED * APPLE_EXPERIENCE_BOOST")
-                .defineInRange("apple_experience_boost", 0.5D, 0.1D, 1000D);
         FURNACE_EXPERIENCE_BOOST = builder.comment("Multiplies how much experience Furnaces get.")
                 .defineInRange("furnace_experience_boost", 1D, 1D, 1000D);
-        TRIDENT_EXPERIENCE_BOOST = builder.comment("Multiplies experience Tridents get. (EXP_GAINED = DAMAGE_DONE * TRIDENT_EXPERIENCE_BOOST")
-                .defineInRange("trident_experience_boost", 1, 0.1D, 10000D);
         FISHING_ROD_EXP = builder.comment("Determines how much experience you get for fish caught")
                 .defineInRange("fishing_rod_exp", 10, 1, 1000);
         EXPERIENCE_LEVELING_SCALING = builder.comment("Number of levels in a tool before the experience duration costs increases. Set to 0 to disable scaling")
@@ -243,8 +224,6 @@ public class CrystalToolsConfig {
                 .define("enable_item_requirements", true);
         REQUIRE_CRYSTAL_FOR_RESET = builder.comment("Require a crystal item in your inventory for resetting skill points")
                 .define("require_crystal_for_reset", true);
-        REACH_INCREASE = builder.comment("Reach distance increase for the Reach upgrade")
-                .defineInRange("reach_increase", 0.5, 0.01, 20);
         ENCHANT_TOOLS = builder.comment("If true, Crystal Tools will be enchantable. Note: There could be some weird interactions / it might break some things")
                 .define("enchant_tools", false);
         builder.pop();

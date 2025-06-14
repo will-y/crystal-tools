@@ -359,12 +359,6 @@ You can change these values in `config/crystal_tools.toml` or in the in-game UI.
 - `base_experience_cap` (75): Starting EXP requirements for Tools and Armor. Range: 1 - 10000.
 - `max_exp` (1000): The maximum amount of exp that can be required for the next level. Range 1 - 100000.
 - `experience_multiplier` (1.1): Multiplier for max experience to the next level. Range: 1.0 - 100.0.
-- `armor_experience_boost` (2.0): Multiplies how much experience Armor gets, experience is calculated by `EXP_GAINED` = DAMAGE_TAKEN * ARMOR_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.
-- `bow_experience_boost` (1.0): Multiplies how much experience Bows get, experience is calculated by `EXP_GAINED` = UNMITIGATED_DAMAGE_DONE * BOW_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.
-- `sword_experience_boost` (0.8): Multiplies how much experience Swords get, experience is calculated by `EXP_GAINED` = UNMITIGATED_DAMAGE_DONE * SWORD_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.
-- `trident_experience_boost` (1.0): Multiplies how much experience Tridents get, experience is calculated by `EXP_GAINED` = UNMITIGATED_DAMAGE_DONE * TRIDENT_EXPERIENCE_BOOST. Range: 0.1 - 10000.0.
-- `rocket_experience_boost` (5): Determines how much experience Rockets get per use. Range: 1 - 1000.
-- `apple_experience_boost` (0.5): Multiplies how much experience Apples get, experience is calculated by `EXP_GAINED` = (SATURATION * 2 + 1) * NUTRITION * APPLE_EXPERIENCE_BOOST. Range: 0.1 - 1000.0.
 - `furnace_experience_boost` (1): Multiplies how much experience Furnaces get, experience is calculated by `EXP_GAINED` = RECIPE_EXP * 10 * FURNACE_EXPERIENCE_BOOST. Range: 0.1 - 1000.0.
 - `fishing_rod_exp` (10): Determines how much experience you get for fish caught. Range 1 - 1000.
 - `experience_leveling_scaling` (10): Number of levels in a tool before the experience level costs increases. Set to 0 to disable scaling. Range: 0 - 100.
@@ -431,7 +425,6 @@ You can change these values in `config/crystal_tools.toml` or in the in-game UI.
 #### Miscellaneous Settings
 - `enable_item_requirements` (true): Set to false to disable certain nodes from requiring items to upgrade.
 - `require_crystal_for_reset` (true): Require a crystal item in your inventory for resetting skill points.
-- `reach_increase` (0.5): The amount of reach you get for each level (in blocks). Range: 0.1 - 20.
 - `enchant_tools` (false): If true, tools will be enchantable. This could cause weird interactions and issues.
 
 ### Client
@@ -444,10 +437,10 @@ You can change these values in `config/crystal_tools.toml` or in the in-game UI.
 ### Server
 - `creative_flight_points` (100): The number of points you need to have in the creative flight node for it to enable. Range: 1 - 1000000.
 
-### Datapack options
+## Datapack options
 There are a couple of features that can be customized using datapacks.
 
-## Tags
+### Tags
 - `entity_type/entity_blacklist`: Entities that have this tag will not level up the sword, bow, or AIOT when attacked.
   - Default Value: `[minecraft:armor_stand]`
 - `block/auto_output_blacklist`: The Crystal Furnace and Crystal Quarry will not auto output to blocks with this tag.
@@ -455,7 +448,7 @@ There are a couple of features that can be customized using datapacks.
 
 More information on tags and datapacks can be found [here](https://minecraft.fandom.com/wiki/Tag).
 
-### Example
+#### Example
 Add a file `entity_blacklist.json` in a datapack in the location `crystal_tools/tags/entity_type` that looks like:
 ```json
 {
@@ -465,15 +458,15 @@ Add a file `entity_blacklist.json` in a datapack in the location `crystal_tools/
 }
 ```
 
-## Datamaps
+### Datamaps
 - `generator_gems`: Controls the gems that can be burned with the gem generator upgrade in the crystal generator.
 - `generator_metals`: Controls the gems that can be burned with the gem generator upgrade in the crystal generator.
 - `mob_heads`: Controls which heads which mobs drop with the beheading upgrade.
 
 More information on datamaps can be found [here](https://docs.neoforged.net/docs/resources/server/datamaps/).
 
-### Examples
-#### Adding a modded gem
+#### Examples
+##### Adding a modded gem
 Add a file `generator_gems.json` in a datapack in the location `crystal_tools/data_maps/item` that looks like:
 ```json
 {
@@ -487,7 +480,7 @@ Add a file `generator_gems.json` in a datapack in the location `crystal_tools/da
 ```
 Where `bonusGeneration` is the generator added on top of the base from the generator and `burnTime` is the total burn time in ticks.
 
-#### Changing the value of an existing gem
+##### Changing the value of an existing gem
 ```json
 {
   "values": {
@@ -499,3 +492,39 @@ Where `bonusGeneration` is the generator added on top of the base from the gener
   }
 }
 ```
+
+### Defining Custom Skill Trees
+There are 2 parts to adding a skill tree: the actual skill tree and the datamap to associate it to an item.
+
+#### Skill Tree
+The skill trees are defined in json in a datapack registry.
+Built in examples can be found here: https://github.com/will-y/crystal-tools/tree/1.22/src/generated/resources/data/crystal_tools/crystal_tools/skill_trees
+
+The built-in datapack has a skill tree defined for every crystal tool, along with
+a basic mining tool tree and a basic sword tree.
+
+To build custom trees, place custom json files in the directory `data/<datapack-namespace>/crystal_tools/skill_trees/items`.
+
+#### Skill Tree Datamap
+To actually associate the tree with an item, you will need an entry in the skill tree datapack.
+This will go in the file `data/crystal_tools/data_maps/item/skill_trees.json`.
+
+An example skill tree object looks like:
+```json
+{
+  "values": {
+    "minecraft:netherite_pickaxe": {
+      "allowRepair": false,
+      "allowReset": false,
+      "allowXpLevels": false,
+      "treeLocation": "crystal_tools:simple_pickaxe"
+    }
+  }
+}
+```
+
+Fields:
+- `treeLocation` (required): The location of the skill tree. Either a built-in tree, or one provided in a datapack.
+- `allowRepair` (default true): Will allow you to spend skill points to repair your tool.
+- `allowReset` (default true): Will allow you to reset the skill points on a tool.
+- `allowXpLevels` (default true): Will allow you to convert xp to skill points for this tool.

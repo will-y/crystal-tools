@@ -32,7 +32,11 @@ public class SkillTreeDescriptions {
     }
 
     public String unbreaking() {
-        return "Adds 10% to the chance not use durability";
+        return unbreaking(10);
+    }
+
+    public String unbreaking(int percentage) {
+        return String.format("Adds %d%% to the chance not to use durability", percentage);
     }
 
     public String reach() {

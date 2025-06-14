@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.datagen;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.datamap.DataMaps;
 import dev.willyelton.crystal_tools.common.datamap.GeneratorFuelData;
+import dev.willyelton.crystal_tools.common.datamap.SkillTreeData;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.entity.EntityType;
@@ -11,6 +12,8 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.DataMapProvider;
 
 import java.util.concurrent.CompletableFuture;
+
+import static dev.willyelton.crystal_tools.CrystalTools.rl;
 
 public class CrystalToolsDataMaps extends DataMapProvider {
     public CrystalToolsDataMaps(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider) {
@@ -63,5 +66,25 @@ public class CrystalToolsDataMaps extends DataMapProvider {
                 .add(EntityType.SKELETON.builtInRegistryHolder(), Items.SKELETON_SKULL, false)
                 .add(EntityType.WITHER_SKELETON.builtInRegistryHolder(), Items.WITHER_SKELETON_SKULL, false)
                 .add(EntityType.PLAYER.builtInRegistryHolder(), Items.PLAYER_HEAD, false);
+
+        builder(DataMaps.SKILL_TREES)
+                .add(Registration.CRYSTAL_PICKAXE, new SkillTreeData(rl("crystal_pickaxe")), false)
+                .add(Registration.CRYSTAL_HOE, new SkillTreeData(rl("crystal_hoe")), false)
+                .add(Registration.CRYSTAL_SHOVEL, new SkillTreeData(rl("crystal_shovel")), false)
+                .add(Registration.CRYSTAL_AXE, new SkillTreeData(rl("crystal_axe")), false)
+                .add(Registration.CRYSTAL_AIOT, new SkillTreeData(rl("crystal_aiot")), false)
+                .add(Registration.CRYSTAL_FISHING_ROD, new SkillTreeData(rl("crystal_fishing_rod")), false)
+                .add(Registration.CRYSTAL_SHIELD, new SkillTreeData(rl("crystal_shield")), false)
+                .add(Registration.CRYSTAL_SWORD, new SkillTreeData(rl("crystal_sword"), 0.8F), false)
+                .add(Registration.CRYSTAL_BOW, new SkillTreeData(rl("crystal_bow")), false)
+                .add(Registration.CRYSTAL_TRIDENT, new SkillTreeData(rl("crystal_trident")), false)
+                .add(Registration.CRYSTAL_APPLE, new SkillTreeData(rl("crystal_apple"), 0.5F), false)
+                .add(Registration.CRYSTAL_HELMET, new SkillTreeData(rl("crystal_helmet"), 2.0F), false)
+                .add(Registration.CRYSTAL_CHESTPLATE, new SkillTreeData(rl("crystal_chestplate"), 2.0F), false)
+                .add(Registration.CRYSTAL_LEGGINGS, new SkillTreeData(rl("crystal_leggings"), 2.0F), false)
+                .add(Registration.CRYSTAL_BOOTS, new SkillTreeData(rl("crystal_boots"), 2.0F), false)
+                .add(Registration.CRYSTAL_ELYTRA, new SkillTreeData(rl("crystal_elytra")), false)
+                .add(Registration.CRYSTAL_ROCKET, new SkillTreeData(rl("crystal_rocket"), 5.0F), false)
+                .add(Registration.CRYSTAL_BACKPACK, new SkillTreeData(rl("crystal_backpack")), false);
     }
 }

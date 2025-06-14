@@ -1,7 +1,6 @@
 package dev.willyelton.crystal_tools.common.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -11,7 +10,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 
-// TODO: This can be replaced by the DEATH_PROTECTION data component
+// TODO: This can be replaced by the DEATH_PROTECTION data component (maybe)
 @EventBusSubscriber(modid = CrystalTools.MODID)
 public class PlayerDiedEvent {
     @SubscribeEvent
@@ -28,13 +27,11 @@ public class PlayerDiedEvent {
     }
 
     private static boolean trySave(ItemStack stack) {
-        if (stack.is(Registration.CRYSTAL_SHIELD)) {
-            int charges = stack.getOrDefault(DataComponents.FILLED_TOTEM_SLOTS, 0);
+        int charges = stack.getOrDefault(DataComponents.FILLED_TOTEM_SLOTS, 0);
 
-            if (charges > 0) {
-                DataComponents.addToComponent(stack, DataComponents.FILLED_TOTEM_SLOTS, -1);
-                return true;
-            }
+        if (charges > 0) {
+            DataComponents.addToComponent(stack, DataComponents.FILLED_TOTEM_SLOTS, -1);
+            return true;
         }
 
         return false;

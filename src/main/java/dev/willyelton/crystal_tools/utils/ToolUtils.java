@@ -9,10 +9,8 @@ import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
@@ -24,10 +22,8 @@ public class ToolUtils {
         return durability <= 1;
     }
 
-    public static void increaseExpCap(ItemStack stack) {
-        increaseExpCap(stack, 1);
-    }
-
+    @Deprecated
+    // TODO: remove from recipes. Might have to change the capability to registryaccess :(
     public static void increaseExpCap(ItemStack stack, int levelIncrease) {
         if (stack.getItem() instanceof LevelableItem item) {
             int experienceCap = item.getExperienceCap(stack);
@@ -56,18 +52,11 @@ public class ToolUtils {
         return !entity.getType().is(CrystalToolsTags.ENTITY_BLACKLIST);
     }
 
-    // Need to use this in more places
-    public static Optional<Holder.Reference<SkillData>> getSkillData(Level level, ItemStack stack) {
+    public static Optional<Holder.Reference<SkillData>> getSkillData(Level level, ResourceLocation treeLocation) {
         if (level == null) return Optional.empty();
 
         Optional<Registry<SkillData>> skillDataOptional = level.registryAccess().lookup(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS);
-        Optional<ResourceKey<Item>> itemKeyOptional = level.registryAccess().lookupOrThrow(Registries.ITEM).getResourceKey(stack.getItem());
 
-        if (skillDataOptional.isPresent() && itemKeyOptional.isPresent()) {
-            ResourceKey<Item> itemKey = itemKeyOptional.get();
-            return skillDataOptional.get().get(itemKey.location());
-        }
-
-        return Optional.empty();
+        return skillDataOptional.flatMap(skillData -> skillData.get(treeLocation));
     }
 }
