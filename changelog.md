@@ -1,5 +1,6 @@
 # Crystal Tools Change Log
 ## 3.0.0 - beta 2
+### Changes
 - Skill trees can now be applied to vanilla (or other modded) tools
 - Skill trees are now assigned to items through a datamap `skill_trees` (see readme for more details)
 - Skill trees are now a capability
