@@ -509,6 +509,30 @@
           ],
           "value": 1.0
         }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Allows the Hoe to shear sheep!",
+          "id": 30,
+          "key": [
+            "crystal_tools:shear"
+          ],
+          "limit": 1,
+          "name": "Shears",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                13,
+                14,
+                15,
+                16
+              ]
+            }
+          ],
+          "value": 1.0
+        }
       }
     ],
     [
@@ -529,7 +553,8 @@
                 17,
                 18,
                 19,
-                20
+                20,
+                30
               ]
             }
           ],
@@ -553,7 +578,8 @@
                 17,
                 18,
                 19,
-                20
+                20,
+                30
               ]
             },
             {
@@ -590,7 +616,8 @@
                 17,
                 18,
                 19,
-                20
+                20,
+                30
               ]
             }
           ],

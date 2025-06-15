@@ -1,4 +1,4 @@
-// 1.21.5	2025-06-13T19:49:08.187020012	Registries
+// 1.21.5	2025-06-14T22:32:46.4886037	Registries
 fc5742856159734f886e60a3e6559bbe51c57d92 data/crystal_tools/crystal_tools/skill_trees/blocks/crystal_furnace.json
 fb8a1629d246fd61cd03af3ef5eec6ce7869dbba data/crystal_tools/crystal_tools/skill_trees/blocks/crystal_generator.json
 864b0773e2a28be44ba79d150e23cda8cff8944d data/crystal_tools/crystal_tools/skill_trees/blocks/crystal_quarry.json
@@ -12,7 +12,7 @@ b190d0090c76740013d54247f8ca783f97143464 data/crystal_tools/crystal_tools/skill_
 565b16f059de88a1d398a29730ced43c31626201 data/crystal_tools/crystal_tools/skill_trees/items/crystal_elytra.json
 17d98ffb0675682a7502f187849b3ba7aa66f572 data/crystal_tools/crystal_tools/skill_trees/items/crystal_fishing_rod.json
 2ca9a9e6219f52c75ea7dee98641343202f77073 data/crystal_tools/crystal_tools/skill_trees/items/crystal_helmet.json
-30ba91ec213953a2ecf17805cbc358fa306cb636 data/crystal_tools/crystal_tools/skill_trees/items/crystal_hoe.json
+41a5cb2697b9f27e88f958b1224576b5e7fe8afe data/crystal_tools/crystal_tools/skill_trees/items/crystal_hoe.json
 ab34a2d9ae7a4bd6e7f59ca26891404260be92fb data/crystal_tools/crystal_tools/skill_trees/items/crystal_leggings.json
 50e9ba79e7a2b590afe29f26039cc227f04e8ccb data/crystal_tools/crystal_tools/skill_trees/items/crystal_pickaxe.json
 e25ec1d7d8bdd83deba9352f463913ed0c0a6843 data/crystal_tools/crystal_tools/skill_trees/items/crystal_rocket.json

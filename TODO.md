@@ -80,7 +80,6 @@
 
 ## 1.21.6
 Before full release
-- Shears for hoe upgrade probably broken
 - Vanilla armor trees
 - Vanilla bow tree (mixins probably)
 - Vanilla trident tree

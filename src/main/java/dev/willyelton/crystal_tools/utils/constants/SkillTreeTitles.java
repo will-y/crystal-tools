@@ -26,6 +26,7 @@ public class SkillTreeTitles {
     public static final String COMPRESS = "Compress";
     // TODO: could this be expanded easily?
     public static final String MINING_3x3 = "3x3 Mining";
+    public static final String SHEARS = "Shears";
 
     // Block Entity Titles
     public static final String AUTO_SPLIT = "Auto Split";

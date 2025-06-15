@@ -3,6 +3,8 @@
 ### Fixes
 - Fixes part of the quarry renderer being all black
 - Fixes the `ENCHANT_TOOLS` config option
+- Fixes some crystal tools being enchantable in the enchanting table
+- Fixes shear skill being missing on the crystal hoe
 
 ## 3.0.0 - beta 2
 ### Changes

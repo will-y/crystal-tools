@@ -247,6 +247,10 @@ public class SkillTreeDescriptions {
         return "Allows you to compress certain items (gold nuggets into gold ingots)";
     }
 
+    public String shears() {
+        return String.format("Allows the %s to shear sheep!", toolName);
+    }
+
     // Block Entity Descriptions
     public String furnaceSpeed() {
         return "Increases smelting speed";
