@@ -73,23 +73,20 @@
 - Block break event triggers 10 times instead of 9 on 3x3
 - Items picked up with autopickup don't go into backpacks
 - Can instamine things by breaking torches (maybe check if can mine the original block?)
+- Sometimes leveling skills scrolls to the top of the menu
 
 ## Code Improvements
 - Data gen ore gen
 
-### 1.21 Things
-- Sometimes leveling skills scrolls to the top of the menu
-
+## 1.21.6
 Before full release
-- Enchantment config option is broken
-- Upgrading backpack in curios slot
-- Quarry cube is black again
 - Shears for hoe upgrade probably broken
 - Vanilla armor trees
 - Vanilla bow tree (mixins probably)
 - Vanilla trident tree
 
 Eventually
+- Upgrading backpack in curios slot
 - Better way to get tools on server (could technically change positions) (this is relating to client to server packets)
 - Datapack validation (make sure all requirements point to valid nodes / items)...
 - try out some vanilla skill trees

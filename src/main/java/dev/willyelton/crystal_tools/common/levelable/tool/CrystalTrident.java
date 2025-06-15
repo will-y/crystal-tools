@@ -5,6 +5,7 @@ import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.entity.CrystalTridentEntity;
 import dev.willyelton.crystal_tools.common.events.LevelTickEvent;
 import dev.willyelton.crystal_tools.common.levelable.EntityTargeter;
+import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -32,6 +33,8 @@ public class CrystalTrident extends SwordLevelableTool implements EntityTargeter
     public CrystalTrident(Item.Properties properties) {
         super(properties.attributes(TridentItem.createAttributes())
                 .stacksTo(1)
+                .fireResistant()
+                .repairable(CrystalToolsTags.REPAIRS_CRYSTAL)
                 .durability(CRYSTAL.durability())
                 .component(net.minecraft.core.component.DataComponents.TOOL, TridentItem.createToolProperties())
                 .component(net.minecraft.core.component.DataComponents.WEAPON, new Weapon(1)), "trident");

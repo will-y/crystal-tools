@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
+import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -30,6 +31,8 @@ public class CrystalFishingRod extends LevelableTool {
     public CrystalFishingRod(Item.Properties properties) {
         super(properties
                 .stacksTo(1)
+                .fireResistant()
+                .repairable(CrystalToolsTags.REPAIRS_CRYSTAL)
                 .durability(CRYSTAL.durability()), "fishing_rod");
     }
 

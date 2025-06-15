@@ -29,7 +29,8 @@ public abstract class LevelableTool extends Item implements LevelableItem {
 
     public LevelableTool(Item.Properties properties, String itemType) {
         super(properties.fireResistant()
-                .rarity(Rarity.RARE));
+                .rarity(Rarity.RARE)
+                .component(net.minecraft.core.component.DataComponents.ENCHANTABLE, null));
         this.itemType = itemType;
     }
 

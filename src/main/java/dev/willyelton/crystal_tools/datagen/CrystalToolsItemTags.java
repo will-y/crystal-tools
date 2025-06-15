@@ -75,5 +75,23 @@ public class CrystalToolsItemTags extends ItemTagsProvider {
 
         tag(ItemTags.FOOT_ARMOR).add(
                 Registration.CRYSTAL_BOOTS.get());
+
+        tag(CrystalToolsTags.CRYSTAL_TOOL).add(
+                Registration.CRYSTAL_PICKAXE.get(),
+                Registration.CRYSTAL_AXE.get(),
+                Registration.CRYSTAL_SHOVEL.get(),
+                Registration.CRYSTAL_HOE.get(),
+                Registration.CRYSTAL_SWORD.get(),
+                Registration.CRYSTAL_BOW.get(),
+                Registration.CRYSTAL_AIOT.get(),
+                Registration.CRYSTAL_ROCKET.get(),
+                Registration.CRYSTAL_TRIDENT.get(),
+                Registration.CRYSTAL_FISHING_ROD.get(),
+                Registration.CRYSTAL_SHIELD.get(),
+                Registration.CRYSTAL_HELMET.get(),
+                Registration.CRYSTAL_CHESTPLATE.get(),
+                Registration.CRYSTAL_LEGGINGS.get(),
+                Registration.CRYSTAL_BOOTS.get(),
+                Registration.CRYSTAL_ELYTRA.get());
     }
 }

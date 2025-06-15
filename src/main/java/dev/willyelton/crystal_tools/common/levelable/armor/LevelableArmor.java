@@ -4,6 +4,7 @@ import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
+import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.network.chat.Component;
@@ -29,7 +30,10 @@ public class LevelableArmor extends Item implements LevelableItem {
     protected final String itemType;
 
     public LevelableArmor(Item.Properties properties, String itemType, ArmorType type) {
-        super(properties.fireResistant().durability(CRYSTAL.durability()).humanoidArmor(ARMOR_MATERIAL, type));
+        super(properties.fireResistant()
+                .durability(CRYSTAL.durability())
+                .repairable(CrystalToolsTags.REPAIRS_CRYSTAL)
+                .humanoidArmor(ARMOR_MATERIAL, type));
         this.itemType = itemType;
     }
 

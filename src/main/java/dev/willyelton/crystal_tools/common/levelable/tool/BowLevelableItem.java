@@ -39,7 +39,10 @@ import java.util.function.Consumer;
 
 public class BowLevelableItem extends BowItem implements LevelableItem, EntityTargeter {
     public BowLevelableItem(Item.Properties properties) {
-        super(properties.durability(CRYSTAL.durability()).fireResistant().repairable(CrystalToolsTags.REPAIRS_CRYSTAL));
+        super(properties
+                .durability(CRYSTAL.durability())
+                .fireResistant()
+                .repairable(CrystalToolsTags.REPAIRS_CRYSTAL));
     }
 
     @Override

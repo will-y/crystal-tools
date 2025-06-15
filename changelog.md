@@ -2,6 +2,7 @@
 ## 3.0.0 - beta 3
 ### Fixes
 - Fixes part of the quarry renderer being all black
+- Fixes the `ENCHANT_TOOLS` config option
 
 ## 3.0.0 - beta 2
 ### Changes
