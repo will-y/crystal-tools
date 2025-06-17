@@ -23,7 +23,6 @@ public class ModeSwitchHandler {
     public void handle(final ModeSwitchPayload payload, final IPayloadContext context) {
         Player player = context.player();
 
-        // TODO: By registry instead
         ItemStack tool = ItemStackUtils.getHeldLevelableTool(player);
         if (tool.isEmpty()) {
             // Disable night vision

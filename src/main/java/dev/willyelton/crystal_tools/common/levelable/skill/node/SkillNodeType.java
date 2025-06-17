@@ -37,7 +37,6 @@ public enum SkillNodeType {
         return type;
     }
 
-    // TODO: Should probably make a map for this but probably doesn't matter
     public static SkillNodeType fromResourceLocation(ResourceLocation type) {
         for (SkillNodeType skillNodeType : values()) {
             if (skillNodeType.type.equals(type)) {

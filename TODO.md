@@ -80,9 +80,10 @@
 
 ## 1.21.6
 Before full release
-- Vanilla armor trees
-- Vanilla bow tree (mixins probably)
-- Vanilla trident tree
+- Some way to publish the vanilla datapack (+ actually test it)
+- One more look through TODOs
+  - Should do the ones in LevelableBlockEntity
+  - And in ToolUtils
 
 Eventually
 - Upgrading backpack in curios slot
@@ -99,3 +100,5 @@ Eventually
 - Use actions should probably be datacomponents and all handled either in that event or the base levelable class
 - Block entities should have and use levelable capability
 - Tooltip is wrong for unused items
+- Vanilla bow tree (mixins probably)
+- Vanilla trident tree

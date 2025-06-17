@@ -43,7 +43,6 @@ public class CrystalToolsItemSkillTrees {
         // Basic Mining Tools
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
                 Registration.CRYSTAL_PICKAXE.getId()), basicMiningTool("Pickaxe"));
-        // TODO: Probably missing shear
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
                 Registration.CRYSTAL_HOE.getId()), basicMiningTool("Hoe"));
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,

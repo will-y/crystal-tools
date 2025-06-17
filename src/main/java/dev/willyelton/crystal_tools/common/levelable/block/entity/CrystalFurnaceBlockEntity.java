@@ -103,7 +103,6 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     private float expModifier;
     private boolean saveFuel = false;
 
-    // TODO: This should probably later be a list that just gets iterated over?
     private final AutoOutputAction autoOutputAction;
 
     public CrystalFurnaceBlockEntity(BlockPos pPos, BlockState state) {

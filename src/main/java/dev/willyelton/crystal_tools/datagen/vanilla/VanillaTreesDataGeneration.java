@@ -5,7 +5,6 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
-// TODO: This should only be used for datamap now?
 /**
  * This is going to be a little hacky.
  * Using different run configs and parameters to determine where

@@ -21,52 +21,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-/**
- * Class to do all the actions of a levelable item.
- * This is kindof like a capability. I would rather do it that
- * way but idk if I can do data driven capabilities
- * Level for the context? Idk if there is caching for stacks or if that is a problem
- * This should work ^ can also be different caps for special things (shield maybe ...)
- */
-// TODO: Is the datamap a good idea? I think yes
-// Would allow fast check if there is a skill tree for tooltips
-    // ToolUtils.getLevelableData?
-    // Would fail fast with the datamap, then check datacomponent, then as a last resort, check the registry?
-    // Level is required then? Should be generally fine
-// Otherwise idk how im going to show tooltips
-// Crafting event or key press event to put the datacomponent in
-// More thoughts: The only expensive place to call is the tooltip
-// Why not use a custom tooltip datacomponent?
-
-// Design options
-// Data storage:
-// 1. Use everything. Datacomponent on stack, datamap for mapping trees,
-    // Only registry lookup when you have to
-    // + Fast
-    // + Small datapacks
-    // - Can't change skill trees after getting an item
-    // No reason to have it on a datacomponent. Might as well cache the registry lookup
-// 2. Just always do a registry lookup
-    // + Easy
-    // - Slow
-// 3. Registry lookup + datamap
-    // + Pretty easy
-    // - Slowish
-// 4. Cache the registry lookup (could apply to all of these, would work better with the datamap probably) ... is registry lookup just a map lookup under the hood?
-    // + Fast
-    // - Probably useless
-// 5. Tooltip datacomponent (only if I don't do the whole tree on a datacomponent)
-    // + Required if I don't do 1
-
-// Data access:
-// 1. Pseudo capabilities (ToolUtils#getLevelable ...) does something to get the object that actually does the work
-    // + Don't have to register cap for all items
-    // Could model off of capability with that factory supplier
-    // Is this not what I had before?
-// 2. Use capabilities <-
-    // + Mod Compat
-    // + Can register different objects for different items
-// 3. ToolUtils everything
 public class LevelableStack implements Levelable {
 
     public static @Nullable LevelableStack of(ItemStack stack, Level level) {
