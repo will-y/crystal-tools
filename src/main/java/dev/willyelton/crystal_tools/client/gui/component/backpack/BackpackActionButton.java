@@ -6,7 +6,7 @@ import dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 
 import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.TEXTURE;
@@ -19,7 +19,7 @@ public abstract class BackpackActionButton extends CrystalToolsButton {
 
     public BackpackActionButton(int x, int y, Component name, BackpackScreenPayload.BackpackAction action, int uOffset, Screen screen, SubScreenContainerMenu container) {
         this(x, y, name, button -> container.sendUpdatePacket(action, Screen.hasShiftDown()), (button, guiGraphics, mouseX, mouseY) -> {
-            guiGraphics.renderTooltip(screen.getMinecraft().font, screen.getMinecraft().font.split(name, Math.max(screen.width / 2 - 43, 170)), mouseX, mouseY);
+            guiGraphics.setTooltipForNextFrame(screen.getMinecraft().font, screen.getMinecraft().font.split(name, Math.max(screen.width / 2 - 43, 170)), mouseX, mouseY);
         }, uOffset);
     }
 
@@ -30,7 +30,7 @@ public abstract class BackpackActionButton extends CrystalToolsButton {
 
     @Override
     protected void blitButton(GuiGraphics guiGraphics, int textureY) {
-        guiGraphics.blit(RenderType::guiTextured, TEXTURE, getX(), getY(), getUOffset(), textureY, BUTTON_SIZE, BUTTON_SIZE, 512, 512);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, getX(), getY(), getUOffset(), textureY, BUTTON_SIZE, BUTTON_SIZE, 512, 512);
     }
 
     @Override

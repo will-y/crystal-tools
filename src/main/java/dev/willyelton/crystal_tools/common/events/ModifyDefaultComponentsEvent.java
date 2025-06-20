@@ -6,7 +6,7 @@ import net.minecraft.core.component.DataComponents;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 
-@EventBusSubscriber(modid = CrystalTools.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = CrystalTools.MODID)
 public class ModifyDefaultComponentsEvent {
     @SubscribeEvent
     public static void handleDefaultComponents(net.neoforged.neoforge.event.ModifyDefaultComponentsEvent event) {

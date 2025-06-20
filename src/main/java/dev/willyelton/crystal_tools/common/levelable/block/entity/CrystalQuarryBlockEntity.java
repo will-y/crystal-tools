@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity;
 
+import com.mojang.serialization.Codec;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.particle.quarry.breakblock.QuarryBreakParticleData;
 import dev.willyelton.crystal_tools.common.components.QuarryData;
@@ -15,7 +16,6 @@ import dev.willyelton.crystal_tools.common.levelable.block.entity.action.ChunkLo
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.ChunkLoadingAction;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.data.LevelableContainerData;
 import dev.willyelton.crystal_tools.common.network.data.QuarryMineBlockPayload;
-import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -43,6 +43,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
@@ -53,16 +55,11 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.FORTUNE;
-import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.MINING_SPEED;
-import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.REDSTONE_CONTROL;
-import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.SILK_TOUCH;
-import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.TRASH_FILTER;
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.*;
 
 public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements MenuProvider, AutoOutputable, ChunkLoader {
     public static final int DATA_SIZE = 14;
@@ -165,56 +162,49 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        ContainerHelper.loadAllItems(tag, this.storedItems, registries);
+    protected void loadAdditional(ValueInput valueInput) {
+        super.loadAdditional(valueInput);
+        ContainerHelper.loadAllItems(valueInput, this.storedItems);
+        ContainerHelper.loadAllItems(valueInput.childOrEmpty("FilterInventory"), this.filterItems);
 
-        if (tag.contains("FilterInventory")) {
-            ContainerHelper.loadAllItems(tag.getCompound("FilterInventory").orElse(new CompoundTag()), this.filterItems, registries);
-        }
-        this.filterRows = tag.getInt("FilterRows").orElse(0);
-        this.whitelist = tag.getBoolean("Whitelist").orElse(false);
+        this.filterRows = valueInput.getInt("FilterRows").orElse(0);
+        this.whitelist = valueInput.getBooleanOr("Whitelist", false);
 
-        if (tag.contains("MiningAt")) {
-            this.miningAt = BlockPos.of(tag.getLong("MiningAt").orElse(0L));
+        long pos = valueInput.getLongOr("MiningAt", 0L);
+        if (pos != 0) {
+            this.miningAt = BlockPos.of(pos);
         }
-        this.currentProgress = tag.getFloat("CurrentProgress").orElse(0F);
-        if (tag.contains("WaitingStacks")) {
-            this.waitingStacks = NBTUtils.getItemStackArray(tag.getCompound("WaitingStacks").orElse(new CompoundTag()), registries);
-        } else {
-            this.waitingStacks = new ArrayList<>();
-        }
-        this.finished = tag.getBoolean("Finished").orElse(false);
 
-        this.useDirt = tag.getBoolean("UseDirt").orElse(false);
-        this.silkTouchEnabled = tag.getBoolean("SilkTouchEnabled").orElse(false);
-        this.fortuneEnabled = tag.getBoolean("FortuneEnabled").orElse(false);
-        this.autoOutputEnabled = tag.getBoolean("AutoOutputEnabled").orElse(false);
+        this.currentProgress = valueInput.getFloatOr("CurrentProgress", 0F);
+        this.waitingStacks = valueInput.read("WaitingStacks", ItemStack.OPTIONAL_CODEC.listOf()).orElse(new ArrayList<>());
+        this.finished = valueInput.getBooleanOr("Finished", false);
+
+        this.useDirt = valueInput.getBooleanOr("UseDirt", false);
+        this.silkTouchEnabled = valueInput.getBooleanOr("SilkTouchEnabled", false);
+        this.fortuneEnabled = valueInput.getBooleanOr("FortuneEnabled", false);
+        this.autoOutputEnabled = valueInput.getBooleanOr("AutoOutputEnabled", false);
         this.autoOutputAction.setDisabled(!autoOutputEnabled);
 
-        this.minX = tag.getInt("MinX").orElse(0);
-        this.maxX = tag.getInt("MaxX").orElse(0);
-        this.minZ = tag.getInt("MinZ").orElse(0);
-        this.maxZ = tag.getInt("MaxZ").orElse(0);
-        this.minY = tag.getInt("MinY").orElse(0);
-        this.maxY = tag.getInt("MaxY").orElse(0);
+        this.minX = valueInput.getInt("MinX").orElse(0);
+        this.maxX = valueInput.getInt("MaxX").orElse(0);
+        this.minZ = valueInput.getInt("MinZ").orElse(0);
+        this.maxZ = valueInput.getInt("MaxZ").orElse(0);
+        this.minY = valueInput.getInt("MinY").orElse(0);
+        this.maxY = valueInput.getInt("MaxY").orElse(0);
 
-        this.centerX = tag.getFloat("CenterX").orElse(0F);
-        this.centerY = tag.getFloat("CenterY").orElse(0F);
-        this.centerZ = tag.getFloat("CenterZ").orElse(0F);
+        this.centerX = valueInput.getFloatOr("CenterX", 0F);
+        this.centerY = valueInput.getFloatOr("CenterY", 0F);
+        this.centerZ = valueInput.getFloatOr("CenterZ", 0F);
 
-        this.speedUpgrade = tag.getFloat("SpeedUpgrade").orElse(0F);
-        this.redstoneControl = tag.getBoolean("RedstoneControl").orElse(false);
-        this.fortuneLevel = tag.getInt("FortuneLevel").orElse(0);
-        this.silkTouch = tag.getBoolean("SilkTouch").orElse(false);
-        this.extraEnergyCost = tag.getInt("ExtraEnergyCost").orElse(0);
+        this.speedUpgrade = valueInput.getFloatOr("SpeedUpgrade", 0F);
+        this.redstoneControl = valueInput.getBooleanOr("RedstoneControl", false);
+        this.fortuneLevel = valueInput.getInt("FortuneLevel").orElse(0);
+        this.silkTouch = valueInput.getBooleanOr("SilkTouch", false);
+        this.extraEnergyCost = valueInput.getInt("ExtraEnergyCost").orElse(0);
 
-        int energy = tag.getInt("Energy").orElse(0);
+        int energy = valueInput.getInt("Energy").orElse(0);
         energyStorage = new CrystalEnergyStorage(10000, getEnergyCost() * 2, 0, energy);
-
-        if (tag.contains("StabilizerPositions")) {
-            this.stabilizerPositions = Arrays.stream(tag.getLongArray("StabilizerPositions").orElse(new long[0])).mapToObj(BlockPos::of).toList();
-        }
+        this.stabilizerPositions = valueInput.read("StabilizerPositions", Codec.LONG.listOf()).orElse(List.of()).stream().map(BlockPos::of).toList();
 
         createAABB();
     }
@@ -276,51 +266,49 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        ContainerHelper.saveAllItems(tag, this.storedItems, registries);
+    protected void saveAdditional(ValueOutput valueOutput) {
+        super.saveAdditional(valueOutput);
+        ContainerHelper.saveAllItems(valueOutput, this.storedItems);
 
-        tag.put("FilterInventory", new CompoundTag());
-        ContainerHelper.saveAllItems(tag.getCompound("FilterInventory").orElse(new CompoundTag()), this.filterItems, registries);
-        tag.putInt("FilterRows", this.filterRows);
-        tag.putBoolean("Whitelist", this.whitelist);
+        ContainerHelper.saveAllItems(valueOutput.child("FilterInventory"), this.filterItems);
+        valueOutput.putInt("FilterRows", this.filterRows);
+        valueOutput.putBoolean("Whitelist", this.whitelist);
 
         if (this.miningAt != null) {
-            tag.putLong("MiningAt", this.miningAt.asLong());
+            valueOutput.putLong("MiningAt", this.miningAt.asLong());
         }
-        tag.putFloat("CurrentProgress", this.currentProgress);
+        valueOutput.putFloat("CurrentProgress", this.currentProgress);
         if (!this.waitingStacks.isEmpty()) {
-            tag.put("WaitingStacks", new CompoundTag());
-            NBTUtils.storeItemStackArray(tag.getCompound("WaitingStacks").orElse(new CompoundTag()), this.waitingStacks, registries);
+            valueOutput.store("WaitingStacks", ItemStack.OPTIONAL_CODEC.listOf(), this.waitingStacks);
         }
-        tag.putBoolean("Finished", this.finished);
+        valueOutput.putBoolean("Finished", this.finished);
 
-        tag.putBoolean("UseDirt", this.useDirt);
-        tag.putBoolean("SilkTouchEnabled", this.silkTouchEnabled);
-        tag.putBoolean("FortuneEnabled", this.fortuneEnabled);
-        tag.putBoolean("AutoOutputEnabled", this.autoOutputEnabled);
+        valueOutput.putBoolean("UseDirt", this.useDirt);
+        valueOutput.putBoolean("SilkTouchEnabled", this.silkTouchEnabled);
+        valueOutput.putBoolean("FortuneEnabled", this.fortuneEnabled);
+        valueOutput.putBoolean("AutoOutputEnabled", this.autoOutputEnabled);
 
-        tag.putInt("MinX", this.minX);
-        tag.putInt("MaxX", this.maxX);
-        tag.putInt("MinZ", this.minZ);
-        tag.putInt("MaxZ", this.maxZ);
-        tag.putInt("MinY", this.minY);
-        tag.putInt("MaxY", this.maxY);
+        valueOutput.putInt("MinX", this.minX);
+        valueOutput.putInt("MaxX", this.maxX);
+        valueOutput.putInt("MinZ", this.minZ);
+        valueOutput.putInt("MaxZ", this.maxZ);
+        valueOutput.putInt("MinY", this.minY);
+        valueOutput.putInt("MaxY", this.maxY);
 
-        tag.putFloat("CenterX", this.centerX);
-        tag.putFloat("CenterY", this.centerY);
-        tag.putFloat("CenterZ", this.centerZ);
+        valueOutput.putFloat("CenterX", this.centerX);
+        valueOutput.putFloat("CenterY", this.centerY);
+        valueOutput.putFloat("CenterZ", this.centerZ);
 
-        tag.putInt("Energy", this.energyStorage.getEnergyStored());
+        valueOutput.putInt("Energy", this.energyStorage.getEnergyStored());
 
-        tag.putFloat("SpeedUpgrade", this.speedUpgrade);
-        tag.putBoolean("RedstoneControl", this.redstoneControl);
-        tag.putInt("FortuneLevel", this.fortuneLevel);
-        tag.putBoolean("SilkTouch", this.silkTouch);
-        tag.putInt("ExtraEnergyCost", this.extraEnergyCost);
+        valueOutput.putFloat("SpeedUpgrade", this.speedUpgrade);
+        valueOutput.putBoolean("RedstoneControl", this.redstoneControl);
+        valueOutput.putInt("FortuneLevel", this.fortuneLevel);
+        valueOutput.putBoolean("SilkTouch", this.silkTouch);
+        valueOutput.putInt("ExtraEnergyCost", this.extraEnergyCost);
 
         if (this.stabilizerPositions != null) {
-            tag.putLongArray("StabilizerPositions", this.stabilizerPositions.stream().map(BlockPos::asLong).mapToLong(Long::longValue).toArray());
+            valueOutput.store("StabilizerPositions", Codec.LONG.listOf(), this.stabilizerPositions.stream().mapToLong(BlockPos::asLong).boxed().toList());
         }
     }
 

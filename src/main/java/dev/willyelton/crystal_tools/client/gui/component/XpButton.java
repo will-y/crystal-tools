@@ -7,7 +7,7 @@ import dev.willyelton.crystal_tools.utils.XpUtils;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -33,7 +33,7 @@ public class XpButton extends Button {
     protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.renderWidget(guiGraphics, mouseX, mouseY, partialTick);
 
-        guiGraphics.blit(RenderType::guiTextured, TEXTURE, getX() + 4, getY() + 5, 0, 0, 9, 9, 256, 256);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, getX() + 4, getY() + 5, 0, 0, 9, 9, 256, 256);
 
         if (this.isHovered) {
             this.onTooltip.onTooltip(this, guiGraphics, mouseX, mouseY);

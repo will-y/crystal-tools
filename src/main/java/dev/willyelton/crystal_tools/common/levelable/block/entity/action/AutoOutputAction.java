@@ -4,13 +4,13 @@ import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 
@@ -55,13 +55,13 @@ public class AutoOutputAction extends Action {
     }
 
     @Override
-    public void load(CompoundTag tag, HolderLookup.Provider registries) {
-        this.autoOutputEnabled = tag.getBoolean("AutoOutput").orElse(false);
+    public void load(ValueInput valueInput) {
+        this.autoOutputEnabled = valueInput.getBooleanOr("AutoOutput", false);
     }
 
     @Override
-    public void save(CompoundTag tag, HolderLookup.Provider registries) {
-        tag.putBoolean("AutoOutput", this.autoOutputEnabled);
+    public void save(ValueOutput valueOutput) {
+        valueOutput.putBoolean("AutoOutput", this.autoOutputEnabled);
     }
 
     @Override

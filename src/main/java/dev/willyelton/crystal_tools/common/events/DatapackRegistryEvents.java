@@ -9,7 +9,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 
-@EventBusSubscriber(modid = CrystalTools.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = CrystalTools.MODID)
 public class DatapackRegistryEvents {
     public static ResourceKey<Registry<SkillData>> SKILL_DATA_REGISTRY_KEY_ITEMS = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "skill_trees/items"));
     public static ResourceKey<Registry<SkillData>> SKILL_DATA_REGISTRY_KEY_BLOCKS = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "skill_trees/blocks"));

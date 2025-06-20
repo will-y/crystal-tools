@@ -1,4 +1,7 @@
 # Crystal Tools Change Log
+## 3.0.0 - beta 4
+- Updates to Minecraft 1.21.6
+
 ## 3.0.0 - beta 3
 ### Fixes
 - Fixes part of the quarry renderer being all black

@@ -75,7 +75,7 @@ public class CrystalQuarryBlockEntityRenderer implements BlockEntityRenderer<Cry
     }
 
     @Override
-    public boolean shouldRenderOffScreen(CrystalQuarryBlockEntity blockEntity) {
+    public boolean shouldRenderOffScreen() {
         return true;
     }
 }

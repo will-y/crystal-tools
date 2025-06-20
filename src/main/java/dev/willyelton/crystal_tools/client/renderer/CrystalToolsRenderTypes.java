@@ -9,15 +9,10 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.TriState;
 
 import static dev.willyelton.crystal_tools.CrystalTools.rl;
 import static net.minecraft.client.renderer.RenderPipelines.ENTITY_SNIPPET;
-import static net.minecraft.client.renderer.RenderStateShard.NO_LIGHTMAP;
-import static net.minecraft.client.renderer.RenderStateShard.NO_TEXTURE;
-import static net.minecraft.client.renderer.RenderStateShard.OVERLAY;
-import static net.minecraft.client.renderer.RenderStateShard.TRANSLUCENT_TARGET;
-import static net.minecraft.client.renderer.RenderStateShard.VIEW_OFFSET_Z_LAYERING;
+import static net.minecraft.client.renderer.RenderStateShard.*;
 import static net.minecraft.client.renderer.RenderType.create;
 
 public class CrystalToolsRenderTypes {
@@ -66,7 +61,7 @@ public class CrystalToolsRenderTypes {
             true,
             RenderPipelines.BEACON_BEAM_TRANSLUCENT,
             RenderType.CompositeState.builder()
-                    .setTextureState(new RenderStateShard.TextureStateShard(QUARRY_LASER_LOCATION, TriState.FALSE, false))
+                    .setTextureState(new RenderStateShard.TextureStateShard(QUARRY_LASER_LOCATION, false))
                     .createCompositeState(true));
 
     public static final RenderType QUARRY_CUBE = create("QuarryCube",
@@ -75,7 +70,7 @@ public class CrystalToolsRenderTypes {
             false,
             QUARRY_CUBE_PIPELINE,
             RenderType.CompositeState.builder()
-                    .setTextureState(new RenderStateShard.TextureStateShard(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/entity/crystal_quarry_cube.png"), TriState.FALSE, false))
+                    .setTextureState(new RenderStateShard.TextureStateShard(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/entity/crystal_quarry_cube.png"), false))
                     .setLightmapState(NO_LIGHTMAP)
                     .setOverlayState(OVERLAY)
                     .createCompositeState(true));

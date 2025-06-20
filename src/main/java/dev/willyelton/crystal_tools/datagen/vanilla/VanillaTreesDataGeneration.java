@@ -12,7 +12,7 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
  * because I don't want to just have a boolean in the other event,
  * and I'm pretty sure the events are the same
  */
-@EventBusSubscriber(modid = CrystalTools.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = CrystalTools.MODID)
 public class VanillaTreesDataGeneration {
     @SubscribeEvent
     public static void generate(GatherDataEvent.Server event) {

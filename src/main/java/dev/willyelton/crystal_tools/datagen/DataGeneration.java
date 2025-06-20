@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
-@EventBusSubscriber(modid = CrystalTools.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = CrystalTools.MODID)
 public class DataGeneration {
     @SubscribeEvent
     public static void generate(GatherDataEvent.Client event) {
@@ -30,7 +30,7 @@ public class DataGeneration {
         CrystalToolsBlockTags blockTags = new CrystalToolsBlockTags(packOutput, lookupProvider);
         generator.addProvider(true, blockTags);
 
-        CrystalToolsItemTags itemTags = new CrystalToolsItemTags(packOutput, lookupProvider, blockTags.contentsGetter());
+        CrystalToolsItemTags itemTags = new CrystalToolsItemTags(packOutput, lookupProvider);
         generator.addProvider(true, itemTags);
 
         CrystalToolsEntityTypeTags entityTypeTags = new CrystalToolsEntityTypeTags(packOutput, lookupProvider);

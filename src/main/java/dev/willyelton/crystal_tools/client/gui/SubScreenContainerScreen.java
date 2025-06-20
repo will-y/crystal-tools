@@ -38,7 +38,7 @@ public interface SubScreenContainerScreen {
                         ModGUIs.openScreen(subScreen);
                     },
                     (button, guiGraphics, mouseX, mouseY) -> {
-                        guiGraphics.renderTooltip(font, font.split(subScreen.getButtonName(), Math.max(width / 2 - 43, 170)), mouseX, mouseY);
+                        guiGraphics.setTooltipForNextFrame(font, font.split(subScreen.getButtonName(), Math.max(width / 2 - 43, 170)), mouseX, mouseY);
                     }, subScreen.getButtonTextureXOffset()));
 
             subScreenButtonStartingY += Y_OFFSET;

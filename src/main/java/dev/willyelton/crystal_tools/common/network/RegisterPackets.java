@@ -42,7 +42,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
-@EventBusSubscriber(modid = CrystalTools.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = CrystalTools.MODID)
 public class RegisterPackets {
 
     @SubscribeEvent

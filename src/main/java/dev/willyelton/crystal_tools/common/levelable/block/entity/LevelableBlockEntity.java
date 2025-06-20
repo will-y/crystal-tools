@@ -7,15 +7,14 @@ import dev.willyelton.crystal_tools.common.levelable.block.entity.action.Action;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 
 import java.util.HashMap;
 import java.util.List;
@@ -65,15 +64,14 @@ public abstract class LevelableBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        this.skillPoints = tag.getInt("SkillPoints").orElse(0);
-        // TODO: More validation
-        this.points = SkillPoints.CODEC.parse(NbtOps.INSTANCE, tag.get("Points")).getOrThrow();
-        this.exp = tag.getInt("Exp").orElse(0);
-        this.expCap = tag.getInt("ExpCap").orElse(getBaseExpCap());
+    protected void loadAdditional(ValueInput valueInput) {
+        super.loadAdditional(valueInput);
+        this.skillPoints = valueInput.getInt("SkillPoints").orElse(0);
+        this.points = valueInput.read("Points", SkillPoints.CODEC).orElse(new SkillPoints());
+        this.exp = valueInput.getInt("Exp").orElse(0);
+        this.expCap = valueInput.getInt("ExpCap").orElse(getBaseExpCap());
 
-        getActions().forEach(action -> action.load(tag, registries));
+        getActions().forEach(action -> action.load(valueInput));
     }
 
     @Override
@@ -94,16 +92,16 @@ public abstract class LevelableBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
+    protected void saveAdditional(ValueOutput valueOutput) {
+        super.saveAdditional(valueOutput);
 
-        tag.putInt("SkillPoints", this.skillPoints);
+        valueOutput.putInt("SkillPoints", this.skillPoints);
         // TODO: Validation
-        tag.put("Points", SkillPoints.CODEC.encodeStart(NbtOps.INSTANCE, this.points).getOrThrow());
-        tag.putInt("Exp", this.exp);
-        tag.putInt("ExpCap", this.expCap);
+        valueOutput.store("Points", SkillPoints.CODEC, this.points);
+        valueOutput.putInt("Exp", this.exp);
+        valueOutput.putInt("ExpCap", this.expCap);
 
-        getActions().forEach(action -> action.save(tag, registries));
+        getActions().forEach(action -> action.save(valueOutput));
     }
 
     @Override

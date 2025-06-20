@@ -1,6 +1,5 @@
 package dev.willyelton.crystal_tools.client.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.client.gui.component.EnergyBarWidget;
 import dev.willyelton.crystal_tools.client.gui.component.backpack.BackpackScreenButton;
@@ -8,7 +7,7 @@ import dev.willyelton.crystal_tools.common.inventory.container.CrystalQuarryCont
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.network.data.OpenContainerPayload;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
@@ -38,8 +37,7 @@ public class CrystalQuarryScreen extends BaseMenuUpgradeScreen<CrystalQuarryCont
 
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        guiGraphics.blit(RenderType::guiTextured, TEXTURE, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
     }
 
     @Override
@@ -88,7 +86,7 @@ public class CrystalQuarryScreen extends BaseMenuUpgradeScreen<CrystalQuarryCont
                 },
                 (button, guiGraphics, mouseX, mouseY) -> {
                     Component textComponent = Component.literal("Open Skill Tree");
-                    guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(CrystalQuarryScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
+                    guiGraphics.setTooltipForNextFrame(this.font, this.font.split(textComponent, Math.max(CrystalQuarryScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
                 }, 40));
     }
 

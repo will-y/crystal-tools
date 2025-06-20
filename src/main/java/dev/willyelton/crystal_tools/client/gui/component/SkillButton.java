@@ -1,7 +1,6 @@
 package dev.willyelton.crystal_tools.client.gui.component;
 
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.RequirementType;
@@ -9,7 +8,7 @@ import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillItem
 import dev.willyelton.crystal_tools.utils.Colors;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -68,9 +67,9 @@ public class SkillButton extends CrystalToolsButton {
     @Override
     protected void blitButton(GuiGraphics guiGraphics, int textureY) {
         // first half of button
-        guiGraphics.blit(RenderType::guiTextured, SKILL_BUTTON_LOCATION, this.getX() + xOffset, this.getY() + yOffset, 0, textureY * 20, this.width / 2, this.height, 256, 256);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, SKILL_BUTTON_LOCATION, this.getX() + xOffset, this.getY() + yOffset, 0, textureY * 20, this.width / 2, this.height, 256, 256);
         // second half of button
-        guiGraphics.blit(RenderType::guiTextured, SKILL_BUTTON_LOCATION, this.getX() + this.width / 2 + xOffset, this.getY() + yOffset, 200 - this.width / 2, textureY * 20, this.width / 2, this.height, 256, 256);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, SKILL_BUTTON_LOCATION, this.getX() + this.width / 2 + xOffset, this.getY() + yOffset, 200 - this.width / 2, textureY * 20, this.width / 2, this.height, 256, 256);
     }
 
     @Override

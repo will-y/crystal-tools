@@ -10,15 +10,11 @@ import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScre
 import dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.INVENTORY_WIDTH;
-import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.ROW_HEIGHT;
-import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.TEXTURE;
-import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.TEXTURE_SIZE;
-import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.TOP_BAR_HEIGHT;
+import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.*;
 import static dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload.BackpackAction.PICKUP_BLACKLIST;
 import static dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload.BackpackAction.PICKUP_WHITELIST;
 
@@ -72,7 +68,7 @@ public class FilterConfigScreen<T extends BaseContainerMenu & SubScreenContainer
 
     @Override
     protected void drawContentRow(GuiGraphics guiGraphics, int row) {
-        guiGraphics.blit(RenderType::guiTextured, TEXTURE, leftPos, topPos + TOP_BAR_HEIGHT + ROW_HEIGHT * row, 0, 222, INVENTORY_WIDTH, ROW_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, topPos + TOP_BAR_HEIGHT + ROW_HEIGHT * row, 0, 222, INVENTORY_WIDTH, ROW_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
     }
 
     @Override

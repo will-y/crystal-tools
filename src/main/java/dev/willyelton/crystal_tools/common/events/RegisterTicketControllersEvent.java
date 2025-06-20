@@ -5,7 +5,7 @@ import dev.willyelton.crystal_tools.common.levelable.block.entity.action.ChunkLo
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 
-@EventBusSubscriber(modid = CrystalTools.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = CrystalTools.MODID)
 public class RegisterTicketControllersEvent {
     @SubscribeEvent
     public static void registerTicketControllers(net.neoforged.neoforge.common.world.chunk.RegisterTicketControllersEvent event) {

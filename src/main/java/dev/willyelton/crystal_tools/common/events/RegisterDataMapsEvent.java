@@ -6,7 +6,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
 
-@EventBusSubscriber(modid = CrystalTools.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = CrystalTools.MODID)
 public class RegisterDataMapsEvent {
     @SubscribeEvent
     public static void onRegisterDataMaps(final RegisterDataMapTypesEvent event) {

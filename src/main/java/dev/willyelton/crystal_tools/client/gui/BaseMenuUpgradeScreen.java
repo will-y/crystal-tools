@@ -66,7 +66,7 @@ public abstract class BaseMenuUpgradeScreen<T extends LevelableContainerMenu> ex
                         pButton -> ModGUIs.openScreen(new BlockEntityUpgradeScreen(this.menu, this.menu.getPlayer(), this, skillData.value(), skillData.key())),
                         (button, guiGraphics, mouseX, mouseY) -> {
                             Component textComponent = Component.literal(this.menu.getSkillPoints() + " Point(s) Available");
-                            guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(BaseMenuUpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
+                            guiGraphics.setTooltipForNextFrame(this.font, this.font.split(textComponent, Math.max(BaseMenuUpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
                         },
                         false));
     }

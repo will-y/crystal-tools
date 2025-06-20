@@ -102,3 +102,4 @@ Eventually
 - Tooltip is wrong for unused items
 - Vanilla bow tree (mixins probably)
 - Vanilla trident tree
+- Opacity config option broken

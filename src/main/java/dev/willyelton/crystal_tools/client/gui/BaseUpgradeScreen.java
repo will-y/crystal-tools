@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.client.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.config.CrystalToolsClientConfig;
 import dev.willyelton.crystal_tools.client.gui.component.SkillButton;
@@ -23,12 +24,17 @@ import dev.willyelton.crystal_tools.utils.Colors;
 import dev.willyelton.crystal_tools.utils.InventoryUtils;
 import dev.willyelton.crystal_tools.utils.ListUtils;
 import dev.willyelton.crystal_tools.utils.XpUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.gui.navigation.ScreenRectangle;
+import net.minecraft.client.gui.render.TextureSetup;
+import net.minecraft.client.gui.render.state.GuiElementRenderState;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.Style;
@@ -38,7 +44,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Matrix4f;
+import org.joml.Matrix3x2f;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.HashMap;
@@ -124,7 +130,7 @@ public abstract class BaseUpgradeScreen extends Screen {
                 }
             }, (button, guiGraphics, mouseX, mouseY) -> {
                 Component textComponent = Component.literal(String.format("Use Experience To Gain Skill Points (+%d Points)", getPointsToSpend(Integer.MAX_VALUE, Screen.hasShiftDown(), Screen.hasControlDown())));
-                guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(BaseUpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
+                guiGraphics.setTooltipForNextFrame(this.font, this.font.split(textComponent, Math.max(BaseUpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
             }, () -> XpUtils.getLevelForXp(XpUtils.getXpCost(getPointsToSpend(Integer.MAX_VALUE, Screen.hasShiftDown(), Screen.hasControlDown()), points.getTotalPoints() + getSkillPoints()))));
         }
 
@@ -167,6 +173,7 @@ public abstract class BaseUpgradeScreen extends Screen {
         this.renderBlockBackground(guiGraphics, CrystalToolsClientConfig.UPGRADE_SCREEN_BACKGROUND.get());
 
         drawDependencyLines(guiGraphics);
+        guiGraphics.nextStratum();
         guiGraphics.drawString(font, "Skill Points: " + this.getSkillPoints(), 5, 5, Colors.TEXT_LIGHT);
 
         for (Renderable renderable : this.renderables) {
@@ -237,7 +244,7 @@ public abstract class BaseUpgradeScreen extends Screen {
             } else {
                 compositeComponent = FormattedText.composite(textComponent);
             }
-            guiGraphics.renderTooltip(this.font, this.font.split(compositeComponent, Math.max(BaseUpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
+            guiGraphics.setTooltipForNextFrame(this.font, this.font.split(compositeComponent, Math.max(BaseUpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
         }, node, this.player, this.points));
     }
 
@@ -365,13 +372,35 @@ public abstract class BaseUpgradeScreen extends Screen {
         float x4F = x2 - xOffset;
         float y4F = y2 + yOffset;
 
-        Matrix4f matrix4f = guiGraphics.pose().last().pose();
-        guiGraphics.drawSpecial(multiBufferSource -> {
-            multiBufferSource.getBuffer(RenderType.GUI_TEXTURED.apply(DEPENDENCY_LINE_LOCATION))
-                    .addVertex(matrix4f, x2F, y2F, 0).setUv((float) ANIMATION_FRAME / DEPENDENCY_LINE_IMAGE_WIDTH, (float) yImageStart / DEPENDENCY_LINE_IMAGE_HEIGHT).setColor(255, 255, 255, 255)
-                    .addVertex(matrix4f, x1F, y1F, 0).setUv((float) ANIMATION_FRAME / DEPENDENCY_LINE_IMAGE_WIDTH, yImageEnd / DEPENDENCY_LINE_IMAGE_HEIGHT).setColor(255, 255, 255, 255)
-                    .addVertex(matrix4f, x4F, y4F, 0).setUv((length + ANIMATION_FRAME) / DEPENDENCY_LINE_IMAGE_WIDTH, yImageEnd / DEPENDENCY_LINE_IMAGE_HEIGHT).setColor(255, 255, 255, 255)
-                    .addVertex(matrix4f, x3F, y3F, 0).setUv((length + ANIMATION_FRAME) / DEPENDENCY_LINE_IMAGE_WIDTH, (float) yImageStart / DEPENDENCY_LINE_IMAGE_HEIGHT).setColor(255, 255, 255, 255);
+        guiGraphics.submitGuiElementRenderState(new GuiElementRenderState() {
+            @Override
+            public void buildVertices(VertexConsumer consumer, float p_418216_) {
+                consumer.addVertexWith2DPose(new Matrix3x2f(guiGraphics.pose()), x2F, y2F, p_418216_).setUv((float) ANIMATION_FRAME / DEPENDENCY_LINE_IMAGE_WIDTH, (float) yImageStart / DEPENDENCY_LINE_IMAGE_HEIGHT).setColor(255, 255, 255, 255)
+                        .addVertexWith2DPose(new Matrix3x2f(guiGraphics.pose()), x1F, y1F, p_418216_).setUv((float) ANIMATION_FRAME / DEPENDENCY_LINE_IMAGE_WIDTH, yImageEnd / DEPENDENCY_LINE_IMAGE_HEIGHT).setColor(255, 255, 255, 255)
+                        .addVertexWith2DPose(new Matrix3x2f(guiGraphics.pose()), x4F, y4F, p_418216_).setUv((length + ANIMATION_FRAME) / DEPENDENCY_LINE_IMAGE_WIDTH, yImageEnd / DEPENDENCY_LINE_IMAGE_HEIGHT).setColor(255, 255, 255, 255)
+                        .addVertexWith2DPose(new Matrix3x2f(guiGraphics.pose()), x3F, y3F, p_418216_).setUv((length + ANIMATION_FRAME) / DEPENDENCY_LINE_IMAGE_WIDTH, (float) yImageStart / DEPENDENCY_LINE_IMAGE_HEIGHT).setColor(255, 255, 255, 255);
+            }
+
+            @Override
+            public RenderPipeline pipeline() {
+                return RenderPipelines.GUI_TEXTURED;
+            }
+
+            @Override
+            public TextureSetup textureSetup() {
+                TextureManager textureManager = Minecraft.getInstance().getTextureManager();
+                return TextureSetup.singleTexture(textureManager.getTexture(DEPENDENCY_LINE_LOCATION).getTextureView());
+            }
+
+            @Override
+            public @Nullable ScreenRectangle scissorArea() {
+                return guiGraphics.peekScissorStack();
+            }
+
+            @Override
+            public @Nullable ScreenRectangle bounds() {
+                return new ScreenRectangle(x1, y1, x2, y2).transformMaxBounds(guiGraphics.pose());
+            }
         });
     }
 
@@ -390,9 +419,10 @@ public abstract class BaseUpgradeScreen extends Screen {
         } else {
             blockResource = ResourceLocation.fromNamespaceAndPath(split[0], "textures/block/" + split[1] + ".png");
         }
-        RenderSystem.setShaderColor(1f, 1f,1f, (float) CrystalToolsClientConfig.BACKGROUND_OPACITY.get().doubleValue());
+        // TODO: Broken
+//        RenderSystem.setShaderColor(1f, 1f,1f, (float) CrystalToolsClientConfig.BACKGROUND_OPACITY.get().doubleValue());
         renderMenuBackgroundTexture(guiGraphics, blockResource, 0, 0, 0, 0, width, height);
-        RenderSystem.setShaderColor(1f, 1f,1f, 1f);
+//        RenderSystem.setShaderColor(1f, 1f,1f, 1f);
     }
 
     protected int getPointsToSpend(int points, boolean shiftDown, boolean controlDown) {

@@ -20,9 +20,11 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
+import org.joml.Vector3f;
 
 import javax.annotation.Nullable;
 import java.util.Objects;
+import java.util.Set;
 
 public class CrystalShieldRenderer implements SpecialModelRenderer<DataComponentMap> {
     private static final Material SHIELD_MATERIAL = new Material(Sheets.SHIELD_SHEET, ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "entity/crystal_shield"));
@@ -58,6 +60,13 @@ public class CrystalShieldRenderer implements SpecialModelRenderer<DataComponent
         }
 
         poseStack.popPose();
+    }
+
+    @Override
+    public void getExtents(Set<Vector3f> vectors) {
+        PoseStack posestack = new PoseStack();
+        posestack.scale(1.0F, -1.0F, -1.0F);
+        this.shieldModel.root().getExtentsForGui(posestack, vectors);
     }
 
     public record Unbaked() implements SpecialModelRenderer.Unbaked {

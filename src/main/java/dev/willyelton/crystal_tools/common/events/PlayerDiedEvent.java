@@ -10,7 +10,6 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 
-// TODO: This can be replaced by the DEATH_PROTECTION data component (maybe)
 @EventBusSubscriber(modid = CrystalTools.MODID)
 public class PlayerDiedEvent {
     @SubscribeEvent

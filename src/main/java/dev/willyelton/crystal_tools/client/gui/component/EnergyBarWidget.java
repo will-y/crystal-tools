@@ -6,7 +6,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -40,7 +40,7 @@ public class EnergyBarWidget extends AbstractWidget {
 
         if (mouseX >= x1 && mouseX <= x2 && mouseY >= y1 && mouseY <= y2) {
             String tooltipString = String.format("%d/%d FE", (int) menu.getCurrentEnergy(), (int) menu.getMaxEnergy());
-            guiGraphics.renderTooltip(this.font, Component.literal(tooltipString), mouseX, mouseY);
+            guiGraphics.setTooltipForNextFrame(this.font, Component.literal(tooltipString), mouseX, mouseY);
         }
     }
 
@@ -49,7 +49,7 @@ public class EnergyBarWidget extends AbstractWidget {
     private void renderEnergyBar(GuiGraphics guiGraphics) {
         float energyProgress = this.menu.getCurrentEnergy() / this.menu.getMaxEnergy();
         int width = (int) (energyProgress * this.width);
-        guiGraphics.blit(RenderType::guiTextured, TEXTURE, this.getX(), this.getY(), ENERGY_TEXTURE_X, ENERGY_TEXTURE_Y, width, this.height, 256, 256);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, this.getX(), this.getY(), ENERGY_TEXTURE_X, ENERGY_TEXTURE_Y, width, this.height, 256, 256);
     }
 
     @Override

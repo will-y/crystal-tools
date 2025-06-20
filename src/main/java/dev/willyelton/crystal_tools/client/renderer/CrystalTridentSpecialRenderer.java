@@ -13,6 +13,9 @@ import net.minecraft.client.renderer.special.NoDataSpecialModelRenderer;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemDisplayContext;
+import org.joml.Vector3f;
+
+import java.util.Set;
 
 public class CrystalTridentSpecialRenderer implements NoDataSpecialModelRenderer {
 //    public static final ModelResourceLocation CRYSTAL_TRIDENT_MODEL_RESOURCE_LOCATION = ModelResourceLocation.standalone(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "item/crystal_trident_inventory"));
@@ -31,6 +34,13 @@ public class CrystalTridentSpecialRenderer implements NoDataSpecialModelRenderer
         VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(buffer, this.crystalTridentModel.renderType(TEXTURE), false, glint);
         this.crystalTridentModel.renderToBuffer(poseStack, vertexconsumer, packedLight, packedOverlay);
         poseStack.popPose();
+    }
+
+    @Override
+    public void getExtents(Set<Vector3f> vectors) {
+        PoseStack posestack = new PoseStack();
+        posestack.scale(1.0F, -1.0F, -1.0F);
+        this.crystalTridentModel.root().getExtentsForGui(posestack, vectors);
     }
 
     public record Unbaked() implements SpecialModelRenderer.Unbaked {
