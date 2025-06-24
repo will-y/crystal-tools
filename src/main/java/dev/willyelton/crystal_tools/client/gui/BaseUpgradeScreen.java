@@ -419,10 +419,8 @@ public abstract class BaseUpgradeScreen extends Screen {
         } else {
             blockResource = ResourceLocation.fromNamespaceAndPath(split[0], "textures/block/" + split[1] + ".png");
         }
-        // TODO: Broken
-//        RenderSystem.setShaderColor(1f, 1f,1f, (float) CrystalToolsClientConfig.BACKGROUND_OPACITY.get().doubleValue());
-        renderMenuBackgroundTexture(guiGraphics, blockResource, 0, 0, 0, 0, width, height);
-//        RenderSystem.setShaderColor(1f, 1f,1f, 1f);
+
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, blockResource, 0, 0, 0, 0, width, height, 32, 32, Colors.fromRGB(255, 255, 255, (int) (CrystalToolsClientConfig.BACKGROUND_OPACITY.get() * 255)));
     }
 
     protected int getPointsToSpend(int points, boolean shiftDown, boolean controlDown) {

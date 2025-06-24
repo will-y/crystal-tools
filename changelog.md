@@ -6,6 +6,8 @@
 
 ### Fixes
 - Fixes issue with the recipes for the crystal elytra and crystal AIOT
+- Fixes issue with the quarry not unloading chunks when broken
+- Fixes background opacity config option not working
 
 ## 3.0.0 - beta 4
 - Updates to Minecraft 1.21.6

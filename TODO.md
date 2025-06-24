@@ -79,19 +79,14 @@
 - Data gen ore gen
 
 ## 1.21.6
-Before full release
-- One more look through TODOs
-  - Should do the ones in LevelableBlockEntity
-
 Eventually
 - Upgrading backpack in curios slot
 - Better way to get tools on server (could technically change positions) (this is relating to client to server packets)
 - Datapack validation (make sure all requirements point to valid nodes / items)...
-- try out some vanilla skill trees
 - Resizing the screen after you spend a point resets it?
 - Figure out if I want to keep disabling tools
   - Tooltip is main concern (skilldata on component would fix)
-  - Partial `Levelable` without level access could also work?
+  - Partial `Levelable` without registry access could also work?
   - Actually disabled isn't even on the levelable object. I guess could look up config by item somehow?
   - Config by item map initialized in some event (when items are ready)
 - Maybe: Move repairing items to `EntityTickEvent` and iterate the inventory (would allow curios items to be ticked + repairing for vanilla tools if wanted)
@@ -100,5 +95,4 @@ Eventually
 - Tooltip is wrong for unused items
 - Vanilla bow tree (mixins probably)
 - Vanilla trident tree
-- Opacity config option broken
 - Should probably use interface for capability actually, if possible (HolderLookup.Provider)

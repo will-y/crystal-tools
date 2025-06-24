@@ -40,7 +40,8 @@ public abstract class LevelableBlockEntity extends BlockEntity {
         }
     }
 
-    public void onBlockRemoved() {
+    @Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
         for (Action action : getActions()) {
             action.onRemove();
         }
@@ -96,7 +97,6 @@ public abstract class LevelableBlockEntity extends BlockEntity {
         super.saveAdditional(valueOutput);
 
         valueOutput.putInt("SkillPoints", this.skillPoints);
-        // TODO: Validation
         valueOutput.store("Points", SkillPoints.CODEC, this.points);
         valueOutput.putInt("Exp", this.exp);
         valueOutput.putInt("ExpCap", this.expCap);
