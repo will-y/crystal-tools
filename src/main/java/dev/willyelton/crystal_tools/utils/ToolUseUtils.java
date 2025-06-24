@@ -93,7 +93,7 @@ public class ToolUseUtils {
         BlockPos blockPos = context.getClickedPos();
         BlockState initialState = level.getBlockState(blockPos);
         ItemStack stack = context.getItemInHand();
-        Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level);
+        Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level.registryAccess());
 
         if (levelable == null) {
             return InteractionResult.PASS;
@@ -142,7 +142,7 @@ public class ToolUseUtils {
 
         if (ToolUtils.isBroken(stack)) return InteractionResult.PASS;
 
-        Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level);
+        Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level.registryAccess());
 
         if (levelable == null) {
             return InteractionResult.PASS;
@@ -213,7 +213,7 @@ public class ToolUseUtils {
             Direction direction = context.getClickedFace();
             position = position.relative(direction);
 
-            Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level);
+            Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level.registryAccess());
             if (levelable == null) {
                 return InteractionResult.PASS;
             }
@@ -277,7 +277,7 @@ public class ToolUseUtils {
                     }
                 }
 
-                Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level);
+                Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level.registryAccess());
                 if (levelable == null) {
                     return InteractionResult.PASS;
                 }

@@ -3,7 +3,6 @@ package dev.willyelton.crystal_tools.common.crafting;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.utils.ToolUtils;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
@@ -70,10 +69,9 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
         // Set skill points
         stack.set(DataComponents.SKILL_POINTS, totalPoints);
 
-        // Set exp cap
-        ToolUtils.increaseExpCap(stack, totalPoints);
-
         stack.set(DataComponents.SKILL_EXPERIENCE, crystalChestPlateItem.getOrDefault(DataComponents.SKILL_EXPERIENCE, 0));
+
+        increaseLevelCap(stack, registryAccess, totalPoints);
 
         return stack;
     }

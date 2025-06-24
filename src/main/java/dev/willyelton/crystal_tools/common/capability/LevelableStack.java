@@ -9,6 +9,7 @@ import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
@@ -23,7 +24,7 @@ import java.util.Optional;
 
 public class LevelableStack implements Levelable {
 
-    public static @Nullable LevelableStack of(ItemStack stack, Level level) {
+    public static @Nullable LevelableStack of(ItemStack stack, RegistryAccess registryAccess) {
         if (stack.getMaxStackSize() != 1) return null;
 
         if (!ToolUtils.hasSkillTree(stack)) return null;
@@ -32,7 +33,7 @@ public class LevelableStack implements Levelable {
 
         if (skillTreeData == null) return null;
 
-        Optional<Holder.Reference<SkillData>> skillData = ToolUtils.getSkillData(level, skillTreeData.treeLocation());
+        Optional<Holder.Reference<SkillData>> skillData = ToolUtils.getSkillData(registryAccess, skillTreeData.treeLocation());
 
         return skillData.map(skillDataReference -> new LevelableStack(stack, skillDataReference.value(),
                 skillDataReference.key(), skillTreeData)).orElse(null);

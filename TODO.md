@@ -82,7 +82,6 @@
 Before full release
 - One more look through TODOs
   - Should do the ones in LevelableBlockEntity
-  - And in ToolUtils
 
 Eventually
 - Upgrading backpack in curios slot
@@ -102,3 +101,4 @@ Eventually
 - Vanilla bow tree (mixins probably)
 - Vanilla trident tree
 - Opacity config option broken
+- Should probably use interface for capability actually, if possible (HolderLookup.Provider)

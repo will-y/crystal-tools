@@ -31,7 +31,7 @@ public class ShieldBlockEvent {
         Entity attackingEntity = event.getDamageSource().getEntity();
         Entity directEntity = event.getDamageSource().getDirectEntity();
         ItemStack stack = blockingEntity.getUseItem();
-        Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, blockingEntity.level());
+        Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, blockingEntity.level().registryAccess());
 
         if (levelable != null && event.getBlocked() && event.getBlockedDamage() > 0) {
             levelable.addExp(blockingEntity.level(), blockingEntity.getOnPos(), blockingEntity, event.getBlockedDamage());
@@ -43,7 +43,7 @@ public class ShieldBlockEvent {
             if (directEntity instanceof Projectile projectile) {
                 int target = stack.getOrDefault(DataComponents.ENTITY_TARGET, -1);
                 if (target != -1) {
-                    LevelTickEvent.startTracking(attackingEntity.level(), projectile.getId(), target, projectile.getDeltaMovement().length());
+                    LevelTickEvent.startTracking(blockingEntity.level(), projectile.getId(), target, projectile.getDeltaMovement().length());
                 }
             }
         }

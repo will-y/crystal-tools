@@ -11,12 +11,12 @@ import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 
 import java.util.Optional;
 
@@ -76,10 +76,10 @@ public class ToolUtils {
         return !entity.getType().is(CrystalToolsTags.ENTITY_BLACKLIST);
     }
 
-    public static Optional<Holder.Reference<SkillData>> getSkillData(Level level, ResourceLocation treeLocation) {
-        if (level == null) return Optional.empty();
+    public static Optional<Holder.Reference<SkillData>> getSkillData(RegistryAccess registryAccess, ResourceLocation treeLocation) {
+        if (registryAccess == null) return Optional.empty();
 
-        Optional<Registry<SkillData>> skillDataOptional = level.registryAccess().lookup(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS);
+        Optional<Registry<SkillData>> skillDataOptional = registryAccess.lookup(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS);
 
         return skillDataOptional.flatMap(skillData -> skillData.get(treeLocation));
     }

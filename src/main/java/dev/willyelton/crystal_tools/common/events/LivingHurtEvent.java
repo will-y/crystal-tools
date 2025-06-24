@@ -22,7 +22,7 @@ public class LivingHurtEvent {
 
         if (target instanceof Player player) {
             for (ItemStack armor : InventoryUtils.getArmorItems(player)) {
-                Levelable levelable = armor.getCapability(Capabilities.ITEM_SKILL, player.level());
+                Levelable levelable = armor.getCapability(Capabilities.ITEM_SKILL, player.level().registryAccess());
                 if (levelable != null) {
                     levelable.addExp(player.level(), player.getOnPos(), player, damageAmount);
                 }
@@ -32,7 +32,7 @@ public class LivingHurtEvent {
         if (event.getSource().getEntity() instanceof Player player) {
             ItemStack stack = player.getWeaponItem();
             if (!stack.isEmpty() && !ToolUtils.isBroken(stack)) {
-                Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, player.level());
+                Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, player.level().registryAccess());
                 if (levelable == null) return;
 
                 if (stack.getOrDefault(DataComponents.FIRE, false)) {

@@ -68,7 +68,7 @@ public abstract class LevelableTool extends Item implements LevelableItem {
                 stack.hurtAndBreak(1, entity, EquipmentSlot.MAINHAND);
             }
 
-            Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level);
+            Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level.registryAccess());
             if (levelable == null) {
                 return;
             }

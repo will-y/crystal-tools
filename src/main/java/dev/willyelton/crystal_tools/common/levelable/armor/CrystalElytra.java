@@ -66,7 +66,7 @@ public class CrystalElytra extends LevelableTool implements LevelableItem {
         if (entity instanceof LivingEntity livingEntity) {
             if (livingEntity.isFallFlying()) {
                 if (livingEntity.getFallFlyingTicks() % 20 == 0) {
-                    Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level);
+                    Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level.registryAccess());
                     if (levelable != null) {
                         levelable.addExp(entity.level(), entity.getOnPos(), livingEntity);
                     }

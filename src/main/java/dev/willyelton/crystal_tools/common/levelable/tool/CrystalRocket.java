@@ -59,7 +59,7 @@ public class CrystalRocket extends LevelableTool {
                 player.awardStat(Stats.ITEM_USED.get(this));
             }
 
-            Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level);
+            Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level.registryAccess());
             if (levelable != null) {
                 levelable.addExp(level, player.getOnPos(), player);
             }

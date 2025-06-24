@@ -140,7 +140,7 @@ public class CrystalTridentEntity extends AbstractArrow {
             }
 
             if (damagingEntity instanceof Player player) {
-                Levelable levelable = tridentStack.getCapability(Capabilities.ITEM_SKILL, level());
+                Levelable levelable = tridentStack.getCapability(Capabilities.ITEM_SKILL, level().registryAccess());
                 if (levelable != null) {
                     levelable.addExp(level(), damagingEntity.getOnPos(), player, damage);
                 }

@@ -31,7 +31,7 @@ public class AddPointsCommand {
 
         if (entity instanceof LivingEntity livingEntity) {
             ItemStack stack = livingEntity.getItemInHand(InteractionHand.MAIN_HAND);
-            Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, livingEntity.level());
+            Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, livingEntity.level().registryAccess());
             if (levelable != null) {
                 DataComponents.addToComponent(stack, DataComponents.SKILL_POINTS, points);
             }

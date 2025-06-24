@@ -8,7 +8,7 @@ import net.minecraft.world.item.ItemStack;
 public class ItemStackUtils {
     public static ItemStack getHeldLevelableTool(Player player) {
         for (ItemStack i : InventoryUtils.getHandItems(player)) {
-            Levelable levelable = i.getCapability(Capabilities.ITEM_SKILL, player.level());
+            Levelable levelable = i.getCapability(Capabilities.ITEM_SKILL, player.level().registryAccess());
             if (levelable != null) {
                 return i;
             }

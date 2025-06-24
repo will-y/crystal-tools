@@ -5,7 +5,6 @@ import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
-import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -80,7 +79,7 @@ public class CrystalAIOTRecipe extends CrystalToolsRecipe {
 
         result.set(DataComponents.SKILL_POINTS, totalPoints);
 
-        ToolUtils.increaseExpCap(result, totalPoints);
+        increaseLevelCap(result, registryAccess, totalPoints);
 
         return result;
     }

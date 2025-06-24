@@ -45,7 +45,7 @@ public class BlockEvents {
         // Level other tools
         Level level = player.level();
         ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
-        Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level);
+        Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level.registryAccess());
 
         if (levelable != null) {
             levelable.addExp(level, event.getPos(), player);

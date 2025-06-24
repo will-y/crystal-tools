@@ -46,7 +46,7 @@ public class CrystalApple extends LevelableTool {
             stack.grow(1);
         }
 
-        Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level);
+        Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level.registryAccess());
         if (levelable != null) {
             FoodProperties food = stack.getOrDefault(net.minecraft.core.component.DataComponents.FOOD, new FoodProperties(0, 0, false));
             int effectiveHunger = (int) (food.nutrition() * food.saturation() * 2) + food.nutrition();

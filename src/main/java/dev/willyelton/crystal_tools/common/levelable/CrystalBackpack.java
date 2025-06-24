@@ -294,7 +294,7 @@ public class CrystalBackpack extends Item implements LevelableItem {
     public static void addXpToBackpacks(Player player, int exp) {
         findBackpackStacks(player)
                 .forEach(stack -> {
-                    Levelable levelable = stack.getCapability(dev.willyelton.crystal_tools.common.capability.Capabilities.ITEM_SKILL, player.level());
+                    Levelable levelable = stack.getCapability(dev.willyelton.crystal_tools.common.capability.Capabilities.ITEM_SKILL, player.level().registryAccess());
                     if (levelable != null) {
                         levelable.addExp(player.level(), player.blockPosition(), player, exp);
                     }

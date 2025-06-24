@@ -27,7 +27,7 @@ public class ProjectileHitEvent {
                     event.getRayTraceResult() instanceof EntityHitResult hitResult) {
                 if (hitResult.getEntity() instanceof LivingEntity target && ToolUtils.isValidEntity(target)) {
                     ItemStack heldItem = player.getMainHandItem();
-                    Levelable levelable = heldItem.getCapability(Capabilities.ITEM_SKILL, player.level());
+                    Levelable levelable = heldItem.getCapability(Capabilities.ITEM_SKILL, player.level().registryAccess());
                     if (levelable != null) {
                         if (event.getProjectile() instanceof AbstractArrow arrow) {
                             float f = (float) arrow.getDeltaMovement().length();

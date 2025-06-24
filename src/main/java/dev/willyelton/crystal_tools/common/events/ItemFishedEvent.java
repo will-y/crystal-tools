@@ -36,7 +36,7 @@ public class ItemFishedEvent {
                 CrystalFishingRod.dropExtraItems(copiedDrops, player, hook);
             }
 
-            Levelable levelable = rodStack.getCapability(Capabilities.ITEM_SKILL, player.level());
+            Levelable levelable = rodStack.getCapability(Capabilities.ITEM_SKILL, player.level().registryAccess());
 
             if (levelable != null) {
                 levelable.addExp(player.level(), player.getOnPos(), player, CrystalToolsConfig.FISHING_ROD_EXP.get());

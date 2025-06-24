@@ -16,7 +16,7 @@ public class BlockStripHandler {
         Player player = context.player();
 
         ItemStack tool = player.getItemInHand(payload.hand());
-        Levelable levelable = tool.getCapability(Capabilities.ITEM_SKILL, player.level());
+        Levelable levelable = tool.getCapability(Capabilities.ITEM_SKILL, player.level().registryAccess());
         if (levelable != null) {
             ToolUseUtils.stripBlock(player.level(), tool, player, payload.blockPos(),
                     InteractionHand.MAIN_HAND, payload.strippedState(), levelable);
