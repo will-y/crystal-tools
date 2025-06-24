@@ -80,7 +80,6 @@
 
 ## 1.21.6
 Before full release
-- Some way to publish the vanilla datapack (+ actually test it)
 - One more look through TODOs
   - Should do the ones in LevelableBlockEntity
   - And in ToolUtils

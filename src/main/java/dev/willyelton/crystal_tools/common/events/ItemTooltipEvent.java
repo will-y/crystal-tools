@@ -4,9 +4,9 @@ import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.common.datamap.DataMaps;
 import dev.willyelton.crystal_tools.common.levelable.LevelableTooltip;
 import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
+import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -23,7 +23,7 @@ public class ItemTooltipEvent {
         // TODO: Config Map from items -> configs (will have to be initialized late probably)
         ItemStack stack = event.getItemStack();
 
-        if (stack.getItemHolder().getData(DataMaps.SKILL_TREES) == null) return;
+        if (!ToolUtils.hasSkillTree(stack)) return;
 
         List<Component> tooltips = event.getToolTip();
 

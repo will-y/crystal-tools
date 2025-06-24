@@ -436,6 +436,11 @@ You can change these values in `config/crystal_tools.toml` or in the in-game UI.
 
 ### Server
 - `creative_flight_points` (100): The number of points you need to have in the creative flight node for it to enable. Range: 1 - 1000000.
+- `vanilla_skill_trees` (NONE): Sets the vanilla skill trees that are enabled.
+  - `NONE` will set none,
+  - `ALL` will allow all vanilla tools
+  - `NETHERITE` will only allow netherite tools
+  - `DIAMOND_NETHERITE` will allow diamond and netherite tools to be leveled
 
 ## Datapack options
 There are a couple of features that can be customized using datapacks.

@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 3.0.0 - beta 5
+- Adds new server config option: `vanilla_skill_trees`
+  - Allows you to turn on and off vanilla skill trees without a datamap or data pack
+
 ## 3.0.0 - beta 4
 - Updates to Minecraft 1.21.6
 

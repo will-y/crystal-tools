@@ -2,6 +2,8 @@ package dev.willyelton.crystal_tools.utils;
 
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
+import dev.willyelton.crystal_tools.common.config.CrystalToolsServerConfig;
+import dev.willyelton.crystal_tools.common.datamap.DataMaps;
 import dev.willyelton.crystal_tools.common.events.DatapackRegistryEvents;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
@@ -9,8 +11,10 @@ import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
@@ -20,6 +24,26 @@ public class ToolUtils {
     public static boolean isBroken(ItemStack stack) {
         int durability = stack.getItem().getMaxDamage(stack) - stack.getDamageValue();
         return durability <= 1;
+    }
+
+    public static boolean hasSkillTree(ItemStack stack) {
+        ResourceKey<Item> key = stack.getItemHolder().getKey();
+        if (key == null) return false;
+
+        if (stack.getItemHolder().getData(DataMaps.SKILL_TREES) == null) return false;
+
+        ResourceLocation location = key.location();
+
+        if ("minecraft".equalsIgnoreCase(location.getNamespace())) {
+            return switch (CrystalToolsServerConfig.VANILLA_SKILL_TREES.get()) {
+                case ALL -> true;
+                case NONE -> false;
+                case NETHERITE -> location.getPath().contains("netherite");
+                case DIAMOND_NETHERITE -> location.getPath().contains("netherite") || location.getPath().contains("diamond");
+            };
+        }
+
+        return true;
     }
 
     @Deprecated

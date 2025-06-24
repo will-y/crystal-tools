@@ -26,6 +26,8 @@ public class LevelableStack implements Levelable {
     public static @Nullable LevelableStack of(ItemStack stack, Level level) {
         if (stack.getMaxStackSize() != 1) return null;
 
+        if (!ToolUtils.hasSkillTree(stack)) return null;
+
         SkillTreeData skillTreeData = stack.getItemHolder().getData(DataMaps.SKILL_TREES);
 
         if (skillTreeData == null) return null;

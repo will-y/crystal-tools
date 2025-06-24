@@ -67,7 +67,7 @@ public class CrystalToolsDataMaps extends DataMapProvider {
                 .add(EntityType.WITHER_SKELETON.builtInRegistryHolder(), Items.WITHER_SKELETON_SKULL, false)
                 .add(EntityType.PLAYER.builtInRegistryHolder(), Items.PLAYER_HEAD, false);
 
-        builder(DataMaps.SKILL_TREES)
+        var builder = builder(DataMaps.SKILL_TREES)
                 .add(Registration.CRYSTAL_PICKAXE, new SkillTreeData(rl("crystal_pickaxe")), false)
                 .add(Registration.CRYSTAL_HOE, new SkillTreeData(rl("crystal_hoe")), false)
                 .add(Registration.CRYSTAL_SHOVEL, new SkillTreeData(rl("crystal_shovel")), false)
@@ -86,5 +86,41 @@ public class CrystalToolsDataMaps extends DataMapProvider {
                 .add(Registration.CRYSTAL_ELYTRA, new SkillTreeData(rl("crystal_elytra")), false)
                 .add(Registration.CRYSTAL_ROCKET, new SkillTreeData(rl("crystal_rocket"), 5.0F), false)
                 .add(Registration.CRYSTAL_BACKPACK, new SkillTreeData(rl("crystal_backpack")), false);
+
+        builder.add(Items.DIAMOND_PICKAXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_pickaxe"), 0, 1, false, false, false), false)
+                .add(Items.DIAMOND_AXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_axe"), 0, 1, false, false, false), false)
+                .add(Items.DIAMOND_HOE.builtInRegistryHolder(), new SkillTreeData(rl("simple_hoe"), 0, 1, false, false, false), false)
+                .add(Items.DIAMOND_SHOVEL.builtInRegistryHolder(), new SkillTreeData(rl("simple_shovel"), 0, 1, false, false, false), false)
+                .add(Items.DIAMOND_SWORD.builtInRegistryHolder(), new SkillTreeData(rl("simple_sword"), 0, 1, false, false, false), false)
+
+                .add(Items.IRON_PICKAXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_pickaxe"), 0, 2, false, false, false), false)
+                .add(Items.IRON_AXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_axe"), 0, 2, false, false, false), false)
+                .add(Items.IRON_HOE.builtInRegistryHolder(), new SkillTreeData(rl("simple_hoe"), 0, 2, false, false, false), false)
+                .add(Items.IRON_SHOVEL.builtInRegistryHolder(), new SkillTreeData(rl("simple_shovel"), 0, 2, false, false, false), false)
+                .add(Items.IRON_SWORD.builtInRegistryHolder(), new SkillTreeData(rl("simple_sword"), 0, 2, false, false, false), false)
+
+                .add(Items.GOLDEN_PICKAXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_pickaxe"), -20, 2, false, false, false), false)
+                .add(Items.GOLDEN_AXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_axe"), -20, 2, false, false, false), false)
+                .add(Items.GOLDEN_HOE.builtInRegistryHolder(), new SkillTreeData(rl("simple_hoe"), -20, 2, false, false, false), false)
+                .add(Items.GOLDEN_SHOVEL.builtInRegistryHolder(), new SkillTreeData(rl("simple_shovel"), -20, 2, false, false, false), false)
+                .add(Items.GOLDEN_SWORD.builtInRegistryHolder(), new SkillTreeData(rl("simple_sword"), -20, 2, false, false, false), false)
+
+                .add(Items.STONE_PICKAXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_pickaxe"), -10, 2, false, false, false), false)
+                .add(Items.STONE_AXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_axe"), -10, 2, false, false, false), false)
+                .add(Items.STONE_HOE.builtInRegistryHolder(), new SkillTreeData(rl("simple_hoe"), -10, 2, false, false, false), false)
+                .add(Items.STONE_SHOVEL.builtInRegistryHolder(), new SkillTreeData(rl("simple_shovel"), -10, 2, false, false, false), false)
+                .add(Items.STONE_SWORD.builtInRegistryHolder(), new SkillTreeData(rl("simple_sword"), -10, 2, false, false, false), false)
+
+                .add(Items.WOODEN_PICKAXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_pickaxe"), -20, 2, false, false, false), false)
+                .add(Items.WOODEN_AXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_axe"), -20, 2, false, false, false), false)
+                .add(Items.WOODEN_HOE.builtInRegistryHolder(), new SkillTreeData(rl("simple_hoe"), -20, 2, false, false, false), false)
+                .add(Items.WOODEN_SHOVEL.builtInRegistryHolder(), new SkillTreeData(rl("simple_shovel"), -20, 2, false, false, false), false)
+                .add(Items.WOODEN_SWORD.builtInRegistryHolder(), new SkillTreeData(rl("simple_sword"), -20, 2, false, false, false), false);
+
+        builder.add(Items.NETHERITE_PICKAXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_pickaxe"), 0, 1, false, false, false), false)
+                .add(Items.NETHERITE_AXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_axe"), 0, 1, false, false, false), false)
+                .add(Items.NETHERITE_HOE.builtInRegistryHolder(), new SkillTreeData(rl("simple_hoe"), 0, 1, false, false, false), false)
+                .add(Items.NETHERITE_SHOVEL.builtInRegistryHolder(), new SkillTreeData(rl("simple_shovel"), 0, 1, false, false, false), false)
+                .add(Items.NETHERITE_SWORD.builtInRegistryHolder(), new SkillTreeData(rl("simple_sword"), 0, 1, false, false, false), false);
     }
 }

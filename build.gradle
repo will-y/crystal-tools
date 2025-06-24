@@ -92,19 +92,6 @@ runs {
         // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
         programArguments.addAll '--mod', project.mod_id, '--all', '--existing', file('src/main/resources/').getAbsolutePath()
     }
-
-    netheriteOnly {
-        run 'serverData' //In case you want to clone the client run into the someRun
-//        configure runTypes.serverData//In case you want to configure the run type based on the run type object, this might not always be possible, due to the way gradle works
-        programArguments.addAll '--output', file('src/generated/vanilla/netherite/').getAbsolutePath()
-        systemProperties.put('netherite', 'true')
-    }
-
-    fullVanilla {
-        run 'serverData' //In case you want to clone the client run into the someRun
-//        configure runTypes.serverData//In case you want to configure the run type based on the run type object, this might not always be possible, due to the way gradle works
-        programArguments.addAll '--output', file('src/generated/vanilla/full/').getAbsolutePath()
-    }
 }
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
