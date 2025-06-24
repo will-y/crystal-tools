@@ -11,6 +11,8 @@
       "treeLocation": "crystal_tools:crystal_axe"
     },
     "crystal_tools:crystal_backpack": {
+      "allowRepair": false,
+      "baseExperienceModifier": 125,
       "treeLocation": "crystal_tools:crystal_backpack"
     },
     "crystal_tools:crystal_boots": {

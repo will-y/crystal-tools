@@ -31,7 +31,7 @@ public class AIOLevelableTool extends DiggerLevelableTool {
     public static final Set<ItemAbility> AIOT_ACTIONS = new HashSet<>();
 
     public AIOLevelableTool(Item.Properties properties) {
-        super(properties.tool(CRYSTAL, MINABLE_WITH_AIOT, 3.0F, -2.4F, 5.0F), "aiot");
+        super(properties.tool(CRYSTAL, MINABLE_WITH_AIOT, 3.0F, -2.4F, 5.0F));
         AIOT_ACTIONS.addAll(DEFAULT_AXE_ACTIONS);
         AIOT_ACTIONS.addAll(DEFAULT_HOE_ACTIONS);
         AIOT_ACTIONS.addAll(DEFAULT_SHOVEL_ACTIONS);

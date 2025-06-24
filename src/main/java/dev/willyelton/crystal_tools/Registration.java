@@ -103,10 +103,10 @@ public class Registration {
     public static final DeferredHolder<Item, CrystalShield> CRYSTAL_SHIELD = ITEMS.registerItem("crystal_shield", CrystalShield::new);
 
     // Armor
-    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_HELMET = ITEMS.registerItem("crystal_helmet", (properties) -> new LevelableArmor(properties, "helmet", ArmorType.HELMET));
-    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_CHESTPLATE = ITEMS.registerItem("crystal_chestplate", (properties) -> new LevelableArmor(properties, "chestplate", ArmorType.CHESTPLATE));
-    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_LEGGINGS = ITEMS.registerItem("crystal_leggings", (properties) -> new LevelableArmor(properties, "leggings",  ArmorType.LEGGINGS));
-    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_BOOTS = ITEMS.registerItem("crystal_boots", (properties) -> new LevelableArmor(properties, "boots",  ArmorType.BOOTS));
+    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_HELMET = ITEMS.registerItem("crystal_helmet", (properties) -> new LevelableArmor(properties, ArmorType.HELMET));
+    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_CHESTPLATE = ITEMS.registerItem("crystal_chestplate", (properties) -> new LevelableArmor(properties, ArmorType.CHESTPLATE));
+    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_LEGGINGS = ITEMS.registerItem("crystal_leggings", (properties) -> new LevelableArmor(properties,  ArmorType.LEGGINGS));
+    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_BOOTS = ITEMS.registerItem("crystal_boots", (properties) -> new LevelableArmor(properties,  ArmorType.BOOTS));
     public static final DeferredHolder<Item, CrystalElytra> CRYSTAL_ELYTRA = ITEMS.registerItem("crystal_elytra", CrystalElytra::new);
 
     // Blocks

@@ -101,11 +101,6 @@ public class CrystalBackpack extends Item implements LevelableItem {
     }
 
     @Override
-    public String getItemType() {
-        return "backpack";
-    }
-
-    @Override
     public int getMaxDamage(ItemStack itemStack) {
         return 1;
     }
@@ -181,7 +176,6 @@ public class CrystalBackpack extends Item implements LevelableItem {
     }
 
     @Override
-    // TODO: Call this when inserting into backpack
     public boolean canFitInsideContainerItems() {
         return false;
     }
@@ -189,12 +183,6 @@ public class CrystalBackpack extends Item implements LevelableItem {
     @Override
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
         return false;
-    }
-
-    // TODO: This should be a default method in the interface? New method for base experience?
-    @Override
-    public int getExperienceCap(ItemStack tool) {
-        return tool.getOrDefault(DataComponents.EXPERIENCE_CAP, CrystalToolsConfig.BACKPACK_BASE_EXPERIENCE_CAP.get());
     }
 
     private void playRemoveOneSound(Entity entity) {

@@ -34,7 +34,7 @@ public class CrystalElytra extends LevelableTool implements LevelableItem {
                                 .setEquipSound(SoundEvents.ARMOR_EQUIP_ELYTRA)
                                 .setAsset(CrystalToolsArmorMaterials.CRYSTAL_ELYTRA)
                                 .build())
-                .repairable(CrystalToolsTags.REPAIRS_CRYSTAL), "crystal_elytra");
+                .repairable(CrystalToolsTags.REPAIRS_CRYSTAL));
     }
 
     @Override

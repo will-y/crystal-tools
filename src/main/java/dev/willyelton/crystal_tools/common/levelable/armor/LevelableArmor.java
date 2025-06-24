@@ -27,19 +27,15 @@ import java.util.function.Consumer;
 
 public class LevelableArmor extends Item implements LevelableItem {
     private static final ArmorMaterial ARMOR_MATERIAL = CrystalToolsArmorMaterials.CRYSTAL;
-    protected final String itemType;
 
-    public LevelableArmor(Item.Properties properties, String itemType, ArmorType type) {
+    private final ArmorType type;
+
+    public LevelableArmor(Item.Properties properties, ArmorType type) {
         super(properties.fireResistant()
                 .durability(CRYSTAL.durability())
                 .repairable(CrystalToolsTags.REPAIRS_CRYSTAL)
                 .humanoidArmor(ARMOR_MATERIAL, type));
-        this.itemType = itemType;
-    }
-
-    @Override
-    public String getItemType() {
-        return this.itemType;
+        this.type = type;
     }
 
     @Override
@@ -107,17 +103,17 @@ public class LevelableArmor extends Item implements LevelableItem {
 
     @Override
     public boolean isDisabled() {
-        switch (this.itemType) {
-            case "helmet" -> {
+        switch (this.type) {
+            case ArmorType.HELMET -> {
                 return CrystalToolsConfig.DISABLE_HELMET.get();
             }
-            case "chestplate" -> {
+            case ArmorType.CHESTPLATE -> {
                 return CrystalToolsConfig.DISABLE_CHESTPLATE.get();
             }
-            case "leggings" -> {
+            case ArmorType.LEGGINGS -> {
                 return CrystalToolsConfig.DISABLE_LEGGINGS.get();
             }
-            case "boots" -> {
+            case ArmorType.BOOTS -> {
                 return CrystalToolsConfig.DISABLE_BOOTS.get();
             }
             default -> {

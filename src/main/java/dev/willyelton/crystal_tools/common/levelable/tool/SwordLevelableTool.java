@@ -10,11 +10,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class SwordLevelableTool extends LevelableTool {
     public SwordLevelableTool(Item.Properties properties) {
-        this(properties.sword(CRYSTAL, 3.0F, -2.4F), "sword");
-    }
-
-    public SwordLevelableTool(Item.Properties properties, String itemType) {
-        super(properties, itemType);
+        super(properties.sword(CRYSTAL, 3.0F, -2.4F));
     }
 
     @Override

@@ -8,7 +8,7 @@ import net.minecraft.world.item.context.UseOnContext;
 
 public class PickaxeLevelableTool extends DiggerLevelableTool {
     public PickaxeLevelableTool(Item.Properties properties) {
-        super(properties.pickaxe(CRYSTAL, 1.0F, -2.8F), "pickaxe");
+        super(properties.pickaxe(CRYSTAL, 1.0F, -2.8F));
     }
 
     public InteractionResult useOn(UseOnContext context) {

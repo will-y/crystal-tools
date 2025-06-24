@@ -5,7 +5,6 @@ import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsServerConfig;
 import dev.willyelton.crystal_tools.common.datamap.DataMaps;
 import dev.willyelton.crystal_tools.common.events.DatapackRegistryEvents;
-import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
@@ -44,16 +43,6 @@ public class ToolUtils {
         }
 
         return true;
-    }
-
-    @Deprecated
-    // TODO: remove from recipes. Might have to change the capability to registryaccess :(
-    public static void increaseExpCap(ItemStack stack, int levelIncrease) {
-        if (stack.getItem() instanceof LevelableItem item) {
-            int experienceCap = item.getExperienceCap(stack);
-            int newCap = getNewCap(experienceCap, levelIncrease);
-            stack.set(DataComponents.EXPERIENCE_CAP, newCap);
-        }
     }
 
     public static int getNewCap(int currentCap, int levelIncrease) {

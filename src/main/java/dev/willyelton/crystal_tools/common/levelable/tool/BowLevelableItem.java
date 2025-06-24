@@ -167,11 +167,6 @@ public class BowLevelableItem extends BowItem implements LevelableItem, EntityTa
     }
 
     @Override
-    public String getItemType() {
-        return "bow";
-    }
-
-    @Override
     public boolean isFoil(ItemStack stack) {
         return false;
     }

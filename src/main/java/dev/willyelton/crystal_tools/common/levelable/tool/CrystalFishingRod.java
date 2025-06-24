@@ -33,7 +33,7 @@ public class CrystalFishingRod extends LevelableTool {
                 .stacksTo(1)
                 .fireResistant()
                 .repairable(CrystalToolsTags.REPAIRS_CRYSTAL)
-                .durability(CRYSTAL.durability()), "fishing_rod");
+                .durability(CRYSTAL.durability()));
     }
 
     @Override

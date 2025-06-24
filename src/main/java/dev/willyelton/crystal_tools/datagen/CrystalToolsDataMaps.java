@@ -85,7 +85,7 @@ public class CrystalToolsDataMaps extends DataMapProvider {
                 .add(Registration.CRYSTAL_BOOTS, new SkillTreeData(rl("crystal_boots"), 2.0F), false)
                 .add(Registration.CRYSTAL_ELYTRA, new SkillTreeData(rl("crystal_elytra")), false)
                 .add(Registration.CRYSTAL_ROCKET, new SkillTreeData(rl("crystal_rocket"), 5.0F), false)
-                .add(Registration.CRYSTAL_BACKPACK, new SkillTreeData(rl("crystal_backpack")), false);
+                .add(Registration.CRYSTAL_BACKPACK, new SkillTreeData(rl("crystal_backpack"), 125, 1, false, true, true), false);
 
         builder.add(Items.DIAMOND_PICKAXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_pickaxe"), 0, 1, false, false, false), false)
                 .add(Items.DIAMOND_AXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_axe"), 0, 1, false, false, false), false)

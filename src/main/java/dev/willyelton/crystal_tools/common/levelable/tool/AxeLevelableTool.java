@@ -24,7 +24,7 @@ import java.util.Collection;
 
 public class AxeLevelableTool extends DiggerLevelableTool {
     public AxeLevelableTool(Item.Properties properties) {
-        super(properties.axe(CRYSTAL, 5.0F, -3.0F), "axe");
+        super(properties.axe(CRYSTAL, 5.0F, -3.0F));
     }
 
     @Override

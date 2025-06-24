@@ -26,7 +26,7 @@ public class CrystalApple extends LevelableTool {
     public CrystalApple(Item.Properties properties) {
         super(properties.repairable(CrystalToolsTags.REPAIRS_CRYSTAL)
                 .durability(50)
-                .food(new FoodProperties(2, 0.4F, false)), "apple");
+                .food(new FoodProperties(2, 0.4F, false)));
     }
 
     @Override

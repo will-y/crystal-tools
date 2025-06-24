@@ -71,11 +71,6 @@ public class CrystalShield extends ShieldItem implements LevelableItem, EntityTa
     }
 
     @Override
-    public String getItemType() {
-        return "shield";
-    }
-
-    @Override
     public boolean isDisabled() {
         return false;
     }

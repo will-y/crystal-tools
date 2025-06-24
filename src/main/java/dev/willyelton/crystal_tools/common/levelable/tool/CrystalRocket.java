@@ -30,7 +30,7 @@ public class CrystalRocket extends LevelableTool {
     public CrystalRocket(Item.Properties properties) {
         super(properties
                 .repairable(CrystalToolsTags.REPAIRS_CRYSTAL)
-                .durability(100), "crystal_rocket");
+                .durability(100));
     }
 
     @Override

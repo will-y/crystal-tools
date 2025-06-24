@@ -37,7 +37,7 @@ public class CrystalTrident extends SwordLevelableTool implements EntityTargeter
                 .repairable(CrystalToolsTags.REPAIRS_CRYSTAL)
                 .durability(CRYSTAL.durability())
                 .component(net.minecraft.core.component.DataComponents.TOOL, TridentItem.createToolProperties())
-                .component(net.minecraft.core.component.DataComponents.WEAPON, new Weapon(1)), "trident");
+                .component(net.minecraft.core.component.DataComponents.WEAPON, new Weapon(1)));
     }
 
     @Override

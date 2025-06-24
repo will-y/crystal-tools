@@ -25,13 +25,10 @@ import java.util.Collection;
 import java.util.function.Consumer;
 
 public abstract class LevelableTool extends Item implements LevelableItem {
-    protected final String itemType;
-
-    public LevelableTool(Item.Properties properties, String itemType) {
+    public LevelableTool(Item.Properties properties) {
         super(properties.fireResistant()
                 .rarity(Rarity.RARE)
                 .component(net.minecraft.core.component.DataComponents.ENCHANTABLE, null));
-        this.itemType = itemType;
     }
 
     @Override
@@ -90,11 +87,6 @@ public abstract class LevelableTool extends Item implements LevelableItem {
                 }
             }
         }
-    }
-
-    @Override
-    public String getItemType() {
-        return this.itemType;
     }
 
     @Override

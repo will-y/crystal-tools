@@ -1,4 +1,9 @@
 # Crystal Tools Change Log
+## 3.0.0 - beta 6
+### Changes
+- Removes the config option `BACKPACK_BASE_EXPERIENCE_CAP`, this is handled in the skill tree datamap now
+- The backpack now has a base experience cap of 200
+
 ## 3.0.0 - beta 5
 ### Additions
 - Adds new server config option: `vanilla_skill_trees`
