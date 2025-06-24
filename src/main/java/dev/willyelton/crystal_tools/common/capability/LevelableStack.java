@@ -110,10 +110,6 @@ public class LevelableStack implements Levelable {
         stack.set(DataComponents.EXPERIENCE_CAP, newCap);
     }
 
-    public boolean allowRepair() {
-        return skillTreeData.allowRepair();
-    }
-
     @Override
     public boolean allowReset() {
         return skillTreeData.allowReset();
@@ -122,5 +118,17 @@ public class LevelableStack implements Levelable {
     @Override
     public boolean allowXpLevels() {
         return skillTreeData.allowXpLevels();
+    }
+
+    public boolean allowRepair() {
+        return skillTreeData.allowRepair();
+    }
+
+    public boolean allowMiningXp() {
+        return skillTreeData.allowMiningXp();
+    }
+
+    public boolean allowDamageXp() {
+        return skillTreeData.allowDamageXp();
     }
 }

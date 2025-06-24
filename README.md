@@ -530,6 +530,10 @@ An example skill tree object looks like:
 
 Fields:
 - `treeLocation` (required): The location of the skill tree. Either a built-in tree, or one provided in a datapack.
+- `baseExperienceModifier` (default 0): Increases the amount of base experience the tool starts with.
+- `experienceScaling` (default 1.0): Determines how fast tools will gain experience.
 - `allowRepair` (default true): Will allow you to spend skill points to repair your tool.
 - `allowReset` (default true): Will allow you to reset the skill points on a tool.
 - `allowXpLevels` (default true): Will allow you to convert xp to skill points for this tool.
+- `allowMiningXp` (default true): Will allow the tool to get experience from mining blocks.
+- `allowDamageXp` (default true): Will allow the tool to get experience from attacking entities.

@@ -1,8 +1,16 @@
 # Crystal Tools Change Log
 ## 3.0.0 - beta 6
+### Additions
+- Adds 2 new fields to the skill tree datamap
+  - `allowMiningXp`: Allows tools to get experience from mining
+  - `allowDamageXp`: Allows tools to get experience from attacking
+
 ### Changes
 - Removes the config option `BACKPACK_BASE_EXPERIENCE_CAP`, this is handled in the skill tree datamap now
 - The backpack now has a base experience cap of 200
+
+### Fixes
+- Fixes the crystal elytra taking damage when you break blocks with it
 
 ## 3.0.0 - beta 5
 ### Additions

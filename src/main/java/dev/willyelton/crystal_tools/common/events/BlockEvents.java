@@ -2,7 +2,7 @@ package dev.willyelton.crystal_tools.common.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.common.capability.Capabilities;
-import dev.willyelton.crystal_tools.common.capability.Levelable;
+import dev.willyelton.crystal_tools.common.capability.LevelableStack;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.CrystalBackpack;
 import net.minecraft.core.Holder;
@@ -45,9 +45,9 @@ public class BlockEvents {
         // Level other tools
         Level level = player.level();
         ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
-        Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level.registryAccess());
+        LevelableStack levelable = stack.getCapability(Capabilities.ITEM_SKILL, level.registryAccess());
 
-        if (levelable != null) {
+        if (levelable != null && levelable.allowMiningXp()) {
             levelable.addExp(level, event.getPos(), player);
         }
     }

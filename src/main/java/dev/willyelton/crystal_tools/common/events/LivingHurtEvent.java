@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.common.events;
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.common.capability.Capabilities;
 import dev.willyelton.crystal_tools.common.capability.Levelable;
+import dev.willyelton.crystal_tools.common.capability.LevelableStack;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.utils.InventoryUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
@@ -32,7 +33,7 @@ public class LivingHurtEvent {
         if (event.getSource().getEntity() instanceof Player player) {
             ItemStack stack = player.getWeaponItem();
             if (!stack.isEmpty() && !ToolUtils.isBroken(stack)) {
-                Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, player.level().registryAccess());
+                LevelableStack levelable = stack.getCapability(Capabilities.ITEM_SKILL, player.level().registryAccess());
                 if (levelable == null) return;
 
                 if (stack.getOrDefault(DataComponents.FIRE, false)) {
@@ -47,7 +48,9 @@ public class LivingHurtEvent {
                         player.heal(heal);
                     }
 
-                    levelable.addExp(player.level(), player.getOnPos(), player, damageAmount);
+                    if (levelable.allowDamageXp()) {
+                        levelable.addExp(player.level(), player.getOnPos(), player, damageAmount);
+                    }
                 }
             }
         }

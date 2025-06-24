@@ -4,6 +4,8 @@
       "treeLocation": "crystal_tools:crystal_aiot"
     },
     "crystal_tools:crystal_apple": {
+      "allowDamageXp": false,
+      "allowMiningXp": false,
       "experienceScaling": 0.5,
       "treeLocation": "crystal_tools:crystal_apple"
     },
@@ -11,49 +13,70 @@
       "treeLocation": "crystal_tools:crystal_axe"
     },
     "crystal_tools:crystal_backpack": {
+      "allowDamageXp": false,
+      "allowMiningXp": false,
       "allowRepair": false,
       "baseExperienceModifier": 125,
       "treeLocation": "crystal_tools:crystal_backpack"
     },
     "crystal_tools:crystal_boots": {
+      "allowDamageXp": false,
+      "allowMiningXp": false,
       "experienceScaling": 2.0,
       "treeLocation": "crystal_tools:crystal_boots"
     },
     "crystal_tools:crystal_bow": {
+      "allowMiningXp": false,
       "treeLocation": "crystal_tools:crystal_bow"
     },
     "crystal_tools:crystal_chestplate": {
+      "allowDamageXp": false,
+      "allowMiningXp": false,
       "experienceScaling": 2.0,
       "treeLocation": "crystal_tools:crystal_chestplate"
     },
     "crystal_tools:crystal_elytra": {
+      "allowDamageXp": false,
+      "allowMiningXp": false,
       "treeLocation": "crystal_tools:crystal_elytra"
     },
     "crystal_tools:crystal_fishing_rod": {
+      "allowDamageXp": false,
+      "allowMiningXp": false,
       "treeLocation": "crystal_tools:crystal_fishing_rod"
     },
     "crystal_tools:crystal_helmet": {
+      "allowDamageXp": false,
+      "allowMiningXp": false,
       "experienceScaling": 2.0,
       "treeLocation": "crystal_tools:crystal_helmet"
     },
     "crystal_tools:crystal_hoe": {
+      "allowDamageXp": false,
       "treeLocation": "crystal_tools:crystal_hoe"
     },
     "crystal_tools:crystal_leggings": {
+      "allowDamageXp": false,
+      "allowMiningXp": false,
       "experienceScaling": 2.0,
       "treeLocation": "crystal_tools:crystal_leggings"
     },
     "crystal_tools:crystal_pickaxe": {
+      "allowDamageXp": false,
       "treeLocation": "crystal_tools:crystal_pickaxe"
     },
     "crystal_tools:crystal_rocket": {
+      "allowDamageXp": false,
+      "allowMiningXp": false,
       "experienceScaling": 5.0,
       "treeLocation": "crystal_tools:crystal_rocket"
     },
     "crystal_tools:crystal_shield": {
+      "allowMiningXp": false,
       "treeLocation": "crystal_tools:crystal_shield"
     },
     "crystal_tools:crystal_shovel": {
+      "allowDamageXp": false,
       "treeLocation": "crystal_tools:crystal_shovel"
     },
     "crystal_tools:crystal_sword": {
@@ -61,6 +84,7 @@
       "treeLocation": "crystal_tools:crystal_sword"
     },
     "crystal_tools:crystal_trident": {
+      "allowMiningXp": false,
       "treeLocation": "crystal_tools:crystal_trident"
     },
     "minecraft:diamond_axe": {
@@ -70,18 +94,21 @@
       "treeLocation": "crystal_tools:simple_axe"
     },
     "minecraft:diamond_hoe": {
+      "allowDamageXp": false,
       "allowRepair": false,
       "allowReset": false,
       "allowXpLevels": false,
       "treeLocation": "crystal_tools:simple_hoe"
     },
     "minecraft:diamond_pickaxe": {
+      "allowDamageXp": false,
       "allowRepair": false,
       "allowReset": false,
       "allowXpLevels": false,
       "treeLocation": "crystal_tools:simple_pickaxe"
     },
     "minecraft:diamond_shovel": {
+      "allowDamageXp": false,
       "allowRepair": false,
       "allowReset": false,
       "allowXpLevels": false,
@@ -102,6 +129,7 @@
       "treeLocation": "crystal_tools:simple_axe"
     },
     "minecraft:golden_hoe": {
+      "allowDamageXp": false,
       "allowRepair": false,
       "allowReset": false,
       "allowXpLevels": false,
@@ -110,6 +138,7 @@
       "treeLocation": "crystal_tools:simple_hoe"
     },
     "minecraft:golden_pickaxe": {
+      "allowDamageXp": false,
       "allowRepair": false,
       "allowReset": false,
       "allowXpLevels": false,
@@ -118,6 +147,7 @@
       "treeLocation": "crystal_tools:simple_pickaxe"
     },
     "minecraft:golden_shovel": {
+      "allowDamageXp": false,
       "allowRepair": false,
       "allowReset": false,
       "allowXpLevels": false,
@@ -141,6 +171,7 @@
       "treeLocation": "crystal_tools:simple_axe"
     },
     "minecraft:iron_hoe": {
+      "allowDamageXp": false,
       "allowRepair": false,
       "allowReset": false,
       "allowXpLevels": false,
@@ -148,6 +179,7 @@
       "treeLocation": "crystal_tools:simple_hoe"
     },
     "minecraft:iron_pickaxe": {
+      "allowDamageXp": false,
       "allowRepair": false,
       "allowReset": false,
       "allowXpLevels": false,
@@ -155,6 +187,7 @@
       "treeLocation": "crystal_tools:simple_pickaxe"
     },
     "minecraft:iron_shovel": {
+      "allowDamageXp": false,
       "allowRepair": false,
       "allowReset": false,
       "allowXpLevels": false,
@@ -175,18 +208,21 @@
       "treeLocation": "crystal_tools:simple_axe"
     },
     "minecraft:netherite_hoe": {
+      "allowDamageXp": false,
       "allowRepair": false,
       "allowReset": false,
       "allowXpLevels": false,
       "treeLocation": "crystal_tools:simple_hoe"
     },
     "minecraft:netherite_pickaxe": {
+      "allowDamageXp": false,
       "allowRepair": false,
       "allowReset": false,
       "allowXpLevels": false,
       "treeLocation": "crystal_tools:simple_pickaxe"
     },
     "minecraft:netherite_shovel": {
+      "allowDamageXp": false,
       "allowRepair": false,
       "allowReset": false,
       "allowXpLevels": false,
@@ -207,6 +243,7 @@
       "treeLocation": "crystal_tools:simple_axe"
     },
     "minecraft:stone_hoe": {
+      "allowDamageXp": false,
       "allowRepair": false,
       "allowReset": false,
       "allowXpLevels": false,
@@ -215,6 +252,7 @@
       "treeLocation": "crystal_tools:simple_hoe"
     },
     "minecraft:stone_pickaxe": {
+      "allowDamageXp": false,
       "allowRepair": false,
       "allowReset": false,
       "allowXpLevels": false,
@@ -223,6 +261,7 @@
       "treeLocation": "crystal_tools:simple_pickaxe"
     },
     "minecraft:stone_shovel": {
+      "allowDamageXp": false,
       "allowRepair": false,
       "allowReset": false,
       "allowXpLevels": false,
@@ -247,6 +286,7 @@
       "treeLocation": "crystal_tools:simple_axe"
     },
     "minecraft:wooden_hoe": {
+      "allowDamageXp": false,
       "allowRepair": false,
       "allowReset": false,
       "allowXpLevels": false,
@@ -255,6 +295,7 @@
       "treeLocation": "crystal_tools:simple_hoe"
     },
     "minecraft:wooden_pickaxe": {
+      "allowDamageXp": false,
       "allowRepair": false,
       "allowReset": false,
       "allowXpLevels": false,
@@ -263,6 +304,7 @@
       "treeLocation": "crystal_tools:simple_pickaxe"
     },
     "minecraft:wooden_shovel": {
+      "allowDamageXp": false,
       "allowRepair": false,
       "allowReset": false,
       "allowXpLevels": false,

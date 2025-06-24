@@ -7,6 +7,7 @@ import dev.willyelton.crystal_tools.common.levelable.EntityTargeter;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
@@ -30,6 +31,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.event.EventHooks;
 
 import java.util.Collections;
@@ -222,5 +224,16 @@ public class BowLevelableItem extends BowItem implements LevelableItem, EntityTa
     public boolean shouldCauseBlockBreakReset(ItemStack oldStack, ItemStack newStack) {
         // Just ignore data components for now
         return !newStack.is(oldStack.getItem());
+    }
+
+    @Override
+    public boolean mineBlock(ItemStack tool, Level level, BlockState blockState, BlockPos blockPos, LivingEntity entity) {
+        // If this tool is disabled break on use
+        if (this.isDisabled()) {
+            tool.shrink(1);
+            return false;
+        }
+
+        return true;
     }
 }
