@@ -10,6 +10,8 @@
 - The backpack now has a base experience cap of 200
 - Removes all disable config options
   - If you don't want certain tools, see the section in the readme about removing skill trees from items, or remove the crafting recipe.
+- Made the default screen opacity 1
+- Updates to work with neo version 21.6.16-beta
 
 ### Fixes
 - Fixes the crystal elytra taking damage when you break blocks with it

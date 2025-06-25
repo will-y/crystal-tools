@@ -91,3 +91,4 @@ Eventually
 - Vanilla bow tree (mixins probably)
 - Vanilla trident tree
 - Should probably use interface for capability actually, if possible (HolderLookup.Provider)
+- Block highlighting broke in 1.21.6

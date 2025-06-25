@@ -22,12 +22,13 @@ import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 @EventBusSubscriber(modid = CrystalTools.MODID, value = Dist.CLIENT)
 public class RenderEvents {
     @SubscribeEvent
-    public static void handleRenderLevelStageEvent(RenderLevelStageEvent event) {
-        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_WEATHER) {
-            QuarryLaserRenderer.render(event);
-        }
+    public static void handleRenderLevelStageEvent(RenderLevelStageEvent.AfterWeather event) {
+        QuarryLaserRenderer.render(event);
+    }
 
-        if (CrystalToolsClientConfig.DISABLE_BLOCK_TARGET_RENDERING.get() || event.getStage() != RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS) {
+    @SubscribeEvent
+    public static void handleRenderLevelStageEvent(RenderLevelStageEvent.AfterTranslucentBlocks event) {
+        if (CrystalToolsClientConfig.DISABLE_BLOCK_TARGET_RENDERING.get()) {
             return;
         }
 
