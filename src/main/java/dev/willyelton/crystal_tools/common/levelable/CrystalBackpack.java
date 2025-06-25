@@ -5,7 +5,7 @@ import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.compat.curios.CuriosCompatibility;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
+import dev.willyelton.crystal_tools.common.config.CrystalToolsServerConfig;
 import dev.willyelton.crystal_tools.common.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalBackpackContainerMenu;
 import net.minecraft.core.BlockPos;
@@ -90,24 +90,8 @@ public class CrystalBackpack extends Item implements LevelableItem {
     }
 
     @Override
-    public boolean mineBlock(ItemStack tool, Level level, BlockState blockState, BlockPos blockPos, LivingEntity entity) {
-        // If this tool is disabled break on use
-        if (this.isDisabled()) {
-            tool.shrink(1);
-            return false;
-        }
-
-        return true;
-    }
-
-    @Override
     public int getMaxDamage(ItemStack itemStack) {
         return 1;
-    }
-
-    @Override
-    public boolean isDisabled() {
-        return CrystalToolsConfig.DISABLE_BACKPACK.get();
     }
 
     @Override

@@ -19,8 +19,6 @@ public interface LevelableItem {
         return tool.getOrDefault(DataComponents.EXPERIENCE_CAP, CrystalToolsConfig.BASE_EXPERIENCE_CAP.get());
     }
 
-    boolean isDisabled();
-
     default void levelableInventoryTick(ItemStack stack, Level level, Entity entity, @Nullable EquipmentSlot equipmentSlot, double repairModifier) {
         if (equipmentSlot == null || CrystalToolsConfig.REPAIR_IN_HAND.get()) {
             if (stack.getOrDefault(DataComponents.AUTO_REPAIR, 0) > 0) {

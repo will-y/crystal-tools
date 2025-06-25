@@ -8,6 +8,8 @@
 ### Changes
 - Removes the config option `BACKPACK_BASE_EXPERIENCE_CAP`, this is handled in the skill tree datamap now
 - The backpack now has a base experience cap of 200
+- Removes all disable config options
+  - If you don't want certain tools, see the section in the readme about removing skill trees from items, or remove the crafting recipe.
 
 ### Fixes
 - Fixes the crystal elytra taking damage when you break blocks with it

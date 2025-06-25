@@ -1,6 +1,5 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
-import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -39,9 +38,6 @@ public class CrystalFishingRod extends LevelableTool {
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if (this.isDisabled()) {
-            stack.shrink(1);
-        }
 
         if (player.fishing != null) {
             // Remove bobber
@@ -71,11 +67,6 @@ public class CrystalFishingRod extends LevelableTool {
         }
 
         return InteractionResult.SUCCESS;
-    }
-
-    @Override
-    public boolean isDisabled() {
-        return CrystalToolsConfig.DISABLE_FISHING_ROD.get();
     }
 
     @Override

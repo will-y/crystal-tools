@@ -71,11 +71,6 @@ public class CrystalShield extends ShieldItem implements LevelableItem, EntityTa
     }
 
     @Override
-    public boolean isDisabled() {
-        return false;
-    }
-
-    @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> components, TooltipFlag flag) {
         int totemSlots = stack.getOrDefault(DataComponents.TOTEM_SLOTS, 0);
         if (totemSlots > 0) {

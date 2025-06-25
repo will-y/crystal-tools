@@ -1,6 +1,5 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
-import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Item;
@@ -25,10 +24,5 @@ public class SwordLevelableTool extends LevelableTool {
     @Override
     public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
         return state.is(Blocks.COBWEB);
-    }
-
-    @Override
-    public boolean isDisabled() {
-        return CrystalToolsConfig.DISABLE_SWORD.get();
     }
 }

@@ -29,11 +29,6 @@ public class AxeLevelableTool extends DiggerLevelableTool {
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
-        if (this.isDisabled()) {
-            context.getItemInHand().shrink(1);
-            return InteractionResult.FAIL;
-        }
-
         return ToolUseUtils.useOnAxeVeinStrip(context, this);
     }
 
@@ -55,11 +50,6 @@ public class AxeLevelableTool extends DiggerLevelableTool {
     @Override
     public boolean canPerformAction(ItemStack stack, ItemAbility itemAbility) {
         return ItemAbilities.DEFAULT_AXE_ACTIONS.contains(itemAbility);
-    }
-
-    @Override
-    public boolean isDisabled() {
-        return CrystalToolsConfig.DISABLE_AXE.get();
     }
 
     @Override

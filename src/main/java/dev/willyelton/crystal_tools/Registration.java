@@ -7,7 +7,6 @@ import dev.willyelton.crystal_tools.common.crafting.CrystalElytraRecipe;
 import dev.willyelton.crystal_tools.common.crafting.CrystalGeneratorRecipe;
 import dev.willyelton.crystal_tools.common.crafting.CrystalQuarryRecipe;
 import dev.willyelton.crystal_tools.common.crafting.CrystalShieldTotemRecipe;
-import dev.willyelton.crystal_tools.common.crafting.ItemDisabledCondition;
 import dev.willyelton.crystal_tools.common.entity.CrystalTridentEntity;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalBackpackContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalFurnaceContainerMenu;
@@ -41,7 +40,6 @@ import dev.willyelton.crystal_tools.common.levelable.tool.PickaxeLevelableTool;
 import dev.willyelton.crystal_tools.common.levelable.tool.ShovelLevelableTool;
 import dev.willyelton.crystal_tools.common.levelable.tool.SwordLevelableTool;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -71,7 +69,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 public class Registration {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(CrystalTools.MODID);
@@ -200,9 +197,6 @@ public class Registration {
     public static final DeferredHolder<RecipeSerializer<?>, CustomRecipe.Serializer<CrystalShieldTotemRecipe>> CRYSTAL_SHIELD_TOTEM_RECIPE = RECIPES.register("crystal_shield_totem_recipe", () -> new CustomRecipe.Serializer<>(CrystalShieldTotemRecipe::new));
 
     public static void init(IEventBus modEventBus) {
-        // Conditions
-        Registry.register(NeoForgeRegistries.CONDITION_SERIALIZERS, ItemDisabledCondition.NAME, ItemDisabledCondition.CODEC);
-
         ITEMS.register(modEventBus);
         BLOCKS.register(modEventBus);
         ENTITIES.register(modEventBus);

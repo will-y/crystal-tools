@@ -2,7 +2,6 @@ package dev.willyelton.crystal_tools.common.levelable.tool;
 
 import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.StringUtils;
 import dev.willyelton.crystal_tools.utils.ToolUseUtils;
 import net.minecraft.network.chat.Component;
@@ -41,11 +40,6 @@ public class AIOLevelableTool extends DiggerLevelableTool {
     public InteractionResult useOn(UseOnContext context) {
         ItemStack stack = context.getItemInHand();
 
-        if (this.isDisabled()) {
-            stack.shrink(1);
-            return InteractionResult.FAIL;
-        }
-
         UseMode mode = stack.getOrDefault(DataComponents.USE_MODE, UseMode.HOE);
 
         switch (mode) {
@@ -75,11 +69,6 @@ public class AIOLevelableTool extends DiggerLevelableTool {
     @Override
     public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
         return state.getDestroySpeed(null, null) != -1;
-    }
-
-    @Override
-    public boolean isDisabled() {
-        return CrystalToolsConfig.DISABLE_AIOT.get();
     }
 
     @Override

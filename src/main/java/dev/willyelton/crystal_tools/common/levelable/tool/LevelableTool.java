@@ -33,27 +33,7 @@ public abstract class LevelableTool extends Item implements LevelableItem {
 
     @Override
     public void hurtEnemy(ItemStack tool, LivingEntity target, LivingEntity attacker) {
-        if (this.isDisabled()) {
-            tool.shrink(1);
-            return;
-        }
-
         tool.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
-    }
-
-    @Override
-    public boolean mineBlock(ItemStack tool, Level level, BlockState blockState, BlockPos blockPos, LivingEntity entity) {
-        // If this tool is disabled break on use
-        if (this.isDisabled()) {
-            tool.shrink(1);
-            return false;
-        }
-
-        if (!level.isClientSide) {
-            tool.hurtAndBreak(1, entity, EquipmentSlot.MAINHAND);
-        }
-
-        return true;
     }
 
     public void breakBlock(ItemStack stack, Level level, BlockPos blockPos, LivingEntity entity) {

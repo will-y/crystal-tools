@@ -2,7 +2,6 @@ package dev.willyelton.crystal_tools.common.crafting;
 
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
 import net.minecraft.core.HolderLookup;
@@ -36,8 +35,6 @@ public class CrystalAIOTRecipe extends CrystalToolsRecipe {
 
     @Override
     public boolean matches(CraftingInput container, @NotNull Level level) {
-        if (CrystalToolsConfig.DISABLE_AIOT.get()) return false;
-
         if (container.size() < 6) return false;
 
         Boolean[] itemsFound = new Boolean[requiredItems.length];

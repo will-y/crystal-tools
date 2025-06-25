@@ -23,10 +23,6 @@ public interface Levelable {
 
     int getExperienceCap();
 
-    default boolean isDisabled() {
-        return false;
-    }
-
     SkillData getSkillTree();
 
     SkillPoints getPointData();

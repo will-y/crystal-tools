@@ -2,7 +2,6 @@ package dev.willyelton.crystal_tools.common.levelable.armor;
 
 import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
@@ -28,14 +27,11 @@ import java.util.function.Consumer;
 public class LevelableArmor extends Item implements LevelableItem {
     private static final ArmorMaterial ARMOR_MATERIAL = CrystalToolsArmorMaterials.CRYSTAL;
 
-    private final ArmorType type;
-
     public LevelableArmor(Item.Properties properties, ArmorType type) {
         super(properties.fireResistant()
                 .durability(CRYSTAL.durability())
                 .repairable(CrystalToolsTags.REPAIRS_CRYSTAL)
                 .humanoidArmor(ARMOR_MATERIAL, type));
-        this.type = type;
     }
 
     @Override
@@ -88,38 +84,12 @@ public class LevelableArmor extends Item implements LevelableItem {
 
     @Override
     public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, EquipmentSlot slot) {
-        if (this.isDisabled()) {
-            stack.shrink(1);
-            return;
-        }
-
         if (!ToolUtils.isBroken(stack) && entity instanceof LivingEntity livingEntity && stack.getOrDefault(DataComponents.NIGHT_VISION, false)
                 && livingEntity.getItemBySlot(EquipmentSlot.HEAD).equals(stack) && !stack.getOrDefault(DataComponents.DISABLE_NIGHT_VISION, false)) {
             livingEntity.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 400, 0, false, false));
         }
 
         levelableInventoryTick(stack, level, entity, slot, 1);
-    }
-
-    @Override
-    public boolean isDisabled() {
-        switch (this.type) {
-            case ArmorType.HELMET -> {
-                return CrystalToolsConfig.DISABLE_HELMET.get();
-            }
-            case ArmorType.CHESTPLATE -> {
-                return CrystalToolsConfig.DISABLE_CHESTPLATE.get();
-            }
-            case ArmorType.LEGGINGS -> {
-                return CrystalToolsConfig.DISABLE_LEGGINGS.get();
-            }
-            case ArmorType.BOOTS -> {
-                return CrystalToolsConfig.DISABLE_BOOTS.get();
-            }
-            default -> {
-                return false;
-            }
-        }
     }
 
     @Override

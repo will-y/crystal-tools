@@ -1,6 +1,5 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
-import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.ToolUseUtils;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
@@ -12,16 +11,6 @@ public class PickaxeLevelableTool extends DiggerLevelableTool {
     }
 
     public InteractionResult useOn(UseOnContext context) {
-        if (this.isDisabled()) {
-            context.getItemInHand().shrink(1);
-            return InteractionResult.FAIL;
-        }
-
         return ToolUseUtils.useOnTorch(context);
-    }
-
-    @Override
-    public boolean isDisabled() {
-        return CrystalToolsConfig.DISABLE_PICKAXE.get();
     }
 }

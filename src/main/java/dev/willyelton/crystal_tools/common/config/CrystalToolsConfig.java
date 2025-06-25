@@ -33,29 +33,6 @@ public class CrystalToolsConfig {
     public static ModConfigSpec.IntValue EXPERIENCE_LEVELING_SCALING;
     public static ModConfigSpec.IntValue EXPERIENCE_PER_SKILL_LEVEL;
 
-    // Disable Tools
-    public static ModConfigSpec.BooleanValue DISABLE_PICKAXE;
-    public static ModConfigSpec.BooleanValue DISABLE_SHOVEL;
-    public static ModConfigSpec.BooleanValue DISABLE_AXE;
-    public static ModConfigSpec.BooleanValue DISABLE_SWORD;
-    public static ModConfigSpec.BooleanValue DISABLE_HOE;
-    public static ModConfigSpec.BooleanValue DISABLE_AIOT;
-    public static ModConfigSpec.BooleanValue DISABLE_BOW;
-    public static ModConfigSpec.BooleanValue DISABLE_ROCKET;
-    public static ModConfigSpec.BooleanValue DISABLE_TRIDENT;
-    public static ModConfigSpec.BooleanValue DISABLE_FISHING_ROD;
-
-    // Disable Armor
-    public static ModConfigSpec.BooleanValue DISABLE_ELYTRA;
-    public static ModConfigSpec.BooleanValue DISABLE_HELMET;
-    public static ModConfigSpec.BooleanValue DISABLE_CHESTPLATE;
-    public static ModConfigSpec.BooleanValue DISABLE_LEGGINGS;
-    public static ModConfigSpec.BooleanValue DISABLE_BOOTS;
-
-    // Disable Other
-    public static ModConfigSpec.BooleanValue DISABLE_APPLE;
-    public static ModConfigSpec.BooleanValue DISABLE_BACKPACK;
-
     // Furnace
     public static ModConfigSpec.IntValue FUEL_EFFICIENCY_ADDED_TICKS;
     public static ModConfigSpec.IntValue SPEED_UPGRADE_SUBTRACT_TICKS;
@@ -129,31 +106,6 @@ public class CrystalToolsConfig {
                 .defineInRange("tree_chopper_range", 10, 1, 100);
         ALWAYS_CHANNEL = builder.comment("If true, channeling Crystal Tridents will summon lightning even if they don't hit an entity")
                 .define("always_channel", true);
-        builder.pop();
-
-        // Disable Tools
-        builder.comment("Pick which tools to disable").push("disable");
-        DISABLE_PICKAXE = builder.comment("Disables Crystal Pickaxe").define("disable_pickaxe", false);
-        DISABLE_SHOVEL = builder.comment("Disables Crystal Shovel").define("disable_shovel", false);
-        DISABLE_AXE = builder.comment("Disables Crystal Axe").define("disable_axe", false);
-        DISABLE_SWORD = builder.comment("Disables Crystal Sword").define("disable_sword", false);
-        DISABLE_HOE = builder.comment("Disables Crystal Hoe").define("disable_hoe", false);
-        DISABLE_AIOT = builder.comment("Disables Crystal AIOT").define("disable_aiot", false);
-        DISABLE_BOW = builder.comment("Disables Crystal Bow").define("disable_bow", false);
-        DISABLE_ROCKET = builder.comment("Disables Crystal Rocket").define("disable_rocket", false);
-        DISABLE_TRIDENT = builder.comment("Disables Crystal Trident").define("disable_trident", false);
-        DISABLE_FISHING_ROD = builder.comment("Disables Crystal Fishing Rod").define("disable_fishing_rod", false);
-
-        // Disable Armor
-        DISABLE_ELYTRA = builder.comment("Disables Crystal Elytra").define("disable_elytra", false);
-        DISABLE_HELMET = builder.comment("Disables Crystal Helmet").define("disable_helmet", false);
-        DISABLE_CHESTPLATE = builder.comment("Disables Crystal Chestplate").define("disable_chestplate", false);
-        DISABLE_LEGGINGS = builder.comment("Disables Crystal Leggings").define("disable_leggings", false);
-        DISABLE_BOOTS = builder.comment("Disables Crystal Boots").define("disable_boots", false);
-
-        // Disable Other
-        DISABLE_APPLE = builder.comment("Disables Crystal Apple").define("disable_apple", false);
-        DISABLE_BACKPACK = builder.comment("Disables Crystal Backpack").define("disable_backpack", false);
         builder.pop();
 
         // Furnace

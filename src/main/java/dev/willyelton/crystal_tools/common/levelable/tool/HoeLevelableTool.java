@@ -1,7 +1,6 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.ToolUseUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -27,11 +26,6 @@ public class HoeLevelableTool extends DiggerLevelableTool {
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
-        if (this.isDisabled()) {
-            context.getItemInHand().shrink(1);
-            return InteractionResult.FAIL;
-        }
-
         return ToolUseUtils.useOnHoe3x3(context);
     }
 
@@ -43,11 +37,6 @@ public class HoeLevelableTool extends DiggerLevelableTool {
 
     @Override
     public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity entity, InteractionHand hand) {
-        if (this.isDisabled()) {
-            stack.shrink(1);
-            return InteractionResult.FAIL;
-        }
-
         if (stack.getOrDefault(DataComponents.SHEAR, false) && entity instanceof IShearable target) {
             if (entity.level().isClientSide) return net.minecraft.world.InteractionResult.SUCCESS;
             BlockPos pos = BlockPos.containing(entity.position());
@@ -65,10 +54,5 @@ public class HoeLevelableTool extends DiggerLevelableTool {
             return net.minecraft.world.InteractionResult.SUCCESS;
         }
         return net.minecraft.world.InteractionResult.PASS;
-    }
-
-    @Override
-    public boolean isDisabled() {
-        return CrystalToolsConfig.DISABLE_HOE.get();
     }
 }

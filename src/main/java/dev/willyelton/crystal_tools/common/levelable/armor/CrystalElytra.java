@@ -4,7 +4,6 @@ import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
 import dev.willyelton.crystal_tools.common.capability.Capabilities;
 import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.common.levelable.tool.LevelableTool;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
@@ -57,10 +56,6 @@ public class CrystalElytra extends LevelableTool implements LevelableItem {
 
     @Override
     public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, EquipmentSlot slot) {
-        if (this.isDisabled()) {
-            stack.shrink(1);
-        }
-
         super.inventoryTick(stack, level, entity, slot);
 
         if (entity instanceof LivingEntity livingEntity) {
@@ -73,10 +68,5 @@ public class CrystalElytra extends LevelableTool implements LevelableItem {
                 }
             }
         }
-    }
-
-    @Override
-    public boolean isDisabled() {
-        return CrystalToolsConfig.DISABLE_ELYTRA.get();
     }
 }

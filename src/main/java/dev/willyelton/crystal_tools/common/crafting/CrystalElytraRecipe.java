@@ -2,7 +2,6 @@ package dev.willyelton.crystal_tools.common.crafting;
 
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
@@ -23,8 +22,6 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
 
     @Override
     public boolean matches(CraftingInput container, Level level) {
-        if (CrystalToolsConfig.DISABLE_ELYTRA.get()) return false;
-
         if (container.size() < 2) return false;
 
         boolean foundElytra = false;

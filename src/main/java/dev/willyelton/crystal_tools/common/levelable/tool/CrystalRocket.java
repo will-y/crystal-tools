@@ -39,11 +39,6 @@ public class CrystalRocket extends LevelableTool {
     }
 
     public InteractionResult use(ItemStack stack, Level level, Player player, InteractionHand hand) {
-        if (this.isDisabled()) {
-            stack.shrink(1);
-            return InteractionResult.FAIL;
-        }
-
         if (ToolUtils.isBroken(stack)) {
             return InteractionResult.PASS;
         }
@@ -75,11 +70,6 @@ public class CrystalRocket extends LevelableTool {
     @Override
     public void inventoryTick(ItemStack itemStack, ServerLevel level, Entity entity, EquipmentSlot slot) {
         levelableInventoryTick(itemStack, level, entity, slot, CrystalToolsConfig.ROCKET_REPAIR_MODIFIER.get());
-    }
-
-    @Override
-    public boolean isDisabled() {
-        return CrystalToolsConfig.DISABLE_ROCKET.get();
     }
 
     @Override

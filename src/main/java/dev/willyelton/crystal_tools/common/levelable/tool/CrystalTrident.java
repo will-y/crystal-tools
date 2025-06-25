@@ -1,7 +1,6 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.entity.CrystalTridentEntity;
 import dev.willyelton.crystal_tools.common.events.LevelTickEvent;
 import dev.willyelton.crystal_tools.common.levelable.EntityTargeter;
@@ -56,11 +55,6 @@ public class CrystalTrident extends SwordLevelableTool implements EntityTargeter
     }
 
     @Override
-    public boolean isDisabled() {
-        return CrystalToolsConfig.DISABLE_TRIDENT.get();
-    }
-
-    @Override
     public ItemUseAnimation getUseAnimation(ItemStack stack) {
         return ItemUseAnimation.SPEAR;
     }
@@ -73,9 +67,6 @@ public class CrystalTrident extends SwordLevelableTool implements EntityTargeter
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if (this.isDisabled()) {
-            stack.shrink(1);
-        }
 
         if (stack.getDamageValue() >= stack.getMaxDamage() - 1) {
             return InteractionResult.FAIL;

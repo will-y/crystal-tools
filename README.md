@@ -537,3 +537,13 @@ Fields:
 - `allowXpLevels` (default true): Will allow you to convert xp to skill points for this tool.
 - `allowMiningXp` (default true): Will allow the tool to get experience from mining blocks.
 - `allowDamageXp` (default true): Will allow the tool to get experience from attacking entities.
+
+##### Removing Skill Trees From Items
+To remove existing items, you can add this to your datapack:
+```json
+{
+  "remove": [
+    "crystal_tools:crystal_pickaxe"
+  ]
+}
+```
