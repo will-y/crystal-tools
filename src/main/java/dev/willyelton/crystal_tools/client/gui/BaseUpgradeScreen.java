@@ -174,7 +174,7 @@ public abstract class BaseUpgradeScreen extends Screen {
 
         drawDependencyLines(guiGraphics);
         guiGraphics.nextStratum();
-        guiGraphics.drawString(font, "Skill Points: " + this.getSkillPoints(), 5, 5, Colors.TEXT_LIGHT);
+        guiGraphics.drawString(font, "Skill Points: " + this.getSkillPoints(), 5, 5, -1);
 
         for (Renderable renderable : this.renderables) {
             renderable.render(guiGraphics, mouseX, mouseY, partialTick);

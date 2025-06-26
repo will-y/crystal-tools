@@ -2,6 +2,7 @@
 ## 3.0.0 - beta 7
 ### Fixes
 - Fixes the block highlighting renderer
+- Fixes unspend points not rendering in the upgrade screen
 
 ## 3.0.0 - beta 6
 ### Additions
