@@ -80,7 +80,6 @@
 
 ## 1.21.6
 Eventually
-- Resizing the screen after you spend a point resets it?
 - Tooltip is wrong for unused items
 - Upgrading backpack in curios slot
 - Vanilla bow tree (mixins probably)

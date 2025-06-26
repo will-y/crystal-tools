@@ -89,8 +89,12 @@ public abstract class BaseUpgradeScreen extends Screen {
         this.key = key;
     }
 
+    @Override
     protected void init() {
-        this.points = getPoints();
+        // This is to prevent the buttons messing up on screen resize. Probably a better solution.
+        if (this.points == null) {
+            this.points = getPoints();
+        }
 
         List<List<SkillDataNode>> tiers = data.getAllNodesByTier();
 
