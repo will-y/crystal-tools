@@ -80,15 +80,14 @@
 
 ## 1.21.6
 Eventually
-- Upgrading backpack in curios slot
-- Better way to get tools on server (could technically change positions) (this is relating to client to server packets)
-- Datapack validation (make sure all requirements point to valid nodes / items)...
 - Resizing the screen after you spend a point resets it?
-- Maybe: Move repairing items to `EntityTickEvent` and iterate the inventory (would allow curios items to be ticked + repairing for vanilla tools if wanted)
-- Use actions should probably be datacomponents and all handled either in that event or the base levelable class
-- Block entities should have and use levelable capability
 - Tooltip is wrong for unused items
+- Upgrading backpack in curios slot
 - Vanilla bow tree (mixins probably)
 - Vanilla trident tree
+- Better way to get tools on server (could technically change positions) (this is relating to client to server packets)
+- Maybe: Move repairing items to `EntityTickEvent` and iterate the inventory (would allow curios items to be ticked + repairing for vanilla tools if wanted)
+- Use actions should probably be datacomponents and all handled either in that event or the base levelable class
 - Should probably use interface for capability actually, if possible (HolderLookup.Provider)
-- Block highlighting broke in 1.21.6
+- Datapack validation (make sure all requirements point to valid nodes / items)...
+- Block entities should have and use levelable capability (Not sure actually if this is helpful really)

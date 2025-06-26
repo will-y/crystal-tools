@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 3.0.0 - beta 7
+### Fixes
+- Fixes the block highlighting renderer
+
 ## 3.0.0 - beta 6
 ### Additions
 - Adds 2 new fields to the skill tree datamap

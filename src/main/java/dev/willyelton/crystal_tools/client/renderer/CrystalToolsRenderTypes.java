@@ -12,23 +12,23 @@ import net.minecraft.resources.ResourceLocation;
 
 import static dev.willyelton.crystal_tools.CrystalTools.rl;
 import static net.minecraft.client.renderer.RenderPipelines.ENTITY_SNIPPET;
+import static net.minecraft.client.renderer.RenderPipelines.MATRICES_PROJECTION_SNIPPET;
 import static net.minecraft.client.renderer.RenderStateShard.*;
 import static net.minecraft.client.renderer.RenderType.create;
 
 public class CrystalToolsRenderTypes {
     public static final ResourceLocation QUARRY_LASER_LOCATION = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/entity/quarry_laser.png");
 
-    public static final RenderPipeline.Snippet POSITION_COLOR_SNIPPET = RenderPipeline.builder()
-            .withCull(true)
+    public static final RenderPipeline.Snippet POSITION_COLOR_SNIPPET = RenderPipeline.builder(MATRICES_PROJECTION_SNIPPET)
+            .withVertexShader("core/position_color")
+            .withFragmentShader("core/position_color")
             .withBlend(BlendFunction.TRANSLUCENT)
             .withVertexFormat(DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS)
-            .withColorWrite(true, true)
+            .withCull(false)
             .buildSnippet();
 
     public static RenderPipeline POSITION_COLOR_PIPELINE = RenderPipeline.builder(POSITION_COLOR_SNIPPET)
             .withLocation(rl("pipeline/block_overlay"))
-            .withVertexShader("core/position_color")
-            .withFragmentShader("core/position_color")
             .build();
 
     public static RenderPipeline QUARRY_CUBE_PIPELINE = RenderPipeline.builder(ENTITY_SNIPPET)
@@ -42,18 +42,15 @@ public class CrystalToolsRenderTypes {
             .withVertexFormat(DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS)
             .build();
 
+    // Copied from the DEBUG_QUADS Render Type
     public static final RenderType BLOCK_OVERLAY = create(
             "CrystalToolsBlockOverlay",
-            256,
+            1536,
             false,
-            false,
+            true,
             POSITION_COLOR_PIPELINE,
             RenderType.CompositeState.builder()
-                    .setLayeringState(VIEW_OFFSET_Z_LAYERING)
-                    .setLightmapState(NO_LIGHTMAP)
-                    .setTextureState(NO_TEXTURE)
-                    .setOutputState(TRANSLUCENT_TARGET)
-                    .createCompositeState(true));
+                    .createCompositeState(false));
 
     public static final RenderType QUARRY_LASER = create("QuarryLaser",
             1536,
@@ -74,6 +71,4 @@ public class CrystalToolsRenderTypes {
                     .setLightmapState(NO_LIGHTMAP)
                     .setOverlayState(OVERLAY)
                     .createCompositeState(true));
-
-    public static final RenderType QUARRY_CUBE_2 = RenderType.entityCutoutNoCull(rl("textures/entity/crystal_quarry_cube.png"));
 }
