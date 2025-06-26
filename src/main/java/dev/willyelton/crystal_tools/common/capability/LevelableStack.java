@@ -22,9 +22,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
+// TODO: The Registry access being nullable is fine, that data is only used for the upgrade screen
+// Then we can call it every tick and in the tooltip fine
 public class LevelableStack implements Levelable {
 
-    public static @Nullable LevelableStack of(ItemStack stack, RegistryAccess registryAccess) {
+    public static @Nullable LevelableStack of(ItemStack stack, @Nullable RegistryAccess registryAccess) {
         if (stack.getMaxStackSize() != 1) return null;
 
         if (!ToolUtils.hasSkillTree(stack)) return null;
@@ -33,6 +35,10 @@ public class LevelableStack implements Levelable {
 
         if (skillTreeData == null) return null;
 
+        if (registryAccess == null) {
+            return new LevelableStack(stack, null, null, skillTreeData);
+        }
+
         Optional<Holder.Reference<SkillData>> skillData = ToolUtils.getSkillData(registryAccess, skillTreeData.treeLocation());
 
         return skillData.map(skillDataReference -> new LevelableStack(stack, skillDataReference.value(),
@@ -40,12 +46,14 @@ public class LevelableStack implements Levelable {
     }
 
     private final ItemStack stack;
+    @Nullable
     private final SkillData skillData;
     private final SkillPoints points;
+    @Nullable
     private final ResourceKey<SkillData> key;
     private final SkillTreeData skillTreeData;
 
-    private LevelableStack(ItemStack stack, SkillData skillData, ResourceKey<SkillData> key, SkillTreeData skillTreeData) {
+    private LevelableStack(ItemStack stack, @Nullable SkillData skillData, @Nullable ResourceKey<SkillData> key, SkillTreeData skillTreeData) {
         this.stack = stack;
         this.skillData = skillData;
         this.points = stack.getOrDefault(DataComponents.SKILL_POINT_DATA, new SkillPoints());
@@ -89,7 +97,7 @@ public class LevelableStack implements Levelable {
     }
 
     @Override
-    public SkillData getSkillTree() {
+    public @Nullable SkillData getSkillTree() {
         return skillData;
     }
 
@@ -99,7 +107,7 @@ public class LevelableStack implements Levelable {
     }
 
     @Override
-    public ResourceKey<SkillData> getKey() {
+    public @Nullable ResourceKey<SkillData> getKey() {
         return key;
     }
 

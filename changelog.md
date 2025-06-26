@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 3.0.0 - beta 8
+### Fixes
+- Fixes the tooltips being wrong before they were used at least once
+
 ## 3.0.0 - beta 7
 ### Fixes
 - Fixes the block highlighting renderer

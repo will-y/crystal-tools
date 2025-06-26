@@ -2,8 +2,9 @@ package dev.willyelton.crystal_tools.common.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
+import dev.willyelton.crystal_tools.common.capability.Capabilities;
+import dev.willyelton.crystal_tools.common.capability.LevelableStack;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.LevelableTooltip;
 import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
@@ -20,10 +21,11 @@ public class ItemTooltipEvent {
     @SubscribeEvent
     public static void addItemToolTips(net.neoforged.neoforge.event.entity.player.ItemTooltipEvent event) {
         int index = 1;
-        // TODO: Config Map from items -> configs (will have to be initialized late probably)
         ItemStack stack = event.getItemStack();
 
-        if (!ToolUtils.hasSkillTree(stack)) return;
+        LevelableStack levelableStack = stack.getCapability(Capabilities.ITEM_SKILL, null);
+
+        if (!ToolUtils.hasSkillTree(stack) || levelableStack == null) return;
 
         List<Component> tooltips = event.getToolTip();
 
@@ -33,7 +35,7 @@ public class ItemTooltipEvent {
         }
 
         int experience = stack.getOrDefault(DataComponents.SKILL_EXPERIENCE, 0);
-        int experienceCap = stack.getOrDefault(DataComponents.EXPERIENCE_CAP, CrystalToolsConfig.BASE_EXPERIENCE_CAP.get());
+        int experienceCap = levelableStack.getExperienceCap();
         tooltips.add(index++, Component.literal(String.format("%d/%d XP To Next Level", experience, experienceCap)));
 
         int skillPoints = stack.getOrDefault(DataComponents.SKILL_POINTS, 0);
