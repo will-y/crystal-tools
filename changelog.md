@@ -1,5 +1,6 @@
 # Crystal Tools Change Log
-## 3.0.0 - beta 9
+
+## 3.0.0 - beta 8
 ### Additions
 - Adds The Crystal Geode
   - Spawns at the bottom of the nether
@@ -13,7 +14,6 @@
 ### Changes
 - Armor is now crafted in a smithing table with a Crystal Upgrade Smithing Template, a crystal, and the netherite armor
 
-## 3.0.0 - beta 8
 ### Fixes
 - Fixes the tooltips being wrong before they were used at least once
 
