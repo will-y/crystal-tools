@@ -33,7 +33,7 @@ public class RenderEvents {
         }
 
         Player player = Minecraft.getInstance().player;
-        if (player != null) {
+        if (player != null && !player.isCreative() && !player.isSpectator()) {
             ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
 
             if (RegisterKeyBindingsEvent.VEIN_MINE.isDown()
@@ -54,7 +54,7 @@ public class RenderEvents {
 
         Player player = Minecraft.getInstance().player;
 
-        if (player == null) return;
+        if (player == null || player.isCreative() || player.isSpectator()) return;
 
         if (event.getTarget() instanceof BlockHitResult blockHitResult) {
             BlockState state = player.level().getBlockState(blockHitResult.getBlockPos());

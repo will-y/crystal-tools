@@ -16,6 +16,7 @@
 
 ### Fixes
 - Fixes the tooltips being wrong before they were used at least once
+- Fixes block overlays rendering in creative and spectator
 
 ## 3.0.0 - beta 7
 ### Fixes
