@@ -1,0 +1,108 @@
+{
+  "type": "minecraft:geode",
+  "config": {
+    "blocks": {
+      "cannot_replace": "#minecraft:features_cannot_replace",
+      "filling_provider": {
+        "type": "minecraft:simple_state_provider",
+        "state": {
+          "Name": "minecraft:air"
+        }
+      },
+      "alternate_inner_layer_provider": {
+        "type": "minecraft:weighted_state_provider",
+        "entries": [
+          {
+            "data": {
+              "Name": "minecraft:ancient_debris"
+            },
+            "weight": 1
+          },
+          {
+            "data": {
+              "Name": "crystal_tools:netherite_infused_crystal_geode"
+            },
+            "weight": 4
+          },
+          {
+            "data": {
+              "Name": "minecraft:magma_block",
+              "Properties": {
+                "falling": "true",
+                "level": 0
+              }
+            },
+            "weight": 8
+          },
+          {
+            "data": {
+              "Name": "minecraft:netherrack",
+              "Properties": {
+                "falling": "true",
+                "level": 0
+              }
+            },
+            "weight": 16
+          }
+        ]
+      },
+      "inner_layer_provider": {
+        "type": "minecraft:simple_state_provider",
+        "state": {
+          "Name": "crystal_tools:crystal_geode"
+        }
+      },
+      "inner_placements": [
+        {
+          "Name": "minecraft:air"
+        }
+      ],
+      "invalid_blocks": "#minecraft:geode_invalid_blocks",
+      "middle_layer_provider": {
+        "type": "minecraft:simple_state_provider",
+        "state": {
+          "Name": "minecraft:calcite"
+        }
+      },
+      "outer_layer_provider": {
+        "type": "minecraft:simple_state_provider",
+        "state": {
+          "Name": "minecraft:smooth_basalt"
+        }
+      }
+    },
+    "crack": {
+      "base_crack_size": 2.0,
+      "crack_point_offset": 2,
+      "generate_crack_chance": 0
+    },
+    "distribution_points": {
+      "type": "minecraft:uniform",
+      "max_inclusive": 4,
+      "min_inclusive": 3
+    },
+    "invalid_blocks_threshold": 1,
+    "layers": {
+      "filling": 1.2,
+      "inner_layer": 1.2,
+      "middle_layer": 1.6,
+      "outer_layer": 2.1
+    },
+    "max_gen_offset": 12,
+    "min_gen_offset": -12,
+    "noise_multiplier": 0.05,
+    "outer_wall_distance": {
+      "type": "minecraft:uniform",
+      "max_inclusive": 3,
+      "min_inclusive": 2
+    },
+    "placements_require_layer0_alternate": false,
+    "point_offset": {
+      "type": "minecraft:uniform",
+      "max_inclusive": 2,
+      "min_inclusive": 1
+    },
+    "use_alternate_layer0_chance": 0.085,
+    "use_potential_placements_chance": 0.15
+  }
+}

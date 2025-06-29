@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "crystal_tools:crystal_helmet"
+        "recipe": "crystal_tools:crystal_upgrade_smithing_template_dupe"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "crystal_tools:crystal_helmet"
+      "crystal_tools:crystal_upgrade_smithing_template_dupe"
     ]
   }
 }

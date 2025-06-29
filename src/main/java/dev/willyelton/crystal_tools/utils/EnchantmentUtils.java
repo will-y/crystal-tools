@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.utils;
 
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -43,5 +44,17 @@ public class EnchantmentUtils {
 
     private static boolean enchantmentMatches(Holder<Enchantment> holder, ResourceKey<Enchantment> enchantment) {
         return holder.unwrapKey().isPresent() && holder.unwrapKey().get().equals(enchantment);
+    }
+
+    /**
+     * Gets the points that should be awarded from crafting with an enchanted item
+     * @param stack The stack that is being used
+     * @return The total number of enchantment levels
+     */
+    public static int pointsFromEnchantments(ItemStack stack) {
+        return EnchantmentHelper.getEnchantmentsForCrafting(stack).entrySet()
+                .stream()
+                .mapToInt(Object2IntMap.Entry::getIntValue)
+                .sum();
     }
 }

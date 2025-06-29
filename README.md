@@ -18,8 +18,18 @@ You can also suggest features or ask questions there.
 - Crystal Quarry
 
 ## World Generation
+### Ore
 Deepslate Crystal Ore Generates Below Y -44 in veins of size 5.
 The ore generates very rarely, currently only about one vein per chunk.
+
+### Geode
+There is a new type of Geode that spawns in the nether! Inside you can find `Crystal Geode`s, `Netherite Infused Crystal Geodes`, and rarely
+`Ancient Debris`.
+
+![Crystal Geode](https://github.com/will-y/crystal-tools/raw/main/img/misc/geode.png)
+
+`Netherite Infused Crystal Geode`s drop `Netherite Infused Crystal Shards` which are used to craft the `Crystal Upgrade Smithing Template`
+which is then used to upgrade netherite armor into crystal armor.
 
 ## Tools
 Tools gain experience by using them. You can see how much exp you need to get to the next level by looking at the tooltip. You can open the skill tree by pressing `k` by default. Skill points can be using to get a new skill or to fully repair your tool.

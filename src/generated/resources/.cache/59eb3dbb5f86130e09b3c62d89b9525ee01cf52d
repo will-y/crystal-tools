@@ -1,9 +1,11 @@
-// 1.21.6	2025-06-19T19:51:07.1258864	Loot Tables
+// 1.21.6	2025-06-28T22:33:18.6924334	Loot Tables
 9e1d8ab823f61a9a832ffa879584d239713c95b9 data/crystal_tools/loot_table/blocks/crystal_block.json
 1132d3f2e2a650a9cd0f1f064e6c1e40dc34f199 data/crystal_tools/loot_table/blocks/crystal_deepslate_ore.json
 0d5bdad0f16076204583b65e863cc769735c3377 data/crystal_tools/loot_table/blocks/crystal_furnace.json
 100417bfd1622a2d8bf0a65f6db99d88114c62bb data/crystal_tools/loot_table/blocks/crystal_generator.json
+c9c6e783ea6bed2d7a12046dd8a56ccb629b52f4 data/crystal_tools/loot_table/blocks/crystal_geode.json
 81ab5cf0e0fa9648584f2d45dd8e033ef2ead5c7 data/crystal_tools/loot_table/blocks/crystal_ore.json
 c751f45d299aa093a692e653edfd58b1a74e76f8 data/crystal_tools/loot_table/blocks/crystal_quarry.json
 79201804d1bf05c2adb090e807871bffe8b53253 data/crystal_tools/loot_table/blocks/crystal_torch.json
+e2743429a1e4338b02ad23a1e64b95bcaec820f4 data/crystal_tools/loot_table/blocks/netherite_infused_crystal_geode.json
 9bda9b73f0cc0a0a812ee732415e3fc46a4500d3 data/crystal_tools/loot_table/blocks/quarry_stabilizer.json

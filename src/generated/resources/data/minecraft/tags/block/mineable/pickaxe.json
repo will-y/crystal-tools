@@ -6,6 +6,8 @@
     "crystal_tools:crystal_furnace",
     "crystal_tools:crystal_generator",
     "crystal_tools:crystal_quarry",
-    "crystal_tools:quarry_stabilizer"
+    "crystal_tools:quarry_stabilizer",
+    "crystal_tools:crystal_geode",
+    "crystal_tools:netherite_infused_crystal_geode"
   ]
 }

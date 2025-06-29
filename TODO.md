@@ -91,3 +91,4 @@ Eventually
 - Block entities should have and use levelable capability (Not sure actually if this is helpful really)
 - Maybe go through all get capability calls and pass in null
   - Possibly add an `isFull` boolean to `LevelableStack`? Only should need full on the upgrade screen
+- I think quarry lasers are in the wrong level render stage

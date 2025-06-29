@@ -1,0 +1,9 @@
+{
+  "type": "crystal_tools:crystal_smithing_transform",
+  "addition": "crystal_tools:crystal",
+  "base": "minecraft:netherite_chestplate",
+  "result": {
+    "id": "crystal_tools:crystal_chestplate"
+  },
+  "template": "crystal_tools:crystal_upgrade_smithing_template"
+}

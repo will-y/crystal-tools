@@ -7,18 +7,32 @@ import dev.willyelton.crystal_tools.common.crafting.CrystalElytraRecipe;
 import dev.willyelton.crystal_tools.common.crafting.CrystalGeneratorRecipe;
 import dev.willyelton.crystal_tools.common.crafting.CrystalQuarryRecipe;
 import dev.willyelton.crystal_tools.common.crafting.CrystalShieldTotemRecipe;
+import dev.willyelton.crystal_tools.common.crafting.CrystalSmithingRecipe;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
+import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementRequirements;
+import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.SpecialRecipeBuilder;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.TransmuteResult;
 import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class CrystalToolsRecipes extends RecipeProvider {
@@ -58,6 +72,23 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 .define('s', Items.STICK)
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
+
+        shaped(RecipeCategory.MISC, Registration.CRYSTAL_UPGRADE_SMITHING_TEMPLATE.get())
+                .pattern("iii")
+                .pattern("ici")
+                .pattern("ini")
+                .define('i', Registration.NETHERITE_INFUSED_CRYSTAL_SHARD.get())
+                .define('n', Items.NETHERITE_INGOT)
+                .define('c', Registration.CRYSTAL.get())
+                .unlockedBy("has_crystal", HAS_CRYSTAL)
+                .save(output);
+
+        shapeless(RecipeCategory.MISC, Registration.CRYSTAL_UPGRADE_SMITHING_TEMPLATE.get(), 2)
+                .requires(Registration.CRYSTAL.get())
+                .requires(Registration.CRYSTAL_UPGRADE_SMITHING_TEMPLATE.get())
+                .requires(Items.NETHERITE_INGOT)
+                .unlockedBy("has_crystal", HAS_CRYSTAL)
+                .save(output, Registration.CRYSTAL_UPGRADE_SMITHING_TEMPLATE.getId() + "_dupe");
 
         // Tools
         shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_AXE.get())
@@ -163,35 +194,35 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 .save(output);
 
         // Armor
-        shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_HELMET.get())
-                .pattern("ccc")
-                .pattern("c c")
-                .define('c', Registration.CRYSTAL.get())
-                .unlockedBy("has_crystal", HAS_CRYSTAL)
-                .save(output);
-
-        shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_CHESTPLATE.get())
-                .pattern("c c")
-                .pattern("ccc")
-                .pattern("ccc")
-                .define('c', Registration.CRYSTAL.get())
-                .unlockedBy("has_crystal", HAS_CRYSTAL)
-                .save(output);
-
-        shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_LEGGINGS.get())
-                .pattern("ccc")
-                .pattern("c c")
-                .pattern("c c")
-                .define('c', Registration.CRYSTAL.get())
-                .unlockedBy("has_crystal", HAS_CRYSTAL)
-                .save(output);
-
-        shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_BOOTS.get())
-                .pattern("c c")
-                .pattern("c c")
-                .define('c', Registration.CRYSTAL.get())
-                .unlockedBy("has_crystal", HAS_CRYSTAL)
-                .save(output);
+//        shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_HELMET.get())
+//                .pattern("ccc")
+//                .pattern("c c")
+//                .define('c', Registration.CRYSTAL.get())
+//                .unlockedBy("has_crystal", HAS_CRYSTAL)
+//                .save(output);
+//
+//        shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_CHESTPLATE.get())
+//                .pattern("c c")
+//                .pattern("ccc")
+//                .pattern("ccc")
+//                .define('c', Registration.CRYSTAL.get())
+//                .unlockedBy("has_crystal", HAS_CRYSTAL)
+//                .save(output);
+//
+//        shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_LEGGINGS.get())
+//                .pattern("ccc")
+//                .pattern("c c")
+//                .pattern("c c")
+//                .define('c', Registration.CRYSTAL.get())
+//                .unlockedBy("has_crystal", HAS_CRYSTAL)
+//                .save(output);
+//
+//        shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_BOOTS.get())
+//                .pattern("c c")
+//                .pattern("c c")
+//                .define('c', Registration.CRYSTAL.get())
+//                .unlockedBy("has_crystal", HAS_CRYSTAL)
+//                .save(output);
 
         shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_BACKPACK.get())
                 .pattern("lcl")
@@ -241,6 +272,11 @@ public class CrystalToolsRecipes extends RecipeProvider {
         SpecialRecipeBuilder
                 .special(CrystalShieldTotemRecipe::new)
                 .save(output, Registration.CRYSTAL_SHIELD.getId() + "_totem");
+
+        crystalSmithing(Items.NETHERITE_HELMET, Registration.CRYSTAL_HELMET, output);
+        crystalSmithing(Items.NETHERITE_CHESTPLATE, Registration.CRYSTAL_CHESTPLATE, output);
+        crystalSmithing(Items.NETHERITE_LEGGINGS, Registration.CRYSTAL_LEGGINGS, output);
+        crystalSmithing(Items.NETHERITE_BOOTS, Registration.CRYSTAL_BOOTS, output);
     }
 
     public static class Runner extends RecipeProvider.Runner {
@@ -257,5 +293,22 @@ public class CrystalToolsRecipes extends RecipeProvider {
         public String getName() {
             return CrystalTools.MODID + ":recipes";
         }
+    }
+
+    protected void crystalSmithing(Item ingredientItem, DeferredHolder<Item, ? extends Item> resultItem, RecipeOutput output) {
+        ResourceKey<Recipe<?>> resourceKey = ResourceKey.create(Registries.RECIPE, ResourceLocation.parse(resultItem.getId() + "_smithing"));
+
+        Advancement.Builder advancement$builder = output.advancement()
+                .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(resourceKey))
+                .rewards(AdvancementRewards.Builder.recipe(resourceKey))
+                .requirements(AdvancementRequirements.Strategy.OR)
+                .addCriterion("has_crystal", HAS_CRYSTAL);
+
+        CrystalSmithingRecipe smithingtransformrecipe = new CrystalSmithingRecipe(Optional.of(Ingredient.of(Registration.CRYSTAL_UPGRADE_SMITHING_TEMPLATE.get())),
+                Ingredient.of(ingredientItem), Optional.of(Ingredient.of(Registration.CRYSTAL.get())),
+                new TransmuteResult(resultItem.get()));
+
+        output.accept(resourceKey, smithingtransformrecipe,
+                advancement$builder.build(resourceKey.location().withPrefix("recipes/" + RecipeCategory.TOOLS.getFolderName() + "/")));
     }
 }
