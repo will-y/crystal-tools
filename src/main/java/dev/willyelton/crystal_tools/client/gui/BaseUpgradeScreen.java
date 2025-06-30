@@ -42,7 +42,7 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3x2f;
 import org.lwjgl.glfw.GLFW;
@@ -129,7 +129,7 @@ public abstract class BaseUpgradeScreen extends Screen {
                 if (XpUtils.getPlayerTotalXp(player) >= xpCost) {
                     player.giveExperiencePoints(-xpCost);
                     changeClientSkillPoints(pointsToGain);
-                    PacketDistributor.sendToServer(new PointsFromXpPayload(pointsToGain, this instanceof UpgradeScreen));
+                    ClientPacketDistributor.sendToServer(new PointsFromXpPayload(pointsToGain, this instanceof UpgradeScreen));
                     updateButtons();
                 }
             }, (button, guiGraphics, mouseX, mouseY) -> {
@@ -148,7 +148,7 @@ public abstract class BaseUpgradeScreen extends Screen {
                 this.resetPoints(resetRequiresCrystal);
 
                 if (resetRequiresCrystal) {
-                    PacketDistributor.sendToServer(new RemoveItemPayload(Registration.CRYSTAL.get().getDefaultInstance()));
+                    ClientPacketDistributor.sendToServer(new RemoveItemPayload(Registration.CRYSTAL.get().getDefaultInstance()));
                     InventoryUtils.removeItemFromInventory(this.player.getInventory(), Registration.CRYSTAL.get().getDefaultInstance());
                 }
             }).bounds(width - 40 - 5, 15, 40, Y_SIZE).tooltip(resetTooltip).build());
@@ -259,7 +259,7 @@ public abstract class BaseUpgradeScreen extends Screen {
             if (CrystalToolsConfig.ENABLE_ITEM_REQUIREMENTS.get() && requirement.getRequirementType() == RequirementType.ITEM) {
                 SkillItemRequirement itemRequirement = (SkillItemRequirement) (requirement);
                 itemRequirement.getItems().forEach(item -> {
-                    PacketDistributor.sendToServer(new RemoveItemPayload(item.getDefaultInstance()));
+                    ClientPacketDistributor.sendToServer(new RemoveItemPayload(item.getDefaultInstance()));
                     InventoryUtils.removeItemFromInventory(this.player.getInventory(), item.getDefaultInstance());
                 });
             }

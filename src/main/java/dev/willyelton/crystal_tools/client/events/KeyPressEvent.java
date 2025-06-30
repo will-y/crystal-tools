@@ -22,7 +22,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 @EventBusSubscriber(modid = CrystalTools.MODID, value = Dist.CLIENT)
 public class KeyPressEvent {
@@ -59,7 +59,7 @@ public class KeyPressEvent {
 
         // Send vein mining state every 5 ticks
         if (level.getGameTime() % 5 == 0) {
-            PacketDistributor.sendToServer(new VeinMiningPayload(RegisterKeyBindingsEvent.VEIN_MINE.isDown()));
+            ClientPacketDistributor.sendToServer(new VeinMiningPayload(RegisterKeyBindingsEvent.VEIN_MINE.isDown()));
         }
 
     }
@@ -85,14 +85,14 @@ public class KeyPressEvent {
      * Handles changing the mining mode (silk touch or fortune)
      */
     public static void handleModeSwitch() {
-        PacketDistributor.sendToServer(new ModeSwitchPayload(Screen.hasShiftDown(), Screen.hasControlDown(), Screen.hasAltDown()));
+        ClientPacketDistributor.sendToServer(new ModeSwitchPayload(Screen.hasShiftDown(), Screen.hasControlDown(), Screen.hasAltDown()));
     }
 
     public static void handleOpenBackpack() {
-        PacketDistributor.sendToServer(new OpenBackpackPayload(-1));
+        ClientPacketDistributor.sendToServer(new OpenBackpackPayload(-1));
     }
 
     public static void handleTriggerRocket() {
-        PacketDistributor.sendToServer(new TriggerRocketPayload());
+        ClientPacketDistributor.sendToServer(new TriggerRocketPayload());
     }
 }

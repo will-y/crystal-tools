@@ -26,8 +26,8 @@ import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import net.neoforged.neoforge.common.ItemAbilities;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -111,7 +111,7 @@ public class ToolUseUtils {
                     Optional<BlockState> optional = Optional.ofNullable(blockState.getToolModifiedState(context, ItemAbilities.AXE_STRIP, false));
                     if (optional.isPresent()) {
                         stripBlock(level, stack, player, pos, context.getHand(), optional.get(), levelable);
-                        PacketDistributor.sendToServer(new BlockStripPayload(pos, context.getHand(), optional.get()));
+                        ClientPacketDistributor.sendToServer(new BlockStripPayload(pos, context.getHand(), optional.get()));
                     }
                 }
             }

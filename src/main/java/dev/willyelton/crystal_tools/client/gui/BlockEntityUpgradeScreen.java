@@ -14,7 +14,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
@@ -69,7 +69,7 @@ public class BlockEntityUpgradeScreen extends BaseUpgradeScreen {
 
             this.container.addToPoints(node.getId(), pointsToSpend);
 
-            PacketDistributor.sendToServer(new BlockSkillPayload(node.getId(), key, pointsToSpend, container.getBlockEntity().getBlockPos()));
+            ClientPacketDistributor.sendToServer(new BlockSkillPayload(node.getId(), key, pointsToSpend, container.getBlockEntity().getBlockPos()));
             points.addPoints(node.getId(), pointsToSpend);
             if (points.getPoints(node.getId()) >= node.getLimit() && node.getLimit() != 0) {
                 ((SkillButton) button).setComplete();
@@ -88,7 +88,7 @@ public class BlockEntityUpgradeScreen extends BaseUpgradeScreen {
     protected void resetPoints(boolean crystalRequired) {
         if (!crystalRequired || this.player.getInventory().hasAnyOf(Set.of(Registration.CRYSTAL.get()))) {
             LevelableBlockEntity blockEntity = this.container.getBlockEntity();
-            PacketDistributor.sendToServer(new ResetSkillsBlockPayload(blockEntity.getBlockPos()));
+            ClientPacketDistributor.sendToServer(new ResetSkillsBlockPayload(blockEntity.getBlockPos()));
             blockEntity.resetSkills();
         }
 

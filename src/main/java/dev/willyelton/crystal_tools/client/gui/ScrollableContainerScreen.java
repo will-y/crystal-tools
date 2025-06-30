@@ -13,7 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 public abstract class ScrollableContainerScreen<T extends AbstractContainerMenu & ScrollableMenu> extends AbstractContainerScreen<T> {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/gui/scroll_bar.png");
@@ -43,7 +43,7 @@ public abstract class ScrollableContainerScreen<T extends AbstractContainerMenu 
         super.init();
         // Might need to go in resize
         this.menu.setMaxRows(getMaxDisplayRows());
-        PacketDistributor.sendToServer(new ContainerRowsPayload(getMaxDisplayRows()));
+        ClientPacketDistributor.sendToServer(new ContainerRowsPayload(getMaxDisplayRows()));
     }
 
     @Override
@@ -53,7 +53,7 @@ public abstract class ScrollableContainerScreen<T extends AbstractContainerMenu 
         this.scrollOffset = this.menu.getScrollForRowIndex(i);
         if (i != currentRow) {
             currentRow = i;
-            PacketDistributor.sendToServer(new ScrollPayload(i));
+            ClientPacketDistributor.sendToServer(new ScrollPayload(i));
         }
     }
 
@@ -84,7 +84,7 @@ public abstract class ScrollableContainerScreen<T extends AbstractContainerMenu 
         } else {
             currentRow = Mth.clamp(currentRow - (int) scrollY, 0, this.menu.getRows() - this.getMaxDisplayRows());
             this.scrollOffset = this.menu.getScrollForRowIndex(currentRow);
-            PacketDistributor.sendToServer(new ScrollPayload(currentRow));
+            ClientPacketDistributor.sendToServer(new ScrollPayload(currentRow));
             return true;
         }
     }
@@ -99,7 +99,7 @@ public abstract class ScrollableContainerScreen<T extends AbstractContainerMenu 
             int i = this.menu.getRowIndexForScroll(this.scrollOffset);
             if (i != currentRow) {
                 currentRow = i;
-                PacketDistributor.sendToServer(new ScrollPayload(i));
+                ClientPacketDistributor.sendToServer(new ScrollPayload(i));
             }
             return true;
         }

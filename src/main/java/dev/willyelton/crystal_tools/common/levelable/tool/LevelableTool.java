@@ -18,7 +18,7 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
@@ -63,7 +63,7 @@ public abstract class LevelableTool extends Item implements LevelableItem {
             if (level.getBlockState(pos).getDestroySpeed(level, pos) <= firstBlockSpeed + 20) {
                 breakBlock(tool, level, pos, entity);
                 if (sendServerPackets) {
-                    PacketDistributor.sendToServer(new BlockBreakPayload(pos));
+                    ClientPacketDistributor.sendToServer(new BlockBreakPayload(pos));
                 }
             }
         }

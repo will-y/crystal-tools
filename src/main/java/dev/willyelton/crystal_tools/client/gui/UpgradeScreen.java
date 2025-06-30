@@ -17,7 +17,7 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
@@ -59,7 +59,7 @@ public class UpgradeScreen extends BaseUpgradeScreen {
 
         // add button to spend skill points to heal tool
         healButton = addRenderableWidget(Button.builder(Component.literal("Heal"), (button) -> {
-            PacketDistributor.sendToServer(ToolHealPayload.INSTANCE);
+            ClientPacketDistributor.sendToServer(ToolHealPayload.INSTANCE);
             // also do client side to update ui, seems to work, might want to test more
             DataComponents.addToComponent(stack, DataComponents.SKILL_POINTS, -1);
             this.updateButtons();
@@ -71,7 +71,7 @@ public class UpgradeScreen extends BaseUpgradeScreen {
     @Override
     protected void resetPoints(boolean crystalRequired) {
         if (!crystalRequired || this.player.getInventory().hasAnyOf(Set.of(Registration.CRYSTAL.get()))) {
-            PacketDistributor.sendToServer(ResetSkillsPayload.INSTANCE);
+            ClientPacketDistributor.sendToServer(ResetSkillsPayload.INSTANCE);
             ToolUtils.resetPoints(this.stack);
         }
 
@@ -113,7 +113,7 @@ public class UpgradeScreen extends BaseUpgradeScreen {
                 }
             }
 
-            PacketDistributor.sendToServer(new ToolSkillPayload(node.getId(), key, pointsToSpend));
+            ClientPacketDistributor.sendToServer(new ToolSkillPayload(node.getId(), key, pointsToSpend));
             points.addPoints(node.getId(), pointsToSpend);
             DataComponents.addToComponent(stack, DataComponents.SKILL_POINTS, -pointsToSpend);
             if (points.getPoints(node.getId()) >= node.getLimit() && node.getLimit() != 0) {

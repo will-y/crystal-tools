@@ -5,7 +5,7 @@ import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScre
 import dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ public interface SubScreenContainerScreen {
             buttons.add(new BackpackScreenButton(subScreenButtonX, subScreenButtonStartingY, subScreen.getButtonName(),
                     button -> {
                         menu.openSubScreen(subScreen.getType());
-                        PacketDistributor.sendToServer(new BackpackScreenPayload(BackpackScreenPayload.BackpackAction.fromSubScreenType(subScreen.getType())));
+                        ClientPacketDistributor.sendToServer(new BackpackScreenPayload(BackpackScreenPayload.BackpackAction.fromSubScreenType(subScreen.getType())));
                         ModGUIs.openScreen(subScreen);
                     },
                     (button, guiGraphics, mouseX, mouseY) -> {

@@ -11,7 +11,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.*;
 
@@ -52,7 +52,7 @@ public abstract class BackpackSubScreen<T extends BaseContainerMenu & SubScreenC
     @Override
     public void onClose() {
         menu.closeSubScreen();
-        PacketDistributor.sendToServer(new BackpackScreenPayload(BackpackScreenPayload.BackpackAction.CLOSE_SUB_SCREEN));
+        ClientPacketDistributor.sendToServer(new BackpackScreenPayload(BackpackScreenPayload.BackpackAction.CLOSE_SUB_SCREEN));
         this.minecraft.popGuiLayer();
         this.minecraft.setScreen(this.returnScreen);
     }

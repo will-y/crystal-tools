@@ -1,4 +1,40 @@
 # Crystal Tools Change Log
+## 3.0.0
+### Additions
+- Adds The Crystal Geode
+  - Spawns at the bottom of the nether
+- Adds the following blocks:
+  - Crystal Geode
+  - Netherite Infused Crystal Geode
+- Adds the following items:
+  - Netherite Infused Crystal Shard
+  - Crystal Upgrade Smithing Template
+
+### Changes
+- Updates to Minecraft 1.21.7
+- Armor is now crafted in a smithing table with a Crystal Upgrade Smithing Template, a crystal, and the netherite armor
+- Removed all experience boost configs (they are configured through the datamap now)
+- Removed the reach config option (was no longer used)
+- Renames data map `mob_skills` to `mob_heads`
+- Removes the config option `BACKPACK_BASE_EXPERIENCE_CAP`, this is handled in the skill tree datamap now
+- Removes all disable config options
+  - If you don't want certain tools, see the section in the readme about removing skill trees from items, or remove the crafting recipe.
+- Made the default screen opacity 1
+
+#### Skill Trees
+- Redesigns skill trees to now be a registry
+  - The format of all skill trees is changed
+    - See built in datapack for examples
+  - Skill trees are now located in `crystal_tools/crystal_tools/skill_trees/item` and `crystal_tools/crystal_tools/skill_trees/block`
+- Skill trees can now be applied to vanilla (or other modded) tools
+- Skill trees are now assigned to items through a datamap `skill_trees` (see readme for more details)
+- Skill trees are now a capability
+- Adds new server config option: `vanilla_skill_trees`
+  - Allows you to turn on and off vanilla skill trees without a datamap or data pack
+
+### Fixes
+- Fixes block overlays rendering in creative and spectator
+- Fixes issue with the quarry not unloading chunks when broken
 
 ## 3.0.0 - beta 8
 ### Additions

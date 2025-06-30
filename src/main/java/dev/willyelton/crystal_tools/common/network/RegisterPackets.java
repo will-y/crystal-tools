@@ -69,6 +69,7 @@ public class RegisterPackets {
         registrar.playToServer(PointsFromXpPayload.TYPE, PointsFromXpPayload.STREAM_CODEC, PointsFromXpHandler.INSTANCE::handle);
 
         // Server to Client
+        // If any client handler requires client only classes it will have to go in to the new client only even
         registrar.playToClient(QuarryMineBlockPayload.TYPE, QuarryMineBlockPayload.STREAM_CODEC, QuarryMineBlockHandler.INSTANCE::handle);
     }
 }

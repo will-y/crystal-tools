@@ -13,7 +13,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +81,7 @@ public class CrystalQuarryScreen extends BaseMenuUpgradeScreen<CrystalQuarryCont
     protected void initUpgradeButton(Holder.Reference<SkillData> skillData) {
         skillTreeButton = this.addRenderableWidget(new BackpackScreenButton(this.leftPos - 21, this.topPos + 22, Component.literal("Open Skill Tree"),
                 button -> {
-                    ModGUIs.openScreen(new BlockEntityUpgradeScreen(this.menu, menu.getPlayer(), () -> PacketDistributor.sendToServer(new OpenContainerPayload(this.menu.getBlockPos().asLong())),
+                    ModGUIs.openScreen(new BlockEntityUpgradeScreen(this.menu, menu.getPlayer(), () -> ClientPacketDistributor.sendToServer(new OpenContainerPayload(this.menu.getBlockPos().asLong())),
                             skillData.value(), skillData.key()));
                 },
                 (button, guiGraphics, mouseX, mouseY) -> {
