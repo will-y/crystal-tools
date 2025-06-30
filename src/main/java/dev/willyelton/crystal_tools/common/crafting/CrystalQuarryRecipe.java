@@ -12,7 +12,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.ShapedCraftingRecipeDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
@@ -53,12 +58,7 @@ public class CrystalQuarryRecipe extends CrystalToolsRecipe {
     }
 
     @Override
-    public boolean canCraftInDimensions(int width, int height) {
-        return width == 3 && height == 3;
-    }
-
-    @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<? extends CustomRecipe> getSerializer() {
         return Registration.CRYSTAL_QUARRY_RECIPE.get();
     }
 
@@ -79,7 +79,9 @@ public class CrystalQuarryRecipe extends CrystalToolsRecipe {
     }
 
     @Override
-    public ItemStack getResultItem(HolderLookup.Provider registries) {
-        return new ItemStack(Registration.CRYSTAL_QUARRY.get());
+    public List<RecipeDisplay> display() {
+        return List.of(new ShapedCraftingRecipeDisplay(3, 3,
+                getIngredients().stream().map(Ingredient::display).toList(), new SlotDisplay.ItemStackSlotDisplay(getOutput()),
+                new SlotDisplay.ItemSlotDisplay(Items.CRAFTING_TABLE)));
     }
 }

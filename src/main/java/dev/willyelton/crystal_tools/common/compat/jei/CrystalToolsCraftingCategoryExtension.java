@@ -16,7 +16,7 @@ import java.util.Optional;
 public class CrystalToolsCraftingCategoryExtension implements ICraftingCategoryExtension<CrystalToolsRecipe> {
     @Override
     public Optional<ResourceLocation> getRegistryName(RecipeHolder<CrystalToolsRecipe> recipe) {
-        return Optional.of(recipe.id());
+        return Optional.of(recipe.id().location());
     }
 
     @Override

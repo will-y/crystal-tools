@@ -1,0 +1,9 @@
+{
+  "type": "crystal_tools:crystal_smithing_transform",
+  "addition": "crystal_tools:crystal",
+  "base": "minecraft:netherite_boots",
+  "result": {
+    "id": "crystal_tools:crystal_boots"
+  },
+  "template": "crystal_tools:crystal_upgrade_smithing_template"
+}

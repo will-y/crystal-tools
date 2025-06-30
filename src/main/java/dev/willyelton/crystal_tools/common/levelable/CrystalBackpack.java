@@ -2,9 +2,10 @@ package dev.willyelton.crystal_tools.common.levelable;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.compat.curios.CuriosCompatibility;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
+import dev.willyelton.crystal_tools.common.config.CrystalToolsServerConfig;
 import dev.willyelton.crystal_tools.common.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalBackpackContainerMenu;
 import net.minecraft.core.BlockPos;
@@ -13,7 +14,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,6 +27,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemContainerContents;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -37,21 +38,22 @@ import net.neoforged.neoforge.items.ItemHandlerHelper;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class CrystalBackpack extends Item implements LevelableItem {
-    public CrystalBackpack() {
-        super(new Properties().stacksTo(1).fireResistant());
+    public CrystalBackpack(Item.Properties properties) {
+        super(properties.stacksTo(1).fireResistant());
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
+    public InteractionResult use(Level level, Player player, InteractionHand usedHand) {
         ItemStack stack = player.getItemInHand(usedHand);
 
         if (player instanceof ServerPlayer serverPlayer) {
             openBackpack(serverPlayer, stack, serverPlayer.getInventory().findSlotMatchingItem(stack));
         }
 
-        return InteractionResultHolder.success(stack);
+        return InteractionResult.SUCCESS;
     }
 
     public void openBackpack(ServerPlayer serverPlayer, ItemStack backpackStack, int slotIndex) {
@@ -88,39 +90,16 @@ public class CrystalBackpack extends Item implements LevelableItem {
     }
 
     @Override
-    public boolean mineBlock(ItemStack tool, Level level, BlockState blockState, BlockPos blockPos, LivingEntity entity) {
-        // If this tool is disabled break on use
-        if (this.isDisabled()) {
-            tool.shrink(1);
-            return false;
-        }
-
-        return true;
-    }
-
-    @Override
-    public String getItemType() {
-        return "backpack";
-    }
-
-    @Override
     public int getMaxDamage(ItemStack itemStack) {
         return 1;
     }
 
     @Override
-    public boolean isDisabled() {
-        return CrystalToolsConfig.DISABLE_BACKPACK.get();
-    }
-
-    @Override
-    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> components, TooltipFlag flag) {
         if (itemStack.getOrDefault(DataComponents.BACKPACK_AUTO_PICKUP, false)) {
             String toolTip = "\u00A79" + "Auto Pickup " + (itemStack.getOrDefault(DataComponents.PICKUP_DISABLED, false) ? "Disabled" : "Enabled");
-            components.add(Component.literal(toolTip));
+            components.accept(Component.literal(toolTip));
         }
-
-        appendLevelableHoverText(itemStack, components, this, flag);
     }
 
     @Override
@@ -181,7 +160,6 @@ public class CrystalBackpack extends Item implements LevelableItem {
     }
 
     @Override
-    // TODO: Call this when inserting into backpack
     public boolean canFitInsideContainerItems() {
         return false;
     }
@@ -189,12 +167,6 @@ public class CrystalBackpack extends Item implements LevelableItem {
     @Override
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
         return false;
-    }
-
-    // TODO: This should be a default method in the interface? New method for base experience?
-    @Override
-    public int getExperienceCap(ItemStack tool) {
-        return tool.getOrDefault(DataComponents.EXPERIENCE_CAP, CrystalToolsConfig.BACKPACK_BASE_EXPERIENCE_CAP.get());
     }
 
     private void playRemoveOneSound(Entity entity) {
@@ -220,7 +192,7 @@ public class CrystalBackpack extends Item implements LevelableItem {
 
     public static List<ItemStack> findBackpackStacks(Player player) {
         List<ItemStack> backpackStacks = CuriosCompatibility.getCrystalBackpacksInCurios(player);
-        backpackStacks.addAll(player.getInventory().items.stream().filter(stack -> stack.is(Registration.CRYSTAL_BACKPACK.get())).toList());
+        backpackStacks.addAll(player.getInventory().getNonEquipmentItems().stream().filter(stack -> stack.is(Registration.CRYSTAL_BACKPACK.get())).toList());
 
         return backpackStacks;
     }
@@ -294,8 +266,10 @@ public class CrystalBackpack extends Item implements LevelableItem {
     public static void addXpToBackpacks(Player player, int exp) {
         findBackpackStacks(player)
                 .forEach(stack -> {
-                    LevelableItem item = (LevelableItem) stack.getItem();
-                    item.addExp(stack, player.level(), player.blockPosition(), player, exp);
+                    Levelable levelable = stack.getCapability(dev.willyelton.crystal_tools.common.capability.Capabilities.ITEM_SKILL, player.level().registryAccess());
+                    if (levelable != null) {
+                        levelable.addExp(player.level(), player.blockPosition(), player, exp);
+                    }
                 });
     }
 }

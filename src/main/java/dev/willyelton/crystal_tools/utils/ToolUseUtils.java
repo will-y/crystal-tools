@@ -1,11 +1,12 @@
 package dev.willyelton.crystal_tools.utils;
 
 import com.mojang.datafixers.util.Pair;
-import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
+import dev.willyelton.crystal_tools.common.capability.Capabilities;
+import dev.willyelton.crystal_tools.common.capability.Levelable;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalTorch;
-import dev.willyelton.crystal_tools.common.levelable.tool.LevelableTool;
 import dev.willyelton.crystal_tools.common.levelable.tool.VeinMinerLevelableTool;
 import dev.willyelton.crystal_tools.common.network.data.BlockStripPayload;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -33,22 +34,26 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+// Use a component and UseItemOnBlockEvent to remove this class?
+// Probably doesn't help a lot, surely these move to components eventually
 public class ToolUseUtils {
-    public static InteractionResult useOnAxe(UseOnContext pContext, LevelableTool tool) {
-        Level level = pContext.getLevel();
-        BlockPos blockpos = pContext.getClickedPos();
-        Player player = pContext.getPlayer();
+    public static InteractionResult useOnAxe(UseOnContext context, Levelable levelable) {
+        Level level = context.getLevel();
+        BlockPos blockpos = context.getClickedPos();
+        Player player = context.getPlayer();
         BlockState blockstate = level.getBlockState(blockpos);
-        ItemStack itemStack = pContext.getItemInHand();
+        ItemStack stack = context.getItemInHand();
 
-        int durability = tool.getMaxDamage(itemStack) - itemStack.getDamageValue();
+
+        int durability = stack.getMaxDamage() - stack.getDamageValue();
 
         if (durability <= 1) {
             return InteractionResult.PASS;
         }
-        Optional<BlockState> optional = Optional.ofNullable(blockstate.getToolModifiedState(pContext, ItemAbilities.AXE_STRIP, false));
-        Optional<BlockState> optional1 = Optional.ofNullable(blockstate.getToolModifiedState(pContext, ItemAbilities.AXE_SCRAPE, false));
-        Optional<BlockState> optional2 = Optional.ofNullable(blockstate.getToolModifiedState(pContext, ItemAbilities.AXE_WAX_OFF, false));
+
+        Optional<BlockState> optional = Optional.ofNullable(blockstate.getToolModifiedState(context, ItemAbilities.AXE_STRIP, false));
+        Optional<BlockState> optional1 = Optional.ofNullable(blockstate.getToolModifiedState(context, ItemAbilities.AXE_SCRAPE, false));
+        Optional<BlockState> optional2 = Optional.ofNullable(blockstate.getToolModifiedState(context, ItemAbilities.AXE_WAX_OFF, false));
         Optional<BlockState> optional3 = Optional.empty();
         if (optional.isPresent()) {
             level.playSound(player, blockpos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -65,42 +70,47 @@ public class ToolUseUtils {
 
         if (optional3.isPresent()) {
             if (player instanceof ServerPlayer) {
-                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer)player, blockpos, itemStack);
+                CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer)player, blockpos, stack);
             }
 
             level.setBlock(blockpos, optional3.get(), 11);
 
             if (player != null) {
-                itemStack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(pContext.getHand()));
+                stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(context.getHand()));
             }
 
-            tool.addExp(itemStack, level, blockpos, player);
+            levelable.addExp(level, blockpos, player);
 
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.SUCCESS;
         } else {
             return InteractionResult.PASS;
         }
     }
 
-    public static <T extends LevelableTool & VeinMinerLevelableTool> InteractionResult useOnAxeVeinStrip(UseOnContext context, T tool) {
+    public static <T extends VeinMinerLevelableTool> InteractionResult useOnAxeVeinStrip(UseOnContext context, T tool) {
         Level level = context.getLevel();
         Player player = context.getPlayer();
         BlockPos blockPos = context.getClickedPos();
         BlockState initialState = level.getBlockState(blockPos);
-        InteractionResult result = ToolUseUtils.useOnAxe(context, tool);
+        ItemStack stack = context.getItemInHand();
+        Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level.registryAccess());
 
-        if (result == InteractionResult.SUCCESS || result == InteractionResult.sidedSuccess(context.getLevel().isClientSide)) {
-            ItemStack itemStack = context.getItemInHand();
+        if (levelable == null) {
+            return InteractionResult.PASS;
+        }
 
-            if (itemStack.getOrDefault(DataComponents.VEIN_MINER, 0) > 0
+        InteractionResult result = ToolUseUtils.useOnAxe(context, levelable);
+
+        if (result == InteractionResult.SUCCESS) {
+            if (stack.getOrDefault(DataComponents.VEIN_MINER, 0) > 0
                     && level.isClientSide && RegisterKeyBindingsEvent.VEIN_MINE.isDown()) {
-                Collection<BlockPos> blocksToStrip = BlockCollectors.collectVeinMine(blockPos, level, tool.getVeinMinerPredicate(initialState), tool.getMaxBlocks(itemStack));
+                Collection<BlockPos> blocksToStrip = BlockCollectors.collectVeinMine(blockPos, level, tool.getVeinMinerPredicate(initialState), tool.getMaxBlocks(stack));
 
                 for (BlockPos pos : blocksToStrip) {
                     BlockState blockState = level.getBlockState(pos);
                     Optional<BlockState> optional = Optional.ofNullable(blockState.getToolModifiedState(context, ItemAbilities.AXE_STRIP, false));
                     if (optional.isPresent()) {
-                        stripBlock(tool, level, itemStack, player, pos, context.getHand(), optional.get());
+                        stripBlock(level, stack, player, pos, context.getHand(), optional.get(), levelable);
                         PacketDistributor.sendToServer(new BlockStripPayload(pos, context.getHand(), optional.get()));
                     }
                 }
@@ -110,8 +120,9 @@ public class ToolUseUtils {
         return result;
     }
 
-    public static <T extends LevelableTool> void stripBlock(T tool, Level level, ItemStack stack, Player player, BlockPos blockPos, InteractionHand hand, BlockState newState) {
-        if ((tool.getMaxDamage(stack) - stack.getDamageValue()) == 0) {
+    public static void stripBlock(Level level, ItemStack stack, Player player, BlockPos blockPos,
+                                                            InteractionHand hand, BlockState newState, Levelable levelable) {
+        if ((stack.getMaxDamage() - stack.getDamageValue()) == 0) {
             return;
         }
 
@@ -121,22 +132,27 @@ public class ToolUseUtils {
             stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
         }
 
-        tool.addExp(stack, level, blockPos, player);
-
+        levelable.addExp(level, blockPos, player);
     }
 
-    public static InteractionResult useOnShovel(UseOnContext pContext, LevelableTool tool, BlockPos blockpos) {
-        ItemStack shovel = pContext.getItemInHand();
-        Level level = pContext.getLevel();
+    public static InteractionResult useOnShovel(UseOnContext context, BlockPos blockpos) {
+        ItemStack stack = context.getItemInHand();
+        Level level = context.getLevel();
         BlockState blockstate = level.getBlockState(blockpos);
 
-        if (ToolUtils.isBroken(shovel)) return InteractionResult.PASS;
+        if (ToolUtils.isBroken(stack)) return InteractionResult.PASS;
 
-        if (pContext.getClickedFace() == Direction.DOWN) {
+        Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level.registryAccess());
+
+        if (levelable == null) {
+            return InteractionResult.PASS;
+        }
+
+        if (context.getClickedFace() == Direction.DOWN) {
             return InteractionResult.PASS;
         } else {
-            Player player = pContext.getPlayer();
-            BlockState blockstate1 = blockstate.getToolModifiedState(pContext, ItemAbilities.SHOVEL_FLATTEN, false);
+            Player player = context.getPlayer();
+            BlockState blockstate1 = blockstate.getToolModifiedState(context, ItemAbilities.SHOVEL_FLATTEN, false);
             BlockState blockstate2 = null;
             if (blockstate1 != null && level.isEmptyBlock(blockpos.above())) {
                 level.playSound(player, blockpos, SoundEvents.SHOVEL_FLATTEN, SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -146,7 +162,7 @@ public class ToolUseUtils {
                     level.levelEvent((Player)null, 1009, blockpos, 0);
                 }
 
-                CampfireBlock.dowse(pContext.getPlayer(), level, blockpos, blockstate);
+                CampfireBlock.dowse(context.getPlayer(), level, blockpos, blockstate);
                 blockstate2 = blockstate.setValue(CampfireBlock.LIT, false);
             }
 
@@ -154,27 +170,27 @@ public class ToolUseUtils {
                 if (!level.isClientSide) {
                     level.setBlock(blockpos, blockstate2, 11);
                     if (player != null) {
-                        pContext.getItemInHand().hurtAndBreak(1, player, LivingEntity.getSlotForHand(pContext.getHand()));
+                        context.getItemInHand().hurtAndBreak(1, player, LivingEntity.getSlotForHand(context.getHand()));
                     }
                 }
 
-                tool.addExp(shovel, level, blockpos, pContext.getPlayer());
+                levelable.addExp(level, blockpos, context.getPlayer());
 
-                return InteractionResult.sidedSuccess(level.isClientSide);
+                return InteractionResult.SUCCESS;
             } else {
                 return InteractionResult.PASS;
             }
         }
     }
 
-    public static InteractionResult useOnShovel3x3(UseOnContext context, LevelableTool tool) {
+    public static InteractionResult useOnShovel3x3(UseOnContext context) {
         ItemStack stack = context.getItemInHand();
         if (stack.getOrDefault(DataComponents.HAS_3x3, false) && !stack.getOrDefault(DataComponents.DISABLE_3x3, false)) {
             InteractionResult result = null;
 
             for (int i = -1; i < 2; i++) {
                 for (int j = -1; j < 2; j++) {
-                    InteractionResult shovelResult = useOnShovel(context, tool, context.getClickedPos().offset(i, 0, j));
+                    InteractionResult shovelResult = useOnShovel(context, context.getClickedPos().offset(i, 0, j));
                     if (!shovelResult.equals(InteractionResult.PASS)) {
                         result = shovelResult;
                     }
@@ -184,10 +200,10 @@ public class ToolUseUtils {
             return result == null ? InteractionResult.PASS : result;
         }
 
-        return useOnShovel(context, tool, context.getClickedPos());
+        return useOnShovel(context, context.getClickedPos());
     }
 
-    public static InteractionResult useOnTorch(UseOnContext context, LevelableTool tool) {
+    public static InteractionResult useOnTorch(UseOnContext context) {
         ItemStack stack = context.getItemInHand();
 
         if (stack.getOrDefault(DataComponents.TORCH, false)) {
@@ -196,6 +212,11 @@ public class ToolUseUtils {
             BlockState state = level.getBlockState(position);
             Direction direction = context.getClickedFace();
             position = position.relative(direction);
+
+            Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level.registryAccess());
+            if (levelable == null) {
+                return InteractionResult.PASS;
+            }
 
             BlockState torchBlockState;
 
@@ -218,7 +239,7 @@ public class ToolUseUtils {
                 stack.hurtAndBreak(10, context.getPlayer(), LivingEntity.getSlotForHand(context.getHand()));
             }
 
-            tool.addExp(stack, level, context.getClickedPos(), context.getPlayer());
+            levelable.addExp(level, context.getClickedPos(), context.getPlayer());
 
             return InteractionResult.SUCCESS;
         }
@@ -226,13 +247,13 @@ public class ToolUseUtils {
         return InteractionResult.PASS;
     }
 
-    public static InteractionResult useOnHoe(UseOnContext context, LevelableTool tool) {
-        return useOnHoe(context, tool, context.getClickedPos());
+    public static InteractionResult useOnHoe(UseOnContext context) {
+        return useOnHoe(context, context.getClickedPos());
     }
 
-    public static InteractionResult useOnHoe(UseOnContext context, LevelableTool tool, BlockPos blockPos) {
-        ItemStack hoe = context.getItemInHand();
-        int durability = tool.getMaxDamage(hoe) - hoe.getDamageValue();
+    public static InteractionResult useOnHoe(UseOnContext context, BlockPos blockPos) {
+        ItemStack stack = context.getItemInHand();
+        int durability = stack.getMaxDamage() - stack.getDamageValue();
 
         if (durability <= 1) {
             return InteractionResult.PASS;
@@ -256,16 +277,21 @@ public class ToolUseUtils {
                     }
                 }
 
-                tool.addExp(hoe, level, blockPos, player);
+                Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level.registryAccess());
+                if (levelable == null) {
+                    return InteractionResult.PASS;
+                }
 
-                return InteractionResult.sidedSuccess(level.isClientSide);
+                levelable.addExp(level, blockPos, player);
+
+                return InteractionResult.SUCCESS;
             } else {
                 return InteractionResult.PASS;
             }
         }
     }
 
-    public static InteractionResult useOnHoe3x3(UseOnContext context, LevelableTool tool) {
+    public static InteractionResult useOnHoe3x3(UseOnContext context) {
         ItemStack stack = context.getItemInHand();
 
         if (stack.getOrDefault(DataComponents.HAS_3x3, false) && !stack.getOrDefault(DataComponents.DISABLE_3x3, false)) {
@@ -273,7 +299,7 @@ public class ToolUseUtils {
 
             for (int i = -1; i < 2; i++) {
                 for (int j = -1; j < 2; j++) {
-                    InteractionResult hoeResult = useOnHoe(context, tool, context.getClickedPos().offset(i, 0, j));
+                    InteractionResult hoeResult = useOnHoe(context, context.getClickedPos().offset(i, 0, j));
                     if (!hoeResult.equals(InteractionResult.PASS)) {
                         result = hoeResult;
                     }
@@ -283,7 +309,7 @@ public class ToolUseUtils {
             return result == null ? InteractionResult.PASS : result;
         }
 
-        return useOnHoe(context, tool);
+        return useOnHoe(context);
     }
 
     private static Consumer<UseOnContext> changeIntoState(BlockState blockState, BlockPos blockPos) {

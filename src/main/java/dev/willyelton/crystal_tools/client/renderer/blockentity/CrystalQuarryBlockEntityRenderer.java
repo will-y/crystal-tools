@@ -24,7 +24,7 @@ public class CrystalQuarryBlockEntityRenderer implements BlockEntityRenderer<Cry
     }
 
     @Override
-    public void render(CrystalQuarryBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
+    public void render(CrystalQuarryBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay, Vec3 cameraPos) {
         BlockPos miningAt = blockEntity.getMiningAt();
 
         if (miningAt != null) {
@@ -75,7 +75,7 @@ public class CrystalQuarryBlockEntityRenderer implements BlockEntityRenderer<Cry
     }
 
     @Override
-    public boolean shouldRenderOffScreen(CrystalQuarryBlockEntity blockEntity) {
+    public boolean shouldRenderOffScreen() {
         return true;
     }
 }

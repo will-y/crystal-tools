@@ -1,22 +1,9 @@
 {
-  "neoforge:conditions": [
-    {
-      "type": "neoforge:not",
-      "value": {
-        "type": "crystal_tools:item_disabled",
-        "itemLocation": "crystal_tools:crystal_rocket"
-      }
-    }
-  ],
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "c": {
-      "item": "crystal_tools:crystal"
-    },
-    "r": {
-      "item": "minecraft:firework_rocket"
-    }
+    "c": "crystal_tools:crystal",
+    "r": "minecraft:firework_rocket"
   },
   "pattern": [
     "ccc",

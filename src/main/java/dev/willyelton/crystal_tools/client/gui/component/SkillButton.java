@@ -1,13 +1,14 @@
 package dev.willyelton.crystal_tools.client.gui.component;
 
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillDataNode;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
+import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.RequirementType;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillItemRequirement;
 import dev.willyelton.crystal_tools.utils.Colors;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -29,21 +30,22 @@ public class SkillButton extends CrystalToolsButton {
     public int xOffset = 0;
     public int yOffset = 0;
     private final Player player;
-    private final SkillData data;
     private final List<SkillItemRequirement> items;
+    private final SkillPoints skillPoints;
 
     private final List<int[]> itemPositions;
 
-    public SkillButton(int x, int y, int width, int height, Component name, OnPress onPress, CrystalToolsButton.OnTooltip onTooltip, SkillData data, SkillDataNode node, Player player) {
+    public SkillButton(int x, int y, int width, int height, Component name, OnPress onPress,
+                       CrystalToolsButton.OnTooltip onTooltip, SkillDataNode node,
+                       Player player, SkillPoints skillPoints) {
         super(x, y, width, height, name, onPress, onTooltip);
         this.dataNode = node;
-        this.data = data;
         this.player = player;
         this.items = node.getRequirements().stream()
                 .filter(requirement -> requirement.getRequirementType() == RequirementType.ITEM)
                 .map(skillDataRequirement -> (SkillItemRequirement) skillDataRequirement)
                 .collect(Collectors.toList());
-
+        this.skillPoints = skillPoints;
         this.itemPositions = new ArrayList<>();
 
         itemPositions.add(new int[] {-ITEM_WIDTH / 2, -ITEM_WIDTH / 2});
@@ -65,9 +67,9 @@ public class SkillButton extends CrystalToolsButton {
     @Override
     protected void blitButton(GuiGraphics guiGraphics, int textureY) {
         // first half of button
-        guiGraphics.blit(SKILL_BUTTON_LOCATION, this.getX() + xOffset, this.getY() + yOffset, 0, textureY * 20, this.width / 2, this.height);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, SKILL_BUTTON_LOCATION, this.getX() + xOffset, this.getY() + yOffset, 0, textureY * 20, this.width / 2, this.height, 256, 256);
         // second half of button
-        guiGraphics.blit(SKILL_BUTTON_LOCATION, this.getX() + this.width / 2 + xOffset, this.getY() + yOffset, 200 - this.width / 2, textureY * 20, this.width / 2, this.height);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, SKILL_BUTTON_LOCATION, this.getX() + this.width / 2 + xOffset, this.getY() + yOffset, 200 - this.width / 2, textureY * 20, this.width / 2, this.height, 256, 256);
     }
 
     @Override
@@ -78,7 +80,7 @@ public class SkillButton extends CrystalToolsButton {
     @Override
     public int getTextureY(boolean hovered) {
         boolean isInfinite = this.dataNode.getLimit() != 1;
-        int points = this.dataNode.getPoints();
+        int points = this.skillPoints.getPoints(this.dataNode.getId());
         if (isInfinite && points > 0) {
             if (!this.isActive()) {
                 return 3;
@@ -107,16 +109,6 @@ public class SkillButton extends CrystalToolsButton {
 
     public SkillDataNode getDataNode() {
         return this.dataNode;
-    }
-
-    @Override
-    protected boolean clicked(double pMouseX, double pMouseY) {
-        return this.active &&
-                this.visible &&
-                pMouseX >= (double) (this.getX() + xOffset) &&
-                pMouseY >= (double) (this.getY() + yOffset) &&
-                pMouseX < (double)(this.getX() + this.width + xOffset) &&
-                pMouseY < (double)(this.getY() + this.height + yOffset);
     }
 
     @Override

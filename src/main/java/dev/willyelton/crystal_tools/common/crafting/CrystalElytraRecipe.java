@@ -2,16 +2,14 @@ package dev.willyelton.crystal_tools.common.crafting;
 
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.utils.ToolUtils;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
@@ -23,7 +21,7 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
 
     @Override
     public boolean matches(CraftingInput container, Level level) {
-        if (CrystalToolsConfig.DISABLE_ELYTRA.get()) return false;
+        if (container.size() < 2) return false;
 
         boolean foundElytra = false;
         boolean foundChestplate = false;
@@ -60,28 +58,22 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
         }
 
         // points from enchantments on elytra
-        int enchantmentPoints = EnchantmentHelper.getEnchantmentsForCrafting(elytraItem).entrySet().stream().mapToInt(Object2IntMap.Entry::getIntValue).sum();
+        int enchantmentPoints = EnchantmentUtils.pointsFromEnchantments(elytraItem);
 
         int totalPoints = getPoints(stack) + enchantmentPoints;
 
         // Set skill points
         stack.set(DataComponents.SKILL_POINTS, totalPoints);
 
-        // Set exp cap
-        ToolUtils.increaseExpCap(stack, totalPoints);
-
         stack.set(DataComponents.SKILL_EXPERIENCE, crystalChestPlateItem.getOrDefault(DataComponents.SKILL_EXPERIENCE, 0));
+
+        increaseLevelCap(stack, registryAccess, totalPoints);
 
         return stack;
     }
 
     @Override
-    public boolean canCraftInDimensions(int width, int height) {
-        return width * height >= 2;
-    }
-
-    @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<? extends CustomRecipe> getSerializer() {
         return Registration.CRYSTAL_ELYTRA_RECIPE.get();
     }
 
@@ -109,11 +101,6 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
 
     @Override
     public ItemStack getOutput() {
-        return new ItemStack(Registration.CRYSTAL_ELYTRA.get());
-    }
-
-    @Override
-    public ItemStack getResultItem(HolderLookup.Provider registries) {
         return new ItemStack(Registration.CRYSTAL_ELYTRA.get());
     }
 }

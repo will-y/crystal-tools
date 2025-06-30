@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity.data;
 
 import dev.willyelton.crystal_tools.common.levelable.block.entity.LevelableBlockEntity;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 
 public abstract class LevelableContainerData implements ILevelableContainerData {
     protected static final int DATA_SIZE = 3;
@@ -67,14 +68,17 @@ public abstract class LevelableContainerData implements ILevelableContainerData 
         return get(2);
     }
 
-    public int[] getPoints() {
-        int[] result = new int[100];
+    public SkillPoints getPoints() {
+        SkillPoints points = new SkillPoints();
 
         for (int i = 0; i < 100; i++) {
-            result[i] = get(i + getNonSkillDataSize());
+            int stored = get(i + getNonSkillDataSize());
+            if (stored > 0) {
+                points.setPoints(i, stored);
+            }
         }
 
-        return result;
+        return points;
     }
 
     protected abstract int getExtraDataSize();

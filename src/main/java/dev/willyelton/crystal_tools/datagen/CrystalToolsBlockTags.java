@@ -8,13 +8,12 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.concurrent.CompletableFuture;
 
 public class CrystalToolsBlockTags extends BlockTagsProvider {
-    public CrystalToolsBlockTags(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
-        super(output, lookupProvider, CrystalTools.MODID, existingFileHelper);
+    public CrystalToolsBlockTags(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+        super(output, lookupProvider, CrystalTools.MODID);
     }
 
     @Override
@@ -26,9 +25,18 @@ public class CrystalToolsBlockTags extends BlockTagsProvider {
                 Registration.CRYSTAL_FURNACE.get(),
                 Registration.CRYSTAL_GENERATOR.get(),
                 Registration.CRYSTAL_QUARRY.get(),
-                Registration.QUARRY_STABILIZER.get());
+                Registration.QUARRY_STABILIZER.get(),
+                Registration.CRYSTAL_GEODE.get(),
+                Registration.NETHERITE_INFUSED_CRYSTAL_GEODE.get());
 
         tag(CrystalToolsTags.AUTO_OUTPUT_BLACKLIST).add(
                 Blocks.HOPPER);
+
+        tag(CrystalToolsTags.MINABLE_WITH_AIOT)
+                .addTag(BlockTags.MINEABLE_WITH_AXE)
+                .addTag(BlockTags.MINEABLE_WITH_HOE)
+                .addTag(BlockTags.MINEABLE_WITH_PICKAXE)
+                .addTag(BlockTags.MINEABLE_WITH_SHOVEL)
+                .addTag(BlockTags.SWORD_EFFICIENT);
     }
 }

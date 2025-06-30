@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "crystal_tools:block/netherite_infused_crystal_geode"
+  }
+}

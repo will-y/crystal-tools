@@ -1,7 +1,6 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
-import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
+import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -9,35 +8,36 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 
 public class CrystalFishingRod extends LevelableTool {
     public static final String CRYSTAL_TOOLS_FISHING_MAIN_TAG = "crystal_tools.fishing.main";
     public static final String CRYSTAL_TOOLS_FISHING_OFF_TAG = "crystal_tools.fishing.off";
-    public CrystalFishingRod() {
-        super(new Item.Properties(), null, "fishing_rod", 1, -2.8F);
+    public CrystalFishingRod(Item.Properties properties) {
+        super(properties
+                .stacksTo(1)
+                .fireResistant()
+                .repairable(CrystalToolsTags.REPAIRS_CRYSTAL)
+                .durability(CRYSTAL.durability()));
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if (this.isDisabled()) {
-            stack.shrink(1);
-        }
 
         if (player.fishing != null) {
             // Remove bobber
@@ -50,9 +50,9 @@ public class CrystalFishingRod extends LevelableTool {
             player.gameEvent(GameEvent.ITEM_INTERACT_FINISH);
         } else {
             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.FISHING_BOBBER_THROW, SoundSource.NEUTRAL, 0.5F, getRandomPitch(level));
-            if (!level.isClientSide) {
-                int fishingSpeedBonus = stack.getOrDefault(DataComponents.LURE, 0);
-                int luckBonus = stack.getOrDefault(DataComponents.LUCK_OF_THE_SEA, 0);
+            if (level instanceof ServerLevel serverlevel) {
+                int fishingSpeedBonus = (int)(EnchantmentHelper.getFishingTimeReduction(serverlevel, stack, player) * 20.0F);
+                int luckBonus = EnchantmentHelper.getFishingLuckBonus(serverlevel, stack, player);
                 FishingHook fishingHook = new FishingHook(player, level, fishingSpeedBonus, luckBonus);
                 if (hand == InteractionHand.MAIN_HAND) {
                     fishingHook.addTag(CRYSTAL_TOOLS_FISHING_MAIN_TAG);
@@ -66,12 +66,7 @@ public class CrystalFishingRod extends LevelableTool {
             player.gameEvent(GameEvent.ITEM_INTERACT_START);
         }
 
-        return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
-    }
-
-    @Override
-    public boolean isDisabled() {
-        return CrystalToolsConfig.DISABLE_FISHING_ROD.get();
+        return InteractionResult.SUCCESS;
     }
 
     @Override
@@ -80,7 +75,7 @@ public class CrystalFishingRod extends LevelableTool {
     }
 
     @Override
-    public boolean mineBlock(@NotNull ItemStack tool, Level level, @NotNull BlockState blockState, @NotNull BlockPos blockPos, @NotNull LivingEntity entity) {
+    public boolean mineBlock(ItemStack tool, Level level, BlockState blockState, BlockPos blockPos, LivingEntity entity) {
        return false;
     }
 

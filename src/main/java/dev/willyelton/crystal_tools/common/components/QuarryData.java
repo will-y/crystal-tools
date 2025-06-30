@@ -10,7 +10,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +26,7 @@ public record QuarryData(BlockPos miningAt, float currentProgress, BlockState mi
             Codec.BOOL.fieldOf("whitelist").forGetter(QuarryData::whitelist)
     ).apply(instance, QuarryData::new));
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, QuarryData> STREAM_CODEC = NeoForgeStreamCodecs.composite(
+    public static final StreamCodec<RegistryFriendlyByteBuf, QuarryData> STREAM_CODEC = StreamCodec.composite(
             BlockPos.STREAM_CODEC, QuarryData::miningAt,
             ByteBufCodecs.FLOAT, QuarryData::currentProgress,
             ByteBufCodecs.optional(ByteBufCodecs.idMapper(Block.BLOCK_STATE_REGISTRY)).map(blockState -> blockState.orElse(Blocks.AIR.defaultBlockState()), Optional::ofNullable), QuarryData::miningState,

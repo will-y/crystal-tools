@@ -22,17 +22,18 @@ import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 @EventBusSubscriber(modid = CrystalTools.MODID, value = Dist.CLIENT)
 public class RenderEvents {
     @SubscribeEvent
-    public static void handleRenderLevelStageEvent(RenderLevelStageEvent event) {
-        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_WEATHER) {
-            QuarryLaserRenderer.render(event);
-        }
+    public static void handleRenderLevelStageEvent(RenderLevelStageEvent.AfterWeather event) {
+        QuarryLaserRenderer.render(event);
+    }
 
-        if (CrystalToolsClientConfig.DISABLE_BLOCK_TARGET_RENDERING.get() || event.getStage() != RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS) {
+    @SubscribeEvent
+    public static void handleRenderLevelStageEvent(RenderLevelStageEvent.AfterTranslucentBlocks event) {
+        if (CrystalToolsClientConfig.DISABLE_BLOCK_TARGET_RENDERING.get()) {
             return;
         }
 
         Player player = Minecraft.getInstance().player;
-        if (player != null) {
+        if (player != null && !player.isCreative() && !player.isSpectator()) {
             ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
 
             if (RegisterKeyBindingsEvent.VEIN_MINE.isDown()
@@ -53,7 +54,7 @@ public class RenderEvents {
 
         Player player = Minecraft.getInstance().player;
 
-        if (player == null) return;
+        if (player == null || player.isCreative() || player.isSpectator()) return;
 
         if (event.getTarget() instanceof BlockHitResult blockHitResult) {
             BlockState state = player.level().getBlockState(blockHitResult.getBlockPos());
@@ -62,7 +63,7 @@ public class RenderEvents {
             if (stack.getItem() instanceof LevelableTool toolItem
                     && stack.getOrDefault(DataComponents.HAS_3x3, false)
                     && !stack.getOrDefault(DataComponents.DISABLE_3x3, false)) {
-                if (toolItem.correctTool(stack, state)) {
+                if (toolItem.isCorrectToolForDrops(stack, state)) {
                     event.setCanceled(true);
                 }
             }

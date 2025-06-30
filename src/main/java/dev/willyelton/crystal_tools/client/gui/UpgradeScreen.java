@@ -2,12 +2,15 @@ package dev.willyelton.crystal_tools.client.gui;
 
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.gui.component.SkillButton;
+import dev.willyelton.crystal_tools.common.capability.Levelable;
+import dev.willyelton.crystal_tools.common.capability.LevelableStack;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.CrystalBackpack;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillDataNode;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
+import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
 import dev.willyelton.crystal_tools.common.network.data.ResetSkillsPayload;
-import dev.willyelton.crystal_tools.common.network.data.ToolAttributePayload;
 import dev.willyelton.crystal_tools.common.network.data.ToolHealPayload;
+import dev.willyelton.crystal_tools.common.network.data.ToolSkillPayload;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
@@ -15,29 +18,34 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
 public class UpgradeScreen extends BaseUpgradeScreen {
+    @Nullable
     private Button healButton;
     private final ItemStack stack;
     private final Runnable onClose;
+    private final Levelable levelable;
+
     private int slotIndex = -1;
 
-    public UpgradeScreen(ItemStack itemStack, Player player) {
-        this(itemStack, player, null);
+    public UpgradeScreen(ItemStack itemStack, Player player, Levelable levelable) {
+        this(itemStack, player, null, levelable);
     }
 
-    public UpgradeScreen(int slotIndex, Player player, Runnable onClose) {
-        this(CrystalBackpack.getBackpackFromSlotIndex(player, slotIndex), player, onClose);
+    // TODO: Wrap this in something for backpack (for curios)
+    public UpgradeScreen(int slotIndex, Player player, Runnable onClose, Levelable levelable) {
+        this(CrystalBackpack.getBackpackFromSlotIndex(player, slotIndex), player, onClose, levelable);
         this.slotIndex = slotIndex;
     }
 
-    public UpgradeScreen(ItemStack itemStack, Player player, Runnable onClose) {
-        super(player, Component.literal("Upgrade Screen"));
+    public UpgradeScreen(ItemStack itemStack, Player player, Runnable onClose, Levelable levelable) {
+        super(player, Component.literal("Upgrade Screen"), levelable.getSkillTree(), levelable.getKey());
         this.stack = itemStack;
-        this.data = ToolUtils.getSkillData(itemStack);
         this.onClose = onClose;
+        this.levelable = levelable;
     }
 
     /**
@@ -46,6 +54,9 @@ public class UpgradeScreen extends BaseUpgradeScreen {
     @Override
     protected void initComponents() {
         super.initComponents();
+
+        if (levelable instanceof LevelableStack levelableStack && !levelableStack.allowRepair()) return;
+
         // add button to spend skill points to heal tool
         healButton = addRenderableWidget(Button.builder(Component.literal("Heal"), (button) -> {
             PacketDistributor.sendToServer(ToolHealPayload.INSTANCE);
@@ -62,11 +73,14 @@ public class UpgradeScreen extends BaseUpgradeScreen {
         if (!crystalRequired || this.player.getInventory().hasAnyOf(Set.of(Registration.CRYSTAL.get()))) {
             PacketDistributor.sendToServer(ResetSkillsPayload.INSTANCE);
             ToolUtils.resetPoints(this.stack);
-
-            data = ToolUtils.getSkillData(this.stack);
         }
 
         this.onClose();
+    }
+
+    @Override
+    public SkillPoints getPoints() {
+        return this.stack.getOrDefault(DataComponents.SKILL_POINT_DATA, new SkillPoints()).copy();
     }
 
     @Override
@@ -78,7 +92,9 @@ public class UpgradeScreen extends BaseUpgradeScreen {
     protected void updateButtons() {
         super.updateButtons();
         int skillPoints = getSkillPoints();
-        this.healButton.active = skillPoints > 0 && this.stack.isDamaged();
+        if (this.healButton != null) {
+            this.healButton.active = skillPoints > 0 && this.stack.isDamaged();
+        }
     }
 
     @Override
@@ -89,26 +105,28 @@ public class UpgradeScreen extends BaseUpgradeScreen {
 
         if (skillPoints > 0) {
             int pointsToSpend = 1;
-            if (node.getLimit() == 0) {
+            if (node.getLimit() == 0 || node.getLimit() > 1) {
                 pointsToSpend = getPointsToSpend(skillPoints, shift, control);
+
+                if (pointsToSpend > node.getLimit() && node.getLimit() > 1) {
+                    pointsToSpend = node.getLimit() - points.getPoints(node.getId());
+                }
             }
 
-            PacketDistributor.sendToServer(new ToolAttributePayload(node.getKey(), node.getValue(), node.getId(), slotIndex, pointsToSpend));
-            node.addPoint(pointsToSpend);
-            if (node.isComplete()) {
+            PacketDistributor.sendToServer(new ToolSkillPayload(node.getId(), key, pointsToSpend));
+            points.addPoints(node.getId(), pointsToSpend);
+            DataComponents.addToComponent(stack, DataComponents.SKILL_POINTS, -pointsToSpend);
+            if (points.getPoints(node.getId()) >= node.getLimit() && node.getLimit() != 0) {
                 ((SkillButton) button).setComplete();
             }
-
-            changeSkillPoints(-pointsToSpend);
         }
 
         super.onSkillButtonPress(node, button);
     }
 
     @Override
-    protected void changeSkillPoints(int change) {
+    protected void changeClientSkillPoints(int change) {
         DataComponents.addToComponent(stack, DataComponents.SKILL_POINTS, change);
-        PacketDistributor.sendToServer(new ToolAttributePayload("skill_points", change, -1, slotIndex, 1));
     }
 
     @Override
@@ -122,5 +140,15 @@ public class UpgradeScreen extends BaseUpgradeScreen {
         if (this.onClose != null) {
             this.onClose.run();
         }
+    }
+
+    @Override
+    protected boolean allowReset() {
+        return levelable.allowReset();
+    }
+
+    @Override
+    protected boolean allowXpLevels() {
+        return levelable.allowXpLevels();
     }
 }

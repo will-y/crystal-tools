@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": "crystal_tools:crystal",
+    "i": "crystal_tools:netherite_infused_crystal_shard",
+    "n": "minecraft:netherite_ingot"
+  },
+  "pattern": [
+    "iii",
+    "ici",
+    "ini"
+  ],
+  "result": {
+    "count": 1,
+    "id": "crystal_tools:crystal_upgrade_smithing_template"
+  }
+}

@@ -1,13 +1,15 @@
 package dev.willyelton.crystal_tools.utils;
 
-import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
+import dev.willyelton.crystal_tools.common.capability.Capabilities;
+import dev.willyelton.crystal_tools.common.capability.Levelable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 public class ItemStackUtils {
     public static ItemStack getHeldLevelableTool(Player player) {
-        for (ItemStack i : player.getHandSlots()) {
-            if (i.getItem() instanceof LevelableItem) {
+        for (ItemStack i : InventoryUtils.getHandItems(player)) {
+            Levelable levelable = i.getCapability(Capabilities.ITEM_SKILL, player.level().registryAccess());
+            if (levelable != null) {
                 return i;
             }
         }

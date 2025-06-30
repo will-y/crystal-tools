@@ -1,19 +1,13 @@
 package dev.willyelton.crystal_tools.utils;
 
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.world.item.ItemStack;
-
-import java.util.ArrayList;
-import java.util.List;
+import net.minecraft.world.level.storage.ValueInput;
 
 public class NBTUtils {
-    public static int[] getIntArray(CompoundTag tag, String arrayKey, int size) {
+    public static int[] getIntArray(ValueInput valueInput, String arrayKey, int size) {
         int[] array;
 
-        if (tag.contains(arrayKey)) {
-            array = tag.getIntArray(arrayKey);
+        if (valueInput.keySet().contains(arrayKey)) {
+            array = valueInput.getIntArray(arrayKey).orElse(new int[size]);
             if (array.length == 0 && size > 0) {
                 array = new int[size];
             }
@@ -26,34 +20,5 @@ public class NBTUtils {
         }
 
         return array;
-    }
-
-    public static void storeItemStackArray(CompoundTag tag, List<ItemStack> stackList, HolderLookup.Provider levelRegistry) {
-        ListTag listTag = new ListTag();
-
-        for (ItemStack stack : stackList) {
-            CompoundTag stackTag = new CompoundTag();
-            listTag.add(stack.save(levelRegistry, stackTag));
-        }
-
-        if (!listTag.isEmpty()) {
-            tag.put("Items", listTag);
-        }
-    }
-
-    public static List<ItemStack> getItemStackArray(CompoundTag tag, HolderLookup.Provider levelRegistry) {
-        List<ItemStack> stacks = new ArrayList<>();
-        ListTag listTag = tag.getList("Items", 10);
-
-        for (int i = 0; i < listTag.size(); i++) {
-            CompoundTag stackTag = listTag.getCompound(i);
-            ItemStack stack = ItemStack.parse(levelRegistry, stackTag).orElse(ItemStack.EMPTY);
-
-            if (!stack.isEmpty()) {
-                stacks.add(stack);
-            }
-        }
-
-        return stacks;
     }
 }

@@ -1,22 +1,9 @@
 {
-  "neoforge:conditions": [
-    {
-      "type": "neoforge:not",
-      "value": {
-        "type": "crystal_tools:item_disabled",
-        "itemLocation": "crystal_tools:crystal_pickaxe"
-      }
-    }
-  ],
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "c": {
-      "item": "crystal_tools:crystal"
-    },
-    "s": {
-      "tag": "c:rods/netherite"
-    }
+    "c": "crystal_tools:crystal",
+    "s": "#c:rods/netherite"
   },
   "pattern": [
     "ccc",

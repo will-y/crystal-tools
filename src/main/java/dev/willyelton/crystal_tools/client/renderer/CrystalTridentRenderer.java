@@ -11,11 +11,11 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.entity.state.ThrownTridentRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 
-public class CrystalTridentRenderer extends EntityRenderer<CrystalTridentEntity> {
+public class CrystalTridentRenderer extends EntityRenderer<CrystalTridentEntity, ThrownTridentRenderState> {
     public static final ResourceLocation CRYSTAL_TRIDENT_LOCATION = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/entity/crystal_trident.png");
 
     private final TridentModel model;
@@ -26,19 +26,25 @@ public class CrystalTridentRenderer extends EntityRenderer<CrystalTridentEntity>
     }
 
     @Override
-    public void render(CrystalTridentEntity entity, float entityYaw, float partialTicks, PoseStack poseStack,
-                       MultiBufferSource buffer, int packedLight) {
+    public void render(ThrownTridentRenderState renderState, PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight) {
         poseStack.pushPose();
-        poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTicks, entity.yRotO, entity.getYRot()) - 90.0F));
-        poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTicks, entity.xRotO, entity.getXRot()) + 90.0F));
-        VertexConsumer vertexconsumer = ItemRenderer.getFoilBufferDirect(buffer, this.model.renderType(this.getTextureLocation(entity)), false, false);
+        poseStack.mulPose(Axis.YP.rotationDegrees(renderState.yRot - 90.0F));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(renderState.xRot + 90.0F));
+        VertexConsumer vertexconsumer = ItemRenderer.getFoilBuffer(multiBufferSource, this.model.renderType(CRYSTAL_TRIDENT_LOCATION), false, false);
         this.model.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY);
         poseStack.popPose();
-        super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
+        super.render(renderState, poseStack, multiBufferSource, packedLight);
     }
 
     @Override
-    public ResourceLocation getTextureLocation(CrystalTridentEntity pEntity) {
-        return CRYSTAL_TRIDENT_LOCATION;
+    public ThrownTridentRenderState createRenderState() {
+        return new ThrownTridentRenderState();
+    }
+
+    @Override
+    public void extractRenderState(CrystalTridentEntity entity, ThrownTridentRenderState reusedState, float partialTick) {
+        super.extractRenderState(entity, reusedState, partialTick);
+        reusedState.yRot = entity.getYRot();
+        reusedState.xRot = entity.getXRot();
     }
 }

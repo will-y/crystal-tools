@@ -10,7 +10,7 @@ public class WhitelistToggleButton extends BackpackActionButton {
         super(x, y, Component.literal("Whitelist"), onPress, (button, guiGraphics, mouseX, mouseY) -> {
             if (button instanceof WhitelistToggleButton toggleButton) {
                 Component tooltip = toggleButton.isWhitelist ? Component.literal("Whitelist") : Component.literal("Blacklist");
-                guiGraphics.renderTooltip(screen.getMinecraft().font, screen.getMinecraft().font.split(tooltip, Math.max(screen.width / 2 - 43, 170)), mouseX, mouseY);
+                guiGraphics.setTooltipForNextFrame(screen.getMinecraft().font, screen.getMinecraft().font.split(tooltip, Math.max(screen.width / 2 - 43, 170)), mouseX, mouseY);
             }
         }, 0);
         this.isWhitelist = isWhitelist;

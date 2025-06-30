@@ -20,6 +20,18 @@ java {
     }
 }
 
+// Required because all of my datagen outputs have a duplicate cache file name
+tasks.withType(ProcessResources) {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE // Example
+}
+
+// Made this so that the dev environment has the vanilla skill tress but the build doesn't
+sourceSets {
+    vanilla {
+        depends.on sourceSets.main
+    }
+}
+
 runs {
     // applies to all the run configs below
     configureEach {
@@ -39,12 +51,21 @@ runs {
     }
 
     client {
+        // Uncomment this to test vanilla trees
+//        modSource sourceSets.vanilla
+//        sourceSets.vanilla.resources {srcDir 'src/generated/vanilla/full'}
         // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
         systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
         systemProperty 'guideme.crystal_tools.guide.sources', file('src/main/resources/assets/crystal_tools/guides/crystal_tools/guide').absolutePath
+
+//        renderDoc {
+//            enabled true
+//        }
     }
 
     server {
+//        modSource sourceSets.vanilla
+//        sourceSets.vanilla.resources {srcDir 'src/generated/vanilla/full'}
         systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
         programArgument '--nogui'
     }
@@ -56,12 +77,20 @@ runs {
         systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
     }
 
-    data {
+    clientData {
         // example of overriding the workingDirectory set in configureEach above, uncomment if you want to use it
         // workingDirectory project.file('run-data')
 
         // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
         programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+    }
+
+    serverData {
+        // example of overriding the workingDirectory set in configureEach above, uncomment if you want to use it
+        // workingDirectory project.file('run-data')
+
+        // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
+        programArguments.addAll '--mod', project.mod_id, '--all', '--existing', file('src/main/resources/').getAbsolutePath()
     }
 }
 
@@ -103,22 +132,22 @@ dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
     compileOnly "mezz.jei:jei-1.21-common-api:${jei_version}"
     compileOnly "mezz.jei:jei-1.21-neoforge-api:${jei_version}"
-    runtimeOnly "mezz.jei:jei-1.21-neoforge:${jei_version}"
+//    runtimeOnly "mezz.jei:jei-1.21-neoforge:${jei_version}"
     // Compile against only the API artifact
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
     // Use the full Curios API jar at runtime
-    runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+//    runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}"
 
-    compileOnly "curse.maven:jade-api-324717:${jade_api_id}"
-    runtimeOnly "curse.maven:jade-324717:${jade_id}"
-
-    runtimeOnly "mekanism:Mekanism:${mekanism_version}"// Mekanism
-    runtimeOnly "mekanism:Mekanism:${mekanism_version}:additions"// Mekanism: Additions
-    runtimeOnly "mekanism:Mekanism:${mekanism_version}:generators"// Mekanism: Generators
-    runtimeOnly "mekanism:Mekanism:${mekanism_version}:tools"// Mekanism: Tools
-
+//    compileOnly "curse.maven:jade-api-324717:${jade_api_id}"
+//    runtimeOnly "curse.maven:jade-324717:${jade_id}"
+//
+//    runtimeOnly "mekanism:Mekanism:${mekanism_version}"// Mekanism
+//    runtimeOnly "mekanism:Mekanism:${mekanism_version}:additions"// Mekanism: Additions
+//    runtimeOnly "mekanism:Mekanism:${mekanism_version}:generators"// Mekanism: Generators
+//    runtimeOnly "mekanism:Mekanism:${mekanism_version}:tools"// Mekanism: Tools
+//
     compileOnly "org.appliedenergistics:guideme:${guideme_version}:api"
-    runtimeOnly "org.appliedenergistics:guideme:${guideme_version}"
+//    runtimeOnly "org.appliedenergistics:guideme:${guideme_version}"
 
 
 //    implementation("io.wispforest:accessories-neoforge:${accessories_version}")

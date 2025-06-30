@@ -1,6 +1,5 @@
 package dev.willyelton.crystal_tools.client.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalQuarryContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenType;
 import net.minecraft.client.gui.GuiGraphics;
@@ -12,7 +11,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
 import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.ROW_HEIGHT;
-import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.TEXTURE;
 import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.TOP_BAR_HEIGHT;
 
 public class QuarrySettingsScreen extends BackpackSubScreen<CrystalQuarryContainerMenu, CrystalQuarryScreen> {
@@ -94,9 +92,6 @@ public class QuarrySettingsScreen extends BackpackSubScreen<CrystalQuarryContain
 
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
-
         drawTopBar(guiGraphics);
 
         for (int i = 0; i < 6; i++) {

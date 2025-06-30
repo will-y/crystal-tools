@@ -39,7 +39,7 @@ public class LevelTickEvent {
 
                 if (projectile != null && target != null && !projectile.isRemoved()
                         && !target.isRemoved() && projectile instanceof Projectile projectileEntity &&
-                        !(projectileEntity instanceof AbstractArrow arrow && arrow.inGround) && !(projectileEntity instanceof ThrownTrident trident && trident.dealtDamage)) {
+                        !(projectileEntity instanceof AbstractArrow arrow && arrow.isInGround()) && !(projectileEntity instanceof ThrownTrident trident && trident.dealtDamage)) {
                     double speed = Math.max(projectileData.initialSpeed, 1);
                     projectileEntity.lookAt(EntityAnchorArgument.Anchor.EYES, target.position());
                     projectileEntity.setNoGravity(true);

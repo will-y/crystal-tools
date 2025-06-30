@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "crystal_tools:block/crystal_furnace"
+  }
+}

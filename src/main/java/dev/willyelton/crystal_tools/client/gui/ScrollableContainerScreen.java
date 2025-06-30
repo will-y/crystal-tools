@@ -7,6 +7,7 @@ import dev.willyelton.crystal_tools.common.network.data.ScrollPayload;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -114,27 +115,27 @@ public abstract class ScrollableContainerScreen<T extends AbstractContainerMenu 
             int scrollYEnd = scrollYActual + scrollHeight;
 
             // Draw top
-            guiGraphics.blit(TEXTURE, scrollXActual, topPos, 0, 0, SCROLL_WIDTH + 7, scrollY);
+            guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, scrollXActual, topPos, 0, 0, SCROLL_WIDTH + 7, scrollY, 256, 256);
 
             int heightDrawn = 1;
 
             // Top Pixel
-            guiGraphics.blit(TEXTURE, scrollXActual, scrollYActual, SCROLL_WIDTH + 7, 0, SCROLL_WIDTH + 7, 1);
+            guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, scrollXActual, scrollYActual, SCROLL_WIDTH + 7, 0, SCROLL_WIDTH + 7, 1, 256, 256);
 
             while (heightDrawn < scrollHeight - 254) {
-                guiGraphics.blit(TEXTURE, scrollXActual, scrollYActual + heightDrawn, SCROLL_WIDTH + 7, 1, SCROLL_WIDTH + 7, 254);
+                guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, scrollXActual, scrollYActual + heightDrawn, SCROLL_WIDTH + 7, 1, SCROLL_WIDTH + 7, 254, 256, 256);
                 heightDrawn += 254;
             }
 
             int remainingHeight = scrollHeight - heightDrawn;
 
-            guiGraphics.blit(TEXTURE, scrollXActual, scrollYActual + heightDrawn, SCROLL_WIDTH + 7, 256 - remainingHeight, SCROLL_WIDTH + 7, remainingHeight);
+            guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, scrollXActual, scrollYActual + heightDrawn, SCROLL_WIDTH + 7, 256 - remainingHeight, SCROLL_WIDTH + 7, remainingHeight, 256, 256);
 
             // Draw bottom
-            guiGraphics.blit(TEXTURE, scrollXActual, scrollYActual + scrollHeight, 0, 251, SCROLL_WIDTH + 7, 5);
+            guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, scrollXActual, scrollYActual + scrollHeight, 0, 251, SCROLL_WIDTH + 7, 5, 256, 256);
 
             // Draw handle
-            guiGraphics.blit(TEXTURE, scrollXActual + 1, scrollYActual + 1 + (int) ((float) (scrollYEnd - scrollYActual - 17) * scrollOffset), (SCROLL_WIDTH + 7) * 2, 0, HANDLE_WIDTH, HANDLE_HEIGHT);
+            guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, scrollXActual + 1, scrollYActual + 1 + (int) ((float) (scrollYEnd - scrollYActual - 17) * scrollOffset), (SCROLL_WIDTH + 7) * 2, 0, HANDLE_WIDTH, HANDLE_HEIGHT, 256, 256);
         }
     }
 

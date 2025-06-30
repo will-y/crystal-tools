@@ -9,7 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.FastColor;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -155,7 +155,7 @@ public class QuarryLaserRenderer {
         x3 = -glowRadius;
         maxV = -1.0F + f2;
         minV = height + maxV;
-        renderPart(poseStack, bufferSource.getBuffer(CrystalToolsRenderTypes.QUARRY_LASER), FastColor.ARGB32.color(54, color),
+        renderPart(poseStack, bufferSource.getBuffer(CrystalToolsRenderTypes.QUARRY_LASER), ARGB.color(54, color),
                 0, yMax, x1, f4, glowRadius, z2, x3, glowRadius, glowRadius, glowRadius, 0.0F, 1.0F, minV, maxV);
         poseStack.popPose();
     }

@@ -1,3 +1,6 @@
 {
-  "parent": "crystal_tools:block/crystal_ore"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "crystal_tools:item/crystal_ore"
+  }
 }

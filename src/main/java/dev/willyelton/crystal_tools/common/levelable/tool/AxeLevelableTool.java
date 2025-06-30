@@ -1,9 +1,9 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
-import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.VeinMiners;
-import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
+import dev.willyelton.crystal_tools.common.components.DataComponents;
+import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.BlockCollectors;
 import dev.willyelton.crystal_tools.utils.ToolUseUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
@@ -19,22 +19,16 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 
 public class AxeLevelableTool extends DiggerLevelableTool {
-    public AxeLevelableTool() {
-        super(new Item.Properties(), BlockTags.MINEABLE_WITH_AXE, "axe", 5.0F, -3.0F);
+    public AxeLevelableTool(Item.Properties properties) {
+        super(properties.axe(CRYSTAL, 5.0F, -3.0F));
     }
 
     @Override
-    public @NotNull InteractionResult useOn(@NotNull UseOnContext context) {
-        if (this.isDisabled()) {
-            context.getItemInHand().shrink(1);
-            return InteractionResult.FAIL;
-        }
-
+    public InteractionResult useOn(UseOnContext context) {
         return ToolUseUtils.useOnAxeVeinStrip(context, this);
     }
 
@@ -59,16 +53,6 @@ public class AxeLevelableTool extends DiggerLevelableTool {
     }
 
     @Override
-    public boolean correctTool(ItemStack tool, BlockState blockState) {
-        return super.correctTool(tool, blockState) || (tool.getOrDefault(DataComponents.LEAF_MINE, false) && blockState.is(BlockTags.LEAVES));
-    }
-
-    @Override
-    public boolean isDisabled() {
-        return CrystalToolsConfig.DISABLE_AXE.get();
-    }
-
-    @Override
     public int getMaxBlocks(ItemStack stack) {
         if (ToolUtils.isBroken(stack)) return 0;
         return CrystalToolsConfig.AXE_VEIN_MINER_DEFAULT_RANGE.get() + stack.getOrDefault(DataComponents.VEIN_MINER, 0) - 1;
@@ -77,5 +61,14 @@ public class AxeLevelableTool extends DiggerLevelableTool {
     @Override
     public boolean canVeinMin(ItemStack stack, BlockState blockState) {
         return blockState.is(BlockTags.MINEABLE_WITH_AXE) || (stack.getOrDefault(DataComponents.LEAF_MINE, false) && blockState.is(BlockTags.LEAVES));
+    }
+
+    // TODO: Need to find a way to do this another way so I don't need this class.
+    @Override
+    public float getDestroySpeed(ItemStack stack, BlockState state) {
+        if (state.is(BlockTags.LEAVES) && stack.getOrDefault(DataComponents.LEAF_MINE, false)) {
+            return 10.0F;
+        }
+        return super.getDestroySpeed(stack, state);
     }
 }

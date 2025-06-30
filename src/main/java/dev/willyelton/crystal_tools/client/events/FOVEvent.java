@@ -20,7 +20,7 @@ public class FOVEvent {
         if (player.isUsingItem()) {
             if (itemStack.getItem() instanceof BowLevelableItem item) {
                 int i = player.getTicksUsingItem();
-                float f1 = (float) i / item.getChargeTime(itemStack);
+                float f1 = (float) i / BowLevelableItem.getChargeTime(itemStack);
                 if (f1 > 1.0F) {
                     f1 = 1.0F;
                 } else {

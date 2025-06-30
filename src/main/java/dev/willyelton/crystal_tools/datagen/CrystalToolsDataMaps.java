@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.datagen;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.datamap.DataMaps;
 import dev.willyelton.crystal_tools.common.datamap.GeneratorFuelData;
+import dev.willyelton.crystal_tools.common.datamap.SkillTreeData;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.entity.EntityType;
@@ -11,6 +12,8 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.DataMapProvider;
 
 import java.util.concurrent.CompletableFuture;
+
+import static dev.willyelton.crystal_tools.CrystalTools.rl;
 
 public class CrystalToolsDataMaps extends DataMapProvider {
     public CrystalToolsDataMaps(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider) {
@@ -29,6 +32,9 @@ public class CrystalToolsDataMaps extends DataMapProvider {
                 .add(Items.PRISMARINE_SHARD.builtInRegistryHolder(), new GeneratorFuelData(1800, 20), false)
                 .add(Items.QUARTZ.builtInRegistryHolder(), new GeneratorFuelData(1800, 20), false)
                 .add(Registration.CRYSTAL_BLOCK_ITEM, new GeneratorFuelData(97200, 100), false)
+                .add(Registration.CRYSTAL_GEODE_BLOCK_ITEM, new GeneratorFuelData(5400, 20), false)
+                .add(Registration.NETHERITE_INFUSED_CRYSTAL_GEODE_BLOCK_ITEM, new GeneratorFuelData(5400, 20), false)
+                .add(Registration.NETHERITE_INFUSED_CRYSTAL_SHARD, new GeneratorFuelData(1200, 20), false)
                 .add(Items.AMETHYST_BLOCK.builtInRegistryHolder(), new GeneratorFuelData(16200, 20), false)
                 .add(Items.DIAMOND_BLOCK.builtInRegistryHolder(), new GeneratorFuelData(48600, 80), false)
                 .add(Items.EMERALD_BLOCK.builtInRegistryHolder(), new GeneratorFuelData(32400, 40), false)
@@ -54,7 +60,7 @@ public class CrystalToolsDataMaps extends DataMapProvider {
                 .add(Tags.Items.INGOTS, new GeneratorFuelData(800, 5), false)
                 .build();
 
-        builder(DataMaps.MOB_SKULLS)
+        builder(DataMaps.MOB_HEADS)
                 .add(EntityType.ZOMBIE.builtInRegistryHolder(), Items.ZOMBIE_HEAD, false)
                 .add(EntityType.CREEPER.builtInRegistryHolder(), Items.CREEPER_HEAD, false)
                 .add(EntityType.PIGLIN.builtInRegistryHolder(), Items.PIGLIN_HEAD, false)
@@ -63,5 +69,61 @@ public class CrystalToolsDataMaps extends DataMapProvider {
                 .add(EntityType.SKELETON.builtInRegistryHolder(), Items.SKELETON_SKULL, false)
                 .add(EntityType.WITHER_SKELETON.builtInRegistryHolder(), Items.WITHER_SKELETON_SKULL, false)
                 .add(EntityType.PLAYER.builtInRegistryHolder(), Items.PLAYER_HEAD, false);
+
+        var builder = builder(DataMaps.SKILL_TREES)
+                .add(Registration.CRYSTAL_PICKAXE, new SkillTreeData(rl("crystal_pickaxe"), true, false), false)
+                .add(Registration.CRYSTAL_HOE, new SkillTreeData(rl("crystal_hoe"), true, false), false)
+                .add(Registration.CRYSTAL_SHOVEL, new SkillTreeData(rl("crystal_shovel"), true, false), false)
+                .add(Registration.CRYSTAL_AXE, new SkillTreeData(rl("crystal_axe")), false)
+                .add(Registration.CRYSTAL_AIOT, new SkillTreeData(rl("crystal_aiot")), false)
+                .add(Registration.CRYSTAL_FISHING_ROD, new SkillTreeData(rl("crystal_fishing_rod"), false, false), false)
+                .add(Registration.CRYSTAL_SHIELD, new SkillTreeData(rl("crystal_shield"), false, true), false)
+                .add(Registration.CRYSTAL_SWORD, new SkillTreeData(rl("crystal_sword"), 0.8F), false)
+                .add(Registration.CRYSTAL_BOW, new SkillTreeData(rl("crystal_bow"), false, true), false)
+                .add(Registration.CRYSTAL_TRIDENT, new SkillTreeData(rl("crystal_trident"), false, true), false)
+                .add(Registration.CRYSTAL_APPLE, new SkillTreeData(rl("crystal_apple"), 0.5F, false, false), false)
+                .add(Registration.CRYSTAL_HELMET, new SkillTreeData(rl("crystal_helmet"), 2.0F, false, false), false)
+                .add(Registration.CRYSTAL_CHESTPLATE, new SkillTreeData(rl("crystal_chestplate"), 2.0F, false, false), false)
+                .add(Registration.CRYSTAL_LEGGINGS, new SkillTreeData(rl("crystal_leggings"), 2.0F, false, false), false)
+                .add(Registration.CRYSTAL_BOOTS, new SkillTreeData(rl("crystal_boots"), 2.0F, false, false), false)
+                .add(Registration.CRYSTAL_ELYTRA, new SkillTreeData(rl("crystal_elytra"), false, false), false)
+                .add(Registration.CRYSTAL_ROCKET, new SkillTreeData(rl("crystal_rocket"), 5.0F, false, false), false)
+                .add(Registration.CRYSTAL_BACKPACK, new SkillTreeData(rl("crystal_backpack"), 125, 1, false, true, true, false, false), false);
+
+        builder.add(Items.DIAMOND_PICKAXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_pickaxe"), 0, 1, false, false, false, true, false), false)
+                .add(Items.DIAMOND_AXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_axe"), 0, 1, false, false, false, true, true), false)
+                .add(Items.DIAMOND_HOE.builtInRegistryHolder(), new SkillTreeData(rl("simple_hoe"), 0, 1, false, false, false, true, false), false)
+                .add(Items.DIAMOND_SHOVEL.builtInRegistryHolder(), new SkillTreeData(rl("simple_shovel"), 0, 1, false, false, false, true, false), false)
+                .add(Items.DIAMOND_SWORD.builtInRegistryHolder(), new SkillTreeData(rl("simple_sword"), 0, 1, false, false, false, true, true), false)
+
+                .add(Items.IRON_PICKAXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_pickaxe"), 0, 2, false, false, false, true, false), false)
+                .add(Items.IRON_AXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_axe"), 0, 2, false, false, false, true, true), false)
+                .add(Items.IRON_HOE.builtInRegistryHolder(), new SkillTreeData(rl("simple_hoe"), 0, 2, false, false, false, true, false), false)
+                .add(Items.IRON_SHOVEL.builtInRegistryHolder(), new SkillTreeData(rl("simple_shovel"), 0, 2, false, false, false, true, false), false)
+                .add(Items.IRON_SWORD.builtInRegistryHolder(), new SkillTreeData(rl("simple_sword"), 0, 2, false, false, false, true, true), false)
+
+                .add(Items.GOLDEN_PICKAXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_pickaxe"), -20, 2, false, false, false, true, false), false)
+                .add(Items.GOLDEN_AXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_axe"), -20, 2, false, false, false, true, true), false)
+                .add(Items.GOLDEN_HOE.builtInRegistryHolder(), new SkillTreeData(rl("simple_hoe"), -20, 2, false, false, false, true, false), false)
+                .add(Items.GOLDEN_SHOVEL.builtInRegistryHolder(), new SkillTreeData(rl("simple_shovel"), -20, 2, false, false, false, true, false), false)
+                .add(Items.GOLDEN_SWORD.builtInRegistryHolder(), new SkillTreeData(rl("simple_sword"), -20, 2, false, false, false, true, true), false)
+
+                .add(Items.STONE_PICKAXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_pickaxe"), -10, 2, false, false, false, true, false), false)
+                .add(Items.STONE_AXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_axe"), -10, 2, false, false, false, true, true), false)
+                .add(Items.STONE_HOE.builtInRegistryHolder(), new SkillTreeData(rl("simple_hoe"), -10, 2, false, false, false, true, false), false)
+                .add(Items.STONE_SHOVEL.builtInRegistryHolder(), new SkillTreeData(rl("simple_shovel"), -10, 2, false, false, false, true, false), false)
+                .add(Items.STONE_SWORD.builtInRegistryHolder(), new SkillTreeData(rl("simple_sword"), -10, 2, false, false, false, true, true), false)
+
+                .add(Items.WOODEN_PICKAXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_pickaxe"), -20, 2, false, false, false, true, false), false)
+                .add(Items.WOODEN_AXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_axe"), -20, 2, false, false, false, true, true), false)
+                .add(Items.WOODEN_HOE.builtInRegistryHolder(), new SkillTreeData(rl("simple_hoe"), -20, 2, false, false, false, true, false), false)
+                .add(Items.WOODEN_SHOVEL.builtInRegistryHolder(), new SkillTreeData(rl("simple_shovel"), -20, 2, false, false, false, true, false), false)
+                .add(Items.WOODEN_SWORD.builtInRegistryHolder(), new SkillTreeData(rl("simple_sword"), -20, 2, false, false, false, true, true), false);
+
+        builder.add(Items.NETHERITE_PICKAXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_pickaxe"), 0, 1, false, false, false, true, false), false)
+                .add(Items.NETHERITE_AXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_axe"), 0, 1, false, false, false, true, true), false)
+                .add(Items.NETHERITE_HOE.builtInRegistryHolder(), new SkillTreeData(rl("simple_hoe"), 0, 1, false, false, false, true, false), false)
+                .add(Items.NETHERITE_SHOVEL.builtInRegistryHolder(), new SkillTreeData(rl("simple_shovel"), 0, 1, false, false, false, true, false), false)
+                .add(Items.NETHERITE_SWORD.builtInRegistryHolder(), new SkillTreeData(rl("simple_sword"), 0, 1, false, false, false, true, true), false);
     }
 }

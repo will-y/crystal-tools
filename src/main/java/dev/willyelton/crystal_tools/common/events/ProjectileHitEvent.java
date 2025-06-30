@@ -1,9 +1,8 @@
 package dev.willyelton.crystal_tools.common.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.Registration;
-import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
+import dev.willyelton.crystal_tools.common.capability.Capabilities;
+import dev.willyelton.crystal_tools.common.capability.LevelableStack;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -28,15 +27,16 @@ public class ProjectileHitEvent {
                     event.getRayTraceResult() instanceof EntityHitResult hitResult) {
                 if (hitResult.getEntity() instanceof LivingEntity target && ToolUtils.isValidEntity(target)) {
                     ItemStack heldItem = player.getMainHandItem();
-
-                    if (heldItem.is(Registration.CRYSTAL_BOW.get())) {
+                    LevelableStack levelable = heldItem.getCapability(Capabilities.ITEM_SKILL, player.level().registryAccess());
+                    if (levelable != null) {
                         if (event.getProjectile() instanceof AbstractArrow arrow) {
                             float f = (float) arrow.getDeltaMovement().length();
                             // This is how they get damage, ignore crits for now
-                            int damage = Mth.ceil(Mth.clamp((double) f * arrow.getBaseDamage(), 0.0D, 2.147483647E9D));
+                            int damage = Mth.ceil(Mth.clamp((double) f * 2, 0.0D, 2.147483647E9D));
 
-                            LevelableItem item = (LevelableItem) Registration.CRYSTAL_BOW.get();
-                            item.addExp(heldItem, player.level(), player.getOnPos(), player, (int) (damage * CrystalToolsConfig.BOW_EXPERIENCE_BOOST.get()));
+                            if (levelable.allowDamageXp()) {
+                                levelable.addExp(player.level(), player.getOnPos(), player, (float) damage);
+                            }
                         }
                     }
                 }

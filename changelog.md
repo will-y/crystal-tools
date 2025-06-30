@@ -1,4 +1,83 @@
 # Crystal Tools Change Log
+
+## 3.0.0 - beta 8
+### Additions
+- Adds The Crystal Geode
+  - Spawns at the bottom of the nether
+- Adds the following blocks:
+  - Crystal Geode
+  - Netherite Infused Crystal Geode
+- Adds the following items:
+  - Netherite Infused Crystal Shard
+  - Crystal Upgrade Smithing Template
+
+### Changes
+- Armor is now crafted in a smithing table with a Crystal Upgrade Smithing Template, a crystal, and the netherite armor
+
+### Fixes
+- Fixes the tooltips being wrong before they were used at least once
+- Fixes block overlays rendering in creative and spectator
+
+## 3.0.0 - beta 7
+### Fixes
+- Fixes the block highlighting renderer
+- Fixes unspent points not rendering in the upgrade screen
+- Fixes screen getting into a bugged state when resizing the screen
+
+## 3.0.0 - beta 6
+### Additions
+- Adds 2 new fields to the skill tree datamap
+  - `allowMiningXp`: Allows tools to get experience from mining
+  - `allowDamageXp`: Allows tools to get experience from attacking
+
+### Changes
+- Removes the config option `BACKPACK_BASE_EXPERIENCE_CAP`, this is handled in the skill tree datamap now
+- The backpack now has a base experience cap of 200
+- Removes all disable config options
+  - If you don't want certain tools, see the section in the readme about removing skill trees from items, or remove the crafting recipe.
+- Made the default screen opacity 1
+- Updates to work with neo version 21.6.16-beta
+
+### Fixes
+- Fixes the crystal elytra taking damage when you break blocks with it
+
+## 3.0.0 - beta 5
+### Additions
+- Adds new server config option: `vanilla_skill_trees`
+  - Allows you to turn on and off vanilla skill trees without a datamap or data pack
+
+### Fixes
+- Fixes issue with the recipes for the crystal elytra and crystal AIOT
+- Fixes issue with the quarry not unloading chunks when broken
+- Fixes background opacity config option not working
+
+## 3.0.0 - beta 4
+- Updates to Minecraft 1.21.6
+
+## 3.0.0 - beta 3
+### Fixes
+- Fixes part of the quarry renderer being all black
+- Fixes the `ENCHANT_TOOLS` config option
+- Fixes some crystal tools being enchantable in the enchanting table
+- Fixes shear skill being missing on the crystal hoe
+
+## 3.0.0 - beta 2
+### Changes
+- Skill trees can now be applied to vanilla (or other modded) tools
+- Skill trees are now assigned to items through a datamap `skill_trees` (see readme for more details)
+- Skill trees are now a capability
+- Removed all experience boost configs (they are configured through the datamap now)
+- Removed the reach config option (was no longer used)
+
+## 3.0.0 - beta 1
+### Changes
+- Renames data map `mob_skills` to `mob_heads`
+- Redesigns skill trees to now be a registry
+  - The format of all skill trees is changed
+    - See built in datapack for examples
+  - Skill trees are now located in `crystal_tools/crystal_tools/skill_trees/item` and `crystal_tools/crystal_tools/skill_trees/block`
+  - This should allow for easier customization for datapacks
+
 ## 2.3.2
 ### Additions
 - Adds two new upgrade for the sword, bow, AIOT, and trident
@@ -8,9 +87,6 @@
 - Adds a toggle to disable auto targeting (shift + mode switch key)
 - Adds a sweeping edge upgrade to the sword and aiot
 - Adds a swift sneak upgrade to the leggings
-
-### Fixes
-- Fixes the fortune tooltip being incorrect on the quarry
 
 ## 2.3.1
 ### Additions

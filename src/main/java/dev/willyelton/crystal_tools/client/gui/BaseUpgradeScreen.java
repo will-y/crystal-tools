@@ -1,19 +1,16 @@
 package dev.willyelton.crystal_tools.client.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.BufferUploader;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.config.CrystalToolsClientConfig;
 import dev.willyelton.crystal_tools.client.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.client.gui.component.XpButton;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillDataNode;
+import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillSubText;
+import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.NodeOrSkillDataRequirement;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.NodeSkillDataRequirement;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.NotNodeSkillDataRequirement;
@@ -21,25 +18,33 @@ import dev.willyelton.crystal_tools.common.levelable.skill.requirement.Requireme
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataNodeRequirement;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirement;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillItemRequirement;
+import dev.willyelton.crystal_tools.common.network.data.PointsFromXpPayload;
 import dev.willyelton.crystal_tools.common.network.data.RemoveItemPayload;
-import dev.willyelton.crystal_tools.common.network.data.RemoveXpPayload;
 import dev.willyelton.crystal_tools.utils.Colors;
 import dev.willyelton.crystal_tools.utils.InventoryUtils;
+import dev.willyelton.crystal_tools.utils.ListUtils;
 import dev.willyelton.crystal_tools.utils.XpUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.gui.navigation.ScreenRectangle;
+import net.minecraft.client.gui.render.TextureSetup;
+import net.minecraft.client.gui.render.state.GuiElementRenderState;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
-import org.joml.Matrix4f;
+import org.jetbrains.annotations.Nullable;
+import org.joml.Matrix3x2f;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.HashMap;
@@ -56,6 +61,7 @@ public abstract class BaseUpgradeScreen extends Screen {
     private static final float DEPENDENCY_LINE_WIDTH = 9;
     private static final int DEPENDENCY_LINE_IMAGE_WIDTH = 252;
     private static final int DEPENDENCY_LINE_IMAGE_HEIGHT = 256;
+    private static final int MAX_PER_TIER = 6;
 
     private static int ANIMATION_FRAME = 0;
     private static final int ANIMATION_FRAME_MIN = 0;
@@ -63,29 +69,49 @@ public abstract class BaseUpgradeScreen extends Screen {
     private static final int ANIMATION_COUNTER_MAX = 10;
 
     protected final Player player;
-    protected SkillData data;
+    protected SkillPoints points;
+    protected final SkillData data;
+    protected final ResourceKey<SkillData> key;
     private final HashMap<Integer, SkillButton> skillButtons = new HashMap<>();
 
     private int xOffset = 0;
     private int yOffset = 0;
 
+    @Nullable
     private XpButton xpButton;
+    @Nullable
     private Button resetButton;
 
-    public BaseUpgradeScreen(Player player, Component title) {
+    public BaseUpgradeScreen(Player player, Component title, SkillData data, ResourceKey<SkillData> key) {
         super(title);
         this.player = player;
+        this.data = data;
+        this.key = key;
     }
 
+    @Override
     protected void init() {
+        // This is to prevent the buttons messing up on screen resize. Probably a better solution.
+        if (this.points == null) {
+            this.points = getPoints();
+        }
+
         List<List<SkillDataNode>> tiers = data.getAllNodesByTier();
 
         int y = Y_PADDING;
 
         // add skill tree items
         for (List<SkillDataNode> tier : tiers) {
-            this.addButtonsFromTier(tier, y);
-            y += (Y_PADDING + Y_SIZE);
+            if (tier.size() > MAX_PER_TIER) {
+                for (List<SkillDataNode> subTier : ListUtils.partition(tier, 5)) {
+                    this.addButtonsFromTier(subTier, y);
+                    y += (Y_PADDING + Y_SIZE);
+                }
+            } else {
+                this.addButtonsFromTier(tier, y);
+                y += (Y_PADDING + Y_SIZE);
+            }
+
         }
 
         this.initComponents();
@@ -96,21 +122,20 @@ public abstract class BaseUpgradeScreen extends Screen {
      * Used to init things differently from the default item implementation of the upgrade screen
      */
     protected void initComponents() {
-        if (CrystalToolsConfig.EXPERIENCE_PER_SKILL_LEVEL.get() > 0) {
+        if (CrystalToolsConfig.EXPERIENCE_PER_SKILL_LEVEL.get() > 0 && allowXpLevels()) {
             xpButton = addRenderableWidget(new XpButton(5, getXpButtonY(), 30, Y_SIZE, pButton -> {
                 int pointsToGain = getPointsToSpend(Integer.MAX_VALUE, hasShiftDown(), hasControlDown());
-                int xpCost = getXpCost(pointsToGain);
-                // TODO: Refactor to make everything server side eventually
+                int xpCost = XpUtils.getXpCost(pointsToGain, points.getTotalPoints() + getSkillPoints());
                 if (XpUtils.getPlayerTotalXp(player) >= xpCost) {
                     player.giveExperiencePoints(-xpCost);
-                    PacketDistributor.sendToServer(new RemoveXpPayload(xpCost));
-                    changeSkillPoints(pointsToGain);
+                    changeClientSkillPoints(pointsToGain);
+                    PacketDistributor.sendToServer(new PointsFromXpPayload(pointsToGain, this instanceof UpgradeScreen));
                     updateButtons();
                 }
-            }, (pButton, guiGraphics, mouseX, mouseY) -> {
+            }, (button, guiGraphics, mouseX, mouseY) -> {
                 Component textComponent = Component.literal(String.format("Use Experience To Gain Skill Points (+%d Points)", getPointsToSpend(Integer.MAX_VALUE, Screen.hasShiftDown(), Screen.hasControlDown())));
-                guiGraphics.renderTooltip(this.font, this.font.split(textComponent, Math.max(BaseUpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
-            }, () -> XpUtils.getLevelForXp(getXpCost(getPointsToSpend(Integer.MAX_VALUE, Screen.hasShiftDown(), Screen.hasControlDown())))));
+                guiGraphics.setTooltipForNextFrame(this.font, this.font.split(textComponent, Math.max(BaseUpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
+            }, () -> XpUtils.getLevelForXp(XpUtils.getXpCost(getPointsToSpend(Integer.MAX_VALUE, Screen.hasShiftDown(), Screen.hasControlDown()), points.getTotalPoints() + getSkillPoints()))));
         }
 
         boolean resetRequiresCrystal = CrystalToolsConfig.REQUIRE_CRYSTAL_FOR_RESET.get();
@@ -118,62 +143,33 @@ public abstract class BaseUpgradeScreen extends Screen {
         if (resetRequiresCrystal) text += " (Requires 1 Crystal)";
         Tooltip resetTooltip = Tooltip.create(Component.literal(text));
 
-        resetButton = addRenderableWidget(Button.builder(Component.literal("Reset"), (button) -> {
-            this.resetPoints(resetRequiresCrystal);
+        if (allowReset()) {
+            resetButton = addRenderableWidget(Button.builder(Component.literal("Reset"), (button) -> {
+                this.resetPoints(resetRequiresCrystal);
 
-            if (resetRequiresCrystal) {
-                PacketDistributor.sendToServer(new RemoveItemPayload(Registration.CRYSTAL.get().getDefaultInstance()));
-                InventoryUtils.removeItemFromInventory(this.player.getInventory(), Registration.CRYSTAL.get().getDefaultInstance());
-            }
-        }).bounds(width - 40 - 5, 15, 40, Y_SIZE).tooltip(resetTooltip).build());
+                if (resetRequiresCrystal) {
+                    PacketDistributor.sendToServer(new RemoveItemPayload(Registration.CRYSTAL.get().getDefaultInstance()));
+                    InventoryUtils.removeItemFromInventory(this.player.getInventory(), Registration.CRYSTAL.get().getDefaultInstance());
+                }
+            }).bounds(width - 40 - 5, 15, 40, Y_SIZE).tooltip(resetTooltip).build());
+        }
+    }
+
+    protected boolean allowReset() {
+        return true;
+    }
+
+    protected boolean allowXpLevels() {
+        return true;
     }
 
     protected abstract int getXpButtonY();
 
-    protected abstract void changeSkillPoints(int change);
-
     protected abstract void resetPoints(boolean crystalRequired);
 
-    private int getXpCost(int pointsToGain) {
-        int totalPoints = data.getTotalPoints() + getSkillPoints();
-        int xpLevelCost = CrystalToolsConfig.EXPERIENCE_PER_SKILL_LEVEL.get();
-        int levelScaling = CrystalToolsConfig.EXPERIENCE_LEVELING_SCALING.get();
+    public abstract SkillPoints getPoints();
 
-        if (levelScaling > 0) {
-            long totalCost = 0;
-
-            int pointsAtLowerLevelLeft = Math.min(levelScaling - totalPoints % levelScaling, pointsToGain);
-
-            // TODO: Look at this 500 value, could be bad if the xp level cost configs are changed
-            int pointCost1 = Math.min(totalPoints / levelScaling, 500);
-            totalCost += pointsAtLowerLevelLeft * XpUtils.getXPForLevel(xpLevelCost + pointCost1);
-
-            int pointsLeft = pointsToGain - pointsAtLowerLevelLeft;
-            int i = pointsAtLowerLevelLeft == 0 ? 0 : 1;
-            while (pointsLeft > 0) {
-                int pointsToSpend = Math.min(levelScaling, pointsLeft);
-                int pointCost = Math.min(totalPoints / levelScaling, 500);
-                totalCost += pointsToSpend * XpUtils.getXPForLevel(xpLevelCost + pointCost + i);
-                i++;
-                pointsLeft -= pointsToSpend;
-            }
-
-            // Overflow
-            if (totalCost >= Integer.MAX_VALUE) {
-                return Integer.MAX_VALUE;
-            } else {
-                return (int) totalCost;
-            }
-        } else {
-            int totalCost = pointsToGain * xpLevelCost;
-
-            if (totalCost < 0) {
-                return Integer.MAX_VALUE;
-            } else {
-                return totalCost;
-            }
-        }
-    }
+    protected abstract void changeClientSkillPoints(int change);
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
@@ -181,7 +177,8 @@ public abstract class BaseUpgradeScreen extends Screen {
         this.renderBlockBackground(guiGraphics, CrystalToolsClientConfig.UPGRADE_SCREEN_BACKGROUND.get());
 
         drawDependencyLines(guiGraphics);
-        guiGraphics.drawString(font, "Skill Points: " + this.getSkillPoints(), 5, 5, Colors.TEXT_LIGHT);
+        guiGraphics.nextStratum();
+        guiGraphics.drawString(font, "Skill Points: " + this.getSkillPoints(), 5, 5, -1);
 
         for (Renderable renderable : this.renderables) {
             renderable.render(guiGraphics, mouseX, mouseY, partialTick);
@@ -226,17 +223,20 @@ public abstract class BaseUpgradeScreen extends Screen {
         }, (button, guiGraphics, mouseX, mouseY) -> {
             String text;
 
-            if (node.getLimit() == 0) {
+            if (node.getLimit() == 0 || node.getLimit() > 1) {
                 int pointsToAdd = getPointsToSpend(Integer.MAX_VALUE, hasShiftDown(), hasControlDown());
-                text = String.format("%s\n%d Points", node.getDescription(), node.getPoints());
+                if (node.getLimit() > 1) {
+                    pointsToAdd = Math.min(node.getLimit(), pointsToAdd);
+                }
+                text = String.format("%s\n%d Points", node.getDescription(), points.getPoints(node.getId()));
                 if (pointsToAdd > 1) {
                     text = text + String.format("\n(+ %d Points)", pointsToAdd);
                 }
             } else {
-                text = String.format("%s\n%d/%d Points", node.getDescription(), node.getPoints(), node.getLimit());
+                text = String.format("%s\n%d/%d Points", node.getDescription(), points.getPoints(node.getId()), node.getLimit());
             }
 
-            Optional<SkillSubText> subText = node.getSkillSubText();
+            Optional<SkillSubText> subText = Optional.ofNullable(node.getSkillSubText());
 
             Component textComponent = Component.literal(text);
             FormattedText compositeComponent;
@@ -248,8 +248,8 @@ public abstract class BaseUpgradeScreen extends Screen {
             } else {
                 compositeComponent = FormattedText.composite(textComponent);
             }
-            guiGraphics.renderTooltip(this.font, this.font.split(compositeComponent, Math.max(BaseUpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
-        }, this.data, node, this.player));
+            guiGraphics.setTooltipForNextFrame(this.font, this.font.split(compositeComponent, Math.max(BaseUpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
+        }, node, this.player, this.points));
     }
 
     protected void onSkillButtonPress(SkillDataNode node, Button button) {
@@ -265,8 +265,6 @@ public abstract class BaseUpgradeScreen extends Screen {
             }
         }
 
-        this.data.addPoint();
-
         this.updateButtons();
     }
 
@@ -279,14 +277,14 @@ public abstract class BaseUpgradeScreen extends Screen {
         int skillPoints = this.getSkillPoints();
         for (SkillButton button : this.skillButtons.values()) {
             SkillDataNode node = button.getDataNode();
-            button.active = !button.isComplete && node.canLevel(data, this.player) && skillPoints > 0;
-            if (node.isComplete()) {
+            button.active = !button.isComplete && node.canLevel(points, this.player) && skillPoints > 0;
+            if (points.getPoints(node.getId()) >= node.getLimit() && node.getLimit() != 0) {
                 button.setComplete();
             }
         }
 
         if (xpButton != null) {
-            xpButton.update(getXpCost(1), player);
+            xpButton.update(XpUtils.getXpCost(1, points.getTotalPoints() + getSkillPoints()), player);
         }
 
         if (resetButton != null) {
@@ -321,7 +319,7 @@ public abstract class BaseUpgradeScreen extends Screen {
 
                     for (int j : nodes) {
                         if (this.skillButtons.containsKey(j) && this.skillButtons.get(j).isHovered() || button.isHovered()) {
-                            boolean active = this.skillButtons.get(j).getDataNode().getPoints() > 0;
+                            boolean active = points.getPoints(this.skillButtons.get(j).getDataNode().getId()) > 0;
 
                             if (!active && !not) {
                                 textureY = 0;
@@ -363,11 +361,6 @@ public abstract class BaseUpgradeScreen extends Screen {
     }
 
     private void drawDependencyLine(GuiGraphics guiGraphics, int x1, int y1, int x2, int y2, int yImageStart) {
-        RenderSystem.setShaderTexture(0, DEPENDENCY_LINE_LOCATION);
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        Matrix4f matrix4f = guiGraphics.pose().last().pose();
-        BufferBuilder bufferbuilder = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-
         float yImageEnd = yImageStart + DEPENDENCY_LINE_WIDTH;
         float length = (float) Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
         float angle = (float) Math.atan2((x2 - x1), (y2 - y1));
@@ -383,11 +376,36 @@ public abstract class BaseUpgradeScreen extends Screen {
         float x4F = x2 - xOffset;
         float y4F = y2 + yOffset;
 
-        bufferbuilder.addVertex(matrix4f, x2F, y2F, 0).setUv((float) ANIMATION_FRAME / DEPENDENCY_LINE_IMAGE_WIDTH, (float) yImageStart / DEPENDENCY_LINE_IMAGE_HEIGHT);
-        bufferbuilder.addVertex(matrix4f, x1F, y1F, 0).setUv((float) ANIMATION_FRAME / DEPENDENCY_LINE_IMAGE_WIDTH, yImageEnd / DEPENDENCY_LINE_IMAGE_HEIGHT);
-        bufferbuilder.addVertex(matrix4f, x4F, y4F, 0).setUv((length + ANIMATION_FRAME) / DEPENDENCY_LINE_IMAGE_WIDTH, yImageEnd / DEPENDENCY_LINE_IMAGE_HEIGHT);
-        bufferbuilder.addVertex(matrix4f, x3F, y3F, 0).setUv((length + ANIMATION_FRAME) / DEPENDENCY_LINE_IMAGE_WIDTH, (float) yImageStart / DEPENDENCY_LINE_IMAGE_HEIGHT);
-        BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
+        guiGraphics.submitGuiElementRenderState(new GuiElementRenderState() {
+            @Override
+            public void buildVertices(VertexConsumer consumer, float p_418216_) {
+                consumer.addVertexWith2DPose(new Matrix3x2f(guiGraphics.pose()), x2F, y2F, p_418216_).setUv((float) ANIMATION_FRAME / DEPENDENCY_LINE_IMAGE_WIDTH, (float) yImageStart / DEPENDENCY_LINE_IMAGE_HEIGHT).setColor(255, 255, 255, 255)
+                        .addVertexWith2DPose(new Matrix3x2f(guiGraphics.pose()), x1F, y1F, p_418216_).setUv((float) ANIMATION_FRAME / DEPENDENCY_LINE_IMAGE_WIDTH, yImageEnd / DEPENDENCY_LINE_IMAGE_HEIGHT).setColor(255, 255, 255, 255)
+                        .addVertexWith2DPose(new Matrix3x2f(guiGraphics.pose()), x4F, y4F, p_418216_).setUv((length + ANIMATION_FRAME) / DEPENDENCY_LINE_IMAGE_WIDTH, yImageEnd / DEPENDENCY_LINE_IMAGE_HEIGHT).setColor(255, 255, 255, 255)
+                        .addVertexWith2DPose(new Matrix3x2f(guiGraphics.pose()), x3F, y3F, p_418216_).setUv((length + ANIMATION_FRAME) / DEPENDENCY_LINE_IMAGE_WIDTH, (float) yImageStart / DEPENDENCY_LINE_IMAGE_HEIGHT).setColor(255, 255, 255, 255);
+            }
+
+            @Override
+            public RenderPipeline pipeline() {
+                return RenderPipelines.GUI_TEXTURED;
+            }
+
+            @Override
+            public TextureSetup textureSetup() {
+                TextureManager textureManager = Minecraft.getInstance().getTextureManager();
+                return TextureSetup.singleTexture(textureManager.getTexture(DEPENDENCY_LINE_LOCATION).getTextureView());
+            }
+
+            @Override
+            public @Nullable ScreenRectangle scissorArea() {
+                return guiGraphics.peekScissorStack();
+            }
+
+            @Override
+            public @Nullable ScreenRectangle bounds() {
+                return new ScreenRectangle(x1, y1, x2, y2).transformMaxBounds(guiGraphics.pose());
+            }
+        });
     }
 
     private int[] getButtonCenter(SkillButton button) {
@@ -405,9 +423,8 @@ public abstract class BaseUpgradeScreen extends Screen {
         } else {
             blockResource = ResourceLocation.fromNamespaceAndPath(split[0], "textures/block/" + split[1] + ".png");
         }
-        RenderSystem.setShaderColor(1f, 1f,1f, (float) CrystalToolsClientConfig.BACKGROUND_OPACITY.get().doubleValue());
-        renderMenuBackgroundTexture(guiGraphics, blockResource, 0, 0, 0, 0, width, height);
-        RenderSystem.setShaderColor(1f, 1f,1f, 1f);
+
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, blockResource, 0, 0, 0, 0, width, height, 32, 32, Colors.fromRGB(255, 255, 255, (int) (CrystalToolsClientConfig.BACKGROUND_OPACITY.get() * 255)));
     }
 
     protected int getPointsToSpend(int points, boolean shiftDown, boolean controlDown) {
@@ -424,16 +441,19 @@ public abstract class BaseUpgradeScreen extends Screen {
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (xpButton == null) return super.keyPressed(keyCode, scanCode, modifiers);
+
         if (keyCode == GLFW.GLFW_KEY_LEFT_SHIFT || keyCode == GLFW.GLFW_KEY_LEFT_CONTROL || keyCode == GLFW.GLFW_KEY_RIGHT_SHIFT || keyCode == GLFW.GLFW_KEY_RIGHT_CONTROL) {
-            xpButton.update(getXpCost(getPointsToSpend(Integer.MAX_VALUE, Screen.hasShiftDown(), Screen.hasControlDown())), player);
+            xpButton.update(XpUtils.getXpCost(getPointsToSpend(Integer.MAX_VALUE, Screen.hasShiftDown(), Screen.hasControlDown()), points.getTotalPoints() + getSkillPoints()), player);
         }
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override
     public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
+        if (xpButton == null) return super.keyReleased(keyCode, scanCode, modifiers);
         if (keyCode == GLFW.GLFW_KEY_LEFT_SHIFT || keyCode == GLFW.GLFW_KEY_LEFT_CONTROL || keyCode == GLFW.GLFW_KEY_RIGHT_SHIFT || keyCode == GLFW.GLFW_KEY_RIGHT_CONTROL) {
-            xpButton.update(getXpCost(getPointsToSpend(Integer.MAX_VALUE, Screen.hasShiftDown(), Screen.hasControlDown())), player);
+            xpButton.update(XpUtils.getXpCost(getPointsToSpend(Integer.MAX_VALUE, Screen.hasShiftDown(), Screen.hasControlDown()), points.getTotalPoints() + getSkillPoints()), player);
         }
         return super.keyReleased(keyCode, scanCode, modifiers);
     }

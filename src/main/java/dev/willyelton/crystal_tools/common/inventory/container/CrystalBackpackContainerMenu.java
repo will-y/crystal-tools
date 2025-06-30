@@ -256,7 +256,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
     }
 
     public void sort() {
-        this.inventory.sort(CrystalToolsConfig.BACKPACK_SORT_TYPE.get());
+        this.inventory.sort(level, CrystalToolsConfig.BACKPACK_SORT_TYPE.get());
     }
 
     public int getCompressionRows() {

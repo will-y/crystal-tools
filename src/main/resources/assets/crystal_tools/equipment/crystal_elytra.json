@@ -1,0 +1,10 @@
+{
+  "layers": {
+    "wings": [
+      {
+        "texture": "crystal_tools:crystal_elytra",
+        "use_player_texture": true
+      }
+    ]
+  }
+}

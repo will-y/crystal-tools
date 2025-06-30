@@ -5,12 +5,15 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import dev.willyelton.crystal_tools.common.capability.Capabilities;
+import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 
 public class AddPointsCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -27,11 +30,11 @@ public class AddPointsCommand {
         Entity entity = commandContext.getSource().getEntity();
 
         if (entity instanceof LivingEntity livingEntity) {
-            livingEntity.getHandSlots().forEach(itemStack -> {
-                if (itemStack.getItem() instanceof LevelableItem) {
-                    DataComponents.addToComponent(itemStack, DataComponents.SKILL_POINTS, points);
-                }
-            });
+            ItemStack stack = livingEntity.getItemInHand(InteractionHand.MAIN_HAND);
+            Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, livingEntity.level().registryAccess());
+            if (levelable != null) {
+                DataComponents.addToComponent(stack, DataComponents.SKILL_POINTS, points);
+            }
         }
 
         return 1;

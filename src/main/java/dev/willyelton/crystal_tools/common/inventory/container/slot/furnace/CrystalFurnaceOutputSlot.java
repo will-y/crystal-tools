@@ -25,15 +25,17 @@ public class CrystalFurnaceOutputSlot extends FurnaceResultSlot {
         return ArrayUtils.arrayContains(crystalFurnaceContainerMenu.getActiveOutputSlots(), this.index);
     }
 
-    protected void checkTakeAchievements(ItemStack pStack) {
-        pStack.onCraftedBy(this.player.level(), this.player, this.removeCount);
+    protected void checkTakeAchievements(ItemStack stack) {
+        stack.onCraftedBy(this.player, this.removeCount);
         if (this.player instanceof ServerPlayer && this.container instanceof CrystalFurnaceBlockEntity crystalFurnaceBlockEntity) {
             crystalFurnaceBlockEntity.popExp((ServerPlayer)this.player);
         }
 
-        this.removeCount = 0;
+        if (this.removeCount != 0) {
+            EventHooks.firePlayerSmeltedEvent(this.player, stack, this.removeCount);
+        }
 
-        EventHooks.firePlayerSmeltedEvent(this.player, pStack);
+        this.removeCount = 0;
     }
 
     @Override

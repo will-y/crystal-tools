@@ -12,10 +12,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 public class CrystalTorch extends TorchBlock {
     public static final BooleanProperty DROP_ITEM = BooleanProperty.create("drop_item");
 
-    public CrystalTorch() {
-        this(BlockBehaviour.Properties.of());
-    }
-
     public CrystalTorch(BlockBehaviour.Properties properties) {
         super(ParticleTypes.SOUL_FIRE_FLAME, properties.noCollission().instabreak().lightLevel((state) -> 14).sound(SoundType.WOOD));
     }

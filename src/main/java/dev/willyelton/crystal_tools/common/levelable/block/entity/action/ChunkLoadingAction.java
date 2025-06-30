@@ -1,28 +1,32 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity.action;
 
+import com.mojang.serialization.Codec;
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.LevelableBlockEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.common.world.chunk.LoadingValidationCallback;
 import net.neoforged.neoforge.common.world.chunk.TicketController;
 import net.neoforged.neoforge.common.world.chunk.TicketHelper;
 import net.neoforged.neoforge.common.world.chunk.TicketSet;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.CHUNK_LOADING;
 
 public class ChunkLoadingAction<T extends LevelableBlockEntity & ChunkLoader> extends Action {
     public static final TicketController TICKET_CONTROLLER = new TicketController(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "chunk_loader"), ChunkLoadingValidationCallback.INSTANCE);
@@ -49,20 +53,20 @@ public class ChunkLoadingAction<T extends LevelableBlockEntity & ChunkLoader> ex
     }
 
     @Override
-    public void load(CompoundTag tag, HolderLookup.Provider registries) {
-        this.chunkLoadingEnabled = tag.getBoolean("ChunkLoading");
-        chunkSet.addAll(Arrays.stream(tag.getLongArray("ChunkSet")).boxed().toList());
+    public void load(ValueInput valueInput) {
+        this.chunkLoadingEnabled = valueInput.getBooleanOr("ChunkLoading", false);
+        chunkSet.addAll(valueInput.read("ChunkSet", Codec.LONG.listOf()).orElse(List.of()));
     }
 
     @Override
-    public void save(CompoundTag tag, HolderLookup.Provider registries) {
-        tag.putBoolean("ChunkLoading", this.chunkLoadingEnabled);
-        tag.putLongArray("ChunkSet", this.chunkSet.stream().mapToLong(Long::longValue).toArray());
+    public void save(ValueOutput valueOutput) {
+        valueOutput.putBoolean("ChunkLoading", this.chunkLoadingEnabled);
+        valueOutput.store("ChunkSet", Codec.LONG.listOf(), chunkSet.stream().toList());
     }
 
     @Override
     public boolean addToExtra(String key, float value) {
-        if ("chunkloading".equals(key)) {
+        if (CHUNK_LOADING.toString().equals(key)) {
             this.chunkLoadingEnabled = true;
             this.loadChunk((ServerLevel) blockEntity.getLevel(), new ChunkPos(blockEntity.getBlockPos()));
             return true;
@@ -79,7 +83,7 @@ public class ChunkLoadingAction<T extends LevelableBlockEntity & ChunkLoader> ex
     }
 
     @Override
-    public void applyComponents(BlockEntity.DataComponentInput componentInput) {
+    public void applyComponents(DataComponentGetter componentInput) {
         super.applyComponents(componentInput);
         this.chunkLoadingEnabled = componentInput.getOrDefault(DataComponents.CHUNKLOADING, false);
     }

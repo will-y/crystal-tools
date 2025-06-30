@@ -1,0 +1,137 @@
+{
+  "equipmentSlot": "mainhand",
+  "tiers": [
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Rocket's Durability",
+          "id": 0,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability I",
+          "requirements": [],
+          "value": 25.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases flight time",
+          "id": 1,
+          "key": [
+            "crystal_tools:flight_time"
+          ],
+          "limit": 1,
+          "name": "Flight Duration I",
+          "requirements": [
+            {
+              "type": "crystal_tools:item_requirement",
+              "item": [
+                "minecraft:gunpowder"
+              ]
+            }
+          ],
+          "value": 2.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Rocket's Durability",
+          "id": 2,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                0
+              ]
+            }
+          ],
+          "value": 25.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases flight time",
+          "id": 3,
+          "key": [
+            "crystal_tools:flight_time"
+          ],
+          "limit": 1,
+          "name": "Flight Duration II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                1
+              ]
+            },
+            {
+              "type": "crystal_tools:item_requirement",
+              "item": [
+                "minecraft:gunpowder"
+              ]
+            }
+          ],
+          "value": 2.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Rocket's Durability",
+          "id": 4,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 0,
+          "name": "Infinite Durability",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                2
+              ]
+            }
+          ],
+          "value": 10.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Automatically repairs the Rocket over time",
+          "id": 5,
+          "key": [
+            "crystal_tools:auto_repair"
+          ],
+          "limit": 0,
+          "name": "Auto Repair",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                2,
+                3
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ]
+  ]
+}

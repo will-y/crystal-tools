@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "n": {
-      "tag": "c:ingots/netherite"
-    }
+    "n": "#c:ingots/netherite"
   },
   "pattern": [
     "n",

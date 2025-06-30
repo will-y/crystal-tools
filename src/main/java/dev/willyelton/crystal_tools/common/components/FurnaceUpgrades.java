@@ -5,7 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 
 public record FurnaceUpgrades(float speed, int fuelEfficiency, int slots, int fuelSlots, boolean balance,
                               float expModifier, boolean saveFuel) {
@@ -19,7 +18,7 @@ public record FurnaceUpgrades(float speed, int fuelEfficiency, int slots, int fu
             Codec.BOOL.fieldOf("saveFuel").forGetter(FurnaceUpgrades::saveFuel)
     ).apply(instance, FurnaceUpgrades::new));
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, FurnaceUpgrades> STREAM_CODEC = NeoForgeStreamCodecs.composite(
+    public static final StreamCodec<RegistryFriendlyByteBuf, FurnaceUpgrades> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.FLOAT, FurnaceUpgrades::speed,
             ByteBufCodecs.INT, FurnaceUpgrades::fuelEfficiency,
             ByteBufCodecs.INT, FurnaceUpgrades::slots,

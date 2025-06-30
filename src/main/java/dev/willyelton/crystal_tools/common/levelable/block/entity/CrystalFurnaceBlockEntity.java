@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity;
 
+import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.components.FurnaceData;
@@ -15,11 +16,10 @@ import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import dev.willyelton.crystal_tools.utils.NBTUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -44,8 +44,9 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
@@ -58,11 +59,14 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.*;
+
 // TODO: Audit / comment code, don't use WordlyContainer, extract out things that will be common to a generator / other
 public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements WorldlyContainer, MenuProvider, AutoOutputable {
     public static final int[] INPUT_SLOTS = new int[] {0, 1, 2, 3, 4};
     public static final int[] OUTPUT_SLOTS = new int[] {5, 6, 7, 8, 9};
     public static final int[] FUEL_SLOTS = new int[] {10, 11, 12};
+    public static final int MAX_SLOTS = 5;
 
     public static final int SIZE = 13;
     public static final int DATA_SIZE = 14;
@@ -86,8 +90,8 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     // Furnace related fields
     private int litTime = 0;
     private int litTotalTime = 0;
-    private int[] cookingProgress = new int[5];
-    private int[] cookingTotalTime = new int[5];
+    private int[] cookingProgress = new int[MAX_SLOTS];
+    private int[] cookingTotalTime = new int[MAX_SLOTS];
     private float expHeld = 0;
 
     // Things that can be upgraded
@@ -99,7 +103,6 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     private float expModifier;
     private boolean saveFuel = false;
 
-    // TODO: This should probably later be a list that just gets iterated over?
     private final AutoOutputAction autoOutputAction;
 
     public CrystalFurnaceBlockEntity(BlockPos pPos, BlockState state) {
@@ -148,7 +151,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         } else if (ArrayUtils.arrayContains(OUTPUT_SLOTS, index)) {
             return false;
         } else if (ArrayUtils.arrayContains(FUEL_SLOTS, index)) {
-            return index <= FUEL_SLOTS[this.bonusFuelSlots] && (stack.getBurnTime(RecipeType.SMELTING) > 0);
+            return index <= FUEL_SLOTS[this.bonusFuelSlots] && (stack.getBurnTime(RecipeType.SMELTING, this.level.fuelValues()) > 0);
         }
 
         return false;
@@ -250,31 +253,31 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     }
 
     @Override
-    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
+    public void loadAdditional(ValueInput valueInput) {
+        super.loadAdditional(valueInput);
         this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(tag, this.items, registries);
+        ContainerHelper.loadAllItems(valueInput, this.items);
 
-        this.litTime = tag.getInt("LitTime");
-        this.litTotalTime = tag.getInt("LitDuration");
-        this.cookingProgress = NBTUtils.getIntArray(tag, "CookingProgress", 5);
-        this.cookingTotalTime = NBTUtils.getIntArray(tag, "CookingTotalTime", 5);
-        this.expHeld = tag.getFloat("ExpHeld");
+        this.litTime = valueInput.getInt("LitTime").orElse(0);
+        this.litTotalTime = valueInput.getInt("LitDuration").orElse(0);
+        this.cookingProgress = NBTUtils.getIntArray(valueInput, "CookingProgress", MAX_SLOTS);
+        this.cookingTotalTime = NBTUtils.getIntArray(valueInput, "CookingTotalTime", MAX_SLOTS);
+        this.expHeld = valueInput.getFloatOr("ExpHeld", 0F);
 
         // Upgrade things
-        this.speedUpgrade = tag.getFloat("SpeedUpgrade");
-        this.fuelEfficiencyUpgrade = tag.getInt("FuelEfficiencyUpgrade");
-        this.bonusSlots = tag.getInt("Slots");
-        this.bonusFuelSlots = tag.getInt("FuelSlots");
-        this.balance = tag.getBoolean("Balance");
-        this.expModifier = tag.getFloat("ExpModifier");
-        this.saveFuel = tag.getBoolean("SaveFuel");
+        this.speedUpgrade = valueInput.getFloatOr("SpeedUpgrade", 0F);
+        this.fuelEfficiencyUpgrade = valueInput.getInt("FuelEfficiencyUpgrade").orElse(0);
+        this.bonusSlots = valueInput.getInt("Slots").orElse(0);
+        this.bonusFuelSlots = valueInput.getInt("FuelSlots").orElse(0);
+        this.balance = valueInput.getBooleanOr("Balance", false);
+        this.expModifier = valueInput.getFloatOr("ExpModifier", 0F);
+        this.saveFuel = valueInput.getBooleanOr("SaveFuel", false);
     }
 
     @Override
-    protected void applyImplicitComponents(BlockEntity.DataComponentInput componentInput) {
+    protected void applyImplicitComponents(DataComponentGetter componentInput) {
         super.applyImplicitComponents(componentInput);
-        ItemContainerContents contents = componentInput.get(DataComponents.FURNACE_INVENTORY);
+        ItemContainerContents contents = componentInput.get(net.minecraft.core.component.DataComponents.CONTAINER);
         this.items = NonNullList.withSize(SIZE, ItemStack.EMPTY);
         if (contents != null) {
             contents.copyInto(this.items);
@@ -302,24 +305,23 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        ContainerHelper.saveAllItems(tag, this.items, registries);
-        tag.putInt("LitTime", this.litTime);
-        // TODO (Breaking): Rename
-        tag.putInt("LitDuration", this.litTotalTime);
-        tag.putIntArray("CookingProgress", this.cookingProgress);
-        tag.putIntArray("CookingTotalTime", this.cookingTotalTime);
-        tag.putFloat("ExpHeld", this.expHeld);
+    protected void saveAdditional(ValueOutput valueOutput) {
+        super.saveAdditional(valueOutput);
+        ContainerHelper.saveAllItems(valueOutput, this.items);
+        valueOutput.putInt("LitTime", this.litTime);
+        valueOutput.putInt("LitDuration", this.litTotalTime);
+        valueOutput.putIntArray("CookingProgress", this.cookingProgress);
+        valueOutput.putIntArray("CookingTotalTime", this.cookingTotalTime);
+        valueOutput.putFloat("ExpHeld", this.expHeld);
 
         // Upgrade things
-        tag.putFloat("SpeedUpgrade", this.speedUpgrade);
-        tag.putInt("FuelEfficiencyUpgrade", this.fuelEfficiencyUpgrade);
-        tag.putInt("Slots", this.bonusSlots);
-        tag.putInt("FuelSlots", this.bonusFuelSlots);
-        tag.putBoolean("Balance", this.balance);
-        tag.putFloat("ExpModifier", this.expModifier);
-        tag.putBoolean("SaveFuel", this.saveFuel);
+        valueOutput.putFloat("SpeedUpgrade", this.speedUpgrade);
+        valueOutput.putInt("FuelEfficiencyUpgrade", this.fuelEfficiencyUpgrade);
+        valueOutput.putInt("Slots", this.bonusSlots);
+        valueOutput.putInt("FuelSlots", this.bonusFuelSlots);
+        valueOutput.putBoolean("Balance", this.balance);
+        valueOutput.putFloat("ExpModifier", this.expModifier);
+        valueOutput.putBoolean("SaveFuel", this.saveFuel);
     }
 
     @Override
@@ -334,19 +336,29 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         components.set(DataComponents.FURNACE_UPGRADES, furnaceUpgrades);
 
         ItemContainerContents contents = ItemContainerContents.fromItems(this.items);
-        components.set(DataComponents.FURNACE_INVENTORY, contents);
+        components.set(net.minecraft.core.component.DataComponents.CONTAINER, contents);
     }
 
     @Override
     protected void addToExtraData(String key, float value) {
-        switch (key) {
-            case "speed_bonus" -> this.speedUpgrade += value;
-            case "fuel_bonus" -> this.fuelEfficiencyUpgrade += (int) value;
-            case "slot_bonus" -> this.bonusSlots += (int) value;
-            case "fuel_slot_bonus" -> this.bonusFuelSlots += (int) value;
-            case "auto_balance" -> this.balance = value == 1;
-            case "exp_boost" -> this.expModifier += value;
-            case "save_fuel" -> this.saveFuel = value == 1;
+        if (FURNACE_SPEED.toString().equals(key)) {
+            this.speedUpgrade += value;
+        } else if (FUEL_EFFICIENCY.toString().equals(key)) {
+            this.fuelEfficiencyUpgrade += (int) value;
+        } else if (SLOT_BONUS.toString().equals(key)) {
+            if (bonusSlots > MAX_SLOTS) {
+                CrystalTools.LOGGER.warn("Furnace Max Slot Size Reached");
+            } else {
+                this.bonusSlots += (int) value;
+            }
+        } else if (FUEL_SLOT_BONUS.toString().equals(key)) {
+            this.bonusFuelSlots += (int) value;
+        } else if (AUTO_BALANCE.toString().equals(key)) {
+            this.balance = value == 1;
+        } else if (EXP_BOOST.toString().equals(key)) {
+            this.expModifier += value;
+        } else if (SAVE_FUEL.toString().equals(key)) {
+            this.saveFuel = value == 1;
         }
     }
 
@@ -368,8 +380,8 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         // Furnace things
         this.litTime = 0;
         this.litTotalTime = 0;
-        this.cookingProgress = new int[5];
-        this.cookingTotalTime = new int[5];
+        this.cookingProgress = new int[MAX_SLOTS];
+        this.cookingTotalTime = new int[MAX_SLOTS];
         this.expHeld = 0;
 
         // Upgrades
@@ -431,7 +443,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     };
 
     public boolean isFuel(ItemStack stack) {
-        return stack.getBurnTime(this.recipeType) > 0;
+        return stack.getBurnTime(this.recipeType, this.level.fuelValues()) > 0;
     }
 
     public int[] getInputSlots() {
@@ -451,9 +463,10 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     }
 
     protected RecipeHolder<AbstractCookingRecipe> getRecipe(ItemStack item) {
+        if (this.level != null && this.level.isClientSide) return null;
         Optional<RecipeHolder<AbstractCookingRecipe>> recipeHolderOptional = (item.getItem() instanceof AirItem)
                 ? Optional.empty()
-                : this.level.getRecipeManager().getRecipeFor((RecipeType<AbstractCookingRecipe>) recipeType, new SingleRecipeInput(item), this.level);
+                : ((ServerLevel)this.level).recipeAccess().getRecipeFor((RecipeType<AbstractCookingRecipe>) recipeType, new SingleRecipeInput(item), this.level);
 
         return recipeHolderOptional.orElse(null);
     }
@@ -493,12 +506,12 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
 
                     if (this.isLit()) {
                         needChange = true;
-                        if (fuelItemStack.hasCraftingRemainingItem()) {
-                            items.set(FUEL_SLOTS[0], fuelItemStack.getCraftingRemainingItem());
+                        if (!fuelItemStack.getCraftingRemainder().isEmpty()) {
+                            items.set(FUEL_SLOTS[0], fuelItemStack.getCraftingRemainder());
                         } else {
                             fuelItemStack.shrink(1);
                             if (fuelItemStack.isEmpty()) {
-                                this.items.set(FUEL_SLOTS[0], fuelItemStack.getCraftingRemainingItem());
+                                this.items.set(FUEL_SLOTS[0], fuelItemStack.getCraftingRemainder());
                             }
                         }
                         // Here is where I need to re-balance the fuel slots
@@ -541,12 +554,20 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         }
     }
 
+    @Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        super.preRemoveSideEffects(pos, state);
+        if (this.level instanceof ServerLevel serverlevel) {
+            this.popExp(serverlevel, Vec3.atCenterOf(pos));
+        }
+    }
+
     private boolean isLit() {
         return this.litTime > 0;
     }
 
     private boolean canBurn(RegistryAccess registryAccess, RecipeHolder<?> recipe, int slot) {
-        int outputSlot = slot + 5;
+        int outputSlot = slot + MAX_SLOTS;
         if (!this.getItem(slot).isEmpty() && recipe != null) {
             ItemStack recipeOutput = ((RecipeHolder<? extends AbstractCookingRecipe>) recipe).value().assemble(new SingleRecipeInput(this.getItem(slot)), registryAccess);
 
@@ -564,21 +585,21 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         if (recipe != null && this.canBurn(registryAccess, recipe, slot)) {
             AbstractCookingRecipe castedRecipe = ((RecipeHolder<? extends AbstractCookingRecipe>) recipe).value();
             ItemStack input = this.items.get(slot);
-            ItemStack output = this.items.get(slot + 5);
+            ItemStack output = this.items.get(slot + MAX_SLOTS);
             ItemStack recipeOutput = castedRecipe.assemble(new SingleRecipeInput(this.getItem(slot)), registryAccess);
             if (output.isEmpty()) {
-                this.items.set(slot + 5, recipeOutput.copy());
+                this.items.set(slot + MAX_SLOTS, recipeOutput.copy());
             } else if (output.is(recipeOutput.getItem())) {
                 output.grow(recipeOutput.getCount());
             }
 
             if (input.is(Blocks.WET_SPONGE.asItem()) && !this.items.get(slot).isEmpty() && this.items.get(slot).is(Items.BUCKET)) {
-                this.items.set(slot + 5, new ItemStack(Items.WATER_BUCKET));
+                this.items.set(slot + MAX_SLOTS, new ItemStack(Items.WATER_BUCKET));
             }
 
             input.shrink(1);
-            this.expHeld += castedRecipe.getExperience();
-            int skillExp = (int) Math.ceil(castedRecipe.getExperience() * 10 * CrystalToolsConfig.FURNACE_EXPERIENCE_BOOST.get());
+            this.expHeld += castedRecipe.experience();
+            int skillExp = (int) Math.ceil(castedRecipe.experience() * 10 * CrystalToolsConfig.FURNACE_EXPERIENCE_BOOST.get());
             this.addExp(skillExp);
             return true;
         } else {
@@ -590,20 +611,20 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         if (stack.isEmpty()) {
             return 0;
         } else {
-            return stack.getBurnTime(this.recipeType) + this.fuelEfficiencyUpgrade * fuelEfficiencyAddedTicks;
+            return stack.getBurnTime(this.recipeType, this.level.fuelValues()) + this.fuelEfficiencyUpgrade * fuelEfficiencyAddedTicks;
         }
     }
 
     private int getTotalCookTime(RecipeHolder<AbstractCookingRecipe> recipe, int slot) {
         if (!this.getItem(slot).isEmpty() && recipe != null) {
-            return Math.max(recipe.value().getCookingTime() - (int) (this.speedUpgrade * speedUpgradeSubtractTicks), 1);
+            return Math.max(recipe.value().cookingTime() - (int) (this.speedUpgrade * speedUpgradeSubtractTicks), 1);
         }
 
         return 0;
     }
 
     public void popExp(ServerPlayer player) {
-        this.popExp(player.serverLevel(), player.position());
+        this.popExp(player.level(), player.position());
     }
 
     public void popExp(ServerLevel level, Vec3 pos) {

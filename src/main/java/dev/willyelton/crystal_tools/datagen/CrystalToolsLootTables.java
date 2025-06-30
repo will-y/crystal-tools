@@ -31,6 +31,8 @@ public class CrystalToolsLootTables extends VanillaBlockLoot {
     @Override
     protected void generate() {
         dropSelf(Registration.CRYSTAL_BLOCK.get());
+        dropSelf(Registration.CRYSTAL_GEODE.get());
+        add(Registration.NETHERITE_INFUSED_CRYSTAL_GEODE.get(), createOreDrop(Registration.NETHERITE_INFUSED_CRYSTAL_GEODE.get(), Registration.NETHERITE_INFUSED_CRYSTAL_SHARD.get()));
         dropSelf(Registration.QUARRY_STABILIZER.get());
         add(Registration.CRYSTAL_ORE.get(), createOreDrop(Registration.CRYSTAL_ORE.get(), Registration.CRYSTAL.get()));
         add(Registration.CRYSTAL_DEEPSLATE_ORE.get(), createOreDrop(Registration.CRYSTAL_DEEPSLATE_ORE.get(), Registration.CRYSTAL.get()));
@@ -39,7 +41,7 @@ public class CrystalToolsLootTables extends VanillaBlockLoot {
                 DataComponents.FURNACE_DATA.get(),
                 DataComponents.FURNACE_UPGRADES.get(),
                 DataComponents.LEVELABLE_BLOCK_ENTITY_DATA.get(),
-                DataComponents.FURNACE_INVENTORY.get(),
+                net.minecraft.core.component.DataComponents.CONTAINER,
                 DataComponents.AUTO_OUTPUT.get());
         createComponentSavingTable(Registration.CRYSTAL_GENERATOR.get(),
                 DataComponents.LEVELABLE_BLOCK_ENTITY_DATA.get(),
@@ -53,7 +55,7 @@ public class CrystalToolsLootTables extends VanillaBlockLoot {
                 DataComponents.QUARRY_DATA.get(),
                 DataComponents.QUARRY_UPGRADES.get(),
                 DataComponents.QUARRY_SETTINGS.get(),
-                DataComponents.QUARRY_FILTER.get(),
+                DataComponents.FILTER_INVENTORY.get(),
                 DataComponents.AUTO_OUTPUT.get(),
                 DataComponents.CHUNKLOADING.get());
     }

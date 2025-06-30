@@ -1,0 +1,552 @@
+{
+  "equipmentSlot": "mainhand",
+  "tiers": [
+    [
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Lure I to the Fishing Rod",
+          "enchantment": "minecraft:lure",
+          "id": 0,
+          "level": 1,
+          "name": "Lure I",
+          "requirements": []
+        }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Luck Of The Sea I to the Fishing Rod",
+          "enchantment": "minecraft:luck_of_the_sea",
+          "id": 1,
+          "level": 1,
+          "name": "Luck Of The Sea I",
+          "requirements": []
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Fishing Rod's Durability",
+          "id": 2,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability I",
+          "requirements": [],
+          "value": 50.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Lure II to the Fishing Rod",
+          "enchantment": "minecraft:lure",
+          "id": 3,
+          "level": 2,
+          "name": "Lure II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                0
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Luck Of The Sea II to the Fishing Rod",
+          "enchantment": "minecraft:luck_of_the_sea",
+          "id": 4,
+          "level": 2,
+          "name": "Luck Of The Sea II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                1
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Fishing Rod's Durability",
+          "id": 5,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                2
+              ]
+            }
+          ],
+          "value": 50.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not to use durability",
+          "id": 6,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking I",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                3,
+                4,
+                5
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds a chance to double drops from the Fishing Rod",
+          "id": 7,
+          "key": [
+            "crystal_tools:double_drops"
+          ],
+          "limit": 1,
+          "name": "Double Items I",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                3,
+                4,
+                5
+              ]
+            }
+          ],
+          "value": 0.2
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Lure III to the Fishing Rod",
+          "enchantment": "minecraft:lure",
+          "id": 8,
+          "level": 3,
+          "name": "Lure III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                3
+              ]
+            },
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                6,
+                7
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Luck Of The Sea III to the Fishing Rod",
+          "enchantment": "minecraft:luck_of_the_sea",
+          "id": 9,
+          "level": 3,
+          "name": "Luck Of The Sea III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                4
+              ]
+            },
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                6,
+                7
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Fishing Rod's Durability",
+          "id": 10,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                5
+              ]
+            },
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                6,
+                7
+              ]
+            }
+          ],
+          "value": 50.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not to use durability",
+          "id": 11,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                6
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                8,
+                9,
+                10
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds a chance to double drops from the Fishing Rod",
+          "id": 12,
+          "key": [
+            "crystal_tools:double_drops"
+          ],
+          "limit": 1,
+          "name": "Double Items II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                7
+              ]
+            },
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                8,
+                9,
+                10
+              ]
+            }
+          ],
+          "value": 0.2
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Lure IV to the Fishing Rod",
+          "enchantment": "minecraft:lure",
+          "id": 13,
+          "level": 4,
+          "name": "Lure IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                8
+              ]
+            },
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                11,
+                12
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Luck Of The Sea IV to the Fishing Rod",
+          "enchantment": "minecraft:luck_of_the_sea",
+          "id": 14,
+          "level": 4,
+          "name": "Luck Of The Sea IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                9
+              ]
+            },
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                11,
+                12
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Fishing Rod's Durability",
+          "id": 15,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                10
+              ]
+            },
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                11,
+                12
+              ]
+            }
+          ],
+          "value": 50.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not to use durability",
+          "id": 16,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                11
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds a chance to double drops from the Fishing Rod",
+          "id": 17,
+          "key": [
+            "crystal_tools:double_drops"
+          ],
+          "limit": 1,
+          "name": "Double Items III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                12
+              ]
+            },
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "value": 0.2
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Automatically repairs the Fishing Rod over time",
+          "id": 18,
+          "key": [
+            "crystal_tools:auto_repair"
+          ],
+          "limit": 0,
+          "name": "Auto Repair",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                13,
+                14,
+                15
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Lure V to the Fishing Rod",
+          "enchantment": "minecraft:lure",
+          "id": 19,
+          "level": 5,
+          "name": "Lure V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                13
+              ]
+            },
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                16,
+                17,
+                18
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:enchantment",
+        "node": {
+          "description": "Gives the enchantment Luck Of The Sea V to the Fishing Rod",
+          "enchantment": "minecraft:luck_of_the_sea",
+          "id": 20,
+          "level": 5,
+          "name": "Luck Of The Sea V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                14
+              ]
+            },
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                16,
+                17,
+                18
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Fishing Rod's Durability",
+          "id": 21,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                15
+              ]
+            },
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                16,
+                17,
+                18
+              ]
+            }
+          ],
+          "value": 50.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not to use durability",
+          "id": 22,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 70,
+          "name": "Infinite Unbreaking",
+          "requirements": [],
+          "value": 0.01
+        }
+      }
+    ]
+  ]
+}

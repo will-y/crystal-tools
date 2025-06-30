@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "c": {
-      "item": "crystal_tools:crystal"
-    }
+    "c": "crystal_tools:crystal"
   },
   "pattern": [
     "ccc",

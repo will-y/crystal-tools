@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/shield",
+  "textures": {
+    "particle": "crystal_tools:block/crystal_block"
+  }
+}

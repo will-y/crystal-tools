@@ -7,6 +7,7 @@ import it.unimi.dsi.fastutil.ints.Int2IntArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 
 import java.util.ArrayList;
@@ -32,9 +33,9 @@ public class CrystalBackpackInventory extends ListComponentItemHandler {
         return ItemHandlerHelper.insertItem(this, stack, false);
     }
 
-    public void sort(SortType sortType) {
+    public void sort(Level level, SortType sortType) {
         List<ItemStack> stacks = getAllStacks();
-        stacks.sort(getComparator(sortType, stacks));
+        stacks.sort(getComparator(level, sortType, stacks));
 
         InventoryUtils.clear(this);
 
@@ -51,11 +52,11 @@ public class CrystalBackpackInventory extends ListComponentItemHandler {
         return -1;
     }
 
-    private Comparator<ItemStack> getComparator(SortType type, List<ItemStack> stacks) {
+    private Comparator<ItemStack> getComparator(Level level, SortType type, List<ItemStack> stacks) {
         return switch (type) {
             case QUANTITY -> quantityComparator(stacks).thenComparing(idComparator());
             case NAME -> nameComparator().thenComparing(idComparator());
-            case MOD -> modComparator().thenComparing(idComparator());
+            case MOD -> modComparator(level).thenComparing(idComparator());
             case ID -> idComparator();
         };
     }
@@ -88,8 +89,8 @@ public class CrystalBackpackInventory extends ListComponentItemHandler {
         return Comparator.comparing(this::getItemName);
     }
 
-    private Comparator<ItemStack> modComparator() {
-        return Comparator.comparing(this::getItemMod);
+    private Comparator<ItemStack> modComparator(Level level) {
+        return Comparator.comparing(stack -> getItemMod(level, stack));
     }
 
     private Comparator<ItemStack> idComparator() {
@@ -104,8 +105,8 @@ public class CrystalBackpackInventory extends ListComponentItemHandler {
         return stack.getDisplayName().getString();
     }
 
-    private String getItemMod(ItemStack stack) {
-        return stack.getItem().getCreatorModId(stack);
+    private String getItemMod(Level level, ItemStack stack) {
+        return stack.getItem().getCreatorModId(level.registryAccess(), stack);
     }
 
     private int getItemId(ItemStack stack) {

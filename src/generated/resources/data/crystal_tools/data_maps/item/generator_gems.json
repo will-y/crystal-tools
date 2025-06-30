@@ -12,6 +12,18 @@
       "bonusGeneration": 100,
       "burnTime": 97200
     },
+    "crystal_tools:crystal_geode": {
+      "bonusGeneration": 20,
+      "burnTime": 5400
+    },
+    "crystal_tools:netherite_infused_crystal_geode": {
+      "bonusGeneration": 20,
+      "burnTime": 5400
+    },
+    "crystal_tools:netherite_infused_crystal_shard": {
+      "bonusGeneration": 20,
+      "burnTime": 1200
+    },
     "minecraft:amethyst_block": {
       "bonusGeneration": 20,
       "burnTime": 16200
