@@ -56,6 +56,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.StandingAndWallBlockItem;
+import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.equipment.ArmorType;
@@ -71,6 +72,8 @@ import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import java.util.List;
+
 public class Registration {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(CrystalTools.MODID);
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(CrystalTools.MODID);
@@ -84,7 +87,7 @@ public class Registration {
     // Items
     public static final DeferredHolder<Item, Item> CRYSTAL = ITEMS.registerSimpleItem("crystal");
     public static final DeferredHolder<Item, Item> NETHERITE_STICK = ITEMS.registerSimpleItem("netherite_stick", new Item.Properties().fireResistant());
-    public static final DeferredHolder<Item, Item> NETHERITE_INFUSED_CRYSTAL_SHARD = ITEMS.registerSimpleItem("netherite_infused_crystal_shard", new Item.Properties().fireResistant());
+    public static final DeferredHolder<Item, Item> NETHERITE_INFUSED_CRYSTAL_SHARD = ITEMS.registerSimpleItem("netherite_infused_crystal_shard", new Item.Properties().fireResistant().component(net.minecraft.core.component.DataComponents.LORE, new ItemLore(List.of(Component.literal("Found in geodes at the bottom of the Nether!")))));
     public static final DeferredHolder<Item, Item> CRYSTAL_UPGRADE_SMITHING_TEMPLATE = ITEMS.registerSimpleItem("crystal_upgrade_smithing_template", new Item.Properties().fireResistant());
 
     // Tools
