@@ -39,9 +39,20 @@
   - Speed
   - Filters
 - Chest
+  - Use Crystals to expand size?
 - Auto crafter
+  - Speed
+  - Energy Reduction
+  - Number of Recipes
 - Magnet
+  - Item Speed
+  - Durability
+  - Instant Grab
+  - Filters
 - Enchanting Table
+  - Reduce bookshelves required
+  - Increase enchantibility
+  - Reduce XP Cost
 - Anvil
 - Crystal Arrow
 - Shulker
@@ -60,13 +71,11 @@
 - Advancements
 - https://jademc.readthedocs.io/en/latest/plugins20/getting-started/
 - Look at mekanism vein mining, might want to call playerBreak.
-- Fix xp gaining points being controlled by the client (hard because adding skill points is different for blocks and items)
 - Furnace should auto split on insert
 - Exclude hoppers from auto outputting (maybe create a tag?)
 - GLM for auto smelting
 - Armor piercing upgrade: https://docs.neoforged.net/docs/entities/livingentity/#damage-events
 - Something to do with extra points (turn to xp?)
-- Gradle task or something to generate the 2 new datapacks
 
 ## Bugs
 - Furnace skill screen doesn't fully refresh when open when point is gained
@@ -86,9 +95,6 @@ Eventually
 - Better way to get tools on server (could technically change positions) (this is relating to client to server packets)
 - Maybe: Move repairing items to `EntityTickEvent` and iterate the inventory (would allow curios items to be ticked + repairing for vanilla tools if wanted)
   - Should be fine now that cap lookup is cheaper
-- Use actions should probably be datacomponents and all handled either in that event or the base levelable class
-- Datapack validation (make sure all requirements point to valid nodes / items)...
-- Block entities should have and use levelable capability (Not sure actually if this is helpful really)
 - Maybe go through all get capability calls and pass in null
   - Possibly add an `isFull` boolean to `LevelableStack`? Only should need full on the upgrade screen
 - I think quarry lasers are in the wrong level render stage
