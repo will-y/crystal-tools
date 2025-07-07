@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools;
 
+import com.mojang.serialization.Codec;
 import dev.willyelton.crystal_tools.client.particle.quarry.breakblock.QuarryBreakParticleType;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.crafting.CrystalAIOTRecipe;
@@ -12,6 +13,7 @@ import dev.willyelton.crystal_tools.common.entity.CrystalTridentEntity;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalBackpackContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalFurnaceContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalGeneratorContainerMenu;
+import dev.willyelton.crystal_tools.common.inventory.container.CrystalMagnetContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalQuarryContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.CrystalBackpack;
 import dev.willyelton.crystal_tools.common.levelable.armor.CrystalElytra;
@@ -33,6 +35,7 @@ import dev.willyelton.crystal_tools.common.levelable.tool.AxeLevelableTool;
 import dev.willyelton.crystal_tools.common.levelable.tool.BowLevelableItem;
 import dev.willyelton.crystal_tools.common.levelable.tool.CrystalApple;
 import dev.willyelton.crystal_tools.common.levelable.tool.CrystalFishingRod;
+import dev.willyelton.crystal_tools.common.levelable.tool.CrystalMagnet;
 import dev.willyelton.crystal_tools.common.levelable.tool.CrystalRocket;
 import dev.willyelton.crystal_tools.common.levelable.tool.CrystalShield;
 import dev.willyelton.crystal_tools.common.levelable.tool.CrystalTrident;
@@ -66,6 +69,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -80,12 +84,14 @@ public class Registration {
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, CrystalTools.MODID);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPES = DeferredRegister.create(Registries.RECIPE_SERIALIZER, CrystalTools.MODID);
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(BuiltInRegistries.PARTICLE_TYPE, CrystalTools.MODID);
+    private static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, CrystalTools.MODID);
 
     // Items
     public static final DeferredHolder<Item, Item> CRYSTAL = ITEMS.register("crystal", () -> new Item(new Item.Properties()));
     public static final DeferredHolder<Item, Item> NETHERITE_STICK = ITEMS.register("netherite_stick", () -> new Item(new Item.Properties().fireResistant()));
     public static final DeferredHolder<Item, CrystalApple> CRYSTAL_APPLE = ITEMS.register("crystal_apple", CrystalApple::new);
     public static final DeferredHolder<Item, CrystalBackpack> CRYSTAL_BACKPACK = ITEMS.register("crystal_backpack", CrystalBackpack::new);
+    public static final DeferredHolder<Item, CrystalMagnet> CRYSTAL_MAGNET = ITEMS.register("crystal_magnet", CrystalMagnet::new);
 
     // Tools
     public static final DeferredHolder<Item, PickaxeLevelableTool> CRYSTAL_PICKAXE = ITEMS.register("crystal_pickaxe", PickaxeLevelableTool::new);
@@ -149,9 +155,14 @@ public class Registration {
             () -> IMenuTypeExtension.create((windowId, inv, data) -> new CrystalQuarryContainerMenu(windowId, inv.player.level(), data.readBlockPos(), data.readInt(), inv, new SimpleLevelableContainerData(CrystalQuarryBlockEntity.DATA_SIZE))));
     public static final DeferredHolder<MenuType<?>, MenuType<CrystalBackpackContainerMenu>> CRYSTAL_BACKPACK_CONTAINER = CONTAINERS.register("crystal_backpack",
             () -> IMenuTypeExtension.create(CrystalBackpackContainerMenu::new));
+    public static final DeferredHolder<MenuType<?>, MenuType<CrystalMagnetContainerMenu>> CRYSTAL_MAGNET_CONTAINER = CONTAINERS.register("crystal_magnet",
+            () -> IMenuTypeExtension.create(CrystalMagnetContainerMenu::new));
 
     // Particles
     public static final DeferredHolder<ParticleType<?>, QuarryBreakParticleType> QUARRY_BREAK_PARTICLE = PARTICLES.register("quary_break_particle", () -> new QuarryBreakParticleType(false));
+
+    // Data Attachments
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Boolean>> MAGNET_ITEM = ATTACHMENT_TYPES.register("crystal_magnet_attracted", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL).build());
 
     // Creative Tabs
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> TAB = TABS.register("crystal_tools_tab", () ->
@@ -187,6 +198,7 @@ public class Registration {
                         output.accept(CRYSTAL_TRIDENT.get());
                         output.accept(CRYSTAL_FISHING_ROD.get());
                         output.accept(CRYSTAL_SHIELD.get());
+                        output.accept(CRYSTAL_MAGNET.get());
                     })
                     .build());
 
@@ -210,5 +222,6 @@ public class Registration {
         DataComponents.COMPONENTS.register(modEventBus);
         RECIPES.register(modEventBus);
         PARTICLES.register(modEventBus);
+        ATTACHMENT_TYPES.register(modEventBus);
     }
 }

@@ -32,7 +32,8 @@
     - Breaking stabilizers breaks quarry?
     - Some screen that shows loaded chunks or something?
     - Don't allow xp leveling or make it a lot harder
-    - Test on server
+    - Setting to disable particles
+    - Lasers need to last longer on preview for large areas
 - Pump
 - Hopper
   - Inventory space
@@ -49,6 +50,9 @@
 - Cobble generator
 - Battery
 - Maybe crusher
+- Damage Types
+  - Reduce % of armor?
+  - % health damage
 
 ### New Blocks
 - Crystal glass (conn texture)

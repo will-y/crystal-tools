@@ -61,8 +61,12 @@ public abstract class BackpackSubScreen<T extends BaseContainerMenu & SubScreenC
     public void onClose() {
         menu.closeSubScreen();
         PacketDistributor.sendToServer(new BackpackScreenPayload(BackpackScreenPayload.BackpackAction.CLOSE_SUB_SCREEN));
-        this.minecraft.popGuiLayer();
-        this.minecraft.setScreen(this.returnScreen);
+        if (this.returnScreen != null) {
+            this.minecraft.popGuiLayer();
+            this.minecraft.setScreen(this.returnScreen);
+        } else {
+            super.onClose();
+        }
     }
 
     @Override
@@ -80,6 +84,8 @@ public abstract class BackpackSubScreen<T extends BaseContainerMenu & SubScreenC
     }
 
     public int getContainerRows() {
+        if (returnScreen == null) return 3;
+
         return getReturnScreen().getDisplayRows();
     }
 

@@ -1,4 +1,4 @@
-// 1.21.1	2025-01-12T13:04:31.3643597	Item Models: crystal_tools
+// 1.21.1	2025-07-07T15:56:28.3894833	Item Models: crystal_tools
 cf7d10e3346cf7c4a77fe6e285deab4d542b73d5 assets/crystal_tools/models/item/crystal.json
 7638c07fbf7c8b5843ca9c407119b41416cc7b6c assets/crystal_tools/models/item/crystal_aiot.json
 fc5c466807626ebba61df59c2f4c32ea20cc293c assets/crystal_tools/models/item/crystal_apple.json
@@ -20,6 +20,7 @@ dc733a2cfa832636301ed13b625c16aac8fd4bf1 assets/crystal_tools/models/item/crysta
 4221e4838a45620bd09a05f0f11688bf6f2349c6 assets/crystal_tools/models/item/crystal_helmet.json
 c4ad53365ed7a2e4915f85dc0411cba334e535a8 assets/crystal_tools/models/item/crystal_hoe.json
 b391cc604c2239ca08804710882ee9463495ad40 assets/crystal_tools/models/item/crystal_leggings.json
+230929d6e8619368dcbe08c2a76dd833ec974d18 assets/crystal_tools/models/item/crystal_magnet.json
 bbbed0e2a9558c809aaaa43903ea4373679dbf2b assets/crystal_tools/models/item/crystal_ore.json
 db83ce327c359aa8f7ceea40a1446b6a231dd184 assets/crystal_tools/models/item/crystal_pickaxe.json
 9898ec3947318ffc0dbed547e7ccf2a211ff8b44 assets/crystal_tools/models/item/crystal_quarry.json

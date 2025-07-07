@@ -1,9 +1,13 @@
 package dev.willyelton.crystal_tools.common.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
+import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.common.levelable.CrystalBackpack;
+import dev.willyelton.crystal_tools.common.levelable.tool.CrystalMagnet;
+import dev.willyelton.crystal_tools.utils.InventoryUtils;
+import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -17,6 +21,15 @@ public class PlayerEvents {
     @SubscribeEvent
     public static void handleItemPickupEvent(ItemEntityPickupEvent.Pre event) {
         if (event.getItemEntity().hasPickUpDelay()) return;
+        if (event.getItemEntity().getData(Registration.MAGNET_ITEM.get()) && !event.getPlayer().equals(event.getItemEntity().getOwner())) {
+            List<ItemStack> magnetStacks = InventoryUtils.findAll(event.getPlayer(), stack -> stack.is(Registration.CRYSTAL_MAGNET.get()));
+            magnetStacks.forEach(stack -> {
+                if (stack.getItem() instanceof CrystalMagnet magnet) {
+                    magnet.addExp(stack, event.getPlayer().level(), event.getPlayer().getOnPos(), event.getPlayer());
+                }
+            });
+        }
+
         List<ItemStack> backpackStacks = CrystalBackpack.findBackpackStacks(event.getPlayer());
         ItemStack stackToInsert = event.getItemEntity().getItem();
         ItemStack original = event.getItemEntity().getItem().copy();
@@ -27,9 +40,9 @@ public class PlayerEvents {
             }
 
             CrystalBackpackInventory inventory = CrystalBackpack.getInventory(backpackStack);
-            List<ItemStack> filterStacks = CrystalBackpack.getFilterItems(backpackStack);
+            List<ItemStack> filterStacks = ToolUtils.getFilterItems(backpackStack);
 
-            if (!shouldPickup(backpackStack, stackToInsert, filterStacks)) {
+            if (!ToolUtils.matchesFilter(backpackStack, stackToInsert, filterStacks)) {
                 continue;
             }
 
@@ -51,21 +64,5 @@ public class PlayerEvents {
             event.setCanPickup(TriState.DEFAULT);
 //            event.setCanceled(true);
         }
-    }
-
-    private static boolean shouldPickup(ItemStack backpackStack, ItemStack pickupStack, List<ItemStack> filter) {
-        // TODO: matching modes (respect nbt)
-        // If there are no filters, default to pickup
-        if (backpackStack.getOrDefault(DataComponents.FILTER_CAPACITY, 0) == 0) {
-            return true;
-        }
-        boolean whiteList = backpackStack.getOrDefault(DataComponents.WHITELIST, true);
-        for (ItemStack filterStack : filter) {
-            if (filterStack.is(pickupStack.getItem())) {
-                return whiteList;
-            }
-        }
-
-        return !whiteList;
     }
 }

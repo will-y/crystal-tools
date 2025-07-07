@@ -44,6 +44,7 @@ The following tools/armor pieces are implemented:
 - Crystal Trident
 - Crystal Fishing Rod
 - Crystal Shield
+- Crystal Magnet
 
 ## Other Items
 - Crystal Backpack
@@ -149,6 +150,20 @@ There will be upgrades that are common to most tools, and tools will each get un
   - Reflected projectile will auto-target mobs (mostly just arrows in vanilla)
 - Reduce Cooldown
   - Decreases the cooldown when the shield is disabled (if you have all of the points in this, the shield can't be disabled)
+
+### Magnet
+- Item Speed
+  - Increases how fast items are pulled in
+- Range
+- Pull Xp
+  - Allows the magnet to pull in experience orbs
+- Pull Mobs
+  - Allows the magnet to pull in mobs
+  - Can be disabled with shift + mode switch key
+- Filter
+  - Adds the ability to whitelist and blacklist which items are picked up
+- Instant Pickup
+  - Items are not dragged to you, they are just picked up immediately
 
 ### All Armor
 - Protection
@@ -305,6 +320,9 @@ There will be upgrades that are common to most tools, and tools will each get un
 
 #### Shield
 ![Shield Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/shield.png)
+
+#### Magnet
+![Magnet Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/magnet.png)
 
 ### Armor
 #### Helmet

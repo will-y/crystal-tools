@@ -11,9 +11,14 @@ import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 public class CuriosCompatibility {
     public static List<ItemStack> getCrystalBackpacksInCurios(Player player) {
+        return getItemInCurios(player, stack -> stack.is(Registration.CRYSTAL_BACKPACK.get()));
+    }
+
+    public static List<ItemStack> getItemInCurios(Player player, Predicate<ItemStack> predicate) {
         if (!ModList.get().isLoaded("curios")) {
             return new ArrayList<>();
         }
@@ -21,21 +26,18 @@ public class CuriosCompatibility {
         List<ItemStack> toReturn = new ArrayList<>();
         Optional<ICuriosItemHandler> optionalInventory = CuriosApi.getCuriosInventory(player);
 
-        if (optionalInventory.isPresent()) {
-            ICuriosItemHandler curiosInventory = optionalInventory.get();
-            curiosInventory.getCurios().forEach((identifier, curioStacksHandler) -> {
-                IDynamicStackHandler handler = curioStacksHandler.getStacks();
-                if (handler != null) {
-                    for (int i = 0; i < handler.getSlots(); i++) {
-                        ItemStack stack = handler.getStackInSlot(i);
+        optionalInventory.ifPresent(curiosInventory -> curiosInventory.getCurios().forEach((identifier, curioStacksHandler) -> {
+            IDynamicStackHandler handler = curioStacksHandler.getStacks();
+            if (handler != null) {
+                for (int i = 0; i < handler.getSlots(); i++) {
+                    ItemStack stack = handler.getStackInSlot(i);
 
-                        if (stack.is(Registration.CRYSTAL_BACKPACK.get())) {
-                            toReturn.add(stack);
-                        }
+                    if (predicate.test(stack)) {
+                        toReturn.add(stack);
                     }
                 }
-            });
-        }
+            }
+        }));
 
         return toReturn;
     }

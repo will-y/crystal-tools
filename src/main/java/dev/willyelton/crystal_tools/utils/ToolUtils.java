@@ -11,6 +11,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemContainerContents;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -74,5 +75,31 @@ public class ToolUtils {
 
     public static boolean isValidEntity(LivingEntity entity) {
         return !entity.getType().is(CrystalToolsTags.ENTITY_BLACKLIST);
+    }
+
+    public static List<ItemStack> getFilterItems(ItemStack stack) {
+        ItemContainerContents filterContents = stack.get(DataComponents.FILTER_INVENTORY);
+
+        if (filterContents == null) {
+            return Collections.emptyList();
+        }
+
+        return filterContents.stream().filter(stack1 -> !stack1.isEmpty()).toList();
+    }
+
+    public static boolean matchesFilter(ItemStack stack, ItemStack toMatch, List<ItemStack> filter) {
+        // TODO: matching modes (respect nbt)
+        // If there are no filters, default to pickup
+        if (stack.getOrDefault(DataComponents.FILTER_CAPACITY, 0) == 0) {
+            return true;
+        }
+        boolean whiteList = stack.getOrDefault(DataComponents.WHITELIST, true);
+        for (ItemStack filterStack : filter) {
+            if (filterStack.is(toMatch.getItem())) {
+                return whiteList;
+            }
+        }
+
+        return !whiteList;
     }
 }

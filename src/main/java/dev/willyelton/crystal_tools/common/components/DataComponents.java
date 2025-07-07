@@ -176,6 +176,15 @@ public class DataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> FILLED_TOTEM_SLOTS = register("filled_totem_slots", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> BLOCK_COOLDOWN_REDUCTION = register("block_cooldown_reduction", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
 
+    // Magnet
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> DISABLED = register("disabled", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> ITEM_SPEED = register("item_speed", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> MAGNET_RANGE = register("magnet_range", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> PULL_XP = register("pull_xp", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> PULL_MOBS = register("pull_mobs", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> INSTANT_PICKUP = register("instant_pickup", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> DISABLE_MOB_PULL = register("disable_mob_pull", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
+
 
     // Utilities
     private static <T> DeferredHolder<DataComponentType<?>, DataComponentType<T>> register(String key, Codec<T> codec, StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec) {

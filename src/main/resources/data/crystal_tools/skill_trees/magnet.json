@@ -1,0 +1,360 @@
+{
+  "tiers": [
+    [
+      {
+        "id": 0,
+        "name": "Durability I",
+        "description": "Increases the Magnet's Durability",
+        "limit": 1,
+        "requirements": [],
+        "key": "durability_bonus",
+        "value": 200
+      },
+      {
+        "id": 1,
+        "name": "Item Speed I",
+        "description": "Increases the speed of items pulled in",
+        "limit": 1,
+        "requirements": [],
+        "key": "item_speed",
+        "value": 0.05
+      },
+      {
+        "id": 2,
+        "name": "Range I",
+        "description": "Increase the range of the magnet",
+        "limit": 1,
+        "requirements": [],
+        "key": "magnet_range",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 3,
+        "name": "Durability II",
+        "description": "Increases the Magnet's Durability",
+        "limit": 1,
+        "requirements": [
+          {"node": [0]}
+        ],
+        "key": "durability_bonus",
+        "value": 200
+      },
+      {
+        "id": 4,
+        "name": "Item Speed II",
+        "description": "Increases the speed of items pulled in",
+        "limit": 1,
+        "requirements": [
+          {"node": [1]}
+        ],
+        "key": "item_speed",
+        "value": 0.05
+      },
+      {
+        "id": 5,
+        "name": "Range II",
+        "description": "Increase the range of the magnet",
+        "limit": 1,
+        "requirements": [
+          {"node": [2]}
+        ],
+        "key": "magnet_range",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 6,
+        "name": "Filter Slots I",
+        "description": "Adds 5 filter slots to the magnet",
+        "limit": 1,
+        "requirements": [
+          {"or_node": [3, 4, 5]}
+        ],
+        "key": "filter_capacity",
+        "value": 1
+      },
+      {
+        "id": 7,
+        "name": "Unbreaking I",
+        "description": "Adds 10% to the chance not use durability",
+        "limit": 1,
+        "requirements": [
+          {"or_node": [3, 4, 5]}
+        ],
+        "key": "unbreaking",
+        "value": 0.1
+      },
+      {
+        "id": 8,
+        "name": "Attract EXP",
+        "description": "Allows the magnet to pull in experience orbs",
+        "limit": 1,
+        "requirements": [
+          {"or_node": [3, 4, 5]}
+        ],
+        "key": "pull_xp",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 9,
+        "name": "Durability III",
+        "description": "Increases the Magnet's Durability",
+        "limit": 1,
+        "requirements": [
+          {"node": [3]},
+          {"or_node": [6, 7, 8]}
+        ],
+        "key": "durability_bonus",
+        "value": 200
+      },
+      {
+        "id": 10,
+        "name": "Item Speed III",
+        "description": "Increases the speed of items pulled in",
+        "limit": 1,
+        "requirements": [
+          {"node": [4]},
+          {"or_node": [6, 7, 8]}
+        ],
+        "key": "item_speed",
+        "value": 0.05
+      },
+      {
+        "id": 11,
+        "name": "Range III",
+        "description": "Increase the range of the magnet",
+        "limit": 1,
+        "requirements": [
+          {"node": [5]},
+          {"or_node": [6, 7, 8]}
+        ],
+        "key": "magnet_range",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 12,
+        "name": "Durability IV",
+        "description": "Increases the Magnet's Durability",
+        "limit": 1,
+        "requirements": [
+          {"node": [9]}
+        ],
+        "key": "durability_bonus",
+        "value": 200
+      },
+      {
+        "id": 13,
+        "name": "Item Speed IV",
+        "description": "Increases the speed of items pulled in",
+        "limit": 1,
+        "requirements": [
+          {"node": [10]}
+        ],
+        "key": "item_speed",
+        "value": 0.05
+      },
+      {
+        "id": 14,
+        "name": "Range IV",
+        "description": "Increase the range of the magnet",
+        "limit": 1,
+        "requirements": [
+          {"node": [11]}
+        ],
+        "key": "magnet_range",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 15,
+        "name": "Filter Slots II",
+        "description": "Adds 5 filter slots to the magnet",
+        "limit": 1,
+        "requirements": [
+          {"node": [6]},
+          {"or_node": [12, 13, 14]}
+        ],
+        "key": "filter_capacity",
+        "value": 1
+      },
+      {
+        "id": 16,
+        "name": "Unbreaking II",
+        "description": "Adds 10% to the chance not use durability",
+        "limit": 1,
+        "requirements": [
+          {"node": [7]},
+          {"or_node": [12, 13, 14]}
+        ],
+        "key": "unbreaking",
+        "value": 0.1
+      },
+      {
+        "id": 17,
+        "name": "Attract Mobs",
+        "description": "Allows the magnet to pull in living mobs",
+        "limit": 1,
+        "requirements": [
+          {"or_node": [12, 13, 14]}
+        ],
+        "key": "pull_mobs",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 18,
+        "name": "Durability V",
+        "description": "Increases the Magnet's Durability",
+        "limit": 1,
+        "requirements": [
+          {"node": [12]},
+          {"or_node": [15, 16, 17]}
+        ],
+        "key": "durability_bonus",
+        "value": 200
+      },
+      {
+        "id": 19,
+        "name": "Item Speed V",
+        "description": "Increases the speed of items pulled in",
+        "limit": 1,
+        "requirements": [
+          {"node": [13]},
+          {"or_node": [15, 16, 17]}
+        ],
+        "key": "item_speed",
+        "value": 0.05
+      },
+      {
+        "id": 20,
+        "name": "Range V",
+        "description": "Increase the range of the magnet",
+        "limit": 1,
+        "requirements": [
+          {"node": [14]},
+          {"or_node": [15, 16, 17]}
+        ],
+        "key": "magnet_range",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 21,
+        "name": "Durability VI",
+        "description": "Increases the Magnet's Durability",
+        "limit": 1,
+        "requirements": [
+          {"node": [18]}
+        ],
+        "key": "durability_bonus",
+        "value": 200
+      },
+      {
+        "id": 22,
+        "name": "Item Speed VI",
+        "description": "Increases the speed of items pulled in",
+        "limit": 1,
+        "requirements": [
+          {"node": [19]}
+        ],
+        "key": "item_speed",
+        "value": 0.05
+      },
+      {
+        "id": 23,
+        "name": "Range VI",
+        "description": "Increase the range of the magnet",
+        "limit": 1,
+        "requirements": [
+          {"node": [20]}
+        ],
+        "key": "magnet_range",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 24,
+        "name": "Filter Slots III",
+        "description": "Adds 5 filter slots to the magnet",
+        "limit": 1,
+        "requirements": [
+          {"node": [15]},
+          {"or_node": [21, 22, 23]}
+        ],
+        "key": "filter_capacity",
+        "value": 1
+      },
+      {
+        "id": 25,
+        "name": "Unbreaking III",
+        "description": "Adds 10% to the chance not use durability",
+        "limit": 1,
+        "requirements": [
+          {"node": [16]},
+          {"or_node": [21, 22, 23]}
+        ],
+        "key": "unbreaking",
+        "value": 0.1
+      },
+      {
+        "id": 26,
+        "name": "Instant Pickup",
+        "description": "Items are instantly picked up by the magnet",
+        "limit": 1,
+        "requirements": [
+          {"or_node": [21, 22, 23]}
+        ],
+        "key": "instant_pickup",
+        "value": 1
+      },
+      {
+        "id": 27,
+        "name": "Auto Repair",
+        "description": "Automatically Repairs Your Tool Over Time!",
+        "limit": 0,
+        "requirements": [
+          {"or_node": [21, 22, 23]}
+        ],
+        "key": "auto_repair",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 28,
+        "name": "Infinite Unbreaking",
+        "description": "Add up to 70 points to unbreaking",
+        "limit": 70,
+        "requirements": [
+          {"node": [25]},
+          {"or_node": [24, 26, 27]}
+        ],
+        "key": "auto_repair",
+        "value": 1
+      },
+      {
+        "id": 29,
+        "name": "Infinite Durability",
+        "description": "Add as many points to durability as you want!",
+        "limit": 0,
+        "requirements": [
+          {"node": [21]},
+          {"or_node": [24, 25, 26, 27]}
+        ],
+        "key": "durability_bonus",
+        "value": 50
+      }
+    ]
+  ]
+}

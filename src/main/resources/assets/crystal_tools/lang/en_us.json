@@ -19,6 +19,7 @@
   "item.crystal_tools.crystal_trident": "Crystal Trident",
   "item.crystal_tools.crystal_fishing_rod": "Crystal Fishing Rod",
   "item.crystal_tools.crystal_shield": "Crystal Shield",
+  "item.crystal_tools.crystal_magnet": "Crystal Magnet",
   "block.crystal_tools.crystal_ore": "Crystal Ore",
   "block.crystal_tools.crystal_deepslate_ore": "Deepslate Crystal Ore",
   "block.crystal_tools.crystal_block": "Crystal Block",
@@ -114,5 +115,7 @@
   "crystal_tools.configuration.quarry_speed_upgrade_multiplier": "Quarry Speed Upgrade Multiplier",
   "crystal_tools.configuration.quarry_max_size": "Quarry Max Size",
   "gui.crystal_tools.category.generator": "Crystal Generator Fuels",
-  "crystal_tools.configuration.creative_flight_points": "Creative Flight Points"
+  "crystal_tools.configuration.creative_flight_points": "Creative Flight Points",
+  "crystal_tools.configuration.magnet": "Magnet Settings",
+  "crystal_tools.configuration.magnet_base_range": "Magnet Base Range"
 }

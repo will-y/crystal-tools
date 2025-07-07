@@ -23,10 +23,10 @@ public class FilterMenuContents<T extends BaseContainerMenu & FilterContainerMen
 
     private boolean whitelist;
 
-    public FilterMenuContents(T menu, int filterRows, boolean whiteList) {
+    public FilterMenuContents(T menu, int filterSlots, boolean whiteList) {
         this.menu = menu;
-        filterInventory = filterRows > 0 ? menu.getFilterInventory() : null;
-        filterSlots = NonNullList.createWithCapacity(filterRows * FILTER_SLOTS_PER_ROW);
+        filterInventory = filterSlots > 0 ? menu.getFilterInventory() : null;
+        this.filterSlots = NonNullList.createWithCapacity(filterSlots * FILTER_SLOTS_PER_ROW);
         this.whitelist = whiteList;
     }
 

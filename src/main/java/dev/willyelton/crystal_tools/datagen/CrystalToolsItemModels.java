@@ -38,6 +38,7 @@ public class CrystalToolsItemModels extends ItemModelProvider {
         toolItem(Registration.NETHERITE_STICK.get());
         basicItem(Registration.CRYSTAL_APPLE.get());
         basicItem(Registration.CRYSTAL_BACKPACK.get());
+        basicItem(Registration.CRYSTAL_MAGNET.get());
 
         // Tools
         toolItem(Registration.CRYSTAL_AIOT.get());

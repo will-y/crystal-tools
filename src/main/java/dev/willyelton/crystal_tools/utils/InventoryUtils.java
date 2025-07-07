@@ -1,9 +1,12 @@
 package dev.willyelton.crystal_tools.utils;
 
+import dev.willyelton.crystal_tools.common.compat.curios.CuriosCompatibility;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 public class InventoryUtils {
@@ -46,5 +49,17 @@ public class InventoryUtils {
         }
 
         return ItemStack.EMPTY;
+    }
+
+    public static List<ItemStack> findAll(Player player, Predicate<ItemStack> predicate) {
+        List<ItemStack> curiosItems = CuriosCompatibility.getItemInCurios(player, predicate);
+        List<ItemStack> playerInventoryItems = player.getInventory().items
+                .stream()
+                .filter(predicate)
+                .toList();
+
+        curiosItems.addAll(playerInventoryItems);
+
+        return curiosItems;
     }
 }

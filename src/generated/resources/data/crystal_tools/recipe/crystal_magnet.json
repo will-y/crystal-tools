@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "c": {
+      "item": "crystal_tools:crystal"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "r": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "pattern": [
+    " cr",
+    "cic",
+    "rc "
+  ],
+  "result": {
+    "count": 1,
+    "id": "crystal_tools:crystal_magnet"
+  }
+}

@@ -7,6 +7,7 @@ import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalBackpackContainerMenu;
+import dev.willyelton.crystal_tools.utils.InventoryUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -26,7 +27,6 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -35,7 +35,6 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 
-import java.util.Collections;
 import java.util.List;
 
 public class CrystalBackpack extends Item implements LevelableItem {
@@ -219,10 +218,7 @@ public class CrystalBackpack extends Item implements LevelableItem {
         }
 
     public static List<ItemStack> findBackpackStacks(Player player) {
-        List<ItemStack> backpackStacks = CuriosCompatibility.getCrystalBackpacksInCurios(player);
-        backpackStacks.addAll(player.getInventory().items.stream().filter(stack -> stack.is(Registration.CRYSTAL_BACKPACK.get())).toList());
-
-        return backpackStacks;
+        return InventoryUtils.findAll(player, stack -> stack.is(Registration.CRYSTAL_BACKPACK.get()));
     }
 
     public static int findNextBackpackSlot(Player player) {
@@ -270,20 +266,6 @@ public class CrystalBackpack extends Item implements LevelableItem {
             CrystalTools.LOGGER.error("Different inventory capability found on crystal backpack");
             return new CrystalBackpackInventory(0);
         }
-    }
-
-    public static List<ItemStack> getFilterItems(ItemStack stack) {
-        if (!stack.is(Registration.CRYSTAL_BACKPACK.get())) {
-            throw new IllegalArgumentException("Cannot get filter items on  " + stack.getItem());
-        }
-
-        ItemContainerContents filterContents = stack.get(DataComponents.FILTER_INVENTORY);
-
-        if (filterContents == null) {
-            return Collections.emptyList();
-        }
-
-        return filterContents.stream().filter(stack1 -> !stack1.isEmpty()).toList();
     }
 
     /**

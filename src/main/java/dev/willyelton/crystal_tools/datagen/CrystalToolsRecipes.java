@@ -25,6 +25,8 @@ import net.neoforged.neoforge.common.conditions.NotCondition;
 
 import java.util.concurrent.CompletableFuture;
 
+import static net.minecraft.data.recipes.ShapedRecipeBuilder.shaped;
+
 public class CrystalToolsRecipes extends RecipeProvider {
     private static final Criterion<InventoryChangeTrigger.TriggerInstance> HAS_CRYSTAL = InventoryChangeTrigger.TriggerInstance.hasItems(Registration.CRYSTAL.get());
     public CrystalToolsRecipes(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
@@ -40,7 +42,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
                         InventoryChangeTrigger.TriggerInstance.hasItems(Registration.CRYSTAL_BLOCK.get()))
                 .save(recipeOutput);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, Registration.CRYSTAL_BLOCK.get())
+        shaped(RecipeCategory.DECORATIONS, Registration.CRYSTAL_BLOCK.get())
                 .pattern("ccc")
                 .pattern("ccc")
                 .pattern("ccc")
@@ -48,14 +50,14 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(recipeOutput);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Registration.NETHERITE_STICK.get(), 4)
+        shaped(RecipeCategory.MISC, Registration.NETHERITE_STICK.get(), 4)
                 .pattern("n")
                 .pattern("n")
                 .define('n', Tags.Items.INGOTS_NETHERITE)
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(recipeOutput);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Registration.CRYSTAL_TORCH.get(), 4)
+        shaped(RecipeCategory.MISC, Registration.CRYSTAL_TORCH.get(), 4)
                 .pattern("c")
                 .pattern("s")
                 .define('c', Registration.CRYSTAL.get())
@@ -65,7 +67,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
 
         // Tools
         buildConditionalRecipe(recipeOutput,
-                ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_AXE.get())
+                shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_AXE.get())
                     .pattern("cc")
                     .pattern("cs")
                     .pattern(" s")
@@ -75,7 +77,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 Registration.CRYSTAL_AXE.getId());
 
         buildConditionalRecipe(recipeOutput,
-                ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_HOE.get())
+                shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_HOE.get())
                     .pattern("cc")
                     .pattern(" s")
                     .pattern(" s")
@@ -85,7 +87,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 Registration.CRYSTAL_HOE.getId());
 
         buildConditionalRecipe(recipeOutput,
-                ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_PICKAXE.get())
+                shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_PICKAXE.get())
                     .pattern("ccc")
                     .pattern(" s ")
                     .pattern(" s ")
@@ -95,7 +97,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 Registration.CRYSTAL_PICKAXE.getId());
 
         buildConditionalRecipe(recipeOutput,
-                ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_SHOVEL.get())
+                shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_SHOVEL.get())
                     .pattern("c")
                     .pattern("s")
                     .pattern("s")
@@ -105,7 +107,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 Registration.CRYSTAL_SHOVEL.getId());
 
         buildConditionalRecipe(recipeOutput,
-                ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, Registration.CRYSTAL_SWORD.get())
+                shaped(RecipeCategory.COMBAT, Registration.CRYSTAL_SWORD.get())
                     .pattern("c")
                     .pattern("c")
                     .pattern("s")
@@ -115,7 +117,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 Registration.CRYSTAL_SWORD.getId());
 
         buildConditionalRecipe(recipeOutput,
-                ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, Registration.CRYSTAL_BOW.get())
+                shaped(RecipeCategory.COMBAT, Registration.CRYSTAL_BOW.get())
                     .pattern(" sc")
                     .pattern("s c")
                     .pattern(" sc")
@@ -125,7 +127,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 Registration.CRYSTAL_BOW.getId());
 
         buildConditionalRecipe(recipeOutput,
-                ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, Registration.CRYSTAL_APPLE.get())
+                shaped(RecipeCategory.FOOD, Registration.CRYSTAL_APPLE.get())
                         .pattern("ccc")
                         .pattern("cac")
                         .pattern("ccc")
@@ -135,7 +137,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 Registration.CRYSTAL_APPLE.getId());
 
         buildConditionalRecipe(recipeOutput,
-                ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_ROCKET.get())
+                shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_ROCKET.get())
                         .pattern("ccc")
                         .pattern("crc")
                         .pattern("ccc")
@@ -145,7 +147,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 Registration.CRYSTAL_ROCKET.getId());
 
         buildConditionalRecipe(recipeOutput,
-                ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_TRIDENT.get())
+                shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_TRIDENT.get())
                         .pattern("ccc")
                         .pattern("sts")
                         .pattern(" s ")
@@ -156,7 +158,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 Registration.CRYSTAL_TRIDENT.getId());
 
         buildConditionalRecipe(recipeOutput,
-                ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_FISHING_ROD.get())
+                shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_FISHING_ROD.get())
                         .pattern("  s")
                         .pattern(" st")
                         .pattern("s c")
@@ -166,7 +168,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
                         .unlockedBy("has_crystal", HAS_CRYSTAL),
                 Registration.CRYSTAL_FISHING_ROD.getId());
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Registration.CRYSTAL_SHIELD.get())
+        shaped(RecipeCategory.MISC, Registration.CRYSTAL_SHIELD.get())
                 .pattern(" c ")
                 .pattern("tsc")
                 .pattern(" c ")
@@ -176,9 +178,19 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(recipeOutput);
 
+        shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_MAGNET.get())
+                .pattern(" cr")
+                .pattern("cic")
+                .pattern("rc ")
+                .define('c', Registration.CRYSTAL.get())
+                .define('i', Items.IRON_INGOT)
+                .define('r', Items.REDSTONE)
+                .unlockedBy("has_crystal", HAS_CRYSTAL)
+                .save(recipeOutput);
+
         // Armor
         buildConditionalRecipe(recipeOutput,
-                ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_HELMET.get())
+                shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_HELMET.get())
                         .pattern("ccc")
                         .pattern("c c")
                         .define('c', Registration.CRYSTAL.get())
@@ -186,7 +198,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 Registration.CRYSTAL_HELMET.getId());
 
         buildConditionalRecipe(recipeOutput,
-                ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_CHESTPLATE.get())
+                shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_CHESTPLATE.get())
                         .pattern("c c")
                         .pattern("ccc")
                         .pattern("ccc")
@@ -195,7 +207,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 Registration.CRYSTAL_CHESTPLATE.getId());
 
         buildConditionalRecipe(recipeOutput,
-                ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_LEGGINGS.get())
+                shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_LEGGINGS.get())
                         .pattern("ccc")
                         .pattern("c c")
                         .pattern("c c")
@@ -204,7 +216,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 Registration.CRYSTAL_LEGGINGS.getId());
 
         buildConditionalRecipe(recipeOutput,
-                ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_BOOTS.get())
+                shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_BOOTS.get())
                         .pattern("c c")
                         .pattern("c c")
                         .define('c', Registration.CRYSTAL.get())
@@ -212,7 +224,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 Registration.CRYSTAL_BOOTS.getId());
 
         buildConditionalRecipe(recipeOutput,
-                ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_BACKPACK.get())
+                shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_BACKPACK.get())
                         .pattern("lcl")
                         .pattern("chc")
                         .pattern("lcl")
@@ -223,7 +235,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 Registration.CRYSTAL_BACKPACK.getId());
 
         // Machines
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Registration.CRYSTAL_FURNACE.get())
+        shaped(RecipeCategory.MISC, Registration.CRYSTAL_FURNACE.get())
                 .pattern("ccc")
                 .pattern("cfc")
                 .pattern("ccc")
@@ -232,7 +244,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(recipeOutput);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Registration.QUARRY_STABILIZER.get(), 4)
+        shaped(RecipeCategory.MISC, Registration.QUARRY_STABILIZER.get(), 4)
                 .pattern("c")
                 .pattern("n")
                 .define('c', Registration.CRYSTAL.get())
