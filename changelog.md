@@ -1,4 +1,21 @@
 # Crystal Tools Change Log
+## 3.1.0
+### Additions
+- Adds the Crystal Magnet
+  - Has the following upgrades:
+    - Item Speed: Determines how fast items are pulled in
+    - Durability
+    - Range: How far away the magnet will pull in items
+    - Pull XP: Allows the magnet to pull in experience orbs
+    - Pull Mobs: Allows the magnet to pull in mobs (can be disabled)
+    - Filter: Allows you to whitelist or blacklist items that it will pick up
+    - Unbreaking
+    - Auto Repair
+    - Instant Pickup
+      - Items are not dragged to you, they are just picked up immediately
+  - The magnet can be disabled with the mode switch key
+- Adds a new config option: `magnet_base_range` (5): Magnet Base Range (in blocks)
+
 ## 3.0.0
 ### Additions
 - Adds The Crystal Geode

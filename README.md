@@ -54,6 +54,7 @@ The following tools/armor pieces are implemented:
 - Crystal Trident
 - Crystal Fishing Rod
 - Crystal Shield
+- Crystal Magnet
 
 ## Other Items
 - Crystal Backpack
@@ -155,6 +156,20 @@ There will be upgrades that are common to most tools, and tools will each get un
   - Reflected projectile will auto-target mobs (mostly just arrows in vanilla)
 - Reduce Cooldown
   - Decreases the cooldown when the shield is disabled (if you have all of the points in this, the shield can't be disabled)
+
+### Magnet
+- Item Speed
+  - Increases how fast items are pulled in
+- Range
+- Pull Xp
+  - Allows the magnet to pull in experience orbs
+- Pull Mobs
+  - Allows the magnet to pull in mobs
+  - Can be disabled with shift + mode switch key
+- Filter
+  - Adds the ability to whitelist and blacklist which items are picked up
+- Instant Pickup
+  - Items are not dragged to you, they are just picked up immediately
 
 ### All Armor
 - Protection
@@ -310,6 +325,9 @@ There will be upgrades that are common to most tools, and tools will each get un
 #### Shield
 ![Shield Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/shield.png)
 
+#### Magnet
+![Magnet Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/magnet.png)
+
 ### Armor
 #### Helmet
 ![Helmet Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/helmet.png)
@@ -383,25 +401,6 @@ You can change these values in `config/crystal_tools.toml` or in the in-game UI.
 - `tree_chopper_range` (10): Determines the range of the tree chopper and tree stripper upgrade on the axe. It will mine logs up to this range away from the log broken. Range 1 - 100.
 - `always_channel` (true): If true, channeling Crystal Tridents will summon lightning even if they don't hit an entity.
 
-#### Disable Tools
-- `disable_pickaxe` (false): Disables the Crystal Pickaxe
-- `disable_shovel` (false): Disables the Crystal Shovel
-- `disable_axe` (false): Disables the Crystal Axe
-- `disable_sword` (false): Disables the Crystal Sword
-- `disable_hoe` (false): Disables the Crystal Hoe
-- `disable_aiot` (false): Disables the Crystal AIOT
-- `disable_bow` (false): Disables the Crystal Bow
-- `disable_rocket` (false): Disables the Crystal Rocket
-- `disable_apple` (false): Disables the Crystal Apple
-- `disable_elytra` (false): Disables the Crystal Elytra
-- `disable_helmet` (false): Disables the Crystal Helmet
-- `disable_chestplate` (false): Disables the Crystal Chestplate
-- `disable_leggings` (false): Disables the Crystal Leggings
-- `disable_boots` (false): Disables the Crystal Boots
-- `disable_backpack` (false): Disables the Crystal Backpack
-- `disable_trident` (false): Disables the Crystal Trident
-- `disable_fishing_rod` (false): Disables the Crystal Fishing Rod
-
 #### Furnace Settings
 - `fuel_efficiency_added_ticks` (100): Number of ticks that are added to each fuel piece per level of fuel efficiency.
 - `speed_upgrade_subtract_ticks` (10): Number of ticks subtracted from every recipe's duration per level of furnace speed.
@@ -431,6 +430,9 @@ You can change these values in `config/crystal_tools.toml` or in the in-game UI.
 - `quarry_base_experience_cap` (500): Starting EXP Cap for the quarry. Range: 1 - 100000.
 - `quarry_speed_upgrade_multiplier` (50): Multiplier for the speed upgrade of the quarry. Range: 1 - 100000.
 - `quarry_max_size` (64): Max size of the quarry. Range: 1 - 256.
+
+#### Magnet Settings
+- `magnet_base_range` (5): Magnet Base Range (in blocks). Range: 0 - 100.
 
 #### Miscellaneous Settings
 - `enable_item_requirements` (true): Set to false to disable certain nodes from requiring items to upgrade.

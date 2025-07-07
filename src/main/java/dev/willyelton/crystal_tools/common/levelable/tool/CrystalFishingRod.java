@@ -29,9 +29,6 @@ public class CrystalFishingRod extends LevelableTool {
     public static final String CRYSTAL_TOOLS_FISHING_OFF_TAG = "crystal_tools.fishing.off";
     public CrystalFishingRod(Item.Properties properties) {
         super(properties
-                .stacksTo(1)
-                .fireResistant()
-                .repairable(CrystalToolsTags.REPAIRS_CRYSTAL)
                 .durability(CRYSTAL.durability()));
     }
 

@@ -27,6 +27,9 @@ public class SkillTreeTitles {
     // TODO: could this be expanded easily?
     public static final String MINING_3x3 = "3x3 Mining";
     public static final String SHEARS = "Shears";
+    public static final String PULL_XP = "Attract EXP";
+    public static final String PULL_MOBS = "Attract Mobs";
+    public static final String INSTANT_PICKUP = "Instant Pickup";
 
     // Block Entity Titles
     public static final String AUTO_SPLIT = "Auto Split";
@@ -190,6 +193,14 @@ public class SkillTreeTitles {
 
     public static String filterSlots(int level) {
         return getName("Filter Slots", level);
+    }
+
+    public static String itemSpeed(int level) {
+        return getName("Item Speed", level);
+    }
+
+    public static String magnetRange(int level) {
+        return getName("Magnet Range", level);
     }
 
     // Block Entity Titles

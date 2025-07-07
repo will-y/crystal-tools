@@ -6,7 +6,6 @@ import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.common.levelable.tool.LevelableTool;
-import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -32,8 +31,7 @@ public class CrystalElytra extends LevelableTool implements LevelableItem {
                         Equippable.builder(EquipmentSlot.CHEST)
                                 .setEquipSound(SoundEvents.ARMOR_EQUIP_ELYTRA)
                                 .setAsset(CrystalToolsArmorMaterials.CRYSTAL_ELYTRA)
-                                .build())
-                .repairable(CrystalToolsTags.REPAIRS_CRYSTAL));
+                                .build()));
     }
 
     @Override

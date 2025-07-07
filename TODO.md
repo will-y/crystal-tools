@@ -49,6 +49,8 @@
   - Durability
   - Instant Grab
   - Filters
+  - XP
+  - Mobs (on activate)
 - Enchanting Table
   - Reduce bookshelves required
   - Increase enchantibility
@@ -60,6 +62,16 @@
 - Cobble generator
 - Battery
 - Maybe crusher
+- Potion Factory
+  - Speed
+  - inventory slots
+  - number of recipes
+    - Store multiple recipes, will do them in order or round robin
+  - Blaze cost reduction
+  - RF Instead of blaze (maybe)
+  - Spring water
+    - Adjacent water blocks will fill it up
+      - Maybe do a cool model thing to show it picking up water?
 
 ### New Blocks
 - Crystal glass (conn texture)

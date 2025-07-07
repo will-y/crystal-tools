@@ -121,6 +121,15 @@ public class DataComponents {
     // Fishing Rod
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> DOUBLE_DROPS = register("double_drops", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
 
+    // Magnet
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> DISABLED = register("disabled", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> ITEM_SPEED = register("item_speed", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> MAGNET_RANGE = register("magnet_range", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> PULL_XP = register("pull_xp", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> PULL_MOBS = register("pull_mobs", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> INSTANT_PICKUP = register("instant_pickup", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> DISABLE_MOB_PULL = register("disable_mob_pull", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
+
     // Block Entities
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<LevelableBlockEntityData>> LEVELABLE_BLOCK_ENTITY_DATA = register("levelable_block_entity_data", LevelableBlockEntityData.CODEC, LevelableBlockEntityData.STREAM_CODEC);
 

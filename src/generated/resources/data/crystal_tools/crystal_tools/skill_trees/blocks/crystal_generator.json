@@ -312,7 +312,7 @@
       {
         "type": "crystal_tools:block_entity_nbt",
         "node": {
-          "description": "No longer consumes fuel when not burning an item",
+          "description": "Won't burn fuel if it cannot output power",
           "id": 14,
           "key": [
             "crystal_tools:save_fuel"

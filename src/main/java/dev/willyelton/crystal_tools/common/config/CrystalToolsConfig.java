@@ -65,6 +65,9 @@ public class CrystalToolsConfig {
     public static ModConfigSpec.DoubleValue QUARRY_SPEED_UPGRADE_MULTIPLIER;
     public static ModConfigSpec.IntValue QUARRY_MAX_SIZE;
 
+    // Magnet
+    public static ModConfigSpec.DoubleValue MAGNET_BASE_RANGE;
+
     static {
         ModConfigSpec.Builder configBuilder = new ModConfigSpec.Builder();
         setupConfig(configBuilder);
@@ -164,6 +167,12 @@ public class CrystalToolsConfig {
                         .defineInRange("quarry_speed_upgrade_multiplier", 20D, 0.1D, 100000D);
         QUARRY_MAX_SIZE = builder.comment("Max size of the quarry")
                         .defineInRange("quarry_max_size", 64, 2, 256);
+        builder.pop();
+
+        // Magnet
+        builder.comment("Crystal magnet settings").push("magnet");
+        MAGNET_BASE_RANGE = builder.comment("Magnet Base Range (in blocks)")
+                        .defineInRange("magnet_base_range", 5.0, 0, 100);
         builder.pop();
 
         // MISC

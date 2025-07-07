@@ -243,7 +243,7 @@ public class CrystalToolsBlockSkillTrees {
                     .blockNode(13, feCapacity(4), desc.feCapacity(), FE_CAPACITY, 1)
                         .nodeRequirement(10)
                 .tier()
-                    .blockNode(14, SAVE_FUEL, desc.saveFuel(), BlockEntityResourceLocations.SAVE_FUEL, 1)
+                    .blockNode(14, SAVE_FUEL, desc.generatorSaveFuel(), BlockEntityResourceLocations.SAVE_FUEL, 1)
                         .previousTierOrRequirements()
                     .blockNode(15, FOOD_GENERATOR, desc.foodGenerator(), BlockEntityResourceLocations.FOOD_GENERATOR, 1)
                         .previousTierOrRequirements()

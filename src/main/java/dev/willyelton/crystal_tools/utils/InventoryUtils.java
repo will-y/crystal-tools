@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.utils;
 
+import dev.willyelton.crystal_tools.common.compat.curios.CuriosCompatibility;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -49,6 +50,18 @@ public class InventoryUtils {
         }
 
         return ItemStack.EMPTY;
+    }
+
+    public static List<ItemStack> findAll(Player player, Predicate<ItemStack> predicate) {
+        List<ItemStack> curiosItems = CuriosCompatibility.getItemInCurios(player, predicate);
+        List<ItemStack> playerInventoryItems = player.getInventory().getNonEquipmentItems()
+                .stream()
+                .filter(predicate)
+                .toList();
+
+        curiosItems.addAll(playerInventoryItems);
+
+        return curiosItems;
     }
 
     public static List<ItemStack> getArmorItems(Player player) {

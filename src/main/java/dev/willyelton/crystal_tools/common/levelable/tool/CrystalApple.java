@@ -4,7 +4,6 @@ import dev.willyelton.crystal_tools.common.capability.Capabilities;
 import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -20,7 +19,7 @@ public class CrystalApple extends LevelableTool {
     private static final int BASE_EAT_SPEED = 32;
 
     public CrystalApple(Item.Properties properties) {
-        super(properties.repairable(CrystalToolsTags.REPAIRS_CRYSTAL)
+        super(properties
                 .durability(50)
                 .food(new FoodProperties(2, 0.4F, false)));
     }

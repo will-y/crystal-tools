@@ -1,0 +1,743 @@
+{
+  "equipmentSlot": "mainhand",
+  "tiers": [
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Magnet's Durability",
+          "id": 0,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability I",
+          "requirements": [],
+          "value": 200.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the speed of items pulled in",
+          "id": 1,
+          "key": [
+            "crystal_tools:item_speed"
+          ],
+          "limit": 1,
+          "name": "Item Speed I",
+          "requirements": [],
+          "value": 0.05
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increase the range of the magnet",
+          "id": 2,
+          "key": [
+            "crystal_tools:magnet_range"
+          ],
+          "limit": 1,
+          "name": "Magnet Range I",
+          "requirements": [],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Magnet's Durability",
+          "id": 3,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                0
+              ]
+            }
+          ],
+          "value": 200.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the speed of items pulled in",
+          "id": 4,
+          "key": [
+            "crystal_tools:item_speed"
+          ],
+          "limit": 1,
+          "name": "Item Speed II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                1
+              ]
+            }
+          ],
+          "value": 0.05
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increase the range of the magnet",
+          "id": 5,
+          "key": [
+            "crystal_tools:magnet_range"
+          ],
+          "limit": 1,
+          "name": "Magnet Range II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                2
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 5 filter slots to the Magnet",
+          "id": 6,
+          "key": [
+            "crystal_tools:filter_capacity"
+          ],
+          "limit": 1,
+          "name": "Filter Slots I",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                3,
+                4,
+                5
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not to use durability",
+          "id": 7,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking I",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                3,
+                4,
+                5
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Allows the Magnet to pull in experience orbs",
+          "id": 8,
+          "key": [
+            "crystal_tools:pull_xp"
+          ],
+          "limit": 1,
+          "name": "Attract EXP",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                3,
+                4,
+                5
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Magnet's Durability",
+          "id": 9,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                3
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                6,
+                7,
+                8
+              ]
+            }
+          ],
+          "value": 200.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the speed of items pulled in",
+          "id": 10,
+          "key": [
+            "crystal_tools:item_speed"
+          ],
+          "limit": 1,
+          "name": "Item Speed III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                4
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                6,
+                7,
+                8
+              ]
+            }
+          ],
+          "value": 0.05
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increase the range of the magnet",
+          "id": 11,
+          "key": [
+            "crystal_tools:magnet_range"
+          ],
+          "limit": 1,
+          "name": "Magnet Range III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                5
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                6,
+                7,
+                8
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Magnet's Durability",
+          "id": 12,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                9
+              ]
+            }
+          ],
+          "value": 200.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the speed of items pulled in",
+          "id": 13,
+          "key": [
+            "crystal_tools:item_speed"
+          ],
+          "limit": 1,
+          "name": "Item Speed IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                10
+              ]
+            }
+          ],
+          "value": 0.05
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increase the range of the magnet",
+          "id": 14,
+          "key": [
+            "crystal_tools:magnet_range"
+          ],
+          "limit": 1,
+          "name": "Magnet Range IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                11
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 5 filter slots to the Magnet",
+          "id": 15,
+          "key": [
+            "crystal_tools:filter_capacity"
+          ],
+          "limit": 1,
+          "name": "Filter Slots II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                6
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                12,
+                13,
+                14
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not to use durability",
+          "id": 16,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                7
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                12,
+                13,
+                14
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Allows the Magnet to pull in mobs",
+          "id": 17,
+          "key": [
+            "crystal_tools:pull_mobs"
+          ],
+          "limit": 1,
+          "name": "Attract Mobs",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                12,
+                13,
+                14
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Magnet's Durability",
+          "id": 18,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                12
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                15,
+                16,
+                17
+              ]
+            }
+          ],
+          "value": 200.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the speed of items pulled in",
+          "id": 19,
+          "key": [
+            "crystal_tools:item_speed"
+          ],
+          "limit": 1,
+          "name": "Item Speed V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                13
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                15,
+                16,
+                17
+              ]
+            }
+          ],
+          "value": 0.05
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increase the range of the magnet",
+          "id": 20,
+          "key": [
+            "crystal_tools:magnet_range"
+          ],
+          "limit": 1,
+          "name": "Magnet Range V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                14
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                15,
+                16,
+                17
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Magnet's Durability",
+          "id": 21,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 1,
+          "name": "Durability VI",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                18
+              ]
+            }
+          ],
+          "value": 200.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the speed of items pulled in",
+          "id": 22,
+          "key": [
+            "crystal_tools:item_speed"
+          ],
+          "limit": 1,
+          "name": "Item Speed VI",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                19
+              ]
+            }
+          ],
+          "value": 0.05
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increase the range of the magnet",
+          "id": 23,
+          "key": [
+            "crystal_tools:magnet_range"
+          ],
+          "limit": 1,
+          "name": "Magnet Range VI",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                20
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 5 filter slots to the Magnet",
+          "id": 24,
+          "key": [
+            "crystal_tools:filter_capacity"
+          ],
+          "limit": 1,
+          "name": "Filter Slots III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                15
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                21,
+                22,
+                23
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not to use durability",
+          "id": 25,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 1,
+          "name": "Unbreaking III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                16
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                21,
+                22,
+                23
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Items are instantly picked up by the Magnet",
+          "id": 26,
+          "key": [
+            "crystal_tools:instant_pickup"
+          ],
+          "limit": 1,
+          "name": "Instant Pickup",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                21,
+                22,
+                23
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Automatically repairs the Magnet over time",
+          "id": 27,
+          "key": [
+            "crystal_tools:auto_repair"
+          ],
+          "limit": 0,
+          "name": "Auto Repair",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                21,
+                22,
+                23
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds 10% to the chance not to use durability",
+          "id": 28,
+          "key": [
+            "crystal_tools:unbreaking"
+          ],
+          "limit": 70,
+          "name": "Infinite Unbreaking",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                25
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                24,
+                26,
+                27
+              ]
+            }
+          ],
+          "value": 0.01
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the Magnet's Durability",
+          "id": 29,
+          "key": [
+            "minecraft:max_damage"
+          ],
+          "limit": 0,
+          "name": "Infinite Durability",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                21
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                24,
+                25,
+                26,
+                27
+              ]
+            }
+          ],
+          "value": 50.0
+        }
+      }
+    ]
+  ]
+}

@@ -5,10 +5,9 @@ import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.compat.curios.CuriosCompatibility;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.config.CrystalToolsServerConfig;
 import dev.willyelton.crystal_tools.common.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalBackpackContainerMenu;
-import net.minecraft.core.BlockPos;
+import dev.willyelton.crystal_tools.utils.InventoryUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -16,7 +15,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -26,17 +24,14 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -78,7 +73,7 @@ public class CrystalBackpack extends Item implements LevelableItem {
                 IItemHandler itemHandler = level.getCapability(Capabilities.ItemHandler.BLOCK, context.getClickedPos(), context.getClickedFace());
                 if (itemHandler != null) {
                     for (int i = 0; i < backpackInventory.getSlots(); i++) {
-                        backpackInventory.setStackInSlot(i, ItemHandlerHelper.insertItem(itemHandler, backpackInventory.getStackInSlot(i),false));
+                        backpackInventory.setStackInSlot(i, ItemHandlerHelper.insertItem(itemHandler, backpackInventory.getStackInSlot(i), false));
                     }
                 }
 
@@ -177,24 +172,22 @@ public class CrystalBackpack extends Item implements LevelableItem {
         entity.playSound(SoundEvents.BUNDLE_INSERT, 0.8F, 0.8F + entity.level().getRandom().nextFloat() * 0.4F);
     }
 
-    private record CrystalBackpackMenuSupplier(CrystalBackpack backpackItem, ItemStack stack, int slotIndex) implements MenuProvider {
+    private record CrystalBackpackMenuSupplier(CrystalBackpack backpackItem, ItemStack stack,
+                                               int slotIndex) implements MenuProvider {
         @Override
-            public Component getDisplayName() {
-                return stack.getHoverName();
-            }
-
-            @Override
-            public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
-                // Server side constructor
-                return new CrystalBackpackContainerMenu(containerId, playerInventory, stack, slotIndex);
-            }
+        public Component getDisplayName() {
+            return stack.getHoverName();
         }
 
-    public static List<ItemStack> findBackpackStacks(Player player) {
-        List<ItemStack> backpackStacks = CuriosCompatibility.getCrystalBackpacksInCurios(player);
-        backpackStacks.addAll(player.getInventory().getNonEquipmentItems().stream().filter(stack -> stack.is(Registration.CRYSTAL_BACKPACK.get())).toList());
+        @Override
+        public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
+            // Server side constructor
+            return new CrystalBackpackContainerMenu(containerId, playerInventory, stack, slotIndex);
+        }
+    }
 
-        return backpackStacks;
+    public static List<ItemStack> findBackpackStacks(Player player) {
+        return InventoryUtils.findAll(player, stack -> stack.is(Registration.CRYSTAL_BACKPACK.get()));
     }
 
     public static int findNextBackpackSlot(Player player) {
@@ -244,24 +237,11 @@ public class CrystalBackpack extends Item implements LevelableItem {
         }
     }
 
-    public static List<ItemStack> getFilterItems(ItemStack stack) {
-        if (!stack.is(Registration.CRYSTAL_BACKPACK.get())) {
-            throw new IllegalArgumentException("Cannot get filter items on  " + stack.getItem());
-        }
-
-        ItemContainerContents filterContents = stack.get(DataComponents.FILTER_INVENTORY);
-
-        if (filterContents == null) {
-            return Collections.emptyList();
-        }
-
-        return filterContents.stream().filter(stack1 -> !stack1.isEmpty()).toList();
-    }
-
     /**
      * Adds exp to all backpacks in the player's inventory
+     *
      * @param player Player to search inventory and give xp to backpacks in
-     * @param exp Amount to add to each backpack
+     * @param exp    Amount to add to each backpack
      */
     public static void addXpToBackpacks(Player player, int exp) {
         findBackpackStacks(player)

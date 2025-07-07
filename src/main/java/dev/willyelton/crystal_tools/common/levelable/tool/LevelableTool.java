@@ -5,6 +5,7 @@ import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.common.network.data.BlockBreakPayload;
+import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -28,6 +29,8 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     public LevelableTool(Item.Properties properties) {
         super(properties.fireResistant()
                 .rarity(Rarity.RARE)
+                .repairable(CrystalToolsTags.REPAIRS_CRYSTAL)
+                .stacksTo(1)
                 .component(net.minecraft.core.component.DataComponents.ENCHANTABLE, null));
     }
 

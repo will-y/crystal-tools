@@ -193,37 +193,6 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
 
-        // Armor
-//        shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_HELMET.get())
-//                .pattern("ccc")
-//                .pattern("c c")
-//                .define('c', Registration.CRYSTAL.get())
-//                .unlockedBy("has_crystal", HAS_CRYSTAL)
-//                .save(output);
-//
-//        shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_CHESTPLATE.get())
-//                .pattern("c c")
-//                .pattern("ccc")
-//                .pattern("ccc")
-//                .define('c', Registration.CRYSTAL.get())
-//                .unlockedBy("has_crystal", HAS_CRYSTAL)
-//                .save(output);
-//
-//        shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_LEGGINGS.get())
-//                .pattern("ccc")
-//                .pattern("c c")
-//                .pattern("c c")
-//                .define('c', Registration.CRYSTAL.get())
-//                .unlockedBy("has_crystal", HAS_CRYSTAL)
-//                .save(output);
-//
-//        shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_BOOTS.get())
-//                .pattern("c c")
-//                .pattern("c c")
-//                .define('c', Registration.CRYSTAL.get())
-//                .unlockedBy("has_crystal", HAS_CRYSTAL)
-//                .save(output);
-
         shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_BACKPACK.get())
                 .pattern("lcl")
                 .pattern("chc")
@@ -231,6 +200,16 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 .define('l', Items.LEATHER)
                 .define('c', Registration.CRYSTAL.get())
                 .define('h', Items.CHEST)
+                .unlockedBy("has_crystal", HAS_CRYSTAL)
+                .save(output);
+
+        shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_MAGNET.get())
+                .pattern(" cr")
+                .pattern("cic")
+                .pattern("rc ")
+                .define('c', Registration.CRYSTAL.get())
+                .define('i', Items.IRON_INGOT)
+                .define('r', Items.REDSTONE)
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
 

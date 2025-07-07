@@ -1,6 +1,6 @@
-// 1.21.6	2025-06-19T19:51:07.1278818	Registries
+// 1.21.7	2025-07-06T23:40:55.2737182	Registries
 fc5742856159734f886e60a3e6559bbe51c57d92 data/crystal_tools/crystal_tools/skill_trees/blocks/crystal_furnace.json
-fb8a1629d246fd61cd03af3ef5eec6ce7869dbba data/crystal_tools/crystal_tools/skill_trees/blocks/crystal_generator.json
+2a0c63ddccc640131e357b3a412a3141a43ba97d data/crystal_tools/crystal_tools/skill_trees/blocks/crystal_generator.json
 864b0773e2a28be44ba79d150e23cda8cff8944d data/crystal_tools/crystal_tools/skill_trees/blocks/crystal_quarry.json
 41e7bfe215dc6c6e2a433e8a5d968f28d4126d58 data/crystal_tools/crystal_tools/skill_trees/items/crystal_aiot.json
 dd203abedf88ae43499eb3411e2fba61a88cb98d data/crystal_tools/crystal_tools/skill_trees/items/crystal_apple.json
@@ -14,6 +14,7 @@ b190d0090c76740013d54247f8ca783f97143464 data/crystal_tools/crystal_tools/skill_
 2ca9a9e6219f52c75ea7dee98641343202f77073 data/crystal_tools/crystal_tools/skill_trees/items/crystal_helmet.json
 41a5cb2697b9f27e88f958b1224576b5e7fe8afe data/crystal_tools/crystal_tools/skill_trees/items/crystal_hoe.json
 ab34a2d9ae7a4bd6e7f59ca26891404260be92fb data/crystal_tools/crystal_tools/skill_trees/items/crystal_leggings.json
+fa6a475583c83f857e94434ee4b810663d8e6b26 data/crystal_tools/crystal_tools/skill_trees/items/crystal_magnet.json
 50e9ba79e7a2b590afe29f26039cc227f04e8ccb data/crystal_tools/crystal_tools/skill_trees/items/crystal_pickaxe.json
 e25ec1d7d8bdd83deba9352f463913ed0c0a6843 data/crystal_tools/crystal_tools/skill_trees/items/crystal_rocket.json
 87ed20330ffb6f45c5f035b1d593f3ef8241accd data/crystal_tools/crystal_tools/skill_trees/items/crystal_shield.json

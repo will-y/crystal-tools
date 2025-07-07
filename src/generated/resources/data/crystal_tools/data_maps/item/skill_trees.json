@@ -61,6 +61,11 @@
       "experienceScaling": 2.0,
       "treeLocation": "crystal_tools:crystal_leggings"
     },
+    "crystal_tools:crystal_magnet": {
+      "allowDamageXp": false,
+      "allowMiningXp": false,
+      "treeLocation": "crystal_tools:crystal_magnet"
+    },
     "crystal_tools:crystal_pickaxe": {
       "allowDamageXp": false,
       "treeLocation": "crystal_tools:crystal_pickaxe"

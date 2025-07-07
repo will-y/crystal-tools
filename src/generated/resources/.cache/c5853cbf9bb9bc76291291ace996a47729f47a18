@@ -1,4 +1,4 @@
-// 1.21.6	2025-06-28T22:53:56.4693498	Model Definitions - crystal_tools
+// 1.21.7	2025-07-05T13:55:32.1911685	Model Definitions - crystal_tools
 44eb603a54aabeb5d4f7c1fd34fc281a6fbb6170 assets/crystal_tools/blockstates/crystal_block.json
 16c7f01ecbdd437f59531bd56029a2d12186c9a6 assets/crystal_tools/blockstates/crystal_deepslate_ore.json
 b45cd6d350dcfbffe28c7a2e3695c880e9ac5b54 assets/crystal_tools/blockstates/crystal_furnace.json
@@ -27,6 +27,7 @@ ed4a0e58e61aa8a869a47921713b6cf4fc43e5a3 assets/crystal_tools/items/crystal_fish
 9e2c8105941563763bed6a2875aaee578d01e676 assets/crystal_tools/items/crystal_helmet.json
 aced7d03f45a4f2e1b0157392c9b34a20892b69f assets/crystal_tools/items/crystal_hoe.json
 3c1741259837f967f9dbefe044f426ab92aa6b11 assets/crystal_tools/items/crystal_leggings.json
+6b8b50c5cec0ad4e1d22074845a7b916bc0eaf40 assets/crystal_tools/items/crystal_magnet.json
 1c34aa819d17b963a06b8717acfcfa95aeb306ff assets/crystal_tools/items/crystal_ore.json
 d73e7661f50c8a4dcebf7ab69a5010480d319d50 assets/crystal_tools/items/crystal_pickaxe.json
 2a8454cc8023b32ddc50af1ba32d15d329201db0 assets/crystal_tools/items/crystal_quarry.json
@@ -120,6 +121,8 @@ d656e6869a13f8863b0de9412735de6cac71c83a assets/crystal_tools/models/item/crysta
 2bf42f2f4104f9bafeea005c225f4e0d4f792a5d assets/crystal_tools/models/item/crystal_leggings_quartz_trim.json
 8e2cf7a91429f353dfc04fa09ed230c734033250 assets/crystal_tools/models/item/crystal_leggings_redstone_trim.json
 a82524b98824cf485f48000d5c441c1c37c6416a assets/crystal_tools/models/item/crystal_leggings_resin_trim.json
+230929d6e8619368dcbe08c2a76dd833ec974d18 assets/crystal_tools/models/item/crystal_magnet.json
+172d9fd9bf79556d9a601f752c9b82618e11ba4b assets/crystal_tools/models/item/crystal_magnet_disabled.json
 9b45fc1023c928307bd7e9f43e1c47bf4e3e8651 assets/crystal_tools/models/item/crystal_ore.json
 db83ce327c359aa8f7ceea40a1446b6a231dd184 assets/crystal_tools/models/item/crystal_pickaxe.json
 d797d1d63be9ae32189d2a8fb259112d173e737b assets/crystal_tools/models/item/crystal_quarry.json

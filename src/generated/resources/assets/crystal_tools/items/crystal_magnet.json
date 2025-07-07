@@ -1,0 +1,14 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "crystal_tools:item/crystal_magnet"
+    },
+    "on_true": {
+      "type": "minecraft:model",
+      "model": "crystal_tools:item/crystal_magnet_disabled"
+    },
+    "property": "crystal_tools:disabled"
+  }
+}

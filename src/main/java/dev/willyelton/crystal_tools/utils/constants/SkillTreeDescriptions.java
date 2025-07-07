@@ -251,6 +251,26 @@ public class SkillTreeDescriptions {
         return String.format("Allows the %s to shear sheep!", toolName);
     }
 
+    public String itemSpeed() {
+        return "Increases the speed of items pulled in";
+    }
+
+    public String magnetRange() {
+        return "Increase the range of the magnet";
+    }
+
+    public String pullXp() {
+        return String.format("Allows the %s to pull in experience orbs", toolName);
+    }
+
+    public String pullMobs() {
+        return String.format("Allows the %s to pull in mobs", toolName);
+    }
+
+    public String instantPickup() {
+        return String.format("Items are instantly picked up by the %s", toolName);
+    }
+
     // Block Entity Descriptions
     public String furnaceSpeed() {
         return "Increases smelting speed";

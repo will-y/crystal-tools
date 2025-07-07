@@ -28,6 +28,9 @@ public class ItemTooltipEvent {
         if (!ToolUtils.hasSkillTree(stack) || levelableStack == null) return;
 
         List<Component> tooltips = event.getToolTip();
+        if (stack.getOrDefault(DataComponents.DISABLED, false)) {
+            tooltips.add(index++, Component.literal("\u00A7c\u00A7l" + "Disabled"));
+        }
 
         int durability = stack.getMaxDamage() - stack.getDamageValue();
         if (durability <= 1 && stack.getMaxDamage() != 1) {

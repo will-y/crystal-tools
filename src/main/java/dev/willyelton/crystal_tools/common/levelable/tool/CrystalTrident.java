@@ -31,9 +31,6 @@ import org.jetbrains.annotations.NotNull;
 public class CrystalTrident extends SwordLevelableTool implements EntityTargeter {
     public CrystalTrident(Item.Properties properties) {
         super(properties.attributes(TridentItem.createAttributes())
-                .stacksTo(1)
-                .fireResistant()
-                .repairable(CrystalToolsTags.REPAIRS_CRYSTAL)
                 .durability(CRYSTAL.durability())
                 .component(net.minecraft.core.component.DataComponents.TOOL, TridentItem.createToolProperties())
                 .component(net.minecraft.core.component.DataComponents.WEAPON, new Weapon(1)));

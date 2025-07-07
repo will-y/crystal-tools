@@ -16,7 +16,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemContainerContents;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 public class ToolUtils {
@@ -71,5 +74,31 @@ public class ToolUtils {
         Optional<Registry<SkillData>> skillDataOptional = registryAccess.lookup(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS);
 
         return skillDataOptional.flatMap(skillData -> skillData.get(treeLocation));
+    }
+
+    public static List<ItemStack> getFilterItems(ItemStack stack) {
+        ItemContainerContents filterContents = stack.get(DataComponents.FILTER_INVENTORY);
+
+        if (filterContents == null) {
+            return Collections.emptyList();
+        }
+
+        return filterContents.stream().filter(stack1 -> !stack1.isEmpty()).toList();
+    }
+
+    public static boolean matchesFilter(ItemStack stack, ItemStack toMatch, List<ItemStack> filter) {
+        // TODO: matching modes (respect nbt)
+        // If there are no filters, default to pickup
+        if (stack.getOrDefault(DataComponents.FILTER_CAPACITY, 0) == 0) {
+            return true;
+        }
+        boolean whiteList = stack.getOrDefault(DataComponents.WHITELIST, true);
+        for (ItemStack filterStack : filter) {
+            if (filterStack.is(toMatch.getItem())) {
+                return whiteList;
+            }
+        }
+
+        return !whiteList;
     }
 }

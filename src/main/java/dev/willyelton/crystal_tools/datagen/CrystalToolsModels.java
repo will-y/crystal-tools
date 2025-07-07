@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.datagen;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.client.model.property.Disabled;
 import dev.willyelton.crystal_tools.client.renderer.CrystalShieldRenderer;
 import dev.willyelton.crystal_tools.client.renderer.CrystalTridentSpecialRenderer;
 import dev.willyelton.crystal_tools.client.renderer.item.properties.BowUseDuration;
@@ -13,6 +14,7 @@ import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TexturedModel;
+import net.minecraft.client.renderer.item.ConditionalItemModel;
 import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
@@ -41,6 +43,7 @@ public class CrystalToolsModels extends ModelProvider {
         itemModels.generateFlatItem(Registration.CRYSTAL_UPGRADE_SMITHING_TEMPLATE.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(Registration.CRYSTAL_APPLE.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(Registration.CRYSTAL_BACKPACK.get(), ModelTemplates.FLAT_ITEM);
+        generateCrystalMagnet(itemModels);
 
         // Tools
         itemModels.generateFlatItem(Registration.CRYSTAL_AIOT.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
@@ -126,7 +129,7 @@ public class CrystalToolsModels extends ModelProvider {
         itemModels.itemModelOutput.accept(tridentItem, ItemModelGenerators.createFlatModelDispatch(itemmodel$unbaked, itemmodel$unbaked3));
     }
 
-    public void generateCrystalShield(ItemModelGenerators itemModels) {
+    private void generateCrystalShield(ItemModelGenerators itemModels) {
         Item shieldItem = Registration.CRYSTAL_SHIELD.get();
         ItemModel.Unbaked itemmodel$unbaked = ItemModelUtils.specialModel(CrystalToolsModelTemplates.CRYSTAL_SHIELD.create(shieldItem, TextureMapping.particle(Registration.CRYSTAL_BLOCK.get()), itemModels.modelOutput),
                 new CrystalShieldRenderer.Unbaked());
@@ -134,6 +137,17 @@ public class CrystalToolsModels extends ModelProvider {
                 CrystalToolsModelTemplates.CRYSTAL_SHIELD_BLOCKING.create(shieldItem, TextureMapping.particle(Registration.CRYSTAL_BLOCK.get()), itemModels.modelOutput),
                 new CrystalShieldRenderer.Unbaked());
         itemModels.generateBooleanDispatch(Registration.CRYSTAL_SHIELD.get(), ItemModelUtils.isUsingItem(), itemmodel$unbaked1, itemmodel$unbaked);
+    }
+
+    private void generateCrystalMagnet(ItemModelGenerators itemModels) {
+        Item magnetItem = Registration.CRYSTAL_MAGNET.get();
+        ItemModel.Unbaked enabled = ItemModelUtils.plainModel(itemModels.createFlatItemModel(magnetItem, ModelTemplates.FLAT_ITEM));
+        ItemModel.Unbaked disabled = ItemModelUtils.plainModel(itemModels.createFlatItemModel(magnetItem, "_disabled", ModelTemplates.FLAT_ITEM));
+
+        itemModels.itemModelOutput.accept(magnetItem, new ConditionalItemModel.Unbaked(
+                new Disabled(),
+                disabled,
+                enabled));
     }
 
     @Override

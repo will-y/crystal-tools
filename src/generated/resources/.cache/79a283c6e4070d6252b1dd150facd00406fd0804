@@ -1,4 +1,4 @@
-// 1.21.6	2025-06-29T16:06:11.7053812	crystal_tools:recipes
+// 1.21.7	2025-07-06T22:49:55.5467697	crystal_tools:recipes
 6b8a1672b8afbf39ac5fdfc313b5b7d205f4f3e7 data/crystal_tools/advancement/recipes/combat/crystal_bow.json
 76e397c3547c8c5f0b3f7d199ee445d188cea234 data/crystal_tools/advancement/recipes/combat/crystal_sword.json
 71c672656ce10fbeab516bd3581074c4b06ea55c data/crystal_tools/advancement/recipes/decorations/crystal_block.json
@@ -19,6 +19,7 @@ c96a8c00b89b1493f6ee1ed5477e7c3ba92faa72 data/crystal_tools/advancement/recipes/
 de0d57881ee230ca3924520c1d72418e60577e84 data/crystal_tools/advancement/recipes/tools/crystal_helmet_smithing.json
 4e17c0b17dcb4e04786ea05465dd3791e9ba5c46 data/crystal_tools/advancement/recipes/tools/crystal_hoe.json
 9e2c0ce571a0c908f1649041d6e8f4af3f5d8300 data/crystal_tools/advancement/recipes/tools/crystal_leggings_smithing.json
+aa86f8c664e95feeb838ccf2d8ec509a84601d76 data/crystal_tools/advancement/recipes/tools/crystal_magnet.json
 635ecb5a86198085546fe324b7d27c3da10f9e76 data/crystal_tools/advancement/recipes/tools/crystal_pickaxe.json
 4a1ed82a1acf8818ee590174aad4837d7f8ae3c7 data/crystal_tools/advancement/recipes/tools/crystal_rocket.json
 3381bb742e356330dd309b9ae1ca174d83f94bda data/crystal_tools/advancement/recipes/tools/crystal_shovel.json
@@ -39,6 +40,7 @@ e120e267df9e827b296664a63cf9ec2d78d6ee95 data/crystal_tools/recipe/crystal_gener
 45c5d829492f4e7e7b46a53b6ef8f7b6903a762c data/crystal_tools/recipe/crystal_helmet_smithing.json
 385cc2cf28736edcf18cb4632195d03ed7dd5416 data/crystal_tools/recipe/crystal_hoe.json
 f38b6505efe4bf11d99c4f2196ebab5c4554aa7f data/crystal_tools/recipe/crystal_leggings_smithing.json
+5e2582ca84c1df288f7b4ee5d606a9906a923011 data/crystal_tools/recipe/crystal_magnet.json
 89ef9acc749a8766e1d0b76e95166ef9584641d1 data/crystal_tools/recipe/crystal_pickaxe.json
 d206236c6da73f921b5b829c9d9511c65c7883b7 data/crystal_tools/recipe/crystal_quarry.json
 3ede6644a9af08cd77cf26bc666502c7f3da68ab data/crystal_tools/recipe/crystal_rocket.json
