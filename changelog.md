@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 3.1.1
+### Additions
+- The Crystal Magnet can now be equipped in the charm curios slot
+
 ## 3.1.0
 ### Additions
 - Adds the Crystal Magnet

@@ -169,10 +169,10 @@ public class Registration {
             () -> IMenuTypeExtension.create(CrystalMagnetContainerMenu::new));
 
     // Particles
-    public static final DeferredHolder<ParticleType<?>, QuarryBreakParticleType> QUARRY_BREAK_PARTICLE = PARTICLES.register("quary_break_particle", () -> new QuarryBreakParticleType(false));
+    public static final DeferredHolder<ParticleType<?>, QuarryBreakParticleType> QUARRY_BREAK_PARTICLE = PARTICLES.register("quarry_break_particle", () -> new QuarryBreakParticleType(false));
 
     // Data Attachments
-    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Boolean>> MAGNET_ITEM = ATTACHMENT_TYPES.register("crystal_magnemt_attracted", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL.fieldOf("bool")).build());
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Boolean>> MAGNET_ITEM = ATTACHMENT_TYPES.register("crystal_magnet_attracted", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL.fieldOf("bool")).build());
 
     // Creative Tabs
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> TAB = TABS.register("crystal_tools_tab", () ->
