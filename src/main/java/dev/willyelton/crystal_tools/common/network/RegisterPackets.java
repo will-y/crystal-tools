@@ -48,7 +48,7 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 public class RegisterPackets {
     @SubscribeEvent
     public static void registerNetworking(final RegisterPayloadHandlersEvent event) {
-        final PayloadRegistrar registrar = event.registrar(CrystalTools.MODID);
+        final PayloadRegistrar registrar = event.registrar("1.0.0");
 
         // Client to Server
         registrar.playToServer(ToolAttributePayload.TYPE, ToolAttributePayload.STREAM_CODEC, ToolAttributeHandler.INSTANCE::handle);

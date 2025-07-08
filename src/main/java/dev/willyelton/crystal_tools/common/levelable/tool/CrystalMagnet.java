@@ -90,7 +90,7 @@ public class CrystalMagnet extends LevelableTool {
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
         if (stack.getOrDefault(DataComponents.DISABLED, false)) {
-            components.add(Component.literal("\u00A7c\u00A7l" + "Disabled"));
+            components.add(Component.literal("\u00A7c\u00A7l" + "Disabled (" + RegisterKeyBindingsEvent.TOGGLE_MAGNET.getKey().getDisplayName().getString() + " to enable)"));
         }
 
         components.add(Component.literal(String.format("Range: %.1f Blocks", getRange(stack))));
@@ -102,8 +102,8 @@ public class CrystalMagnet extends LevelableTool {
                 toolTip = "\u00A79" + "Mob Pulling Enabled";
             }
 
-            if (RegisterKeyBindingsEvent.MODE_SWITCH != null) {
-                toolTip = toolTip + " (shift + " + RegisterKeyBindingsEvent.MODE_SWITCH.getKey().getDisplayName().getString() + " to change)";
+            if (RegisterKeyBindingsEvent.TOGGLE_MAGNET != null) {
+                toolTip = toolTip + " (shift + " + RegisterKeyBindingsEvent.TOGGLE_MAGNET.getKey().getDisplayName().getString() + " to change)";
             }
             components.add(Component.literal(toolTip));
         }

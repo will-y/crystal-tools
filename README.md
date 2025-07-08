@@ -159,7 +159,7 @@ There will be upgrades that are common to most tools, and tools will each get un
   - Allows the magnet to pull in experience orbs
 - Pull Mobs
   - Allows the magnet to pull in mobs
-  - Can be disabled with shift + mode switch key
+  - Can be disabled with shift + magnet toggle key
 - Filter
   - Adds the ability to whitelist and blacklist which items are picked up
 - Instant Pickup
