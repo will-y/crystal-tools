@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 3.1.2
+### Additions
+- Adds a new keybind for toggling magnets so that they can be easily toggled in curios slots
+
 ## 3.1.1
 ### Additions
 - The Crystal Magnet can now be equipped in the charm curios slot

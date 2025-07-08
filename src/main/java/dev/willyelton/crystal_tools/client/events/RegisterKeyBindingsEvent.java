@@ -15,6 +15,7 @@ public class RegisterKeyBindingsEvent {
     public static KeyMapping MODE_SWITCH;
     public static KeyMapping OPEN_BACKPACK;
     public static KeyMapping TRIGGER_ROCKET;
+    public static KeyMapping TOGGLE_MAGNET;
 
     private static KeyMapping createBinding(String name, int key, RegisterKeyMappingsEvent e) {
         KeyMapping keyBinding = new KeyMapping(getKey(name), key, getKey("category"));
@@ -29,6 +30,7 @@ public class RegisterKeyBindingsEvent {
         MODE_SWITCH = createBinding("mode_switch", GLFW.GLFW_KEY_M, e);
         OPEN_BACKPACK = createBinding("open_backpack", GLFW.GLFW_KEY_B, e);
         TRIGGER_ROCKET = createBinding("trigger_rocket", GLFW.GLFW_KEY_R, e);
+        TOGGLE_MAGNET = createBinding("toggle_magnet", GLFW.GLFW_KEY_N, e);
     }
 
     private static String getKey(String name) {

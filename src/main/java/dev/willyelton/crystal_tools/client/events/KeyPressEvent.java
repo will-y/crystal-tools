@@ -46,7 +46,11 @@ public class KeyPressEvent {
         }
 
         if (RegisterKeyBindingsEvent.MODE_SWITCH.consumeClick()) {
-            handleModeSwitch();
+            handleModeSwitch(false);
+        }
+
+        if (RegisterKeyBindingsEvent.TOGGLE_MAGNET.consumeClick()) {
+            handleModeSwitch(true);
         }
 
         if (RegisterKeyBindingsEvent.OPEN_BACKPACK.consumeClick()) {
@@ -84,8 +88,8 @@ public class KeyPressEvent {
     /**
      * Handles changing the mining mode (silk touch or fortune)
      */
-    public static void handleModeSwitch() {
-        ClientPacketDistributor.sendToServer(new ModeSwitchPayload(Screen.hasShiftDown(), Screen.hasControlDown(), Screen.hasAltDown()));
+    public static void handleModeSwitch(boolean magnet) {
+        ClientPacketDistributor.sendToServer(new ModeSwitchPayload(Screen.hasShiftDown(), Screen.hasControlDown(), Screen.hasAltDown(), magnet));
     }
 
     public static void handleOpenBackpack() {

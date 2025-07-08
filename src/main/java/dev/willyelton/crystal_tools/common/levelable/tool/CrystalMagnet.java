@@ -103,8 +103,8 @@ public class CrystalMagnet extends LevelableTool {
                 toolTip = "\u00A79" + "Mob Pulling Enabled";
             }
 
-            if (RegisterKeyBindingsEvent.MODE_SWITCH != null) {
-                toolTip = toolTip + " (shift + " + RegisterKeyBindingsEvent.MODE_SWITCH.getKey().getDisplayName().getString() + " to change)";
+            if (RegisterKeyBindingsEvent.TOGGLE_MAGNET != null) {
+                toolTip = toolTip + " (shift + " + RegisterKeyBindingsEvent.TOGGLE_MAGNET.getKey().getDisplayName().getString() + " to change)";
             }
             components.accept(Component.literal(toolTip));
         }

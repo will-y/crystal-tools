@@ -47,7 +47,7 @@ public class RegisterPackets {
 
     @SubscribeEvent
     public static void registerNetworking(final RegisterPayloadHandlersEvent event) {
-        final PayloadRegistrar registrar = event.registrar(CrystalTools.MODID);
+        final PayloadRegistrar registrar = event.registrar("1.0.0");
 
         // Client to Server
         registrar.playToServer(ToolSkillPayload.TYPE, ToolSkillPayload.STREAM_CODEC, ToolSkillHandler.INSTANCE::handle);

@@ -24,6 +24,18 @@ public class ModeSwitchHandler {
         Player player = context.player();
 
         ItemStack tool = ItemStackUtils.getHeldLevelableTool(player);
+
+        if (payload.magnet()) {
+            if (tool.is(Registration.CRYSTAL_MAGNET.get())) {
+                toggleMagnet(player, tool, payload.hasShiftDown());
+            } else {
+                InventoryUtils.findAll(player, stack -> stack.is(Registration.CRYSTAL_MAGNET.get()))
+                        .forEach(stack -> toggleMagnet(player, stack, payload.hasShiftDown()));
+            }
+
+            return;
+        }
+
         if (tool.isEmpty()) {
             // Disable night vision
             InventoryUtils.getArmorItems(player).forEach(stack -> {
@@ -111,21 +123,6 @@ public class ModeSwitchHandler {
 
         // Boots
         disableFrostWalker(player, tool);
-
-        // Magnet
-        if (tool.is(Registration.CRYSTAL_MAGNET.get())) {
-            if (payload.hasShiftDown()) {
-                if (tool.getOrDefault(DataComponents.PULL_MOBS, false)) {
-                    boolean disabled = tool.getOrDefault(DataComponents.DISABLE_MOB_PULL, false);
-                    tool.set(DataComponents.DISABLE_MOB_PULL, !disabled);
-                    player.displayClientMessage(Component.literal("Pulling Mobs " + (disabled ? "Enabled" : "Disabled")), true);
-                }
-            } else {
-                boolean disabled = tool.getOrDefault(DataComponents.DISABLED, false);
-                tool.set(DataComponents.DISABLED, !disabled);
-                player.displayClientMessage(Component.literal("Magnet " + (disabled ? "Enabled" : "Disabled")), true);
-            }
-        }
     }
 
     private void disableNightVision(Player player, ItemStack stack) {
@@ -156,6 +153,20 @@ public class ModeSwitchHandler {
 
                 player.displayClientMessage(Component.literal("Frost Walker Enabled"), true);
             }
+        }
+    }
+
+    private void toggleMagnet(Player player, ItemStack stack, boolean shift) {
+        if (shift) {
+            if (stack.getOrDefault(DataComponents.PULL_MOBS, false)) {
+                boolean disabled = stack.getOrDefault(DataComponents.DISABLE_MOB_PULL, false);
+                stack.set(DataComponents.DISABLE_MOB_PULL, !disabled);
+                player.displayClientMessage(Component.literal("Pulling Mobs " + (disabled ? "Enabled" : "Disabled")), true);
+            }
+        } else {
+            boolean disabled = stack.getOrDefault(DataComponents.DISABLED, false);
+            stack.set(DataComponents.DISABLED, !disabled);
+            player.displayClientMessage(Component.literal("Magnet " + (disabled ? "Enabled" : "Disabled")), true);
         }
     }
 }
