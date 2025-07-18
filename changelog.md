@@ -1,4 +1,7 @@
 # Crystal Tools Change Log
+## 3.1.3
+- Updates to Minecraft 1.21.8
+
 ## 3.1.2
 ### Additions
 - Adds a new keybind for toggling magnets so that they can be easily toggled in curios slots
