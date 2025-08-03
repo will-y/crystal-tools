@@ -1,8 +1,8 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity.action;
 
-import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
+import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.ActionBlockEntity;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
@@ -65,10 +65,10 @@ public class MagnetAction extends Action {
                             stack.hurtAndBreak(Mth.ceil(params.durabilityModifier()), (ServerLevel) level, null, item -> {});
                         }
 
-                        Levelable levelable = stack.getCapability(dev.willyelton.crystal_tools.common.capability.Capabilities.ITEM_SKILL, level.registryAccess());
-                        if (levelable != null && CrystalToolsConfig.LEVEL_ITEMS_IN_PEDESTAL.get()) {
-                            levelable.addExp(level, pos, null);
+                        if (stack.getItem() instanceof LevelableItem levelableItem && CrystalToolsConfig.LEVEL_ITEMS_IN_PEDESTAL.get()) {
+                            levelableItem.addExp(stack, level, pos, null);
                         }
+
                         itemEntity.discard();
                         iterator.remove();
                     }

@@ -260,7 +260,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 .define('b', Registration.CRYSTAL_BLOCK.get())
                 .define('c', Items.CHEST)
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
-                .save(output);
+                .save(recipeOutput);
 
         // Special
         SpecialRecipeBuilder

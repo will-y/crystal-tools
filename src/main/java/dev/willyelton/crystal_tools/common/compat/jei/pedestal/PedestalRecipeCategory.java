@@ -50,6 +50,11 @@ public class PedestalRecipeCategory implements IRecipeCategory<PedestalRecipe>  
     }
 
     @Override
+    public IDrawable getBackground() {
+        return this.background;
+    }
+
+    @Override
     public @Nullable IDrawable getIcon() {
         return null;
     }
@@ -66,13 +71,11 @@ public class PedestalRecipeCategory implements IRecipeCategory<PedestalRecipe>  
         Minecraft minecraft = Minecraft.getInstance();
         Font font = minecraft.font;
 
-        background.draw(guiGraphics, 0, 0);
-
         Component titleComponent = Component.translatable(recipe.data().type().name());
         Component descriptionComponent = Component.translatable(recipe.data().type().getDescription());
 
         guiGraphics.drawString(font, titleComponent, 25, 0, 0xFF000000, false);
-        guiGraphics.drawWordWrap(font, descriptionComponent, 25, 10, 100, 0xFF606060, false);
+        guiGraphics.drawWordWrap(font, descriptionComponent, 25, 10, 100, 0xFF606060);
         int y = font.split(descriptionComponent, 100).size() * 9;
 
         if (recipe.data().params() != null) {

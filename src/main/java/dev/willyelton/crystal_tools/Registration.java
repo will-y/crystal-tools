@@ -123,7 +123,7 @@ public class Registration {
     public static final DeferredHolder<Block, CrystalFurnaceBlock> CRYSTAL_FURNACE = BLOCKS.register("crystal_furnace", () -> new CrystalFurnaceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FURNACE).requiresCorrectToolForDrops().strength(3.0F)));
     public static final DeferredHolder<Block, CrystalGeneratorBlock> CRYSTAL_GENERATOR = BLOCKS.register("crystal_generator", () -> new CrystalGeneratorBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FURNACE).requiresCorrectToolForDrops().strength(3.0F)));
     public static final DeferredHolder<Block, CrystalQuarryBlock> CRYSTAL_QUARRY = BLOCKS.register("crystal_quarry", () -> new CrystalQuarryBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).requiresCorrectToolForDrops().strength(3.0F)));
-    public static final DeferredHolder<Block, CrystalPedestalBlock> CRYSTAL_PEDESTAL = BLOCKS.register("crystal_pedestal", CrystalPedestalBlock::new, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).requiresCorrectToolForDrops().strength(3.0F));
+    public static final DeferredHolder<Block, CrystalPedestalBlock> CRYSTAL_PEDESTAL = BLOCKS.register("crystal_pedestal", () -> new CrystalPedestalBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).requiresCorrectToolForDrops().strength(3.0F)));
     public static final DeferredHolder<Block, CrystalTorch> CRYSTAL_TORCH = BLOCKS.register("crystal_torch", () -> new CrystalTorch());
     public static final DeferredHolder<Block, CrystalWallTorch> CRYSTAL_WALL_TORCH = BLOCKS.register("crystal_wall_torch", CrystalWallTorch::new);
     public static final DeferredHolder<Block, QuarryStabilizer> QUARRY_STABILIZER = BLOCKS.register("quarry_stabilizer", QuarryStabilizer::new);
@@ -150,7 +150,7 @@ public class Registration {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CrystalFurnaceBlockEntity>> CRYSTAL_FURNACE_BLOCK_ENTITY = BLOCK_ENTITIES.register("crystal_furnace", () -> BlockEntityType.Builder.of(CrystalFurnaceBlockEntity::new, CRYSTAL_FURNACE.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CrystalGeneratorBlockEntity>> CRYSTAL_GENERATOR_BLOCK_ENTITY = BLOCK_ENTITIES.register("crystal_generator", () -> BlockEntityType.Builder.of(CrystalGeneratorBlockEntity::new, CRYSTAL_GENERATOR.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CrystalQuarryBlockEntity>> CRYSTAL_QUARRY_BLOCK_ENTITY = BLOCK_ENTITIES.register("crystal_quarry", () -> BlockEntityType.Builder.of(CrystalQuarryBlockEntity::new, CRYSTAL_QUARRY.get()).build(null));
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CrystalPedestalBlockEntity>> CRYSTAL_PEDESTAL_BLOCK_ENTITY = BLOCK_ENTITIES.register("crystal_pedestal", () -> new BlockEntityType<>(CrystalPedestalBlockEntity::new, CRYSTAL_PEDESTAL.get()));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CrystalPedestalBlockEntity>> CRYSTAL_PEDESTAL_BLOCK_ENTITY = BLOCK_ENTITIES.register("crystal_pedestal", () -> BlockEntityType.Builder.of(CrystalPedestalBlockEntity::new, CRYSTAL_PEDESTAL.get()).build(null));
 
     // Containers
     public static final DeferredHolder<MenuType<?>, MenuType<CrystalFurnaceContainerMenu>> CRYSTAL_FURNACE_CONTAINER = CONTAINERS.register("crystal_furnace",

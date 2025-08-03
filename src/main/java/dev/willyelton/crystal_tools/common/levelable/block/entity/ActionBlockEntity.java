@@ -5,14 +5,14 @@ import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.Action;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.ActionParameters;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -35,19 +35,23 @@ public class ActionBlockEntity extends BlockEntity {
         getDefaultActions().forEach(action -> actions.put(action.getActionType(), action));
     }
 
-    @Override
-    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+    public void onBlockRemoved() {
         for (Action action : getActions()) {
             action.onRemove();
         }
     }
 
     @Override
-    protected void loadAdditional(ValueInput valueInput) {
-        super.loadAdditional(valueInput);
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
 
-        getActions().forEach(action -> action.load(valueInput));
-        savedActions.putAll(valueInput.read("savedActions", SAVED_ACTIONS_CODEC).orElse(Map.of()));
+        getActions().forEach(action -> action.load(tag, registries));
+        if (tag.contains("SavedActions")) {
+            SAVED_ACTIONS_CODEC.decode(NbtOps.INSTANCE, tag.getCompound("SavedActions")).ifSuccess(actions -> {
+                savedActions.putAll(actions.getFirst());
+            });
+        }
+
         savedActions.forEach((type, parameters) -> {
             Action action = type.getActionInstance(this, parameters);
             if (action != null) {
@@ -59,21 +63,23 @@ public class ActionBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void applyImplicitComponents(DataComponentGetter componentGetter) {
-        super.applyImplicitComponents(componentGetter);
+    protected void applyImplicitComponents(DataComponentInput componentInput) {
+        super.applyImplicitComponents(componentInput);
 
         for (Action action : getActions()) {
-            action.applyComponents(componentGetter);
+            action.applyComponents(componentInput);
         }
     }
 
     @Override
-    protected void saveAdditional(ValueOutput valueOutput) {
-        super.saveAdditional(valueOutput);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
 
-        getActions().forEach(action -> action.save(valueOutput));
+        getActions().forEach(action -> action.save(tag, registries));
 
-        valueOutput.store("savedActions", SAVED_ACTIONS_CODEC, savedActions);
+        SAVED_ACTIONS_CODEC.encodeStart(NbtOps.INSTANCE, savedActions).ifSuccess(t -> {
+            tag.put("savedActions", t);
+        });
     }
 
     @Override

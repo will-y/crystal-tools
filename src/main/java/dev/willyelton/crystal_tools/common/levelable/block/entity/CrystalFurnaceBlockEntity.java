@@ -60,8 +60,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.*;
-
 // TODO: Audit / comment code, don't use WordlyContainer, extract out things that will be common to a generator / other
 public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements WorldlyContainer, MenuProvider, AutoOutputable {
     public static final int[] INPUT_SLOTS = new int[] {0, 1, 2, 3, 4};

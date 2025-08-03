@@ -59,8 +59,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.*;
-
 public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements MenuProvider, AutoOutputable, ChunkLoader {
     public static final int DATA_SIZE = 14;
 

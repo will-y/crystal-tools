@@ -8,46 +8,39 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemEntityRenderer;
-import net.minecraft.client.renderer.entity.state.ItemClusterRenderState;
-import net.minecraft.client.renderer.item.ItemModelResolver;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 
 import static dev.willyelton.crystal_tools.common.levelable.block.CrystalPedestalBlock.FACING;
 
 public class CrystalPedestalBlockEntityRenderer implements BlockEntityRenderer<CrystalPedestalBlockEntity> {
-    private final ItemModelResolver itemModelResolver;
+    private final ItemRenderer itemRenderer;
     private final RandomSource random = RandomSource.create();
-    private final ItemClusterRenderState renderState = new ItemClusterRenderState();
 
     public CrystalPedestalBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
-        this.itemModelResolver = context.getItemModelResolver();
+        this.itemRenderer = context.getItemRenderer();
     }
 
     @Override
-    public void render(CrystalPedestalBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay, Vec3 cameraPos) {
+    public void render(CrystalPedestalBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
         Level level = blockEntity.getLevel();
 
         if (level != null) {
             ItemStack itemstack = blockEntity.getStack();
             if (itemstack != null && !itemstack.isEmpty()) {
+                itemstack = itemstack.copy();
+                itemstack.setCount(1);
                 PedestalClientData clientData = blockEntity.getClientData();
-
-                this.itemModelResolver.updateForTopItem(this.renderState.item, itemstack, ItemDisplayContext.GROUND, level, null, 0);
-                this.renderState.count = ItemClusterRenderState.getRenderedAmount(itemstack.getCount());
-                this.renderState.seed = ItemClusterRenderState.getSeedForItemStack(itemstack);
                 poseStack.pushPose();
                 poseStack.translate(0.5F, 0.5F, 0.5F);
                 poseStack.scale(0.5F, 0.5F, 0.5F);
                 poseStack.rotateAround(blockEntity.getBlockState().getValue(FACING).getRotation(), 0, 0F, 0F);
-                // TODO: Can use a client ticker for this
                 poseStack.mulPose(Axis.YP.rotationDegrees(Mth.rotLerp(partialTick, clientData.previousRot(), clientData.currentRot())));
                 poseStack.translate(0, Mth.lerp(partialTick, clientData.previousHeight(), clientData.currentHeight()), 0);
-                ItemEntityRenderer.renderMultipleFromCount(poseStack, bufferSource, packedLight, this.renderState, this.random);
+                ItemEntityRenderer.renderMultipleFromCount(itemRenderer, poseStack, bufferSource, packedLight, itemstack, this.random, level);
                 poseStack.popPose();
             }
         }

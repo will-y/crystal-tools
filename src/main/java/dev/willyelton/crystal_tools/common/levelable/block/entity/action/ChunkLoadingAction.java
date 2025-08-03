@@ -11,7 +11,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.world.chunk.LoadingValidationCallback;
 import net.neoforged.neoforge.common.world.chunk.TicketController;
 import net.neoforged.neoforge.common.world.chunk.TicketHelper;
@@ -22,8 +21,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.CHUNK_LOADING;
 
 public class ChunkLoadingAction extends Action {
     public static final TicketController TICKET_CONTROLLER = new TicketController(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "chunk_loader"), ChunkLoadingValidationCallback.INSTANCE);

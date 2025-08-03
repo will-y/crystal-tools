@@ -54,7 +54,7 @@ public class QuarryStabilizer extends Block {
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         List<BlockPos> stabilizerPositions = findStabilizerSquare(pos, level);
-        CrystalTools.LOGGER.info(stabilizerPositions);
+        CrystalTools.LOGGER.trace(stabilizerPositions);
 
         if (level.isClientSide) {
             QuarryLaserRenderer.clearTemporaryLasers();

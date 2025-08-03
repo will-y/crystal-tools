@@ -11,6 +11,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.ContainerHelper;
@@ -22,8 +23,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.Nullable;
@@ -64,23 +63,28 @@ public class CrystalPedestalBlockEntity extends ActionBlockEntity implements Men
         return this.saveCustomOnly(registries);
     }
 
+
     @Override
-    public void saveCustomOnly(ValueOutput valueOutput) {
-        valueOutput.store("item", ItemStack.OPTIONAL_CODEC, this.catalystStacks.getFirst());
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+
+        if (tag.contains("item")) {
+            ItemStack.OPTIONAL_CODEC.decode(NbtOps.INSTANCE, tag.getCompound("item")).ifSuccess(p -> {
+                this.catalystStacks.set(0, p.getFirst());
+            });
+        }
+
+        ContainerHelper.loadAllItems(tag, this.contentsStacks, registries);
     }
 
     @Override
-    protected void loadAdditional(ValueInput valueInput) {
-        super.loadAdditional(valueInput);
-        valueInput.read("item", ItemStack.OPTIONAL_CODEC).ifPresent(stack -> this.catalystStacks.set(0, stack));
-        ContainerHelper.loadAllItems(valueInput, this.contentsStacks);
-    }
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        ItemStack.OPTIONAL_CODEC.encodeStart(NbtOps.INSTANCE, this.catalystStacks.getFirst()).ifSuccess(p -> {
+            tag.put("item", p);
+        });
 
-    @Override
-    protected void saveAdditional(ValueOutput valueOutput) {
-        super.saveAdditional(valueOutput);
-        this.saveCustomOnly(valueOutput);
-        ContainerHelper.saveAllItems(valueOutput, this.contentsStacks);
+        ContainerHelper.saveAllItems(tag, this.contentsStacks, registries);
     }
 
     public void clientTick(Level level, BlockPos pos, BlockState state) {
@@ -133,9 +137,7 @@ public class CrystalPedestalBlockEntity extends ActionBlockEntity implements Men
         return new CrystalPedestalContainerMenu(containerId, playerInventory, this.getBlockPos());
     }
 
-    @Override
-    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
-        if (level == null) return;
+    public void dropContents(Level level, BlockPos pos) {
         Containers.dropContents(level, pos, catalystStacks);
         Containers.dropContents(level, pos, contentsStacks);
     }
