@@ -365,7 +365,10 @@ There will be upgrades that are common to most tools, and tools will each get un
 #### Quarry
 - Will transfer a percentage of skill points from the AIOT used to craft it
 
-![Crystal Furnce Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/quarry.png)
+![Crystal Quarry Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/quarry.png)
+
+#### Pedestal
+![Crystal Pedestal Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/pedestal.png)
 ### Misc
 #### Netherite Stick
 ![Netherite Stick Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/netherite_stick.png)
