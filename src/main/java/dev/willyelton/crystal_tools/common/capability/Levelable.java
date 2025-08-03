@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * I hope that this will be the common stuff related to block entities and items
@@ -13,9 +14,9 @@ import net.minecraft.world.level.Level;
  */
 public interface Levelable {
 
-    void addExp(Level level, BlockPos blockPos, LivingEntity livingEntity, float amount);
+    void addExp(Level level, BlockPos blockPos, @Nullable LivingEntity livingEntity, float amount);
 
-    default void addExp(Level level, BlockPos blockPos, LivingEntity livingEntity) {
+    default void addExp(Level level, BlockPos blockPos, @Nullable LivingEntity livingEntity) {
         addExp(level, blockPos, livingEntity, 1);
     }
 

@@ -87,6 +87,7 @@ public class CrystalToolsModels extends ModelProvider {
         blockModels.createFlatItemModel(Registration.CRYSTAL_QUARRY_ITEM.get());
 
         blockModels.createFlatItemModel(Registration.QUARRY_STABILIZER_ITEM.get());
+        blockModels.createFlatItemModel(Registration.CRYSTAL_PEDESTAL_ITEM.get());
     }
 
     private void generateCrystalBow(ItemModelGenerators itemModels) {
@@ -152,6 +153,7 @@ public class CrystalToolsModels extends ModelProvider {
 
     @Override
     protected Stream<? extends Holder<Block>> getKnownBlocks() {
-        return super.getKnownBlocks().filter(h -> !h.value().equals(Registration.QUARRY_STABILIZER.get()));
+        return super.getKnownBlocks().filter(h -> !h.value().equals(Registration.QUARRY_STABILIZER.get()) &&
+                !h.value().equals(Registration.CRYSTAL_PEDESTAL.get()));
     }
 }

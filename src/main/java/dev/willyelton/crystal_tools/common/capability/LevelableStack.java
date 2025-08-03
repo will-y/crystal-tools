@@ -62,7 +62,7 @@ public class LevelableStack implements Levelable {
     }
 
     @Override
-    public void addExp(Level level, BlockPos blockPos, LivingEntity livingEntity, float amount) {
+    public void addExp(Level level, BlockPos blockPos, @Nullable LivingEntity livingEntity, float amount) {
         int newExperience = DataComponents.addToComponent(stack, DataComponents.SKILL_EXPERIENCE, (int) (amount * skillTreeData.experienceScaling()));
         int experienceCap = getExperienceCap();
 

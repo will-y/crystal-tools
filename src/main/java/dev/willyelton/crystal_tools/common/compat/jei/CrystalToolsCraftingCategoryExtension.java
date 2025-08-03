@@ -6,17 +6,18 @@ import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.ingredient.ICraftingGridHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.category.extensions.vanilla.crafting.ICraftingCategoryExtension;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class CrystalToolsCraftingCategoryExtension implements ICraftingCategoryExtension<CrystalToolsRecipe> {
+
     @Override
-    public Optional<ResourceLocation> getRegistryName(RecipeHolder<CrystalToolsRecipe> recipe) {
-        return Optional.of(recipe.id().location());
+    public List<SlotDisplay> getIngredients(RecipeHolder<CrystalToolsRecipe> recipeHolder) {
+        return recipeHolder.value().getInputs().stream().map(SlotDisplay.ItemStackSlotDisplay::new).collect(Collectors.toList());
     }
 
     @Override

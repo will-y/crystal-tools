@@ -6,6 +6,7 @@ import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.renderer.CrystalToolsRenderTypes;
 import dev.willyelton.crystal_tools.client.renderer.CrystalTridentRenderer;
 import dev.willyelton.crystal_tools.client.renderer.QuarryCubeRenderer;
+import dev.willyelton.crystal_tools.client.renderer.blockentity.CrystalPedestalBlockEntityRenderer;
 import dev.willyelton.crystal_tools.client.renderer.blockentity.CrystalQuarryBlockEntityRenderer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -19,6 +20,7 @@ public class ClientEvents {
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(Registration.CRYSTAL_TRIDENT_ENTITY.get(), CrystalTridentRenderer::new);
         event.registerBlockEntityRenderer(Registration.CRYSTAL_QUARRY_BLOCK_ENTITY.get(), CrystalQuarryBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(Registration.CRYSTAL_PEDESTAL_BLOCK_ENTITY.get(), CrystalPedestalBlockEntityRenderer::new);
     }
 
     @SubscribeEvent

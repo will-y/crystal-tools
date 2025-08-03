@@ -1,4 +1,15 @@
 # Crystal Tools Change Log
+## 3.2.0
+### Additions
+- Adds the Crystal Pedestal!
+  - This is a block that you can place items in, and depending on the item the block will do different things
+  - The only currently supported item is the Crystal Magnet (more to come soon)
+  - Controllable by the new datamap `pedestal_actions`. You can set any item to act like a magnet here! (see the README for more info)
+  - Some attributes of the Crystal Magnet carry over to the pedestal (range, item pull speed, instant pickup)
+    - Mob and Experience pulling will come later
+  - Items that can be used in the pedestal can be view in JEI
+- New config option `level_items_in_pedestal` (true): If true, Items will gain experience when used in pedestals
+
 ## 3.1.3
 - Updates to Minecraft 1.21.8
 

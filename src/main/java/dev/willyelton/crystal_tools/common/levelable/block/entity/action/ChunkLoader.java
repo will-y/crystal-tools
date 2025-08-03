@@ -11,7 +11,7 @@ public interface ChunkLoader {
     /**
      * Determines if a chunk should be loaded as fully ticking.
      * Default implementation is to fully tick the chunk that the chunk loader is in
-     * and not fully tick other chunks
+     * and not fully tick other chunks.
      * @param chunkPos The chunk position to check
      * @return true if the chunk should be forced as ticking
      */

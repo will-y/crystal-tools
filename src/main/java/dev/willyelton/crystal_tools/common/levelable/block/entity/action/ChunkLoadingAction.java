@@ -3,23 +3,21 @@ package dev.willyelton.crystal_tools.common.levelable.block.entity.action;
 import com.mojang.serialization.Codec;
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.levelable.block.entity.LevelableBlockEntity;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.ActionBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.common.world.chunk.LoadingValidationCallback;
 import net.neoforged.neoforge.common.world.chunk.TicketController;
 import net.neoforged.neoforge.common.world.chunk.TicketHelper;
 import net.neoforged.neoforge.common.world.chunk.TicketSet;
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.List;
@@ -28,28 +26,31 @@ import java.util.Set;
 
 import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.CHUNK_LOADING;
 
-public class ChunkLoadingAction<T extends LevelableBlockEntity & ChunkLoader> extends Action {
+public class ChunkLoadingAction extends Action {
     public static final TicketController TICKET_CONTROLLER = new TicketController(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "chunk_loader"), ChunkLoadingValidationCallback.INSTANCE);
 
-
-    private final T blockEntity;
+    private final ChunkLoader chunkLoader;
     private boolean chunkLoadingEnabled;
     private final Set<Long> chunkSet = new HashSet<>();
 
-    public ChunkLoadingAction(T blockEntity) {
-        super(20);
+    public ChunkLoadingAction(ActionBlockEntity blockEntity, @Nullable ActionParameters params, ChunkLoader chunkLoader) {
+        super(blockEntity, params);
 
-        this.blockEntity = blockEntity;
+        this.chunkLoader = chunkLoader;
     }
 
-    @Override
-    public void tickAction(@NotNull Level level, BlockPos pos, BlockState state) {
-
+    public ChunkLoadingAction(ActionBlockEntity blockEntity, ChunkLoader chunkLoader) {
+        this(blockEntity, null, chunkLoader);
     }
 
     @Override
     public ActionType getActionType() {
         return ActionType.CHUNK_LOAD;
+    }
+
+    @Override
+    public ActionParameters getDefaultParameters() {
+        return new ActionParameters(20);
     }
 
     @Override
@@ -105,14 +106,14 @@ public class ChunkLoadingAction<T extends LevelableBlockEntity & ChunkLoader> ex
     }
 
     public void loadChunk(ServerLevel level, ChunkPos chunkPos) {
-        boolean ticking = blockEntity.shouldTickChunk(chunkPos);
+        boolean ticking = chunkLoader.shouldTickChunk(chunkPos);
         chunkSet.add(chunkPos.toLong());
         blockEntity.setChanged();
         TICKET_CONTROLLER.forceChunk(level, blockEntity.getBlockPos(), chunkPos.x, chunkPos.z, true, ticking);
     }
 
     public void unloadChunk(ServerLevel level, ChunkPos chunkPos) {
-        boolean ticking = blockEntity.shouldTickChunk(chunkPos);
+        boolean ticking = chunkLoader.shouldTickChunk(chunkPos);
         chunkSet.remove(chunkPos.toLong());
         blockEntity.setChanged();
         TICKET_CONTROLLER.forceChunk(level, blockEntity.getBlockPos(), chunkPos.x, chunkPos.z, false, ticking);

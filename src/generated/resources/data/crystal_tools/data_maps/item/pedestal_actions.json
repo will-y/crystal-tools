@@ -1,0 +1,12 @@
+{
+  "values": {
+    "crystal_tools:crystal_magnet": {
+      "type": "magnet",
+      "params": {
+        "durabilityModifier": 5.0,
+        "maxTickCounter": 1,
+        "range": 5
+      }
+    }
+  }
+}

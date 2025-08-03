@@ -9,18 +9,14 @@ import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public abstract class LevelableBlockEntity extends BlockEntity {
+public abstract class LevelableBlockEntity extends ActionBlockEntity {
     public static final List<String> NBT_TAGS = List.of("SkillPoints", "Points", "Exp", "ExpCap");
 
     protected int skillPoints = 0;
@@ -28,40 +24,8 @@ public abstract class LevelableBlockEntity extends BlockEntity {
     protected int exp = 0;
     protected int expCap = getExpCap();
 
-    private final Map<Action.ActionType, Action> actions = new HashMap<>();
-
     public LevelableBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
         super(type, pos, blockState);
-    }
-
-    public void serverTick(Level level, BlockPos pos, BlockState state) {
-        for (Action action : getActions()) {
-            action.tick(level, pos, state);
-        }
-    }
-
-    @Override
-    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
-        for (Action action : getActions()) {
-            action.onRemove();
-        }
-    }
-
-    protected <T extends Action> T addAction(T action) {
-        this.actions.put(action.getActionType(), action);
-        return action;
-    }
-
-    protected boolean hasAction(Action.ActionType actionType) {
-        return this.actions.containsKey(actionType);
-    }
-
-    protected Action getAction(Action.ActionType actionType) {
-        return this.actions.get(actionType);
-    }
-
-    protected Iterable<Action> getActions() {
-        return this.actions.values();
     }
 
     @Override
@@ -71,12 +35,12 @@ public abstract class LevelableBlockEntity extends BlockEntity {
         this.points = valueInput.read("Points", SkillPoints.CODEC).orElse(new SkillPoints());
         this.exp = valueInput.getInt("Exp").orElse(0);
         this.expCap = valueInput.getInt("ExpCap").orElse(getBaseExpCap());
-
-        getActions().forEach(action -> action.load(valueInput));
     }
 
     @Override
     protected void applyImplicitComponents(DataComponentGetter componentInput) {
+        super.applyImplicitComponents(componentInput);
+
         LevelableBlockEntityData levelableBlockEntityData = componentInput.get(DataComponents.LEVELABLE_BLOCK_ENTITY_DATA);
         if (levelableBlockEntityData != null) {
             this.skillPoints = levelableBlockEntityData.skillPoints();
@@ -86,10 +50,6 @@ public abstract class LevelableBlockEntity extends BlockEntity {
         }
 
         if (this.expCap == 0) this.expCap = getBaseExpCap();
-
-        for (Action action : getActions()) {
-            action.applyComponents(componentInput);
-        }
     }
 
     @Override
@@ -100,8 +60,6 @@ public abstract class LevelableBlockEntity extends BlockEntity {
         valueOutput.store("Points", SkillPoints.CODEC, this.points);
         valueOutput.putInt("Exp", this.exp);
         valueOutput.putInt("ExpCap", this.expCap);
-
-        getActions().forEach(action -> action.save(valueOutput));
     }
 
     @Override
@@ -110,10 +68,6 @@ public abstract class LevelableBlockEntity extends BlockEntity {
         LevelableBlockEntityData levelableBlockEntityData = new LevelableBlockEntityData(skillPoints,
                 points, exp, expCap);
         components.set(DataComponents.LEVELABLE_BLOCK_ENTITY_DATA, levelableBlockEntityData);
-
-        for (Action action : getActions()) {
-            action.collectComponents(components);
-        }
     }
 
     public void addSkillPoints(int points) {

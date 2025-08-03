@@ -10,6 +10,7 @@ import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.energy.CrystalEnergyStorage;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalQuarryContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalQuarryBlock;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.action.Action;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.AutoOutputAction;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.AutoOutputable;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.ChunkLoader;
@@ -55,6 +56,7 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -122,8 +124,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
     private AABB aabb;
 
-    private final AutoOutputAction autoOutputAction;
-    private final ChunkLoadingAction<CrystalQuarryBlockEntity> chunkLoadingAction;
+    private AutoOutputAction autoOutputAction;
+    private ChunkLoadingAction chunkLoadingAction;
 
     public CrystalQuarryBlockEntity(BlockPos pos, BlockState state) {
         super(Registration.CRYSTAL_QUARRY_BLOCK_ENTITY.get(), pos, state);
@@ -138,9 +140,14 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         // Filter
         filterItems = NonNullList.withSize(INVENTORY_SIZE, ItemStack.EMPTY);
         filterItemHandler = new ItemStackHandler(filterItems);
+    }
 
-        autoOutputAction = addAction(new AutoOutputAction(this));
-        chunkLoadingAction = addAction(new ChunkLoadingAction<>(this));
+    @Override
+    protected Collection<Action> getDefaultActions() {
+        autoOutputAction = new AutoOutputAction(this, this);
+        chunkLoadingAction = new ChunkLoadingAction(this, this);
+
+        return List.of(autoOutputAction, chunkLoadingAction);
     }
 
     public IItemHandler getItemHandlerCapForSide(Direction side) {

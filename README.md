@@ -16,6 +16,7 @@ You can also suggest features or ask questions there.
 - Crystal Furnace
 - Crystal Generator
 - Crystal Quarry
+- Crystal Pedestal
 
 ## World Generation
 ### Ore
@@ -434,6 +435,9 @@ You can change these values in `config/crystal_tools.toml` or in the in-game UI.
 #### Magnet Settings
 - `magnet_base_range` (5): Magnet Base Range (in blocks). Range: 0 - 100.
 
+#### Pedestal Settings
+- `level_items_in_pedestal` (true): If true, Items will gain experience when used in pedestals
+
 #### Miscellaneous Settings
 - `enable_item_requirements` (true): Set to false to disable certain nodes from requiring items to upgrade.
 - `require_crystal_for_reset` (true): Require a crystal item in your inventory for resetting skill points.
@@ -479,6 +483,7 @@ Add a file `entity_blacklist.json` in a datapack in the location `crystal_tools/
 - `generator_gems`: Controls the gems that can be burned with the gem generator upgrade in the crystal generator.
 - `generator_metals`: Controls the gems that can be burned with the gem generator upgrade in the crystal generator.
 - `mob_heads`: Controls which heads which mobs drop with the beheading upgrade.
+- `pedestal_actions`: Controls which items have effects in the Crystal Pedestal
 
 More information on datamaps can be found [here](https://docs.neoforged.net/docs/resources/server/datamaps/).
 
@@ -509,6 +514,27 @@ Where `bonusGeneration` is the generator added on top of the base from the gener
   }
 }
 ```
+
+##### Adding an item to the pedestal actions datamap
+If you wanted to add another item that would work like a magnet in the pedestal you can add it like this:
+```json
+{
+  "values": {
+    "minecraft:netherite_pickaxe": {
+      "type": "magnet",
+      "params": {
+        "durabilityModifier": 3.0,
+        "maxTickCounter": 1,
+        "range": 2
+      }
+    }
+  }
+}
+```
+
+`durabilityModifier` changes how much durability the item uses when the action is used
+`maxTickCounter` determines how often the action should tick (1 means it will run every tick)
+`range` determines the base range of the magnet
 
 ### Defining Custom Skill Trees
 There are 2 parts to adding a skill tree: the actual skill tree and the datamap to associate it to an item.

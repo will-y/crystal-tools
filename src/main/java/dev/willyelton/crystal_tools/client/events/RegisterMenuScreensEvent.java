@@ -5,6 +5,7 @@ import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen;
 import dev.willyelton.crystal_tools.client.gui.CrystalFurnaceScreen;
 import dev.willyelton.crystal_tools.client.gui.CrystalGeneratorScreen;
+import dev.willyelton.crystal_tools.client.gui.CrystalPedestalScreen;
 import dev.willyelton.crystal_tools.client.gui.CrystalQuarryScreen;
 import dev.willyelton.crystal_tools.client.gui.FilterConfigScreen;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalMagnetContainerMenu;
@@ -23,6 +24,7 @@ public class RegisterMenuScreensEvent {
         event.register(Registration.CRYSTAL_GENERATOR_CONTAINER.get(), CrystalGeneratorScreen::new);
         event.register(Registration.CRYSTAL_QUARRY_CONTAINER.get(), CrystalQuarryScreen::new);
         event.register(Registration.CRYSTAL_BACKPACK_CONTAINER.get(), CrystalBackpackScreen::new);
+        event.register(Registration.CRYSTAL_PEDESTAL_CONTAINER.get(), CrystalPedestalScreen::new);
 
         // Little hacky, the generic type is backpack screen but that will always be null in this case. Also, can't be a lamba because the compiler is dumb
         event.register(Registration.CRYSTAL_MAGNET_CONTAINER.get(), new MenuScreens.ScreenConstructor<CrystalMagnetContainerMenu, FilterConfigScreen<CrystalMagnetContainerMenu, CrystalBackpackScreen>>() {

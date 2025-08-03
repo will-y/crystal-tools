@@ -8,6 +8,7 @@ import dev.willyelton.crystal_tools.common.components.FurnaceUpgrades;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalFurnaceContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalFurnaceBlock;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.action.Action;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.AutoOutputAction;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.AutoOutputable;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.data.LevelableContainerData;
@@ -53,6 +54,7 @@ import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -103,7 +105,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     private float expModifier;
     private boolean saveFuel = false;
 
-    private final AutoOutputAction autoOutputAction;
+    private AutoOutputAction autoOutputAction;
 
     public CrystalFurnaceBlockEntity(BlockPos pPos, BlockState state) {
         super(Registration.CRYSTAL_FURNACE_BLOCK_ENTITY.get(), pPos, state);
@@ -116,7 +118,13 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
                 .map(direction -> Map.entry(direction, new SidedInvWrapper(this, direction)))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-        autoOutputAction = addAction(new AutoOutputAction(this));
+
+    }
+
+    @Override
+    protected Collection<Action> getDefaultActions() {
+        autoOutputAction = new AutoOutputAction(this, this);
+        return List.of(autoOutputAction);
     }
 
     public IItemHandler getCapForSide(Direction side) {

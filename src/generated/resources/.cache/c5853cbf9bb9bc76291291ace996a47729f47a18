@@ -1,4 +1,4 @@
-// 1.21.7	2025-07-05T13:55:32.1911685	Model Definitions - crystal_tools
+// 1.21.8	2025-07-20T14:57:52.3287958	Model Definitions - crystal_tools
 44eb603a54aabeb5d4f7c1fd34fc281a6fbb6170 assets/crystal_tools/blockstates/crystal_block.json
 16c7f01ecbdd437f59531bd56029a2d12186c9a6 assets/crystal_tools/blockstates/crystal_deepslate_ore.json
 b45cd6d350dcfbffe28c7a2e3695c880e9ac5b54 assets/crystal_tools/blockstates/crystal_furnace.json
@@ -29,6 +29,7 @@ aced7d03f45a4f2e1b0157392c9b34a20892b69f assets/crystal_tools/items/crystal_hoe.
 3c1741259837f967f9dbefe044f426ab92aa6b11 assets/crystal_tools/items/crystal_leggings.json
 6b8b50c5cec0ad4e1d22074845a7b916bc0eaf40 assets/crystal_tools/items/crystal_magnet.json
 1c34aa819d17b963a06b8717acfcfa95aeb306ff assets/crystal_tools/items/crystal_ore.json
+713c5c6e9879cd28fe69816548575ac108ac40de assets/crystal_tools/items/crystal_pedestal.json
 d73e7661f50c8a4dcebf7ab69a5010480d319d50 assets/crystal_tools/items/crystal_pickaxe.json
 2a8454cc8023b32ddc50af1ba32d15d329201db0 assets/crystal_tools/items/crystal_quarry.json
 3b5eb0104bad54862ae158bc02075c40bad617dd assets/crystal_tools/items/crystal_rocket.json
@@ -124,6 +125,7 @@ a82524b98824cf485f48000d5c441c1c37c6416a assets/crystal_tools/models/item/crysta
 230929d6e8619368dcbe08c2a76dd833ec974d18 assets/crystal_tools/models/item/crystal_magnet.json
 172d9fd9bf79556d9a601f752c9b82618e11ba4b assets/crystal_tools/models/item/crystal_magnet_disabled.json
 9b45fc1023c928307bd7e9f43e1c47bf4e3e8651 assets/crystal_tools/models/item/crystal_ore.json
+6caeaa5b0a0e551a5fe66a3e69d74fea774512d2 assets/crystal_tools/models/item/crystal_pedestal.json
 db83ce327c359aa8f7ceea40a1446b6a231dd184 assets/crystal_tools/models/item/crystal_pickaxe.json
 d797d1d63be9ae32189d2a8fb259112d173e737b assets/crystal_tools/models/item/crystal_quarry.json
 339aea0c01bd42c67a695ff159484d51a7d5eb7d assets/crystal_tools/models/item/crystal_rocket.json

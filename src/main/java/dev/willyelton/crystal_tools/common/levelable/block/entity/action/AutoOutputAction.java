@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity.action;
 
 import dev.willyelton.crystal_tools.common.components.DataComponents;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.ActionBlockEntity;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -19,22 +20,27 @@ import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLo
 public class AutoOutputAction extends Action {
     private static final Direction[] POSSIBLE_INVENTORIES = new Direction[] {Direction.DOWN, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
 
-    private final AutoOutputable blockEntity;
+    private final AutoOutputable autoOutputable;
     private boolean autoOutputEnabled = false;
     // This is different because it isn't persisted, just temporarily disabled
     private boolean disabled = false;
 
-    public AutoOutputAction(AutoOutputable blockEntity) {
-        super(100);
-        this.blockEntity = blockEntity;
+    public AutoOutputAction(ActionBlockEntity blockEntity, ActionParameters params, AutoOutputable autoOutputEnabled) {
+        // 100
+        super(blockEntity, params);
+        this.autoOutputable = autoOutputEnabled;
+    }
+
+    public AutoOutputAction(ActionBlockEntity blockEntity, AutoOutputable autoOutputEnabled) {
+        this(blockEntity, null, autoOutputEnabled);
     }
 
     @Override
     public void tickAction(Level level, BlockPos pos, BlockState state) {
         if (this.disabled || !autoOutputEnabled) return;
 
-        for (Integer index : blockEntity.getOutputStacks().keySet()) {
-            ItemStack stack = blockEntity.getOutputStacks().get(index);
+        for (Integer index : autoOutputable.getOutputStacks().keySet()) {
+            ItemStack stack = autoOutputable.getOutputStacks().get(index);
 
             for (Direction dir : POSSIBLE_INVENTORIES) {
                 IItemHandler itemHandler = level.getCapability(Capabilities.ItemHandler.BLOCK, pos.relative(dir), dir.getOpposite());
@@ -50,7 +56,7 @@ public class AutoOutputAction extends Action {
                 if (stack.isEmpty()) break;
             }
 
-            blockEntity.setItem(index, stack);
+            autoOutputable.setItem(index, stack);
         }
     }
 
@@ -86,6 +92,11 @@ public class AutoOutputAction extends Action {
     @Override
     public ActionType getActionType() {
         return ActionType.AUTO_OUTPUT;
+    }
+
+    @Override
+    public ActionParameters getDefaultParameters() {
+        return new ActionParameters(100);
     }
 
     @Override

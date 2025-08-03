@@ -2,9 +2,13 @@ package dev.willyelton.crystal_tools.common.compat.jei;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.common.compat.jei.generator.GeneratorRecipe;
+import dev.willyelton.crystal_tools.common.compat.jei.pedestal.PedestalRecipe;
 import mezz.jei.api.recipe.RecipeType;
 
 public class CrystalToolsRecipeTypes {
     public static final RecipeType<GeneratorRecipe> GENERATOR =
             RecipeType.create(CrystalTools.MODID, "generator", GeneratorRecipe.class);
+
+    public static final RecipeType<PedestalRecipe> PEDESTAL =
+            RecipeType.create(CrystalTools.MODID, "pedestal", PedestalRecipe.class);
 }

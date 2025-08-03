@@ -68,6 +68,9 @@ public class CrystalToolsConfig {
     // Magnet
     public static ModConfigSpec.DoubleValue MAGNET_BASE_RANGE;
 
+    // Pedestal
+    public static ModConfigSpec.BooleanValue LEVEL_ITEMS_IN_PEDESTAL;
+
     static {
         ModConfigSpec.Builder configBuilder = new ModConfigSpec.Builder();
         setupConfig(configBuilder);
@@ -173,6 +176,12 @@ public class CrystalToolsConfig {
         builder.comment("Crystal magnet settings").push("magnet");
         MAGNET_BASE_RANGE = builder.comment("Magnet Base Range (in blocks)")
                         .defineInRange("magnet_base_range", 5.0, 0, 100);
+        builder.pop();
+
+        // Pedestal
+        builder.comment("Crystal pedestal settings").push("pedestal");
+        LEVEL_ITEMS_IN_PEDESTAL = builder.comment("If true, Items will gain experience when used in pedestals")
+                .define("level_items_in_pedestal", true);
         builder.pop();
 
         // MISC
