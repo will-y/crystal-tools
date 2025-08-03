@@ -24,6 +24,7 @@
   "block.crystal_tools.crystal_deepslate_ore": "Deepslate Crystal Ore",
   "block.crystal_tools.crystal_block": "Crystal Block",
   "block.crystal_tools.crystal_furnace": "Crystal Furnace",
+  "block.crystal_tools.crystal_pedestal": "Crystal Pedestal",
   "block.crystal_tools.crystal_generator": "Crystal Generator",
   "block.crystal_tools.crystal_quarry": "Crystal Quarry",
   "block.crystal_tools.quarry_stabilizer": "Quarry Stabilizer",
@@ -39,6 +40,7 @@
   "container.crystal_tools.crystal_furnace": "Crystal Furnace",
   "container.crystal_tools.crystal_generator": "Crystal Generator",
   "container.crystal_tools.crystal_quarry": "Crystal Quarry",
+  "container.crystal_tools.crystal_pedestal": "Crystal Pedestal",
   "crystal_tools.configuration.disable_trident": "Disable Trident",
   "crystal_tools.configuration.experience_boost_percentage": "Experience Boost Percentage",
   "crystal_tools.configuration.disable_leggings": "Disable Leggings",
@@ -115,8 +117,14 @@
   "crystal_tools.configuration.quarry_base_experience_cap": "Quarry Base Experience Cap",
   "crystal_tools.configuration.quarry_speed_upgrade_multiplier": "Quarry Speed Upgrade Multiplier",
   "crystal_tools.configuration.quarry_max_size": "Quarry Max Size",
+  "crystal_tools.configuration.level_items_in_pedestal": "Level Items In Pedestal",
+  "crystal_tools.configuration.pedestal": "Pedestal Settings",
   "gui.crystal_tools.category.generator": "Crystal Generator Fuels",
+  "gui.crystal_tools.category.pedestal": "Crystal Pedestal Items",
   "crystal_tools.configuration.creative_flight_points": "Creative Flight Points",
   "crystal_tools.configuration.magnet": "Magnet Settings",
-  "crystal_tools.configuration.magnet_base_range": "Magnet Base Range"
+  "crystal_tools.configuration.magnet_base_range": "Magnet Base Range",
+  "crystal_tools.action.auto_output": "When this item is in the Crystal Pedestal, items in its inventory will be auto outputted to adjacent inventories.",
+  "crystal_tools.action.chunk_load": "When this item is in the Crystal Pedestal, chunks around it will be automatically loaded.",
+  "crystal_tools.action.magnet": "When this item is in the Crystal Pedestal, nearby item entities will be pulled towards the Pedestal and collected."
 }

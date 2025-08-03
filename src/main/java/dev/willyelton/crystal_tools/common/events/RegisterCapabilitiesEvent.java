@@ -5,6 +5,7 @@ import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalFurnaceBlockEntity;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalPedestalBlockEntity;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalQuarryBlockEntity;
 import net.minecraft.world.item.component.ItemContainerContents;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalGeneratorBlockEntity;
@@ -37,33 +38,34 @@ public class RegisterCapabilitiesEvent {
         event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK,
                 Registration.CRYSTAL_FURNACE_BLOCK_ENTITY.get(),
-                CrystalFurnaceBlockEntity::getCapForSide
-        );
+                CrystalFurnaceBlockEntity::getCapForSide);
 
         // Generator
         event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK,
                 Registration.CRYSTAL_GENERATOR_BLOCK_ENTITY.get(),
-                CrystalGeneratorBlockEntity::getItemHandlerCapForSide
-        );
+                CrystalGeneratorBlockEntity::getItemHandlerCapForSide);
 
         event.registerBlockEntity(
                 Capabilities.EnergyStorage.BLOCK,
                 Registration.CRYSTAL_GENERATOR_BLOCK_ENTITY.get(),
-                CrystalGeneratorBlockEntity::getEnergyStorageCapForSide
-        );
+                CrystalGeneratorBlockEntity::getEnergyStorageCapForSide);
 
         // Quarry
         event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK,
                 Registration.CRYSTAL_QUARRY_BLOCK_ENTITY.get(),
-                CrystalQuarryBlockEntity::getItemHandlerCapForSide
-        );
+                CrystalQuarryBlockEntity::getItemHandlerCapForSide);
 
         event.registerBlockEntity(
                 Capabilities.EnergyStorage.BLOCK,
                 Registration.CRYSTAL_QUARRY_BLOCK_ENTITY.get(),
-                CrystalQuarryBlockEntity::getEnergyStorageCapForSide
-        );
+                CrystalQuarryBlockEntity::getEnergyStorageCapForSide);
+
+        // Pedestal
+        event.registerBlockEntity(
+                Capabilities.ItemHandler.BLOCK,
+                Registration.CRYSTAL_PEDESTAL_BLOCK_ENTITY.get(),
+                CrystalPedestalBlockEntity::getItemHandlerCapForSide);
     }
 }

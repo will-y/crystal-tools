@@ -29,7 +29,6 @@ public class GeneratorRecipeCategory implements IRecipeCategory<GeneratorRecipe>
     private final LoadingCache<Integer, IDrawableAnimated> cachedFlames;
 
     public GeneratorRecipeCategory(IGuiHelper guiHelper) {
-
         this.background = guiHelper.drawableBuilder(TEXTURE, 0, 0, 18, 34)
                 .addPadding(0, 0, 0, 20 + Minecraft.getInstance().font.width("Requires Upgrade: Metal Generator"))
                 .build();

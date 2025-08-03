@@ -29,4 +29,11 @@ public class DataMaps {
                     BuiltInRegistries.ITEM.byNameCodec())
             .synced(BuiltInRegistries.ITEM.byNameCodec(), false)
             .build();
+
+    public static final DataMapType<Item, ActionData> PEDESTAL_ACTIONS = DataMapType.builder(
+                    ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "pedestal_actions"),
+                    Registries.ITEM,
+                    ActionData.CODEC)
+            .synced(ActionData.CODEC, true)
+            .build();
 }

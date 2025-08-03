@@ -32,6 +32,8 @@ public class CrystalToolsLootTables extends VanillaBlockLoot {
     protected void generate() {
         dropSelf(Registration.CRYSTAL_BLOCK.get());
         dropSelf(Registration.QUARRY_STABILIZER.get());
+        // TODO: Need to drop items
+        dropSelf(Registration.CRYSTAL_PEDESTAL.get());
         add(Registration.CRYSTAL_ORE.get(), createOreDrop(Registration.CRYSTAL_ORE.get(), Registration.CRYSTAL.get()));
         add(Registration.CRYSTAL_DEEPSLATE_ORE.get(), createOreDrop(Registration.CRYSTAL_DEEPSLATE_ORE.get(), Registration.CRYSTAL.get()));
         createTorchTable(Registration.CRYSTAL_TORCH.get());

@@ -16,6 +16,7 @@ You can also suggest features or ask questions there.
 - Crystal Furnace
 - Crystal Generator
 - Crystal Quarry
+- Crystal Pedestal
 
 ## World Generation
 Deepslate Crystal Ore Generates Below Y -44 in veins of size 5.
@@ -140,7 +141,7 @@ There will be upgrades that are common to most tools, and tools will each get un
   - Mobs who attack the shield are slowed
 - Totem Slot
   - Adds a slot of a Totem of Undying. Craft the shield with a Totem of Undying to insert it.
-- Shild Knockback
+- Shield Knockback
   - Mobs who attack the shield are knocked back
 - Poison Mobs
   - Mobs who attack the shield are poisoned
@@ -452,6 +453,12 @@ You can change these values in `config/crystal_tools.toml` or in the in-game UI.
 - `quarry_speed_upgrade_multiplier` (50): Multiplier for the speed upgrade of the quarry. Range: 1 - 100000.
 - `quarry_max_size` (64): Max size of the quarry. Range: 1 - 256.
 
+#### Magnet Settings
+- `magnet_base_range` (5): Magnet Base Range (in blocks). Range: 0 - 100.
+
+#### Pedestal Settings
+- `level_items_in_pedestal` (true): If true, Items will gain experience when used in pedestals
+
 #### Miscellaneous Settings
 - `enable_item_requirements` (true): Set to false to disable certain nodes from requiring items to upgrade.
 - `require_crystal_for_reset` (true): Require a crystal item in your inventory for resetting skill points.
@@ -493,6 +500,8 @@ Add a file `entity_blacklist.json` in a datapack in the location `crystal_tools/
 ## Datamaps
 - `generator_gems`: Controls the gems that can be burned with the gem generator upgrade in the crystal generator.
 - `generator_metals`: Controls the gems that can be burned with the gem generator upgrade in the crystal generator.
+- `mob_heads`: Controls which heads which mobs drop with the beheading upgrade.
+- `pedestal_actions`: Controls which items have effects in the Crystal Pedestal
 
 More information on datamaps can be found [here](https://docs.neoforged.net/docs/resources/server/datamaps/).
 
@@ -523,3 +532,24 @@ Where `bonusGeneration` is the generator added on top of the base from the gener
   }
 }
 ```
+
+#### Adding an item to the pedestal actions datamap
+If you wanted to add another item that would work like a magnet in the pedestal you can add it like this:
+```json
+{
+  "values": {
+    "minecraft:netherite_pickaxe": {
+      "type": "magnet",
+      "params": {
+        "durabilityModifier": 3.0,
+        "maxTickCounter": 1,
+        "range": 2
+      }
+    }
+  }
+}
+```
+
+`durabilityModifier` changes how much durability the item uses when the action is used
+`maxTickCounter` determines how often the action should tick (1 means it will run every tick)
+`range` determines the base range of the magnet

@@ -18,9 +18,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public abstract class LevelableBlockEntity extends BlockEntity {
+public abstract class LevelableBlockEntity extends ActionBlockEntity {
     public static final List<String> NBT_TAGS = List.of("SkillPoints", "Points", "Exp", "ExpCap");
 
     protected int skillPoints = 0;
@@ -28,39 +27,8 @@ public abstract class LevelableBlockEntity extends BlockEntity {
     protected int exp = 0;
     protected int expCap = getExpCap();
 
-    private final Map<Action.ActionType, Action> actions = new HashMap<>();
-
     public LevelableBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
         super(type, pos, blockState);
-    }
-
-    public void serverTick(Level level, BlockPos pos, BlockState state) {
-        for (Action action : getActions()) {
-            action.tick(level, pos, state);
-        }
-    }
-
-    public void onBlockRemoved() {
-        for (Action action : getActions()) {
-            action.onRemove();
-        }
-    }
-
-    protected <T extends Action> T addAction(T action) {
-        this.actions.put(action.getActionType(), action);
-        return action;
-    }
-
-    protected boolean hasAction(Action.ActionType actionType) {
-        return this.actions.containsKey(actionType);
-    }
-
-    protected Action getAction(Action.ActionType actionType) {
-        return this.actions.get(actionType);
-    }
-
-    protected Iterable<Action> getActions() {
-        return this.actions.values();
     }
 
     @Override
@@ -71,13 +39,12 @@ public abstract class LevelableBlockEntity extends BlockEntity {
         this.exp = tag.getInt("Exp");
         this.expCap = tag.getInt("ExpCap");
 
-        if (this.expCap == 0) this.expCap = getBaseExpCap();
-
-        getActions().forEach(action -> action.load(tag, registries));
-    }
+        if (this.expCap == 0) this.expCap = getBaseExpCap();}
 
     @Override
     protected void applyImplicitComponents(DataComponentInput componentInput) {
+        super.applyImplicitComponents(componentInput);
+
         LevelableBlockEntityData levelableBlockEntityData = componentInput.get(DataComponents.LEVELABLE_BLOCK_ENTITY_DATA);
         if (levelableBlockEntityData != null) {
             this.skillPoints = levelableBlockEntityData.skillPoints();
@@ -87,10 +54,6 @@ public abstract class LevelableBlockEntity extends BlockEntity {
         }
 
         if (this.expCap == 0) this.expCap = getBaseExpCap();
-
-        for (Action action : getActions()) {
-            action.applyComponents(componentInput);
-        }
     }
 
     @Override
@@ -101,8 +64,6 @@ public abstract class LevelableBlockEntity extends BlockEntity {
         tag.putIntArray("Points", this.points);
         tag.putInt("Exp", this.exp);
         tag.putInt("ExpCap", this.expCap);
-
-        getActions().forEach(action -> action.save(tag, registries));
     }
 
     @Override
@@ -111,10 +72,6 @@ public abstract class LevelableBlockEntity extends BlockEntity {
         LevelableBlockEntityData levelableBlockEntityData = new LevelableBlockEntityData(skillPoints,
                 Arrays.stream(points).boxed().toList(), exp, expCap);
         components.set(DataComponents.LEVELABLE_BLOCK_ENTITY_DATA, levelableBlockEntityData);
-
-        for (Action action : getActions()) {
-            action.collectComponents(components);
-        }
     }
 
     public void addSkillPoints(int points) {

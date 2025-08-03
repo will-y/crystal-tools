@@ -41,7 +41,6 @@
   - Filters
 - Chest
 - Auto crafter
-- Magnet
 - Enchanting Table
 - Anvil
 - Crystal Arrow
@@ -53,6 +52,28 @@
 - Damage Types
   - Reduce % of armor?
   - % health damage
+- Potion Factory
+  - Speed
+  - inventory slots
+  - number of recipes
+    - Store multiple recipes, will do them in order or round robin
+  - Blaze cost reduction
+  - RF Instead of blaze (maybe)
+  - Spring water
+    - Adjacent water blocks will fill it up
+      - Maybe do a cool model thing to show it picking up water?
+- Pedestal
+  - Later:
+    - Show range
+    - Screens for configuration / info for specific actions
+    - Some indication that the item in the pedestal doesn't do anything
+    - Deal with using up a stack when it doesn't have durability (ender pearls to chunkload)
+    - Some way to deal with Default parameters better
+    - Pull mobs and experience?
+    - More actions
+      - ender pearl chunkloads
+      - hopper auto outputs?
+      - tools can mine
 
 ### New Blocks
 - Crystal glass (conn texture)

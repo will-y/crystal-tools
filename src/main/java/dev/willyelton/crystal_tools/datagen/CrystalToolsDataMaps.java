@@ -1,8 +1,11 @@
 package dev.willyelton.crystal_tools.datagen;
 
 import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.common.datamap.ActionData;
 import dev.willyelton.crystal_tools.common.datamap.DataMaps;
 import dev.willyelton.crystal_tools.common.datamap.GeneratorFuelData;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.action.Action;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.action.ActionParameters;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.entity.EntityType;
@@ -10,6 +13,7 @@ import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.DataMapProvider;
 
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class CrystalToolsDataMaps extends DataMapProvider {
@@ -63,5 +67,8 @@ public class CrystalToolsDataMaps extends DataMapProvider {
                 .add(EntityType.SKELETON.builtInRegistryHolder(), Items.SKELETON_SKULL, false)
                 .add(EntityType.WITHER_SKELETON.builtInRegistryHolder(), Items.WITHER_SKELETON_SKULL, false)
                 .add(EntityType.PLAYER.builtInRegistryHolder(), Items.PLAYER_HEAD, false);
+
+        builder(DataMaps.PEDESTAL_ACTIONS)
+                .add(Registration.CRYSTAL_MAGNET, new ActionData(Action.ActionType.MAGNET, Optional.of(new ActionParameters(1, 5, 5))), false);
     }
 }

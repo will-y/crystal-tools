@@ -7,6 +7,7 @@ import dev.willyelton.crystal_tools.common.components.FurnaceUpgrades;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalFurnaceContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalFurnaceBlock;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.action.Action;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.AutoOutputAction;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.AutoOutputable;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.data.LevelableContainerData;
@@ -52,17 +53,21 @@ import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.*;
+
 // TODO: Audit / comment code, don't use WordlyContainer, extract out things that will be common to a generator / other
 public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements WorldlyContainer, MenuProvider, AutoOutputable {
     public static final int[] INPUT_SLOTS = new int[] {0, 1, 2, 3, 4};
     public static final int[] OUTPUT_SLOTS = new int[] {5, 6, 7, 8, 9};
     public static final int[] FUEL_SLOTS = new int[] {10, 11, 12};
+    public static final int MAX_SLOTS = 5;
 
     public static final int SIZE = 13;
     public static final int DATA_SIZE = 14;
@@ -86,8 +91,8 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     // Furnace related fields
     private int litTime = 0;
     private int litTotalTime = 0;
-    private int[] cookingProgress = new int[5];
-    private int[] cookingTotalTime = new int[5];
+    private int[] cookingProgress = new int[MAX_SLOTS];
+    private int[] cookingTotalTime = new int[MAX_SLOTS];
     private float expHeld = 0;
 
     // Things that can be upgraded
@@ -99,8 +104,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     private float expModifier;
     private boolean saveFuel = false;
 
-    // TODO: This should probably later be a list that just gets iterated over?
-    private final AutoOutputAction autoOutputAction;
+    private AutoOutputAction autoOutputAction;
 
     public CrystalFurnaceBlockEntity(BlockPos pPos, BlockState state) {
         super(Registration.CRYSTAL_FURNACE_BLOCK_ENTITY.get(), pPos, state);
@@ -112,8 +116,12 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         sidedCaps = Arrays.stream(new Direction[] {Direction.DOWN, Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST})
                 .map(direction -> Map.entry(direction, new SidedInvWrapper(this, direction)))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
 
-        autoOutputAction = addAction(new AutoOutputAction(this));
+    @Override
+    protected Collection<Action> getDefaultActions() {
+        autoOutputAction = new AutoOutputAction(this, this);
+        return List.of(autoOutputAction);
     }
 
     public IItemHandler getCapForSide(Direction side) {
@@ -368,8 +376,8 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         // Furnace things
         this.litTime = 0;
         this.litTotalTime = 0;
-        this.cookingProgress = new int[5];
-        this.cookingTotalTime = new int[5];
+        this.cookingProgress = new int[MAX_SLOTS];
+        this.cookingTotalTime = new int[MAX_SLOTS];
         this.expHeld = 0;
 
         // Upgrades
@@ -546,7 +554,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     }
 
     private boolean canBurn(RegistryAccess registryAccess, RecipeHolder<?> recipe, int slot) {
-        int outputSlot = slot + 5;
+        int outputSlot = slot + MAX_SLOTS;
         if (!this.getItem(slot).isEmpty() && recipe != null) {
             ItemStack recipeOutput = ((RecipeHolder<? extends AbstractCookingRecipe>) recipe).value().assemble(new SingleRecipeInput(this.getItem(slot)), registryAccess);
 
@@ -564,16 +572,16 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         if (recipe != null && this.canBurn(registryAccess, recipe, slot)) {
             AbstractCookingRecipe castedRecipe = ((RecipeHolder<? extends AbstractCookingRecipe>) recipe).value();
             ItemStack input = this.items.get(slot);
-            ItemStack output = this.items.get(slot + 5);
+            ItemStack output = this.items.get(slot + MAX_SLOTS);
             ItemStack recipeOutput = castedRecipe.assemble(new SingleRecipeInput(this.getItem(slot)), registryAccess);
             if (output.isEmpty()) {
-                this.items.set(slot + 5, recipeOutput.copy());
+                this.items.set(slot + MAX_SLOTS, recipeOutput.copy());
             } else if (output.is(recipeOutput.getItem())) {
                 output.grow(recipeOutput.getCount());
             }
 
             if (input.is(Blocks.WET_SPONGE.asItem()) && !this.items.get(slot).isEmpty() && this.items.get(slot).is(Items.BUCKET)) {
-                this.items.set(slot + 5, new ItemStack(Items.WATER_BUCKET));
+                this.items.set(slot + MAX_SLOTS, new ItemStack(Items.WATER_BUCKET));
             }
 
             input.shrink(1);

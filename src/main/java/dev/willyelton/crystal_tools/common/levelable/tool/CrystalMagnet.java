@@ -69,7 +69,6 @@ public class CrystalMagnet extends LevelableTool {
                 affected.getAndIncrement();
             });
 
-
             if (affected.get() > 0 && level.getGameTime() % 5 == 0 && entity instanceof LivingEntity livingEntity) {
                 stack.hurtAndBreak(affected.get(), livingEntity, null);
             }
