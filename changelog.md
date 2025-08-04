@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 3.2.2
+### Fixes
+- Fixes Crystal Hoe and Crystal AIOT not requiring shears for the shearing upgrade
+
 ## 3.2.1
 ### Additions
 - The AIOT now has a Shears upgrade
