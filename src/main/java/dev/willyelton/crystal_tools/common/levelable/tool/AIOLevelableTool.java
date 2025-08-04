@@ -13,6 +13,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
 import net.neoforged.neoforge.common.Tags;
 
@@ -62,7 +63,8 @@ public class AIOLevelableTool extends DiggerLevelableTool {
 
     @Override
     public boolean canPerformAction(ItemStack stack, ItemAbility itemAbility) {
-        return AIOT_ACTIONS.contains(itemAbility);
+        return AIOT_ACTIONS.contains(itemAbility) ||
+                (stack.getOrDefault(DataComponents.SHEAR, false) && ItemAbilities.DEFAULT_SHEARS_ACTIONS.contains(itemAbility));
     }
 
     // TODO: probably don't need this

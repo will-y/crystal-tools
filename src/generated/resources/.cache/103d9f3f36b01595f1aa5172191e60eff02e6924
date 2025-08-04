@@ -1,8 +1,8 @@
-// 1.21.8	2025-07-20T14:57:52.332792	Registries
+// 1.21.8	2025-08-04T17:21:50.8422393	Registries
 fc5742856159734f886e60a3e6559bbe51c57d92 data/crystal_tools/crystal_tools/skill_trees/blocks/crystal_furnace.json
 2a0c63ddccc640131e357b3a412a3141a43ba97d data/crystal_tools/crystal_tools/skill_trees/blocks/crystal_generator.json
 864b0773e2a28be44ba79d150e23cda8cff8944d data/crystal_tools/crystal_tools/skill_trees/blocks/crystal_quarry.json
-41e7bfe215dc6c6e2a433e8a5d968f28d4126d58 data/crystal_tools/crystal_tools/skill_trees/items/crystal_aiot.json
+fa9bdee42bd2874aacb40ff1f0ccc87decad52d3 data/crystal_tools/crystal_tools/skill_trees/items/crystal_aiot.json
 dd203abedf88ae43499eb3411e2fba61a88cb98d data/crystal_tools/crystal_tools/skill_trees/items/crystal_apple.json
 b190d0090c76740013d54247f8ca783f97143464 data/crystal_tools/crystal_tools/skill_trees/items/crystal_axe.json
 3389f0c935680532b796e3d652d8225127b67296 data/crystal_tools/crystal_tools/skill_trees/items/crystal_backpack.json

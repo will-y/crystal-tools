@@ -1163,6 +1163,8 @@ public class CrystalToolsItemSkillTrees {
                     .dataComponentNode(26, capturing(2), desc.capturing(), DataComponents.CAPTURING.getId(), 0.01F)
                         .nodeRequirement(16)
                         .previousTierOrRequirements()
+                    .dataComponentNode(57, SHEARS, desc.shears(), DataComponents.SHEAR.getId(), 1)
+                        .previousTierOrRequirements()
                 .tier()
                     .dataComponentNode(27, lifesteal(1), desc.lifesteal(), DataComponents.LIFESTEAL.getId(), 2)
                         .previousTierOrRequirements()

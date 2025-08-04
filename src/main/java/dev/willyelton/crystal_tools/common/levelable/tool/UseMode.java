@@ -18,20 +18,6 @@ public enum UseMode implements StringRepresentable {
 
     public static StreamCodec<FriendlyByteBuf, UseMode> STREAM_CODEC = NeoForgeStreamCodecs.enumCodec(UseMode.class);
 
-    public static UseMode fromString(String string) {
-        if (string.equalsIgnoreCase("hoe")) {
-            return HOE;
-        } else if (string.equalsIgnoreCase("shovel")) {
-            return SHOVEL;
-        } else if (string.equalsIgnoreCase("axe")) {
-            return AXE;
-        } else if (string.equalsIgnoreCase("torch")) {
-            return TORCH;
-        } else {
-            return HOE;
-        }
-    }
-
     public static UseMode nextMode(ItemStack tool, UseMode mode) {
         switch (mode) {
             case HOE -> {
