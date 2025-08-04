@@ -124,6 +124,10 @@ dependencies {
 //    implementation("io.wispforest:accessories-neoforge:${accessories_version}")
 //    implementation "curse.maven:accessories-cc-layer-1005683:5823562" // Curios compat layer
 
+    implementation "curse.maven:better-combat-by-daedelus-639842:6532547"
+    implementation "curse.maven:cloth-config-348521:5729127"
+    implementation "curse.maven:playeranimator-658587:6024462"
+
 //    runtimeOnly "curse.maven:adorned-1036809:5740650" // Adorned
 }
 

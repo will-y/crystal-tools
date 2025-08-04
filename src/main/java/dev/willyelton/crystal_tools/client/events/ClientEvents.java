@@ -10,8 +10,11 @@ import dev.willyelton.crystal_tools.client.renderer.QuarryCubeRenderer;
 import dev.willyelton.crystal_tools.client.renderer.blockentity.CrystalPedestalBlockEntityRenderer;
 import dev.willyelton.crystal_tools.client.renderer.blockentity.CrystalQuarryBlockEntityRenderer;
 import dev.willyelton.crystal_tools.common.levelable.tool.BowLevelableItem;
+import net.minecraft.client.model.ArmorStandArmorModel;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.geom.EntityModelSet;
+import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.ArmorStandRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
@@ -74,13 +77,15 @@ public class ClientEvents {
         EntityModelSet entityModels = event.getEntityModels();
         event.getSkins().forEach(s -> {
             LivingEntityRenderer<? extends Player, ? extends EntityModel<? extends Player>> livingEntityRenderer = event.getSkin(s);
-            if (livingEntityRenderer instanceof PlayerRenderer playerRenderer){
-                playerRenderer.addLayer(new CrystalElytraLayer<>(playerRenderer, entityModels));
+            if (livingEntityRenderer instanceof PlayerRenderer playerRenderer) {
+                playerRenderer.addLayer(new CrystalElytraLayer<>(playerRenderer, entityModels,
+                        new HumanoidArmorModel<>(event.getContext().bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR))));
             }
         });
         LivingEntityRenderer<ArmorStand, ? extends EntityModel<ArmorStand>> livingEntityRenderer = event.getRenderer(EntityType.ARMOR_STAND);
         if (livingEntityRenderer instanceof ArmorStandRenderer armorStandRenderer){
-            armorStandRenderer.addLayer(new CrystalElytraLayer<>(armorStandRenderer, entityModels));
+            armorStandRenderer.addLayer(new CrystalElytraLayer<>(armorStandRenderer, entityModels,
+                    new ArmorStandArmorModel(event.getContext().bakeLayer(ModelLayers.ARMOR_STAND_OUTER_ARMOR))));
         }
     }
 

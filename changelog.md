@@ -1,4 +1,12 @@
 # Crystal Tools Change Log
+## 2.5.1
+### Additions
+- The AIOT now has a Shears upgrade
+- Adds compatability for Better Combat for the AIOT
+
+### Changes
+- The Crystal Elytra now renders a Chestplate as well as the wings
+
 ## 2.5.0
 ### Additions
 - Adds the Crystal Pedestal!

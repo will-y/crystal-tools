@@ -312,6 +312,22 @@
         ],
         "key": "capture",
         "value": 0.01
+      },
+      {
+        "id": 57,
+        "name": "Shears",
+        "description": "Can now be used to shear sheep!",
+        "limit": 1,
+        "requirements": [
+          {
+            "or_node": [13, 14, 15, 16, 56]
+          },
+          {
+            "item": ["minecraft:shears"]
+          }
+        ],
+        "key": "shear",
+        "value": 1
       }
     ],
     [

@@ -13,12 +13,16 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -29,10 +33,12 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.common.IShearable;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 import java.util.function.Consumer;
 
 public abstract class LevelableTool extends TieredItem implements LevelableItem {
@@ -284,5 +290,31 @@ public abstract class LevelableTool extends TieredItem implements LevelableItem 
     public boolean shouldCauseBlockBreakReset(ItemStack oldStack, ItemStack newStack) {
         // Just ignore data components for now
         return !newStack.is(oldStack.getItem());
+    }
+
+    @Override
+    public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity entity, InteractionHand hand) {
+        if (this.isDisabled()) {
+            stack.shrink(1);
+            return InteractionResult.FAIL;
+        }
+
+        if (stack.getOrDefault(DataComponents.SHEAR, false) && entity instanceof IShearable target) {
+            if (entity.level().isClientSide) return net.minecraft.world.InteractionResult.SUCCESS;
+            BlockPos pos = BlockPos.containing(entity.position());
+            if (target.isShearable(player, stack, entity.level(), pos)) {
+                List<ItemStack> drops = target.onSheared(player, stack, entity.level(), pos);
+                Random rand = new java.util.Random();
+                drops.forEach(d -> {
+                    ItemEntity ent = entity.spawnAtLocation(d, 1.0F);
+                    if (ent != null) {
+                        ent.setDeltaMovement(ent.getDeltaMovement().add(((rand.nextFloat() - rand.nextFloat()) * 0.1F), (rand.nextFloat() * 0.05F), ((rand.nextFloat() - rand.nextFloat()) * 0.1F)));
+                    }
+                });
+                stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
+            }
+            return net.minecraft.world.InteractionResult.SUCCESS;
+        }
+        return net.minecraft.world.InteractionResult.PASS;
     }
 }
