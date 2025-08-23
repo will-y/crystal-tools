@@ -48,6 +48,8 @@ public class CrystalQuarryScreen extends BaseMenuUpgradeScreen<CrystalQuarryCont
 
     @Override
     protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+        super.renderLabels(guiGraphics, mouseX, mouseY);
+
         guiGraphics.drawString(this.font,
                 Component.literal(String.format("Using %s FE/Tick", this.menu.getEnergyCost())),
                 this.inventoryLabelX,

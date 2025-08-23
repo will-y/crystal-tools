@@ -9,6 +9,7 @@
 
 ### Fixes
 - Fixes the Crystal Pedestal not updating its action when the tool is updated through automation
+- Fixes the Crystal Quarry screen title not rendering
 
 ## 3.2.2
 ### Fixes
