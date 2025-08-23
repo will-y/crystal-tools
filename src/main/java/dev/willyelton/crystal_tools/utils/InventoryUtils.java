@@ -1,12 +1,16 @@
 package dev.willyelton.crystal_tools.utils;
 
+import com.google.common.base.Predicates;
 import dev.willyelton.crystal_tools.common.compat.curios.CuriosCompatibility;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -78,5 +82,32 @@ public class InventoryUtils {
                 player.getItemBySlot(EquipmentSlot.MAINHAND),
                 player.getItemBySlot(EquipmentSlot.OFFHAND)
         );
+    }
+    public static List<ItemStack> tryInsertStacks(IItemHandler handler, List<ItemStack> stacksToInsert) {
+        return tryInsertStacks(handler, stacksToInsert, Predicates.alwaysTrue());
+    }
+
+    /**
+     * Tries to insert items into an item handler. Any that don't fit are returned
+     * @param handler The handler to insert into
+     * @param stacksToInsert The itemstacks to insert
+     * @param filter A predicate that decides if a given item should be inserted
+     * @return The items that didn't fit in the handler
+     */
+    public static List<ItemStack> tryInsertStacks(IItemHandler handler, List<ItemStack> stacksToInsert, Predicate<ItemStack> filter) {
+        List<ItemStack> noFit = new ArrayList<>();
+
+        for (ItemStack stack : stacksToInsert) {
+            if (!filter.test(stack)) {
+                continue;
+            }
+            ItemStack result = ItemHandlerHelper.insertItem(handler, stack, false);
+
+            if (!result.isEmpty()) {
+                noFit.add(result);
+            }
+        }
+
+        return noFit;
     }
 }

@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.common.levelable.block.entity;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.datamap.ActionData;
 import dev.willyelton.crystal_tools.common.datamap.DataMaps;
+import dev.willyelton.crystal_tools.common.inventory.CallbackItemStackHandler;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalPedestalContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalPedestalBlock;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.data.PedestalClientData;
@@ -38,7 +39,7 @@ public class CrystalPedestalBlockEntity extends ActionBlockEntity implements Men
     public CrystalPedestalBlockEntity(BlockPos pos, BlockState blockState) {
         super(Registration.CRYSTAL_PEDESTAL_BLOCK_ENTITY.get(), pos, blockState);
 
-        catalystHandler = new ItemStackHandler(catalystStacks);
+        catalystHandler = new CallbackItemStackHandler(catalystStacks, this::setStack);
         contentsHandler = new ItemStackHandler(contentsStacks);
     }
 
@@ -97,10 +98,17 @@ public class CrystalPedestalBlockEntity extends ActionBlockEntity implements Men
 
         ItemStack storedStack = this.catalystStacks.getFirst();
         this.catalystStacks.set(0, stack);
-        this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), 3);
-        this.setActions(stack, storedStack);
-        this.setChanged();
+        setStack(storedStack, stack);
         return storedStack;
+    }
+
+    private void setStack(ItemStack newStack, ItemStack oldStack) {
+        if (this.level != null) {
+            this.level.sendBlockUpdated(this.worldPosition, this.getBlockState(), this.getBlockState(), 3);
+        }
+
+        this.setActions(newStack, oldStack);
+        this.setChanged();
     }
 
     private void setActions(ItemStack newStack, ItemStack oldStack) {

@@ -1,4 +1,15 @@
 # Crystal Tools Change Log
+## 3.3.0
+### Additions
+- Adds a new Crystal Pedestal action `block_break`
+  - It will break any block in front of it
+  - By default, all tools can be used
+  - Tools can only break blocks if they are able
+  - The range can be increased through the `BLOCK INTERACTION RANGE` attribute
+
+### Fixes
+- Fixes the Crystal Pedestal not updating its action when the tool is updated through automation
+
 ## 3.2.2
 ### Fixes
 - Fixes Crystal Hoe and Crystal AIOT not requiring shears for the shearing upgrade

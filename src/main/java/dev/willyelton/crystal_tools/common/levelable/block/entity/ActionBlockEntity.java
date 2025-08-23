@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.Action;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.ActionParameters;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.action.ActionType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
@@ -24,10 +25,10 @@ import java.util.Map;
  */
 // TODO: Should dynamic actions be saved to itemstack? Probably not
 public class ActionBlockEntity extends BlockEntity {
-    private static final Codec<Map<Action.ActionType, ActionParameters>> SAVED_ACTIONS_CODEC = Codec.unboundedMap(Action.ActionType.CODEC, ActionParameters.CODEC);
+    private static final Codec<Map<ActionType, ActionParameters>> SAVED_ACTIONS_CODEC = Codec.unboundedMap(ActionType.CODEC, ActionParameters.CODEC);
 
-    private final Map<Action.ActionType, Action> actions = new HashMap<>();
-    private final Map<Action.ActionType, ActionParameters> savedActions = new HashMap<>();
+    private final Map<ActionType, Action> actions = new HashMap<>();
+    private final Map<ActionType, ActionParameters> savedActions = new HashMap<>();
 
     public ActionBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
         super(type, pos, blockState);
@@ -97,17 +98,20 @@ public class ActionBlockEntity extends BlockEntity {
         this.setChanged();
     }
 
-    protected void removeAction(Action.ActionType actionType) {
-        this.actions.remove(actionType);
-        this.savedActions.remove(actionType);
-        this.setChanged();
+    protected void removeAction(ActionType actionType) {
+        if (this.actions.containsKey(actionType)) {
+            this.actions.get(actionType).onRemove();
+            this.actions.remove(actionType);
+            this.savedActions.remove(actionType);
+            this.setChanged();
+        }
     }
 
-    protected boolean hasAction(Action.ActionType actionType) {
+    protected boolean hasAction(ActionType actionType) {
         return this.actions.containsKey(actionType);
     }
 
-    protected Action getAction(Action.ActionType actionType) {
+    protected Action getAction(ActionType actionType) {
         return this.actions.get(actionType);
     }
 

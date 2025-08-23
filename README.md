@@ -369,6 +369,7 @@ There will be upgrades that are common to most tools, and tools will each get un
 
 #### Pedestal
 ![Crystal Pedestal Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/pedestal.png)
+
 ### Misc
 #### Netherite Stick
 ![Netherite Stick Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/netherite_stick.png)

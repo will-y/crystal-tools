@@ -17,6 +17,7 @@ import dev.willyelton.crystal_tools.common.levelable.block.entity.action.ChunkLo
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.ChunkLoadingAction;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.data.LevelableContainerData;
 import dev.willyelton.crystal_tools.common.network.data.QuarryMineBlockPayload;
+import dev.willyelton.crystal_tools.utils.InventoryUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -446,7 +447,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
         if (!waitingStacks.isEmpty()) {
             if (level.getGameTime() % 20 == 0) {
-                List<ItemStack> noFit = tryInsertStacks(waitingStacks);
+                List<ItemStack> noFit = InventoryUtils.tryInsertStacks(itemHandler, waitingStacks, this::shouldPickUp);
 
                 if (!noFit.isEmpty()) {
                     waitingStacks = noFit;
@@ -532,7 +533,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
                 List<ItemStack> drops = new ArrayList<>(Block.getDrops(level.getBlockState(miningAt), (ServerLevel) level, miningAt, level.getBlockEntity(miningAt), null, miningStack));
                 drops.addAll(getInventoryContents(level));
-                List<ItemStack> noFit = tryInsertStacks(drops);
+                List<ItemStack> noFit = InventoryUtils.tryInsertStacks(itemHandler, drops, this::shouldPickUp);
 
                 if (!noFit.isEmpty()) {
                     this.waitingStacks = noFit;
@@ -665,7 +666,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         List<ItemStack> noFit = new ArrayList<>();
 
         for (ItemStack stack : stacksToInsert) {
-            if (matchesFilter(stack)) {
+            if (shouldPickUp(stack)) {
                 continue;
             }
             ItemStack result = ItemHandlerHelper.insertItem(this.itemHandler, stack, false);
@@ -685,15 +686,15 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         });
     }
 
-    private boolean matchesFilter(ItemStack stack) {
+    private boolean shouldPickUp(ItemStack stack) {
         for (ItemStack filterStack : filterItems) {
             // TODO: Mode matching
             if (filterStack.is(stack.getItem())) {
-                return whitelist;
+                return !whitelist;
             }
         }
 
-        return !whitelist;
+        return whitelist;
     }
 
     @Override

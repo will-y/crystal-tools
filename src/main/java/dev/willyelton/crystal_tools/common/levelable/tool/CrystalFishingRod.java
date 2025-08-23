@@ -1,6 +1,5 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
-import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -27,6 +26,7 @@ import java.util.Collection;
 public class CrystalFishingRod extends LevelableTool {
     public static final String CRYSTAL_TOOLS_FISHING_MAIN_TAG = "crystal_tools.fishing.main";
     public static final String CRYSTAL_TOOLS_FISHING_OFF_TAG = "crystal_tools.fishing.off";
+
     public CrystalFishingRod(Item.Properties properties) {
         super(properties
                 .durability(CRYSTAL.durability()));
@@ -48,7 +48,7 @@ public class CrystalFishingRod extends LevelableTool {
         } else {
             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.FISHING_BOBBER_THROW, SoundSource.NEUTRAL, 0.5F, getRandomPitch(level));
             if (level instanceof ServerLevel serverlevel) {
-                int fishingSpeedBonus = (int)(EnchantmentHelper.getFishingTimeReduction(serverlevel, stack, player) * 20.0F);
+                int fishingSpeedBonus = (int) (EnchantmentHelper.getFishingTimeReduction(serverlevel, stack, player) * 20.0F);
                 int luckBonus = EnchantmentHelper.getFishingLuckBonus(serverlevel, stack, player);
                 FishingHook fishingHook = new FishingHook(player, level, fishingSpeedBonus, luckBonus);
                 if (hand == InteractionHand.MAIN_HAND) {
@@ -73,7 +73,7 @@ public class CrystalFishingRod extends LevelableTool {
 
     @Override
     public boolean mineBlock(ItemStack tool, Level level, BlockState blockState, BlockPos blockPos, LivingEntity entity) {
-       return false;
+        return false;
     }
 
     private float getRandomPitch(Level level) {
@@ -81,7 +81,7 @@ public class CrystalFishingRod extends LevelableTool {
     }
 
     public static void dropExtraItems(Collection<ItemStack> stacks, Player player, FishingHook hookEntity) {
-        for(ItemStack itemstack : stacks) {
+        for (ItemStack itemstack : stacks) {
             ItemEntity itementity = new ItemEntity(player.level(), hookEntity.getX(), hookEntity.getY(), hookEntity.getZ(), itemstack);
             double d0 = player.getX() - hookEntity.getX();
             double d1 = player.getY() - hookEntity.getY();

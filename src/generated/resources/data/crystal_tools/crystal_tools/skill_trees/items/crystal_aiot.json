@@ -670,6 +670,12 @@
           "name": "Shears",
           "requirements": [
             {
+              "type": "crystal_tools:item_requirement",
+              "item": [
+                "minecraft:shears"
+              ]
+            },
+            {
               "type": "crystal_tools:or_node_requirement",
               "or_node": [
                 17,

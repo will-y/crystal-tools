@@ -44,7 +44,6 @@ public class CrystalPedestalBlockEntityRenderer implements BlockEntityRenderer<C
                 poseStack.translate(0.5F, 0.5F, 0.5F);
                 poseStack.scale(0.5F, 0.5F, 0.5F);
                 poseStack.rotateAround(blockEntity.getBlockState().getValue(FACING).getRotation(), 0, 0F, 0F);
-                // TODO: Can use a client ticker for this
                 poseStack.mulPose(Axis.YP.rotationDegrees(Mth.rotLerp(partialTick, clientData.previousRot(), clientData.currentRot())));
                 poseStack.translate(0, Mth.lerp(partialTick, clientData.previousHeight(), clientData.currentHeight()), 0);
                 ItemEntityRenderer.renderMultipleFromCount(poseStack, bufferSource, packedLight, this.renderState, this.random);

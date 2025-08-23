@@ -28,6 +28,10 @@ public class ToolUtils {
         return durability <= 1;
     }
 
+    public static boolean willBreak(ItemStack stack, int durabilityToUse) {
+        return stack.getMaxDamage() - stack.getDamageValue() <= durabilityToUse;
+    }
+
     public static boolean hasSkillTree(ItemStack stack) {
         ResourceKey<Item> key = stack.getItemHolder().getKey();
         if (key == null) return false;

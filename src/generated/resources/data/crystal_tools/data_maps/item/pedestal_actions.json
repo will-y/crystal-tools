@@ -1,5 +1,33 @@
 {
   "values": {
+    "#minecraft:axes": {
+      "type": "block_break",
+      "params": {
+        "durabilityModifier": 2.0,
+        "maxTickCounter": 1
+      }
+    },
+    "#minecraft:hoes": {
+      "type": "block_break",
+      "params": {
+        "durabilityModifier": 2.0,
+        "maxTickCounter": 1
+      }
+    },
+    "#minecraft:pickaxes": {
+      "type": "block_break",
+      "params": {
+        "durabilityModifier": 2.0,
+        "maxTickCounter": 1
+      }
+    },
+    "#minecraft:shovels": {
+      "type": "block_break",
+      "params": {
+        "durabilityModifier": 2.0,
+        "maxTickCounter": 1
+      }
+    },
     "crystal_tools:crystal_magnet": {
       "type": "magnet",
       "params": {

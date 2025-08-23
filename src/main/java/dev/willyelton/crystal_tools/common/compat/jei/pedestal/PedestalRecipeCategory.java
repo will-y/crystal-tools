@@ -75,7 +75,7 @@ public class PedestalRecipeCategory implements IRecipeCategory<PedestalRecipe>  
         guiGraphics.drawWordWrap(font, descriptionComponent, 25, 10, 100, 0xFF606060, false);
         int y = font.split(descriptionComponent, 100).size() * 9;
 
-        if (recipe.data().params() != null) {
+        if (recipe.data().params() != null && recipe.data().params().range() > 0) {
             guiGraphics.drawString(font, Component.literal("Range: +" + recipe.data().params().range()), 25, 11 + y, 0xFF8080FF, false);
         }
     }
