@@ -98,7 +98,7 @@ public class CrystalPedestalBlockEntity extends ActionBlockEntity implements Men
 
         ItemStack storedStack = this.catalystStacks.getFirst();
         this.catalystStacks.set(0, stack);
-        setStack(storedStack, stack);
+        setStack(stack, storedStack);
         return storedStack;
     }
 
