@@ -6,8 +6,10 @@ import dev.willyelton.crystal_tools.common.datamap.DataMaps;
 import dev.willyelton.crystal_tools.common.datamap.GeneratorFuelData;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.Action;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.ActionParameters;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.action.ActionType;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.Tags;
@@ -69,6 +71,10 @@ public class CrystalToolsDataMaps extends DataMapProvider {
                 .add(EntityType.PLAYER.builtInRegistryHolder(), Items.PLAYER_HEAD, false);
 
         builder(DataMaps.PEDESTAL_ACTIONS)
-                .add(Registration.CRYSTAL_MAGNET, new ActionData(Action.ActionType.MAGNET, Optional.of(new ActionParameters(1, 5, 5))), false);
+                .add(Registration.CRYSTAL_MAGNET, new ActionData(ActionType.MAGNET, Optional.of(new ActionParameters(1, 5, 5))), false)
+                .add(ItemTags.PICKAXES, new ActionData(ActionType.BLOCK_BREAK, Optional.of(new ActionParameters(1, 2, 0))), false)
+                .add(ItemTags.SHOVELS, new ActionData(ActionType.BLOCK_BREAK, Optional.of(new ActionParameters(1, 2, 0))), false)
+                .add(ItemTags.HOES, new ActionData(ActionType.BLOCK_BREAK, Optional.of(new ActionParameters(1, 2, 0))), false)
+                .add(ItemTags.AXES, new ActionData(ActionType.BLOCK_BREAK, Optional.of(new ActionParameters(1, 2, 0))), false);
     }
 }

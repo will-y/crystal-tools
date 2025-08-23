@@ -89,7 +89,7 @@ public class CrystalFishingRod extends LevelableTool {
     }
 
     public static void dropExtraItems(Collection<ItemStack> stacks, Player player, FishingHook hookEntity) {
-        for(ItemStack itemstack : stacks) {
+        for (ItemStack itemstack : stacks) {
             ItemEntity itementity = new ItemEntity(player.level(), hookEntity.getX(), hookEntity.getY(), hookEntity.getZ(), itemstack);
             double d0 = player.getX() - hookEntity.getX();
             double d1 = player.getY() - hookEntity.getY();

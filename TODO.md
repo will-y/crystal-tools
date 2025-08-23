@@ -74,6 +74,14 @@
       - ender pearl chunkloads
       - hopper auto outputs?
       - tools can mine
+      - swords attack
+    - Action type should not be an enum, it should be a registry or something
+      - Things to define:
+        - Name
+        - JEI Description
+        - Action Factory (creates the action)
+          - Generic so context parameter can be passed in?
+        - Item Animation (default is spin, would also like an attack and mine one)
 
 ### New Blocks
 - Crystal glass (conn texture)

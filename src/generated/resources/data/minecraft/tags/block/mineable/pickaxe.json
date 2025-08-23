@@ -7,7 +7,6 @@
     "crystal_tools:crystal_generator",
     "crystal_tools:crystal_quarry",
     "crystal_tools:quarry_stabilizer",
-    "crystal_tools:quarry_stabilizer",
     "crystal_tools:crystal_pedestal"
   ]
 }

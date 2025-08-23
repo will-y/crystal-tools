@@ -23,6 +23,10 @@ public class ToolUtils {
         return durability <= 1;
     }
 
+    public static boolean willBreak(ItemStack stack, int durabilityToUse) {
+        return stack.getMaxDamage() - stack.getDamageValue() <= durabilityToUse;
+    }
+
     public static void increaseExpCap(ItemStack stack) {
         increaseExpCap(stack, 1);
     }
