@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 2.6.1
+### Fixes
+- Fixes a potential crash with the Crystal Furnace when using a custom datapack
+
 ## 2.6.0
 ### Additions
 - Adds a new Crystal Pedestal action `block_break`

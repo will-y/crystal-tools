@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity;
 
+import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.components.FurnaceData;
@@ -66,6 +67,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     public static final int[] OUTPUT_SLOTS = new int[] {5, 6, 7, 8, 9};
     public static final int[] FUEL_SLOTS = new int[] {10, 11, 12};
     public static final int MAX_SLOTS = 5;
+    public static final int MAX_FUEL_SLOTS = 3;
 
     public static final int SIZE = 13;
     public static final int DATA_SIZE = 14;
@@ -270,8 +272,8 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         // Upgrade things
         this.speedUpgrade = tag.getFloat("SpeedUpgrade");
         this.fuelEfficiencyUpgrade = tag.getInt("FuelEfficiencyUpgrade");
-        this.bonusSlots = tag.getInt("Slots");
-        this.bonusFuelSlots = tag.getInt("FuelSlots");
+        this.bonusSlots = Math.min(tag.getInt("Slots"), MAX_SLOTS);
+        this.bonusFuelSlots = Math.min(tag.getInt("FuelSlots"), MAX_SLOTS);
         this.balance = tag.getBoolean("Balance");
         this.expModifier = tag.getFloat("ExpModifier");
         this.saveFuel = tag.getBoolean("SaveFuel");
@@ -299,8 +301,8 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         if (furnaceUpgrades != null) {
             this.speedUpgrade = furnaceUpgrades.speed();
             this.fuelEfficiencyUpgrade = furnaceUpgrades.fuelEfficiency();
-            this.bonusSlots = furnaceUpgrades.slots();
-            this.bonusFuelSlots = furnaceUpgrades.fuelSlots();
+            this.bonusSlots = Math.min(furnaceUpgrades.slots(), MAX_SLOTS);
+            this.bonusFuelSlots = Math.min(furnaceUpgrades.fuelSlots(), MAX_FUEL_SLOTS);
             this.balance = furnaceUpgrades.balance();
             this.expModifier = furnaceUpgrades.expModifier();
             this.saveFuel = furnaceUpgrades.saveFuel();
@@ -348,8 +350,20 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         switch (key) {
             case "speed_bonus" -> this.speedUpgrade += value;
             case "fuel_bonus" -> this.fuelEfficiencyUpgrade += (int) value;
-            case "slot_bonus" -> this.bonusSlots += (int) value;
-            case "fuel_slot_bonus" -> this.bonusFuelSlots += (int) value;
+            case "slot_bonus" -> {
+                if (bonusSlots >= MAX_SLOTS - 1) {
+                    CrystalTools.LOGGER.warn("Furnace Max Slot Size Reached");
+                } else {
+                    this.bonusSlots += (int) value;
+                }
+            }
+            case "fuel_slot_bonus" -> {
+                if (bonusFuelSlots >= MAX_FUEL_SLOTS - 1) {
+                    CrystalTools.LOGGER.warn("Furnace Max Fuel Slot Size Reached");
+                } else {
+                    this.bonusFuelSlots += (int) value;
+                }
+            }
             case "auto_balance" -> this.balance = value == 1;
             case "exp_boost" -> this.expModifier += value;
             case "save_fuel" -> this.saveFuel = value == 1;
@@ -415,8 +429,8 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
             switch (index) {
                 case 3 -> litTime = value;
                 case 4 -> litTotalTime = value;
-                case 5 -> bonusSlots = value;
-                case 6 -> bonusFuelSlots = value;
+                case 5 -> bonusSlots = Math.min(value, MAX_SLOTS);
+                case 6 -> bonusFuelSlots = Math.min(value, MAX_FUEL_SLOTS);
                 case 7 -> cookingProgress[0] = value;
                 case 8 -> cookingProgress[1] = value;
                 case 9 -> cookingProgress[2] = value;
