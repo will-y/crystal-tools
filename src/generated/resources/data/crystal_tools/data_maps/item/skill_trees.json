@@ -92,6 +92,11 @@
       "allowMiningXp": false,
       "treeLocation": "crystal_tools:crystal_trident"
     },
+    "crystal_tools:portable_crystal_generator": {
+      "allowDamageXp": false,
+      "allowMiningXp": false,
+      "treeLocation": "crystal_tools:portable_crystal_generator"
+    },
     "minecraft:diamond_axe": {
       "allowRepair": false,
       "allowReset": false,

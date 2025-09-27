@@ -28,4 +28,11 @@ public class ItemStackUtils {
 
         return String.format("%d x %s", stack.getCount(), stack.getItem());
     }
+
+    public static void removeAllComponents(ItemStack stack) {
+        stack.getComponentsPatch().entrySet().forEach(entry -> {
+            stack.remove(entry.getKey());
+        });
+
+    }
 }

@@ -332,6 +332,10 @@ public class SkillTreeDescriptions {
         return String.format("Increases the FE capacity of the %s", toolName);
     }
 
+    public String portableGeneratorSlots() {
+        return String.format("Adds another slot to the %s", toolName);
+    }
+
     public String generatorSaveFuel() {
         return "Won't burn fuel if it cannot output power";
     }

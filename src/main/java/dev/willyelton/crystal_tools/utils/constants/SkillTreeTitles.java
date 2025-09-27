@@ -236,6 +236,10 @@ public class SkillTreeTitles {
         return getName("FE Capacity", level);
     }
 
+    public static String portableGeneratorSlots(int level) {
+        return getName("Extra Slots", level);
+    }
+
     private static String getName(String title, int level) {
         if (level == 0) {
             return "Infinite " + title;

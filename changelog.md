@@ -1,4 +1,23 @@
 # Crystal Tools Change Log
+## 3.4.0
+### Additions
+- Adds the Portable Crystal Generator!
+  - Works very similarly to the Crystal Generator, except it changes items in your inventory!
+- Adds the new config options:
+  - `portable_base_fe_generation` (20): Base FE generation per tick
+  - `portable_base_fe_storage` (5000): Base FE the portable crystal generator can store
+  - `portable_fe_generation_per_level` (5): FE generation gained per level of FE Generation
+  - `portable_fe_storage_per_level` (1000): FE gained per level of FE Capacity
+  - `portable_skill_points_per_burn_time` (0.00625): Determines how much skill experience you get from burning items. Skill Exp = Fuel Burn Time * SKILL_POINTS_PER_BURN_TIME (Rounded Up)
+
+### Fixes
+- Fixes the Crystal Generator not showing how much FE it is currently generating
+- Fixes the Crystal Quarry not showing how much FE it is currently using and where it is mining
+- Fixes all Levelable Blocks not showing the experience progress
+- Fixes the tooltips being incorrect on limited, non-infinite nodes
+- Fixes an issue where you could get more points than intended in an infinite node
+- Fixes point resetting not working correctly
+
 ## 3.3.1
 ### Fixes
 - Fixes a potential crash with the Crystal Furnace when using a custom datapack

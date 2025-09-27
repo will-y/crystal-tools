@@ -154,6 +154,8 @@ dependencies {
 //    implementation "curse.maven:accessories-cc-layer-1005683:5823562" // Curios compat layer
 
 //    runtimeOnly "curse.maven:adorned-1036809:5740650" // Adorned
+
+     implementation "curse.maven:energized-power-782147:6927412" // Energized Power
 }
 
 minecraft {

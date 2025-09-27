@@ -223,17 +223,20 @@ public abstract class BaseUpgradeScreen extends Screen {
         }, (button, guiGraphics, mouseX, mouseY) -> {
             String text;
 
-            if (node.getLimit() == 0 || node.getLimit() > 1) {
+            if (node.getLimit() == 1) {
+                text = node.getDescription();
+            } else {
                 int pointsToAdd = getPointsToSpend(Integer.MAX_VALUE, hasShiftDown(), hasControlDown());
-                if (node.getLimit() > 1) {
-                    pointsToAdd = Math.min(node.getLimit(), pointsToAdd);
+
+                if (node.getLimit() == 0) {
+                    text = String.format("%s\n%d Points", node.getDescription(), points.getPoints(node.getId()));
+                } else {
+                    text = String.format("%s\n%d/%d Points", node.getDescription(), points.getPoints(node.getId()), node.getLimit());
                 }
-                text = String.format("%s\n%d Points", node.getDescription(), points.getPoints(node.getId()));
+
                 if (pointsToAdd > 1) {
                     text = text + String.format("\n(+ %d Points)", pointsToAdd);
                 }
-            } else {
-                text = String.format("%s\n%d/%d Points", node.getDescription(), points.getPoints(node.getId()), node.getLimit());
             }
 
             Optional<SkillSubText> subText = Optional.ofNullable(node.getSkillSubText());

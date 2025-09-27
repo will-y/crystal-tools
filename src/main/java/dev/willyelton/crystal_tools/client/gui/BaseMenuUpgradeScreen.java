@@ -1,11 +1,13 @@
 package dev.willyelton.crystal_tools.client.gui;
 
+import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.client.gui.component.BlockEntityUpgradeButton;
 import dev.willyelton.crystal_tools.common.events.DatapackRegistryEvents;
 import dev.willyelton.crystal_tools.common.inventory.container.LevelableContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.utils.IntegerUtils;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -42,7 +44,7 @@ public abstract class BaseMenuUpgradeScreen<T extends LevelableContainerMenu> ex
     }
 
     protected Optional<Holder.Reference<SkillData>> getSkillData() {
-        Level level = this.getMenu().getBlockEntity().getLevel();
+        Level level = this.getMenu().getLevel();
 
         if (level != null) {
             Optional<Registry<SkillData>> skillDataOptional = level.registryAccess().lookup(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_BLOCKS);
@@ -63,12 +65,23 @@ public abstract class BaseMenuUpgradeScreen<T extends LevelableContainerMenu> ex
                         UPGRADE_BUTTON_WIDTH,
                         UPGRADE_BUTTON_HEIGHT,
                         Component.literal("+"),
-                        pButton -> ModGUIs.openScreen(new BlockEntityUpgradeScreen(this.menu, this.menu.getPlayer(), this, skillData.value(), skillData.key())),
+                        pButton -> {
+                            Screen toOpen = upgradeButtonScreen(skillData);
+                            if (toOpen == null) {
+                                CrystalTools.LOGGER.warn("Couldn't open upgrade button, no skill tree defined");
+                            } else {
+                                ModGUIs.openScreen(toOpen);
+                            }
+                        },
                         (button, guiGraphics, mouseX, mouseY) -> {
                             Component textComponent = Component.literal(this.menu.getSkillPoints() + " Point(s) Available");
                             guiGraphics.setTooltipForNextFrame(this.font, this.font.split(textComponent, Math.max(BaseMenuUpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
                         },
                         false));
+    }
+
+    protected Screen upgradeButtonScreen(Holder.Reference<SkillData> skillData) {
+        return new BlockEntityUpgradeScreen(this.menu, this.menu.getPlayer(), this, skillData.value(), skillData.key());
     }
 
     @Override
@@ -79,6 +92,6 @@ public abstract class BaseMenuUpgradeScreen<T extends LevelableContainerMenu> ex
                 Component.literal(String.format("Exp: %d/%d", this.menu.getExp(), this.menu.getExpCap())),
                 (int) (this.expLabelX - xOffset),
                 this.inventoryLabelY,
-                4210752, false);
+                4210752 + 0xFF000000, false);
     }
 }

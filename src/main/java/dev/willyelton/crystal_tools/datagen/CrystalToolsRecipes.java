@@ -213,6 +213,16 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
 
+        shaped(RecipeCategory.TOOLS, Registration.PORTABLE_GENERATOR.get())
+                .pattern(" p ")
+                .pattern("pgp")
+                .pattern(" s ")
+                .define('p', Items.PISTON)
+                .define('g', Registration.CRYSTAL_GENERATOR.get())
+                .define('s', Registration.NETHERITE_STICK.get())
+                .unlockedBy("has_crystal", HAS_CRYSTAL)
+                .save(output);
+
         // Machines
         shaped(RecipeCategory.MISC, Registration.CRYSTAL_FURNACE.get())
                 .pattern("ccc")

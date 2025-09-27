@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "crystal_tools:item/portable_crystal_generator_lit"
+  }
+}

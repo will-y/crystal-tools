@@ -1,4 +1,4 @@
-// 1.21.8	2025-08-17T12:49:42.2649237	Registries
+// 1.21.8	2025-09-26T23:17:41.2909354	Registries
 fc5742856159734f886e60a3e6559bbe51c57d92 data/crystal_tools/crystal_tools/skill_trees/blocks/crystal_furnace.json
 2a0c63ddccc640131e357b3a412a3141a43ba97d data/crystal_tools/crystal_tools/skill_trees/blocks/crystal_generator.json
 864b0773e2a28be44ba79d150e23cda8cff8944d data/crystal_tools/crystal_tools/skill_trees/blocks/crystal_quarry.json
@@ -21,6 +21,7 @@ e25ec1d7d8bdd83deba9352f463913ed0c0a6843 data/crystal_tools/crystal_tools/skill_
 7e8a6f2d5959e4105e90fd3c8335f49085ae694d data/crystal_tools/crystal_tools/skill_trees/items/crystal_shovel.json
 8c9145a3a997839caa3bac985fdd41112cc85cb0 data/crystal_tools/crystal_tools/skill_trees/items/crystal_sword.json
 a68466484eda9be6a3c8b5a97343448d39f14a55 data/crystal_tools/crystal_tools/skill_trees/items/crystal_trident.json
+3134cee1baf705d1f9656f654d472aa46ff2d265 data/crystal_tools/crystal_tools/skill_trees/items/portable_crystal_generator.json
 ddd28429b888fae08085550c583264c637729802 data/crystal_tools/crystal_tools/skill_trees/items/simple_axe.json
 ba0def1757a9096abfe1288b4183419aa09000d7 data/crystal_tools/crystal_tools/skill_trees/items/simple_hoe.json
 951f0b5694015763547dfe83813342309a226255 data/crystal_tools/crystal_tools/skill_trees/items/simple_pickaxe.json

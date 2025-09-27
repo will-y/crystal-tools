@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.datagen;
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.client.model.property.Disabled;
+import dev.willyelton.crystal_tools.client.model.property.Lit;
 import dev.willyelton.crystal_tools.client.renderer.CrystalShieldRenderer;
 import dev.willyelton.crystal_tools.client.renderer.CrystalTridentSpecialRenderer;
 import dev.willyelton.crystal_tools.client.renderer.item.properties.BowUseDuration;
@@ -57,6 +58,7 @@ public class CrystalToolsModels extends ModelProvider {
         generateCrystalTrident(itemModels);
         itemModels.generateFishingRod(Registration.CRYSTAL_FISHING_ROD.get());
         generateCrystalShield(itemModels);
+        generatePortableGenerator(itemModels);
 
         // Armor
         itemModels.generateTrimmableItem(Registration.CRYSTAL_HELMET.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, TRIM_PREFIX_HELMET, false);
@@ -149,6 +151,17 @@ public class CrystalToolsModels extends ModelProvider {
                 new Disabled(),
                 disabled,
                 enabled));
+    }
+
+    private void generatePortableGenerator(ItemModelGenerators itemModels) {
+        Item portableGenerator = Registration.PORTABLE_GENERATOR.get();
+        ItemModel.Unbaked unLit = ItemModelUtils.plainModel(itemModels.createFlatItemModel(portableGenerator, ModelTemplates.FLAT_HANDHELD_ITEM));
+        ItemModel.Unbaked lit = ItemModelUtils.plainModel(itemModels.createFlatItemModel(portableGenerator, "_lit", ModelTemplates.FLAT_HANDHELD_ITEM));
+
+        itemModels.itemModelOutput.accept(portableGenerator, new ConditionalItemModel.Unbaked(
+                new Lit(),
+                lit,
+                unLit));
     }
 
     @Override

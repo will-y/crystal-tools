@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.common.components;
 
 import com.mojang.serialization.Codec;
 import dev.willyelton.crystal_tools.CrystalTools;
+import dev.willyelton.crystal_tools.common.datamap.GeneratorFuelData;
 import dev.willyelton.crystal_tools.common.levelable.LevelableTooltip;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
@@ -95,6 +96,7 @@ public class DataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> FLIGHT_TIME = register("flight_time", Codec.INT, ByteBufCodecs.INT, SkillType.INT);
 
     // Backpack
+    // TODO (breaking?): Rename to just be a list inventory data component
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<ItemContainerContents>>> BACKPACK_INVENTORY = register("backpack_inventory", ItemContainerContents.CODEC.listOf(), ItemContainerContents.STREAM_CODEC.apply(ByteBufCodecs.list()));
     // Also used for quarry
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ItemContainerContents>> FILTER_INVENTORY = register("filter_inventory", ItemContainerContents.CODEC, ItemContainerContents.STREAM_CODEC);
@@ -130,6 +132,20 @@ public class DataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> INSTANT_PICKUP = register("instant_pickup", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> DISABLE_MOB_PULL = register("disable_mob_pull", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
 
+
+    // Portable Generator
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> FE_GENERATION = register("fe_generation", Codec.INT, ByteBufCodecs.INT, SkillType.INT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> FUEL_EFFICIENCY = register("fuel_efficiency", Codec.FLOAT, ByteBufCodecs.FLOAT, SkillType.FLOAT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> FE_CAPACITY = register("fe_capacity", Codec.INT, ByteBufCodecs.INT, SkillType.INT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> FE_STORED = register("fe_stored", Codec.INT, ByteBufCodecs.INT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> METAL_GENERATOR = register("metal_generator", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> FOOD_GENERATOR = register("food_generator", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> GEM_GENERATOR = register("gem_generator", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<GeneratorFuelData>> BURNING_ITEM_DATA = register("burning_item_data", GeneratorFuelData.CODEC, GeneratorFuelData.STREAM_CODEC);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> PORTABLE_GENERATOR_SLOTS = register("portable_generator_slots", Codec.INT, ByteBufCodecs.INT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MAX_BURN_TIME = register("max_burn_time", Codec.INT, ByteBufCodecs.INT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> GENERATED_LAST_TICK = register("generated_last_tick", Codec.INT, ByteBufCodecs.INT);
+
     // Block Entities
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<LevelableBlockEntityData>> LEVELABLE_BLOCK_ENTITY_DATA = register("levelable_block_entity_data", LevelableBlockEntityData.CODEC, LevelableBlockEntityData.STREAM_CODEC);
 
@@ -162,7 +178,6 @@ public class DataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> SHIELD_KNOCKBACK = register("shield_knockback", Codec.BOOL, ByteBufCodecs.BOOL, SkillType.BOOLEAN);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> TOTEM_SLOTS = register("totem_slots", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> FILLED_TOTEM_SLOTS = register("filled_totem_slots", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
-
 
     // Utilities
     private static <T> DeferredHolder<DataComponentType<?>, DataComponentType<T>> register(String key, Codec<T> codec, StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec) {

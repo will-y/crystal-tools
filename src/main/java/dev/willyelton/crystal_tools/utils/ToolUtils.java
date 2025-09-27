@@ -58,7 +58,7 @@ public class ToolUtils {
 
     public static void resetPoints(ItemStack stack) {
         // TODO: This will remove other enchantments again. That is probably fine for now?
-        stack.applyComponents(stack.getItem().components());
+        ItemStackUtils.removeAllComponents(stack);
         SkillPoints points = stack.getOrDefault(DataComponents.SKILL_POINT_DATA, new SkillPoints());
         int skillPoints = stack.getOrDefault(DataComponents.SKILL_POINTS, 0);
 

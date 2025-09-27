@@ -1,4 +1,4 @@
-// 1.21.8	2025-08-03T00:57:43.3134217	crystal_tools:recipes
+// 1.21.8	2025-09-27T00:07:13.2511939	crystal_tools:recipes
 6b8a1672b8afbf39ac5fdfc313b5b7d205f4f3e7 data/crystal_tools/advancement/recipes/combat/crystal_bow.json
 76e397c3547c8c5f0b3f7d199ee445d188cea234 data/crystal_tools/advancement/recipes/combat/crystal_sword.json
 71c672656ce10fbeab516bd3581074c4b06ea55c data/crystal_tools/advancement/recipes/decorations/crystal_block.json
@@ -25,6 +25,7 @@ aa86f8c664e95feeb838ccf2d8ec509a84601d76 data/crystal_tools/advancement/recipes/
 4a1ed82a1acf8818ee590174aad4837d7f8ae3c7 data/crystal_tools/advancement/recipes/tools/crystal_rocket.json
 3381bb742e356330dd309b9ae1ca174d83f94bda data/crystal_tools/advancement/recipes/tools/crystal_shovel.json
 b1bb1c567236ab86508c229c39e1b3c1959f5e56 data/crystal_tools/advancement/recipes/tools/crystal_trident.json
+f06ea733d82226ce03b3f5337a0e6a34f5f65f9d data/crystal_tools/advancement/recipes/tools/portable_crystal_generator.json
 77933a17bd8aa6f7e08c5cc37026f0c4e391faf3 data/crystal_tools/recipe/crystal.json
 5b780100fd86eeffa90b01582d2f222be9350e0a data/crystal_tools/recipe/crystal_aiot.json
 78c20eb77df1e75e7c456e87cdc22a1c81d60fbc data/crystal_tools/recipe/crystal_apple.json
@@ -55,4 +56,5 @@ d2805a8f5fb68e5282849b307abff3d473195ad5 data/crystal_tools/recipe/crystal_sword
 8b9592b3f4268d0122388546d1287193e3b762bf data/crystal_tools/recipe/crystal_upgrade_smithing_template.json
 e724208d60d0081d8441353c8881f04d05c47995 data/crystal_tools/recipe/crystal_upgrade_smithing_template_dupe.json
 4b85de91e70856326b02bd6fd906b3b46b423a8a data/crystal_tools/recipe/netherite_stick.json
+d65f3a113690256b7ff71024552012af585f3c78 data/crystal_tools/recipe/portable_crystal_generator.json
 ee336b8ca4af5f9a1978630cdb0bfd881bb180c1 data/crystal_tools/recipe/quarry_stabilizer.json

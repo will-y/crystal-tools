@@ -403,6 +403,10 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
     }
 
     private @Nullable GeneratorFuelData getFuelData(ItemStack stack) {
+        return getFuelData(stack, foodGenerator, metalGenerator, gemGenerator);
+    }
+
+    public static @Nullable GeneratorFuelData getFuelData(ItemStack stack, boolean foodGenerator, boolean metalGenerator, boolean gemGenerator) {
         if (stack.isEmpty()) return null;
 
         if (foodGenerator) {

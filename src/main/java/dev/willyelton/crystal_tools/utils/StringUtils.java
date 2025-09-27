@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.utils;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,6 +8,12 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class StringUtils {
+    public static final NumberFormat NUMBER_FORMAT = NumberFormat.getCompactNumberInstance(Locale.ROOT, NumberFormat.Style.SHORT);
+
+    static {
+        NUMBER_FORMAT.setMaximumFractionDigits(2);
+    }
+
     public static String capitalize(String in) {
         if (in != null && in.length() > 1) {
             return in.substring(0, 1).toUpperCase(Locale.ROOT) + in.substring(1);
@@ -51,5 +58,9 @@ public class StringUtils {
 
     private static boolean isRomanNumeral(String s) {
         return s.matches("^M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$");
+    }
+
+    public static String intToCompactString(int n) {
+        return NUMBER_FORMAT.format(n);
     }
 }

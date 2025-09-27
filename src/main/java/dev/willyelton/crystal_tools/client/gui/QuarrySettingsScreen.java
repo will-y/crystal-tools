@@ -85,7 +85,7 @@ public class QuarrySettingsScreen extends BackpackSubScreen<CrystalQuarryContain
                     multilinelabel.renderLeftAlignedNoShadow(guiGraphics, i, j, k, l);
                 }
             }
-        }.setMaxWidth(checkbox.getWidth()).setColor(4210752);
+        }.setMaxWidth(checkbox.getWidth()).setColor(4210752 + 0xFF000000);
 
         return checkbox;
     }
@@ -103,7 +103,7 @@ public class QuarrySettingsScreen extends BackpackSubScreen<CrystalQuarryContain
 
     @Override
     protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        guiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 4210752, false);
+        guiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 4210752 + 0xFF000000, false);
     }
 
     @Override

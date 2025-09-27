@@ -54,14 +54,14 @@ public class CrystalQuarryScreen extends BaseMenuUpgradeScreen<CrystalQuarryCont
                 Component.literal(String.format("Using %s FE/Tick", this.menu.getEnergyCost())),
                 this.inventoryLabelX,
                 ENERGY_Y + ENERGY_HEIGHT + 6,
-                4210752, false);
+                4210752 + 0xFF000000, false);
 
         BlockPos miningAt = this.menu.getMiningAt();
         guiGraphics.drawString(this.font,
                 Component.literal(String.format("Mining At %d, %d, %d", miningAt.getX(), miningAt.getY(), miningAt.getZ())),
                 this.inventoryLabelX,
                 ENERGY_Y + ENERGY_HEIGHT + 6 + 10,
-                4210752, false);
+                4210752 + 0xFF000000, false);
 
         this.skillTreeButton.setBadgeCounter(this.menu.getSkillPoints());
     }

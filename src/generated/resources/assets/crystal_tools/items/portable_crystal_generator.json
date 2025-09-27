@@ -1,0 +1,14 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "crystal_tools:item/portable_crystal_generator"
+    },
+    "on_true": {
+      "type": "minecraft:model",
+      "model": "crystal_tools:item/portable_crystal_generator_lit"
+    },
+    "property": "crystal_tools:lit"
+  }
+}

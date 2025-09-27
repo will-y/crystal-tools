@@ -1,0 +1,729 @@
+{
+  "equipmentSlot": "mainhand",
+  "tiers": [
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases FE generated per tick",
+          "id": 0,
+          "key": [
+            "crystal_tools:fe_generation"
+          ],
+          "limit": 1,
+          "name": "FE Generation I",
+          "requirements": [],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases time that fuel burns",
+          "id": 1,
+          "key": [
+            "crystal_tools:fuel_efficiency"
+          ],
+          "limit": 1,
+          "name": "Fuel Efficiency I",
+          "requirements": [],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the FE capacity of the Portable Generator",
+          "id": 2,
+          "key": [
+            "crystal_tools:fe_capacity"
+          ],
+          "limit": 1,
+          "name": "FE Capacity I",
+          "requirements": [],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds another slot to the Portable Generator",
+          "id": 3,
+          "key": [
+            "crystal_tools:portable_generator_slots"
+          ],
+          "limit": 1,
+          "name": "Extra Slots I",
+          "requirements": [],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases FE generated per tick",
+          "id": 4,
+          "key": [
+            "crystal_tools:fe_generation"
+          ],
+          "limit": 1,
+          "name": "FE Generation II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                0
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases time that fuel burns",
+          "id": 5,
+          "key": [
+            "crystal_tools:fuel_efficiency"
+          ],
+          "limit": 1,
+          "name": "Fuel Efficiency II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                1
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the FE capacity of the Portable Generator",
+          "id": 6,
+          "key": [
+            "crystal_tools:fe_capacity"
+          ],
+          "limit": 1,
+          "name": "FE Capacity II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                2
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds another slot to the Portable Generator",
+          "id": 7,
+          "key": [
+            "crystal_tools:portable_generator_slots"
+          ],
+          "limit": 1,
+          "name": "Extra Slots II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                3
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Allows the Portable Generator to burn metals for power!",
+          "id": 8,
+          "key": [
+            "crystal_tools:metal_generator"
+          ],
+          "limit": 1,
+          "name": "Metal Generator",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases FE generated per tick",
+          "id": 9,
+          "key": [
+            "crystal_tools:fe_generation"
+          ],
+          "limit": 1,
+          "name": "FE Generation III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                4
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                8
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases time that fuel burns",
+          "id": 10,
+          "key": [
+            "crystal_tools:fuel_efficiency"
+          ],
+          "limit": 1,
+          "name": "Fuel Efficiency III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                5
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                8
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the FE capacity of the Portable Generator",
+          "id": 11,
+          "key": [
+            "crystal_tools:fe_capacity"
+          ],
+          "limit": 1,
+          "name": "FE Capacity III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                6
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                8
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds another slot to the Portable Generator",
+          "id": 12,
+          "key": [
+            "crystal_tools:portable_generator_slots"
+          ],
+          "limit": 1,
+          "name": "Extra Slots III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                7
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                8
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases FE generated per tick",
+          "id": 13,
+          "key": [
+            "crystal_tools:fe_generation"
+          ],
+          "limit": 1,
+          "name": "FE Generation IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                9
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases time that fuel burns",
+          "id": 14,
+          "key": [
+            "crystal_tools:fuel_efficiency"
+          ],
+          "limit": 1,
+          "name": "Fuel Efficiency IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                10
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the FE capacity of the Portable Generator",
+          "id": 15,
+          "key": [
+            "crystal_tools:fe_capacity"
+          ],
+          "limit": 1,
+          "name": "FE Capacity IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                11
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds another slot to the Portable Generator",
+          "id": 16,
+          "key": [
+            "crystal_tools:portable_generator_slots"
+          ],
+          "limit": 1,
+          "name": "Extra Slots IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                12
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Allows the Portable Generator to burn metals for power!",
+          "id": 17,
+          "key": [
+            "crystal_tools:food_generator"
+          ],
+          "limit": 1,
+          "name": "Food Generator",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                13,
+                14,
+                15,
+                16
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases FE generated per tick",
+          "id": 18,
+          "key": [
+            "crystal_tools:fe_generation"
+          ],
+          "limit": 1,
+          "name": "FE Generation V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                13
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                17
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases time that fuel burns",
+          "id": 19,
+          "key": [
+            "crystal_tools:fuel_efficiency"
+          ],
+          "limit": 1,
+          "name": "Fuel Efficiency V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                14
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                17
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the FE capacity of the Portable Generator",
+          "id": 20,
+          "key": [
+            "crystal_tools:fe_capacity"
+          ],
+          "limit": 1,
+          "name": "FE Capacity V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                15
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                17
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds another slot to the Portable Generator",
+          "id": 21,
+          "key": [
+            "crystal_tools:portable_generator_slots"
+          ],
+          "limit": 1,
+          "name": "Extra Slots V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                16
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                17
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases FE generated per tick",
+          "id": 22,
+          "key": [
+            "crystal_tools:fe_generation"
+          ],
+          "limit": 1,
+          "name": "FE Generation VI",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                18
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases time that fuel burns",
+          "id": 23,
+          "key": [
+            "crystal_tools:fuel_efficiency"
+          ],
+          "limit": 1,
+          "name": "Fuel Efficiency VI",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                19
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the FE capacity of the Portable Generator",
+          "id": 24,
+          "key": [
+            "crystal_tools:fe_capacity"
+          ],
+          "limit": 1,
+          "name": "FE Capacity VI",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                20
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds another slot to the Portable Generator",
+          "id": 25,
+          "key": [
+            "crystal_tools:portable_generator_slots"
+          ],
+          "limit": 1,
+          "name": "Extra Slots VI",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                21
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Allows the Portable Generator to consume gems for power!",
+          "id": 26,
+          "key": [
+            "crystal_tools:gem_generator"
+          ],
+          "limit": 1,
+          "name": "Gem Generator",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                22,
+                23,
+                24,
+                25
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases FE generated per tick",
+          "id": 27,
+          "key": [
+            "crystal_tools:fe_generation"
+          ],
+          "limit": 0,
+          "name": "Infinite FE Generation",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                22
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                26
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases time that fuel burns",
+          "id": 28,
+          "key": [
+            "crystal_tools:fuel_efficiency"
+          ],
+          "limit": 0,
+          "name": "Infinite Fuel Efficiency",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                23
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                26
+              ]
+            }
+          ],
+          "value": 0.1
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Increases the FE capacity of the Portable Generator",
+          "id": 29,
+          "key": [
+            "crystal_tools:fe_capacity"
+          ],
+          "limit": 0,
+          "name": "Infinite FE Capacity",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                24
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                26
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:data_component",
+        "node": {
+          "description": "Adds another slot to the Portable Generator",
+          "id": 30,
+          "key": [
+            "crystal_tools:portable_generator_slots"
+          ],
+          "limit": 20,
+          "name": "Infinite Extra Slots",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                25
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                26
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ]
+  ]
+}

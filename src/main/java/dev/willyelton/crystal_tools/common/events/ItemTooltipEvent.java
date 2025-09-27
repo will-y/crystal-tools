@@ -33,7 +33,7 @@ public class ItemTooltipEvent {
         }
 
         int durability = stack.getMaxDamage() - stack.getDamageValue();
-        if (durability <= 1 && stack.getMaxDamage() != 1) {
+        if (durability <= 1 && stack.getMaxDamage() != 1 && stack.getDamageValue() != 0) {
             tooltips.add(index++, Component.literal("\u00A7c\u00A7l" + "Broken"));
         }
 

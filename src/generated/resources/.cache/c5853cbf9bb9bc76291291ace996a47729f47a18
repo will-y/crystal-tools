@@ -1,4 +1,4 @@
-// 1.21.8	2025-07-20T14:57:52.3287958	Model Definitions - crystal_tools
+// 1.21.8	2025-09-27T00:03:17.2707854	Model Definitions - crystal_tools
 44eb603a54aabeb5d4f7c1fd34fc281a6fbb6170 assets/crystal_tools/blockstates/crystal_block.json
 16c7f01ecbdd437f59531bd56029a2d12186c9a6 assets/crystal_tools/blockstates/crystal_deepslate_ore.json
 b45cd6d350dcfbffe28c7a2e3695c880e9ac5b54 assets/crystal_tools/blockstates/crystal_furnace.json
@@ -42,6 +42,7 @@ a8eb357f6ce930fc4394d5c358b221c2854aabc2 assets/crystal_tools/items/crystal_trid
 9c03fb4e8f15fe201e62f22cff1580dd71979423 assets/crystal_tools/items/netherite_infused_crystal_geode.json
 553e99eb12b13b7e87944762667cecc426844a45 assets/crystal_tools/items/netherite_infused_crystal_shard.json
 20576fdbcaf9251300966c4e17a3fdd5cd83ca4f assets/crystal_tools/items/netherite_stick.json
+9f1fee0e9d6a7188d2d998fdd5fd13dc7865f13a assets/crystal_tools/items/portable_crystal_generator.json
 ba1f518fd47a83182b6c6e5f6665c422a10a912c assets/crystal_tools/items/quarry_stabilizer.json
 0c70fc20c50fba9b2a8ddaaf0f519fad6c9ea718 assets/crystal_tools/models/block/crystal_block.json
 e5ee77fcf610595ac4487f87f106b80572d49a5e assets/crystal_tools/models/block/crystal_deepslate_ore.json
@@ -141,4 +142,6 @@ a649eb2f411487d5a6fc73617e1be2a35e260970 assets/crystal_tools/models/item/crysta
 5c787c62aba0fee43096af518bd9bc52ebb752d9 assets/crystal_tools/models/item/netherite_infused_crystal_geode.json
 e992fa5e6437ede0df4a59b76cb4b0cd60ccc75f assets/crystal_tools/models/item/netherite_infused_crystal_shard.json
 262fc5eead91eb8bf7240fc3070896f875aeddbd assets/crystal_tools/models/item/netherite_stick.json
+3faab258ad2fd08bf0f9be5d8b9ff56fad626717 assets/crystal_tools/models/item/portable_crystal_generator.json
+b2002df7dd0f1f24a8c5df9b5109837eb1095595 assets/crystal_tools/models/item/portable_crystal_generator_lit.json
 7ef356f2445cabe5cc552b89e9d313ddf36900ec assets/crystal_tools/models/item/quarry_stabilizer.json

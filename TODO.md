@@ -118,8 +118,6 @@ Eventually
 - Vanilla bow tree (mixins probably)
 - Vanilla trident tree
 - Better way to get tools on server (could technically change positions) (this is relating to client to server packets)
-- Maybe: Move repairing items to `EntityTickEvent` and iterate the inventory (would allow curios items to be ticked + repairing for vanilla tools if wanted)
-  - Should be fine now that cap lookup is cheaper
 - Maybe go through all get capability calls and pass in null
   - Possibly add an `isFull` boolean to `LevelableStack`? Only should need full on the upgrade screen
-- I think quarry lasers are in the wrong level render stage
+- Support limited nodes on blocks

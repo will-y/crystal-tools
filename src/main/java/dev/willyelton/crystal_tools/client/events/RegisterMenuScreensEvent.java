@@ -8,6 +8,7 @@ import dev.willyelton.crystal_tools.client.gui.CrystalGeneratorScreen;
 import dev.willyelton.crystal_tools.client.gui.CrystalPedestalScreen;
 import dev.willyelton.crystal_tools.client.gui.CrystalQuarryScreen;
 import dev.willyelton.crystal_tools.client.gui.FilterConfigScreen;
+import dev.willyelton.crystal_tools.client.gui.PortableGeneratorScreen;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalMagnetContainerMenu;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.network.chat.Component;
@@ -22,6 +23,7 @@ public class RegisterMenuScreensEvent {
     public static void onRegisterMenuScreens(net.neoforged.neoforge.client.event.RegisterMenuScreensEvent event) {
         event.register(Registration.CRYSTAL_FURNACE_CONTAINER.get(), CrystalFurnaceScreen::new);
         event.register(Registration.CRYSTAL_GENERATOR_CONTAINER.get(), CrystalGeneratorScreen::new);
+        event.register(Registration.PORTABLE_CRYSTAL_GENERATOR_CONTAINER.get(), PortableGeneratorScreen::new);
         event.register(Registration.CRYSTAL_QUARRY_CONTAINER.get(), CrystalQuarryScreen::new);
         event.register(Registration.CRYSTAL_BACKPACK_CONTAINER.get(), CrystalBackpackScreen::new);
         event.register(Registration.CRYSTAL_PEDESTAL_CONTAINER.get(), CrystalPedestalScreen::new);
