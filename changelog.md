@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 3.4.1
+### Fixes
+- Fixes shift-clicking not working correctly in the portable generator
+
 ## 3.4.0
 ### Additions
 - Adds the Portable Crystal Generator!

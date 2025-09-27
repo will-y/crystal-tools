@@ -223,7 +223,6 @@ public class PortableGenerator extends Item implements LevelableItem {
 
         @Override
         public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
-            // TODO: Some type of itemstack container data here
             return new PortableGeneratorContainerMenu(containerId, playerInventory, createDataAccess(stack), stack);
         }
 
@@ -232,9 +231,6 @@ public class PortableGenerator extends Item implements LevelableItem {
                 @Override
                 protected int getExtra(int index) {
                     return switch (index) {
-                        case 0 -> stack.getOrDefault(DataComponents.SKILL_POINTS, 0);
-                        case 1 -> stack.getOrDefault(DataComponents.SKILL_EXPERIENCE, 0);
-                        case 2 -> stack.getOrDefault(DataComponents.EXPERIENCE_CAP, 0);
                         case 3 -> stack.getOrDefault(DataComponents.BURNING_ITEM_DATA, new GeneratorFuelData(0, 0)).burnTime();
                         case 4 -> stack.getOrDefault(DataComponents.MAX_BURN_TIME, 0);
                         case 5 -> getEnergy(stack);

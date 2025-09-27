@@ -10,6 +10,7 @@ import dev.willyelton.crystal_tools.common.levelable.block.entity.data.SimpleLev
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.items.IItemHandler;
@@ -67,5 +68,32 @@ public class PortableGeneratorContainerMenu extends AbstractGeneratorContainerMe
             int y = i / SLOTS_PER_ROW;
             this.addSlot(handler, i, START_X + x * SLOT_SIZE, START_Y + y * SLOT_SIZE);
         }
+    }
+
+    @Override
+    public ItemStack quickMoveStack(Player player, int index) {
+        ItemStack itemstack = ItemStack.EMPTY;
+        Slot slot = this.slots.get(index);
+        if (slot.hasItem()) {
+            ItemStack itemstack1 = slot.getItem();
+            itemstack = itemstack1.copy();
+
+            // Player Inventory
+            if (index < 36) {
+                if (!this.moveItemStackTo(itemstack1, 36, 36 + this.getActiveSlots(), false)) {
+                    return ItemStack.EMPTY;
+                }
+            } else if (!this.moveItemStackTo(itemstack1, 0, 36, false)) {
+                return ItemStack.EMPTY;
+            }
+
+            if (itemstack1.isEmpty()) {
+                slot.setByPlayer(ItemStack.EMPTY);
+            } else {
+                slot.setChanged();
+            }
+        }
+
+        return itemstack;
     }
 }
