@@ -1,10 +1,17 @@
 package dev.willyelton.crystal_tools.utils;
 
+import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class StringUtils {
+    public static final NumberFormat NUMBER_FORMAT = NumberFormat.getCompactNumberInstance(Locale.ROOT, NumberFormat.Style.SHORT);
+
+    static {
+        NUMBER_FORMAT.setMaximumFractionDigits(2);
+    }
+
     public static String capitalize(String in) {
         if (in != null && in.length() > 1) {
             return in.substring(0, 1).toUpperCase(Locale.ROOT) + in.substring(1);
@@ -26,5 +33,9 @@ public class StringUtils {
 
     public static String formatPercent(float f) {
         return Math.round(f * 100) + "%";
+    }
+
+    public static String intToCompactString(int n) {
+        return NUMBER_FORMAT.format(n);
     }
 }

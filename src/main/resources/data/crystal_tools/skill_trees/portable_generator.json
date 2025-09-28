@@ -1,0 +1,365 @@
+{
+  "tiers": [
+    [
+      {
+        "id": 0,
+        "name": "FE Generation I",
+        "description": "Increases FE generated per tick",
+        "limit": 1,
+        "requirements": [],
+        "key": "fe_generation",
+        "value": 1
+      },
+      {
+        "id": 1,
+        "name": "Fuel Efficiency I",
+        "description": "Increases the burn time of fuels",
+        "limit": 1,
+        "requirements": [],
+        "key": "fuel_efficiency",
+        "value": 0.1
+      },
+      {
+        "id": 2,
+        "name": "FE Capacity I",
+        "description": "Increases the FE capacity of the generator",
+        "limit": 1,
+        "requirements": [],
+        "key": "fe_capacity",
+        "value": 1
+      },
+      {
+        "id": 26,
+        "name": "Extra Slots I",
+        "description": "Adds another slot to the Portable Generator",
+        "limit": 1,
+        "requirements": [],
+        "key": "portable_generator_slots",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 3,
+        "name": "FE Generation II",
+        "description": "Increases FE generated per tick",
+        "limit": 1,
+        "requirements": [
+          {"node": [0]}
+        ],
+        "key": "fe_generation",
+        "value": 1
+      },
+      {
+        "id": 4,
+        "name": "Fuel Efficiency II",
+        "description": "Increases the burn time of fuels",
+        "limit": 1,
+        "requirements": [
+          {"node": [1]}
+        ],
+        "key": "fuel_efficiency",
+        "value": 0.1
+      },
+      {
+        "id": 5,
+        "name": "FE Capacity II",
+        "description": "Increases the FE capacity of the generator",
+        "limit": 1,
+        "requirements": [
+          {"node": [2]}
+        ],
+        "key": "fe_capacity",
+        "value": 1
+      },
+      {
+        "id": 27,
+        "name": "Extra Slots II",
+        "description": "Adds another slot to the Portable Generator",
+        "limit": 1,
+        "requirements": [
+          {"node": [26]}
+        ],
+        "key": "portable_generator_slots",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 7,
+        "name": "Metal Generator",
+        "description": "Allows the generator to burn metals for power!",
+        "limit": 1,
+        "requirements": [
+          {"or_node": [3, 4, 5, 27]}
+        ],
+        "key": "metal_generator",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 8,
+        "name": "FE Generation III",
+        "description": "Increases FE generated per tick",
+        "limit": 1,
+        "requirements": [
+          {"or_node":  [7]},
+          {"node": [3]}
+        ],
+        "key": "fe_generation",
+        "value": 1
+      },
+      {
+        "id": 9,
+        "name": "Fuel Efficiency III",
+        "description": "Increases the burn time of fuels",
+        "limit": 1,
+        "requirements": [
+          {"or_node":  [7]},
+          {"node": [4]}
+        ],
+        "key": "fuel_efficiency",
+        "value": 0.1
+      },
+      {
+        "id": 10,
+        "name": "FE Capacity III",
+        "description": "Increases the FE capacity of the generator",
+        "limit": 1,
+        "requirements": [
+          {"or_node": [7]},
+          {"node": [5]}
+        ],
+        "key": "fe_capacity",
+        "value": 1
+      },
+      {
+        "id": 28,
+        "name": "Extra Slots III",
+        "description": "Adds another slot to the Portable Generator",
+        "limit": 1,
+        "requirements": [
+          {"or_node": [7]},
+          {"node": [27]}
+        ],
+        "key": "portable_generator_slots",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 11,
+        "name": "FE Generation IV",
+        "description": "Increases FE generated per tick",
+        "limit": 1,
+        "requirements": [
+          {"node": [8]}
+        ],
+        "key": "fe_generation",
+        "value": 1
+      },
+      {
+        "id": 12,
+        "name": "Fuel Efficiency IV",
+        "description": "Increases the burn time of fuels",
+        "limit": 1,
+        "requirements": [
+          {"node": [9]}
+        ],
+        "key": "fuel_efficiency",
+        "value": 0.1
+      },
+      {
+        "id": 13,
+        "name": "FE Capacity IV",
+        "description": "Increases the FE capacity of the generator",
+        "limit": 1,
+        "requirements": [
+          {"node": [10]}
+        ],
+        "key": "fe_capacity",
+        "value": 1
+      },
+      {
+        "id": 29,
+        "name": "Extra Slots IV",
+        "description": "Adds another slot to the Portable Generator",
+        "limit": 1,
+        "requirements": [
+          {"node": [28]}
+        ],
+        "key": "portable_generator_slots",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 15,
+        "name": "Food Generator",
+        "description": "Allows the generator to burn food items for power!",
+        "limit": 1,
+        "requirements": [
+          {"or_node": [11, 12, 13, 29]}
+        ],
+        "key": "food_generator",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 16,
+        "name": "FE Generation V",
+        "description": "Increases FE generated per tick",
+        "limit": 1,
+        "requirements": [
+          {"or_node":  [14, 15]},
+          {"node": [11]}
+        ],
+        "key": "fe_generation",
+        "value": 1
+      },
+      {
+        "id": 17,
+        "name": "Fuel Efficiency V",
+        "description": "Increases the burn time of fuels",
+        "limit": 1,
+        "requirements": [
+          {"or_node":  [15]},
+          {"node": [12]}
+        ],
+        "key": "fuel_efficiency",
+        "value": 0.1
+      },
+      {
+        "id": 18,
+        "name": "FE Capacity V",
+        "description": "Increases the FE capacity of the generator",
+        "limit": 1,
+        "requirements": [
+          {"or_node":  [15]},
+          {"node": [13]}
+        ],
+        "key": "fe_capacity",
+        "value": 1
+      },
+      {
+        "id": 30,
+        "name": "Extra Slots V",
+        "description": "Adds another slot to the Portable Generator",
+        "limit": 1,
+        "requirements": [
+          {"or_node":  [15]},
+          {"node": [29]}
+        ],
+        "key": "portable_generator_slots",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 19,
+        "name": "FE Generation VI",
+        "description": "Increases FE generated per tick",
+        "limit": 1,
+        "requirements": [
+          {"node": [16]}
+        ],
+        "key": "fe_generation",
+        "value": 1
+      },
+      {
+        "id": 20,
+        "name": "Fuel Efficiency VI",
+        "description": "Increases the burn time of fuels",
+        "limit": 1,
+        "requirements": [
+          {"node": [17]}
+        ],
+        "key": "fuel_efficiency",
+        "value": 0.1
+      },
+      {
+        "id": 21,
+        "name": "FE Capacity VI",
+        "description": "Increases the FE capacity of the generator",
+        "limit": 1,
+        "requirements": [
+          {"node": [18]}
+        ],
+        "key": "fe_capacity",
+        "value": 1
+      },
+      {
+        "id": 31,
+        "name": "Extra Slots VI",
+        "description": "Adds another slot to the Portable Generator",
+        "limit": 1,
+        "requirements": [
+          {"node": [30]}
+        ],
+        "key": "portable_generator_slots",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 22,
+        "name": "Gem Generator",
+        "description": "Allows the generator to consume gems for power!",
+        "limit": 1,
+        "requirements": [
+          {"node": [19, 20, 21, 31]}
+        ],
+        "key": "gem_generator",
+        "value": 1
+      }
+    ],
+    [
+      {
+        "id": 23,
+        "name": "Infinite Generation",
+        "description": "Put as many points into FE generation as you want!",
+        "limit": 0,
+        "requirements": [
+          {"node": [22]}
+        ],
+        "key": "fe_generation",
+        "value": 0.1
+      },
+      {
+        "id": 24,
+        "name": "Infinite Fuel Efficiency",
+        "description": "Put as many points into fuel efficiency as you want!",
+        "limit": 0,
+        "requirements": [
+          {"node": [22]}
+        ],
+        "key": "fuel_efficiency",
+        "value": 0.01
+      },
+      {
+        "id": 25,
+        "name": "Infinite Capacity",
+        "description": "Put as many points into FE capacity as you want!",
+        "limit": 0,
+        "requirements": [
+          {"node": [22]}
+        ],
+        "key": "fe_capacity",
+        "value": 0.5
+      },
+      {
+        "id": 32,
+        "name": "Extra Slots VI",
+        "description": "Adds another slot to the Portable Generator",
+        "limit": 20,
+        "requirements": [
+          {"node": [31]}
+        ],
+        "key": "portable_generator_slots",
+        "value": 1
+      }
+    ]
+  ]
+}

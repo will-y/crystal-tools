@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "g": {
+      "item": "crystal_tools:crystal_generator"
+    },
+    "p": {
+      "item": "minecraft:piston"
+    },
+    "s": {
+      "item": "crystal_tools:netherite_stick"
+    }
+  },
+  "pattern": [
+    " p ",
+    "pgp",
+    " s "
+  ],
+  "result": {
+    "count": 1,
+    "id": "crystal_tools:portable_crystal_generator"
+  }
+}

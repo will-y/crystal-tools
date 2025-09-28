@@ -49,6 +49,7 @@ The following tools/armor pieces are implemented:
 
 ## Other Items
 - Crystal Backpack
+- Portable Crystal Generator
 
 ## Upgrades
 There will be upgrades that are common to most tools, and tools will each get unique upgrades as well. Below is a list of all currently implemented upgrades.
@@ -349,6 +350,12 @@ There will be upgrades that are common to most tools, and tools will each get un
 #### Apple
 ![Apple Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/apple.png)
 
+#### Magnet
+![Magnet Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/magnet.png)
+
+#### Portable Generator
+![Portable Generator Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/portable-generator.png)
+
 ### Blocks
 #### Furnace
 ![Crystal Furnace Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/furnace.png)
@@ -441,6 +448,13 @@ You can change these values in `config/crystal_tools.toml` or in the in-game UI.
 - `food_burn_time_multiplier` (20): The food burntime formula is: (`food_nutrition` + `food saturation`) * `food_burn_time_multiplier`. Range: 0.01 - 10000.
 - `skill_points_per_burn_time` (0.00625): Determines how much skill experience you get from burning items. `skill_exp` = `fuel_burn_time` * `skill_points_per_burn_time`. Range: 0 - 1.
 - `generator_base_experience_cap` (50): Starting EXP Cap for the generator. Range 1 - 100000.
+
+#### Portable Generator Settings
+- `portable_base_fe_generation` (20): Base FE generation per tick. Range: 1 - 1000000.
+- `portable_base_fe_storage` (5000): Base FE the portable crystal generator can store. Range: 1 - 1000000.
+- `portable_fe_generation_per_level` (5): FE generation gained per level of FE Generation. Range: 1 - 1000000.
+- `portable_fe_storage_per_level` (1000): FE gained per level of FE Capacity. Range: 1 - 1000000.
+- `portable_skill_points_per_burn_time` (0.00625): Determines how much skill experience you get from burning items. `skill_exp` = `fuel_burn_time` * `skill_points_per_burn_time`. Range: 0 - 1.
 
 #### Backpack Settings
 - `backpack_sort_type` (QUANTITY): Sort method that the backpack uses. Can be one of: `QUANTITY`, `NAME`, `MOD`, or `ID`

@@ -52,6 +52,7 @@ public class CrystalToolsItemModels extends ItemModelProvider {
         registerBow();
         registerTrident();
         registerFishingRod();
+        toolItem(Registration.PORTABLE_GENERATOR.get());
 
         // Armor
         basicItem(Registration.CRYSTAL_HELMET.get());

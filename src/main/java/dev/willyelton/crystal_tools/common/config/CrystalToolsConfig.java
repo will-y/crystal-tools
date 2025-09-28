@@ -78,6 +78,13 @@ public class CrystalToolsConfig {
     public static ModConfigSpec.DoubleValue SKILL_POINTS_PER_BURN_TIME;
     public static ModConfigSpec.IntValue GENERATOR_BASE_EXPERIENCE_CAP;
 
+    // Portable Generator
+    public static ModConfigSpec.IntValue PORTABLE_GENERATOR_BASE_FE_GENERATION;
+    public static ModConfigSpec.IntValue PORTABLE_GENERATOR_BASE_FE_STORAGE;
+    public static ModConfigSpec.IntValue PORTABLE_GENERATOR_FE_GENERATION_PER_LEVEL;
+    public static ModConfigSpec.IntValue PORTABLE_GENERATOR_FE_STORAGE_PER_LEVEL;
+    public static ModConfigSpec.DoubleValue PORTABLE_GENERATOR_SKILL_POINTS_PER_BURN_TIME;
+
     // Backpack
     public static ModConfigSpec.EnumValue<CrystalBackpackInventory.SortType> BACKPACK_SORT_TYPE;
     public static ModConfigSpec.IntValue BACKPACK_BASE_EXPERIENCE_CAP;
@@ -211,6 +218,20 @@ public class CrystalToolsConfig {
                 .defineInRange("skill_points_per_burn_time", 0.00625D, 0D, 1D);
         GENERATOR_BASE_EXPERIENCE_CAP = builder.comment("Starting EXP Cap for the generator")
                 .defineInRange("generator_base_experience_cap", 50, 1, 100000);
+        builder.pop();
+
+        // Portable Generator
+        builder.comment("Portable crystal generator options").push("portable-generator");
+        PORTABLE_GENERATOR_BASE_FE_GENERATION = builder.comment("Base FE generation per tick")
+                .defineInRange("portable_base_fe_generation", 20, 1, 1000000);
+        PORTABLE_GENERATOR_BASE_FE_STORAGE = builder.comment("Base FE the portable crystal generator can store")
+                .defineInRange("portable_base_fe_storage", 5000, 1, 1000000);
+        PORTABLE_GENERATOR_FE_GENERATION_PER_LEVEL = builder.comment("FE generation gained per level of FE Generation")
+                .defineInRange("portable_fe_generation_per_level", 5, 1, 1000000);
+        PORTABLE_GENERATOR_FE_STORAGE_PER_LEVEL = builder.comment("FE gained per level of FE Capacity")
+                .defineInRange("portable_fe_storage_per_level", 1000, 1, 1000000);
+        PORTABLE_GENERATOR_SKILL_POINTS_PER_BURN_TIME = builder.comment("Determines how much skill experience you get from burning items. Skill Exp = Fuel Burn Time * SKILL_POINTS_PER_BURN_TIME (Rounded Up)")
+                .defineInRange("portable_skill_points_per_burn_time", 0.00625D, 0D, 1D);
         builder.pop();
 
         // Backpack

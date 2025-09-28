@@ -16,7 +16,9 @@ import dev.willyelton.crystal_tools.common.inventory.container.CrystalGeneratorC
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalMagnetContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalPedestalContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalQuarryContainerMenu;
+import dev.willyelton.crystal_tools.common.inventory.container.PortableGeneratorContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.CrystalBackpack;
+import dev.willyelton.crystal_tools.common.levelable.PortableGenerator;
 import dev.willyelton.crystal_tools.common.levelable.armor.CrystalElytra;
 import dev.willyelton.crystal_tools.common.levelable.armor.LevelableArmor;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalFurnaceBlock;
@@ -95,6 +97,7 @@ public class Registration {
     public static final DeferredHolder<Item, CrystalApple> CRYSTAL_APPLE = ITEMS.register("crystal_apple", CrystalApple::new);
     public static final DeferredHolder<Item, CrystalBackpack> CRYSTAL_BACKPACK = ITEMS.register("crystal_backpack", CrystalBackpack::new);
     public static final DeferredHolder<Item, CrystalMagnet> CRYSTAL_MAGNET = ITEMS.register("crystal_magnet", CrystalMagnet::new);
+    public static final DeferredHolder<Item, PortableGenerator> PORTABLE_GENERATOR = ITEMS.register("portable_crystal_generator", PortableGenerator::new);
 
     // Tools
     public static final DeferredHolder<Item, PickaxeLevelableTool> CRYSTAL_PICKAXE = ITEMS.register("crystal_pickaxe", PickaxeLevelableTool::new);
@@ -157,6 +160,8 @@ public class Registration {
             () -> IMenuTypeExtension.create((windowId, inv, data) -> new CrystalFurnaceContainerMenu(windowId, inv.player.level(), data.readBlockPos(), inv, new SimpleLevelableContainerData(CrystalFurnaceBlockEntity.DATA_SIZE))));
     public static final DeferredHolder<MenuType<?>, MenuType<CrystalGeneratorContainerMenu>> CRYSTAL_GENERATOR_CONTAINER = CONTAINERS.register("crystal_generator",
             () -> IMenuTypeExtension.create((windowId, inv, data) -> new CrystalGeneratorContainerMenu(windowId, inv.player.level(), data.readBlockPos(), inv, new SimpleLevelableContainerData(CrystalGeneratorBlockEntity.DATA_SIZE))));
+    public static final DeferredHolder<MenuType<?>, MenuType<PortableGeneratorContainerMenu>> PORTABLE_CRYSTAL_GENERATOR_CONTAINER = CONTAINERS.register("portable_crystal_generator",
+            () -> IMenuTypeExtension.create(PortableGeneratorContainerMenu::new));
     public static final DeferredHolder<MenuType<?>, MenuType<CrystalQuarryContainerMenu>> CRYSTAL_QUARRY_CONTAINER = CONTAINERS.register("crystal_quarry",
             () -> IMenuTypeExtension.create((windowId, inv, data) -> new CrystalQuarryContainerMenu(windowId, inv.player.level(), data.readBlockPos(), data.readInt(), inv, new SimpleLevelableContainerData(CrystalQuarryBlockEntity.DATA_SIZE))));
     public static final DeferredHolder<MenuType<?>, MenuType<CrystalBackpackContainerMenu>> CRYSTAL_BACKPACK_CONTAINER = CONTAINERS.register("crystal_backpack",
@@ -208,6 +213,7 @@ public class Registration {
                         output.accept(CRYSTAL_FISHING_ROD.get());
                         output.accept(CRYSTAL_SHIELD.get());
                         output.accept(CRYSTAL_MAGNET.get());
+                        output.accept(PORTABLE_GENERATOR.get());
                     })
                     .build());
 

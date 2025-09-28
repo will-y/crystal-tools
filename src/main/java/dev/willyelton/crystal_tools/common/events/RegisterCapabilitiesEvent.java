@@ -3,7 +3,10 @@ package dev.willyelton.crystal_tools.common.events;
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
+import dev.willyelton.crystal_tools.common.energy.CrystalEnergyStorage;
 import dev.willyelton.crystal_tools.common.inventory.CrystalBackpackInventory;
+import dev.willyelton.crystal_tools.common.inventory.PortableGeneratorInventory;
+import dev.willyelton.crystal_tools.common.levelable.PortableGenerator;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalFurnaceBlockEntity;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalPedestalBlockEntity;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalQuarryBlockEntity;
@@ -33,6 +36,16 @@ public class RegisterCapabilitiesEvent {
                     return new CrystalBackpackInventory(stack);
                 },
                 Registration.CRYSTAL_BACKPACK.get());
+
+        // Portable Generator
+        event.registerItem(Capabilities.ItemHandler.ITEM,
+                (stack, context) -> new PortableGeneratorInventory(stack),
+                Registration.PORTABLE_GENERATOR.get());
+
+        event.registerItem(Capabilities.EnergyStorage.ITEM,
+                (stack, context) -> new CrystalEnergyStorage(PortableGenerator.getCapacity(stack),
+                        0, 40, PortableGenerator.getEnergy(stack)),
+                Registration.PORTABLE_GENERATOR.get());
 
         // Furnace
         event.registerBlockEntity(

@@ -188,6 +188,16 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(recipeOutput);
 
+        shaped(RecipeCategory.TOOLS, Registration.PORTABLE_GENERATOR.get())
+                .pattern(" p ")
+                .pattern("pgp")
+                .pattern(" s ")
+                .define('p', Items.PISTON)
+                .define('g', Registration.CRYSTAL_GENERATOR.get())
+                .define('s', Registration.NETHERITE_STICK.get())
+                .unlockedBy("has_crystal", HAS_CRYSTAL)
+                .save(recipeOutput);
+
         // Armor
         buildConditionalRecipe(recipeOutput,
                 shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_HELMET.get())

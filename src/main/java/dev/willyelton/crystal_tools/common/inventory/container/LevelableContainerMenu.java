@@ -6,6 +6,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.level.Level;
 
 public abstract class LevelableContainerMenu extends BaseContainerMenu {
     private final ILevelableContainerData levelableContainerData;
@@ -46,4 +47,8 @@ public abstract class LevelableContainerMenu extends BaseContainerMenu {
     public abstract String getBlockType();
 
     public abstract LevelableBlockEntity getBlockEntity();
+
+    public Level getLevel() {
+        return getBlockEntity() == null ? null : getBlockEntity().getLevel();
+    }
 }
