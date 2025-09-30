@@ -5,6 +5,7 @@ navigation:
   parent: index.md
 item_ids:
   - crystal_tools:crystal_generator
+  - crystal_tools:portable_crystal_generator
 ---
 # Crystal Generator
 ## Overview
@@ -16,6 +17,16 @@ item_ids:
 The crystal generator generates standard FE power using burnable resources.
 
 ![Basic Gui](assets/generator_gui_basic.png)
+
+You can also craft a portable version that can charge items in your inventory:
+
+<Row>
+    <RecipeFor id="portable_crystal_generator" />
+</Row>
+
+![Portable Generator Gui](assets/portable_generator_gui.png)
+
+This portable version can be placed in the <ItemLink id="crystal_pedestal" /> to charge items of nearby players.
 
 ## Skills
 - FE Generation

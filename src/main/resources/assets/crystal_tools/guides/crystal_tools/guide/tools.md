@@ -37,7 +37,7 @@ Crystal tools can be crafted with <ItemLink id="crystal" />s and <ItemLink id="n
 </Row>
 
 When you use these tools, that will gain skill points.
-You can open their skill trees with `k` to unlock new skills.
+You can open their skill trees with `K` to unlock new skills.
 
 ## Skills
 ### All Tools

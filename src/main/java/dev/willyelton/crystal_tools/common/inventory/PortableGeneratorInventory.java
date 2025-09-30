@@ -1,8 +1,10 @@
 package dev.willyelton.crystal_tools.common.inventory;
 
+import com.google.common.base.Predicates;
 import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.datamap.GeneratorFuelData;
+import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
@@ -38,10 +40,7 @@ public class PortableGeneratorInventory extends ListComponentItemHandler {
         boolean canFit = !stack.is(Registration.PORTABLE_GENERATOR) && super.isItemValid(slot, stack);
         if (level == null) return canFit;
 
-        // TODO: Other types of generators
-        GeneratorFuelData newFuelData = getFuelData(stack, generatorStack.getOrDefault(DataComponents.FOOD_GENERATOR, false),
-                generatorStack.getOrDefault(DataComponents.METAL_GENERATOR, false), generatorStack.getOrDefault(DataComponents.GEM_GENERATOR, false));
-        return canFit && (newFuelData != null || stack.getBurnTime(RecipeType.SMELTING) > 0);
+        return canFit && canBurn(generatorStack, stack);
     }
 
     public ItemStack insertStack(ItemStack stack) {
@@ -53,19 +52,12 @@ public class PortableGeneratorInventory extends ListComponentItemHandler {
     }
 
     public ItemStack nextItem() {
-        for (int i = 0; i < this.getSlots(); i++) {
-            ItemStack stack = this.getStackInSlot(i);
+        return ItemStackUtils.nextFuelItem(this, Predicates.alwaysTrue());
+    }
 
-            if (!stack.isEmpty()) {
-                ItemStack toReturn = stack.copyWithCount(1);
-                ItemStack leftOver = stack.copy();
-                leftOver.shrink(1);
-                this.setStackInSlot(i, leftOver);
-
-                return toReturn;
-            }
-        }
-
-        return ItemStack.EMPTY.copy();
+    public static boolean canBurn(ItemStack generatorStack, ItemStack stack) {
+        GeneratorFuelData newFuelData = getFuelData(stack, generatorStack.getOrDefault(DataComponents.FOOD_GENERATOR, false),
+                generatorStack.getOrDefault(DataComponents.METAL_GENERATOR, false), generatorStack.getOrDefault(DataComponents.GEM_GENERATOR, false));
+        return newFuelData != null || stack.getBurnTime(RecipeType.SMELTING) > 0;
     }
 }

@@ -1,4 +1,13 @@
 # Crystal Tools Change Log
+## 2.8.0
+### Additions
+- The portable generator can now be placed in the crystal pedestal to wirelessly charge items in nearby player's inventories
+
+### Changes
+- Crystal Backpack and Portable Crystal Generator now drop their items when their points are reset
+- Portable Crystal Generator can now be placed in the Curios charm slot
+- Portable Crystal Generator now changes items in Curios slots
+
 ## 2.7.0
 ### Additions
 - Adds the Portable Crystal Generator!

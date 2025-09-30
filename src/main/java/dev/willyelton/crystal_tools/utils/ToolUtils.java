@@ -9,9 +9,13 @@ import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
+import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,7 +47,19 @@ public class ToolUtils {
         return (int) Math.min((float) (currentCap * Math.pow(CrystalToolsConfig.EXPERIENCE_MULTIPLIER.get(), levelIncrease)), CrystalToolsConfig.MAX_EXP.get());
     }
 
-    public static void resetPoints(ItemStack stack) {
+    public static void resetPoints(ItemStack stack, Player player) {
+        // Drop Items
+        if (player instanceof ServerPlayer) {
+            List<ItemContainerContents> contents = stack.get(DataComponents.BACKPACK_INVENTORY);
+            if (contents != null) {
+                Level level = player.level();
+                for (ItemContainerContents item : contents) {
+                    item.stream().forEach(toDrop -> level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY(), player.getZ(), toDrop)));
+                }
+            }
+            stack.remove(DataComponents.BACKPACK_INVENTORY);
+        }
+
         List<Integer> points = stack.getOrDefault(DataComponents.POINTS_ARRAY, Collections.emptyList());
         int skillPoints = stack.getOrDefault(DataComponents.SKILL_POINTS, 0);
 

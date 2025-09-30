@@ -35,6 +35,14 @@
         "maxTickCounter": 1,
         "range": 5
       }
+    },
+    "crystal_tools:portable_crystal_generator": {
+      "type": "charge",
+      "params": {
+        "durabilityModifier": -1.0,
+        "maxTickCounter": 1,
+        "range": 25
+      }
     }
   }
 }

@@ -4,7 +4,6 @@ import dev.willyelton.crystal_tools.Registration;
 import dev.willyelton.crystal_tools.common.datamap.ActionData;
 import dev.willyelton.crystal_tools.common.datamap.DataMaps;
 import dev.willyelton.crystal_tools.common.datamap.GeneratorFuelData;
-import dev.willyelton.crystal_tools.common.levelable.block.entity.action.Action;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.ActionParameters;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.ActionType;
 import net.minecraft.core.HolderLookup;
@@ -75,6 +74,7 @@ public class CrystalToolsDataMaps extends DataMapProvider {
                 .add(ItemTags.PICKAXES, new ActionData(ActionType.BLOCK_BREAK, Optional.of(new ActionParameters(1, 2, 0))), false)
                 .add(ItemTags.SHOVELS, new ActionData(ActionType.BLOCK_BREAK, Optional.of(new ActionParameters(1, 2, 0))), false)
                 .add(ItemTags.HOES, new ActionData(ActionType.BLOCK_BREAK, Optional.of(new ActionParameters(1, 2, 0))), false)
-                .add(ItemTags.AXES, new ActionData(ActionType.BLOCK_BREAK, Optional.of(new ActionParameters(1, 2, 0))), false);
+                .add(ItemTags.AXES, new ActionData(ActionType.BLOCK_BREAK, Optional.of(new ActionParameters(1, 2, 0))), false)
+                .add(Registration.PORTABLE_GENERATOR, new ActionData(ActionType.CHARGE, Optional.of(new ActionParameters(1, -1, 25))), false);
     }
 }

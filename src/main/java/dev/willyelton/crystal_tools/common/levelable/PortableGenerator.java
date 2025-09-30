@@ -1,5 +1,7 @@
 package dev.willyelton.crystal_tools.common.levelable;
 
+import com.google.common.base.Predicates;
+import dev.willyelton.crystal_tools.common.compat.curios.CuriosCompatibility;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.datamap.GeneratorFuelData;
@@ -7,6 +9,7 @@ import dev.willyelton.crystal_tools.common.inventory.PortableGeneratorInventory;
 import dev.willyelton.crystal_tools.common.inventory.container.PortableGeneratorContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.data.ILevelableContainerData;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.data.ItemStackLevelableContainerData;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
@@ -14,7 +17,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -28,6 +30,7 @@ import net.neoforged.neoforge.items.IItemHandler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import static dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalGeneratorBlockEntity.getFuelData;
 import static dev.willyelton.crystal_tools.utils.StringUtils.intToCompactString;
@@ -50,11 +53,6 @@ public class PortableGenerator extends Item implements LevelableItem {
         }
 
         return InteractionResultHolder.success(stack);
-    }
-
-    @Override
-    public boolean canFitInsideContainerItems() {
-        return false;
     }
 
     @Override
@@ -98,12 +96,35 @@ public class PortableGenerator extends Item implements LevelableItem {
 
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int inventorySlot, boolean inHand) {
+        tick(stack, level, List.of(entity), entity.getOnPos(), () -> getNextFuelStack(stack, level), true);
+    }
+
+    public static ItemStack getNextFuelStack(ItemStack stack, Level level) {
+        PortableGeneratorInventory inventory = getInventory(stack, level);
+        if (inventory != null) {
+            return inventory.nextItem();
+        }
+
+        return ItemStack.EMPTY;
+    }
+
+    public static void tick(ItemStack stack, Level level, List<Entity> entities, BlockPos pos, Supplier<ItemStack> fuelSupplier, boolean levelItems) {
+        Player player = null;
         if (level.getGameTime() % 20 == 4) {
             List<ItemStack> stacks = new ArrayList<>();
-            IItemHandler handler = entity.getCapability(Capabilities.ItemHandler.ENTITY);
-            if (handler != null) {
-                for (int i = 0; i < handler.getSlots(); i++) {
-                    stacks.add(handler.getStackInSlot(i));
+            for (Entity entity : entities) {
+                IItemHandler handler = entity.getCapability(Capabilities.ItemHandler.ENTITY);
+                if (handler != null) {
+                    for (int i = 0; i < handler.getSlots(); i++) {
+                        if (!stack.isEmpty()) {
+                            stacks.add(handler.getStackInSlot(i));
+                        }
+                    }
+                }
+
+                if (entity instanceof Player p) {
+                    player = p;
+                    stacks.addAll(CuriosCompatibility.getItemInCurios(player, Predicates.alwaysTrue()));
                 }
             }
 
@@ -114,30 +135,26 @@ public class PortableGenerator extends Item implements LevelableItem {
         GeneratorFuelData fuelData = stack.get(DataComponents.BURNING_ITEM_DATA);
         if (fuelData == null) {
             // Burn Item
-            PortableGeneratorInventory inventory = getInventory(stack, level);
-            if (inventory != null) {
-                ItemStack toBurn = inventory.nextItem();
+            ItemStack toBurn = fuelSupplier.get();
+            if (!toBurn.isEmpty()) {
+                GeneratorFuelData newFuelData = getFuelData(toBurn, stack.getOrDefault(DataComponents.FOOD_GENERATOR, false),
+                        stack.getOrDefault(DataComponents.METAL_GENERATOR, false), stack.getOrDefault(DataComponents.GEM_GENERATOR, false));
 
-                if (!toBurn.isEmpty()) {
-                    GeneratorFuelData newFuelData = getFuelData(toBurn, stack.getOrDefault(DataComponents.FOOD_GENERATOR, false),
-                            stack.getOrDefault(DataComponents.METAL_GENERATOR, false), stack.getOrDefault(DataComponents.GEM_GENERATOR, false));
+                if (newFuelData == null) {
+                    int burnTime = toBurn.getBurnTime(null);
 
-                    if (newFuelData == null) {
-                        int burnTime = toBurn.getBurnTime(null);
-
-                        if (burnTime > 0) {
-                            newFuelData = new GeneratorFuelData(burnTime, 0);
-                        }
+                    if (burnTime > 0) {
+                        newFuelData = new GeneratorFuelData(burnTime, 0);
                     }
+                }
 
-                    if (newFuelData != null) {
-                        newFuelData = new GeneratorFuelData(newFuelData.burnTime(), newFuelData.bonusGeneration() * (int) (1 + stack.getOrDefault(DataComponents.FUEL_EFFICIENCY.get(), 0F)));
-                        stack.set(DataComponents.BURNING_ITEM_DATA, newFuelData);
-                        stack.set(DataComponents.MAX_BURN_TIME, newFuelData.burnTime());
-                        fuelData = newFuelData;
-                        if (entity instanceof LivingEntity livingEntity) {
-                            this.addExp(stack, level, entity.getOnPos(), livingEntity, (int) Math.ceil(CrystalToolsConfig.PORTABLE_GENERATOR_SKILL_POINTS_PER_BURN_TIME.get() * newFuelData.burnTime()));
-                        }
+                if (newFuelData != null) {
+                    newFuelData = new GeneratorFuelData(newFuelData.burnTime(), newFuelData.bonusGeneration() * (int) (1 + stack.getOrDefault(DataComponents.FUEL_EFFICIENCY.get(), 0F)));
+                    stack.set(DataComponents.BURNING_ITEM_DATA, newFuelData);
+                    stack.set(DataComponents.MAX_BURN_TIME, newFuelData.burnTime());
+                    fuelData = newFuelData;
+                    if (levelItems && stack.getItem() instanceof LevelableItem levelableItem) {
+                        levelableItem.addExp(stack, level, pos, player, (int) Math.ceil(CrystalToolsConfig.PORTABLE_GENERATOR_SKILL_POINTS_PER_BURN_TIME.get() * newFuelData.burnTime()));
                     }
                 }
             }
@@ -166,7 +183,7 @@ public class PortableGenerator extends Item implements LevelableItem {
         }
     }
 
-    public int distributeEnergy(int energy, List<ItemStack> itemsToCharge) {
+    private static int distributeEnergy(int energy, List<ItemStack> itemsToCharge) {
         for (ItemStack stack : itemsToCharge) {
             if (energy <= 0) break;
 
