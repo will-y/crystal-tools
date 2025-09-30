@@ -13,10 +13,14 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
+import net.minecraft.world.level.Level;
 
 import java.util.Collections;
 import java.util.List;
@@ -56,7 +60,18 @@ public class ToolUtils {
         return (int) Math.min((float) (currentCap * Math.pow(CrystalToolsConfig.EXPERIENCE_MULTIPLIER.get(), levelIncrease)), CrystalToolsConfig.MAX_EXP.get());
     }
 
-    public static void resetPoints(ItemStack stack) {
+    public static void resetPoints(ItemStack stack, Player player) {
+        // Drop Items
+        if (player instanceof ServerPlayer) {
+            List<ItemContainerContents> contents = stack.get(DataComponents.BACKPACK_INVENTORY);
+            if (contents != null) {
+                Level level = player.level();
+                for (ItemContainerContents item : contents) {
+                    item.stream().forEach(toDrop -> level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY(), player.getZ(), toDrop)));
+                }
+            }
+        }
+
         // TODO: This will remove other enchantments again. That is probably fine for now?
         ItemStackUtils.removeAllComponents(stack);
         SkillPoints points = stack.getOrDefault(DataComponents.SKILL_POINT_DATA, new SkillPoints());

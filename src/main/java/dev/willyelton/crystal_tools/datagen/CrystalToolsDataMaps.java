@@ -80,7 +80,8 @@ public class CrystalToolsDataMaps extends DataMapProvider {
                 .add(ItemTags.PICKAXES, new ActionData(ActionType.BLOCK_BREAK, Optional.of(new ActionParameters(1, 2, 0))), false)
                 .add(ItemTags.SHOVELS, new ActionData(ActionType.BLOCK_BREAK, Optional.of(new ActionParameters(1, 2, 0))), false)
                 .add(ItemTags.HOES, new ActionData(ActionType.BLOCK_BREAK, Optional.of(new ActionParameters(1, 2, 0))), false)
-                .add(ItemTags.AXES, new ActionData(ActionType.BLOCK_BREAK, Optional.of(new ActionParameters(1, 2, 0))), false);
+                .add(ItemTags.AXES, new ActionData(ActionType.BLOCK_BREAK, Optional.of(new ActionParameters(1, 2, 0))), false)
+                .add(Registration.PORTABLE_GENERATOR, new ActionData(ActionType.CHARGE, Optional.of(new ActionParameters(1, -1, 25))), false);
 
         var builder = builder(DataMaps.SKILL_TREES)
                 .add(Registration.CRYSTAL_PICKAXE, new SkillTreeData(rl("crystal_pickaxe"), true, false), false)

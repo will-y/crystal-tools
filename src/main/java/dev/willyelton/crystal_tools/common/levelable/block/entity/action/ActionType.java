@@ -13,7 +13,8 @@ public enum ActionType implements StringRepresentable {
     AUTO_OUTPUT(AutoOutputAction.class, AutoOutputable.class, "crystal_tools.action.auto_output"),
     CHUNK_LOAD(ChunkLoadingAction.class, ChunkLoader.class, "crystal_tools.action.chunk_load"),
     MAGNET(MagnetAction.class, null, "crystal_tools.action.magnet"),
-    BLOCK_BREAK(BlockBreakAction.class, null, "crystal_tools.action.block_break");
+    BLOCK_BREAK(BlockBreakAction.class, null, "crystal_tools.action.block_break"),
+    CHARGE(ChargingAction.class, null, "crystal_tools.action.charge");
 
     public static final Codec<ActionType> CODEC = StringRepresentable.fromEnum(ActionType::values);
 

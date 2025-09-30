@@ -17,7 +17,7 @@ public class ResetSkillsHandler {
             ItemStack heldTool = ItemStackUtils.getHeldLevelableTool(player);
 
             if (!heldTool.isEmpty()) {
-                ToolUtils.resetPoints(heldTool);
+                ToolUtils.resetPoints(heldTool, player);
             }
         });
     }

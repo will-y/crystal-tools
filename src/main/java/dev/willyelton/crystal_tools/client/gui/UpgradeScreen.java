@@ -72,7 +72,7 @@ public class UpgradeScreen extends BaseUpgradeScreen {
     protected void resetPoints(boolean crystalRequired) {
         if (!crystalRequired || this.player.getInventory().hasAnyOf(Set.of(Registration.CRYSTAL.get()))) {
             ClientPacketDistributor.sendToServer(ResetSkillsPayload.INSTANCE);
-            ToolUtils.resetPoints(this.stack);
+            ToolUtils.resetPoints(this.stack, this.player);
         }
 
         this.onClose();

@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "crystal_tools:crystal_magnet"
+    "crystal_tools:crystal_magnet",
+    "crystal_tools:portable_crystal_generator"
   ]
 }

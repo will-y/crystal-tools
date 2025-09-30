@@ -133,5 +133,6 @@
   "crystal_tools.action.auto_output": "When this item is in the Crystal Pedestal, items in its inventory will be auto outputted to adjacent inventories.",
   "crystal_tools.action.chunk_load": "When this item is in the Crystal Pedestal, chunks around it will be automatically loaded.",
   "crystal_tools.action.magnet": "When this item is in the Crystal Pedestal, nearby item entities will be pulled towards the Pedestal and collected.",
-  "crystal_tools.action.block_break": "When this item is in the Crystal Pedestal, it will break and collect blocks in front of it. Range can be increased through the Block Interaction Range attribute."
+  "crystal_tools.action.block_break": "When this item is in the Crystal Pedestal, it will break and collect blocks in front of it. Range can be increased through the Block Interaction Range attribute.",
+  "crystal_tools.action.charge": "When this item is in the Crystal Pedestal, it will charge items in nearby player's inventories."
 }
