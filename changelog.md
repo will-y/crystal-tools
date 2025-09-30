@@ -1,5 +1,5 @@
 # Crystal Tools Change Log
-## 2.5.0
+## 3.5.0
 ### Additions
 - The portable generator can now be placed in the crystal pedestal to wirelessly charge items in nearby player's inventories
 
