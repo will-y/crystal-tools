@@ -149,7 +149,7 @@ public class PortableGenerator extends Item implements LevelableItem {
                 }
 
                 if (newFuelData != null) {
-                    newFuelData = new GeneratorFuelData(newFuelData.burnTime(), newFuelData.bonusGeneration() * (int) (1 + stack.getOrDefault(DataComponents.FUEL_EFFICIENCY.get(), 0F)));
+                    newFuelData = new GeneratorFuelData((int) Math.ceil(newFuelData.burnTime() * (1 + stack.getOrDefault(DataComponents.FUEL_EFFICIENCY.get(), 0F))), newFuelData.bonusGeneration());
                     stack.set(DataComponents.BURNING_ITEM_DATA, newFuelData);
                     stack.set(DataComponents.MAX_BURN_TIME, newFuelData.burnTime());
                     fuelData = newFuelData;

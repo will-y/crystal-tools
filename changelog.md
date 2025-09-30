@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 2.8.1
+### Fixes
+- Fixes an issue where fuel efficiency wasn't working on the portable generator
+
 ## 2.8.0
 ### Additions
 - The portable generator can now be placed in the crystal pedestal to wirelessly charge items in nearby player's inventories
