@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity.action;
 
 import dev.willyelton.crystal_tools.common.components.DataComponents;
+import dev.willyelton.crystal_tools.common.inventory.ItemResourceHandlerAdapterModifiable;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.ActionBlockEntity;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.core.BlockPos;
@@ -14,6 +15,8 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 
 import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.AUTO_OUTPUT;
 
@@ -43,7 +46,9 @@ public class AutoOutputAction extends Action {
             ItemStack stack = autoOutputable.getOutputStacks().get(index);
 
             for (Direction dir : POSSIBLE_INVENTORIES) {
-                IItemHandler itemHandler = level.getCapability(Capabilities.ItemHandler.BLOCK, pos.relative(dir), dir.getOpposite());
+                // TODO (TRANSFER)
+                ResourceHandler<ItemResource> newHandler = level.getCapability(Capabilities.Item.BLOCK, pos.relative(dir), dir.getOpposite());
+                IItemHandler itemHandler = newHandler == null ? null : ItemResourceHandlerAdapterModifiable.of(newHandler);
                 BlockState invState = level.getBlockState(pos.relative(dir));
 
                 if (itemHandler != null && !invState.is(CrystalToolsTags.AUTO_OUTPUT_BLACKLIST)) {

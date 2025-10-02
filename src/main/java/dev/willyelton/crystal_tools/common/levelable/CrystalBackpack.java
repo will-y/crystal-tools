@@ -29,8 +29,10 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -70,10 +72,26 @@ public class CrystalBackpack extends Item implements LevelableItem {
             CrystalBackpackInventory backpackInventory = getInventory(backpackStack);
 
             if (blockEntity != null && backpackInventory != null) {
-                IItemHandler itemHandler = level.getCapability(Capabilities.ItemHandler.BLOCK, context.getClickedPos(), context.getClickedFace());
-                if (itemHandler != null) {
-                    for (int i = 0; i < backpackInventory.getSlots(); i++) {
-                        backpackInventory.setStackInSlot(i, ItemHandlerHelper.insertItem(itemHandler, backpackInventory.getStackInSlot(i), false));
+                ResourceHandler<ItemResource> handler = level.getCapability(Capabilities.Item.BLOCK, context.getClickedPos(), context.getClickedFace());
+
+                if (handler != null) {
+                    for (int i = 0; i < backpackInventory.size(); i++) {
+                        ItemResource resource = backpackInventory.getResource(i);
+
+                        if (resource.isEmpty()) continue;
+
+
+                        try (Transaction tx = Transaction.open(null)) {
+                            int amountExtracted = backpackInventory.extract(i, resource, 64, tx);
+
+                            int leftOver = amountExtracted - handler.insert(resource, amountExtracted, tx);
+
+                            if (leftOver > 0) {
+                                backpackInventory.insert(i, resource, leftOver, tx);
+                            }
+
+                            tx.commit();
+                        }
                     }
                 }
 
@@ -108,10 +126,17 @@ public class CrystalBackpack extends Item implements LevelableItem {
             // Take item out of backpack and put in player inventory
             int lastSlotIndex = inventory.getLastStack();
             if (lastSlotIndex != -1) {
-                ItemStack toGiveToPlayer = inventory.getStackInSlot(lastSlotIndex);
-                ItemStack result = slot.safeInsert(toGiveToPlayer);
-                inventory.setStackInSlot(lastSlotIndex, result);
-                playRemoveOneSound(player);
+                ItemResource resource = inventory.getResource(lastSlotIndex);
+                if (!resource.isEmpty()) {
+                    try (Transaction tx = Transaction.open(null)) {
+                        int extracted = inventory.extract(lastSlotIndex, resource, 64, tx);
+                        ItemStack toGiveToPlayer = resource.toStack(extracted);
+                        ItemStack leftOver = slot.safeInsert(toGiveToPlayer);
+                        inventory.insert(lastSlotIndex, resource, leftOver.getCount(), tx);
+                        playRemoveOneSound(player);
+                        tx.commit();
+                    }
+                }
                 return true;
             }
         } else {
@@ -138,9 +163,17 @@ public class CrystalBackpack extends Item implements LevelableItem {
             // Take item out of backpack
             int lastSlotIndex = inventory.getLastStack();
             if (lastSlotIndex != -1) {
-                ItemStack toGiveToPlayer = inventory.getStackInSlot(lastSlotIndex);
-                access.set(toGiveToPlayer);
-                playRemoveOneSound(player);
+                ItemResource resource = inventory.getResource(lastSlotIndex);
+                if (!resource.isEmpty()) {
+                    try (Transaction tx = Transaction.open(null)) {
+                        int extracted = inventory.extract(lastSlotIndex, resource, 64, tx);
+                        ItemStack toGiveToPlayer = resource.toStack(extracted);
+                        access.set(toGiveToPlayer);
+                        playRemoveOneSound(player);
+                        tx.commit();
+                    }
+                }
+
                 return true;
             }
         } else {
@@ -225,11 +258,12 @@ public class CrystalBackpack extends Item implements LevelableItem {
     }
 
     public static CrystalBackpackInventory getInventory(ItemStack stack) {
-        IItemHandler inventory = stack.getCapability(Capabilities.ItemHandler.ITEM);
-        if (inventory == null) {
+        ResourceHandler<ItemResource> handler = ItemAccess.forStack(stack).getCapability(Capabilities.Item.ITEM);
+
+        if (handler == null) {
             CrystalTools.LOGGER.error("Crystal Backpack cannot find capability");
             return new CrystalBackpackInventory(0);
-        } else if (inventory instanceof CrystalBackpackInventory crystalBackpackInventory) {
+        } else if (handler instanceof CrystalBackpackInventory crystalBackpackInventory) {
             return crystalBackpackInventory;
         } else {
             CrystalTools.LOGGER.error("Different inventory capability found on crystal backpack");

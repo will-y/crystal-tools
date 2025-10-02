@@ -5,6 +5,7 @@ import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.inventory.CompressionItemStackHandler;
 import dev.willyelton.crystal_tools.common.inventory.CrystalBackpackInventory;
+import dev.willyelton.crystal_tools.common.inventory.ItemResourceHandlerAdapterModifiable;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.CrystalSlotItemHandler;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.ReadOnlySlot;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.ScrollableSlot;
@@ -26,6 +27,7 @@ import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.ComponentItemHandler;
+import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
 import java.util.Objects;
@@ -72,7 +74,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         this.stack = stack;
         this.player = playerInventory.player;
         this.slotIndex = slotIndex;
-        this.rows = inventory.getSlots() / SLOTS_PER_ROW;
+        this.rows = inventory.size() / SLOTS_PER_ROW;
         this.filterRows = stack.getOrDefault(DataComponents.FILTER_CAPACITY, 0);
         this.filterMenuContents = new FilterMenuContents<>(this, filterRows * FILTER_SLOTS_PER_ROW, stack.getOrDefault(DataComponents.WHITELIST, true));
         this.canSort = stack.getOrDefault(DataComponents.SORT_ENABLED, false);
@@ -93,7 +95,8 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
             rowsToDraw = Math.min(rows, maxRows);
         }
 
-        this.addSlotBox(this.inventory, 0, START_X, START_Y, SLOTS_PER_ROW, SLOT_SIZE, rowsToDraw, SLOT_SIZE, backpackSlots, ScrollableSlot::new);
+        // TODO (TRANSFER)
+        this.addSlotBox(ItemResourceHandlerAdapterModifiable.of(this.inventory), 0, START_X, START_Y, SLOTS_PER_ROW, SLOT_SIZE, rowsToDraw, SLOT_SIZE, backpackSlots, ScrollableSlot::new);
     }
 
     private void setUpFilterSlots() {
@@ -378,12 +381,14 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
 
             int count = 0;
 
-            for (int j = 0; j < inventory.getSlots(); j++) {
-                ItemStack stack = inventory.getStackInSlot(j);
+            // TODO (TRANSFER)
+            IItemHandlerModifiable temp = ItemResourceHandlerAdapterModifiable.of(inventory);
+            for (int j = 0; j < inventory.size(); j++) {
+                ItemStack stack = temp.getStackInSlot(j);
                 if (stack.is(inputItem.getItem())) {
                     count += stack.getCount();
                     // If any item has tags or anything this will delete them but that's probably fine
-                    inventory.setStackInSlot(j, ItemStack.EMPTY);
+                    temp.setStackInSlot(j, ItemStack.EMPTY);
                 }
             }
 
@@ -410,7 +415,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
 
     @Override
     public void matchContentsFilter(boolean isShiftDown) {
-        this.filterMenuContents.matchContents(this.inventory, isShiftDown);
+        this.filterMenuContents.matchContents(ItemResourceHandlerAdapterModifiable.of(this.inventory), isShiftDown);
     }
 
     @Override

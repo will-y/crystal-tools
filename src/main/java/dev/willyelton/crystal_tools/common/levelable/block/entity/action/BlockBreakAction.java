@@ -4,6 +4,7 @@ import com.google.common.primitives.Floats;
 import com.mojang.serialization.Codec;
 import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
+import dev.willyelton.crystal_tools.common.inventory.ItemResourceHandlerAdapterModifiable;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.ActionBlockEntity;
 import dev.willyelton.crystal_tools.utils.InventoryUtils;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
@@ -21,6 +22,8 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -49,7 +52,10 @@ public class BlockBreakAction extends Action {
     public void tickAction(@NotNull Level level, BlockPos pos, BlockState state) {
         Direction facing = state.getValue(FACING);
         if (!noFit.isEmpty()) {
-            IItemHandler handler = level.getCapability(Capabilities.ItemHandler.BLOCK, pos, null);
+            // TODO (TRANSFER)
+            ResourceHandler<ItemResource> newHandler = level.getCapability(Capabilities.Item.BLOCK, pos, null);
+            IItemHandler handler = newHandler == null ? null : ItemResourceHandlerAdapterModifiable.of(newHandler);
+
             if (handler != null) {
                 noFit = InventoryUtils.tryInsertStacks(handler, noFit);
 
@@ -82,7 +88,8 @@ public class BlockBreakAction extends Action {
             if (breakProgress[i] >= 1.0F) {
                 // Break block
                 List<ItemStack> drops = new ArrayList<>(Block.getDrops(miningState, (ServerLevel) level, miningPos, level.getBlockEntity(miningPos), null, stack));
-                IItemHandler handler = level.getCapability(Capabilities.ItemHandler.BLOCK, pos, null);
+                ResourceHandler<ItemResource> newHandler = level.getCapability(Capabilities.Item.BLOCK, pos, null);
+                IItemHandler handler = newHandler == null ? null : ItemResourceHandlerAdapterModifiable.of(newHandler);
                 if (handler != null) {
                     noFit = InventoryUtils.tryInsertStacks(handler, drops);
                 } else {

@@ -9,6 +9,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 import org.jetbrains.annotations.Nullable;
 
 import static dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalGeneratorBlockEntity.getFuelData;
@@ -22,29 +24,29 @@ public class PortableGeneratorInventory extends ListComponentItemHandler {
     private @Nullable Level level;
 
     public PortableGeneratorInventory(int size) {
-        super(ItemStack.EMPTY.copy(), DataComponents.BACKPACK_INVENTORY.get(), Math.min(size, MAX_SIZE));
+        super(ItemAccess.forStack(new ItemStack(ModRegistration.PORTABLE_GENERATOR)), DataComponents.BACKPACK_INVENTORY.get(), Math.min(size, MAX_SIZE));
         this.generatorStack = ItemStack.EMPTY.copy();
     }
 
     public PortableGeneratorInventory(ItemStack stack) {
-        super(stack, DataComponents.BACKPACK_INVENTORY.get(), Math.min(stack.getOrDefault(DataComponents.PORTABLE_GENERATOR_SLOTS, 0) + 1, MAX_SIZE));
+        super(ItemAccess.forStack(stack), DataComponents.BACKPACK_INVENTORY.get(), Math.min(stack.getOrDefault(DataComponents.PORTABLE_GENERATOR_SLOTS, 0) + 1, MAX_SIZE));
 
         this.generatorStack = stack;
     }
 
     @Override
-    public boolean isItemValid(int slot, ItemStack stack) {
-        if (stack.isEmpty()) {
+    public boolean isValid(int slot, ItemResource resource) {
+        if (resource.isEmpty()) {
             return true;
         }
-        boolean canFit = !stack.is(ModRegistration.PORTABLE_GENERATOR) && super.isItemValid(slot, stack);
+        boolean canFit = !resource.is(ModRegistration.PORTABLE_GENERATOR) && super.isValid(slot, resource);
         if (level == null) return canFit;
 
-        return canFit && canBurn(generatorStack, stack, level);
+        return canFit && canBurn(generatorStack, resource.toStack(), level);
     }
 
     public ItemStack insertStack(ItemStack stack) {
-        return ItemHandlerHelper.insertItem(this, stack, false);
+        return ItemHandlerHelper.insertItem(ItemResourceHandlerAdapterModifiable.of(this), stack, false);
     }
 
     public void setLevel(Level level) {
@@ -52,7 +54,7 @@ public class PortableGeneratorInventory extends ListComponentItemHandler {
     }
 
     public ItemStack nextItem() {
-        return ItemStackUtils.nextFuelItem(this, Predicates.alwaysTrue());
+        return ItemStackUtils.nextFuelItem(ItemResourceHandlerAdapterModifiable.of(this), Predicates.alwaysTrue());
     }
 
     public static boolean canBurn(ItemStack generatorStack, ItemStack stack, Level level) {

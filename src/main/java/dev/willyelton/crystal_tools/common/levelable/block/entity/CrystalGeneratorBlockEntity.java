@@ -33,7 +33,10 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -48,7 +51,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
 
     // Item storage
     private NonNullList<ItemStack> fuelItems;
-    private IItemHandler fuelHandler;
+    private ResourceHandler<ItemResource> fuelHandler;
 
     // Energy storage
     private CrystalEnergyStorage energyStorage;
@@ -83,11 +86,11 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         energyStorage = new CrystalEnergyStorage(baseFEStorage, 0, baseFETransfer, 0);
     }
 
-    public IItemHandler getItemHandlerCapForSide(Direction side) {
+    public ResourceHandler<ItemResource> getItemHandlerCapForSide(Direction side) {
         return fuelHandler;
     }
 
-    public IEnergyStorage getEnergyStorageCapForSide(Direction side) {
+    public EnergyHandler getEnergyStorageCapForSide(Direction side) {
         return energyStorage;
     }
 
@@ -180,7 +183,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         valueOutput.putBoolean("FoodGenerator", this.foodGenerator);
         valueOutput.putBoolean("GemGenerator", this.gemGenerator);
 
-        valueOutput.putInt("Energy", this.energyStorage.getEnergyStored());
+        valueOutput.putInt("Energy", this.energyStorage.getAmountAsInt());
     }
 
     @Override
@@ -194,7 +197,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
                 redstoneControl, saveFuel, metalGenerator, foodGenerator, gemGenerator);
         components.set(dev.willyelton.crystal_tools.common.components.DataComponents.GENERATOR_UPGRADES, generatorUpgrades);
 
-        GeneratorData generatorData = new GeneratorData(litTime, litTotalTime, burnedItem.copy(), energyStorage.getEnergyStored());
+        GeneratorData generatorData = new GeneratorData(litTime, litTotalTime, burnedItem.copy(), energyStorage.getAmountAsInt());
         components.set(dev.willyelton.crystal_tools.common.components.DataComponents.GENERATOR_DATA, generatorData);
     }
 
@@ -209,7 +212,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         } else if (FE_CAPACITY.toString().equals(key)) {
             float storageToAdd = value * CrystalToolsConfig.FE_STORAGE_PER_LEVEL.get();
             this.addedFEStorage += storageToAdd;
-            this.energyStorage.setCapacity(this.energyStorage.getMaxEnergyStored() + (int) storageToAdd);
+            this.energyStorage.setCapacity(this.energyStorage.getCapacityAsInt() + (int) storageToAdd);
         } else if (REDSTONE_CONTROL.toString().equals(key)) {
             this.redstoneControl = value == 1F;
         } else if (SAVE_FUEL.toString().equals(key)) {
@@ -226,7 +229,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
     @Override
     protected void resetExtraSkills() {
         this.addedFEGeneration = 0;
-        this.energyStorage = new CrystalEnergyStorage(baseFEStorage, 0, baseFETransfer, Math.max(energyStorage.getEnergyStored(), baseFEStorage));
+        this.energyStorage = new CrystalEnergyStorage(baseFEStorage, 0, baseFETransfer, Math.max(energyStorage.getAmountAsInt(), baseFEStorage));
         this.fuelEfficiency = 0;
         this.addedFEStorage = 0;
         this.redstoneControl = false;
@@ -242,8 +245,8 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
             return switch (index) {
                 case 3 -> litTime;
                 case 4 -> litTotalTime;
-                case 5 -> energyStorage.getEnergyStored();
-                case 6 -> energyStorage.getMaxEnergyStored();
+                case 5 -> energyStorage.getAmountAsInt();
+                case 6 -> energyStorage.getCapacityAsInt();
                 case 7 -> litTime > 0 ? getGeneration(burnedItem) : 0;
                 default -> 0;
             };
@@ -278,7 +281,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         boolean needsChange = false;
 
         if (wasLit) {
-            boolean canFitEnergy = energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored() >= getGeneration(ItemStack.EMPTY);
+            boolean canFitEnergy = energyStorage.getCapacityAsInt() - energyStorage.getAmountAsInt() >= getGeneration(ItemStack.EMPTY);
             if (canFitEnergy || !saveFuel) {
                 litTime--;
 
@@ -336,7 +339,9 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         List<IEnergyStorage> possibleDestinations = new ArrayList<>();
 
         for (Direction direction : Direction.values()) {
-            IEnergyStorage energyStorage = level.getCapability(Capabilities.EnergyStorage.BLOCK, pos.relative(direction), direction.getOpposite());
+            // TODO (TRANSFER)
+            EnergyHandler newHandler = level.getCapability(Capabilities.Energy.BLOCK, pos.relative(direction), direction.getOpposite());
+            IEnergyStorage energyStorage = newHandler == null ? null : IEnergyStorage.of(newHandler);
             if (energyStorage != null && energyStorage.canReceive()) {
                 possibleDestinations.add(energyStorage);
             }
@@ -346,7 +351,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
             return;
         }
 
-        int amountToTransfer = Math.min(this.baseFETransfer + (int) this.addedFEGeneration * 2, energyStorage.getEnergyStored());
+        int amountToTransfer = Math.min(this.baseFETransfer + (int) this.addedFEGeneration * 2, energyStorage.getAmountAsInt());
         int amountAdded = 0;
         boolean didTransfer = true;
 
@@ -373,7 +378,10 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
             }
         }
 
-        energyStorage.extractEnergy(amountAdded, false);
+        try (Transaction tx = Transaction.open(null)) {
+            energyStorage.extract(amountAdded, tx);
+            tx.commit();
+        }
     }
 
     private boolean isLit() {
@@ -435,7 +443,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         this.addExp((int) Math.ceil(CrystalToolsConfig.SKILL_POINTS_PER_BURN_TIME.get() * burnTime));
     }
 
-    public IItemHandler getFuelHandler() {
+    public ResourceHandler<ItemResource> getFuelHandler() {
         return fuelHandler;
     }
 

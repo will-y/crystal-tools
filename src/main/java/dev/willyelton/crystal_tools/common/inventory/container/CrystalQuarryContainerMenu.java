@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.common.inventory.container;
 
 import dev.willyelton.crystal_tools.ModRegistration;
+import dev.willyelton.crystal_tools.common.inventory.ItemResourceHandlerAdapterModifiable;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.CrystalSlotItemHandler;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.NoInsertSlot;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.backpack.BackpackFilterSlot;
@@ -18,6 +19,7 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 
 public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu implements SubScreenContainerMenu, FilterContainerMenu {
@@ -44,8 +46,8 @@ public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu imp
         filterInventorySlots.forEach(s -> s.setActive(false));
 
         filterMenuContents = new FilterMenuContents<>(this, filterRows, true);
-        this.addSlotBox(blockEntity.getItemHandler(), 0, 8, 59, 9, SLOT_SIZE, 3, SLOT_SIZE, quarrySlots, NoInsertSlot::new);
-        this.addSlotBox(blockEntity.getFilterItemHandler(), 0, 8, 18, 9, SLOT_SIZE, filterRows, SLOT_SIZE, filterMenuContents.getFilterSlots(), BackpackFilterSlot::new);
+        this.addSlotBox(ItemResourceHandlerAdapterModifiable.of(blockEntity.getItemHandler()), 0, 8, 59, 9, SLOT_SIZE, 3, SLOT_SIZE, quarrySlots, NoInsertSlot::new);
+        this.addSlotBox(ItemResourceHandlerAdapterModifiable.of(blockEntity.getFilterItemHandler()), 0, 8, 18, 9, SLOT_SIZE, filterRows, SLOT_SIZE, filterMenuContents.getFilterSlots(), BackpackFilterSlot::new);
         filterMenuContents.toggleSlots(false);
     }
 
@@ -153,7 +155,7 @@ public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu imp
 
     @Override
     public IItemHandlerModifiable getFilterInventory() {
-        return blockEntity.getFilterItemHandler();
+        return ItemResourceHandlerAdapterModifiable.of(blockEntity.getFilterItemHandler());
     }
 
     @Override

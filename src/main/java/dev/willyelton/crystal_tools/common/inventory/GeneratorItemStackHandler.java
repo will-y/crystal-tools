@@ -3,9 +3,10 @@ package dev.willyelton.crystal_tools.common.inventory;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalGeneratorBlockEntity;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 
-public class GeneratorItemStackHandler extends ItemStackHandler {
+public class GeneratorItemStackHandler extends ItemStacksResourceHandler {
     private final CrystalGeneratorBlockEntity generatorBlockEntity;
 
     public GeneratorItemStackHandler(NonNullList<ItemStack> stacks, CrystalGeneratorBlockEntity generatorBlockEntity) {
@@ -15,7 +16,7 @@ public class GeneratorItemStackHandler extends ItemStackHandler {
     }
 
     @Override
-    public boolean isItemValid(int slot, ItemStack stack) {
-        return generatorBlockEntity.getBurnDuration(stack) > 0;
+    public boolean isValid(int index, ItemResource resource) {
+        return generatorBlockEntity.getBurnDuration(resource.toStack()) > 0;
     }
 }

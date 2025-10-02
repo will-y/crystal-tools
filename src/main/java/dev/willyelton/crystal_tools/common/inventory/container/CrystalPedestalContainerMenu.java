@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.common.inventory.container;
 
 import dev.willyelton.crystal_tools.ModRegistration;
+import dev.willyelton.crystal_tools.common.inventory.ItemResourceHandlerAdapterModifiable;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalPedestalBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -28,7 +29,7 @@ public class CrystalPedestalContainerMenu extends BaseContainerMenu {
 
         if (blockEntity == null) return;
 
-        this.addSlotBox(blockEntity.getContentsHandler(), 0, 8, 18, 9, 18, 3, 18);
+        this.addSlotBox(ItemResourceHandlerAdapterModifiable.of(blockEntity.getContentsHandler()), 0, 8, 18, 9, 18, 3, 18);
         this.layoutPlayerInventorySlots(8, 85);
     }
 

@@ -121,3 +121,10 @@ Eventually
 - Maybe go through all get capability calls and pass in null
   - Possibly add an `isFull` boolean to `LevelableStack`? Only should need full on the upgrade screen
 - Support limited nodes on blocks
+
+## 1.21.9 Porting
+- Transfer updates
+- Inventories aren't storing items
+- Quarry mining seems weird
+- Quarry might be deleting items?
+- Testing

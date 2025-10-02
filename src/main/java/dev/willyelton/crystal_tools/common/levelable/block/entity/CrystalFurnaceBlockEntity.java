@@ -49,8 +49,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.WorldlyContainerWrapper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -87,7 +88,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
 
     private NonNullList<ItemStack> items;
 
-    private final Map<Direction, IItemHandler> sidedCaps;
+    private final Map<Direction, ResourceHandler<ItemResource>> sidedCaps;
     private final RecipeType<? extends AbstractCookingRecipe> recipeType = RecipeType.SMELTING;
 
     // Furnace related fields
@@ -116,7 +117,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         speedUpgradeSubtractTicks = CrystalToolsConfig.SPEED_UPGRADE_SUBTRACT_TICKS.get();
         expBoostPercentage = CrystalToolsConfig.EXPERIENCE_BOOST_PERCENTAGE.get();
         sidedCaps = Arrays.stream(new Direction[] {Direction.DOWN, Direction.UP, Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST})
-                .map(direction -> Map.entry(direction, new SidedInvWrapper(this, direction)))
+                .map(direction -> Map.entry(direction, new WorldlyContainerWrapper(this, direction)))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
 
@@ -128,7 +129,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
         return List.of(autoOutputAction);
     }
 
-    public IItemHandler getCapForSide(Direction side) {
+    public ResourceHandler<ItemResource> getCapForSide(Direction side) {
         return this.sidedCaps.get(side);
     }
 

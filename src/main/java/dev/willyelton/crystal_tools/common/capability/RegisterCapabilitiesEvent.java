@@ -21,51 +21,51 @@ public class RegisterCapabilitiesEvent {
     @SubscribeEvent
     public static void onRegisterCapabilities(net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent event) {
         // Backpack
-        event.registerItem(Capabilities.ItemHandler.ITEM,
+        event.registerItem(Capabilities.Item.ITEM,
                 (stack, context) -> new CrystalBackpackInventory(stack),
                 ModRegistration.CRYSTAL_BACKPACK.get());
 
         // Portable Generator
-        event.registerItem(Capabilities.ItemHandler.ITEM,
+        event.registerItem(Capabilities.Item.ITEM,
                 (stack, context) -> new PortableGeneratorInventory(stack),
                 ModRegistration.PORTABLE_GENERATOR.get());
 
-        event.registerItem(Capabilities.EnergyStorage.ITEM,
+        event.registerItem(Capabilities.Energy.ITEM,
                 (stack, context) -> new CrystalEnergyStorage(PortableGenerator.getCapacity(stack),
                         0, 40, PortableGenerator.getEnergy(stack)),
                 ModRegistration.PORTABLE_GENERATOR.get());
 
         // Furnace
         event.registerBlockEntity(
-                Capabilities.ItemHandler.BLOCK,
+                Capabilities.Item.BLOCK,
                 ModRegistration.CRYSTAL_FURNACE_BLOCK_ENTITY.get(),
                 CrystalFurnaceBlockEntity::getCapForSide);
 
         // Generator
         event.registerBlockEntity(
-                Capabilities.ItemHandler.BLOCK,
+                Capabilities.Item.BLOCK,
                 ModRegistration.CRYSTAL_GENERATOR_BLOCK_ENTITY.get(),
                 CrystalGeneratorBlockEntity::getItemHandlerCapForSide);
 
         event.registerBlockEntity(
-                Capabilities.EnergyStorage.BLOCK,
+                Capabilities.Energy.BLOCK,
                 ModRegistration.CRYSTAL_GENERATOR_BLOCK_ENTITY.get(),
                 CrystalGeneratorBlockEntity::getEnergyStorageCapForSide);
 
         // Quarry
         event.registerBlockEntity(
-                Capabilities.ItemHandler.BLOCK,
+                Capabilities.Item.BLOCK,
                 ModRegistration.CRYSTAL_QUARRY_BLOCK_ENTITY.get(),
                 CrystalQuarryBlockEntity::getItemHandlerCapForSide);
 
         event.registerBlockEntity(
-                Capabilities.EnergyStorage.BLOCK,
+                Capabilities.Energy.BLOCK,
                 ModRegistration.CRYSTAL_QUARRY_BLOCK_ENTITY.get(),
                 CrystalQuarryBlockEntity::getEnergyStorageCapForSide);
 
         // Pedestal
         event.registerBlockEntity(
-                Capabilities.ItemHandler.BLOCK,
+                Capabilities.Item.BLOCK,
                 ModRegistration.CRYSTAL_PEDESTAL_BLOCK_ENTITY.get(),
                 CrystalPedestalBlockEntity::getItemHandlerCapForSide);
 

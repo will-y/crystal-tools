@@ -5,163 +5,99 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
-import net.neoforged.neoforge.common.MutableDataComponentHolder;
-import net.neoforged.neoforge.items.ComponentItemHandler;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.transfer.ItemAccessResourceHandler;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.item.ItemAccessItemHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Version of {@link ComponentItemHandler} that can take more than 256 stacks
+ * Version of {@link ItemAccessItemHandler} that can take more than 256 stacks
  */
-public class ListComponentItemHandler implements IItemHandlerModifiable {
+public class ListComponentItemHandler extends ItemAccessResourceHandler<ItemResource> {
     private static final int MAX_CONTENTS_SIZE = 256;
-    protected final MutableDataComponentHolder parent;
+
+    protected final Item validItem;
     protected final DataComponentType<List<ItemContainerContents>> component;
-    protected final int size;
 
-    public ListComponentItemHandler(MutableDataComponentHolder parent, DataComponentType<List<ItemContainerContents>> component, int size) {
-        this.parent = parent;
+    public ListComponentItemHandler(ItemAccess itemAccess, DataComponentType<List<ItemContainerContents>> component, int size) {
+        super(itemAccess, size);
+
+        this.validItem = itemAccess.getResource().getItem();
         this.component = component;
-        this.size = size;
     }
 
-    @Override
-    public int getSlots() {
-        return this.size;
+    protected List<ItemContainerContents> getContents(ItemResource accessResource) {
+        return accessResource.getOrDefault(component, List.of());
     }
 
-    @Override
-    public ItemStack getStackInSlot(int slot) {
-        ItemContainerContents contents = this.getContents(slot);
-        return this.getStackFromContents(contents, slot);
-    }
+    protected ItemStack getStackFromContents(List<ItemContainerContents> contentsList, int slot) {
+        int listIndex = slot / MAX_CONTENTS_SIZE;
 
-    @Override
-    public void setStackInSlot(int slot, ItemStack stack) {
-        this.validateSlotIndex(slot);
-        if (!this.isItemValid(slot, stack)) {
-            throw new RuntimeException("Invalid stack " + stack + " for slot " + slot + ")");
-        }
-        ItemContainerContents contents = this.getContents(slot);
-        ItemStack existing = this.getStackFromContents(contents, slot);
-        if (!ItemStack.matches(stack, existing)) {
-            this.updateContents(contents, stack, slot);
-        }
-    }
-
-    @Override
-    public ItemStack insertItem(int slot, ItemStack toInsert, boolean simulate) {
-        this.validateSlotIndex(slot);
-
-        if (toInsert.isEmpty()) {
+        if (listIndex >= contentsList.size()) {
             return ItemStack.EMPTY;
         }
 
-        if (!this.isItemValid(slot, toInsert)) {
-            return toInsert;
-        }
+        ItemContainerContents contents = contentsList.get(listIndex);
+        int contextIndex = listIndex % MAX_CONTENTS_SIZE;
 
-        ItemContainerContents contents = this.getContents(slot);
-        ItemStack existing = this.getStackFromContents(contents, slot);
-        // Max amount of the stack that could be inserted
-        int insertLimit = Math.min(this.getSlotLimit(slot), toInsert.getMaxStackSize());
-
-        if (!existing.isEmpty()) {
-            if (!ItemStack.isSameItemSameComponents(toInsert, existing)) {
-                return toInsert;
-            }
-
-            insertLimit -= existing.getCount();
-        }
-
-        if (insertLimit <= 0) {
-            return toInsert;
-        }
-
-        int inserted = Math.min(insertLimit, toInsert.getCount());
-
-        if (!simulate) {
-            this.updateContents(contents, toInsert.copyWithCount(existing.getCount() + inserted), slot);
-        }
-
-        return toInsert.copyWithCount(toInsert.getCount() - inserted);
+        return contextIndex < contents.getSlots() ? contents.getStackInSlot(contextIndex) : ItemStack.EMPTY;
     }
 
     @Override
-    public ItemStack extractItem(int slot, int amount, boolean simulate) {
-        this.validateSlotIndex(slot);
-
-        if (amount == 0) {
-            return ItemStack.EMPTY;
-        }
-
-        ItemContainerContents contents = this.getContents(slot);
-        ItemStack existing = this.getStackFromContents(contents, slot);
-
-        if (existing.isEmpty()) {
-            return ItemStack.EMPTY;
-        }
-
-        int toExtract = Math.min(amount, existing.getMaxStackSize());
-
-        if (!simulate) {
-            this.updateContents(contents, existing.copyWithCount(existing.getCount() - toExtract), slot);
-        }
-
-        return existing.copyWithCount(toExtract);
-    }
-
-    @Override
-    public int getSlotLimit(int slot) {
-        return Item.ABSOLUTE_MAX_STACK_SIZE;
-    }
-
-    @Override
-    public boolean isItemValid(int slot, ItemStack stack) {
-        return stack.canFitInsideContainerItems();
-    }
-
-    protected ItemContainerContents getContents(int slot) {
-        int index = slot / MAX_CONTENTS_SIZE;
-        List<ItemContainerContents> contentsList = this.parent.getOrDefault(this.component, new ArrayList<>());
-
-        if (contentsList.size() <= index) {
-            return ItemContainerContents.EMPTY;
-        }
-
-        return contentsList.get(index);
-    }
-
-    protected ItemStack getStackFromContents(ItemContainerContents contents, int slot) {
-        this.validateSlotIndex(slot);
-        int contentsIndex = slot % MAX_CONTENTS_SIZE;
-        return contents.getSlots() <= contentsIndex ? ItemStack.EMPTY : contents.getStackInSlot(contentsIndex);
-    }
-
-    protected void updateContents(ItemContainerContents contents, ItemStack stack, int slot) {
-        this.validateSlotIndex(slot);
-        int index = slot / MAX_CONTENTS_SIZE;
-        int thisContentsSlots = Math.clamp((this.size - index * MAX_CONTENTS_SIZE), 0, MAX_CONTENTS_SIZE);
-        NonNullList<ItemStack> list = NonNullList.withSize(Math.max(contents.getSlots(), thisContentsSlots), ItemStack.EMPTY);
-        contents.copyInto(list);
-        list.set(slot % MAX_CONTENTS_SIZE, stack);
-        ItemContainerContents newContents = ItemContainerContents.fromItems(list);
-        List<ItemContainerContents> oldContents = deepCopy(this.parent.getOrDefault(this.component, new ArrayList<>()));
-        if (oldContents.size() > index) {
-            oldContents.set(index, newContents);
+    protected ItemResource getResourceFrom(ItemResource accessResource, int index) {
+        if (accessResource.is(validItem)) {
+            return ItemResource.of(getStackFromContents(getContents(accessResource), index));
         } else {
-            oldContents.add(newContents);
+            return ItemResource.EMPTY;
         }
-
-        this.parent.set(this.component, oldContents);
     }
 
-    protected final void validateSlotIndex(int slot) {
-        if (slot < 0 || slot >= getSlots()) {
-            throw new RuntimeException("Slot " + slot + " not in valid range - [0," + getSlots() + ")");
+    @Override
+    protected int getAmountFrom(ItemResource accessResource, int index) {
+        if (accessResource.is(validItem)) {
+            return getStackFromContents(getContents(accessResource), index).getCount();
+        } else {
+            return 0;
         }
+    }
+
+    @Override
+    protected ItemResource update(ItemResource accessResource, int index, ItemResource newResource, int newAmount) {
+        List<ItemContainerContents> contents = getContents(accessResource);
+
+        int listIndex = index / MAX_CONTENTS_SIZE;
+        int thisContentsIndex = listIndex % MAX_CONTENTS_SIZE;
+
+        ItemContainerContents thisContent = contents.get(index);
+
+        int thisContentsSlots = Math.clamp((this.size - listIndex * MAX_CONTENTS_SIZE), 0, MAX_CONTENTS_SIZE);
+        NonNullList<ItemStack> list = NonNullList.withSize(Math.max(thisContent.getSlots(), thisContentsSlots), ItemStack.EMPTY);
+        thisContent.copyInto(list);
+        list.set(thisContentsIndex, newResource.toStack(newAmount));
+        ItemContainerContents newContents = ItemContainerContents.fromItems(list);
+
+        List<ItemContainerContents> copiedContents = deepCopy(contents);
+        if (copiedContents.size() > index) {
+            copiedContents.set(index, newContents);
+        } else {
+            copiedContents.add(newContents);
+        }
+
+        return accessResource.with(this.component, copiedContents);
+    }
+
+    @Override
+    public boolean isValid(int index, ItemResource resource) {
+        // Any resource is valid, but we have to check that the item of the item access has not changed.
+        return itemAccess.getResource().is(validItem);
+    }
+
+    @Override
+    protected int getCapacity(int index, ItemResource resource) {
+        return resource.isEmpty() ? Item.ABSOLUTE_MAX_STACK_SIZE : Math.min(resource.getMaxStackSize(), Item.ABSOLUTE_MAX_STACK_SIZE);
     }
 
     private List<ItemContainerContents> deepCopy(List<ItemContainerContents> containerContents) {

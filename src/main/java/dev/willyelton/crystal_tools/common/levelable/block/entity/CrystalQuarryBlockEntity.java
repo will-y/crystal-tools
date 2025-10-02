@@ -8,6 +8,7 @@ import dev.willyelton.crystal_tools.common.components.QuarrySettings;
 import dev.willyelton.crystal_tools.common.components.QuarryUpgrades;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.energy.CrystalEnergyStorage;
+import dev.willyelton.crystal_tools.common.inventory.ItemResourceHandlerAdapterModifiable;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalQuarryContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalQuarryBlock;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.Action;
@@ -49,12 +50,14 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
-import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -76,11 +79,11 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
     // Item storage
     private final NonNullList<ItemStack> storedItems;
-    private final IItemHandlerModifiable itemHandler;
+    private final ItemStacksResourceHandler itemHandler;
 
     // Filter Things
     private final NonNullList<ItemStack> filterItems;
-    private final IItemHandlerModifiable filterItemHandler;
+    private final ResourceHandler<ItemResource> filterItemHandler;
     private boolean whitelist = true;
     private int filterRows = 0;
 
@@ -135,12 +138,12 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         useDirt = false;
 
         // Caps
-        itemHandler = new ItemStackHandler(storedItems);
+        itemHandler = new ItemStacksResourceHandler(storedItems);
         energyStorage = new CrystalEnergyStorage(10000, getEnergyCost() * 2, 0, 0);
 
         // Filter
         filterItems = NonNullList.withSize(INVENTORY_SIZE, ItemStack.EMPTY);
-        filterItemHandler = new ItemStackHandler(filterItems);
+        filterItemHandler = new ItemStacksResourceHandler(filterItems);
     }
 
     @Override
@@ -151,11 +154,11 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         return List.of(autoOutputAction, chunkLoadingAction);
     }
 
-    public IItemHandler getItemHandlerCapForSide(Direction side) {
+    public ResourceHandler<ItemResource> getItemHandlerCapForSide(Direction side) {
         return itemHandler;
     }
 
-    public IEnergyStorage getEnergyStorageCapForSide(Direction side) {
+    public EnergyHandler getEnergyStorageCapForSide(Direction side) {
         return energyStorage;
     }
 
@@ -184,7 +187,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         }
 
         this.currentProgress = valueInput.getFloatOr("CurrentProgress", 0F);
-        this.waitingStacks = valueInput.read("WaitingStacks", ItemStack.OPTIONAL_CODEC.listOf()).orElse(new ArrayList<>());
+        this.waitingStacks = new ArrayList<>(valueInput.read("WaitingStacks", ItemStack.OPTIONAL_CODEC.listOf()).orElse(new ArrayList<>()));
         this.finished = valueInput.getBooleanOr("Finished", false);
 
         this.useDirt = valueInput.getBooleanOr("UseDirt", false);
@@ -254,7 +257,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
             this.currentProgress = quarryData.currentProgress();
             this.miningState = quarryData.miningState();
             this.finished = quarryData.finished();
-            this.waitingStacks = quarryData.waitingStacks();
+            this.waitingStacks = new ArrayList<>(quarryData.waitingStacks());
             this.energyStorage = new CrystalEnergyStorage(10000, getEnergyCost() * 2, 0, quarryData.currentEnergy());
             this.whitelist = quarryData.whitelist();
         } else {
@@ -307,7 +310,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         valueOutput.putFloat("CenterY", this.centerY);
         valueOutput.putFloat("CenterZ", this.centerZ);
 
-        valueOutput.putInt("Energy", this.energyStorage.getEnergyStored());
+        valueOutput.putInt("Energy", this.energyStorage.getAmountAsInt());
 
         valueOutput.putFloat("SpeedUpgrade", this.speedUpgrade);
         valueOutput.putBoolean("RedstoneControl", this.redstoneControl);
@@ -330,7 +333,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         ItemContainerContents filterContents = ItemContainerContents.fromItems(this.filterItems);
         components.set(dev.willyelton.crystal_tools.common.components.DataComponents.FILTER_INVENTORY, filterContents);
 
-        QuarryData quarryData = new QuarryData(miningAt == null ? BlockPos.ZERO : miningAt, currentProgress, miningState, finished, waitingStacks, energyStorage.getEnergyStored(), whitelist);
+        QuarryData quarryData = new QuarryData(miningAt == null ? BlockPos.ZERO : miningAt, currentProgress, miningState, finished, waitingStacks, energyStorage.getAmountAsInt(), whitelist);
         components.set(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_DATA, quarryData);
 
         QuarryUpgrades quarryUpgrades = new QuarryUpgrades(speedUpgrade, redstoneControl, fortuneLevel, silkTouch, extraEnergyCost, filterRows);
@@ -390,8 +393,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         @Override
         protected int getExtra(int index) {
             return switch (index) {
-                case 3 -> energyStorage.getEnergyStored();
-                case 4 -> energyStorage.getMaxEnergyStored();
+                case 3 -> energyStorage.getAmountAsInt();
+                case 4 -> energyStorage.getCapacityAsInt();
                 case 5 -> miningAt.getX();
                 case 6 -> miningAt.getY();
                 case 7 -> miningAt.getZ();
@@ -447,7 +450,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
         if (!waitingStacks.isEmpty()) {
             if (level.getGameTime() % 20 == 0) {
-                List<ItemStack> noFit = InventoryUtils.tryInsertStacks(itemHandler, waitingStacks, this::shouldPickUp);
+                // TODO (TRANSFER)
+                List<ItemStack> noFit = new ArrayList<>(InventoryUtils.tryInsertStacks(ItemResourceHandlerAdapterModifiable.of(itemHandler), waitingStacks, this::shouldPickUp));
 
                 if (!noFit.isEmpty()) {
                     waitingStacks = noFit;
@@ -469,7 +473,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         }
 
         int energyCost = getEnergyCost();
-        if (energyStorage.getEnergyStored() >= energyCost) {
+        if (energyStorage.getAmountAsInt() >= energyCost) {
             energyStorage.removeEnergy(energyCost);
             if (!state.getValue(CrystalQuarryBlock.ACTIVE)) {
                 state = state.setValue(CrystalQuarryBlock.ACTIVE, true);
@@ -533,7 +537,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
                 List<ItemStack> drops = new ArrayList<>(Block.getDrops(level.getBlockState(miningAt), (ServerLevel) level, miningAt, level.getBlockEntity(miningAt), null, miningStack));
                 drops.addAll(getInventoryContents(level));
-                List<ItemStack> noFit = InventoryUtils.tryInsertStacks(itemHandler, drops, this::shouldPickUp);
+                List<ItemStack> noFit = new ArrayList<>(InventoryUtils.tryInsertStacks(ItemResourceHandlerAdapterModifiable.of(itemHandler), drops, this::shouldPickUp));
 
                 if (!noFit.isEmpty()) {
                     this.waitingStacks = noFit;
@@ -558,11 +562,11 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         }
     }
 
-    public IItemHandler getItemHandler() {
+    public ResourceHandler<ItemResource> getItemHandler() {
         return itemHandler;
     }
 
-    public IItemHandlerModifiable getFilterItemHandler() {
+    public ResourceHandler<ItemResource> getFilterItemHandler() {
         return filterItemHandler;
     }
 
@@ -647,7 +651,9 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     private List<ItemStack> getInventoryContents(Level level) {
         List<ItemStack> stacks = new ArrayList<>();
         for (Direction direction : Direction.values()) {
-            IItemHandler itemHandler = level.getCapability(Capabilities.ItemHandler.BLOCK, miningAt, miningState, level.getBlockEntity(miningAt), direction);
+            // TODO (TRANSFER)
+            ResourceHandler<ItemResource> newHandler = level.getCapability(Capabilities.Item.BLOCK, miningAt, miningState, level.getBlockEntity(miningAt), direction);
+            IItemHandler itemHandler = newHandler == null ? null : ItemResourceHandlerAdapterModifiable.of(newHandler);
 
             if (itemHandler != null) {
                 for (int i = 0; i < itemHandler.getSlots(); i++) {
@@ -669,7 +675,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
             if (shouldPickUp(stack)) {
                 continue;
             }
-            ItemStack result = ItemHandlerHelper.insertItem(this.itemHandler, stack, false);
+            // TODO (TRANSFER)
+            ItemStack result = ItemHandlerHelper.insertItem(ItemResourceHandlerAdapterModifiable.of(this.itemHandler), stack, false);
 
             if (!result.isEmpty()) {
                 noFit.add(result);
@@ -701,9 +708,9 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     public Map<Integer, ItemStack> getOutputStacks() {
         HashMap<Integer, ItemStack> items = new HashMap<>();
 
-        for (int i = 0; i < itemHandler.getSlots(); i++) {
-            if (!itemHandler.getStackInSlot(i).isEmpty()) {
-                items.put(i, itemHandler.getStackInSlot(i));
+        for (int i = 0; i < itemHandler.size(); i++) {
+            if (!itemHandler.getResource(i).isEmpty()) {
+                items.put(i, ItemUtil.getStack(itemHandler, i));
             }
         }
         return items;
@@ -711,7 +718,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
     @Override
     public void setItem(int slot, ItemStack stack) {
-        itemHandler.setStackInSlot(slot, stack);
+        itemHandler.set(slot, ItemResource.of(stack), stack.getCount());
     }
 
     @Override
@@ -720,7 +727,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     }
 
     private void updateEnergyStorage() {
-        this.energyStorage.setMaxReceive(getEnergyCost() * 2);
+        this.energyStorage.maxInsert(getEnergyCost() * 2);
     }
 
     // ------------------ Things used for block entity renderer ------------------

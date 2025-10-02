@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity.action;
 
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
+import dev.willyelton.crystal_tools.common.inventory.ItemResourceHandlerAdapterModifiable;
 import dev.willyelton.crystal_tools.common.inventory.PortableGeneratorInventory;
 import dev.willyelton.crystal_tools.common.levelable.PortableGenerator;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.ActionBlockEntity;
@@ -15,6 +16,8 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -62,7 +65,9 @@ public class ChargingAction extends Action {
 
     private ItemStack getItemStack(ItemStack stack, Level level, BlockPos pos) {
         ItemStack result = ItemStack.EMPTY;
-        IItemHandler itemHandler = level.getCapability(Capabilities.ItemHandler.BLOCK, pos, null);
+        // TODO (TRANSFER)
+        ResourceHandler<ItemResource> newHandler = level.getCapability(Capabilities.Item.BLOCK, pos, null);
+        IItemHandler itemHandler = newHandler == null ? null : ItemResourceHandlerAdapterModifiable.of(newHandler);
         if (itemHandler instanceof IItemHandlerModifiable modifiable) {
             result = ItemStackUtils.nextFuelItem(modifiable, burnStack -> PortableGeneratorInventory.canBurn(stack, burnStack, level));
         }

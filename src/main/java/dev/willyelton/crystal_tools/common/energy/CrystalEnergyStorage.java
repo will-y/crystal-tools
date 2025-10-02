@@ -1,8 +1,8 @@
 package dev.willyelton.crystal_tools.common.energy;
 
-import net.neoforged.neoforge.energy.EnergyStorage;
+import net.neoforged.neoforge.transfer.energy.SimpleEnergyHandler;
 
-public class CrystalEnergyStorage extends EnergyStorage {
+public class CrystalEnergyStorage extends SimpleEnergyHandler {
     public CrystalEnergyStorage(int capacity, int maxReceive, int maxExtract, int energy) {
         super(capacity, maxReceive, maxExtract, energy);
     }
@@ -32,8 +32,8 @@ public class CrystalEnergyStorage extends EnergyStorage {
         this.capacity = capacity;
     }
 
-    public void setMaxReceive(int maxReceive) {
-        this.maxReceive = maxReceive;
+    public void maxInsert(int maxInsert) {
+        this.maxInsert = maxInsert;
     }
 
     public void setMaxExtract(int maxExtract) {

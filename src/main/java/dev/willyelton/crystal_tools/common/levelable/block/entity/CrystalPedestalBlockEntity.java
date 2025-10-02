@@ -25,14 +25,15 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import org.jetbrains.annotations.Nullable;
 
 public class CrystalPedestalBlockEntity extends ActionBlockEntity implements MenuProvider {
     private final PedestalClientData clientData = new PedestalClientData();
-    private final IItemHandler catalystHandler;
-    private final IItemHandler contentsHandler;
+    private final ResourceHandler<ItemResource> catalystHandler;
+    private final ResourceHandler<ItemResource> contentsHandler;
     private final NonNullList<ItemStack> catalystStacks = NonNullList.withSize(1, ItemStack.EMPTY);
     private final NonNullList<ItemStack> contentsStacks = NonNullList.withSize(27, ItemStack.EMPTY);
 
@@ -40,10 +41,10 @@ public class CrystalPedestalBlockEntity extends ActionBlockEntity implements Men
         super(ModRegistration.CRYSTAL_PEDESTAL_BLOCK_ENTITY.get(), pos, blockState);
 
         catalystHandler = new CallbackItemStackHandler(catalystStacks, this::setStack);
-        contentsHandler = new ItemStackHandler(contentsStacks);
+        contentsHandler = new ItemStacksResourceHandler(contentsStacks);
     }
 
-    public IItemHandler getItemHandlerCapForSide(Direction side) {
+    public ResourceHandler<ItemResource> getItemHandlerCapForSide(Direction side) {
         if (this.getBlockState().getValue(CrystalPedestalBlock.FACING) == side) {
             return catalystHandler;
         } else {
@@ -51,7 +52,7 @@ public class CrystalPedestalBlockEntity extends ActionBlockEntity implements Men
         }
     }
 
-    public IItemHandler getContentsHandler() {
+    public ResourceHandler<ItemResource> getContentsHandler() {
         return contentsHandler;
     }
 

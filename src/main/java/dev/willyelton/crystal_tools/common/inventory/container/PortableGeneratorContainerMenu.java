@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.common.inventory.container;
 
 import dev.willyelton.crystal_tools.ModRegistration;
+import dev.willyelton.crystal_tools.common.inventory.ItemResourceHandlerAdapterModifiable;
 import dev.willyelton.crystal_tools.common.inventory.PortableGeneratorInventory;
 import dev.willyelton.crystal_tools.common.levelable.PortableGenerator;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalGeneratorBlockEntity;
@@ -36,7 +37,7 @@ public class PortableGeneratorContainerMenu extends AbstractGeneratorContainerMe
         this.inventory = PortableGenerator.getInventory(stack, level);
         this.stack = stack;
 
-        this.addSlots(inventory);
+        this.addSlots(ItemResourceHandlerAdapterModifiable.of(inventory));
     }
 
     @Override
@@ -55,7 +56,7 @@ public class PortableGeneratorContainerMenu extends AbstractGeneratorContainerMe
     }
 
     public int getActiveSlots() {
-        return inventory.getSlots();
+        return inventory.size();
     }
 
     public ItemStack getGeneratorStack() {
