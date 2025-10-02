@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.common.compat.jei;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.compat.jei.generator.GeneratorRecipe;
 import dev.willyelton.crystal_tools.common.compat.jei.generator.GeneratorRecipeCategory;
 import dev.willyelton.crystal_tools.common.compat.jei.pedestal.PedestalRecipe;
@@ -31,9 +31,9 @@ public class CrystalToolsJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(Registration.CRYSTAL_FURNACE_ITEM.get()), RecipeTypes.SMELTING);
-        registration.addRecipeCatalyst(new ItemStack(Registration.CRYSTAL_GENERATOR.get()), CrystalToolsRecipeTypes.GENERATOR);
-        registration.addRecipeCatalyst(new ItemStack(Registration.CRYSTAL_PEDESTAL.get()), CrystalToolsRecipeTypes.PEDESTAL);
+        registration.addRecipeCatalyst(new ItemStack(ModRegistration.CRYSTAL_FURNACE_ITEM.get()), RecipeTypes.SMELTING);
+        registration.addRecipeCatalyst(new ItemStack(ModRegistration.CRYSTAL_GENERATOR.get()), CrystalToolsRecipeTypes.GENERATOR);
+        registration.addRecipeCatalyst(new ItemStack(ModRegistration.CRYSTAL_PEDESTAL.get()), CrystalToolsRecipeTypes.PEDESTAL);
     }
 
     @Override

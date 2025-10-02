@@ -120,7 +120,7 @@ public class ListComponentItemHandler implements IItemHandlerModifiable {
 
     @Override
     public boolean isItemValid(int slot, ItemStack stack) {
-        return stack.getItem().canFitInsideContainerItems();
+        return stack.canFitInsideContainerItems();
     }
 
     protected ItemContainerContents getContents(int slot) {

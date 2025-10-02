@@ -13,7 +13,7 @@ public class CrystalTorch extends TorchBlock {
     public static final BooleanProperty DROP_ITEM = BooleanProperty.create("drop_item");
 
     public CrystalTorch(BlockBehaviour.Properties properties) {
-        super(ParticleTypes.SOUL_FIRE_FLAME, properties.noCollission().instabreak().lightLevel((state) -> 14).sound(SoundType.WOOD));
+        super(ParticleTypes.SOUL_FIRE_FLAME, properties.noCollision().instabreak().lightLevel((state) -> 14).sound(SoundType.WOOD));
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {

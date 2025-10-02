@@ -2,7 +2,7 @@ package dev.willyelton.crystal_tools.common.crafting;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
@@ -42,7 +42,7 @@ public class CrystalSmithingRecipe extends SmithingTransformRecipe {
 
     @Override
     public RecipeSerializer<SmithingTransformRecipe> getSerializer() {
-        return Registration.CRYSTAL_SMITHING_RECIPE.get();
+        return ModRegistration.CRYSTAL_SMITHING_RECIPE.get();
     }
 
     public static class Serializer implements RecipeSerializer<SmithingTransformRecipe> {

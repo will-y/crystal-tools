@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.common.capability;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.energy.CrystalEnergyStorage;
 import dev.willyelton.crystal_tools.common.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.common.inventory.PortableGeneratorInventory;
@@ -23,50 +23,50 @@ public class RegisterCapabilitiesEvent {
         // Backpack
         event.registerItem(Capabilities.ItemHandler.ITEM,
                 (stack, context) -> new CrystalBackpackInventory(stack),
-                Registration.CRYSTAL_BACKPACK.get());
+                ModRegistration.CRYSTAL_BACKPACK.get());
 
         // Portable Generator
         event.registerItem(Capabilities.ItemHandler.ITEM,
                 (stack, context) -> new PortableGeneratorInventory(stack),
-                Registration.PORTABLE_GENERATOR.get());
+                ModRegistration.PORTABLE_GENERATOR.get());
 
         event.registerItem(Capabilities.EnergyStorage.ITEM,
                 (stack, context) -> new CrystalEnergyStorage(PortableGenerator.getCapacity(stack),
                         0, 40, PortableGenerator.getEnergy(stack)),
-                Registration.PORTABLE_GENERATOR.get());
+                ModRegistration.PORTABLE_GENERATOR.get());
 
         // Furnace
         event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK,
-                Registration.CRYSTAL_FURNACE_BLOCK_ENTITY.get(),
+                ModRegistration.CRYSTAL_FURNACE_BLOCK_ENTITY.get(),
                 CrystalFurnaceBlockEntity::getCapForSide);
 
         // Generator
         event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK,
-                Registration.CRYSTAL_GENERATOR_BLOCK_ENTITY.get(),
+                ModRegistration.CRYSTAL_GENERATOR_BLOCK_ENTITY.get(),
                 CrystalGeneratorBlockEntity::getItemHandlerCapForSide);
 
         event.registerBlockEntity(
                 Capabilities.EnergyStorage.BLOCK,
-                Registration.CRYSTAL_GENERATOR_BLOCK_ENTITY.get(),
+                ModRegistration.CRYSTAL_GENERATOR_BLOCK_ENTITY.get(),
                 CrystalGeneratorBlockEntity::getEnergyStorageCapForSide);
 
         // Quarry
         event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK,
-                Registration.CRYSTAL_QUARRY_BLOCK_ENTITY.get(),
+                ModRegistration.CRYSTAL_QUARRY_BLOCK_ENTITY.get(),
                 CrystalQuarryBlockEntity::getItemHandlerCapForSide);
 
         event.registerBlockEntity(
                 Capabilities.EnergyStorage.BLOCK,
-                Registration.CRYSTAL_QUARRY_BLOCK_ENTITY.get(),
+                ModRegistration.CRYSTAL_QUARRY_BLOCK_ENTITY.get(),
                 CrystalQuarryBlockEntity::getEnergyStorageCapForSide);
 
         // Pedestal
         event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK,
-                Registration.CRYSTAL_PEDESTAL_BLOCK_ENTITY.get(),
+                ModRegistration.CRYSTAL_PEDESTAL_BLOCK_ENTITY.get(),
                 CrystalPedestalBlockEntity::getItemHandlerCapForSide);
 
         // All levelable items

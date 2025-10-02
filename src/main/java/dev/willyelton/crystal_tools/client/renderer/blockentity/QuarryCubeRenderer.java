@@ -1,4 +1,4 @@
-package dev.willyelton.crystal_tools.client.renderer;
+package dev.willyelton.crystal_tools.client.renderer.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -46,9 +46,8 @@ public class QuarryCubeRenderer {
         return LayerDefinition.create(meshdefinition, 64, 16);
     }
 
-    public void render(int gameTime, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, float x, float y, float z) {
+    public void render(float rotation, PoseStack poseStack, MultiBufferSource buffer, int packedLight, float x, float y, float z) {
         poseStack.pushPose();
-        float rotation = ((float) gameTime + partialTicks) * 3.0F;
         VertexConsumer vertexconsumer = buffer.getBuffer(QUARRY_CUBE);
         poseStack.pushPose();
         poseStack.scale(2.0F, 2.0F, 2.0F);

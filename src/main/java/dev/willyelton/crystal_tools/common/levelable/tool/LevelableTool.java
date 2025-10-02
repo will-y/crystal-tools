@@ -49,7 +49,7 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     public void breakBlock(ItemStack stack, Level level, BlockPos blockPos, LivingEntity entity) {
         BlockState blockState = level.getBlockState(blockPos);
         if (isCorrectToolForDrops(stack, blockState) && !ToolUtils.isBroken(stack) && entity instanceof ServerPlayer) {
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 Block.dropResources(blockState, level, blockPos, level.getBlockEntity(blockPos), entity, stack);
                 level.destroyBlock(blockPos, false, entity);
                 stack.hurtAndBreak(1, entity, EquipmentSlot.MAINHAND);
@@ -118,7 +118,7 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     @Override
     public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity entity, InteractionHand hand) {
         if (stack.getOrDefault(DataComponents.SHEAR, false) && entity instanceof IShearable target) {
-            if (entity.level().isClientSide) return net.minecraft.world.InteractionResult.SUCCESS;
+            if (entity.level().isClientSide()) return net.minecraft.world.InteractionResult.SUCCESS;
             BlockPos pos = BlockPos.containing(entity.position());
             if (target.isShearable(player, stack, entity.level(), pos)) {
                 List<ItemStack> drops = target.onSheared(player, stack, entity.level(), pos);
@@ -129,7 +129,7 @@ public abstract class LevelableTool extends Item implements LevelableItem {
                         ent.setDeltaMovement(ent.getDeltaMovement().add(((rand.nextFloat() - rand.nextFloat()) * 0.1F), (rand.nextFloat() * 0.05F), ((rand.nextFloat() - rand.nextFloat()) * 0.1F)));
                     }
                 });
-                stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
+                stack.hurtAndBreak(1, player, hand.asEquipmentSlot());
             }
             return net.minecraft.world.InteractionResult.SUCCESS;
         }

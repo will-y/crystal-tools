@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity;
 
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.datamap.ActionData;
 import dev.willyelton.crystal_tools.common.datamap.DataMaps;
 import dev.willyelton.crystal_tools.common.inventory.CallbackItemStackHandler;
@@ -37,7 +37,7 @@ public class CrystalPedestalBlockEntity extends ActionBlockEntity implements Men
     private final NonNullList<ItemStack> contentsStacks = NonNullList.withSize(27, ItemStack.EMPTY);
 
     public CrystalPedestalBlockEntity(BlockPos pos, BlockState blockState) {
-        super(Registration.CRYSTAL_PEDESTAL_BLOCK_ENTITY.get(), pos, blockState);
+        super(ModRegistration.CRYSTAL_PEDESTAL_BLOCK_ENTITY.get(), pos, blockState);
 
         catalystHandler = new CallbackItemStackHandler(catalystStacks, this::setStack);
         contentsHandler = new ItemStackHandler(contentsStacks);

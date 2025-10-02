@@ -62,11 +62,6 @@ public class PortableGenerator extends Item implements LevelableItem {
     }
 
     @Override
-    public boolean canFitInsideContainerItems() {
-        return false;
-    }
-
-    @Override
     public boolean isBarVisible(ItemStack stack) {
         return true;
     }

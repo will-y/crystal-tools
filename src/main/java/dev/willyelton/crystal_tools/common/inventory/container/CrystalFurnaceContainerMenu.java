@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.inventory.container;
 
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.furnace.CrystalFurnaceFuelSlot;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.furnace.CrystalFurnaceInputSlot;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.furnace.CrystalFurnaceOutputSlot;
@@ -34,7 +34,7 @@ public class CrystalFurnaceContainerMenu extends LevelableContainerMenu {
     private static final int FUEL_START = CrystalFurnaceBlockEntity.FUEL_SLOTS[0];
 
     public CrystalFurnaceContainerMenu(int containerId, Level level, BlockPos pos, Inventory playerInventory, ContainerData data) {
-        super(Registration.CRYSTAL_FURNACE_CONTAINER.get(), containerId, playerInventory, data);
+        super(ModRegistration.CRYSTAL_FURNACE_CONTAINER.get(), containerId, playerInventory, data);
         acceptedInputs = level.recipeAccess().propertySet(RecipePropertySet.FURNACE_INPUT);
         te = (CrystalFurnaceBlockEntity) level.getBlockEntity(pos);
 

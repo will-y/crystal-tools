@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.common.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.capability.Capabilities;
 import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
@@ -22,9 +22,9 @@ public class ItemFishedEvent {
         Player player = event.getEntity();
         FishingHook hook = event.getHookEntity();
         ItemStack rodStack;
-        if (player.getMainHandItem().is(Registration.CRYSTAL_FISHING_ROD.get()) && hook.getTags().contains(CrystalFishingRod.CRYSTAL_TOOLS_FISHING_MAIN_TAG)) {
+        if (player.getMainHandItem().is(ModRegistration.CRYSTAL_FISHING_ROD.get()) && hook.getTags().contains(CrystalFishingRod.CRYSTAL_TOOLS_FISHING_MAIN_TAG)) {
             rodStack = player.getMainHandItem();
-        } else if (player.getOffhandItem().is(Registration.CRYSTAL_FISHING_ROD.get()) && hook.getTags().contains(CrystalFishingRod.CRYSTAL_TOOLS_FISHING_OFF_TAG)) {
+        } else if (player.getOffhandItem().is(ModRegistration.CRYSTAL_FISHING_ROD.get()) && hook.getTags().contains(CrystalFishingRod.CRYSTAL_TOOLS_FISHING_OFF_TAG)) {
             rodStack = player.getOffhandItem();
         } else {
             return;

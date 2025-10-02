@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.entity;
 
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.capability.Capabilities;
 import dev.willyelton.crystal_tools.common.capability.LevelableStack;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
@@ -37,8 +37,8 @@ public class CrystalTridentEntity extends AbstractArrow {
     public static final String CRYSTAL_TOOLS_TRIDENT_LIGHTNING_TAG = "crystal_tools.trident.lightning";
     private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(CrystalTridentEntity.class, EntityDataSerializers.BYTE);
 
-    protected ItemStack tridentStack = new ItemStack(Registration.CRYSTAL_TRIDENT.get());
-    protected CrystalTrident tridentItem = Registration.CRYSTAL_TRIDENT.get();
+    protected ItemStack tridentStack = new ItemStack(ModRegistration.CRYSTAL_TRIDENT.get());
+    protected CrystalTrident tridentItem = ModRegistration.CRYSTAL_TRIDENT.get();
     protected boolean dealtDamage;
     protected int clientSideReturnTridentTickCount;
 
@@ -47,7 +47,7 @@ public class CrystalTridentEntity extends AbstractArrow {
     }
 
     public CrystalTridentEntity(Level level, LivingEntity shooter, ItemStack stack) {
-        super(Registration.CRYSTAL_TRIDENT_ENTITY.get(), shooter, level, stack, null);
+        super(ModRegistration.CRYSTAL_TRIDENT_ENTITY.get(), shooter, level, stack, null);
         this.tridentStack = stack;
         this.entityData.set(ID_LOYALTY, this.getLoyaltyFromItem(stack));
     }
@@ -70,7 +70,7 @@ public class CrystalTridentEntity extends AbstractArrow {
         if (loyaltyLevel > 0 && (this.dealtDamage || this.isNoPhysics()) && entity != null) {
             if (!this.isAcceptableReturnOwner()) {
                 // Drop if player with loyalty dies while it is returning
-                if (!this.level().isClientSide && this.pickup == AbstractArrow.Pickup.ALLOWED) {
+                if (!this.level().isClientSide() && this.pickup == AbstractArrow.Pickup.ALLOWED) {
                     this.spawnAtLocation((ServerLevel) this.level(), this.getPickupItem(), 0.1F);
                 }
 
@@ -84,7 +84,7 @@ public class CrystalTridentEntity extends AbstractArrow {
                 this.setNoPhysics(true);
                 Vec3 moveDirection = entity.getEyePosition().subtract(this.position());
                 this.setPosRaw(this.getX(), this.getY() + moveDirection.y * 0.015D * (double) loyaltyLevel, this.getZ());
-                if (this.level().isClientSide) {
+                if (this.level().isClientSide()) {
                     this.yOld = this.getY();
                 }
 
@@ -107,7 +107,7 @@ public class CrystalTridentEntity extends AbstractArrow {
 
     @Override
     protected ItemStack getDefaultPickupItem() {
-        return new ItemStack(Registration.CRYSTAL_TRIDENT.get());
+        return new ItemStack(ModRegistration.CRYSTAL_TRIDENT.get());
     }
 
     @Override
@@ -226,7 +226,7 @@ public class CrystalTridentEntity extends AbstractArrow {
     }
 
     private boolean summonLightning(BlockPos blockPos) {
-        if (!this.level().isClientSide && this.isChanneling()) {
+        if (!this.level().isClientSide() && this.isChanneling()) {
             blockPos = blockPos.above();
             if (this.level().canSeeSky(blockPos)) {
                 LightningBolt lightningbolt = EntityType.LIGHTNING_BOLT.create(this.level(), EntitySpawnReason.TRIGGERED);

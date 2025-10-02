@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.datagen;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.client.model.property.Disabled;
 import dev.willyelton.crystal_tools.client.model.property.Lit;
 import dev.willyelton.crystal_tools.client.renderer.CrystalShieldRenderer;
@@ -38,62 +38,62 @@ public class CrystalToolsModels extends ModelProvider {
     @Override
     protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
         // Items
-        itemModels.generateFlatItem(Registration.CRYSTAL.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(Registration.NETHERITE_STICK.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(Registration.NETHERITE_INFUSED_CRYSTAL_SHARD.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(Registration.CRYSTAL_UPGRADE_SMITHING_TEMPLATE.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(Registration.CRYSTAL_APPLE.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(Registration.CRYSTAL_BACKPACK.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(ModRegistration.CRYSTAL.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(ModRegistration.NETHERITE_STICK.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(ModRegistration.NETHERITE_INFUSED_CRYSTAL_SHARD.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(ModRegistration.CRYSTAL_UPGRADE_SMITHING_TEMPLATE.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(ModRegistration.CRYSTAL_APPLE.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(ModRegistration.CRYSTAL_BACKPACK.get(), ModelTemplates.FLAT_ITEM);
         generateCrystalMagnet(itemModels);
 
         // Tools
-        itemModels.generateFlatItem(Registration.CRYSTAL_AIOT.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
-        itemModels.generateFlatItem(Registration.CRYSTAL_AXE.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
-        itemModels.generateFlatItem(Registration.CRYSTAL_HOE.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
-        itemModels.generateFlatItem(Registration.CRYSTAL_PICKAXE.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
-        itemModels.generateFlatItem(Registration.CRYSTAL_ROCKET.get(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(Registration.CRYSTAL_SHOVEL.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
-        itemModels.generateFlatItem(Registration.CRYSTAL_SWORD.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModels.generateFlatItem(ModRegistration.CRYSTAL_AIOT.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModels.generateFlatItem(ModRegistration.CRYSTAL_AXE.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModels.generateFlatItem(ModRegistration.CRYSTAL_HOE.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModels.generateFlatItem(ModRegistration.CRYSTAL_PICKAXE.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModels.generateFlatItem(ModRegistration.CRYSTAL_ROCKET.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(ModRegistration.CRYSTAL_SHOVEL.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModels.generateFlatItem(ModRegistration.CRYSTAL_SWORD.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
         generateCrystalBow(itemModels);
         generateCrystalTrident(itemModels);
-        itemModels.generateFishingRod(Registration.CRYSTAL_FISHING_ROD.get());
+        itemModels.generateFishingRod(ModRegistration.CRYSTAL_FISHING_ROD.get());
         generateCrystalShield(itemModels);
         generatePortableGenerator(itemModels);
 
         // Armor
-        itemModels.generateTrimmableItem(Registration.CRYSTAL_HELMET.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, TRIM_PREFIX_HELMET, false);
-        itemModels.generateTrimmableItem(Registration.CRYSTAL_CHESTPLATE.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, TRIM_PREFIX_CHESTPLATE, false);
-        itemModels.generateTrimmableItem(Registration.CRYSTAL_LEGGINGS.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, TRIM_PREFIX_LEGGINGS, false);
-        itemModels.generateTrimmableItem(Registration.CRYSTAL_BOOTS.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, TRIM_PREFIX_BOOTS, false);
-        itemModels.generateFlatItem(Registration.CRYSTAL_ELYTRA.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateTrimmableItem(ModRegistration.CRYSTAL_HELMET.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, TRIM_PREFIX_HELMET, false);
+        itemModels.generateTrimmableItem(ModRegistration.CRYSTAL_CHESTPLATE.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, TRIM_PREFIX_CHESTPLATE, false);
+        itemModels.generateTrimmableItem(ModRegistration.CRYSTAL_LEGGINGS.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, TRIM_PREFIX_LEGGINGS, false);
+        itemModels.generateTrimmableItem(ModRegistration.CRYSTAL_BOOTS.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, TRIM_PREFIX_BOOTS, false);
+        itemModels.generateFlatItem(ModRegistration.CRYSTAL_ELYTRA.get(), ModelTemplates.FLAT_ITEM);
 
         // Blocks
-        blockModels.createTrivialCube(Registration.CRYSTAL_BLOCK.get());
-        blockModels.createFlatItemModel(Registration.CRYSTAL_BLOCK_ITEM.get());
-        blockModels.createTrivialCube(Registration.CRYSTAL_GEODE.get());
-        blockModels.createTrivialCube(Registration.NETHERITE_INFUSED_CRYSTAL_GEODE.get());
-        blockModels.createFlatItemModel(Registration.CRYSTAL_GEODE_BLOCK_ITEM.get());
-        blockModels.createFlatItemModel(Registration.NETHERITE_INFUSED_CRYSTAL_GEODE_BLOCK_ITEM.get());
-        blockModels.createTrivialCube(Registration.CRYSTAL_ORE.get());
-        blockModels.createFlatItemModel(Registration.CRYSTAL_ORE_ITEM.get());
-        blockModels.createTrivialCube(Registration.CRYSTAL_DEEPSLATE_ORE.get());
-        blockModels.createFlatItemModel(Registration.CRYSTAL_DEEPSLATE_ORE_ITEM.get());
+        blockModels.createTrivialCube(ModRegistration.CRYSTAL_BLOCK.get());
+        blockModels.createFlatItemModel(ModRegistration.CRYSTAL_BLOCK_ITEM.get());
+        blockModels.createTrivialCube(ModRegistration.CRYSTAL_GEODE.get());
+        blockModels.createTrivialCube(ModRegistration.NETHERITE_INFUSED_CRYSTAL_GEODE.get());
+        blockModels.createFlatItemModel(ModRegistration.CRYSTAL_GEODE_BLOCK_ITEM.get());
+        blockModels.createFlatItemModel(ModRegistration.NETHERITE_INFUSED_CRYSTAL_GEODE_BLOCK_ITEM.get());
+        blockModels.createTrivialCube(ModRegistration.CRYSTAL_ORE.get());
+        blockModels.createFlatItemModel(ModRegistration.CRYSTAL_ORE_ITEM.get());
+        blockModels.createTrivialCube(ModRegistration.CRYSTAL_DEEPSLATE_ORE.get());
+        blockModels.createFlatItemModel(ModRegistration.CRYSTAL_DEEPSLATE_ORE_ITEM.get());
 
-        blockModels.createNormalTorch(Registration.CRYSTAL_TORCH.get(), Registration.CRYSTAL_WALL_TORCH.get());
+        blockModels.createNormalTorch(ModRegistration.CRYSTAL_TORCH.get(), ModRegistration.CRYSTAL_WALL_TORCH.get());
 
-        blockModels.createFurnace(Registration.CRYSTAL_FURNACE.get(), TexturedModel.ORIENTABLE_ONLY_TOP);
-        blockModels.createFlatItemModel(Registration.CRYSTAL_FURNACE_ITEM.get());
-        blockModels.createFurnace(Registration.CRYSTAL_GENERATOR.get(), TexturedModel.ORIENTABLE_ONLY_TOP);
-        blockModels.createFlatItemModel(Registration.CRYSTAL_GENERATOR_ITEM.get());
-        blockModels.createFurnace(Registration.CRYSTAL_QUARRY.get(), TexturedModel.ORIENTABLE_ONLY_TOP);
-        blockModels.createFlatItemModel(Registration.CRYSTAL_QUARRY_ITEM.get());
+        blockModels.createFurnace(ModRegistration.CRYSTAL_FURNACE.get(), TexturedModel.ORIENTABLE_ONLY_TOP);
+        blockModels.createFlatItemModel(ModRegistration.CRYSTAL_FURNACE_ITEM.get());
+        blockModels.createFurnace(ModRegistration.CRYSTAL_GENERATOR.get(), TexturedModel.ORIENTABLE_ONLY_TOP);
+        blockModels.createFlatItemModel(ModRegistration.CRYSTAL_GENERATOR_ITEM.get());
+        blockModels.createFurnace(ModRegistration.CRYSTAL_QUARRY.get(), TexturedModel.ORIENTABLE_ONLY_TOP);
+        blockModels.createFlatItemModel(ModRegistration.CRYSTAL_QUARRY_ITEM.get());
 
-        blockModels.createFlatItemModel(Registration.QUARRY_STABILIZER_ITEM.get());
-        blockModels.createFlatItemModel(Registration.CRYSTAL_PEDESTAL_ITEM.get());
+        blockModels.createFlatItemModel(ModRegistration.QUARRY_STABILIZER_ITEM.get());
+        blockModels.createFlatItemModel(ModRegistration.CRYSTAL_PEDESTAL_ITEM.get());
     }
 
     private void generateCrystalBow(ItemModelGenerators itemModels) {
-        Item bowItem = Registration.CRYSTAL_BOW.get();
+        Item bowItem = ModRegistration.CRYSTAL_BOW.get();
 
         ItemModel.Unbaked itemmodel$unbaked = ItemModelUtils.plainModel(itemModels.createFlatItemModel(bowItem, CrystalToolsModelTemplates.CRYSTAL_BOW));
         ItemModel.Unbaked itemmodel$unbaked1 = ItemModelUtils.plainModel(itemModels.createFlatItemModel(bowItem, "_pulling_0", ModelTemplates.BOW));
@@ -117,7 +117,7 @@ public class CrystalToolsModels extends ModelProvider {
     }
 
     private void generateCrystalTrident(ItemModelGenerators itemModels) {
-        Item tridentItem = Registration.CRYSTAL_TRIDENT.get();
+        Item tridentItem = ModRegistration.CRYSTAL_TRIDENT.get();
 
         ItemModel.Unbaked itemmodel$unbaked = ItemModelUtils.plainModel(itemModels.createFlatItemModel(tridentItem, ModelTemplates.FLAT_ITEM));
         ItemModel.Unbaked itemmodel$unbaked1 = ItemModelUtils.specialModel(
@@ -133,17 +133,17 @@ public class CrystalToolsModels extends ModelProvider {
     }
 
     private void generateCrystalShield(ItemModelGenerators itemModels) {
-        Item shieldItem = Registration.CRYSTAL_SHIELD.get();
-        ItemModel.Unbaked itemmodel$unbaked = ItemModelUtils.specialModel(CrystalToolsModelTemplates.CRYSTAL_SHIELD.create(shieldItem, TextureMapping.particle(Registration.CRYSTAL_BLOCK.get()), itemModels.modelOutput),
+        Item shieldItem = ModRegistration.CRYSTAL_SHIELD.get();
+        ItemModel.Unbaked itemmodel$unbaked = ItemModelUtils.specialModel(CrystalToolsModelTemplates.CRYSTAL_SHIELD.create(shieldItem, TextureMapping.particle(ModRegistration.CRYSTAL_BLOCK.get()), itemModels.modelOutput),
                 new CrystalShieldRenderer.Unbaked());
         ItemModel.Unbaked itemmodel$unbaked1 = ItemModelUtils.specialModel(
-                CrystalToolsModelTemplates.CRYSTAL_SHIELD_BLOCKING.create(shieldItem, TextureMapping.particle(Registration.CRYSTAL_BLOCK.get()), itemModels.modelOutput),
+                CrystalToolsModelTemplates.CRYSTAL_SHIELD_BLOCKING.create(shieldItem, TextureMapping.particle(ModRegistration.CRYSTAL_BLOCK.get()), itemModels.modelOutput),
                 new CrystalShieldRenderer.Unbaked());
-        itemModels.generateBooleanDispatch(Registration.CRYSTAL_SHIELD.get(), ItemModelUtils.isUsingItem(), itemmodel$unbaked1, itemmodel$unbaked);
+        itemModels.generateBooleanDispatch(ModRegistration.CRYSTAL_SHIELD.get(), ItemModelUtils.isUsingItem(), itemmodel$unbaked1, itemmodel$unbaked);
     }
 
     private void generateCrystalMagnet(ItemModelGenerators itemModels) {
-        Item magnetItem = Registration.CRYSTAL_MAGNET.get();
+        Item magnetItem = ModRegistration.CRYSTAL_MAGNET.get();
         ItemModel.Unbaked enabled = ItemModelUtils.plainModel(itemModels.createFlatItemModel(magnetItem, ModelTemplates.FLAT_ITEM));
         ItemModel.Unbaked disabled = ItemModelUtils.plainModel(itemModels.createFlatItemModel(magnetItem, "_disabled", ModelTemplates.FLAT_ITEM));
 
@@ -154,7 +154,7 @@ public class CrystalToolsModels extends ModelProvider {
     }
 
     private void generatePortableGenerator(ItemModelGenerators itemModels) {
-        Item portableGenerator = Registration.PORTABLE_GENERATOR.get();
+        Item portableGenerator = ModRegistration.PORTABLE_GENERATOR.get();
         ItemModel.Unbaked unLit = ItemModelUtils.plainModel(itemModels.createFlatItemModel(portableGenerator, ModelTemplates.FLAT_HANDHELD_ITEM));
         ItemModel.Unbaked lit = ItemModelUtils.plainModel(itemModels.createFlatItemModel(portableGenerator, "_lit", ModelTemplates.FLAT_HANDHELD_ITEM));
 
@@ -166,7 +166,7 @@ public class CrystalToolsModels extends ModelProvider {
 
     @Override
     protected Stream<? extends Holder<Block>> getKnownBlocks() {
-        return super.getKnownBlocks().filter(h -> !h.value().equals(Registration.QUARRY_STABILIZER.get()) &&
-                !h.value().equals(Registration.CRYSTAL_PEDESTAL.get()));
+        return super.getKnownBlocks().filter(h -> !h.value().equals(ModRegistration.QUARRY_STABILIZER.get()) &&
+                !h.value().equals(ModRegistration.CRYSTAL_PEDESTAL.get()));
     }
 }

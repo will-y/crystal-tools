@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.datagen;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalTorch;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
@@ -10,6 +10,7 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.packs.VanillaBlockLoot;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -30,27 +31,27 @@ public class CrystalToolsLootTables extends VanillaBlockLoot {
 
     @Override
     protected void generate() {
-        dropSelf(Registration.CRYSTAL_BLOCK.get());
-        dropSelf(Registration.CRYSTAL_GEODE.get());
-        add(Registration.NETHERITE_INFUSED_CRYSTAL_GEODE.get(), createOreDrop(Registration.NETHERITE_INFUSED_CRYSTAL_GEODE.get(), Registration.NETHERITE_INFUSED_CRYSTAL_SHARD.get()));
-        dropSelf(Registration.QUARRY_STABILIZER.get());
+        dropSelf(ModRegistration.CRYSTAL_BLOCK.get());
+        dropSelf(ModRegistration.CRYSTAL_GEODE.get());
+        add(ModRegistration.NETHERITE_INFUSED_CRYSTAL_GEODE.get(), createOreDrop(ModRegistration.NETHERITE_INFUSED_CRYSTAL_GEODE.get(), ModRegistration.NETHERITE_INFUSED_CRYSTAL_SHARD.get()));
+        dropSelf(ModRegistration.QUARRY_STABILIZER.get());
         // TODO: Need to drop items
-        dropSelf(Registration.CRYSTAL_PEDESTAL.get());
-        add(Registration.CRYSTAL_ORE.get(), createOreDrop(Registration.CRYSTAL_ORE.get(), Registration.CRYSTAL.get()));
-        add(Registration.CRYSTAL_DEEPSLATE_ORE.get(), createOreDrop(Registration.CRYSTAL_DEEPSLATE_ORE.get(), Registration.CRYSTAL.get()));
-        createTorchTable(Registration.CRYSTAL_TORCH.get());
-        createComponentSavingTable(Registration.CRYSTAL_FURNACE.get(),
+        dropSelf(ModRegistration.CRYSTAL_PEDESTAL.get());
+        add(ModRegistration.CRYSTAL_ORE.get(), createOreDrop(ModRegistration.CRYSTAL_ORE.get(), ModRegistration.CRYSTAL.get()));
+        add(ModRegistration.CRYSTAL_DEEPSLATE_ORE.get(), createOreDrop(ModRegistration.CRYSTAL_DEEPSLATE_ORE.get(), ModRegistration.CRYSTAL.get()));
+        createTorchTable(ModRegistration.CRYSTAL_TORCH.get());
+        createComponentSavingTable(ModRegistration.CRYSTAL_FURNACE.get(),
                 DataComponents.FURNACE_DATA.get(),
                 DataComponents.FURNACE_UPGRADES.get(),
                 DataComponents.LEVELABLE_BLOCK_ENTITY_DATA.get(),
                 net.minecraft.core.component.DataComponents.CONTAINER,
                 DataComponents.AUTO_OUTPUT.get());
-        createComponentSavingTable(Registration.CRYSTAL_GENERATOR.get(),
+        createComponentSavingTable(ModRegistration.CRYSTAL_GENERATOR.get(),
                 DataComponents.LEVELABLE_BLOCK_ENTITY_DATA.get(),
                 DataComponents.GENERATOR_DATA.get(),
                 DataComponents.GENERATOR_UPGRADES.get(),
                 net.minecraft.core.component.DataComponents.CONTAINER);
-        createComponentSavingTable(Registration.CRYSTAL_QUARRY.get(),
+        createComponentSavingTable(ModRegistration.CRYSTAL_QUARRY.get(),
                 DataComponents.LEVELABLE_BLOCK_ENTITY_DATA.get(),
                 net.minecraft.core.component.DataComponents.CONTAINER,
                 DataComponents.QUARRY_BOUNDS.get(),
@@ -72,9 +73,9 @@ public class CrystalToolsLootTables extends VanillaBlockLoot {
 
     private void createComponentSavingTable(Block block, DataComponentType<?>... dataComponents) {
         LootPoolSingletonContainer.Builder<?> lti = LootItem.lootTableItem(block);
-        lti.apply(CopyNameFunction.copyName(CopyNameFunction.NameSource.BLOCK_ENTITY));
+        lti.apply(CopyNameFunction.copyName(new CopyNameFunction.Source(LootContext.BlockEntityTarget.BLOCK_ENTITY.getParam())));
 
-        CopyComponentsFunction.Builder copyComponentsFunctionBuilder = CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY);
+        CopyComponentsFunction.Builder copyComponentsFunctionBuilder = CopyComponentsFunction.copyComponentsFromBlockEntity(LootContext.BlockEntityTarget.BLOCK_ENTITY.getParam());
 
         for (DataComponentType<?> dataComponent : dataComponents) {
             copyComponentsFunctionBuilder.include(dataComponent);
@@ -93,7 +94,7 @@ public class CrystalToolsLootTables extends VanillaBlockLoot {
                 .when(AnyOfCondition.anyOf(
                         LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
                                 .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(CrystalTorch.DROP_ITEM, true)),
-                        LootItemBlockStatePropertyCondition.hasBlockStateProperties(Registration.CRYSTAL_WALL_TORCH.get())
+                        LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModRegistration.CRYSTAL_WALL_TORCH.get())
                                 .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(CrystalTorch.DROP_ITEM, true))
                 ))
                 .add(this.applyExplosionCondition(block, LootItem.lootTableItem(block)));

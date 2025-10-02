@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.utils;
 
 import com.mojang.datafixers.util.Pair;
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
 import dev.willyelton.crystal_tools.common.capability.Capabilities;
 import dev.willyelton.crystal_tools.common.capability.Levelable;
@@ -17,7 +17,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
@@ -76,7 +75,7 @@ public class ToolUseUtils {
             level.setBlock(blockpos, optional3.get(), 11);
 
             if (player != null) {
-                stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(context.getHand()));
+                stack.hurtAndBreak(1, player, context.getHand().asEquipmentSlot());
             }
 
             levelable.addExp(level, blockpos, player);
@@ -103,7 +102,7 @@ public class ToolUseUtils {
 
         if (result == InteractionResult.SUCCESS) {
             if (stack.getOrDefault(DataComponents.VEIN_MINER, 0) > 0
-                    && level.isClientSide && RegisterKeyBindingsEvent.VEIN_MINE.isDown()) {
+                    && level.isClientSide() && RegisterKeyBindingsEvent.VEIN_MINE.isDown()) {
                 Collection<BlockPos> blocksToStrip = BlockCollectors.collectVeinMine(blockPos, level, tool.getVeinMinerPredicate(initialState), tool.getMaxBlocks(stack));
 
                 for (BlockPos pos : blocksToStrip) {
@@ -129,7 +128,7 @@ public class ToolUseUtils {
         level.setBlock(blockPos, newState, 11);
 
         if (player != null) {
-            stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
+            stack.hurtAndBreak(1, player, hand.asEquipmentSlot());
         }
 
         levelable.addExp(level, blockPos, player);
@@ -167,10 +166,10 @@ public class ToolUseUtils {
             }
 
             if (blockstate2 != null) {
-                if (!level.isClientSide) {
+                if (!level.isClientSide()) {
                     level.setBlock(blockpos, blockstate2, 11);
                     if (player != null) {
-                        context.getItemInHand().hurtAndBreak(1, player, LivingEntity.getSlotForHand(context.getHand()));
+                        context.getItemInHand().hurtAndBreak(1, player, context.getHand().asEquipmentSlot());
                     }
                 }
 
@@ -221,11 +220,11 @@ public class ToolUseUtils {
             BlockState torchBlockState;
 
             if (direction.equals(Direction.UP)) {
-                torchBlockState = Registration.CRYSTAL_TORCH.get().defaultBlockState().setValue(CrystalTorch.DROP_ITEM, false);
+                torchBlockState = ModRegistration.CRYSTAL_TORCH.get().defaultBlockState().setValue(CrystalTorch.DROP_ITEM, false);
             } else if (direction.equals(Direction.DOWN)) {
                 return InteractionResult.PASS;
             } else {
-                torchBlockState = Registration.CRYSTAL_WALL_TORCH.get().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, direction).setValue(CrystalTorch.DROP_ITEM, false);
+                torchBlockState = ModRegistration.CRYSTAL_WALL_TORCH.get().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, direction).setValue(CrystalTorch.DROP_ITEM, false);
             }
 
             if (level.getBlockState(position).isAir() && state.isFaceSturdy(level, position, direction)) {
@@ -235,8 +234,8 @@ public class ToolUseUtils {
                 return InteractionResult.PASS;
             }
 
-            if (!level.isClientSide && context.getPlayer() != null) {
-                stack.hurtAndBreak(10, context.getPlayer(), LivingEntity.getSlotForHand(context.getHand()));
+            if (!level.isClientSide() && context.getPlayer() != null) {
+                stack.hurtAndBreak(10, context.getPlayer(), context.getHand().asEquipmentSlot());
             }
 
             levelable.addExp(level, context.getClickedPos(), context.getPlayer());
@@ -270,10 +269,10 @@ public class ToolUseUtils {
             if (predicate.test(context)) {
                 Player player = context.getPlayer();
                 level.playSound(player, blockPos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
-                if (!level.isClientSide) {
+                if (!level.isClientSide()) {
                     consumer.accept(context);
                     if (player != null) {
-                        context.getItemInHand().hurtAndBreak(1, player, LivingEntity.getSlotForHand(context.getHand()));
+                        context.getItemInHand().hurtAndBreak(1, player, context.getHand().asEquipmentSlot());
                     }
                 }
 

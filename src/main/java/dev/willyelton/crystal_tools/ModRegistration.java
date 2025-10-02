@@ -84,7 +84,8 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 import java.util.List;
 
-public class Registration {
+// TODO: Rename back if that weird issue with the debug Registration goes away
+public class ModRegistration {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(CrystalTools.MODID);
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(CrystalTools.MODID);
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(Registries.ENTITY_TYPE, CrystalTools.MODID);

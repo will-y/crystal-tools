@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.datagen;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -19,16 +19,16 @@ public class CrystalToolsBlockTags extends BlockTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider provider) {
         tag(BlockTags.MINEABLE_WITH_PICKAXE).add(
-                Registration.CRYSTAL_BLOCK.get(),
-                Registration.CRYSTAL_ORE.get(),
-                Registration.CRYSTAL_DEEPSLATE_ORE.get(),
-                Registration.CRYSTAL_FURNACE.get(),
-                Registration.CRYSTAL_GENERATOR.get(),
-                Registration.CRYSTAL_QUARRY.get(),
-                Registration.QUARRY_STABILIZER.get(),
-                Registration.CRYSTAL_GEODE.get(),
-                Registration.NETHERITE_INFUSED_CRYSTAL_GEODE.get(),
-                Registration.CRYSTAL_PEDESTAL.get());
+                ModRegistration.CRYSTAL_BLOCK.get(),
+                ModRegistration.CRYSTAL_ORE.get(),
+                ModRegistration.CRYSTAL_DEEPSLATE_ORE.get(),
+                ModRegistration.CRYSTAL_FURNACE.get(),
+                ModRegistration.CRYSTAL_GENERATOR.get(),
+                ModRegistration.CRYSTAL_QUARRY.get(),
+                ModRegistration.QUARRY_STABILIZER.get(),
+                ModRegistration.CRYSTAL_GEODE.get(),
+                ModRegistration.NETHERITE_INFUSED_CRYSTAL_GEODE.get(),
+                ModRegistration.CRYSTAL_PEDESTAL.get());
 
         tag(CrystalToolsTags.AUTO_OUTPUT_BLACKLIST).add(
                 Blocks.HOPPER);

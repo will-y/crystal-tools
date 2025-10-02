@@ -11,7 +11,6 @@ import dev.willyelton.crystal_tools.common.network.data.TriggerRocketPayload;
 import dev.willyelton.crystal_tools.common.network.data.VeinMiningPayload;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -89,7 +88,7 @@ public class KeyPressEvent {
      * Handles changing the mining mode (silk touch or fortune)
      */
     public static void handleModeSwitch(boolean magnet) {
-        ClientPacketDistributor.sendToServer(new ModeSwitchPayload(Screen.hasShiftDown(), Screen.hasControlDown(), Screen.hasAltDown(), magnet));
+        ClientPacketDistributor.sendToServer(new ModeSwitchPayload(Minecraft.getInstance().hasShiftDown(), Minecraft.getInstance().hasControlDown(), Minecraft.getInstance().hasAltDown(), magnet));
     }
 
     public static void handleOpenBackpack() {

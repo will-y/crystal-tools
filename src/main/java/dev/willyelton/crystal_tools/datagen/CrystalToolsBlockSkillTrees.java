@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.datagen;
 
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.events.DatapackRegistryEvents;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations;
@@ -53,11 +53,11 @@ public class CrystalToolsBlockSkillTrees {
 
     public void registerSkillTrees() {
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_BLOCKS,
-                Registration.CRYSTAL_FURNACE.getId()), furnace());
+                ModRegistration.CRYSTAL_FURNACE.getId()), furnace());
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_BLOCKS,
-                Registration.CRYSTAL_QUARRY.getId()), quarry());
+                ModRegistration.CRYSTAL_QUARRY.getId()), quarry());
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_BLOCKS,
-                Registration.CRYSTAL_GENERATOR.getId()), generator());
+                ModRegistration.CRYSTAL_GENERATOR.getId()), generator());
     }
 
     private SkillData furnace() {

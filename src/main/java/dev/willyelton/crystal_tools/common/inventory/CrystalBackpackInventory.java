@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.inventory;
 
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.utils.InventoryUtils;
 import it.unimi.dsi.fastutil.ints.Int2IntArrayMap;
@@ -26,7 +26,7 @@ public class CrystalBackpackInventory extends ListComponentItemHandler {
 
     @Override
     public boolean isItemValid(int slot, ItemStack stack) {
-        return !stack.is(Registration.CRYSTAL_BACKPACK.get());
+        return !stack.is(ModRegistration.CRYSTAL_BACKPACK.get());
     }
 
     public ItemStack insertStack(ItemStack stack) {

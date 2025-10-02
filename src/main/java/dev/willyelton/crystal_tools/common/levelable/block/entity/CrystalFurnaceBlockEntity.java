@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.components.FurnaceData;
 import dev.willyelton.crystal_tools.common.components.FurnaceUpgrades;
@@ -109,7 +109,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     private AutoOutputAction autoOutputAction;
 
     public CrystalFurnaceBlockEntity(BlockPos pPos, BlockState state) {
-        super(Registration.CRYSTAL_FURNACE_BLOCK_ENTITY.get(), pPos, state);
+        super(ModRegistration.CRYSTAL_FURNACE_BLOCK_ENTITY.get(), pPos, state);
         items = NonNullList.withSize(SIZE, ItemStack.EMPTY);
 
         fuelEfficiencyAddedTicks = CrystalToolsConfig.FUEL_EFFICIENCY_ADDED_TICKS.get();
@@ -476,7 +476,7 @@ public class CrystalFurnaceBlockEntity extends LevelableBlockEntity implements W
     }
 
     protected RecipeHolder<AbstractCookingRecipe> getRecipe(ItemStack item) {
-        if (this.level != null && this.level.isClientSide) return null;
+        if (this.level != null && this.level.isClientSide()) return null;
         Optional<RecipeHolder<AbstractCookingRecipe>> recipeHolderOptional = (item.getItem() instanceof AirItem)
                 ? Optional.empty()
                 : ((ServerLevel)this.level).recipeAccess().getRecipeFor((RecipeType<AbstractCookingRecipe>) recipeType, new SingleRecipeInput(item), this.level);

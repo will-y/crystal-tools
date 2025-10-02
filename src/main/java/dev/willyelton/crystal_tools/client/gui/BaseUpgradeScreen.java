@@ -2,7 +2,7 @@ package dev.willyelton.crystal_tools.client.gui;
 
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.client.config.CrystalToolsClientConfig;
 import dev.willyelton.crystal_tools.client.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.client.gui.component.XpButton;
@@ -33,6 +33,8 @@ import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.gui.render.state.GuiElementRenderState;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.network.chat.Component;
@@ -133,9 +135,9 @@ public abstract class BaseUpgradeScreen extends Screen {
                     updateButtons();
                 }
             }, (button, guiGraphics, mouseX, mouseY) -> {
-                Component textComponent = Component.literal(String.format("Use Experience To Gain Skill Points (+%d Points)", getPointsToSpend(Integer.MAX_VALUE, Screen.hasShiftDown(), Screen.hasControlDown())));
+                Component textComponent = Component.literal(String.format("Use Experience To Gain Skill Points (+%d Points)", getPointsToSpend(Integer.MAX_VALUE, hasShiftDown(), hasControlDown())));
                 guiGraphics.setTooltipForNextFrame(this.font, this.font.split(textComponent, Math.max(BaseUpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
-            }, () -> XpUtils.getLevelForXp(XpUtils.getXpCost(getPointsToSpend(Integer.MAX_VALUE, Screen.hasShiftDown(), Screen.hasControlDown()), points.getTotalPoints() + getSkillPoints()))));
+            }, () -> XpUtils.getLevelForXp(XpUtils.getXpCost(getPointsToSpend(Integer.MAX_VALUE, hasShiftDown(), hasControlDown()), points.getTotalPoints() + getSkillPoints()))));
         }
 
         boolean resetRequiresCrystal = CrystalToolsConfig.REQUIRE_CRYSTAL_FOR_RESET.get();
@@ -148,8 +150,8 @@ public abstract class BaseUpgradeScreen extends Screen {
                 this.resetPoints(resetRequiresCrystal);
 
                 if (resetRequiresCrystal) {
-                    ClientPacketDistributor.sendToServer(new RemoveItemPayload(Registration.CRYSTAL.get().getDefaultInstance()));
-                    InventoryUtils.removeItemFromInventory(this.player.getInventory(), Registration.CRYSTAL.get().getDefaultInstance());
+                    ClientPacketDistributor.sendToServer(new RemoveItemPayload(ModRegistration.CRYSTAL.get().getDefaultInstance()));
+                    InventoryUtils.removeItemFromInventory(this.player.getInventory(), ModRegistration.CRYSTAL.get().getDefaultInstance());
                 }
             }).bounds(width - 40 - 5, 15, 40, Y_SIZE).tooltip(resetTooltip).build());
         }
@@ -291,7 +293,7 @@ public abstract class BaseUpgradeScreen extends Screen {
         }
 
         if (resetButton != null) {
-            this.resetButton.active = !CrystalToolsConfig.REQUIRE_CRYSTAL_FOR_RESET.get() || this.player.getInventory().hasAnyOf(Set.of(Registration.CRYSTAL.get()));
+            this.resetButton.active = !CrystalToolsConfig.REQUIRE_CRYSTAL_FOR_RESET.get() || this.player.getInventory().hasAnyOf(Set.of(ModRegistration.CRYSTAL.get()));
         }
     }
 
@@ -338,7 +340,7 @@ public abstract class BaseUpgradeScreen extends Screen {
 
     // Scrolling
     @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+    public boolean mouseDragged(MouseButtonEvent event, double dragX, double dragY) {
         this.xOffset += (int) dragX;
         this.yOffset += (int) dragY;
 
@@ -381,11 +383,11 @@ public abstract class BaseUpgradeScreen extends Screen {
 
         guiGraphics.submitGuiElementRenderState(new GuiElementRenderState() {
             @Override
-            public void buildVertices(VertexConsumer consumer, float p_418216_) {
-                consumer.addVertexWith2DPose(new Matrix3x2f(guiGraphics.pose()), x2F, y2F, p_418216_).setUv((float) ANIMATION_FRAME / DEPENDENCY_LINE_IMAGE_WIDTH, (float) yImageStart / DEPENDENCY_LINE_IMAGE_HEIGHT).setColor(255, 255, 255, 255)
-                        .addVertexWith2DPose(new Matrix3x2f(guiGraphics.pose()), x1F, y1F, p_418216_).setUv((float) ANIMATION_FRAME / DEPENDENCY_LINE_IMAGE_WIDTH, yImageEnd / DEPENDENCY_LINE_IMAGE_HEIGHT).setColor(255, 255, 255, 255)
-                        .addVertexWith2DPose(new Matrix3x2f(guiGraphics.pose()), x4F, y4F, p_418216_).setUv((length + ANIMATION_FRAME) / DEPENDENCY_LINE_IMAGE_WIDTH, yImageEnd / DEPENDENCY_LINE_IMAGE_HEIGHT).setColor(255, 255, 255, 255)
-                        .addVertexWith2DPose(new Matrix3x2f(guiGraphics.pose()), x3F, y3F, p_418216_).setUv((length + ANIMATION_FRAME) / DEPENDENCY_LINE_IMAGE_WIDTH, (float) yImageStart / DEPENDENCY_LINE_IMAGE_HEIGHT).setColor(255, 255, 255, 255);
+            public void buildVertices(VertexConsumer consumer) {
+                consumer.addVertexWith2DPose(new Matrix3x2f(guiGraphics.pose()), x2F, y2F).setUv((float) ANIMATION_FRAME / DEPENDENCY_LINE_IMAGE_WIDTH, (float) yImageStart / DEPENDENCY_LINE_IMAGE_HEIGHT).setColor(255, 255, 255, 255)
+                        .addVertexWith2DPose(new Matrix3x2f(guiGraphics.pose()), x1F, y1F).setUv((float) ANIMATION_FRAME / DEPENDENCY_LINE_IMAGE_WIDTH, yImageEnd / DEPENDENCY_LINE_IMAGE_HEIGHT).setColor(255, 255, 255, 255)
+                        .addVertexWith2DPose(new Matrix3x2f(guiGraphics.pose()), x4F, y4F).setUv((length + ANIMATION_FRAME) / DEPENDENCY_LINE_IMAGE_WIDTH, yImageEnd / DEPENDENCY_LINE_IMAGE_HEIGHT).setColor(255, 255, 255, 255)
+                        .addVertexWith2DPose(new Matrix3x2f(guiGraphics.pose()), x3F, y3F).setUv((length + ANIMATION_FRAME) / DEPENDENCY_LINE_IMAGE_WIDTH, (float) yImageStart / DEPENDENCY_LINE_IMAGE_HEIGHT).setColor(255, 255, 255, 255);
             }
 
             @Override
@@ -443,21 +445,35 @@ public abstract class BaseUpgradeScreen extends Screen {
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (xpButton == null) return super.keyPressed(keyCode, scanCode, modifiers);
+    public boolean keyPressed(KeyEvent event) {
+        if (xpButton == null) return super.keyPressed(event);
 
+        int keyCode = event.key();
         if (keyCode == GLFW.GLFW_KEY_LEFT_SHIFT || keyCode == GLFW.GLFW_KEY_LEFT_CONTROL || keyCode == GLFW.GLFW_KEY_RIGHT_SHIFT || keyCode == GLFW.GLFW_KEY_RIGHT_CONTROL) {
-            xpButton.update(XpUtils.getXpCost(getPointsToSpend(Integer.MAX_VALUE, Screen.hasShiftDown(), Screen.hasControlDown()), points.getTotalPoints() + getSkillPoints()), player);
+            xpButton.update(XpUtils.getXpCost(getPointsToSpend(Integer.MAX_VALUE, hasShiftDown(), hasControlDown()), points.getTotalPoints() + getSkillPoints()), player);
         }
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return super.keyPressed(event);
     }
 
     @Override
-    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-        if (xpButton == null) return super.keyReleased(keyCode, scanCode, modifiers);
+    public boolean keyReleased(KeyEvent event) {
+        if (xpButton == null) return super.keyReleased(event);
+        int keyCode = event.key();
         if (keyCode == GLFW.GLFW_KEY_LEFT_SHIFT || keyCode == GLFW.GLFW_KEY_LEFT_CONTROL || keyCode == GLFW.GLFW_KEY_RIGHT_SHIFT || keyCode == GLFW.GLFW_KEY_RIGHT_CONTROL) {
-            xpButton.update(XpUtils.getXpCost(getPointsToSpend(Integer.MAX_VALUE, Screen.hasShiftDown(), Screen.hasControlDown()), points.getTotalPoints() + getSkillPoints()), player);
+            xpButton.update(XpUtils.getXpCost(getPointsToSpend(Integer.MAX_VALUE, hasShiftDown(), hasControlDown()), points.getTotalPoints() + getSkillPoints()), player);
         }
-        return super.keyReleased(keyCode, scanCode, modifiers);
+        return super.keyReleased(event);
+    }
+
+    protected boolean hasShiftDown() {
+        return Minecraft.getInstance().hasShiftDown();
+    }
+
+    protected boolean hasControlDown() {
+        return Minecraft.getInstance().hasControlDown();
+    }
+
+    protected boolean hasAltDown() {
+        return Minecraft.getInstance().hasAltDown();
     }
 }

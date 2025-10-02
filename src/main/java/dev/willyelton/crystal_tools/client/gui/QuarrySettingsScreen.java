@@ -79,10 +79,11 @@ public class QuarrySettingsScreen extends BackpackSubScreen<CrystalQuarryContain
                 int k = 9;
                 int l = this.getColor();
                 if (this.centered) {
-                    multilinelabel.renderCentered(guiGraphics, i + this.getWidth() / 2, j, k, l);
+                    int i1 = i + this.getWidth() / 2;
+                    multilinelabel.render(guiGraphics, MultiLineLabel.Align.CENTER, i1, j, k, false, l);
                 } else {
                     // Just want to change this
-                    multilinelabel.renderLeftAlignedNoShadow(guiGraphics, i, j, k, l);
+                    multilinelabel.render(guiGraphics, MultiLineLabel.Align.LEFT, i, j, k, false, l);
                 }
             }
         }.setMaxWidth(checkbox.getWidth()).setColor(4210752 + 0xFF000000);

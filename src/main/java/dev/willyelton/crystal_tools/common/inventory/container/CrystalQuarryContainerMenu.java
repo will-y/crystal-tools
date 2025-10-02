@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.inventory.container;
 
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.CrystalSlotItemHandler;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.NoInsertSlot;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.backpack.BackpackFilterSlot;
@@ -30,7 +30,7 @@ public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu imp
     private final int filterRows;
 
     public CrystalQuarryContainerMenu(int containerId, Level level, BlockPos pos, int filterRows, Inventory playerInventory, ContainerData data) {
-        super(Registration.CRYSTAL_QUARRY_CONTAINER.get(), containerId, playerInventory, data);
+        super(ModRegistration.CRYSTAL_QUARRY_CONTAINER.get(), containerId, playerInventory, data);
         blockEntity = (CrystalQuarryBlockEntity) level.getBlockEntity(pos);
         quarryInventorySlots = NonNullList.createWithCapacity(36);
         filterInventorySlots = NonNullList.createWithCapacity(36);

@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.datagen;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.crafting.CrystalAIOTRecipe;
 import dev.willyelton.crystal_tools.common.crafting.CrystalElytraRecipe;
 import dev.willyelton.crystal_tools.common.crafting.CrystalGeneratorRecipe;
@@ -36,7 +36,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class CrystalToolsRecipes extends RecipeProvider {
-    private static final Criterion<InventoryChangeTrigger.TriggerInstance> HAS_CRYSTAL = InventoryChangeTrigger.TriggerInstance.hasItems(Registration.CRYSTAL.get());
+    private static final Criterion<InventoryChangeTrigger.TriggerInstance> HAS_CRYSTAL = InventoryChangeTrigger.TriggerInstance.hasItems(ModRegistration.CRYSTAL.get());
     public CrystalToolsRecipes(HolderLookup.Provider registries, RecipeOutput output) {
         super(registries, output);
     }
@@ -44,209 +44,209 @@ public class CrystalToolsRecipes extends RecipeProvider {
     @Override
     protected void buildRecipes() {
         // Basic
-        shapeless(RecipeCategory.MISC, Registration.CRYSTAL.get(), 9)
-                .requires(Registration.CRYSTAL_BLOCK.get())
+        shapeless(RecipeCategory.MISC, ModRegistration.CRYSTAL.get(), 9)
+                .requires(ModRegistration.CRYSTAL_BLOCK.get())
                 .unlockedBy("has_crystal_block",
-                        InventoryChangeTrigger.TriggerInstance.hasItems(Registration.CRYSTAL_BLOCK.get()))
+                        InventoryChangeTrigger.TriggerInstance.hasItems(ModRegistration.CRYSTAL_BLOCK.get()))
                 .save(output);
 
-        shaped(RecipeCategory.DECORATIONS, Registration.CRYSTAL_BLOCK.get())
+        shaped(RecipeCategory.DECORATIONS, ModRegistration.CRYSTAL_BLOCK.get())
                 .pattern("ccc")
                 .pattern("ccc")
                 .pattern("ccc")
-                .define('c', Registration.CRYSTAL.get())
+                .define('c', ModRegistration.CRYSTAL.get())
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
 
-        shaped(RecipeCategory.MISC, Registration.NETHERITE_STICK.get(), 4)
+        shaped(RecipeCategory.MISC, ModRegistration.NETHERITE_STICK.get(), 4)
                 .pattern("n")
                 .pattern("n")
                 .define('n', Tags.Items.INGOTS_NETHERITE)
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
 
-        shaped(RecipeCategory.MISC, Registration.CRYSTAL_TORCH.get(), 4)
+        shaped(RecipeCategory.MISC, ModRegistration.CRYSTAL_TORCH.get(), 4)
                 .pattern("c")
                 .pattern("s")
-                .define('c', Registration.CRYSTAL.get())
+                .define('c', ModRegistration.CRYSTAL.get())
                 .define('s', Items.STICK)
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
 
-        shaped(RecipeCategory.MISC, Registration.CRYSTAL_UPGRADE_SMITHING_TEMPLATE.get())
+        shaped(RecipeCategory.MISC, ModRegistration.CRYSTAL_UPGRADE_SMITHING_TEMPLATE.get())
                 .pattern("iii")
                 .pattern("ici")
                 .pattern("ini")
-                .define('i', Registration.NETHERITE_INFUSED_CRYSTAL_SHARD.get())
+                .define('i', ModRegistration.NETHERITE_INFUSED_CRYSTAL_SHARD.get())
                 .define('n', Items.NETHERITE_INGOT)
-                .define('c', Registration.CRYSTAL.get())
+                .define('c', ModRegistration.CRYSTAL.get())
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
 
-        shapeless(RecipeCategory.MISC, Registration.CRYSTAL_UPGRADE_SMITHING_TEMPLATE.get(), 2)
-                .requires(Registration.CRYSTAL.get())
-                .requires(Registration.CRYSTAL_UPGRADE_SMITHING_TEMPLATE.get())
+        shapeless(RecipeCategory.MISC, ModRegistration.CRYSTAL_UPGRADE_SMITHING_TEMPLATE.get(), 2)
+                .requires(ModRegistration.CRYSTAL.get())
+                .requires(ModRegistration.CRYSTAL_UPGRADE_SMITHING_TEMPLATE.get())
                 .requires(Items.NETHERITE_INGOT)
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
-                .save(output, Registration.CRYSTAL_UPGRADE_SMITHING_TEMPLATE.getId() + "_dupe");
+                .save(output, ModRegistration.CRYSTAL_UPGRADE_SMITHING_TEMPLATE.getId() + "_dupe");
 
         // Tools
-        shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_AXE.get())
+        shaped(RecipeCategory.TOOLS, ModRegistration.CRYSTAL_AXE.get())
                 .pattern("cc")
                 .pattern("cs")
                 .pattern(" s")
-                .define('c', Registration.CRYSTAL.get())
+                .define('c', ModRegistration.CRYSTAL.get())
                 .define('s', CrystalToolsTags.RODS_METAL_NETHERITE)
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
 
-        shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_HOE.get())
+        shaped(RecipeCategory.TOOLS, ModRegistration.CRYSTAL_HOE.get())
                 .pattern("cc")
                 .pattern(" s")
                 .pattern(" s")
-                .define('c', Registration.CRYSTAL.get())
+                .define('c', ModRegistration.CRYSTAL.get())
                 .define('s', CrystalToolsTags.RODS_METAL_NETHERITE)
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
 
-        shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_PICKAXE.get())
+        shaped(RecipeCategory.TOOLS, ModRegistration.CRYSTAL_PICKAXE.get())
                 .pattern("ccc")
                 .pattern(" s ")
                 .pattern(" s ")
-                .define('c', Registration.CRYSTAL.get())
+                .define('c', ModRegistration.CRYSTAL.get())
                 .define('s', CrystalToolsTags.RODS_METAL_NETHERITE)
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
 
-        shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_SHOVEL.get())
+        shaped(RecipeCategory.TOOLS, ModRegistration.CRYSTAL_SHOVEL.get())
                 .pattern("c")
                 .pattern("s")
                 .pattern("s")
-                .define('c', Registration.CRYSTAL.get())
+                .define('c', ModRegistration.CRYSTAL.get())
                 .define('s', CrystalToolsTags.RODS_METAL_NETHERITE)
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
 
-        shaped(RecipeCategory.COMBAT, Registration.CRYSTAL_SWORD.get())
+        shaped(RecipeCategory.COMBAT, ModRegistration.CRYSTAL_SWORD.get())
                 .pattern("c")
                 .pattern("c")
                 .pattern("s")
-                .define('c', Registration.CRYSTAL.get())
+                .define('c', ModRegistration.CRYSTAL.get())
                 .define('s', CrystalToolsTags.RODS_METAL_NETHERITE)
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
 
-        shaped(RecipeCategory.COMBAT, Registration.CRYSTAL_BOW.get())
+        shaped(RecipeCategory.COMBAT, ModRegistration.CRYSTAL_BOW.get())
                 .pattern(" sc")
                 .pattern("s c")
                 .pattern(" sc")
-                .define('c', Registration.CRYSTAL.get())
+                .define('c', ModRegistration.CRYSTAL.get())
                 .define('s', CrystalToolsTags.RODS_METAL_NETHERITE)
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
 
-        shaped(RecipeCategory.FOOD, Registration.CRYSTAL_APPLE.get())
+        shaped(RecipeCategory.FOOD, ModRegistration.CRYSTAL_APPLE.get())
                 .pattern("ccc")
                 .pattern("cac")
                 .pattern("ccc")
-                .define('c', Registration.CRYSTAL.get())
+                .define('c', ModRegistration.CRYSTAL.get())
                 .define('a', Items.ENCHANTED_GOLDEN_APPLE)
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
 
-        shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_ROCKET.get())
+        shaped(RecipeCategory.TOOLS, ModRegistration.CRYSTAL_ROCKET.get())
                 .pattern("ccc")
                 .pattern("crc")
                 .pattern("ccc")
-                .define('c', Registration.CRYSTAL.get())
+                .define('c', ModRegistration.CRYSTAL.get())
                 .define('r', Items.FIREWORK_ROCKET)
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
 
-        shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_TRIDENT.get())
+        shaped(RecipeCategory.TOOLS, ModRegistration.CRYSTAL_TRIDENT.get())
                 .pattern("ccc")
                 .pattern("sts")
                 .pattern(" s ")
-                .define('c', Registration.CRYSTAL.get())
+                .define('c', ModRegistration.CRYSTAL.get())
                 .define('t', Items.TRIDENT)
                 .define('s', CrystalToolsTags.RODS_METAL_NETHERITE)
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
 
-        shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_FISHING_ROD.get())
+        shaped(RecipeCategory.TOOLS, ModRegistration.CRYSTAL_FISHING_ROD.get())
                 .pattern("  s")
                 .pattern(" st")
                 .pattern("s c")
-                .define('c', Registration.CRYSTAL.get())
+                .define('c', ModRegistration.CRYSTAL.get())
                 .define('t', Items.STRING)
                 .define('s', CrystalToolsTags.RODS_METAL_NETHERITE)
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
 
-        shaped(RecipeCategory.MISC, Registration.CRYSTAL_SHIELD.get())
+        shaped(RecipeCategory.MISC, ModRegistration.CRYSTAL_SHIELD.get())
                 .pattern(" c ")
                 .pattern("tsc")
                 .pattern(" c ")
-                .define('c', Registration.CRYSTAL.get())
-                .define('t', Registration.NETHERITE_STICK.get())
+                .define('c', ModRegistration.CRYSTAL.get())
+                .define('t', ModRegistration.NETHERITE_STICK.get())
                 .define('s', Items.SHIELD)
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
 
-        shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_BACKPACK.get())
+        shaped(RecipeCategory.TOOLS, ModRegistration.CRYSTAL_BACKPACK.get())
                 .pattern("lcl")
                 .pattern("chc")
                 .pattern("lcl")
                 .define('l', Items.LEATHER)
-                .define('c', Registration.CRYSTAL.get())
+                .define('c', ModRegistration.CRYSTAL.get())
                 .define('h', Items.CHEST)
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
 
-        shaped(RecipeCategory.TOOLS, Registration.CRYSTAL_MAGNET.get())
+        shaped(RecipeCategory.TOOLS, ModRegistration.CRYSTAL_MAGNET.get())
                 .pattern(" cr")
                 .pattern("cic")
                 .pattern("rc ")
-                .define('c', Registration.CRYSTAL.get())
+                .define('c', ModRegistration.CRYSTAL.get())
                 .define('i', Items.IRON_INGOT)
                 .define('r', Items.REDSTONE)
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
 
-        shaped(RecipeCategory.TOOLS, Registration.PORTABLE_GENERATOR.get())
+        shaped(RecipeCategory.TOOLS, ModRegistration.PORTABLE_GENERATOR.get())
                 .pattern(" p ")
                 .pattern("pgp")
                 .pattern(" s ")
                 .define('p', Items.PISTON)
-                .define('g', Registration.CRYSTAL_GENERATOR.get())
-                .define('s', Registration.NETHERITE_STICK.get())
+                .define('g', ModRegistration.CRYSTAL_GENERATOR.get())
+                .define('s', ModRegistration.NETHERITE_STICK.get())
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
 
         // Machines
-        shaped(RecipeCategory.MISC, Registration.CRYSTAL_FURNACE.get())
+        shaped(RecipeCategory.MISC, ModRegistration.CRYSTAL_FURNACE.get())
                 .pattern("ccc")
                 .pattern("cfc")
                 .pattern("ccc")
-                .define('c', Registration.CRYSTAL.get())
+                .define('c', ModRegistration.CRYSTAL.get())
                 .define('f', Items.FURNACE)
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
 
-        shaped(RecipeCategory.MISC, Registration.QUARRY_STABILIZER.get(), 4)
+        shaped(RecipeCategory.MISC, ModRegistration.QUARRY_STABILIZER.get(), 4)
                 .pattern("c")
                 .pattern("n")
-                .define('c', Registration.CRYSTAL.get())
+                .define('c', ModRegistration.CRYSTAL.get())
                 .define('n', Items.NETHERITE_INGOT)
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
 
-        shaped(RecipeCategory.MISC, Registration.CRYSTAL_PEDESTAL.get())
+        shaped(RecipeCategory.MISC, ModRegistration.CRYSTAL_PEDESTAL.get())
                 .pattern("n")
                 .pattern("b")
                 .pattern("c")
                 .define('n', Items.NETHERITE_INGOT)
-                .define('b', Registration.CRYSTAL_BLOCK.get())
+                .define('b', ModRegistration.CRYSTAL_BLOCK.get())
                 .define('c', Items.CHEST)
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
@@ -254,28 +254,28 @@ public class CrystalToolsRecipes extends RecipeProvider {
         // Special
         SpecialRecipeBuilder
                 .special(CrystalAIOTRecipe::new)
-                .save(output, Registration.CRYSTAL_AIOT.getId().toString());
+                .save(output, ModRegistration.CRYSTAL_AIOT.getId().toString());
 
         SpecialRecipeBuilder
                 .special(CrystalElytraRecipe::new)
-                .save(output, Registration.CRYSTAL_ELYTRA.getId().toString());
+                .save(output, ModRegistration.CRYSTAL_ELYTRA.getId().toString());
 
         SpecialRecipeBuilder
                 .special(CrystalGeneratorRecipe::new)
-                .save(output, Registration.CRYSTAL_GENERATOR_ITEM.getId().toString());
+                .save(output, ModRegistration.CRYSTAL_GENERATOR_ITEM.getId().toString());
 
         SpecialRecipeBuilder
                 .special(CrystalQuarryRecipe::new)
-                .save(output, Registration.CRYSTAL_QUARRY_ITEM.getId().toString());
+                .save(output, ModRegistration.CRYSTAL_QUARRY_ITEM.getId().toString());
 
         SpecialRecipeBuilder
                 .special(CrystalShieldTotemRecipe::new)
-                .save(output, Registration.CRYSTAL_SHIELD.getId() + "_totem");
+                .save(output, ModRegistration.CRYSTAL_SHIELD.getId() + "_totem");
 
-        crystalSmithing(Items.NETHERITE_HELMET, Registration.CRYSTAL_HELMET, output);
-        crystalSmithing(Items.NETHERITE_CHESTPLATE, Registration.CRYSTAL_CHESTPLATE, output);
-        crystalSmithing(Items.NETHERITE_LEGGINGS, Registration.CRYSTAL_LEGGINGS, output);
-        crystalSmithing(Items.NETHERITE_BOOTS, Registration.CRYSTAL_BOOTS, output);
+        crystalSmithing(Items.NETHERITE_HELMET, ModRegistration.CRYSTAL_HELMET, output);
+        crystalSmithing(Items.NETHERITE_CHESTPLATE, ModRegistration.CRYSTAL_CHESTPLATE, output);
+        crystalSmithing(Items.NETHERITE_LEGGINGS, ModRegistration.CRYSTAL_LEGGINGS, output);
+        crystalSmithing(Items.NETHERITE_BOOTS, ModRegistration.CRYSTAL_BOOTS, output);
     }
 
     public static class Runner extends RecipeProvider.Runner {
@@ -303,8 +303,8 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 .requirements(AdvancementRequirements.Strategy.OR)
                 .addCriterion("has_crystal", HAS_CRYSTAL);
 
-        CrystalSmithingRecipe smithingtransformrecipe = new CrystalSmithingRecipe(Optional.of(Ingredient.of(Registration.CRYSTAL_UPGRADE_SMITHING_TEMPLATE.get())),
-                Ingredient.of(ingredientItem), Optional.of(Ingredient.of(Registration.CRYSTAL.get())),
+        CrystalSmithingRecipe smithingtransformrecipe = new CrystalSmithingRecipe(Optional.of(Ingredient.of(ModRegistration.CRYSTAL_UPGRADE_SMITHING_TEMPLATE.get())),
+                Ingredient.of(ingredientItem), Optional.of(Ingredient.of(ModRegistration.CRYSTAL.get())),
                 new TransmuteResult(resultItem.get()));
 
         output.accept(resourceKey, smithingtransformrecipe,

@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.crafting;
 
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
@@ -21,11 +21,11 @@ import java.util.List;
 
 public class CrystalAIOTRecipe extends CrystalToolsRecipe {
     private static final Item[] requiredItems = new Item[] {
-            Registration.CRYSTAL_AXE.get(),
-            Registration.CRYSTAL_PICKAXE.get(),
-            Registration.CRYSTAL_SHOVEL.get(),
-            Registration.CRYSTAL_HOE.get(),
-            Registration.CRYSTAL_SWORD.get(),
+            ModRegistration.CRYSTAL_AXE.get(),
+            ModRegistration.CRYSTAL_PICKAXE.get(),
+            ModRegistration.CRYSTAL_SHOVEL.get(),
+            ModRegistration.CRYSTAL_HOE.get(),
+            ModRegistration.CRYSTAL_SWORD.get(),
             Items.SLIME_BLOCK
     };
 
@@ -64,7 +64,7 @@ public class CrystalAIOTRecipe extends CrystalToolsRecipe {
 
     @Override
     public @NotNull ItemStack assemble(CraftingInput container, HolderLookup.Provider registryAccess) {
-        ItemStack result = new ItemStack(Registration.CRYSTAL_AIOT.get());
+        ItemStack result = new ItemStack(ModRegistration.CRYSTAL_AIOT.get());
 
         List<ItemStack> levelableItems = this.getLevelableItems(container);
 
@@ -83,7 +83,7 @@ public class CrystalAIOTRecipe extends CrystalToolsRecipe {
 
     @Override
     public @NotNull RecipeSerializer<? extends CustomRecipe> getSerializer() {
-        return Registration.CRYSTAL_AIOT_RECIPE.get();
+        return ModRegistration.CRYSTAL_AIOT_RECIPE.get();
     }
 
     private List<ItemStack> getLevelableItems(CraftingInput container) {
@@ -107,6 +107,6 @@ public class CrystalAIOTRecipe extends CrystalToolsRecipe {
 
     @Override
     public ItemStack getOutput() {
-        return new ItemStack(Registration.CRYSTAL_AIOT.get());
+        return new ItemStack(ModRegistration.CRYSTAL_AIOT.get());
     }
 }

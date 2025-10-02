@@ -7,6 +7,7 @@ import dev.willyelton.crystal_tools.common.network.data.ScrollPayload;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -58,22 +59,22 @@ public abstract class ScrollableContainerScreen<T extends AbstractContainerMenu 
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (button == 0 && this.insideScrollbar(mouseX, mouseY)) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+        if (event.button() == 0 && this.insideScrollbar(event.x(), event.y())) {
             this.scrolling = this.canScroll();
             return true;
         }
 
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(event, doubleClick);
     }
 
     @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        if (button == 0) {
+    public boolean mouseReleased(MouseButtonEvent event) {
+        if (event.button() == 0) {
             scrolling = false;
         }
 
-        return super.mouseReleased(mouseX, mouseY, button);
+        return super.mouseReleased(event);
     }
 
     @Override
@@ -90,11 +91,11 @@ public abstract class ScrollableContainerScreen<T extends AbstractContainerMenu 
     }
 
     @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+    public boolean mouseDragged(MouseButtonEvent event, double dragX, double dragY) {
         if (this.scrolling) {
             int scrollTop = topPos + scrollY;
             int scrollBottom = scrollTop + scrollHeight;
-            this.scrollOffset = ((float) mouseY - (float) scrollTop - HANDLE_HEIGHT / 2.0F) / ((float) (scrollBottom - scrollTop - HANDLE_HEIGHT));
+            this.scrollOffset = ((float) event.y() - (float) scrollTop - HANDLE_HEIGHT / 2.0F) / ((float) (scrollBottom - scrollTop - HANDLE_HEIGHT));
             this.scrollOffset = Mth.clamp(this.scrollOffset, 0.0F, 1.0F);
             int i = this.menu.getRowIndexForScroll(this.scrollOffset);
             if (i != currentRow) {
@@ -104,7 +105,7 @@ public abstract class ScrollableContainerScreen<T extends AbstractContainerMenu 
             return true;
         }
 
-        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+        return super.mouseDragged(event, dragX, dragY);
     }
 
     @Override

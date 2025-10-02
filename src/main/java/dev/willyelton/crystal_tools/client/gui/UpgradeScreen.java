@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.client.gui;
 
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.client.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.capability.LevelableStack;
@@ -70,7 +70,7 @@ public class UpgradeScreen extends BaseUpgradeScreen {
 
     @Override
     protected void resetPoints(boolean crystalRequired) {
-        if (!crystalRequired || this.player.getInventory().hasAnyOf(Set.of(Registration.CRYSTAL.get()))) {
+        if (!crystalRequired || this.player.getInventory().hasAnyOf(Set.of(ModRegistration.CRYSTAL.get()))) {
             ClientPacketDistributor.sendToServer(ResetSkillsPayload.INSTANCE);
             ToolUtils.resetPoints(this.stack, this.player);
         }

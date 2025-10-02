@@ -19,7 +19,7 @@ public class CrystalTools {
 
     public CrystalTools(IEventBus modEventBus, ModContainer container) {
         // Register everything
-        Registration.init(modEventBus);
+        ModRegistration.init(modEventBus);
 
         // Register configs
         container.registerConfig(ModConfig.Type.COMMON, CrystalToolsConfig.COMMON_CONFIG, "crystal_tools.toml");

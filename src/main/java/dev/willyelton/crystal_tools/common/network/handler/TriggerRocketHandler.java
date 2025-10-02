@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.network.handler;
 
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.levelable.tool.CrystalRocket;
 import dev.willyelton.crystal_tools.common.network.data.TriggerRocketPayload;
 import dev.willyelton.crystal_tools.utils.InventoryUtils;
@@ -17,7 +17,7 @@ public class TriggerRocketHandler {
         context.enqueueWork(() -> {
             Player player = context.player();
 
-            ItemStack rocketStack = InventoryUtils.findItem(player.getInventory(), stack -> stack.is(Registration.CRYSTAL_ROCKET) && !ToolUtils.isBroken(stack));
+            ItemStack rocketStack = InventoryUtils.findItem(player.getInventory(), stack -> stack.is(ModRegistration.CRYSTAL_ROCKET) && !ToolUtils.isBroken(stack));
 
             if (rocketStack.getItem() instanceof CrystalRocket crystalRocket) {
                 crystalRocket.use(rocketStack, player.level(), player, InteractionHand.OFF_HAND);

@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.common.levelable;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.compat.curios.CuriosCompatibility;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
@@ -187,7 +187,7 @@ public class CrystalBackpack extends Item implements LevelableItem {
     }
 
     public static List<ItemStack> findBackpackStacks(Player player) {
-        return InventoryUtils.findAll(player, stack -> stack.is(Registration.CRYSTAL_BACKPACK.get()));
+        return InventoryUtils.findAll(player, stack -> stack.is(ModRegistration.CRYSTAL_BACKPACK.get()));
     }
 
     public static int findNextBackpackSlot(Player player) {
@@ -199,7 +199,7 @@ public class CrystalBackpack extends Item implements LevelableItem {
         }
 
         for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
-            if (player.getInventory().getItem(i).is(Registration.CRYSTAL_BACKPACK.get())) {
+            if (player.getInventory().getItem(i).is(ModRegistration.CRYSTAL_BACKPACK.get())) {
                 return i;
             }
         }

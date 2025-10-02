@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.crafting;
 
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.components.LevelableBlockEntityData;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
@@ -44,7 +44,7 @@ public class CrystalQuarryRecipe extends CrystalToolsRecipe {
 
     @Override
     public ItemStack assemble(CraftingInput input, HolderLookup.Provider registries) {
-        ItemStack result = new ItemStack(Registration.CRYSTAL_QUARRY_ITEM);
+        ItemStack result = new ItemStack(ModRegistration.CRYSTAL_QUARRY_ITEM);
 
         ItemStack aiotItem = input.getItem(1, 1);
 
@@ -59,19 +59,19 @@ public class CrystalQuarryRecipe extends CrystalToolsRecipe {
 
     @Override
     public RecipeSerializer<? extends CustomRecipe> getSerializer() {
-        return Registration.CRYSTAL_QUARRY_RECIPE.get();
+        return ModRegistration.CRYSTAL_QUARRY_RECIPE.get();
     }
 
     @Override
     public List<ItemStack> getInputs() {
-        return Stream.of(Registration.CRYSTAL_BLOCK_ITEM.get(), Registration.CRYSTAL.get(), Registration.CRYSTAL_BLOCK_ITEM.get(),
-                Registration.CRYSTAL.get(), Registration.CRYSTAL_AIOT.get(), Registration.CRYSTAL.get(), Items.NETHERITE_INGOT,
+        return Stream.of(ModRegistration.CRYSTAL_BLOCK_ITEM.get(), ModRegistration.CRYSTAL.get(), ModRegistration.CRYSTAL_BLOCK_ITEM.get(),
+                ModRegistration.CRYSTAL.get(), ModRegistration.CRYSTAL_AIOT.get(), ModRegistration.CRYSTAL.get(), Items.NETHERITE_INGOT,
                 Items.NETHERITE_INGOT, Items.NETHERITE_INGOT).map(ItemStack::new).toList();
     }
 
     @Override
     public ItemStack getOutput() {
-        ItemStack output = new ItemStack(Registration.CRYSTAL_QUARRY_ITEM.get());
+        ItemStack output = new ItemStack(ModRegistration.CRYSTAL_QUARRY_ITEM.get());
         output.set(net.minecraft.core.component.DataComponents.LORE,
                 new ItemLore(List.of(Component.literal(
                         String.format("Will take %d%% of the points from the AIOT used to craft this.", (int) (CrystalToolsConfig.QUARRY_INITIAL_POINT_MULTIPLIER.get() * 100))))));

@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.common.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.capability.Capabilities;
 import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
@@ -22,8 +22,8 @@ public class PlayerEvents {
     @SubscribeEvent
     public static void handleItemPickupEvent(ItemEntityPickupEvent.Pre event) {
         if (event.getItemEntity().hasPickUpDelay()) return;
-        if (event.getItemEntity().getData(Registration.MAGNET_ITEM.get()) && !event.getPlayer().equals(event.getItemEntity().getOwner())) {
-            List<ItemStack> magnetStacks = InventoryUtils.findAll(event.getPlayer(), stack -> stack.is(Registration.CRYSTAL_MAGNET.get()));
+        if (event.getItemEntity().getData(ModRegistration.MAGNET_ITEM.get()) && !event.getPlayer().equals(event.getItemEntity().getOwner())) {
+            List<ItemStack> magnetStacks = InventoryUtils.findAll(event.getPlayer(), stack -> stack.is(ModRegistration.CRYSTAL_MAGNET.get()));
             magnetStacks.forEach(stack -> {
                 Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, null);
                 if (levelable != null) {

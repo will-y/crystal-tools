@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.inventory.container;
 
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalPedestalBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -22,7 +22,7 @@ public class CrystalPedestalContainerMenu extends BaseContainerMenu {
 
     // Server Constructor
     public CrystalPedestalContainerMenu(int containerId, Inventory playerInventory, BlockPos pos) {
-        super(Registration.CRYSTAL_PEDESTAL_CONTAINER.get(), containerId, playerInventory, null);
+        super(ModRegistration.CRYSTAL_PEDESTAL_CONTAINER.get(), containerId, playerInventory, null);
         Level level = playerInventory.player.level();
         blockEntity = (CrystalPedestalBlockEntity) level.getBlockEntity(pos);
 

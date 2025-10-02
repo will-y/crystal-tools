@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.inventory.container;
 
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalGeneratorBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
@@ -14,7 +14,7 @@ public class CrystalGeneratorContainerMenu extends AbstractGeneratorContainerMen
     private final CrystalGeneratorBlockEntity blockEntity;
 
     public CrystalGeneratorContainerMenu(int containerId, Level level, BlockPos pos, Inventory playerInventory, ContainerData data) {
-        super(Registration.CRYSTAL_GENERATOR_CONTAINER.get(), containerId, playerInventory, data, 8, 109);
+        super(ModRegistration.CRYSTAL_GENERATOR_CONTAINER.get(), containerId, playerInventory, data, 8, 109);
 
         blockEntity = (CrystalGeneratorBlockEntity) level.getBlockEntity(pos);
 

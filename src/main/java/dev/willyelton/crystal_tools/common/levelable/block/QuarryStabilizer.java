@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.common.levelable.block;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.client.renderer.QuarryLaserRenderer;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
@@ -56,7 +56,7 @@ public class QuarryStabilizer extends Block {
         List<BlockPos> stabilizerPositions = findStabilizerSquare(pos, level);
         CrystalTools.LOGGER.info(stabilizerPositions);
 
-        if (level.isClientSide) {
+        if (level.isClientSide()) {
             QuarryLaserRenderer.clearTemporaryLasers();
             int color = stabilizerPositions.size() == 4 ? GREEN : RED;
             if (stabilizerPositions.size() > 1) {
@@ -80,7 +80,7 @@ public class QuarryStabilizer extends Block {
                 QuarryLaserRenderer.startTemporaryLaser(level.getGameTime() + timeBetweenBlocks(stabilizerPositions.get(0), stabilizerPositions.get(1), stabilizerPositions.get(2), stabilizerPositions.get(3)), level.getGameTime() + 200, stabilizerPositions.get(3), stabilizerPositions.get(0), color);
             }
         } else {
-            if (stabilizerPositions.size() == 4 && stack.is(Registration.CRYSTAL_QUARRY_ITEM)) {
+            if (stabilizerPositions.size() == 4 && stack.is(ModRegistration.CRYSTAL_QUARRY_ITEM)) {
                 stack.remove(DataComponents.QUARRY_DATA);
                 stack.set(DataComponents.QUARRY_BOUNDS, stabilizerPositions);
                 player.displayClientMessage(Component.literal("Stabilizer Positions Saved to Quarry"), true);

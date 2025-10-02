@@ -70,7 +70,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem, EntityTa
                 float power = getPower(timeUsed, stack);
                 if (((double) power >= 0.1D)) {
                     boolean infinity = creative || (itemstack.getItem() instanceof ArrowItem && ((ArrowItem) itemstack.getItem()).isInfinite(itemstack, stack, player));
-                    if (!level.isClientSide) {
+                    if (!level.isClientSide()) {
                         ArrowItem arrowitem = (ArrowItem) (itemstack.getItem() instanceof ArrowItem ? itemstack.getItem() : Items.ARROW);
                         AbstractArrow abstractarrow = arrowitem.createArrow(level, itemstack, player, stack);
                         abstractarrow = customArrow(abstractarrow);
@@ -95,7 +95,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem, EntityTa
                             effects.forEach(arrow::addEffect);
                         }
 
-                        stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(player.getUsedItemHand()));
+                        stack.hurtAndBreak(1, player, player.getUsedItemHand().asEquipmentSlot());
                         if (infinity || hasInfinity(stack, level)) {
                             abstractarrow.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                         }

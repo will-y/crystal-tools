@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity;
 
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.components.GeneratorData;
 import dev.willyelton.crystal_tools.common.components.GeneratorUpgrades;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
@@ -73,7 +73,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
     private ItemStack burnedItem = ItemStack.EMPTY;
 
     public CrystalGeneratorBlockEntity(BlockPos pos, BlockState state) {
-        super(Registration.CRYSTAL_GENERATOR_BLOCK_ENTITY.get(), pos, state);
+        super(ModRegistration.CRYSTAL_GENERATOR_BLOCK_ENTITY.get(), pos, state);
         fuelItems = NonNullList.withSize(SIZE, ItemStack.EMPTY);
         fuelHandler = new GeneratorItemStackHandler(fuelItems, this);
 

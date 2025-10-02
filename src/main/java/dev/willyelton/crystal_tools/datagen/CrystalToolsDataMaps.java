@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.datagen;
 
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.datamap.ActionData;
 import dev.willyelton.crystal_tools.common.datamap.DataMaps;
 import dev.willyelton.crystal_tools.common.datamap.GeneratorFuelData;
@@ -28,7 +28,7 @@ public class CrystalToolsDataMaps extends DataMapProvider {
     @Override
     protected void gather(HolderLookup.Provider provider) {
         builder(DataMaps.GENERATOR_GEMS)
-                .add(Registration.CRYSTAL, new GeneratorFuelData(10800, 100), false)
+                .add(ModRegistration.CRYSTAL, new GeneratorFuelData(10800, 100), false)
                 .add(Items.AMETHYST_SHARD.builtInRegistryHolder(), new GeneratorFuelData(1800, 20), false)
                 .add(Items.DIAMOND.builtInRegistryHolder(), new GeneratorFuelData(5400, 80), false)
                 .add(Items.EMERALD.builtInRegistryHolder(), new GeneratorFuelData(3600, 40), false)
@@ -36,10 +36,10 @@ public class CrystalToolsDataMaps extends DataMapProvider {
                 .add(Items.PRISMARINE_CRYSTALS.builtInRegistryHolder(), new GeneratorFuelData(1800, 20), false)
                 .add(Items.PRISMARINE_SHARD.builtInRegistryHolder(), new GeneratorFuelData(1800, 20), false)
                 .add(Items.QUARTZ.builtInRegistryHolder(), new GeneratorFuelData(1800, 20), false)
-                .add(Registration.CRYSTAL_BLOCK_ITEM, new GeneratorFuelData(97200, 100), false)
-                .add(Registration.CRYSTAL_GEODE_BLOCK_ITEM, new GeneratorFuelData(5400, 20), false)
-                .add(Registration.NETHERITE_INFUSED_CRYSTAL_GEODE_BLOCK_ITEM, new GeneratorFuelData(5400, 20), false)
-                .add(Registration.NETHERITE_INFUSED_CRYSTAL_SHARD, new GeneratorFuelData(1200, 20), false)
+                .add(ModRegistration.CRYSTAL_BLOCK_ITEM, new GeneratorFuelData(97200, 100), false)
+                .add(ModRegistration.CRYSTAL_GEODE_BLOCK_ITEM, new GeneratorFuelData(5400, 20), false)
+                .add(ModRegistration.NETHERITE_INFUSED_CRYSTAL_GEODE_BLOCK_ITEM, new GeneratorFuelData(5400, 20), false)
+                .add(ModRegistration.NETHERITE_INFUSED_CRYSTAL_SHARD, new GeneratorFuelData(1200, 20), false)
                 .add(Items.AMETHYST_BLOCK.builtInRegistryHolder(), new GeneratorFuelData(16200, 20), false)
                 .add(Items.DIAMOND_BLOCK.builtInRegistryHolder(), new GeneratorFuelData(48600, 80), false)
                 .add(Items.EMERALD_BLOCK.builtInRegistryHolder(), new GeneratorFuelData(32400, 40), false)
@@ -76,34 +76,34 @@ public class CrystalToolsDataMaps extends DataMapProvider {
                 .add(EntityType.PLAYER.builtInRegistryHolder(), Items.PLAYER_HEAD, false);
 
         builder(DataMaps.PEDESTAL_ACTIONS)
-                .add(Registration.CRYSTAL_MAGNET, new ActionData(ActionType.MAGNET, Optional.of(new ActionParameters(1, 5, 5))), false)
+                .add(ModRegistration.CRYSTAL_MAGNET, new ActionData(ActionType.MAGNET, Optional.of(new ActionParameters(1, 5, 5))), false)
                 .add(ItemTags.PICKAXES, new ActionData(ActionType.BLOCK_BREAK, Optional.of(new ActionParameters(1, 2, 0))), false)
                 .add(ItemTags.SHOVELS, new ActionData(ActionType.BLOCK_BREAK, Optional.of(new ActionParameters(1, 2, 0))), false)
                 .add(ItemTags.HOES, new ActionData(ActionType.BLOCK_BREAK, Optional.of(new ActionParameters(1, 2, 0))), false)
                 .add(ItemTags.AXES, new ActionData(ActionType.BLOCK_BREAK, Optional.of(new ActionParameters(1, 2, 0))), false)
-                .add(Registration.PORTABLE_GENERATOR, new ActionData(ActionType.CHARGE, Optional.of(new ActionParameters(1, -1, 25))), false);
+                .add(ModRegistration.PORTABLE_GENERATOR, new ActionData(ActionType.CHARGE, Optional.of(new ActionParameters(1, -1, 25))), false);
 
         var builder = builder(DataMaps.SKILL_TREES)
-                .add(Registration.CRYSTAL_PICKAXE, new SkillTreeData(rl("crystal_pickaxe"), true, false), false)
-                .add(Registration.CRYSTAL_HOE, new SkillTreeData(rl("crystal_hoe"), true, false), false)
-                .add(Registration.CRYSTAL_SHOVEL, new SkillTreeData(rl("crystal_shovel"), true, false), false)
-                .add(Registration.CRYSTAL_AXE, new SkillTreeData(rl("crystal_axe")), false)
-                .add(Registration.CRYSTAL_AIOT, new SkillTreeData(rl("crystal_aiot")), false)
-                .add(Registration.CRYSTAL_FISHING_ROD, new SkillTreeData(rl("crystal_fishing_rod"), false, false), false)
-                .add(Registration.CRYSTAL_SHIELD, new SkillTreeData(rl("crystal_shield"), false, true), false)
-                .add(Registration.CRYSTAL_SWORD, new SkillTreeData(rl("crystal_sword"), 0.8F), false)
-                .add(Registration.CRYSTAL_BOW, new SkillTreeData(rl("crystal_bow"), false, true), false)
-                .add(Registration.CRYSTAL_TRIDENT, new SkillTreeData(rl("crystal_trident"), false, true), false)
-                .add(Registration.CRYSTAL_APPLE, new SkillTreeData(rl("crystal_apple"), 0.5F, false, false), false)
-                .add(Registration.CRYSTAL_HELMET, new SkillTreeData(rl("crystal_helmet"), 2.0F, false, false), false)
-                .add(Registration.CRYSTAL_CHESTPLATE, new SkillTreeData(rl("crystal_chestplate"), 2.0F, false, false), false)
-                .add(Registration.CRYSTAL_LEGGINGS, new SkillTreeData(rl("crystal_leggings"), 2.0F, false, false), false)
-                .add(Registration.CRYSTAL_BOOTS, new SkillTreeData(rl("crystal_boots"), 2.0F, false, false), false)
-                .add(Registration.CRYSTAL_ELYTRA, new SkillTreeData(rl("crystal_elytra"), false, false), false)
-                .add(Registration.CRYSTAL_ROCKET, new SkillTreeData(rl("crystal_rocket"), 5.0F, false, false), false)
-                .add(Registration.CRYSTAL_BACKPACK, new SkillTreeData(rl("crystal_backpack"), 125, 1, false, true, true, false, false), false)
-                .add(Registration.CRYSTAL_MAGNET, new SkillTreeData(rl("crystal_magnet"), 1.0F, false, false), false)
-                .add(Registration.PORTABLE_GENERATOR, new SkillTreeData(rl("portable_crystal_generator"), 1.0F, false, false), false);
+                .add(ModRegistration.CRYSTAL_PICKAXE, new SkillTreeData(rl("crystal_pickaxe"), true, false), false)
+                .add(ModRegistration.CRYSTAL_HOE, new SkillTreeData(rl("crystal_hoe"), true, false), false)
+                .add(ModRegistration.CRYSTAL_SHOVEL, new SkillTreeData(rl("crystal_shovel"), true, false), false)
+                .add(ModRegistration.CRYSTAL_AXE, new SkillTreeData(rl("crystal_axe")), false)
+                .add(ModRegistration.CRYSTAL_AIOT, new SkillTreeData(rl("crystal_aiot")), false)
+                .add(ModRegistration.CRYSTAL_FISHING_ROD, new SkillTreeData(rl("crystal_fishing_rod"), false, false), false)
+                .add(ModRegistration.CRYSTAL_SHIELD, new SkillTreeData(rl("crystal_shield"), false, true), false)
+                .add(ModRegistration.CRYSTAL_SWORD, new SkillTreeData(rl("crystal_sword"), 0.8F), false)
+                .add(ModRegistration.CRYSTAL_BOW, new SkillTreeData(rl("crystal_bow"), false, true), false)
+                .add(ModRegistration.CRYSTAL_TRIDENT, new SkillTreeData(rl("crystal_trident"), false, true), false)
+                .add(ModRegistration.CRYSTAL_APPLE, new SkillTreeData(rl("crystal_apple"), 0.5F, false, false), false)
+                .add(ModRegistration.CRYSTAL_HELMET, new SkillTreeData(rl("crystal_helmet"), 2.0F, false, false), false)
+                .add(ModRegistration.CRYSTAL_CHESTPLATE, new SkillTreeData(rl("crystal_chestplate"), 2.0F, false, false), false)
+                .add(ModRegistration.CRYSTAL_LEGGINGS, new SkillTreeData(rl("crystal_leggings"), 2.0F, false, false), false)
+                .add(ModRegistration.CRYSTAL_BOOTS, new SkillTreeData(rl("crystal_boots"), 2.0F, false, false), false)
+                .add(ModRegistration.CRYSTAL_ELYTRA, new SkillTreeData(rl("crystal_elytra"), false, false), false)
+                .add(ModRegistration.CRYSTAL_ROCKET, new SkillTreeData(rl("crystal_rocket"), 5.0F, false, false), false)
+                .add(ModRegistration.CRYSTAL_BACKPACK, new SkillTreeData(rl("crystal_backpack"), 125, 1, false, true, true, false, false), false)
+                .add(ModRegistration.CRYSTAL_MAGNET, new SkillTreeData(rl("crystal_magnet"), 1.0F, false, false), false)
+                .add(ModRegistration.PORTABLE_GENERATOR, new SkillTreeData(rl("portable_crystal_generator"), 1.0F, false, false), false);
 
 
         builder.add(Items.DIAMOND_PICKAXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_pickaxe"), 0, 1, false, false, false, true, false), false)

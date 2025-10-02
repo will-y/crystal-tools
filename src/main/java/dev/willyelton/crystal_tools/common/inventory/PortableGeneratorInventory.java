@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.common.inventory;
 
 import com.google.common.base.Predicates;
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.datamap.GeneratorFuelData;
 import dev.willyelton.crystal_tools.utils.ItemStackUtils;
@@ -37,7 +37,7 @@ public class PortableGeneratorInventory extends ListComponentItemHandler {
         if (stack.isEmpty()) {
             return true;
         }
-        boolean canFit = !stack.is(Registration.PORTABLE_GENERATOR) && super.isItemValid(slot, stack);
+        boolean canFit = !stack.is(ModRegistration.PORTABLE_GENERATOR) && super.isItemValid(slot, stack);
         if (level == null) return canFit;
 
         return canFit && canBurn(generatorStack, stack, level);

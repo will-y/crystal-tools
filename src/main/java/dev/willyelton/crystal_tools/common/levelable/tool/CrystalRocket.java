@@ -5,7 +5,6 @@ import dev.willyelton.crystal_tools.common.capability.Capabilities;
 import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -43,7 +42,7 @@ public class CrystalRocket extends LevelableTool {
         }
 
         if (player.isFallFlying()) {
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 int flightTime = stack.getOrDefault(DataComponents.FLIGHT_TIME, 1);
                 Fireworks fireworks = new Fireworks(flightTime, Collections.emptyList());
                 stack.set(net.minecraft.core.component.DataComponents.FIREWORKS, fireworks);

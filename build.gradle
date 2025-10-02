@@ -132,7 +132,7 @@ dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
     compileOnly "mezz.jei:jei-1.21.7-common-api:${jei_version}"
     compileOnly "mezz.jei:jei-1.21.7-neoforge-api:${jei_version}"
-    runtimeOnly "mezz.jei:jei-1.21.7-neoforge:${jei_version}"
+//    runtimeOnly "mezz.jei:jei-1.21.7-neoforge:${jei_version}"
     // Compile against only the API artifact
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
     // Use the full Curios API jar at runtime
@@ -155,7 +155,7 @@ dependencies {
 
 //    runtimeOnly "curse.maven:adorned-1036809:5740650" // Adorned
 
-     implementation "curse.maven:energized-power-782147:6927412" // Energized Power
+//     implementation "curse.maven:energized-power-782147:6927412" // Energized Power
 }
 
 minecraft {

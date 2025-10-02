@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity;
 
 import com.mojang.serialization.Codec;
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.client.particle.quarry.breakblock.QuarryBreakParticleData;
 import dev.willyelton.crystal_tools.common.components.QuarryData;
 import dev.willyelton.crystal_tools.common.components.QuarrySettings;
@@ -71,8 +71,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     private static final int MAX_BLOCKS_PER_TICK = 20;
 
     // Itemstacks for mocking fortune and silk touch
-    private static final ItemStack FORTUNE_STACK = new ItemStack(Registration.CRYSTAL_AIOT);
-    private static final ItemStack SILK_TOUCH_STACK = new ItemStack(Registration.CRYSTAL_AIOT);
+    private static final ItemStack FORTUNE_STACK = new ItemStack(ModRegistration.CRYSTAL_AIOT);
+    private static final ItemStack SILK_TOUCH_STACK = new ItemStack(ModRegistration.CRYSTAL_AIOT);
 
     // Item storage
     private final NonNullList<ItemStack> storedItems;
@@ -129,7 +129,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     private ChunkLoadingAction chunkLoadingAction;
 
     public CrystalQuarryBlockEntity(BlockPos pos, BlockState state) {
-        super(Registration.CRYSTAL_QUARRY_BLOCK_ENTITY.get(), pos, state);
+        super(ModRegistration.CRYSTAL_QUARRY_BLOCK_ENTITY.get(), pos, state);
         storedItems = NonNullList.withSize(INVENTORY_SIZE, ItemStack.EMPTY);
 
         useDirt = false;

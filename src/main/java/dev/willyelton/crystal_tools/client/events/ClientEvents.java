@@ -2,10 +2,10 @@ package dev.willyelton.crystal_tools.client.events;
 
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.client.renderer.CrystalToolsRenderTypes;
 import dev.willyelton.crystal_tools.client.renderer.CrystalTridentRenderer;
-import dev.willyelton.crystal_tools.client.renderer.QuarryCubeRenderer;
+import dev.willyelton.crystal_tools.client.renderer.QuarryCubeModel;
 import dev.willyelton.crystal_tools.client.renderer.blockentity.CrystalPedestalBlockEntityRenderer;
 import dev.willyelton.crystal_tools.client.renderer.blockentity.CrystalQuarryBlockEntityRenderer;
 import net.neoforged.api.distmarker.Dist;
@@ -18,14 +18,14 @@ import net.neoforged.neoforge.client.event.RegisterRenderPipelinesEvent;
 public class ClientEvents {
     @SubscribeEvent
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(Registration.CRYSTAL_TRIDENT_ENTITY.get(), CrystalTridentRenderer::new);
-        event.registerBlockEntityRenderer(Registration.CRYSTAL_QUARRY_BLOCK_ENTITY.get(), CrystalQuarryBlockEntityRenderer::new);
-        event.registerBlockEntityRenderer(Registration.CRYSTAL_PEDESTAL_BLOCK_ENTITY.get(), CrystalPedestalBlockEntityRenderer::new);
+        event.registerEntityRenderer(ModRegistration.CRYSTAL_TRIDENT_ENTITY.get(), CrystalTridentRenderer::new);
+        event.registerBlockEntityRenderer(ModRegistration.CRYSTAL_QUARRY_BLOCK_ENTITY.get(), CrystalQuarryBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModRegistration.CRYSTAL_PEDESTAL_BLOCK_ENTITY.get(), CrystalPedestalBlockEntityRenderer::new);
     }
 
     @SubscribeEvent
     public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
-        event.registerLayerDefinition(QuarryCubeRenderer.LOCATION, QuarryCubeRenderer::createBodyLayer);
+        event.registerLayerDefinition(QuarryCubeModel.LOCATION, QuarryCubeModel::createBodyLayer);
     }
 
     @SubscribeEvent

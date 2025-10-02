@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.levelable.tool;
 
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
@@ -70,7 +70,7 @@ public class CrystalMagnet extends LevelableTool {
                     }
                 }
                 e.push(entity.position().subtract(e.position()).normalize().scale(speed));
-                e.setData(Registration.MAGNET_ITEM.get(), true);
+                e.setData(ModRegistration.MAGNET_ITEM.get(), true);
                 affected.getAndIncrement();
             });
 

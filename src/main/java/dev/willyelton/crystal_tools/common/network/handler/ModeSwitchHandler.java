@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.network.handler;
 
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.tool.UseMode;
@@ -26,10 +26,10 @@ public class ModeSwitchHandler {
         ItemStack tool = ItemStackUtils.getHeldLevelableTool(player);
 
         if (payload.magnet()) {
-            if (tool.is(Registration.CRYSTAL_MAGNET.get())) {
+            if (tool.is(ModRegistration.CRYSTAL_MAGNET.get())) {
                 toggleMagnet(player, tool, payload.hasShiftDown());
             } else {
-                InventoryUtils.findAll(player, stack -> stack.is(Registration.CRYSTAL_MAGNET.get()))
+                InventoryUtils.findAll(player, stack -> stack.is(ModRegistration.CRYSTAL_MAGNET.get()))
                         .forEach(stack -> toggleMagnet(player, stack, payload.hasShiftDown()));
             }
 
@@ -86,7 +86,7 @@ public class ModeSwitchHandler {
 
         if (payload.hasAltDown() && !payload.hasShiftDown() && !payload.hasCtrlDown()) {
             // Use mode for AIOT
-            if (tool.is(Registration.CRYSTAL_AIOT.get())) {
+            if (tool.is(ModRegistration.CRYSTAL_AIOT.get())) {
                 UseMode currentMode = tool.getOrDefault(DataComponents.USE_MODE, UseMode.HOE);
                 tool.set(DataComponents.USE_MODE, UseMode.nextMode(tool, currentMode));
                 player.displayClientMessage(Component.literal("Mode: " + UseMode.nextMode(tool, currentMode)), true);
@@ -95,14 +95,14 @@ public class ModeSwitchHandler {
 
         // Backpack
         // TODO: Does this display messages when you don't have the pickup upgrade yet?
-        if (tool.is(Registration.CRYSTAL_BACKPACK.get())) {
+        if (tool.is(ModRegistration.CRYSTAL_BACKPACK.get())) {
             boolean pickupDisabled = tool.getOrDefault(DataComponents.PICKUP_DISABLED, false);
             tool.set(DataComponents.PICKUP_DISABLED, !pickupDisabled);
             player.displayClientMessage(Component.literal("Auto Pickup " + (pickupDisabled ? "Enabled" : "Disabled")), true);
         }
 
         // Trident
-        if (tool.getOrDefault(DataComponents.MINE_MODE, false) && tool.is(Registration.CRYSTAL_TRIDENT.get())) {
+        if (tool.getOrDefault(DataComponents.MINE_MODE, false) && tool.is(ModRegistration.CRYSTAL_TRIDENT.get())) {
             boolean riptideDisabled = tool.getOrDefault(DataComponents.RIPTIDE_DISABLED, false);
             tool.set(DataComponents.RIPTIDE_DISABLED, !riptideDisabled);
             player.displayClientMessage(Component.literal("Riptide " + (riptideDisabled ? "Enabled" : "Disabled")), true);
@@ -126,7 +126,7 @@ public class ModeSwitchHandler {
     }
 
     private void disableNightVision(Player player, ItemStack stack) {
-        if (stack.is(Registration.CRYSTAL_HELMET.get()) && stack.getOrDefault(DataComponents.NIGHT_VISION, false)) {
+        if (stack.is(ModRegistration.CRYSTAL_HELMET.get()) && stack.getOrDefault(DataComponents.NIGHT_VISION, false)) {
             // TODO: Can probably extract this for all of the toggles
             boolean disableNightVision = stack.getOrDefault(DataComponents.DISABLE_NIGHT_VISION, false);
             stack.set(DataComponents.DISABLE_NIGHT_VISION, !disableNightVision);

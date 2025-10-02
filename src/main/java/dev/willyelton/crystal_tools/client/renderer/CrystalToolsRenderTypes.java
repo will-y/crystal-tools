@@ -33,8 +33,8 @@ public class CrystalToolsRenderTypes {
 
     public static RenderPipeline QUARRY_CUBE_PIPELINE = RenderPipeline.builder(ENTITY_SNIPPET)
             .withLocation(rl("pipeline/quarry_cube"))
-            .withVertexShader("core/position_color_tex_lightmap")
-            .withFragmentShader("core/position_color_tex_lightmap")
+            .withVertexShader("core/entity")
+            .withFragmentShader("core/entity")
             .withShaderDefine("ALPHA_CUTOUT", 0.1F)
             .withSampler("Sampler1")
             .withBlend(BlendFunction.TRANSLUCENT)

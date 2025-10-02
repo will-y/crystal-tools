@@ -4,9 +4,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.datafixers.util.Pair;
 import dev.willyelton.crystal_tools.utils.Colors;
-import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.ARGB;
@@ -83,23 +83,23 @@ public class QuarryLaserRenderer {
         cubesToRemove.forEach(CUBE_RENDERERS::remove);
     }
 
-    public static void renderLaser(MultiBufferSource bufferSource, PoseStack poseStack, Camera camera, float partialTick, Level level, BlockPos pos1, BlockPos pos2, int colorIn) {
+    public static void renderLaser(MultiBufferSource bufferSource, PoseStack poseStack, CameraRenderState camera, float partialTick, Level level, BlockPos pos1, BlockPos pos2, int colorIn) {
         renderLaser(bufferSource, poseStack, camera, partialTick, level, pos1, pos2, -1, -1, -1, colorIn);
     }
 
-    public static void renderLaser(MultiBufferSource bufferSource, PoseStack poseStack, Camera camera, float partialTick, Level level, float pos1X, float pos1Y, float pos1Z, BlockPos pos2, int colorIn) {
+    public static void renderLaser(MultiBufferSource bufferSource, PoseStack poseStack, CameraRenderState camera, float partialTick, Level level, float pos1X, float pos1Y, float pos1Z, BlockPos pos2, int colorIn) {
         renderLaser(bufferSource, poseStack, camera, partialTick, level, pos1X, pos1Y, pos1Z, pos2.getX(), pos2.getY(), pos2.getZ(), -1, -1, -1, colorIn);
     }
 
-    public static void renderLaser(MultiBufferSource bufferSource, PoseStack poseStack, Camera camera, float partialTick, Level level, BlockPos pos1, float pos2X, float pos2Y, float pos2Z, int colorIn) {
+    public static void renderLaser(MultiBufferSource bufferSource, PoseStack poseStack, CameraRenderState camera, float partialTick, Level level, BlockPos pos1, float pos2X, float pos2Y, float pos2Z, int colorIn) {
         renderLaser(bufferSource, poseStack, camera, partialTick, level, pos1.getX(), pos1.getY(), pos1.getZ(), pos2X, pos2Y, pos2Z, -1, -1, -1, colorIn);
     }
 
-    public static void renderLaser(MultiBufferSource bufferSource, PoseStack poseStack, Camera camera, float partialTick, Level level, BlockPos pos1, BlockPos pos2, int timeElapsed, int timeLeft, int duration, int colorIn) {
+    public static void renderLaser(MultiBufferSource bufferSource, PoseStack poseStack, CameraRenderState camera, float partialTick, Level level, BlockPos pos1, BlockPos pos2, int timeElapsed, int timeLeft, int duration, int colorIn) {
         renderLaser(bufferSource, poseStack, camera, partialTick, level, pos1.getX(), pos1.getY(), pos1.getZ(), pos2.getX(), pos2.getY(), pos2.getZ(), timeElapsed, timeLeft, duration, colorIn);
     }
 
-    public static void renderLaser(MultiBufferSource bufferSource, PoseStack poseStack, Camera camera, float partialTick, Level level, float pos1X, float pos1Y, float pos1Z, float pos2X, float pos2Y, float pos2Z, int timeElapsed, int timeLeft, int duration, int colorIn) {
+    public static void renderLaser(MultiBufferSource bufferSource, PoseStack poseStack, CameraRenderState camera, float partialTick, Level level, float pos1X, float pos1Y, float pos1Z, float pos2X, float pos2Y, float pos2Z, int timeElapsed, int timeLeft, int duration, int colorIn) {
         long gameTime = level.getGameTime();
         Vector3f pos1Vector = new Vector3f(pos1X, pos1Y, pos1Z);
         Vector3f pos2Vector = new Vector3f(pos2X, pos2Y, pos2Z);
@@ -121,7 +121,7 @@ public class QuarryLaserRenderer {
             yMax = height;
         }
 
-        Vec3 view = camera.getPosition();
+        Vec3 view = camera.pos;
         poseStack.pushPose();
         poseStack.translate(-view.x, -view.y, -view.z);
         poseStack.translate(pos1X, pos1Y, pos1Z);

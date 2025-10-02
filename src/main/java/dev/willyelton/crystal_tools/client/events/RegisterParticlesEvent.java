@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.client.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.client.particle.quarry.breakblock.QuarryBreakParticleProvider;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -13,6 +13,6 @@ public class RegisterParticlesEvent {
 
     @SubscribeEvent
     public static void registerParticles(RegisterParticleProvidersEvent event) {
-        event.registerSpecial(Registration.QUARRY_BREAK_PARTICLE.get(), new QuarryBreakParticleProvider());
+        event.registerSpecial(ModRegistration.QUARRY_BREAK_PARTICLE.get(), new QuarryBreakParticleProvider());
     }
 }

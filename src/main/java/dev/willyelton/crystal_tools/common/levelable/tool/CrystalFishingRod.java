@@ -38,7 +38,7 @@ public class CrystalFishingRod extends LevelableTool {
 
         if (player.fishing != null) {
             // Remove bobber
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 int rodDamage = player.fishing.retrieve(stack);
                 stack.hurtAndBreak(rodDamage, (ServerLevel) level, player, null);
             }

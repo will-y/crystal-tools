@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.crafting;
 
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
 import net.minecraft.core.HolderLookup;
@@ -29,7 +29,7 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
         for (int i = 0; i < container.size(); i++) {
             ItemStack itemStack = container.getItem(i);
 
-            if (itemStack.is(Registration.CRYSTAL_CHESTPLATE.get())) {
+            if (itemStack.is(ModRegistration.CRYSTAL_CHESTPLATE.get())) {
                 if (foundChestplate)
                     return false;
                 foundChestplate = true;
@@ -47,7 +47,7 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
 
     @Override
     public ItemStack assemble(CraftingInput container, HolderLookup.Provider registryAccess) {
-        ItemStack stack = new ItemStack(Registration.CRYSTAL_ELYTRA.get());
+        ItemStack stack = new ItemStack(ModRegistration.CRYSTAL_ELYTRA.get());
         List<ItemStack> items = this.getItems(container);
 
         ItemStack elytraItem = items.get(0);
@@ -74,7 +74,7 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
 
     @Override
     public RecipeSerializer<? extends CustomRecipe> getSerializer() {
-        return Registration.CRYSTAL_ELYTRA_RECIPE.get();
+        return ModRegistration.CRYSTAL_ELYTRA_RECIPE.get();
     }
 
     private List<ItemStack> getItems(CraftingInput container) {
@@ -84,7 +84,7 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
         for (int i = 0; i < container.size(); i++) {
             ItemStack itemStack = container.getItem(i);
 
-            if (itemStack.is(Registration.CRYSTAL_CHESTPLATE.get())) {
+            if (itemStack.is(ModRegistration.CRYSTAL_CHESTPLATE.get())) {
                 crystalChestPlateItem = itemStack;
             } else if (itemStack.is(Items.ELYTRA)) {
                 elytraItem = itemStack;
@@ -96,11 +96,11 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
 
     @Override
     public List<ItemStack> getInputs() {
-        return List.of(new ItemStack(Registration.CRYSTAL_CHESTPLATE.get()), new ItemStack(Items.ELYTRA));
+        return List.of(new ItemStack(ModRegistration.CRYSTAL_CHESTPLATE.get()), new ItemStack(Items.ELYTRA));
     }
 
     @Override
     public ItemStack getOutput() {
-        return new ItemStack(Registration.CRYSTAL_ELYTRA.get());
+        return new ItemStack(ModRegistration.CRYSTAL_ELYTRA.get());
     }
 }

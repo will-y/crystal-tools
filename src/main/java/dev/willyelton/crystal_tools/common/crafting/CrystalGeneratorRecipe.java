@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.crafting;
 
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.components.LevelableBlockEntityData;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
@@ -31,19 +31,19 @@ public class CrystalGeneratorRecipe extends CrystalToolsRecipe {
         if (input.width() != 3 || input.height() != 3) return false;
 
         return input.getItem(0, 0).is(Items.REDSTONE_BLOCK) &&
-                input.getItem(0, 1).is(Registration.CRYSTAL.get()) &&
+                input.getItem(0, 1).is(ModRegistration.CRYSTAL.get()) &&
                 input.getItem(0, 2).is(Items.REDSTONE_BLOCK) &&
-                input.getItem(1, 0).is(Registration.CRYSTAL.get()) &&
-                input.getItem(1, 1).is(Registration.CRYSTAL_FURNACE_ITEM.get()) &&
-                input.getItem(1, 2).is(Registration.CRYSTAL.get()) &&
+                input.getItem(1, 0).is(ModRegistration.CRYSTAL.get()) &&
+                input.getItem(1, 1).is(ModRegistration.CRYSTAL_FURNACE_ITEM.get()) &&
+                input.getItem(1, 2).is(ModRegistration.CRYSTAL.get()) &&
                 input.getItem(2, 0).is(Items.REDSTONE_BLOCK) &&
-                input.getItem(2, 1).is(Registration.CRYSTAL.get()) &&
+                input.getItem(2, 1).is(ModRegistration.CRYSTAL.get()) &&
                 input.getItem(2, 2).is(Items.REDSTONE_BLOCK);
     }
 
     @Override
     public ItemStack assemble(CraftingInput input, HolderLookup.Provider registries) {
-        ItemStack result = new ItemStack(Registration.CRYSTAL_GENERATOR_ITEM.get());
+        ItemStack result = new ItemStack(ModRegistration.CRYSTAL_GENERATOR_ITEM.get());
 
         ItemStack furnaceItem = input.getItem(1, 1);
 
@@ -60,19 +60,19 @@ public class CrystalGeneratorRecipe extends CrystalToolsRecipe {
 
     @Override
     public RecipeSerializer<? extends CustomRecipe> getSerializer() {
-        return Registration.CRYSTAL_GENERATOR_RECIPE.get();
+        return ModRegistration.CRYSTAL_GENERATOR_RECIPE.get();
     }
 
     @Override
     public List<ItemStack> getInputs() {
-        return Stream.of(Items.REDSTONE_BLOCK, Registration.CRYSTAL.get(), Items.REDSTONE_BLOCK,
-                Registration.CRYSTAL.get(),Registration.CRYSTAL_FURNACE_ITEM.get(), Registration.CRYSTAL.get(),
-                Items.REDSTONE_BLOCK, Registration.CRYSTAL.get(), Items.REDSTONE_BLOCK).map(ItemStack::new).toList();
+        return Stream.of(Items.REDSTONE_BLOCK, ModRegistration.CRYSTAL.get(), Items.REDSTONE_BLOCK,
+                ModRegistration.CRYSTAL.get(), ModRegistration.CRYSTAL_FURNACE_ITEM.get(), ModRegistration.CRYSTAL.get(),
+                Items.REDSTONE_BLOCK, ModRegistration.CRYSTAL.get(), Items.REDSTONE_BLOCK).map(ItemStack::new).toList();
     }
 
     @Override
     public ItemStack getOutput() {
-        return new ItemStack(Registration.CRYSTAL_GENERATOR_ITEM.get());
+        return new ItemStack(ModRegistration.CRYSTAL_GENERATOR_ITEM.get());
     }
 
     @Override

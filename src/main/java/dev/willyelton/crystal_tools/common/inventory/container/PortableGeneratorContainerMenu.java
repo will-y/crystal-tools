@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.inventory.container;
 
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.inventory.PortableGeneratorInventory;
 import dev.willyelton.crystal_tools.common.levelable.PortableGenerator;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalGeneratorBlockEntity;
@@ -30,7 +30,7 @@ public class PortableGeneratorContainerMenu extends AbstractGeneratorContainerMe
     }
 
     public PortableGeneratorContainerMenu(int containerId, Inventory playerInventory, ILevelableContainerData data, ItemStack stack) {
-        super(Registration.PORTABLE_CRYSTAL_GENERATOR_CONTAINER.get(), containerId, playerInventory, data, 8, 137);
+        super(ModRegistration.PORTABLE_CRYSTAL_GENERATOR_CONTAINER.get(), containerId, playerInventory, data, 8, 137);
 
         this.level = playerInventory.player.level();
         this.inventory = PortableGenerator.getInventory(stack, level);

@@ -1,4 +1,4 @@
-// 1.21.8	2025-09-27T00:03:17.2707854	Model Definitions - crystal_tools
+// 1.21.9	2025-10-01T21:09:38.785942	Model Definitions - crystal_tools
 44eb603a54aabeb5d4f7c1fd34fc281a6fbb6170 assets/crystal_tools/blockstates/crystal_block.json
 16c7f01ecbdd437f59531bd56029a2d12186c9a6 assets/crystal_tools/blockstates/crystal_deepslate_ore.json
 b45cd6d350dcfbffe28c7a2e3695c880e9ac5b54 assets/crystal_tools/blockstates/crystal_furnace.json
@@ -37,7 +37,7 @@ bb04f99c4c245869ee7757b75bfac115d42088b4 assets/crystal_tools/items/crystal_shie
 242e6d3cd6625ced787992220a0b25399f35723e assets/crystal_tools/items/crystal_shovel.json
 78dbbc2c1ecdd5f58498ffeb4d59b7d342a4e3cd assets/crystal_tools/items/crystal_sword.json
 32eab23b3b9a46dc1e048390f77df65abe1983c1 assets/crystal_tools/items/crystal_torch.json
-a8eb357f6ce930fc4394d5c358b221c2854aabc2 assets/crystal_tools/items/crystal_trident.json
+ebdf5acc2eb5262ea22e4e5cfcd55486ab03713c assets/crystal_tools/items/crystal_trident.json
 86ffd1cda579765fa67e95752ed632fbcf2f078d assets/crystal_tools/items/crystal_upgrade_smithing_template.json
 9c03fb4e8f15fe201e62f22cff1580dd71979423 assets/crystal_tools/items/netherite_infused_crystal_geode.json
 553e99eb12b13b7e87944762667cecc426844a45 assets/crystal_tools/items/netherite_infused_crystal_shard.json

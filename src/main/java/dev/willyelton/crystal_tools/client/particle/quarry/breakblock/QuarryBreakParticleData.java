@@ -2,7 +2,7 @@ package dev.willyelton.crystal_tools.client.particle.quarry.breakblock;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
@@ -28,6 +28,6 @@ public record QuarryBreakParticleData(BlockState blockState, BlockPos startPos, 
 
     @Override
     public ParticleType<?> getType() {
-        return Registration.QUARRY_BREAK_PARTICLE.get();
+        return ModRegistration.QUARRY_BREAK_PARTICLE.get();
     }
 }

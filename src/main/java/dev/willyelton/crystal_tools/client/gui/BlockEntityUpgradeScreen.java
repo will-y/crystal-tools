@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.client.gui;
 
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.client.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.common.inventory.container.LevelableContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.LevelableBlockEntity;
@@ -86,7 +86,7 @@ public class BlockEntityUpgradeScreen extends BaseUpgradeScreen {
 
     @Override
     protected void resetPoints(boolean crystalRequired) {
-        if (!crystalRequired || this.player.getInventory().hasAnyOf(Set.of(Registration.CRYSTAL.get()))) {
+        if (!crystalRequired || this.player.getInventory().hasAnyOf(Set.of(ModRegistration.CRYSTAL.get()))) {
             LevelableBlockEntity blockEntity = this.container.getBlockEntity();
             ClientPacketDistributor.sendToServer(new ResetSkillsBlockPayload(blockEntity.getBlockPos()));
             blockEntity.resetSkills();

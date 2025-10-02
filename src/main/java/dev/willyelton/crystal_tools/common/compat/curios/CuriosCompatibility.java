@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.compat.curios;
 
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
@@ -15,7 +15,7 @@ import java.util.function.Predicate;
 
 public class CuriosCompatibility {
     public static List<ItemStack> getCrystalBackpacksInCurios(Player player) {
-        return getItemInCurios(player, stack -> stack.is(Registration.CRYSTAL_BACKPACK.get()));
+        return getItemInCurios(player, stack -> stack.is(ModRegistration.CRYSTAL_BACKPACK.get()));
     }
 
     public static List<ItemStack> getItemInCurios(Player player, Predicate<ItemStack> predicate) {

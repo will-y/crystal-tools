@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.inventory.container;
 
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.backpack.BackpackFilterSlot;
 import dev.willyelton.crystal_tools.common.inventory.container.subscreen.FilterContainerMenu;
@@ -33,7 +33,7 @@ public class CrystalMagnetContainerMenu extends BaseContainerMenu implements Sub
     }
 
     public CrystalMagnetContainerMenu(int pContainerId, Inventory playerInventory, ItemStack stack, int slotIndex) {
-        super(Registration.CRYSTAL_MAGNET_CONTAINER.get(), pContainerId, playerInventory, null);
+        super(ModRegistration.CRYSTAL_MAGNET_CONTAINER.get(), pContainerId, playerInventory, null);
 
         this.stack = stack;
         this.filterRows = stack.getOrDefault(DataComponents.FILTER_CAPACITY, 0);

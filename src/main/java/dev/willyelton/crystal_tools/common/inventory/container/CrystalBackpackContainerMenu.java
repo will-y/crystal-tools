@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.inventory.container;
 
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.inventory.CompressionItemStackHandler;
@@ -67,7 +67,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
 
     // Server constructor
     public CrystalBackpackContainerMenu(int containerId, Inventory playerInventory, ItemStack stack, int slotIndex) {
-        super(Registration.CRYSTAL_BACKPACK_CONTAINER.get(), containerId, playerInventory, null);
+        super(ModRegistration.CRYSTAL_BACKPACK_CONTAINER.get(), containerId, playerInventory, null);
         this.inventory = CrystalBackpack.getInventory(stack);
         this.stack = stack;
         this.player = playerInventory.player;
@@ -203,7 +203,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         int index = 0;
         int x = leftCol;
         for (int i = 0 ; i < 9 ; i++) {
-            if (playerInventory.getInv().getItem(index).is(Registration.CRYSTAL_BACKPACK.get())) {
+            if (playerInventory.getInv().getItem(index).is(ModRegistration.CRYSTAL_BACKPACK.get())) {
                 addSlot(new ReadOnlySlot(playerInventory, index, x, topRow));
             } else {
                 addSlot(new CrystalSlotItemHandler(playerInventory, index, x, topRow));

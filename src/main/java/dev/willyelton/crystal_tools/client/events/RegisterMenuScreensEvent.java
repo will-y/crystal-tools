@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.client.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen;
 import dev.willyelton.crystal_tools.client.gui.CrystalFurnaceScreen;
 import dev.willyelton.crystal_tools.client.gui.CrystalGeneratorScreen;
@@ -21,15 +21,15 @@ import net.neoforged.fml.common.EventBusSubscriber;
 public class RegisterMenuScreensEvent {
     @SubscribeEvent
     public static void onRegisterMenuScreens(net.neoforged.neoforge.client.event.RegisterMenuScreensEvent event) {
-        event.register(Registration.CRYSTAL_FURNACE_CONTAINER.get(), CrystalFurnaceScreen::new);
-        event.register(Registration.CRYSTAL_GENERATOR_CONTAINER.get(), CrystalGeneratorScreen::new);
-        event.register(Registration.PORTABLE_CRYSTAL_GENERATOR_CONTAINER.get(), PortableGeneratorScreen::new);
-        event.register(Registration.CRYSTAL_QUARRY_CONTAINER.get(), CrystalQuarryScreen::new);
-        event.register(Registration.CRYSTAL_BACKPACK_CONTAINER.get(), CrystalBackpackScreen::new);
-        event.register(Registration.CRYSTAL_PEDESTAL_CONTAINER.get(), CrystalPedestalScreen::new);
+        event.register(ModRegistration.CRYSTAL_FURNACE_CONTAINER.get(), CrystalFurnaceScreen::new);
+        event.register(ModRegistration.CRYSTAL_GENERATOR_CONTAINER.get(), CrystalGeneratorScreen::new);
+        event.register(ModRegistration.PORTABLE_CRYSTAL_GENERATOR_CONTAINER.get(), PortableGeneratorScreen::new);
+        event.register(ModRegistration.CRYSTAL_QUARRY_CONTAINER.get(), CrystalQuarryScreen::new);
+        event.register(ModRegistration.CRYSTAL_BACKPACK_CONTAINER.get(), CrystalBackpackScreen::new);
+        event.register(ModRegistration.CRYSTAL_PEDESTAL_CONTAINER.get(), CrystalPedestalScreen::new);
 
         // Little hacky, the generic type is backpack screen but that will always be null in this case. Also, can't be a lamba because the compiler is dumb
-        event.register(Registration.CRYSTAL_MAGNET_CONTAINER.get(), new MenuScreens.ScreenConstructor<CrystalMagnetContainerMenu, FilterConfigScreen<CrystalMagnetContainerMenu, CrystalBackpackScreen>>() {
+        event.register(ModRegistration.CRYSTAL_MAGNET_CONTAINER.get(), new MenuScreens.ScreenConstructor<CrystalMagnetContainerMenu, FilterConfigScreen<CrystalMagnetContainerMenu, CrystalBackpackScreen>>() {
             @Override
             public FilterConfigScreen<CrystalMagnetContainerMenu, CrystalBackpackScreen> create(CrystalMagnetContainerMenu menu, Inventory inventory, Component title) {
                 return new FilterConfigScreen<CrystalMagnetContainerMenu, CrystalBackpackScreen>(menu, inventory, null, false);

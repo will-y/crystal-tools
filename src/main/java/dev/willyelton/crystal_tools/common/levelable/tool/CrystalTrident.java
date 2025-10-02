@@ -4,7 +4,6 @@ import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.entity.CrystalTridentEntity;
 import dev.willyelton.crystal_tools.common.events.LevelTickEvent;
 import dev.willyelton.crystal_tools.common.levelable.EntityTargeter;
-import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -81,8 +80,8 @@ public class CrystalTrident extends SwordLevelableTool implements EntityTargeter
             int timeUsed = this.getUseDuration(stack, entityLiving) - timeLeft;
             if (timeUsed >= 10) {
                 int riptideLevel = stack.getOrDefault(DataComponents.RIPTIDE, 0);
-                if (!level.isClientSide) {
-                    stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(entityLiving.getUsedItemHand()));
+                if (!level.isClientSide()) {
+                    stack.hurtAndBreak(1, player, entityLiving.getUsedItemHand().asEquipmentSlot());
 
                     if (!riptideEnabled(stack)) {
                         CrystalTridentEntity tridentEntity = new CrystalTridentEntity(level, player, stack);

@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.datagen;
 
-import dev.willyelton.crystal_tools.Registration;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.events.DatapackRegistryEvents;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
@@ -42,55 +42,55 @@ public class CrystalToolsItemSkillTrees {
     public void registerSkillTrees() {
         // Basic Mining Tools
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
-                Registration.CRYSTAL_PICKAXE.getId()), basicMiningTool("Pickaxe"));
+                ModRegistration.CRYSTAL_PICKAXE.getId()), basicMiningTool("Pickaxe"));
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
-                Registration.CRYSTAL_HOE.getId()), basicMiningTool("Hoe"));
+                ModRegistration.CRYSTAL_HOE.getId()), basicMiningTool("Hoe"));
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
-                Registration.CRYSTAL_SHOVEL.getId()), basicMiningTool("Shovel"));
+                ModRegistration.CRYSTAL_SHOVEL.getId()), basicMiningTool("Shovel"));
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
-                Registration.CRYSTAL_AXE.getId()), basicMiningTool("Axe"));
+                ModRegistration.CRYSTAL_AXE.getId()), basicMiningTool("Axe"));
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
-                Registration.CRYSTAL_AIOT.getId()), aiot());
+                ModRegistration.CRYSTAL_AIOT.getId()), aiot());
 
         // Other Tools
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
-                Registration.CRYSTAL_FISHING_ROD.getId()), fishingRod());
+                ModRegistration.CRYSTAL_FISHING_ROD.getId()), fishingRod());
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
-                Registration.CRYSTAL_SHIELD.getId()), shield());
+                ModRegistration.CRYSTAL_SHIELD.getId()), shield());
 
         // Weapons
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
-                Registration.CRYSTAL_SWORD.getId()), sword());
+                ModRegistration.CRYSTAL_SWORD.getId()), sword());
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
-                Registration.CRYSTAL_BOW.getId()), bow());
+                ModRegistration.CRYSTAL_BOW.getId()), bow());
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
-                Registration.CRYSTAL_TRIDENT.getId()), trident());
+                ModRegistration.CRYSTAL_TRIDENT.getId()), trident());
 
         // Food
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
-                Registration.CRYSTAL_APPLE.getId()), food("Apple"));
+                ModRegistration.CRYSTAL_APPLE.getId()), food("Apple"));
 
         // Armor
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
-                Registration.CRYSTAL_HELMET.getId()), helmet());
+                ModRegistration.CRYSTAL_HELMET.getId()), helmet());
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
-                Registration.CRYSTAL_CHESTPLATE.getId()), chestplate(false));
+                ModRegistration.CRYSTAL_CHESTPLATE.getId()), chestplate(false));
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
-                Registration.CRYSTAL_LEGGINGS.getId()), leggings());
+                ModRegistration.CRYSTAL_LEGGINGS.getId()), leggings());
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
-                Registration.CRYSTAL_BOOTS.getId()), boots());
+                ModRegistration.CRYSTAL_BOOTS.getId()), boots());
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
-                Registration.CRYSTAL_ELYTRA.getId()), chestplate(true));
+                ModRegistration.CRYSTAL_ELYTRA.getId()), chestplate(true));
 
         // Misc
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
-                Registration.CRYSTAL_ROCKET.getId()), rocket());
+                ModRegistration.CRYSTAL_ROCKET.getId()), rocket());
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
-                Registration.CRYSTAL_BACKPACK.getId()), backpack());
+                ModRegistration.CRYSTAL_BACKPACK.getId()), backpack());
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
-                Registration.CRYSTAL_MAGNET.getId()), magnet());
+                ModRegistration.CRYSTAL_MAGNET.getId()), magnet());
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS,
-                Registration.PORTABLE_GENERATOR.getId()), portableGenerator());
+                ModRegistration.PORTABLE_GENERATOR.getId()), portableGenerator());
     }
 
     private SkillData basicMiningTool(String name) {
