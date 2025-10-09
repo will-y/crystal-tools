@@ -4,16 +4,18 @@ import dev.willyelton.crystal_tools.common.components.DataComponents;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
-import net.neoforged.neoforge.items.ComponentItemHandler;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompressionItemStackHandler extends ComponentItemHandler {
+public class CompressionItemStackHandler extends ItemAccessItemHandlerModifier {
     private List<CompressionMode> slotModes;
+    private final ItemStack parent;
 
     public CompressionItemStackHandler(ItemStack stack, DataComponentType<ItemContainerContents> component, int size) {
-        super(stack, component, size);
+        super(ItemAccess.forStack(stack), component, size);
+        this.parent = stack;
         slotModes = new ArrayList<>(size / 2);
         List<Integer> storedSlotModes = stack.getOrDefault(DataComponents.COMPRESSION_MODES, new ArrayList<>());
         for (Integer storedSlotMode : storedSlotModes) {

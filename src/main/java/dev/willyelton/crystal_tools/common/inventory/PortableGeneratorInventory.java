@@ -8,7 +8,6 @@ import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import org.jetbrains.annotations.Nullable;
@@ -45,16 +44,12 @@ public class PortableGeneratorInventory extends ListComponentItemHandler {
         return canFit && canBurn(generatorStack, resource.toStack(), level);
     }
 
-    public ItemStack insertStack(ItemStack stack) {
-        return ItemHandlerHelper.insertItem(ItemResourceHandlerAdapterModifiable.of(this), stack, false);
-    }
-
     public void setLevel(Level level) {
         this.level = level;
     }
 
     public ItemStack nextItem() {
-        return ItemStackUtils.nextFuelItem(ItemResourceHandlerAdapterModifiable.of(this), Predicates.alwaysTrue());
+        return ItemStackUtils.nextFuelItem(this, Predicates.alwaysTrue());
     }
 
     public static boolean canBurn(ItemStack generatorStack, ItemStack stack, Level level) {

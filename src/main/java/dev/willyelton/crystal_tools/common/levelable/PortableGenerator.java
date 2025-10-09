@@ -6,7 +6,6 @@ import dev.willyelton.crystal_tools.common.compat.curios.CuriosCompatibility;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.datamap.GeneratorFuelData;
-import dev.willyelton.crystal_tools.common.inventory.ItemResourceHandlerAdapterModifiable;
 import dev.willyelton.crystal_tools.common.inventory.PortableGeneratorInventory;
 import dev.willyelton.crystal_tools.common.inventory.container.PortableGeneratorContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.data.ILevelableContainerData;
@@ -30,12 +29,11 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.energy.IEnergyStorage;
-import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -73,11 +71,9 @@ public class PortableGenerator extends Item implements LevelableItem {
 
     @Override
     public int getBarWidth(ItemStack stack) {
-        // TODO (TRANSFER)
-        EnergyHandler newHandler = ItemAccess.forStack(stack).getCapability(Capabilities.Energy.ITEM);
-        IEnergyStorage energyStorage = newHandler == null ? null : IEnergyStorage.of(newHandler);
+        EnergyHandler handler = ItemAccess.forStack(stack).getCapability(Capabilities.Energy.ITEM);
 
-        if (energyStorage != null && energyStorage.getEnergyStored() > 0) {
+        if (handler != null && handler.getAmountAsInt() > 0) {
             return Math.round(13.0F - 13.0F * getFillLevel(stack));
         }
 
@@ -91,12 +87,10 @@ public class PortableGenerator extends Item implements LevelableItem {
     }
 
     private float getFillLevel(ItemStack stack) {
-        // TODO (TRANSFER)
-        EnergyHandler newHandler = ItemAccess.forStack(stack).getCapability(Capabilities.Energy.ITEM);
-        IEnergyStorage energyStorage = newHandler == null ? null : IEnergyStorage.of(newHandler);
+        EnergyHandler handler = ItemAccess.forStack(stack).getCapability(Capabilities.Energy.ITEM);
 
-        if (energyStorage != null && energyStorage.getEnergyStored() > 0) {
-            return (energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored()) / (float) energyStorage.getMaxEnergyStored();
+        if (handler != null && handler.getAmountAsInt() > 0) {
+            return (handler.getCapacityAsInt() - handler.getAmountAsInt()) / (float) handler.getCapacityAsInt();
         }
 
         return 0;
@@ -126,26 +120,25 @@ public class PortableGenerator extends Item implements LevelableItem {
     public static void tick(ItemStack stack, Level level, List<Entity> entities, BlockPos pos, Supplier<ItemStack> fuelSupplier, boolean levelItems) {
         Player player = null;
         if (level.getGameTime() % 20 == 4) {
-            List<ItemStack> stacks = new ArrayList<>();
+            List<ItemStack> curiosStacks = new ArrayList<>();
+            List<ResourceHandler<ItemResource>> handlers = new ArrayList<>();
             for (Entity entity : entities) {
-                // TODO (TRANSFER)
-                ResourceHandler<ItemResource> newHandler = entity.getCapability(Capabilities.Item.ENTITY);
-                IItemHandler handler = newHandler == null ? null : ItemResourceHandlerAdapterModifiable.of(newHandler);
+                ResourceHandler<ItemResource> handler = entity.getCapability(Capabilities.Item.ENTITY);
                 if (handler != null) {
-                    for (int i = 0; i < handler.getSlots(); i++) {
-                        if (!stack.isEmpty()) {
-                            stacks.add(handler.getStackInSlot(i));
-                        }
-                    }
+                    handlers.add(handler);
                 }
 
                 if (entity instanceof Player p) {
                     player = p;
-                    stacks.addAll(CuriosCompatibility.getItemInCurios(player, Predicates.alwaysTrue()));
+                    curiosStacks.addAll(CuriosCompatibility.getItemInCurios(player, Predicates.alwaysTrue()));
                 }
             }
 
-            int leftOverEnergy = distributeEnergy(stack.getOrDefault(DataComponents.FE_STORED, 0), stacks);
+            // Curios First
+            int leftOverEnergy = distributeEnergyToStacks(stack.getOrDefault(DataComponents.FE_STORED, 0), curiosStacks);
+            if (leftOverEnergy > 0) {
+                leftOverEnergy = distributeEnergy(leftOverEnergy, handlers);
+            }
             stack.set(DataComponents.FE_STORED, leftOverEnergy);
         }
 
@@ -201,15 +194,35 @@ public class PortableGenerator extends Item implements LevelableItem {
         }
     }
 
-    private static int distributeEnergy(int energy, List<ItemStack> itemsToCharge) {
+    private static int distributeEnergyToStacks(int energy, List<ItemStack> itemsToCharge) {
         for (ItemStack stack : itemsToCharge) {
-            if (energy <= 0 || stack.isEmpty()) break;
+            if (stack.isEmpty()) continue;
+            if (energy <= 0) return energy;
 
-            // TODO (TRANSFER)
-            EnergyHandler newHandler = ItemAccess.forStack(stack).getCapability(Capabilities.Energy.ITEM);
-            IEnergyStorage storage = newHandler == null ? null : IEnergyStorage.of(newHandler);
-            if (storage != null) {
-                energy = energy - storage.receiveEnergy(energy, false);
+            EnergyHandler handler = ItemAccess.forStack(stack).getCapability(Capabilities.Energy.ITEM);
+            if (handler != null) {
+                try (Transaction tx = Transaction.open(null)) {
+                    energy = energy - handler.insert(energy, tx);
+                    tx.commit();
+                }
+            }
+        }
+
+        return energy;
+    }
+
+    private static int distributeEnergy(int energy, List<ResourceHandler<ItemResource>> handlers) {
+        for (ResourceHandler<ItemResource> handler : handlers) {
+            for (int i = 0; i < handler.size(); i++) {
+                if (energy <= 0) return energy;
+                ItemAccess itemAccess = ItemAccess.forHandlerIndexStrict(handler, i);
+                EnergyHandler energyHandler = itemAccess.getCapability(Capabilities.Energy.ITEM);
+                if (energyHandler != null) {
+                    try (Transaction tx = Transaction.open(null)) {
+                        energy = energy - energyHandler.insert(energy, tx);
+                        tx.commit();
+                    }
+                }
             }
         }
 
@@ -217,13 +230,11 @@ public class PortableGenerator extends Item implements LevelableItem {
     }
 
     public static PortableGeneratorInventory getInventory(ItemStack stack, Level level) {
-        // TODO (TRANSFER)
-        ResourceHandler<ItemResource> newHandler = ItemAccess.forStack(stack).getCapability(Capabilities.Item.ITEM);
-        IItemHandler inventory = newHandler == null ? null : ItemResourceHandlerAdapterModifiable.of(newHandler);
+        ResourceHandler<ItemResource> handler = ItemAccess.forStack(stack).getCapability(Capabilities.Item.ITEM);
 
-        if (inventory == null) {
+        if (handler == null) {
             return new PortableGeneratorInventory(0);
-        } else if (inventory instanceof PortableGeneratorInventory portableGeneratorInventory) {
+        } else if (handler instanceof PortableGeneratorInventory portableGeneratorInventory) {
             portableGeneratorInventory.setLevel(level);
             return portableGeneratorInventory;
         } else {

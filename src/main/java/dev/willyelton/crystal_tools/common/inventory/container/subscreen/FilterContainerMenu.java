@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.common.inventory.container.subscreen;
 
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 
 /**
  *
@@ -16,7 +17,7 @@ public interface FilterContainerMenu {
 
     int getFilterRows();
 
-    IItemHandlerModifiable getFilterInventory();
+    ResourceHandler<ItemResource> getFilterInventory();
 
     default void clearFilters() {
         getFilterMenuContents().clear();

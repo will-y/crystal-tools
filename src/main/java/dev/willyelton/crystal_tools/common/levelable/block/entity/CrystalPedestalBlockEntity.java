@@ -25,15 +25,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import net.neoforged.neoforge.transfer.ResourceHandler;
-import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import org.jetbrains.annotations.Nullable;
 
 public class CrystalPedestalBlockEntity extends ActionBlockEntity implements MenuProvider {
     private final PedestalClientData clientData = new PedestalClientData();
-    private final ResourceHandler<ItemResource> catalystHandler;
-    private final ResourceHandler<ItemResource> contentsHandler;
+    private final ItemStacksResourceHandler catalystHandler;
+    private final ItemStacksResourceHandler contentsHandler;
     private final NonNullList<ItemStack> catalystStacks = NonNullList.withSize(1, ItemStack.EMPTY);
     private final NonNullList<ItemStack> contentsStacks = NonNullList.withSize(27, ItemStack.EMPTY);
 
@@ -44,7 +42,7 @@ public class CrystalPedestalBlockEntity extends ActionBlockEntity implements Men
         contentsHandler = new ItemStacksResourceHandler(contentsStacks);
     }
 
-    public ResourceHandler<ItemResource> getItemHandlerCapForSide(Direction side) {
+    public ItemStacksResourceHandler getItemHandlerCapForSide(Direction side) {
         if (this.getBlockState().getValue(CrystalPedestalBlock.FACING) == side) {
             return catalystHandler;
         } else {
@@ -52,7 +50,7 @@ public class CrystalPedestalBlockEntity extends ActionBlockEntity implements Men
         }
     }
 
-    public ResourceHandler<ItemResource> getContentsHandler() {
+    public ItemStacksResourceHandler getContentsHandler() {
         return contentsHandler;
     }
 

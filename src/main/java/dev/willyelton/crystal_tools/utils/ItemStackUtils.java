@@ -4,7 +4,9 @@ import dev.willyelton.crystal_tools.common.capability.Capabilities;
 import dev.willyelton.crystal_tools.common.capability.Levelable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 import java.util.function.Predicate;
 
@@ -38,17 +40,19 @@ public class ItemStackUtils {
         });
     }
 
-    public static ItemStack nextFuelItem(IItemHandlerModifiable handler, Predicate<ItemStack> predicate) {
-        for (int i = 0; i < handler.getSlots(); i++) {
-            ItemStack stack = handler.getStackInSlot(i);
+    public static ItemStack nextFuelItem(ResourceHandler<ItemResource> handler, Predicate<ItemResource> predicate) {
+        for (int i = 0; i < handler.size(); i++) {
+            ItemResource resource = handler.getResource(i);
 
-            if (!stack.isEmpty() && predicate.test(stack)) {
-                ItemStack toReturn = stack.copyWithCount(1);
-                ItemStack leftOver = stack.copy();
-                leftOver.shrink(1);
-                handler.setStackInSlot(i, leftOver);
+            if (!resource.isEmpty() && predicate.test(resource)) {
+                try (Transaction tx = Transaction.open(null)) {
+                    int amount = handler.extract(i, resource, 1, tx);
+                    tx.commit();
 
-                return toReturn;
+                    if (amount > 0) {
+                        return resource.toStack(amount);
+                    }
+                }
             }
         }
 

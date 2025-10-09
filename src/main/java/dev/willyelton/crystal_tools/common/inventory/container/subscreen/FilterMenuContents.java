@@ -2,11 +2,13 @@ package dev.willyelton.crystal_tools.common.inventory.container.subscreen;
 
 import dev.willyelton.crystal_tools.common.inventory.container.BaseContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.backpack.BackpackFilterSlot;
-import dev.willyelton.crystal_tools.utils.InventoryUtils;
+import dev.willyelton.crystal_tools.utils.TransferUtils;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.ResourceHandlerUtil;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.jetbrains.annotations.Nullable;
 
 import static dev.willyelton.crystal_tools.common.inventory.container.CrystalBackpackContainerMenu.FILTER_SLOTS_PER_ROW;
@@ -18,7 +20,7 @@ import static dev.willyelton.crystal_tools.common.inventory.container.CrystalBac
 public class FilterMenuContents<T extends BaseContainerMenu & FilterContainerMenu> {
     private final T menu;
     @Nullable
-    private final IItemHandlerModifiable filterInventory;
+    private final ResourceHandler<ItemResource> filterInventory;
     private final NonNullList<BackpackFilterSlot> filterSlots;
 
     private boolean whitelist;
@@ -40,7 +42,7 @@ public class FilterMenuContents<T extends BaseContainerMenu & FilterContainerMen
 
     public int getSlotCount() {
         if (filterInventory != null) {
-            return filterInventory.getSlots();
+            return filterInventory.size();
         }
 
         return 0;
@@ -50,7 +52,7 @@ public class FilterMenuContents<T extends BaseContainerMenu & FilterContainerMen
         return filterSlots;
     }
 
-    public IItemHandlerModifiable getInventory() {
+    public ResourceHandler<ItemResource> getInventory() {
         return filterInventory;
     }
 
@@ -77,31 +79,28 @@ public class FilterMenuContents<T extends BaseContainerMenu & FilterContainerMen
 
     public void clear() {
         if (filterInventory != null) {
-            InventoryUtils.clear(filterInventory);
+            TransferUtils.clear(filterInventory);
         }
     }
 
-    public void matchContents(IItemHandler inventory, boolean shiftDown) {
+    public void matchContents(ResourceHandler<ItemResource> handler, boolean shiftDown) {
         if (filterInventory == null) return;
 
         if (shiftDown) {
-            InventoryUtils.clear(filterInventory);
+            TransferUtils.clear(filterInventory);
         }
 
         int filterIndex = 0;
-        for (int i = 0; i < inventory.getSlots(); i++) {
+        for (int i = 0; i < handler.size(); i++) {
             if (filterIndex >= getSlotCount()) break;
-            ItemStack stack = inventory.getStackInSlot(i).copy();
-            stack.setCount(1);
-            // Would like to use a set but stack doesn't implement equals and hashcode
-            if (!InventoryUtils.contains(filterInventory, stack)) {
-                while (!filterInventory.getStackInSlot(filterIndex).isEmpty()) {
-                    filterIndex++;
-                    if (filterIndex >= getSlotCount()) {
-                        return;
+            ItemResource resource = handler.getResource(i);
+            if (!resource.isEmpty()) {
+                if (!ResourceHandlerUtil.contains(filterInventory, resource)) {
+                    try (Transaction tx = Transaction.open(null)) {
+                        filterInventory.insert(resource, 1, tx);
+                        tx.commit();
                     }
                 }
-                filterInventory.setStackInSlot(filterIndex++, stack);
             }
         }
     }

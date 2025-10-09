@@ -1,7 +1,6 @@
 package dev.willyelton.crystal_tools.common.inventory.container;
 
 import dev.willyelton.crystal_tools.ModRegistration;
-import dev.willyelton.crystal_tools.common.inventory.ItemResourceHandlerAdapterModifiable;
 import dev.willyelton.crystal_tools.common.inventory.PortableGeneratorInventory;
 import dev.willyelton.crystal_tools.common.levelable.PortableGenerator;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalGeneratorBlockEntity;
@@ -14,7 +13,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.transfer.IndexModifier;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 
 public class PortableGeneratorContainerMenu extends AbstractGeneratorContainerMenu {
     public static final int START_X = 8;
@@ -37,7 +38,7 @@ public class PortableGeneratorContainerMenu extends AbstractGeneratorContainerMe
         this.inventory = PortableGenerator.getInventory(stack, level);
         this.stack = stack;
 
-        this.addSlots(ItemResourceHandlerAdapterModifiable.of(inventory));
+        this.addSlots(inventory, (index, resource, amount) -> inventory.set(stack, index, resource, amount));
     }
 
     @Override
@@ -63,11 +64,11 @@ public class PortableGeneratorContainerMenu extends AbstractGeneratorContainerMe
         return stack;
     }
 
-    private void addSlots(IItemHandler handler) {
-        for (int i = 0; i < handler.getSlots(); i++) {
+    private void addSlots(ResourceHandler<ItemResource> handler, IndexModifier<ItemResource> modifier) {
+        for (int i = 0; i < handler.size(); i++) {
             int x = i % SLOTS_PER_ROW;
             int y = i / SLOTS_PER_ROW;
-            this.addSlot(handler, i, START_X + x * SLOT_SIZE, START_Y + y * SLOT_SIZE);
+            this.addSlot(handler, modifier, i, START_X + x * SLOT_SIZE, START_Y + y * SLOT_SIZE);
         }
     }
 

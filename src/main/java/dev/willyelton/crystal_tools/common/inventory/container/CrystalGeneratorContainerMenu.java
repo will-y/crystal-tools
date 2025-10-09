@@ -1,7 +1,6 @@
 package dev.willyelton.crystal_tools.common.inventory.container;
 
 import dev.willyelton.crystal_tools.ModRegistration;
-import dev.willyelton.crystal_tools.common.inventory.ItemResourceHandlerAdapterModifiable;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalGeneratorBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
@@ -23,7 +22,7 @@ public class CrystalGeneratorContainerMenu extends AbstractGeneratorContainerMen
             return;
         }
 
-        this.addSlot(ItemResourceHandlerAdapterModifiable.of(blockEntity.getFuelHandler()), 0, 80, 59);
+        this.addSlot(blockEntity.getFuelHandler(), 0, 80, 59);
     }
 
     @Override

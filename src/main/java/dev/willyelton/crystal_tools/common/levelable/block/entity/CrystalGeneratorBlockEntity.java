@@ -32,10 +32,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.jetbrains.annotations.Nullable;
 
@@ -51,7 +51,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
 
     // Item storage
     private NonNullList<ItemStack> fuelItems;
-    private ResourceHandler<ItemResource> fuelHandler;
+    private ItemStacksResourceHandler fuelHandler;
 
     // Energy storage
     private CrystalEnergyStorage energyStorage;
@@ -336,13 +336,11 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
     }
 
     private void distributeEnergy(Level level, BlockPos pos) {
-        List<IEnergyStorage> possibleDestinations = new ArrayList<>();
+        List<EnergyHandler> possibleDestinations = new ArrayList<>();
 
         for (Direction direction : Direction.values()) {
-            // TODO (TRANSFER)
-            EnergyHandler newHandler = level.getCapability(Capabilities.Energy.BLOCK, pos.relative(direction), direction.getOpposite());
-            IEnergyStorage energyStorage = newHandler == null ? null : IEnergyStorage.of(newHandler);
-            if (energyStorage != null && energyStorage.canReceive()) {
+            EnergyHandler handler = level.getCapability(Capabilities.Energy.BLOCK, pos.relative(direction), direction.getOpposite());
+            if (handler != null) {
                 possibleDestinations.add(energyStorage);
             }
         }
@@ -364,16 +362,19 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
                 }
             }
             didTransfer = false;
-            Iterator<IEnergyStorage> itr = possibleDestinations.iterator();
+            Iterator<EnergyHandler> itr = possibleDestinations.iterator();
             while (itr.hasNext() && amountAdded < amountToTransfer) {
-                IEnergyStorage storage = itr.next();
-                int added = storage.receiveEnergy(amountPerBlock, false);
-                if (added > 0) {
-                    didTransfer = true;
-                }
-                amountAdded += added;
-                if (added != amountPerBlock) {
-                    itr.remove();
+                EnergyHandler storage = itr.next();
+                try (Transaction tx = Transaction.open(null)) {
+                    int added = storage.insert(amountPerBlock, tx);
+                    if (added > 0) {
+                        didTransfer = true;
+                    }
+                    amountAdded += added;
+                    if (added != amountPerBlock) {
+                        itr.remove();
+                    }
+                    tx.commit();
                 }
             }
         }
@@ -443,7 +444,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         this.addExp((int) Math.ceil(CrystalToolsConfig.SKILL_POINTS_PER_BURN_TIME.get() * burnTime));
     }
 
-    public ResourceHandler<ItemResource> getFuelHandler() {
+    public ItemStacksResourceHandler getFuelHandler() {
         return fuelHandler;
     }
 

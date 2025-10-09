@@ -6,9 +6,11 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemUtil;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +85,8 @@ public class InventoryUtils {
                 player.getItemBySlot(EquipmentSlot.OFFHAND)
         );
     }
-    public static List<ItemStack> tryInsertStacks(IItemHandler handler, List<ItemStack> stacksToInsert) {
+
+    public static List<ItemStack> tryInsertStacks(ResourceHandler<ItemResource> handler, List<ItemStack> stacksToInsert) {
         return tryInsertStacks(handler, stacksToInsert, Predicates.alwaysTrue());
     }
 
@@ -94,17 +97,20 @@ public class InventoryUtils {
      * @param filter A predicate that decides if a given item should be inserted
      * @return The items that didn't fit in the handler
      */
-    public static List<ItemStack> tryInsertStacks(IItemHandler handler, List<ItemStack> stacksToInsert, Predicate<ItemStack> filter) {
+    public static List<ItemStack> tryInsertStacks(ResourceHandler<ItemResource> handler, List<ItemStack> stacksToInsert, Predicate<ItemStack> filter) {
         List<ItemStack> noFit = new ArrayList<>();
 
         for (ItemStack stack : stacksToInsert) {
             if (!filter.test(stack)) {
                 continue;
             }
-            ItemStack result = ItemHandlerHelper.insertItem(handler, stack, false);
+            try (Transaction tx = Transaction.open(null)) {
+                ItemStack result = ItemUtil.insertItemReturnRemaining(handler, stack, false, tx);
+                if (!result.isEmpty()) {
+                    noFit.add(result);
+                }
 
-            if (!result.isEmpty()) {
-                noFit.add(result);
+                tx.commit();
             }
         }
 

@@ -1,21 +1,26 @@
 package dev.willyelton.crystal_tools.common.inventory.container.slot;
 
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
-import net.neoforged.neoforge.items.ItemHandlerCopySlot;
+import net.neoforged.neoforge.transfer.IndexModifier;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ResourceHandlerSlot;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.jetbrains.annotations.NotNull;
 
 // TODO: Look at ScrollPanel, maybe we don't need all of this
-public class ScrollableSlot extends ItemHandlerCopySlot {
+public class ScrollableSlot extends ResourceHandlerSlot {
     private int actualSlotIndex;
     private boolean active = true;
+    private final ResourceHandler<ItemResource> handler;
+    private final IndexModifier<ItemResource> slotModifier;
 
-    public ScrollableSlot(IItemHandler itemHandler, int index, int xPosition, int yPosition) {
-        super(itemHandler, index, xPosition, yPosition);
+    public ScrollableSlot(ResourceHandler<ItemResource> handler, IndexModifier<ItemResource> slotModifier, int index, int xPosition, int yPosition) {
+        super(handler, slotModifier, index, xPosition, yPosition);
         this.actualSlotIndex = index;
+        this.handler = handler;
+        this.slotModifier = slotModifier;
     }
 
     public void setSlotIndex(int slot) {
@@ -26,63 +31,41 @@ public class ScrollableSlot extends ItemHandlerCopySlot {
     public boolean mayPlace(@NotNull ItemStack stack) {
         if (stack.isEmpty())
             return false;
-        return getItemHandler().isItemValid(actualSlotIndex, stack);
+        return handler.isValid(actualSlotIndex, ItemResource.of(stack));
     }
 
     @Override
     public ItemStack getStackCopy() {
-        return this.getItemHandler().getStackInSlot(actualSlotIndex);
+        return handler.getResource(actualSlotIndex).toStack(handler.getAmountAsInt(actualSlotIndex));
     }
 
     // TODO: This is getting called when scrolling? Probably shouldn't be
     @Override
     public void setStackCopy(@NotNull ItemStack stack) {
-        ((IItemHandlerModifiable) this.getItemHandler()).setStackInSlot(actualSlotIndex, stack);
+        slotModifier.set(actualSlotIndex, ItemResource.of(stack), stack.getCount());
     }
 
     @Override
     public int getMaxStackSize() {
-        return getItemHandler().getSlotLimit(this.actualSlotIndex);
+        return handler.getCapacityAsInt(actualSlotIndex, ItemResource.EMPTY);
     }
 
     @Override
     public int getMaxStackSize(@NotNull ItemStack stack) {
-        ItemStack maxAdd = stack.copy();
-        int maxInput = stack.getMaxStackSize();
-        maxAdd.setCount(maxInput);
-
-        IItemHandler handler = this.getItemHandler();
-        ItemStack currentStack = handler.getStackInSlot(actualSlotIndex);
-        if (handler instanceof IItemHandlerModifiable handlerModifiable) {
-            handlerModifiable.setStackInSlot(actualSlotIndex, ItemStack.EMPTY);
-
-            ItemStack remainder = handlerModifiable.insertItem(actualSlotIndex, maxAdd, true);
-
-            handlerModifiable.setStackInSlot(actualSlotIndex, currentStack);
-
-            return maxInput - remainder.getCount();
-        } else {
-            ItemStack remainder = handler.insertItem(actualSlotIndex, maxAdd, true);
-
-            int current = currentStack.getCount();
-            int added = maxInput - remainder.getCount();
-            return current + added;
-        }
+        return handler.getCapacityAsInt(actualSlotIndex, ItemResource.of(stack));
     }
 
     @Override
     public boolean mayPickup(Player playerIn) {
-        return !this.getItemHandler().extractItem(actualSlotIndex, 1, true).isEmpty();
+        try (var tx = Transaction.open(null)) {
+            // Simulated extraction
+            return handler.extract(actualSlotIndex, handler.getResource(actualSlotIndex), 1, tx) == 1;
+        }
     }
 
     @Override
     public boolean isActive() {
         return active;
-    }
-
-    @Override
-    public boolean isSameInventory(Slot other) {
-        return other instanceof ItemHandlerCopySlot itemHandlerCopySlot && itemHandlerCopySlot.getItemHandler() == this.getItemHandler();
     }
 
     public void setActive(boolean active) {

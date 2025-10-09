@@ -5,7 +5,6 @@ import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.inventory.CompressionItemStackHandler;
 import dev.willyelton.crystal_tools.common.inventory.CrystalBackpackInventory;
-import dev.willyelton.crystal_tools.common.inventory.ItemResourceHandlerAdapterModifiable;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.CrystalSlotItemHandler;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.ReadOnlySlot;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.ScrollableSlot;
@@ -17,6 +16,7 @@ import dev.willyelton.crystal_tools.common.inventory.container.subscreen.FilterM
 import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenType;
 import dev.willyelton.crystal_tools.common.levelable.CrystalBackpack;
+import dev.willyelton.crystal_tools.utils.TransferUtils;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -26,9 +26,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.ComponentItemHandler;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.item.ItemAccessItemHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemUtil;
 
 import java.util.Objects;
 
@@ -95,14 +97,16 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
             rowsToDraw = Math.min(rows, maxRows);
         }
 
-        // TODO (TRANSFER)
-        this.addSlotBox(ItemResourceHandlerAdapterModifiable.of(this.inventory), 0, START_X, START_Y, SLOTS_PER_ROW, SLOT_SIZE, rowsToDraw, SLOT_SIZE, backpackSlots, ScrollableSlot::new);
+        this.addSlotBox(this.inventory, (index, resource, amount) -> inventory.set(this.stack, index, resource, amount),
+                0, START_X, START_Y, SLOTS_PER_ROW, SLOT_SIZE, rowsToDraw, SLOT_SIZE, backpackSlots, ScrollableSlot::new);
     }
 
     private void setUpFilterSlots() {
         if (Objects.nonNull(filterMenuContents.getInventory())) {
             int filterRows = Math.min(rows, getFilterRows());
-            this.addSlotBox(filterMenuContents.getInventory(), 0, START_X, START_Y, FILTER_SLOTS_PER_ROW, SLOT_SIZE, filterRows, SLOT_SIZE, filterMenuContents.getFilterSlots(), BackpackFilterSlot::new);
+            this.addSlotBox(filterMenuContents.getInventory(), TransferUtils.indexModifier(filterMenuContents.getInventory()),
+                    0, START_X, START_Y, FILTER_SLOTS_PER_ROW, SLOT_SIZE, filterRows, SLOT_SIZE, filterMenuContents.getFilterSlots(),
+                    BackpackFilterSlot::new);
             filterMenuContents.toggleSlots(false);
         }
     }
@@ -116,8 +120,8 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
 
         for (int i = 0; i < compressionRows; i++) {
             for (int j = 0; j < 3; j++) {
-                CompressionOutputSlot outputSlot = new CompressionOutputSlot(compressionInventory, i * 6 + j * 2 + 1, START_X + j * 54 + 32, START_Y + SLOT_SIZE * i);
-                CompressionInputSlot inputSlot = new CompressionInputSlot(compressionInventory, i * 6 + j * 2, START_X + j * 54, START_Y + SLOT_SIZE * i, outputSlot, player.level());
+                CompressionOutputSlot outputSlot = new CompressionOutputSlot(compressionInventory, compressionInventory.indexModifier(stack), i * 6 + j * 2 + 1, START_X + j * 54 + 32, START_Y + SLOT_SIZE * i);
+                CompressionInputSlot inputSlot = new CompressionInputSlot(compressionInventory, compressionInventory.indexModifier(stack), i * 6 + j * 2, START_X + j * 54, START_Y + SLOT_SIZE * i, outputSlot, player.level());
                 outputSlot.setInputSlot(inputSlot);
 
                 outputSlot.setActive(false);
@@ -206,10 +210,10 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         int index = 0;
         int x = leftCol;
         for (int i = 0 ; i < 9 ; i++) {
-            if (playerInventory.getInv().getItem(index).is(ModRegistration.CRYSTAL_BACKPACK.get())) {
-                addSlot(new ReadOnlySlot(playerInventory, index, x, topRow));
+            if (player.getInventory().getItem(index).is(ModRegistration.CRYSTAL_BACKPACK.get())) {
+                addSlot(new ReadOnlySlot(playerInventory, TransferUtils.playerIndexModifier(player.getInventory()), index, x, topRow));
             } else {
-                addSlot(new CrystalSlotItemHandler(playerInventory, index, x, topRow));
+                addSlot(new CrystalSlotItemHandler(playerInventory, TransferUtils.playerIndexModifier(player.getInventory()), index, x, topRow));
             }
             x += 18;
             index++;
@@ -275,12 +279,12 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
     }
 
     @Override
-    public IItemHandlerModifiable getFilterInventory() {
+    public ResourceHandler<ItemResource> getFilterInventory() {
         if (filterRows == 0) {
             return null;
         }
 
-        return new ComponentItemHandler(stack, DataComponents.FILTER_INVENTORY.get(), filterRows * FILTER_SLOTS_PER_ROW);
+        return new ItemAccessItemHandler(ItemAccess.forStack(stack), DataComponents.FILTER_INVENTORY.get(), filterRows * FILTER_SLOTS_PER_ROW);
     }
 
     private CompressionItemStackHandler createCompressionInventory(ItemStack stack) {
@@ -337,7 +341,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
     }
 
     public Inventory getPlayerInventory() {
-        return (Inventory) playerInventory.getInv();
+        return player.getInventory();
     }
 
     @Override
@@ -375,20 +379,18 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         int compressionSlots = getCompressionSlots();
 
         for (int i = 0; i < compressionSlots; i+=2) {
-            ItemStack inputItem = compressionInventory.getStackInSlot(i);
-            ItemStack outputItem = compressionInventory.getStackInSlot(i + 1);
+            ItemStack inputItem = ItemUtil.getStack(compressionInventory, i);
+            ItemStack outputItem = ItemUtil.getStack(compressionInventory, i + 1);
             if (inputItem.isEmpty() || outputItem.isEmpty()) continue;
 
             int count = 0;
 
-            // TODO (TRANSFER)
-            IItemHandlerModifiable temp = ItemResourceHandlerAdapterModifiable.of(inventory);
             for (int j = 0; j < inventory.size(); j++) {
-                ItemStack stack = temp.getStackInSlot(j);
+                ItemStack stack = ItemUtil.getStack(inventory, j);
                 if (stack.is(inputItem.getItem())) {
                     count += stack.getCount();
                     // If any item has tags or anything this will delete them but that's probably fine
-                    temp.setStackInSlot(j, ItemStack.EMPTY);
+                    inventory.set(this.stack, j, ItemResource.EMPTY, 0);
                 }
             }
 
@@ -415,7 +417,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
 
     @Override
     public void matchContentsFilter(boolean isShiftDown) {
-        this.filterMenuContents.matchContents(ItemResourceHandlerAdapterModifiable.of(this.inventory), isShiftDown);
+        this.filterMenuContents.matchContents(this.inventory, isShiftDown);
     }
 
     @Override

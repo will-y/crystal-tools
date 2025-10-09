@@ -1,20 +1,22 @@
 package dev.willyelton.crystal_tools.common.inventory.container.slot;
 
-import net.minecraft.world.inventory.Slot;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.SlotItemHandler;
+import net.neoforged.neoforge.transfer.IndexModifier;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
+import net.neoforged.neoforge.transfer.item.ResourceHandlerSlot;
 
-public class CrystalSlotItemHandler extends SlotItemHandler {
+public class CrystalSlotItemHandler extends ResourceHandlerSlot {
     private boolean active = true;
+    private final int index;
 
-    public CrystalSlotItemHandler(IItemHandler itemHandler, int index, int xPosition, int yPosition) {
-        super(itemHandler, index, xPosition, yPosition);
+    public CrystalSlotItemHandler(ItemStacksResourceHandler itemHandler, int index, int xPosition, int yPosition) {
+        this(itemHandler, itemHandler::set, index, xPosition, yPosition);
     }
 
-    // Not sure why this is commented out in Forge
-    @Override
-    public boolean isSameInventory(Slot other) {
-        return other instanceof CrystalSlotItemHandler crystalSlotItemHandler && crystalSlotItemHandler.getItemHandler() == this.getItemHandler();
+    public CrystalSlotItemHandler(ResourceHandler<ItemResource> itemHandler, IndexModifier<ItemResource> slotModifier, int index, int xPosition, int yPosition) {
+        super(itemHandler, slotModifier, index, xPosition, yPosition);
+        this.index = index;
     }
 
     @Override

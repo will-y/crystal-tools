@@ -10,6 +10,8 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.transfer.IndexModifier;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +27,8 @@ public class CompressionInputSlot extends CrystalSlotItemHandler {
     private final Level level;
     private final CompressionItemStackHandler compressionHandler;
 
-    public CompressionInputSlot(CompressionItemStackHandler itemHandler, int index, int x, int y, CompressionOutputSlot outputSlot, Level level) {
-        super(itemHandler, index, x, y);
+    public CompressionInputSlot(CompressionItemStackHandler itemHandler, IndexModifier<ItemResource> indexModifier, int index, int x, int y, CompressionOutputSlot outputSlot, Level level) {
+        super(itemHandler, indexModifier, index, x, y);
         this.outputSlot = outputSlot;
         this.level = level;
         this.compressionHandler = itemHandler;

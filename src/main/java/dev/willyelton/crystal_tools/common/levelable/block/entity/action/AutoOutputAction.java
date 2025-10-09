@@ -1,7 +1,6 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity.action;
 
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.inventory.ItemResourceHandlerAdapterModifiable;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.ActionBlockEntity;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.core.BlockPos;
@@ -14,9 +13,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.AUTO_OUTPUT;
 
@@ -46,16 +45,15 @@ public class AutoOutputAction extends Action {
             ItemStack stack = autoOutputable.getOutputStacks().get(index);
 
             for (Direction dir : POSSIBLE_INVENTORIES) {
-                // TODO (TRANSFER)
-                ResourceHandler<ItemResource> newHandler = level.getCapability(Capabilities.Item.BLOCK, pos.relative(dir), dir.getOpposite());
-                IItemHandler itemHandler = newHandler == null ? null : ItemResourceHandlerAdapterModifiable.of(newHandler);
+                ResourceHandler<ItemResource> handler = level.getCapability(Capabilities.Item.BLOCK, pos.relative(dir), dir.getOpposite());
+
                 BlockState invState = level.getBlockState(pos.relative(dir));
 
-                if (itemHandler != null && !invState.is(CrystalToolsTags.AUTO_OUTPUT_BLACKLIST)) {
-                    for (int i = 0; i < itemHandler.getSlots(); i++) {
-                        stack = itemHandler.insertItem(i, stack, false);
-
-                        if (stack.isEmpty()) break;
+                if (handler != null && !invState.is(CrystalToolsTags.AUTO_OUTPUT_BLACKLIST)) {
+                    try (Transaction tx = Transaction.open(null)) {
+                        int inserted = handler.insert(ItemResource.of(stack), stack.getCount(), tx);
+                        stack.shrink(inserted);
+                        tx.commit();
                     }
                 }
                 if (stack.isEmpty()) break;

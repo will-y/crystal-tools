@@ -1,6 +1,3 @@
-
-modLoader="javafml" #mandatory
-loaderVersion="${loader_version_range}"
 license="${mod_license}"
 issueTrackerURL="https://github.com/will-y/crystal-tools/issues" #optional
 
@@ -15,7 +12,7 @@ description='''${mod_description}'''
     # the modid of the dependency
     modId="neoforge" #mandatory
     type="required"
-    versionRange="${neo_version_range}"
+    versionRange="[${neo_version},)"
     ordering="NONE"
     side="BOTH"
 

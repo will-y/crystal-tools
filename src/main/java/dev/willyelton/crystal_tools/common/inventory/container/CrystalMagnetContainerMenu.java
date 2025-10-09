@@ -7,14 +7,17 @@ import dev.willyelton.crystal_tools.common.inventory.container.subscreen.FilterC
 import dev.willyelton.crystal_tools.common.inventory.container.subscreen.FilterMenuContents;
 import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenType;
+import dev.willyelton.crystal_tools.utils.TransferUtils;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.ComponentItemHandler;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.item.ItemAccessItemHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 
 import java.util.Objects;
 
@@ -50,7 +53,9 @@ public class CrystalMagnetContainerMenu extends BaseContainerMenu implements Sub
     private void setUpFilterSlots() {
         if (Objects.nonNull(filterMenuContents.getInventory())) {
             int filterRows = getFilterRows();
-            this.addSlotBox(filterMenuContents.getInventory(), 0, START_X, START_Y, FILTER_SLOTS_PER_ROW, SLOT_SIZE, filterRows, SLOT_SIZE, filterMenuContents.getFilterSlots(), BackpackFilterSlot::new);
+            this.addSlotBox(filterMenuContents.getInventory(), TransferUtils.indexModifier(filterMenuContents.getInventory()),
+                    0, START_X, START_Y, FILTER_SLOTS_PER_ROW, SLOT_SIZE, filterRows, SLOT_SIZE, filterMenuContents.getFilterSlots(),
+                    BackpackFilterSlot::new);
         }
     }
 
@@ -60,12 +65,12 @@ public class CrystalMagnetContainerMenu extends BaseContainerMenu implements Sub
     }
 
     @Override
-    public IItemHandlerModifiable getFilterInventory() {
+    public ResourceHandler<ItemResource> getFilterInventory() {
         if (filterRows == 0) {
             return null;
         }
 
-        return new ComponentItemHandler(stack, DataComponents.FILTER_INVENTORY.get(), filterRows * FILTER_SLOTS_PER_ROW);
+        return new ItemAccessItemHandler(ItemAccess.forStack(stack), DataComponents.FILTER_INVENTORY.get(), filterRows * FILTER_SLOTS_PER_ROW);
     }
 
     @Override

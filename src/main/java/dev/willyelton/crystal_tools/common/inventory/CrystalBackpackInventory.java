@@ -8,15 +8,14 @@ import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemUtil;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-// TODO (TRANSFER)
 public class CrystalBackpackInventory extends ListComponentItemHandler {
 
     // TODO: Do I even need this constructor?
@@ -34,7 +33,7 @@ public class CrystalBackpackInventory extends ListComponentItemHandler {
     }
 
     public ItemStack insertStack(ItemStack stack) {
-        return ItemHandlerHelper.insertItem(ItemResourceHandlerAdapterModifiable.of(this), stack, false);
+        return ItemUtil.insertItemReturnRemaining(this, stack, false, null);
     }
 
     public void sort(Level level, SortType sortType) {

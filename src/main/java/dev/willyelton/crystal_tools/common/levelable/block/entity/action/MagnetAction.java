@@ -3,7 +3,6 @@ package dev.willyelton.crystal_tools.common.levelable.block.entity.action;
 import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.common.inventory.ItemResourceHandlerAdapterModifiable;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.ActionBlockEntity;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
@@ -17,9 +16,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.ResourceHandlerUtil;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -87,17 +85,21 @@ public class MagnetAction extends Action {
     }
 
     private boolean storeItem(Level level, BlockPos pos, ItemEntity itemEntity) {
-        // TODO (TRANSFER)
-        ResourceHandler<ItemResource> newHandler = level.getCapability(Capabilities.Item.BLOCK, pos, null);
-        IItemHandler itemHandler = newHandler == null ? null : ItemResourceHandlerAdapterModifiable.of(newHandler);
-        if (itemHandler != null) {
-            ItemStack leftOver = ItemHandlerHelper.insertItemStacked(itemHandler, itemEntity.getItem(), false);
+        ItemStack stack = itemEntity.getItem();
+        ItemResource resource = ItemResource.of(stack);
 
-            if (leftOver.isEmpty()) {
-                return true;
-            } else {
-                itemEntity.setItem(leftOver);
-                return false;
+        if (!resource.isEmpty()) {
+            ResourceHandler<ItemResource> handler = level.getCapability(Capabilities.Item.BLOCK, pos, null);
+            if (handler != null) {
+                int inserted = ResourceHandlerUtil.insertStacking(handler, resource, stack.getCount(), null);
+                ItemStack leftOver = stack.copyWithCount(stack.getCount() - inserted);
+
+                if (leftOver.isEmpty()) {
+                    return true;
+                } else {
+                    itemEntity.setItem(leftOver);
+                    return false;
+                }
             }
         }
 

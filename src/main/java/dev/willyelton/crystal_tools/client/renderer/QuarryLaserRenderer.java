@@ -161,7 +161,7 @@ public class QuarryLaserRenderer {
     }
 
     private static void renderLaser(RenderLevelStageEvent event, Level level, BlockPos pos1, BlockPos pos2, int timeElapsed, int timeLeft, int duration, int colorIn) {
-        renderLaser(Minecraft.getInstance().renderBuffers().bufferSource(), event.getPoseStack(), event.getCamera(), event.getPartialTick().getGameTimeDeltaTicks(), level, pos1, pos2, timeElapsed, timeLeft, duration, colorIn);
+//        renderLaser(Minecraft.getInstance().renderBuffers().bufferSource(), event.getPoseStack(), event.getCamera(), event.getPartialTick().getGameTimeDeltaTicks(), level, pos1, pos2, timeElapsed, timeLeft, duration, colorIn);
     }
 
     private static void renderPart(PoseStack poseStack, VertexConsumer consumer, int color, int minY, float maxY, float x1,

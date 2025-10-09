@@ -100,6 +100,13 @@ public class ListComponentItemHandler extends ItemAccessResourceHandler<ItemReso
         return resource.isEmpty() ? Item.ABSOLUTE_MAX_STACK_SIZE : Math.min(resource.getMaxStackSize(), Item.ABSOLUTE_MAX_STACK_SIZE);
     }
 
+    public void set(ItemStack stack, int index, ItemResource resource, int amount) {
+        List<ItemContainerContents> result = update(ItemResource.of(stack), index, resource, amount).get(this.component);
+
+        stack.set(this.component, result);
+
+    }
+
     private List<ItemContainerContents> deepCopy(List<ItemContainerContents> containerContents) {
         List<ItemContainerContents> newContainerContents = new ArrayList<>();
 

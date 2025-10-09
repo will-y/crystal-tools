@@ -8,7 +8,6 @@ import dev.willyelton.crystal_tools.common.components.QuarrySettings;
 import dev.willyelton.crystal_tools.common.components.QuarryUpgrades;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.energy.CrystalEnergyStorage;
-import dev.willyelton.crystal_tools.common.inventory.ItemResourceHandlerAdapterModifiable;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalQuarryContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalQuarryBlock;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.Action;
@@ -19,6 +18,7 @@ import dev.willyelton.crystal_tools.common.levelable.block.entity.action.ChunkLo
 import dev.willyelton.crystal_tools.common.levelable.block.entity.data.LevelableContainerData;
 import dev.willyelton.crystal_tools.common.network.data.QuarryMineBlockPayload;
 import dev.willyelton.crystal_tools.utils.InventoryUtils;
+import dev.willyelton.crystal_tools.utils.TransferUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -31,7 +31,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -50,14 +49,13 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import net.neoforged.neoforge.transfer.item.ItemUtil;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -78,12 +76,10 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     private static final ItemStack SILK_TOUCH_STACK = new ItemStack(ModRegistration.CRYSTAL_AIOT);
 
     // Item storage
-    private final NonNullList<ItemStack> storedItems;
     private final ItemStacksResourceHandler itemHandler;
 
     // Filter Things
-    private final NonNullList<ItemStack> filterItems;
-    private final ResourceHandler<ItemResource> filterItemHandler;
+    private final ItemStacksResourceHandler filterItemHandler;
     private boolean whitelist = true;
     private int filterRows = 0;
 
@@ -133,17 +129,15 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
     public CrystalQuarryBlockEntity(BlockPos pos, BlockState state) {
         super(ModRegistration.CRYSTAL_QUARRY_BLOCK_ENTITY.get(), pos, state);
-        storedItems = NonNullList.withSize(INVENTORY_SIZE, ItemStack.EMPTY);
 
         useDirt = false;
 
         // Caps
-        itemHandler = new ItemStacksResourceHandler(storedItems);
+        itemHandler = new ItemStacksResourceHandler(NonNullList.withSize(INVENTORY_SIZE, ItemStack.EMPTY));
         energyStorage = new CrystalEnergyStorage(10000, getEnergyCost() * 2, 0, 0);
 
         // Filter
-        filterItems = NonNullList.withSize(INVENTORY_SIZE, ItemStack.EMPTY);
-        filterItemHandler = new ItemStacksResourceHandler(filterItems);
+        filterItemHandler = new ItemStacksResourceHandler(NonNullList.withSize(INVENTORY_SIZE, ItemStack.EMPTY));
     }
 
     @Override
@@ -175,8 +169,8 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     @Override
     protected void loadAdditional(ValueInput valueInput) {
         super.loadAdditional(valueInput);
-        ContainerHelper.loadAllItems(valueInput, this.storedItems);
-        ContainerHelper.loadAllItems(valueInput.childOrEmpty("FilterInventory"), this.filterItems);
+        this.itemHandler.deserialize(valueInput);
+        this.filterItemHandler.deserialize(valueInput.childOrEmpty("FilterInventory"));
 
         this.filterRows = valueInput.getInt("FilterRows").orElse(0);
         this.whitelist = valueInput.getBooleanOr("Whitelist", false);
@@ -226,12 +220,12 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
         ItemContainerContents contents = componentInput.get(DataComponents.CONTAINER);
         if (contents != null) {
-            contents.copyInto(this.storedItems);
+            contents.copyInto(this.itemHandler.copyToList());
         }
 
         ItemContainerContents filterContents = componentInput.get(dev.willyelton.crystal_tools.common.components.DataComponents.FILTER_INVENTORY);
         if (filterContents != null) {
-            filterContents.copyInto(this.filterItems);
+            filterContents.copyInto(this.filterItemHandler.copyToList());
         }
 
         QuarryUpgrades quarryUpgrades = componentInput.get(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_UPGRADES);
@@ -279,9 +273,9 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     @Override
     protected void saveAdditional(ValueOutput valueOutput) {
         super.saveAdditional(valueOutput);
-        ContainerHelper.saveAllItems(valueOutput, this.storedItems);
+        this.itemHandler.serialize(valueOutput);
+        this.filterItemHandler.serialize(valueOutput.child("FilterInventory"));
 
-        ContainerHelper.saveAllItems(valueOutput.child("FilterInventory"), this.filterItems);
         valueOutput.putInt("FilterRows", this.filterRows);
         valueOutput.putBoolean("Whitelist", this.whitelist);
 
@@ -327,10 +321,10 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     protected void collectImplicitComponents(DataComponentMap.Builder components) {
         super.collectImplicitComponents(components);
 
-        ItemContainerContents contents = ItemContainerContents.fromItems(this.storedItems);
+        ItemContainerContents contents = ItemContainerContents.fromItems(this.itemHandler.copyToList());
         components.set(DataComponents.CONTAINER, contents);
 
-        ItemContainerContents filterContents = ItemContainerContents.fromItems(this.filterItems);
+        ItemContainerContents filterContents = ItemContainerContents.fromItems(this.filterItemHandler.copyToList());
         components.set(dev.willyelton.crystal_tools.common.components.DataComponents.FILTER_INVENTORY, filterContents);
 
         QuarryData quarryData = new QuarryData(miningAt == null ? BlockPos.ZERO : miningAt, currentProgress, miningState, finished, waitingStacks, energyStorage.getAmountAsInt(), whitelist);
@@ -450,8 +444,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
         if (!waitingStacks.isEmpty()) {
             if (level.getGameTime() % 20 == 0) {
-                // TODO (TRANSFER)
-                List<ItemStack> noFit = new ArrayList<>(InventoryUtils.tryInsertStacks(ItemResourceHandlerAdapterModifiable.of(itemHandler), waitingStacks, this::shouldPickUp));
+                List<ItemStack> noFit = new ArrayList<>(InventoryUtils.tryInsertStacks(itemHandler, waitingStacks, this::shouldPickUp));
 
                 if (!noFit.isEmpty()) {
                     waitingStacks = noFit;
@@ -537,7 +530,7 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
                 List<ItemStack> drops = new ArrayList<>(Block.getDrops(level.getBlockState(miningAt), (ServerLevel) level, miningAt, level.getBlockEntity(miningAt), null, miningStack));
                 drops.addAll(getInventoryContents(level));
-                List<ItemStack> noFit = new ArrayList<>(InventoryUtils.tryInsertStacks(ItemResourceHandlerAdapterModifiable.of(itemHandler), drops, this::shouldPickUp));
+                List<ItemStack> noFit = new ArrayList<>(InventoryUtils.tryInsertStacks(itemHandler, drops, this::shouldPickUp));
 
                 if (!noFit.isEmpty()) {
                     this.waitingStacks = noFit;
@@ -562,11 +555,11 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         }
     }
 
-    public ResourceHandler<ItemResource> getItemHandler() {
+    public ItemStacksResourceHandler getItemHandler() {
         return itemHandler;
     }
 
-    public ResourceHandler<ItemResource> getFilterItemHandler() {
+    public ItemStacksResourceHandler getFilterItemHandler() {
         return filterItemHandler;
     }
 
@@ -651,39 +644,14 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     private List<ItemStack> getInventoryContents(Level level) {
         List<ItemStack> stacks = new ArrayList<>();
         for (Direction direction : Direction.values()) {
-            // TODO (TRANSFER)
-            ResourceHandler<ItemResource> newHandler = level.getCapability(Capabilities.Item.BLOCK, miningAt, miningState, level.getBlockEntity(miningAt), direction);
-            IItemHandler itemHandler = newHandler == null ? null : ItemResourceHandlerAdapterModifiable.of(newHandler);
+            ResourceHandler<ItemResource> handler = level.getCapability(Capabilities.Item.BLOCK, miningAt, miningState, level.getBlockEntity(miningAt), direction);
 
-            if (itemHandler != null) {
-                for (int i = 0; i < itemHandler.getSlots(); i++) {
-                    ItemStack storedStack = itemHandler.getStackInSlot(i);
-                    if (!storedStack.isEmpty()) {
-                        stacks.add(itemHandler.extractItem(i, storedStack.getCount(), false));
-                    }
-                }
+            if (handler != null) {
+                stacks.addAll(TransferUtils.extractAll(handler));
             }
         }
 
         return stacks;
-    }
-
-    private List<ItemStack> tryInsertStacks(List<ItemStack> stacksToInsert) {
-        List<ItemStack> noFit = new ArrayList<>();
-
-        for (ItemStack stack : stacksToInsert) {
-            if (shouldPickUp(stack)) {
-                continue;
-            }
-            // TODO (TRANSFER)
-            ItemStack result = ItemHandlerHelper.insertItem(ItemResourceHandlerAdapterModifiable.of(this.itemHandler), stack, false);
-
-            if (!result.isEmpty()) {
-                noFit.add(result);
-            }
-        }
-
-        return noFit;
     }
 
     private void enchantTempItems(Level level) {
@@ -694,10 +662,14 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     }
 
     private boolean shouldPickUp(ItemStack stack) {
-        for (ItemStack filterStack : filterItems) {
-            // TODO: Mode matching
-            if (filterStack.is(stack.getItem())) {
-                return !whitelist;
+        ItemResource resource = ItemResource.of(stack);
+        if (!resource.isEmpty()) {
+            try (Transaction tx = Transaction.open(null)) {
+                boolean hasItem = this.filterItemHandler.extract(resource, 1, tx) == 1;
+                if (hasItem) {
+                    return !whitelist;
+                }
+                // Don't commit, want to roll back on filter inventory
             }
         }
 
