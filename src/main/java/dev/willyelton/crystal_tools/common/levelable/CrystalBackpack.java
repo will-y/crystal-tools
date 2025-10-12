@@ -8,6 +8,7 @@ import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalBackpackContainerMenu;
 import dev.willyelton.crystal_tools.utils.InventoryUtils;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -47,7 +48,7 @@ public class CrystalBackpack extends Item implements LevelableItem {
         ItemStack stack = player.getItemInHand(usedHand);
 
         if (player instanceof ServerPlayer serverPlayer) {
-            openBackpack(serverPlayer, stack, serverPlayer.getInventory().findSlotMatchingItem(stack));
+//            openBackpack(serverPlayer, stack, serverPlayer.getInventory().findSlotMatchingItem(stack));
         }
 
         return InteractionResult.SUCCESS;
@@ -109,6 +110,7 @@ public class CrystalBackpack extends Item implements LevelableItem {
 
     @Override
     public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> components, TooltipFlag flag) {
+        components.accept(Component.literal("Crystal Backpack is currently broken and waiting on a Neoforge update").withStyle(ChatFormatting.RED));
         if (itemStack.getOrDefault(DataComponents.BACKPACK_AUTO_PICKUP, false)) {
             String toolTip = "\u00A79" + "Auto Pickup " + (itemStack.getOrDefault(DataComponents.PICKUP_DISABLED, false) ? "Disabled" : "Enabled");
             components.accept(Component.literal(toolTip));

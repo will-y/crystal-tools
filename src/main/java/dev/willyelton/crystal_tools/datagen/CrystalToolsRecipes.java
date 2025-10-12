@@ -193,15 +193,15 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
 
-        shaped(RecipeCategory.TOOLS, ModRegistration.CRYSTAL_BACKPACK.get())
-                .pattern("lcl")
-                .pattern("chc")
-                .pattern("lcl")
-                .define('l', Items.LEATHER)
-                .define('c', ModRegistration.CRYSTAL.get())
-                .define('h', Items.CHEST)
-                .unlockedBy("has_crystal", HAS_CRYSTAL)
-                .save(output);
+//        shaped(RecipeCategory.TOOLS, ModRegistration.CRYSTAL_BACKPACK.get())
+//                .pattern("lcl")
+//                .pattern("chc")
+//                .pattern("lcl")
+//                .define('l', Items.LEATHER)
+//                .define('c', ModRegistration.CRYSTAL.get())
+//                .define('h', Items.CHEST)
+//                .unlockedBy("has_crystal", HAS_CRYSTAL)
+//                .save(output);
 
         shaped(RecipeCategory.TOOLS, ModRegistration.CRYSTAL_MAGNET.get())
                 .pattern(" cr")
@@ -213,15 +213,15 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
 
-        shaped(RecipeCategory.TOOLS, ModRegistration.PORTABLE_GENERATOR.get())
-                .pattern(" p ")
-                .pattern("pgp")
-                .pattern(" s ")
-                .define('p', Items.PISTON)
-                .define('g', ModRegistration.CRYSTAL_GENERATOR.get())
-                .define('s', ModRegistration.NETHERITE_STICK.get())
-                .unlockedBy("has_crystal", HAS_CRYSTAL)
-                .save(output);
+//        shaped(RecipeCategory.TOOLS, ModRegistration.PORTABLE_GENERATOR.get())
+//                .pattern(" p ")
+//                .pattern("pgp")
+//                .pattern(" s ")
+//                .define('p', Items.PISTON)
+//                .define('g', ModRegistration.CRYSTAL_GENERATOR.get())
+//                .define('s', ModRegistration.NETHERITE_STICK.get())
+//                .unlockedBy("has_crystal", HAS_CRYSTAL)
+//                .save(output);
 
         // Machines
         shaped(RecipeCategory.MISC, ModRegistration.CRYSTAL_FURNACE.get())

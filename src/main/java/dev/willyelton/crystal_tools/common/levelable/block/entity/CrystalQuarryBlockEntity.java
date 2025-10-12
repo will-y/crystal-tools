@@ -220,12 +220,22 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
 
         ItemContainerContents contents = componentInput.get(DataComponents.CONTAINER);
         if (contents != null) {
-            contents.copyInto(this.itemHandler.copyToList());
+            for (int i = 0; i < contents.getSlots(); i++) {
+                ItemStack stack = contents.getStackInSlot(i);
+                if (!stack.isEmpty()) {
+                    this.itemHandler.set(i, ItemResource.of(stack), stack.getCount());
+                }
+            }
         }
 
         ItemContainerContents filterContents = componentInput.get(dev.willyelton.crystal_tools.common.components.DataComponents.FILTER_INVENTORY);
         if (filterContents != null) {
-            filterContents.copyInto(this.filterItemHandler.copyToList());
+            for (int i = 0; i < filterContents.getSlots(); i++) {
+                ItemStack stack = filterContents.getStackInSlot(i);
+                if (!stack.isEmpty()) {
+                    this.filterItemHandler.set(i, ItemResource.of(stack), stack.getCount());
+                }
+            }
         }
 
         QuarryUpgrades quarryUpgrades = componentInput.get(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_UPGRADES);

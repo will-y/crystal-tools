@@ -6,6 +6,7 @@ import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalMagnetContainerMenu;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -85,7 +86,7 @@ public class CrystalMagnet extends LevelableTool {
         ItemStack stack = player.getItemInHand(hand);
 
         if (player instanceof ServerPlayer serverPlayer) {
-            openMagnetFilter(serverPlayer, stack, serverPlayer.getInventory().findSlotMatchingItem(stack));
+//            openMagnetFilter(serverPlayer, stack, serverPlayer.getInventory().findSlotMatchingItem(stack));
         }
 
         return InteractionResult.SUCCESS;
@@ -93,6 +94,7 @@ public class CrystalMagnet extends LevelableTool {
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> components, TooltipFlag flag) {
+        components.accept(Component.literal("Filtering is currently disabled and waiting on a Neoforge Update").withStyle(ChatFormatting.RED));
         components.accept(Component.literal(String.format("Range: %.1f Blocks", getRange(stack))));
         if (stack.getOrDefault(DataComponents.PULL_MOBS, false)) {
             String toolTip;

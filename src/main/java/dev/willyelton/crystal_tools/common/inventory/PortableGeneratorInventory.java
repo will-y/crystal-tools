@@ -9,12 +9,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.item.ItemAccessItemHandler;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import org.jetbrains.annotations.Nullable;
 
 import static dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalGeneratorBlockEntity.getFuelData;
 
-public class PortableGeneratorInventory extends ListComponentItemHandler {
+public class PortableGeneratorInventory extends ItemAccessItemHandler {
     // TODO: Move to BE maybe?
     public static final int MAX_SIZE = 27;
 
@@ -23,12 +24,12 @@ public class PortableGeneratorInventory extends ListComponentItemHandler {
     private @Nullable Level level;
 
     public PortableGeneratorInventory(int size) {
-        super(ItemAccess.forStack(new ItemStack(ModRegistration.PORTABLE_GENERATOR)), DataComponents.BACKPACK_INVENTORY.get(), Math.min(size, MAX_SIZE));
+        super(ItemAccess.forStack(new ItemStack(ModRegistration.PORTABLE_GENERATOR)), net.minecraft.core.component.DataComponents.CONTAINER, Math.min(size, MAX_SIZE));
         this.generatorStack = ItemStack.EMPTY.copy();
     }
 
     public PortableGeneratorInventory(ItemStack stack) {
-        super(ItemAccess.forStack(stack), DataComponents.BACKPACK_INVENTORY.get(), Math.min(stack.getOrDefault(DataComponents.PORTABLE_GENERATOR_SLOTS, 0) + 1, MAX_SIZE));
+        super(ItemAccess.forStack(stack), net.minecraft.core.component.DataComponents.CONTAINER, Math.min(stack.getOrDefault(DataComponents.PORTABLE_GENERATOR_SLOTS, 0) + 1, MAX_SIZE));
 
         this.generatorStack = stack;
     }

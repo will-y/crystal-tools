@@ -7,6 +7,7 @@ import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalGenerat
 import dev.willyelton.crystal_tools.common.levelable.block.entity.LevelableBlockEntity;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.data.ILevelableContainerData;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.data.SimpleLevelableContainerData;
+import dev.willyelton.crystal_tools.utils.TransferUtils;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -38,7 +39,7 @@ public class PortableGeneratorContainerMenu extends AbstractGeneratorContainerMe
         this.inventory = PortableGenerator.getInventory(stack, level);
         this.stack = stack;
 
-        this.addSlots(inventory, (index, resource, amount) -> inventory.set(stack, index, resource, amount));
+        this.addSlots(inventory, TransferUtils.itemstackIndexModifier(stack));
     }
 
     @Override

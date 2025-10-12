@@ -1,4 +1,10 @@
 # Crystal Tools Change Log
+## 3.5.0 - 1.21.10 beta 1
+### Fixes
+- Fixes the Crystal Quarry, Crystal Generator, and Crystal Furnace not working correctly
+- Disables the Portable Crystal Generator and Crystal Backpack (Broken and waiting on a Neoforge update)
+- Disables the Crystal Magnet Filtering (Broken and waiting on a Neoforge update)
+
 ## 3.5.0
 ### Additions
 - The portable generator can now be placed in the crystal pedestal to wirelessly charge items in nearby player's inventories

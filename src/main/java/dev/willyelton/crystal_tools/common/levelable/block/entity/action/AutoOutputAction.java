@@ -43,6 +43,7 @@ public class AutoOutputAction extends Action {
 
         for (Integer index : autoOutputable.getOutputStacks().keySet()) {
             ItemStack stack = autoOutputable.getOutputStacks().get(index);
+            if (stack.isEmpty()) continue;
 
             for (Direction dir : POSSIBLE_INVENTORIES) {
                 ResourceHandler<ItemResource> handler = level.getCapability(Capabilities.Item.BLOCK, pos.relative(dir), dir.getOpposite());

@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.common.inventory.container;
 
 import dev.willyelton.crystal_tools.client.gui.SlotFactory;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.CrystalSlotItemHandler;
+import dev.willyelton.crystal_tools.utils.TransferUtils;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -49,7 +50,7 @@ public abstract class BaseContainerMenu extends AbstractContainerMenu {
         addSlot(handler, indexModifier, index, x, y, null, CrystalSlotItemHandler::new);
     }
 
-        protected <T extends Slot> void addSlot(ItemStacksResourceHandler handler, int index, int x, int y, @Nullable NonNullList<T> slotList, SlotFactory<T> slotFactory) {
+    protected <T extends Slot> void addSlot(ItemStacksResourceHandler handler, int index, int x, int y, @Nullable NonNullList<T> slotList, SlotFactory<T> slotFactory) {
         addSlot(handler, handler::set, index, x, y, slotList, slotFactory);
     }
 
@@ -62,7 +63,7 @@ public abstract class BaseContainerMenu extends AbstractContainerMenu {
     }
 
     protected <T extends Slot> int addSlotRange(ResourceHandler<ItemResource> handler, IndexModifier<ItemResource> indexModifier, int index, int x, int y, int amount, int dx, @Nullable NonNullList<T> slotList, SlotFactory<T> slotFactory) {
-        for (int i = 0 ; i < amount ; i++) {
+        for (int i = 0; i < amount; i++) {
             addSlot(handler, indexModifier, index, x, y, slotList, slotFactory);
             x += dx;
             index++;
@@ -75,7 +76,7 @@ public abstract class BaseContainerMenu extends AbstractContainerMenu {
     }
 
     protected <T extends Slot> int addSlotBox(ResourceHandler<ItemResource> handler, IndexModifier<ItemResource> indexModifier, int index, int x, int y, int horAmount, int dx, int verAmount, int dy, @Nullable NonNullList<T> slotList, SlotFactory<T> slotFactory) {
-        for (int j = 0 ; j < verAmount ; j++) {
+        for (int j = 0; j < verAmount; j++) {
             index = addSlotRange(handler, indexModifier, index, x, y, horAmount, dx, slotList, slotFactory);
             y += dy;
         }
@@ -94,11 +95,15 @@ public abstract class BaseContainerMenu extends AbstractContainerMenu {
         // Player inventory
 //        addSlotBox(playerInventory, 9, leftCol, topRow, 9, 18, 3, 18, slotList, slotFactory);
         int index = 9;
-        int x = leftCol;
         int y = topRow;
-        for (int j = 0 ; j < 3 ; j++) {
-            for (int i = 0 ; i < 9 ; i++) {
-                addSlot(new Slot(player.getInventory(), index, x, y));
+        for (int j = 0; j < 3; j++) {
+            int x = leftCol;
+            for (int i = 0; i < 9; i++) {
+                T slot = slotFactory.create(playerInventory, TransferUtils.playerIndexModifier(player.getInventory()), index, x, y);
+                addSlot(slot);
+                if (slotList != null) {
+                    slotList.add(slot);
+                }
                 x += 18;
                 index++;
             }
@@ -116,8 +121,12 @@ public abstract class BaseContainerMenu extends AbstractContainerMenu {
 //        addSlotRange(playerInventory, 0, leftCol, topRow, 9, 18, slotList, slotFactory);
         int x = leftCol;
         int index = 0;
-        for (int i = 0 ; i < 9 ; i++) {
-            addSlot(new Slot(player.getInventory(), index, x, topRow));
+        for (int i = 0; i < 9; i++) {
+            T slot = slotFactory.create(playerInventory, TransferUtils.playerIndexModifier(player.getInventory()), index, x, topRow);
+            addSlot(slot);
+            if (slotList != null) {
+                slotList.add(slot);
+            }
             x += 18;
             index++;
         }

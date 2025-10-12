@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.common.inventory;
 
+import dev.willyelton.crystal_tools.CrystalTools;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.Item;
@@ -9,6 +10,7 @@ import net.neoforged.neoforge.transfer.ItemAccessResourceHandler;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.item.ItemAccessItemHandler;
 import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +73,7 @@ public class ListComponentItemHandler extends ItemAccessResourceHandler<ItemReso
         int listIndex = index / MAX_CONTENTS_SIZE;
         int thisContentsIndex = listIndex % MAX_CONTENTS_SIZE;
 
-        ItemContainerContents thisContent = contents.get(index);
+        ItemContainerContents thisContent = index >= contents.size() ? ItemContainerContents.EMPTY : contents.get(index);
 
         int thisContentsSlots = Math.clamp((this.size - listIndex * MAX_CONTENTS_SIZE), 0, MAX_CONTENTS_SIZE);
         NonNullList<ItemStack> list = NonNullList.withSize(Math.max(thisContent.getSlots(), thisContentsSlots), ItemStack.EMPTY);
@@ -101,10 +103,24 @@ public class ListComponentItemHandler extends ItemAccessResourceHandler<ItemReso
     }
 
     public void set(ItemStack stack, int index, ItemResource resource, int amount) {
-        List<ItemContainerContents> result = update(ItemResource.of(stack), index, resource, amount).get(this.component);
+//        List<ItemContainerContents> result = update(ItemResource.of(stack), index, resource, amount).get(this.component);
+//        stack.set(this.component, result);
+        CrystalTools.LOGGER.info("Setting stack " + stack + " to " + resource + " with amount " + amount);
 
-        stack.set(this.component, result);
+        try (Transaction tx = Transaction.open(null)) {
+            ItemResource extractedResource = this.getResource(index);
+            if (!extractedResource.isEmpty()) {
+                int extracted = this.extract(index, extractedResource, this.getCapacity(index, extractedResource), tx);
+                CrystalTools.LOGGER.info("Extracted " + extracted + " of " + extractedResource);
+            }
 
+            if (!resource.isEmpty()) {
+                int inserted = this.insert(index, resource, amount, tx);
+                CrystalTools.LOGGER.info("Inserted " + inserted + " of " + resource);
+            }
+
+            tx.commit();
+        }
     }
 
     private List<ItemContainerContents> deepCopy(List<ItemContainerContents> containerContents) {

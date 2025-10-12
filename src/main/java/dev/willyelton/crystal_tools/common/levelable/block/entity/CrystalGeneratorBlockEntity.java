@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity;
 
+import com.google.common.base.Predicates;
 import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.components.GeneratorData;
 import dev.willyelton.crystal_tools.common.components.GeneratorUpgrades;
@@ -18,7 +19,6 @@ import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -33,9 +33,11 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.ResourceHandlerUtil;
 import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
+import net.neoforged.neoforge.transfer.resource.ResourceStack;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.jetbrains.annotations.Nullable;
 
@@ -50,7 +52,6 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
     private static final int SIZE = 1;
 
     // Item storage
-    private NonNullList<ItemStack> fuelItems;
     private ItemStacksResourceHandler fuelHandler;
 
     // Energy storage
@@ -77,8 +78,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
 
     public CrystalGeneratorBlockEntity(BlockPos pos, BlockState state) {
         super(ModRegistration.CRYSTAL_GENERATOR_BLOCK_ENTITY.get(), pos, state);
-        fuelItems = NonNullList.withSize(SIZE, ItemStack.EMPTY);
-        fuelHandler = new GeneratorItemStackHandler(fuelItems, this);
+        fuelHandler = new GeneratorItemStackHandler(NonNullList.withSize(SIZE, ItemStack.EMPTY), this);
 
         baseFEStorage = CrystalToolsConfig.BASE_FE_STORAGE.get();
         baseFETransfer = CrystalToolsConfig.BASE_FE_TRANSFER.get();
@@ -107,7 +107,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
     @Override
     protected void loadAdditional(ValueInput valueInput) {
         super.loadAdditional(valueInput);
-        ContainerHelper.loadAllItems(valueInput, this.fuelItems);
+        this.fuelHandler.deserialize(valueInput);
 
         this.litTime = valueInput.getInt("LitTime").orElse(0);
         this.litTotalTime = valueInput.getInt("LitTotalTime").orElse(0);
@@ -131,10 +131,13 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
     protected void applyImplicitComponents(DataComponentGetter componentInput) {
         super.applyImplicitComponents(componentInput);
         ItemContainerContents contents = componentInput.get(DataComponents.CONTAINER);
-        this.fuelItems = NonNullList.withSize(SIZE, ItemStack.EMPTY);
-        this.fuelHandler = new GeneratorItemStackHandler(fuelItems, this);
         if (contents != null) {
-            contents.copyInto(this.fuelItems);
+            for (int i = 0; i < contents.getSlots(); i++) {
+                ItemStack stack = contents.getStackInSlot(i);
+                if (!stack.isEmpty()) {
+                    this.fuelHandler.set(i, ItemResource.of(stack), stack.getCount());
+                }
+            }
         }
 
         GeneratorUpgrades generatorUpgrades = componentInput.get(dev.willyelton.crystal_tools.common.components.DataComponents.GENERATOR_UPGRADES);
@@ -166,7 +169,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
     @Override
     protected void saveAdditional(ValueOutput valueOutput) {
         super.saveAdditional(valueOutput);
-        ContainerHelper.saveAllItems(valueOutput, this.fuelItems);
+        this.fuelHandler.serialize(valueOutput);
         valueOutput.putInt("LitTime", this.litTime);
         valueOutput.putInt("LitTotalTime", this.litTotalTime);
 
@@ -190,7 +193,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
     protected void collectImplicitComponents(DataComponentMap.Builder components) {
         super.collectImplicitComponents(components);
 
-        ItemContainerContents contents = ItemContainerContents.fromItems(this.fuelItems);
+        ItemContainerContents contents = ItemContainerContents.fromItems(this.fuelHandler.copyToList());
         components.set(DataComponents.CONTAINER, contents);
 
         GeneratorUpgrades generatorUpgrades = new GeneratorUpgrades((int) addedFEGeneration, fuelEfficiency, (int) addedFEStorage,
@@ -292,25 +295,25 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
             }
         }
 
-        ItemStack fuelItemStack = this.fuelItems.getFirst();
-        boolean hasFuel = !fuelItemStack.isEmpty();
+        try (Transaction tx = Transaction.open(null)) {
+            ResourceStack<ItemResource> resourceStack = ResourceHandlerUtil.extractFirst(fuelHandler, Predicates.alwaysTrue(), 1, tx);
+            ItemStack fuelItemStack = resourceStack == null ? ItemStack.EMPTY : resourceStack.resource().toStack();
+            boolean hasFuel = !fuelItemStack.isEmpty();
 
-        if (!this.isLit() && hasFuel) {
-            this.litTime = this.getBurnDuration(fuelItemStack);
-            this.litTotalTime = this.litTime;
-            this.burnedItem = fuelItemStack.copy();
+            if (!this.isLit() && hasFuel) {
+                this.litTime = this.getBurnDuration(fuelItemStack);
+                this.litTotalTime = this.litTime;
+                this.burnedItem = fuelItemStack.copy();
 
-            // TODO: Something here to do the food leftover item?
-            if (this.isLit()) {
-                needsChange = true;
-                addSkillExpFromBurn(this.litTotalTime);
-                if (!fuelItemStack.getCraftingRemainder().isEmpty()) {
-                    fuelItems.set(0, fuelItemStack.getCraftingRemainder());
-                } else {
-                    fuelItemStack.shrink(1);
-                    if (fuelItemStack.isEmpty()) {
-                        fuelItems.set(0, fuelItemStack.getCraftingRemainder());
+                // TODO: Something here to do the food leftover item?
+                if (this.isLit()) {
+                    needsChange = true;
+                    addSkillExpFromBurn(this.litTotalTime);
+                    if (!fuelItemStack.getCraftingRemainder().isEmpty()) {
+                        fuelHandler.insert(ItemResource.of(fuelItemStack.getCraftingRemainder()), fuelItemStack.getCraftingRemainder().getCount(), tx);
                     }
+
+                    tx.commit();
                 }
             }
         }
@@ -341,7 +344,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         for (Direction direction : Direction.values()) {
             EnergyHandler handler = level.getCapability(Capabilities.Energy.BLOCK, pos.relative(direction), direction.getOpposite());
             if (handler != null) {
-                possibleDestinations.add(energyStorage);
+                possibleDestinations.add(handler);
             }
         }
 
