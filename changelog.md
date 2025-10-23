@@ -1,4 +1,9 @@
 # Crystal Tools Change Log
+## 22.10.3.5.0
+### Fixes
+- Fixes Quarry Rendering
+- Fixes shift clicking into the Crystal Generator
+
 ## 3.5.0 - 1.21.10 beta 1
 ### Fixes
 - Fixes the Crystal Quarry, Crystal Generator, and Crystal Furnace not working correctly

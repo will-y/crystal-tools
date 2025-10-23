@@ -47,11 +47,11 @@ public class CrystalGeneratorContainerMenu extends AbstractGeneratorContainerMen
             ItemStack slotStack = slot.getItem();
             itemStack = slotStack.copy();
             // Fuel Slot
-            if (index == 0) {
-                if (!this.moveItemStackTo(slotStack, 1, 37, true)) {
+            if (index == 36) {
+                if (!this.moveItemStackTo(slotStack, 0, 36, true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.moveItemStackTo(slotStack, 0, 1, false)) {
+            } else if (!this.moveItemStackTo(slotStack, 36, 37, false)) {
                 return ItemStack.EMPTY;
             }
 

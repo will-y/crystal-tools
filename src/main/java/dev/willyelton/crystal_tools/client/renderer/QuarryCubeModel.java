@@ -11,7 +11,6 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.client.renderer.entity.EndCrystalRenderer;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Quaternionf;
 
@@ -40,12 +39,9 @@ public class QuarryCubeModel extends Model<CrystalQuarryBlockEntityRenderer.Quar
     @Override
     public void setupAnim(CrystalQuarryBlockEntityRenderer.QuarryRenderState renderState) {
         super.setupAnim(renderState);
-        float f = renderState.ageInTicks * 3.0F;
-        float f1 = EndCrystalRenderer.getY(renderState.ageInTicks) * 16.0F;
-        this.outerGlass.y += f1 / 2.0F;
-        this.outerGlass.rotateBy(Axis.YP.rotationDegrees(f).rotateAxis(PI_3, SIN_45, 0.0F, SIN_45));
-        this.innerGlass.rotateBy(new Quaternionf().setAngleAxis(PI_3, SIN_45, 0.0F, SIN_45).rotateY(f * PI_180));
-        this.cube.rotateBy(new Quaternionf().setAngleAxis(PI_3, SIN_45, 0.0F, SIN_45).rotateY(f * PI_180));
+        this.outerGlass.rotateBy(Axis.YP.rotationDegrees(renderState.rotation).rotateAxis(PI_3, SIN_45, 0.0F, SIN_45));
+        this.innerGlass.rotateBy(new Quaternionf().setAngleAxis(PI_3, SIN_45, 0.0F, SIN_45).rotateY(renderState.rotation * PI_180));
+        this.cube.rotateBy(new Quaternionf().setAngleAxis(PI_3, SIN_45, 0.0F, SIN_45).rotateY(renderState.rotation * PI_180));
     }
 
     public static LayerDefinition createBodyLayer() {

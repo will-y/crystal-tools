@@ -123,8 +123,6 @@ Eventually
 - Support limited nodes on blocks
 
 ## 1.21.9 Porting
-- Transfer updates
-- Inventories aren't storing items
-- Quarry mining seems weird
-- Quarry might be deleting items?
-- Testing
+- Quarry cube rotating based on its speed (stopped when stopped)
+  - Dim lasers and cube when off?
+- Check generator shift clicking in 1.21

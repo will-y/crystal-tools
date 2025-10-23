@@ -21,6 +21,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.CustomBlockOutlineRenderer;
 import net.neoforged.neoforge.client.event.ExtractBlockOutlineRenderStateEvent;
+import net.neoforged.neoforge.client.event.ExtractLevelRenderStateEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 
 @EventBusSubscriber(modid = CrystalTools.MODID, value = Dist.CLIENT)
@@ -28,6 +29,11 @@ public class RenderEvents {
     @SubscribeEvent
     public static void handleRenderLevelStageEvent(RenderLevelStageEvent.AfterWeather event) {
         QuarryLaserRenderer.render(event);
+    }
+
+    @SubscribeEvent
+    public static void handleExtractLevelRenderStateEvent(ExtractLevelRenderStateEvent event) {
+        QuarryLaserRenderer.extractRenderState(event);
     }
 
     @SubscribeEvent
