@@ -1,5 +1,8 @@
 # Crystal Tools Change Log
-## 22.10.3.5.0
+## 21.12.3.5.1
+- Fixes a few issues with quarry rendering
+
+## 21.10.3.5.0
 ### Fixes
 - Fixes Quarry Rendering
 - Fixes shift clicking into the Crystal Generator

@@ -2,7 +2,7 @@ package dev.willyelton.crystal_tools.common.inventory;
 
 import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.utils.InventoryUtils;
+import dev.willyelton.crystal_tools.utils.TransferUtils;
 import it.unimi.dsi.fastutil.ints.Int2IntArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import net.minecraft.world.item.Item;
@@ -40,7 +40,7 @@ public class CrystalBackpackInventory extends ListComponentItemHandler {
         List<ItemStack> stacks = getAllStacks();
         stacks.sort(getComparator(level, sortType, stacks));
 
-        InventoryUtils.clear(ItemResourceHandlerAdapterModifiable.of(this));
+        TransferUtils.clear(this);
 
         stacks.forEach(this::insertStack);
     }

@@ -12,7 +12,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
 import static dev.willyelton.crystal_tools.CrystalTools.rl;
-import static net.minecraft.client.renderer.RenderPipelines.MATRICES_FOG_SNIPPET;
 import static net.minecraft.client.renderer.RenderPipelines.MATRICES_PROJECTION_SNIPPET;
 import static net.minecraft.client.renderer.RenderStateShard.NO_LIGHTMAP;
 import static net.minecraft.client.renderer.RenderStateShard.OVERLAY;
@@ -40,17 +39,17 @@ public class CrystalToolsRenderTypes {
             .add("Color", VertexFormatElement.COLOR)
             .build();
 
-    public static RenderPipeline QUARRY_CUBE_PIPELINE = RenderPipeline.builder(MATRICES_FOG_SNIPPET)
-            .withLocation(rl("pipeline/quarry_cube"))
-//            .withShaderDefine("ALPHA_CUTOUT", 0.1F)
-//            .withShaderDefine("PER_FACE_LIGHTING")
-            .withSampler("Sampler0")
-            .withSampler("Sampler2")
-            .withVertexShader(rl("position_color_tex_lightmap"))
-            .withFragmentShader(rl("position_color_tex_lightmap"))
-            .withVertexFormat(DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS)
-            .withCull(false)
-            .build();
+//    public static RenderPipeline QUARRY_CUBE_PIPELINE = RenderPipeline.builder(MATRICES_FOG_SNIPPET)
+//            .withLocation(rl("pipeline/quarry_cube"))
+////            .withShaderDefine("ALPHA_CUTOUT", 0.1F)
+////            .withShaderDefine("PER_FACE_LIGHTING")
+//            .withSampler("Sampler0")
+//            .withSampler("Sampler2")
+//            .withVertexShader(rl("position_color_tex_lightmap"))
+//            .withFragmentShader(rl("position_color_tex_lightmap"))
+//            .withVertexFormat(DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS)
+//            .withCull(false)
+//            .build();
 
     // Copied from the DEBUG_QUADS Render Type
     public static final RenderType BLOCK_OVERLAY = create(

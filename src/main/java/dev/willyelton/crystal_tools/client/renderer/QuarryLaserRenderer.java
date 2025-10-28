@@ -31,7 +31,8 @@ public class QuarryLaserRenderer {
 
     private static final Map<Pair<BlockPos, BlockPos>, LaserRendererProperties> LINE_RENDERERS = new HashMap<>();
     private static final Map<BlockPos, LaserRendererProperties> CUBE_RENDERERS = new HashMap<>();
-    private static final ContextKey<List<QuarryLaserRenderState>> CONTEXT_KEY = ck("quarry_laser");
+    private static final ContextKey<List<QuarryLaserRenderState>> LASER_CONTEXT_KEY = ck("quarry_laser");
+    private static final ContextKey<List<QuarryMissingStabilizerRenderState>> MISSING_STABILIZER_CONTEXT_KEY = ck("quarry_missing_stabilizer");
 
     public static void startTemporaryLaser(long startTime, long endTime, BlockPos pos1, BlockPos pos2, int color) {
         LINE_RENDERERS.put(new Pair<>(pos1, pos2), new LaserRendererProperties(startTime, endTime, color));
@@ -48,6 +49,7 @@ public class QuarryLaserRenderer {
 
     public static void extractRenderState(ExtractLevelRenderStateEvent event) {
         List<QuarryLaserRenderState> laserRenderStates = new ArrayList<>();
+        List<QuarryMissingStabilizerRenderState> cubeRenderStates = new ArrayList<>();
 
         if (LINE_RENDERERS.isEmpty() && CUBE_RENDERERS.isEmpty()) return;
 
@@ -70,10 +72,9 @@ public class QuarryLaserRenderer {
 
             if (timeElapsed >= 0) {
                 QuarryLaserRenderState renderState = extractQuarryLaserRenderState(pair.getFirst(), pair.getSecond(),
-                        event.getCamera().getPosition(), event.getLevel(), event.getCamera().getPartialTickTime(), properties.color());
+                        event.getCamera().getPosition(), event.getLevel(), event.getCamera().getPartialTickTime(), properties.color(), timeElapsed);
 
                 renderState.timeLeft = timeLeft;
-                renderState.timeElapsed = timeElapsed;
                 long duration = properties.endTime - properties.startTime;
                 if (duration > 0) {
                     renderState.color = Colors.addAlpha(renderState.color, Math.max(10, Mth.lerpDiscrete(renderState.timeLeft / (float) duration, 0, 255)));
@@ -84,17 +85,43 @@ public class QuarryLaserRenderer {
             }
         }
 
+        for (BlockPos pos : CUBE_RENDERERS.keySet()) {
+            LaserRendererProperties properties = CUBE_RENDERERS.get(pos);
+            int timeLeft = (int) (properties.endTime - gameTime);
+            if (timeLeft <= 0) {
+                cubesToRemove.add(pos);
+            }
+
+            int timeElapsed = (int) (gameTime - properties.startTime);
+            if (timeElapsed >= 0) {
+                QuarryMissingStabilizerRenderState quarryMissingStabilizerRenderState = new QuarryMissingStabilizerRenderState();
+                quarryMissingStabilizerRenderState.pos = pos;
+                quarryMissingStabilizerRenderState.color = properties.color();
+                cubeRenderStates.add(quarryMissingStabilizerRenderState);
+//                BlockOverlayRenderer.renderBlockPos(event.getPoseStack(), Minecraft.getInstance().renderBuffers().bufferSource(), pos, properties.color());
+            }
+        }
+
         lasersToRemove.forEach(LINE_RENDERERS::remove);
         cubesToRemove.forEach(CUBE_RENDERERS::remove);
 
-        event.getRenderState().setRenderData(CONTEXT_KEY, laserRenderStates);
+        event.getRenderState().setRenderData(LASER_CONTEXT_KEY, laserRenderStates);
+        event.getRenderState().setRenderData(MISSING_STABILIZER_CONTEXT_KEY, cubeRenderStates);
     }
 
     public static QuarryLaserRenderState extractQuarryLaserRenderState(BlockPos start, BlockPos end, Vec3 cameraPos, Level level, float partialTick, int color) {
         return extractQuarryLaserRenderState(start.getCenter(), end.getCenter(), cameraPos, level, partialTick, color);
     }
 
+    public static QuarryLaserRenderState extractQuarryLaserRenderState(BlockPos start, BlockPos end, Vec3 cameraPos, Level level, float partialTick, int color, int timeElapsed) {
+        return extractQuarryLaserRenderState(start.getCenter(), end.getCenter(), cameraPos, level, partialTick, color, timeElapsed);
+    }
+
     public static QuarryLaserRenderState extractQuarryLaserRenderState(Vec3 start, Vec3 end, Vec3 cameraPos, Level level, float partialTick, int color) {
+        return extractQuarryLaserRenderState(start, end , cameraPos, level, partialTick, color, -1);
+    }
+
+    public static QuarryLaserRenderState extractQuarryLaserRenderState(Vec3 start, Vec3 end, Vec3 cameraPos, Level level, float partialTick, int color, int timeElapsed) {
         QuarryLaserRenderState renderState = new QuarryLaserRenderState();
         Vector3f startPos = new Vector3f((float) start.x(), (float) start.y(), (float) start.z());
         Vector3f endPos = new Vector3f((float) end.x(), (float) end.y(), (float) end.z());
@@ -102,6 +129,7 @@ public class QuarryLaserRenderer {
         renderState.partialTick = partialTick;
         renderState.gameTime = level.getGameTime();
         renderState.color = color;
+        renderState.timeElapsed = timeElapsed;
 
         renderState.x = -cameraPos.x + startPos.x;
         renderState.y = -cameraPos.y + startPos.y;
@@ -125,12 +153,20 @@ public class QuarryLaserRenderer {
     }
 
     public static void render(RenderLevelStageEvent event) {
-        List<QuarryLaserRenderState> laserRenderStates = event.getLevelRenderState().getRenderData(CONTEXT_KEY);
+        List<QuarryLaserRenderState> laserRenderStates = event.getLevelRenderState().getRenderData(LASER_CONTEXT_KEY);
+        List<QuarryMissingStabilizerRenderState> cubeRenderStates = event.getLevelRenderState().getRenderData(MISSING_STABILIZER_CONTEXT_KEY);
 
-        if (laserRenderStates == null) return;
+        if (laserRenderStates != null) {
+            for (QuarryLaserRenderState renderState : laserRenderStates) {
+                renderLaser(event.getPoseStack(), renderState);
+            }
+        }
 
-        for (QuarryLaserRenderState renderState : laserRenderStates) {
-            renderLaser(event.getPoseStack(), renderState);
+        if (cubeRenderStates != null) {
+            for (QuarryMissingStabilizerRenderState renderState : cubeRenderStates) {
+                BlockOverlayRenderer.renderBlockPos(event.getPoseStack(), Minecraft.getInstance().renderBuffers().bufferSource(),
+                        renderState.pos, renderState.color);
+            }
         }
     }
 
@@ -216,5 +252,10 @@ public class QuarryLaserRenderer {
         public double x;
         public double y;
         public double z;
+    }
+
+    public static class QuarryMissingStabilizerRenderState {
+        public BlockPos pos;
+        public int color;
     }
 }
