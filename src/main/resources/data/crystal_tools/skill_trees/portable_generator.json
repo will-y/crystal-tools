@@ -213,7 +213,7 @@
         "description": "Increases FE generated per tick",
         "limit": 1,
         "requirements": [
-          {"or_node":  [14, 15]},
+          {"or_node":  [15]},
           {"node": [11]}
         ],
         "key": "fe_generation",

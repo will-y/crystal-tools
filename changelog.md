@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 2.8.2
+### Fixes
+- Fixes an crash on the portable generator upgrade screen
+
 ## 2.8.1
 ### Fixes
 - Fixes an issue where fuel efficiency wasn't working on the portable generator
