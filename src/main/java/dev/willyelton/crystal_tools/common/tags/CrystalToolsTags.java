@@ -24,4 +24,5 @@ public class CrystalToolsTags {
 
     // Entity Type
     public static final TagKey<EntityType<?>> ENTITY_BLACKLIST = TagKey.create(Registries.ENTITY_TYPE, rl("entity_blacklist"));
+    public static final TagKey<EntityType<?>> PICKUP_ENTITY_BLACKLIST = TagKey.create(Registries.ENTITY_TYPE, rl("pickup_entity_blacklist"));
 }

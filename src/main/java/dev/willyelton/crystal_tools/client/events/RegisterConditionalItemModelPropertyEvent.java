@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.client.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.client.model.property.Disabled;
+import dev.willyelton.crystal_tools.client.model.property.FullCage;
 import dev.willyelton.crystal_tools.client.model.property.Lit;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -15,5 +16,6 @@ public class RegisterConditionalItemModelPropertyEvent {
     public static void registerConditionalProperties(net.neoforged.neoforge.client.event.RegisterConditionalItemModelPropertyEvent event) {
         event.register(rl("disabled"), Disabled.MAP_CODEC);
         event.register(rl("lit"), Lit.MAP_CODEC);
+        event.register(rl("full_cage"), FullCage.MAP_CODEC);
     }
 }

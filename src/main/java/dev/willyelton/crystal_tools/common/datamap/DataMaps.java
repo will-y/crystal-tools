@@ -37,6 +37,13 @@ public class DataMaps {
             .synced(SkillTreeData.CODEC, true)
             .build();
 
+    public static final DataMapType<EntityType<?>, SkillTreeData> ENTITY_SKILL_TREES = DataMapType.builder(
+                    rl("entity_skill_trees"),
+                    Registries.ENTITY_TYPE,
+                    SkillTreeData.CODEC)
+            .synced(SkillTreeData.CODEC, true)
+            .build();
+
     public static final DataMapType<Item, ActionData> PEDESTAL_ACTIONS = DataMapType.builder(
                     rl("pedestal_actions"),
                     Registries.ITEM,

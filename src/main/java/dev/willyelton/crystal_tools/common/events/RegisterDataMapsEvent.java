@@ -14,6 +14,7 @@ public class RegisterDataMapsEvent {
         event.register(DataMaps.GENERATOR_METALS);
         event.register(DataMaps.MOB_HEADS);
         event.register(DataMaps.SKILL_TREES);
+        event.register(DataMaps.ENTITY_SKILL_TREES);
         event.register(DataMaps.PEDESTAL_ACTIONS);
     }
 }

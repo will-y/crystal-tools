@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "crystal_tools:item/crystal_dog_cage_full"
+  }
+}

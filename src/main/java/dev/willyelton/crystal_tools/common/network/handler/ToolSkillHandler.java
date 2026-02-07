@@ -25,7 +25,7 @@ public class ToolSkillHandler {
     public static final ToolSkillHandler INSTANCE = new ToolSkillHandler();
 
     public void handle(final ToolSkillPayload payload, final IPayloadContext context) {
-        Player player  = context.player();
+        Player player = context.player();
 
         // TODO: Backpack special logic
         ItemStack heldTool = ItemStackUtils.getHeldLevelableTool(player);

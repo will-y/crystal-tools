@@ -258,6 +258,28 @@ public abstract class BaseUpgradeScreen extends Screen {
     }
 
     protected void onSkillButtonPress(SkillDataNode node, Button button) {
+        int skillPoints = getSkillPoints();
+        boolean shift = hasShiftDown();
+        boolean control = hasControlDown();
+
+        if (skillPoints > 0) {
+            int pointsToSpend = 1;
+            if (node.getLimit() == 0 || node.getLimit() > 1) {
+                pointsToSpend = getPointsToSpend(skillPoints, shift, control);
+                int maxSpend = node.getLimit() - points.getPoints(node.getId());
+                if (pointsToSpend > maxSpend && node.getLimit() > 1) {
+                    pointsToSpend = maxSpend;
+                }
+            }
+
+            addPointsForNode(pointsToSpend, node.getId());
+
+            points.addPoints(node.getId(), pointsToSpend);
+            if (points.getPoints(node.getId()) >= node.getLimit() && node.getLimit() != 0) {
+                ((SkillButton) button).setComplete();
+            }
+        }
+
         List<SkillDataRequirement> requirements = node.getRequirements();
 
         for (SkillDataRequirement requirement : requirements) {
@@ -272,6 +294,8 @@ public abstract class BaseUpgradeScreen extends Screen {
 
         this.updateButtons();
     }
+
+    protected abstract void addPointsForNode(int pointsToSpend, int nodeId);
 
     private void addSkillButton(SkillButton button) {
         this.skillButtons.put(button.getDataNode().getId(), button);

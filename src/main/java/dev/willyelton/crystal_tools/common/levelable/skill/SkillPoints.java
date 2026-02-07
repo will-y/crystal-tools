@@ -9,13 +9,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static dev.willyelton.crystal_tools.utils.CodecUtils.STRINT;
+
 /**
  * Object that is actually stored in itemstacks (maybe block entities too?)
  */
 // TODO: This isn't immutable, need to probably do that? (Recreate on all operations?)
 public class SkillPoints {
-    // Json doesn't like integer key maps
-    private static final Codec<Integer> STRINT = Codec.STRING.xmap(Integer::parseInt, String::valueOf);
+
     public static final Codec<SkillPoints> CODEC = Codec.unboundedMap(STRINT, Codec.INT).xmap(SkillPoints::new, SkillPoints::getPointMap);
     public static final StreamCodec<ByteBuf, SkillPoints> STREAM_CODEC = ByteBufCodecs
             .map(SkillPoints::mapGetter, ByteBufCodecs.INT, ByteBufCodecs.INT)

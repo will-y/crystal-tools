@@ -37,6 +37,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class CrystalToolsRecipes extends RecipeProvider {
     private static final Criterion<InventoryChangeTrigger.TriggerInstance> HAS_CRYSTAL = InventoryChangeTrigger.TriggerInstance.hasItems(ModRegistration.CRYSTAL.get());
+
     public CrystalToolsRecipes(HolderLookup.Provider registries, RecipeOutput output) {
         super(registries, output);
     }
@@ -89,6 +90,22 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 .requires(Items.NETHERITE_INGOT)
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output, ModRegistration.CRYSTAL_UPGRADE_SMITHING_TEMPLATE.getId() + "_dupe");
+
+        shaped(RecipeCategory.MISC, ModRegistration.CRYSTAL_COLLAR.get(), 1)
+                .pattern("s s")
+                .pattern("nsn")
+                .pattern(" c ")
+                .define('c', ModRegistration.CRYSTAL.get())
+                .define('n', ModRegistration.NETHERITE_STICK.get())
+                .define('s', Items.STRING)
+                .unlockedBy("has_crystal", HAS_CRYSTAL)
+                .save(output);
+
+        shapeless(RecipeCategory.TOOLS, ModRegistration.CRYSTAL_DOG_CAGE.get(), 1)
+                .requires(Items.IRON_BARS)
+                .requires(ModRegistration.CRYSTAL_BLOCK_ITEM.get())
+                .unlockedBy("has_crystal", HAS_CRYSTAL)
+                .save(output);
 
         // Tools
         shaped(RecipeCategory.TOOLS, ModRegistration.CRYSTAL_AXE.get())

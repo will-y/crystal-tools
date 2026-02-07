@@ -1,4 +1,24 @@
 # Crystal Tools Change Log
+## 21.10.3.6.0
+- Adds Levelable Entities!
+- Adds the Crystal Collar
+  - Allows you to level up your pet dog when you use a collar on it!
+  - Pet dogs have the following skills:
+    - Health
+    - Attack Damage
+    - Movement Speed
+    - Armor
+    - Lifesteal
+    - Crate Training (see below)
+    - Immortality
+      - Your wolf returns to you inside a cage in your inventory when it dies
+- Adds the Crystal Dog Cage
+  - Allows you to pick up your dog with crate training
+  - There is a config option that allows this to pick up any entity
+- Adds the following config options:
+  - `pick_up_other_entities` (false): If true, you can pick up mobs other than tamed dogs in the Crystal Dog Cage
+  - `entity_skill_point_multiplier` (2.0): This value will be multiplied by the damage taken / received by levelable entities to get the skill points
+
 ## 21.10.3.5.1
 - Fixes a few issues with quarry rendering
 

@@ -60,6 +60,10 @@ The following tools/armor pieces are implemented:
 ## Other Items
 - Crystal Backpack
 - Portable Crystal Generator
+- Crystal Collar
+  - Allows you to level up pet wolves
+- Crystal Dog Cage
+  - Allows you to carry your pet wolves
 
 ## Upgrades
 There will be upgrades that are common to most tools, and tools will each get unique upgrades as well. Below is a list of all currently implemented upgrades.
@@ -296,6 +300,17 @@ There will be upgrades that are common to most tools, and tools will each get un
 - Store In Inventory
   - Shift Right-clicking on a chest or another inventory will attempt to store all items from the backpack in the inventory
 
+### Wolves
+- Max Health
+- Attack Damage
+- Movement Speed
+- Armor
+- Lifesteal
+- Crate Training
+  - Allows your pet wolf to be stored in a Crystal Dog Cage
+- Immortality
+  - Your pet will go to your inventory inside a Crystal Dog Cage at half health when it dies
+
 ## Crafting Recipes
 ### Tools
 #### Pickaxe
@@ -390,6 +405,12 @@ There will be upgrades that are common to most tools, and tools will each get un
 #### Crystal Backpack
 ![Crystal Backpack](https://github.com/will-y/crystal-tools/raw/main/img/crafting/crystal_backpack.png)
 
+#### Crystal Collar
+![Crystal Collar](https://github.com/will-y/crystal-tools/raw/main/img/crafting/crystal_collar.png)
+
+#### Crystal Dog Cage
+![Crystal Dog Cage](https://github.com/will-y/crystal-tools/raw/main/img/crafting/crystal_dog_cage.png)
+
 ## Config
 The following config options are available. The default values are in parentheses.
 You can change these values in `config/crystal_tools.toml` or in the in-game UI.
@@ -455,6 +476,10 @@ You can change these values in `config/crystal_tools.toml` or in the in-game UI.
 
 #### Pedestal Settings
 - `level_items_in_pedestal` (true): If true, Items will gain experience when used in pedestals
+
+####
+- `pick_up_other_entities` (false): If true, you can pick up mobs other than tamed dogs in the Crystal Dog Cage
+- `entity_skill_point_multiplier` (2.0): This value will be multiplied by the damage taken / received by levelable entities to get the skill points
 
 #### Miscellaneous Settings
 - `enable_item_requirements` (true): Set to false to disable certain nodes from requiring items to upgrade.

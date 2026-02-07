@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:iron_bars",
+    "crystal_tools:crystal_block"
+  ],
+  "result": {
+    "count": 1,
+    "id": "crystal_tools:crystal_dog_cage"
+  }
+}

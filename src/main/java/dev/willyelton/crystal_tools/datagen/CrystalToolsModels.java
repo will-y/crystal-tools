@@ -3,6 +3,7 @@ package dev.willyelton.crystal_tools.datagen;
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.client.model.property.Disabled;
+import dev.willyelton.crystal_tools.client.model.property.FullCage;
 import dev.willyelton.crystal_tools.client.model.property.Lit;
 import dev.willyelton.crystal_tools.client.renderer.CrystalShieldRenderer;
 import dev.willyelton.crystal_tools.client.renderer.CrystalTridentSpecialRenderer;
@@ -44,6 +45,8 @@ public class CrystalToolsModels extends ModelProvider {
         itemModels.generateFlatItem(ModRegistration.CRYSTAL_UPGRADE_SMITHING_TEMPLATE.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModRegistration.CRYSTAL_APPLE.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModRegistration.CRYSTAL_BACKPACK.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(ModRegistration.CRYSTAL_COLLAR.get(), ModelTemplates.FLAT_ITEM);
+        generateDogCage(itemModels);
         generateCrystalMagnet(itemModels);
 
         // Tools
@@ -162,6 +165,17 @@ public class CrystalToolsModels extends ModelProvider {
                 new Lit(),
                 lit,
                 unLit));
+    }
+
+    private void generateDogCage(ItemModelGenerators itemModels) {
+        Item portableGenerator = ModRegistration.CRYSTAL_DOG_CAGE.get();
+        ItemModel.Unbaked empty = ItemModelUtils.plainModel(itemModels.createFlatItemModel(portableGenerator, ModelTemplates.FLAT_HANDHELD_ITEM));
+        ItemModel.Unbaked full = ItemModelUtils.plainModel(itemModels.createFlatItemModel(portableGenerator, "_full", ModelTemplates.FLAT_HANDHELD_ITEM));
+
+        itemModels.itemModelOutput.accept(portableGenerator, new ConditionalItemModel.Unbaked(
+                new FullCage(),
+                full,
+                empty));
     }
 
     @Override

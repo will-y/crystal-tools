@@ -1,4 +1,4 @@
-// 1.21.10	2025-10-12T11:11:09.3275863	Registries
+// 1.21.10	2026-02-04T19:03:41.595608	Registries
 fc5742856159734f886e60a3e6559bbe51c57d92 data/crystal_tools/crystal_tools/skill_trees/blocks/crystal_furnace.json
 2a0c63ddccc640131e357b3a412a3141a43ba97d data/crystal_tools/crystal_tools/skill_trees/blocks/crystal_generator.json
 864b0773e2a28be44ba79d150e23cda8cff8944d data/crystal_tools/crystal_tools/skill_trees/blocks/crystal_quarry.json
@@ -27,3 +27,4 @@ ba0def1757a9096abfe1288b4183419aa09000d7 data/crystal_tools/crystal_tools/skill_
 951f0b5694015763547dfe83813342309a226255 data/crystal_tools/crystal_tools/skill_trees/items/simple_pickaxe.json
 948395ea7f9613538c9427fbe4fbe08d5e37c017 data/crystal_tools/crystal_tools/skill_trees/items/simple_shovel.json
 971d4e01761fa851f1d154cd279484c1f3b5bc5e data/crystal_tools/crystal_tools/skill_trees/items/simple_sword.json
+e69e0d8731d585d93dadd1a1ecefe66bb8f5adc7 data/minecraft/crystal_tools/skill_trees/entities/wolf.json

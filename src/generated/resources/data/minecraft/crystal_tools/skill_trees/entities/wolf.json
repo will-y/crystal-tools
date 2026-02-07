@@ -1,0 +1,566 @@
+{
+  "tiers": [
+    [
+      {
+        "type": "crystal_tools:entity_attribute",
+        "node": {
+          "description": "Gives your wolf more max health",
+          "id": 0,
+          "key": [
+            "minecraft:max_health"
+          ],
+          "limit": 1,
+          "name": "Health I",
+          "requirements": [],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:entity_attribute",
+        "node": {
+          "description": "Gives your wolf more attack damage",
+          "id": 1,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 1,
+          "name": "Attack Damage I",
+          "requirements": [],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:entity_attribute",
+        "node": {
+          "description": "Gives your wolf more armor",
+          "id": 2,
+          "key": [
+            "minecraft:armor"
+          ],
+          "limit": 1,
+          "name": "Armor I",
+          "requirements": [],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:entity_attribute",
+        "node": {
+          "description": "Gives your wolf more movement speed",
+          "id": 3,
+          "key": [
+            "minecraft:movement_speed"
+          ],
+          "limit": 1,
+          "name": "Movement Speed I",
+          "requirements": [],
+          "value": 0.025
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:entity_attribute",
+        "node": {
+          "description": "Gives your wolf more max health",
+          "id": 4,
+          "key": [
+            "minecraft:max_health"
+          ],
+          "limit": 1,
+          "name": "Health II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                0
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:entity_attribute",
+        "node": {
+          "description": "Gives your wolf more attack damage",
+          "id": 5,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 1,
+          "name": "Attack Damage II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                1
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:entity_attribute",
+        "node": {
+          "description": "Gives your wolf more armor",
+          "id": 6,
+          "key": [
+            "minecraft:armor"
+          ],
+          "limit": 1,
+          "name": "Armor II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                2
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:entity_attribute",
+        "node": {
+          "description": "Gives your wolf more movement speed",
+          "id": 7,
+          "key": [
+            "minecraft:movement_speed"
+          ],
+          "limit": 1,
+          "name": "Movement Speed II",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                3
+              ]
+            }
+          ],
+          "value": 0.025
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:entity_data",
+        "node": {
+          "description": "Gives your wolf lifesteal",
+          "id": 8,
+          "key": [
+            "crystal_tools:lifesteal"
+          ],
+          "limit": 1,
+          "name": "Lifesteal I",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                4,
+                5,
+                6,
+                7
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:entity_attribute",
+        "node": {
+          "description": "Gives your wolf more max health",
+          "id": 9,
+          "key": [
+            "minecraft:max_health"
+          ],
+          "limit": 1,
+          "name": "Health III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                4
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                8
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:entity_attribute",
+        "node": {
+          "description": "Gives your wolf more attack damage",
+          "id": 10,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 1,
+          "name": "Attack Damage III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                5
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                8
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:entity_attribute",
+        "node": {
+          "description": "Gives your wolf more armor",
+          "id": 11,
+          "key": [
+            "minecraft:armor"
+          ],
+          "limit": 1,
+          "name": "Armor III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                6
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                8
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:entity_attribute",
+        "node": {
+          "description": "Gives your wolf more movement speed",
+          "id": 12,
+          "key": [
+            "minecraft:movement_speed"
+          ],
+          "limit": 1,
+          "name": "Movement Speed III",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                7
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                8
+              ]
+            }
+          ],
+          "value": 0.025
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:entity_attribute",
+        "node": {
+          "description": "Gives your wolf more max health",
+          "id": 13,
+          "key": [
+            "minecraft:max_health"
+          ],
+          "limit": 1,
+          "name": "Health IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                9
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:entity_attribute",
+        "node": {
+          "description": "Gives your wolf more attack damage",
+          "id": 14,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 1,
+          "name": "Attack Damage IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                10
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:entity_attribute",
+        "node": {
+          "description": "Gives your wolf more armor",
+          "id": 15,
+          "key": [
+            "minecraft:armor"
+          ],
+          "limit": 1,
+          "name": "Armor IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                11
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:entity_attribute",
+        "node": {
+          "description": "Gives your wolf more movement speed",
+          "id": 16,
+          "key": [
+            "minecraft:movement_speed"
+          ],
+          "limit": 1,
+          "name": "Movement Speed IV",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                12
+              ]
+            }
+          ],
+          "value": 0.025
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:entity_data",
+        "node": {
+          "description": "Gives your wolf lifesteal",
+          "id": 17,
+          "key": [
+            "crystal_tools:lifesteal"
+          ],
+          "limit": 1,
+          "name": "Lifesteal II",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                13,
+                14,
+                15,
+                16
+              ]
+            }
+          ],
+          "value": 0.25
+        }
+      },
+      {
+        "type": "crystal_tools:entity_data",
+        "node": {
+          "description": "Allows your dog to be picked up with a crystal dog cage",
+          "id": 18,
+          "key": [
+            "crystal_tools:crate_training"
+          ],
+          "limit": 1,
+          "name": "Crate Training",
+          "requirements": [
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                13,
+                14,
+                15,
+                16
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:entity_attribute",
+        "node": {
+          "description": "Gives your wolf more max health",
+          "id": 19,
+          "key": [
+            "minecraft:max_health"
+          ],
+          "limit": 1,
+          "name": "Health V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                13
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                17,
+                18
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:entity_attribute",
+        "node": {
+          "description": "Gives your wolf more attack damage",
+          "id": 20,
+          "key": [
+            "minecraft:attack_damage"
+          ],
+          "limit": 1,
+          "name": "Attack Damage V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                14
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                17,
+                18
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:entity_attribute",
+        "node": {
+          "description": "Gives your wolf more armor",
+          "id": 21,
+          "key": [
+            "minecraft:armor"
+          ],
+          "limit": 1,
+          "name": "Armor V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                15
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                17,
+                18
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_tools:entity_attribute",
+        "node": {
+          "description": "Gives your wolf more movement speed",
+          "id": 22,
+          "key": [
+            "minecraft:movement_speed"
+          ],
+          "limit": 1,
+          "name": "Movement Speed V",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                16
+              ]
+            },
+            {
+              "type": "crystal_tools:or_node_requirement",
+              "or_node": [
+                17,
+                18
+              ]
+            }
+          ],
+          "value": 0.025
+        }
+      }
+    ],
+    [
+      {
+        "type": "crystal_tools:entity_data",
+        "node": {
+          "description": "When your wolf dies, it is returned to your inventory in a dog cage (if possible)",
+          "id": 23,
+          "key": [
+            "crystal_tools:immortality"
+          ],
+          "limit": 1,
+          "name": "Immortality",
+          "requirements": [
+            {
+              "type": "crystal_tools:node_requirement",
+              "node": [
+                19,
+                20,
+                21,
+                22
+              ]
+            },
+            {
+              "type": "crystal_tools:item_requirement",
+              "item": [
+                "crystal_tools:crystal_dog_cage"
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
+    ]
+  ]
+}

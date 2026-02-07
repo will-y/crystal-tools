@@ -7,6 +7,8 @@ import dev.willyelton.crystal_tools.common.levelable.skill.node.BlockEntityNbtNo
 import dev.willyelton.crystal_tools.common.levelable.skill.node.DataComponentNode;
 import dev.willyelton.crystal_tools.common.levelable.skill.node.EffectNode;
 import dev.willyelton.crystal_tools.common.levelable.skill.node.EnchantmentNode;
+import dev.willyelton.crystal_tools.common.levelable.skill.node.EntityAttributeNode;
+import dev.willyelton.crystal_tools.common.levelable.skill.node.EntityDataNode;
 import dev.willyelton.crystal_tools.common.levelable.skill.node.FoodDataComponentNode;
 import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.NodeOrSkillDataRequirement;
@@ -246,6 +248,24 @@ public class SkillData {
             if (including) {
                 currentNode = new BlockEntityNbtNode(id, name, description, limit, List.of(key), value,
                         new ArrayList<>(), Optional.empty());
+                currentTier.add(currentNode);
+            }
+
+            return this;
+        }
+
+        public Builder entityAttributeNode(int id, String name, String description, ResourceLocation key, float value) {
+            if (including) {
+                currentNode = new EntityAttributeNode(id, name, description, 1, List.of(key), value, new ArrayList<>(), Optional.empty());
+                currentTier.add(currentNode);
+            }
+
+            return this;
+        }
+
+        public Builder entityDataNode(int id, String name, String description, ResourceLocation key, float value) {
+            if (including) {
+                currentNode = new EntityDataNode(id, name, description, 1, List.of(key), value, new ArrayList<>(), Optional.empty());
                 currentTier.add(currentNode);
             }
 

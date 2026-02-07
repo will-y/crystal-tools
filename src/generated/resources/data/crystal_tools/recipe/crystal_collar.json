@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": "crystal_tools:crystal",
+    "n": "crystal_tools:netherite_stick",
+    "s": "minecraft:string"
+  },
+  "pattern": [
+    "s s",
+    "nsn",
+    " c "
+  ],
+  "result": {
+    "count": 1,
+    "id": "crystal_tools:crystal_collar"
+  }
+}

@@ -13,10 +13,12 @@ import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 public class DatapackRegistryEvents {
     public static ResourceKey<Registry<SkillData>> SKILL_DATA_REGISTRY_KEY_ITEMS = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "skill_trees/items"));
     public static ResourceKey<Registry<SkillData>> SKILL_DATA_REGISTRY_KEY_BLOCKS = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "skill_trees/blocks"));
+    public static ResourceKey<Registry<SkillData>> SKILL_DATA_REGISTRY_KEY_ENTITIES = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "skill_trees/entities"));
 
     @SubscribeEvent
     public static void registerDatapackRegistry(DataPackRegistryEvent.NewRegistry event) {
         event.dataPackRegistry(SKILL_DATA_REGISTRY_KEY_ITEMS, SkillData.CODEC, SkillData.CODEC);
         event.dataPackRegistry(SKILL_DATA_REGISTRY_KEY_BLOCKS, SkillData.CODEC, SkillData.CODEC);
+        event.dataPackRegistry(SKILL_DATA_REGISTRY_KEY_ENTITIES, SkillData.CODEC, SkillData.CODEC);
     }
 }

@@ -1,0 +1,15 @@
+{
+  "values": {
+    "minecraft:wolf": {
+      "allowDamageXp": false,
+      "allowMiningXp": false,
+      "allowRepair": false,
+      "allowReset": false,
+      "allowXpLevels": false,
+      "conditions": [
+        "crystal_tools:can_level_wolf"
+      ],
+      "treeLocation": "minecraft:wolf"
+    }
+  }
+}

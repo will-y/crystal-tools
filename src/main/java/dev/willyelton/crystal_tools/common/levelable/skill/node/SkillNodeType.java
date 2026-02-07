@@ -13,7 +13,9 @@ public enum SkillNodeType {
     ENCHANTMENT(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "enchantment"), EnchantmentNode.CODEC, EnchantmentNode.STREAM_CODEC),
     FOOD_DATA_COMPONENT(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "food_data_component"), FoodDataComponentNode.CODEC, FoodDataComponentNode.STREAM_CODEC),
     EFFECT(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "effect"), EffectNode.CODEC, EffectNode.STREAM_CODEC),
-    BLOCK_ENTITY_NBT(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "block_entity_nbt"), BlockEntityNbtNode.CODEC, BlockEntityNbtNode.STREAM_CODEC);
+    BLOCK_ENTITY_NBT(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "block_entity_nbt"), BlockEntityNbtNode.CODEC, BlockEntityNbtNode.STREAM_CODEC),
+    ENTITY_ATTRIBUTE(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "entity_attribute"), EntityAttributeNode.CODEC, EntityAttributeNode.STREAM_CODEC),
+    ENTITY_DATA(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "entity_data"), EntityDataNode.CODEC, EntityDataNode.STREAM_CODEC);
 
     private final ResourceLocation type;
     private final MapCodec<? extends SkillDataNode> codec;

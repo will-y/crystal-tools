@@ -87,10 +87,18 @@ public class ToolUtils {
         return !entity.getType().is(CrystalToolsTags.ENTITY_BLACKLIST);
     }
 
-    public static Optional<Holder.Reference<SkillData>> getSkillData(RegistryAccess registryAccess, ResourceLocation treeLocation) {
+    public static Optional<Holder.Reference<SkillData>> getItemSkillData(RegistryAccess registryAccess, ResourceLocation treeLocation) {
+        return getSkillData(registryAccess, treeLocation, DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS);
+    }
+
+    public static Optional<Holder.Reference<SkillData>> getEntitySkillData(RegistryAccess registryAccess, ResourceLocation treeLocation) {
+        return getSkillData(registryAccess, treeLocation, DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ENTITIES);
+    }
+
+    public static Optional<Holder.Reference<SkillData>> getSkillData(RegistryAccess registryAccess, ResourceLocation treeLocation, ResourceKey<Registry<SkillData>> registryKey) {
         if (registryAccess == null) return Optional.empty();
 
-        Optional<Registry<SkillData>> skillDataOptional = registryAccess.lookup(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS);
+        Optional<Registry<SkillData>> skillDataOptional = registryAccess.lookup(registryKey);
 
         return skillDataOptional.flatMap(skillData -> skillData.get(treeLocation));
     }

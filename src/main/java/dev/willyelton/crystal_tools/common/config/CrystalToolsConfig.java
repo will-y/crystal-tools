@@ -78,6 +78,10 @@ public class CrystalToolsConfig {
     // Pedestal
     public static ModConfigSpec.BooleanValue LEVEL_ITEMS_IN_PEDESTAL;
 
+    // Entity Things
+    public static ModConfigSpec.BooleanValue PICK_UP_OTHER_ENTITIES;
+    public static ModConfigSpec.DoubleValue ENTITY_SKILL_POINT_MULTIPLIER;
+
     static {
         ModConfigSpec.Builder configBuilder = new ModConfigSpec.Builder();
         setupConfig(configBuilder);
@@ -213,6 +217,14 @@ public class CrystalToolsConfig {
                 .define("require_crystal_for_reset", true);
         ENCHANT_TOOLS = builder.comment("If true, Crystal Tools will be enchantable. Note: There could be some weird interactions / it might break some things")
                 .define("enchant_tools", false);
+        builder.pop();
+
+        // Entity
+        builder.comment("Change Entity Related Settings").push("entity");
+        PICK_UP_OTHER_ENTITIES = builder.comment("If true, you can pick up mobs other than tamed dogs in the Crystal Dog Cage")
+                .define("pick_up_other_entities", false);
+        ENTITY_SKILL_POINT_MULTIPLIER = builder.comment("This value will be multiplied by the damage taken / received by levelable entities to get the skill points")
+                        .defineInRange("entity_skill_point_multiplier", 2.0D, 0.1D, 1000.0D);
         builder.pop();
     }
 }

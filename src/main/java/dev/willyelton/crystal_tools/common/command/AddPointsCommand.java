@@ -20,7 +20,7 @@ public class AddPointsCommand {
         LiteralArgumentBuilder<CommandSourceStack> addPointsCommand =
                 Commands.literal("add_points")
                         .requires((commandSourceStack -> commandSourceStack.hasPermission(2)))
-                        .then(Commands.argument("points", IntegerArgumentType.integer(0))
+                        .then(Commands.argument("points", IntegerArgumentType.integer(1))
                                 .executes((commandContext) -> addPointsToTool(commandContext, IntegerArgumentType.getInteger(commandContext, "points"))));
 
         dispatcher.register(addPointsCommand);

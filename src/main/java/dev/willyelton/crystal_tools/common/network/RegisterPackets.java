@@ -6,6 +6,7 @@ import dev.willyelton.crystal_tools.common.network.data.BlockBreakPayload;
 import dev.willyelton.crystal_tools.common.network.data.BlockSkillPayload;
 import dev.willyelton.crystal_tools.common.network.data.BlockStripPayload;
 import dev.willyelton.crystal_tools.common.network.data.ContainerRowsPayload;
+import dev.willyelton.crystal_tools.common.network.data.EntitySkillPayload;
 import dev.willyelton.crystal_tools.common.network.data.ModeSwitchPayload;
 import dev.willyelton.crystal_tools.common.network.data.OpenBackpackPayload;
 import dev.willyelton.crystal_tools.common.network.data.OpenContainerPayload;
@@ -24,6 +25,7 @@ import dev.willyelton.crystal_tools.common.network.handler.BlockBreakHandler;
 import dev.willyelton.crystal_tools.common.network.handler.BlockSkillHandler;
 import dev.willyelton.crystal_tools.common.network.handler.BlockStripHandler;
 import dev.willyelton.crystal_tools.common.network.handler.ContainerRowsHandler;
+import dev.willyelton.crystal_tools.common.network.handler.EntitySkillHandler;
 import dev.willyelton.crystal_tools.common.network.handler.ModeSwitchHandler;
 import dev.willyelton.crystal_tools.common.network.handler.OpenBackpackHandler;
 import dev.willyelton.crystal_tools.common.network.handler.OpenContainerHandler;
@@ -47,11 +49,12 @@ public class RegisterPackets {
 
     @SubscribeEvent
     public static void registerNetworking(final RegisterPayloadHandlersEvent event) {
-        final PayloadRegistrar registrar = event.registrar("1.0.0");
+        final PayloadRegistrar registrar = event.registrar("1.1.0");
 
         // Client to Server
         registrar.playToServer(ToolSkillPayload.TYPE, ToolSkillPayload.STREAM_CODEC, ToolSkillHandler.INSTANCE::handle);
         registrar.playToServer(BlockSkillPayload.TYPE, BlockSkillPayload.STREAM_CODEC, BlockSkillHandler.INSTANCE::handle);
+        registrar.playToServer(EntitySkillPayload.TYPE, EntitySkillPayload.STREAM_CODEC, EntitySkillHandler.INSTANCE::handle);
         registrar.playToServer(ModeSwitchPayload.TYPE, ModeSwitchPayload.STREAM_CODEC, ModeSwitchHandler.INSTANCE::handle);
         registrar.playToServer(RemoveItemPayload.TYPE, RemoveItemPayload.STREAM_CODEC, RemoveItemHandler.INSTANCE::handle);
         registrar.playToServer(ResetSkillsPayload.TYPE, ResetSkillsPayload.STREAM_CODEC, ResetSkillsHandler.INSTANCE::handle);

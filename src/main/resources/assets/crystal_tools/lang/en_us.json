@@ -22,7 +22,9 @@
   "item.crystal_tools.crystal_fishing_rod": "Crystal Fishing Rod",
   "item.crystal_tools.crystal_shield": "Crystal Shield",
   "item.crystal_tools.crystal_magnet": "Crystal Magnet",
+  "item.crystal_tools.crystal_collar": "Crystal Wolf Collar",
   "item.crystal_tools.portable_crystal_generator": "Portable Crystal Generator",
+  "item.crystal_tools.crystal_dog_cage": "Crystal Dog Cage",
   "block.crystal_tools.crystal_ore": "Crystal Ore",
   "block.crystal_tools.crystal_deepslate_ore": "Deepslate Crystal Ore",
   "block.crystal_tools.crystal_block": "Crystal Block",
@@ -134,5 +136,14 @@
   "crystal_tools.action.chunk_load": "When this item is in the Crystal Pedestal, chunks around it will be automatically loaded.",
   "crystal_tools.action.magnet": "When this item is in the Crystal Pedestal, nearby item entities will be pulled towards the Pedestal and collected.",
   "crystal_tools.action.block_break": "When this item is in the Crystal Pedestal, it will break and collect blocks in front of it. Range can be increased through the Block Interaction Range attribute.",
-  "crystal_tools.action.charge": "When this item is in the Crystal Pedestal, it will charge items in nearby player's inventories."
+  "crystal_tools.action.charge": "When this item is in the Crystal Pedestal, it will charge items in nearby player's inventories.",
+  "tooltip.crystal_tools.dog_cage": "Used to pick up a Crate Trained Friendly Dog",
+  "tooltip.crystal_tools.dog_cage_all": "Used to pick up Entities",
+  "tooltip.crystal_tools.dog_cage_empty": "Empty",
+  "tooltip.crystal_tools.dog_cage_full": "The cage is already full!",
+  "tooltip.crystal_tools.dog_cage_not_trained": "%s is not crate trained!",
+  "tooltip.crystal_tools.dog_cage_not_owned": "You do not own %s!",
+  "tooltip.crystal_tools.pet_died": "%s just died at [%s, %s, %s]! Returning as an Item.",
+  "tooltip.crystal_tools.dog_collar": "Use on a tamed Wolf to allow it to level up!",
+  "config.jade.plugin_crystal_tools.entity_skill": "Entity Skill"
 }

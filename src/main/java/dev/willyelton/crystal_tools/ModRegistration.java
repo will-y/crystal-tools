@@ -18,6 +18,7 @@ import dev.willyelton.crystal_tools.common.inventory.container.CrystalPedestalCo
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalQuarryContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.PortableGeneratorContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.CrystalBackpack;
+import dev.willyelton.crystal_tools.common.levelable.DogCage;
 import dev.willyelton.crystal_tools.common.levelable.PortableGenerator;
 import dev.willyelton.crystal_tools.common.levelable.armor.CrystalElytra;
 import dev.willyelton.crystal_tools.common.levelable.armor.LevelableArmor;
@@ -35,6 +36,7 @@ import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalGenerat
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalPedestalBlockEntity;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalQuarryBlockEntity;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.data.SimpleLevelableContainerData;
+import dev.willyelton.crystal_tools.common.levelable.skill.attachment.EntitySkillData;
 import dev.willyelton.crystal_tools.common.levelable.tool.AIOLevelableTool;
 import dev.willyelton.crystal_tools.common.levelable.tool.AxeLevelableTool;
 import dev.willyelton.crystal_tools.common.levelable.tool.BowLevelableItem;
@@ -53,6 +55,7 @@ import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -101,13 +104,16 @@ public class ModRegistration {
     public static final DeferredHolder<Item, Item> NETHERITE_STICK = ITEMS.registerSimpleItem("netherite_stick", new Item.Properties().fireResistant());
     public static final DeferredHolder<Item, Item> NETHERITE_INFUSED_CRYSTAL_SHARD = ITEMS.registerSimpleItem("netherite_infused_crystal_shard", new Item.Properties().fireResistant().component(net.minecraft.core.component.DataComponents.LORE, new ItemLore(List.of(Component.literal("Found in geodes at the bottom of the Nether!")))));
     public static final DeferredHolder<Item, Item> CRYSTAL_UPGRADE_SMITHING_TEMPLATE = ITEMS.registerSimpleItem("crystal_upgrade_smithing_template", new Item.Properties().fireResistant());
+    public static final DeferredHolder<Item, Item> CRYSTAL_COLLAR = ITEMS.registerSimpleItem("crystal_collar", new Item.Properties().fireResistant().stacksTo(1)
+            .component(net.minecraft.core.component.DataComponents.LORE, new ItemLore(List.of(Component.translatable("tooltip.crystal_tools.dog_collar")))));
+    public static final DeferredHolder<Item, Item> CRYSTAL_DOG_CAGE = ITEMS.registerItem("crystal_dog_cage", DogCage::new);
 
     // Tools
     public static final DeferredHolder<Item, PickaxeLevelableTool> CRYSTAL_PICKAXE = ITEMS.registerItem("crystal_pickaxe", PickaxeLevelableTool::new);
     public static final DeferredHolder<Item, AxeLevelableTool> CRYSTAL_AXE = ITEMS.registerItem("crystal_axe", AxeLevelableTool::new);
     public static final DeferredHolder<Item, ShovelLevelableTool> CRYSTAL_SHOVEL = ITEMS.registerItem("crystal_shovel", ShovelLevelableTool::new);
     public static final DeferredHolder<Item, HoeLevelableTool> CRYSTAL_HOE = ITEMS.registerItem("crystal_hoe", HoeLevelableTool::new);
-    public static final DeferredHolder<Item, SwordLevelableTool> CRYSTAL_SWORD =  ITEMS.registerItem("crystal_sword", SwordLevelableTool::new);
+    public static final DeferredHolder<Item, SwordLevelableTool> CRYSTAL_SWORD = ITEMS.registerItem("crystal_sword", SwordLevelableTool::new);
     public static final DeferredHolder<Item, BowLevelableItem> CRYSTAL_BOW = ITEMS.registerItem("crystal_bow", BowLevelableItem::new);
     public static final DeferredHolder<Item, AIOLevelableTool> CRYSTAL_AIOT = ITEMS.registerItem("crystal_aiot", AIOLevelableTool::new);
     public static final DeferredHolder<Item, CrystalRocket> CRYSTAL_ROCKET = ITEMS.registerItem("crystal_rocket", CrystalRocket::new);
@@ -122,8 +128,8 @@ public class ModRegistration {
     // Armor
     public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_HELMET = ITEMS.registerItem("crystal_helmet", (properties) -> new LevelableArmor(properties, ArmorType.HELMET));
     public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_CHESTPLATE = ITEMS.registerItem("crystal_chestplate", (properties) -> new LevelableArmor(properties, ArmorType.CHESTPLATE));
-    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_LEGGINGS = ITEMS.registerItem("crystal_leggings", (properties) -> new LevelableArmor(properties,  ArmorType.LEGGINGS));
-    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_BOOTS = ITEMS.registerItem("crystal_boots", (properties) -> new LevelableArmor(properties,  ArmorType.BOOTS));
+    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_LEGGINGS = ITEMS.registerItem("crystal_leggings", (properties) -> new LevelableArmor(properties, ArmorType.LEGGINGS));
+    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_BOOTS = ITEMS.registerItem("crystal_boots", (properties) -> new LevelableArmor(properties, ArmorType.BOOTS));
     public static final DeferredHolder<Item, CrystalElytra> CRYSTAL_ELYTRA = ITEMS.registerItem("crystal_elytra", CrystalElytra::new);
 
     // Blocks
@@ -186,7 +192,20 @@ public class ModRegistration {
     public static final DeferredHolder<ParticleType<?>, QuarryBreakParticleType> QUARRY_BREAK_PARTICLE = PARTICLES.register("quarry_break_particle", () -> new QuarryBreakParticleType(false));
 
     // Data Attachments
-    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Boolean>> MAGNET_ITEM = ATTACHMENT_TYPES.register("crystal_magnet_attracted", () -> AttachmentType.builder(() -> false).serialize(Codec.BOOL.fieldOf("bool")).build());
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Boolean>> MAGNET_ITEM = ATTACHMENT_TYPES.register("crystal_magnet_attracted", () ->
+            AttachmentType.builder(() -> false)
+                    .serialize(Codec.BOOL.fieldOf("bool"))
+                    .build());
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<EntitySkillData>> ENTITY_SKILL = ATTACHMENT_TYPES.register("entity_skill_data", () ->
+            AttachmentType.builder(EntitySkillData::empty)
+                    .serialize(EntitySkillData.CODEC.fieldOf("skillData"))
+                    .sync(EntitySkillData.STREAM_CODEC)
+                    .build());
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<Boolean>> WOLF_COLLAR = ATTACHMENT_TYPES.register("wolf_collar", () ->
+            AttachmentType.builder(() -> false)
+                    .serialize(Codec.BOOL.fieldOf("wolfCollar"))
+                    .sync(ByteBufCodecs.BOOL)
+                    .build());
 
     // Creative Tabs
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> TAB = TABS.register("crystal_tools_tab", () ->
@@ -198,6 +217,8 @@ public class ModRegistration {
                         output.accept(NETHERITE_STICK.get());
                         output.accept(NETHERITE_INFUSED_CRYSTAL_SHARD.get());
                         output.accept(CRYSTAL_UPGRADE_SMITHING_TEMPLATE.get());
+                        output.accept(CRYSTAL_COLLAR.get());
+                        output.accept(CRYSTAL_DOG_CAGE.get());
                         output.accept(CRYSTAL_APPLE.get());
                         output.accept(CRYSTAL_PICKAXE.get());
                         output.accept(CRYSTAL_AXE.get());

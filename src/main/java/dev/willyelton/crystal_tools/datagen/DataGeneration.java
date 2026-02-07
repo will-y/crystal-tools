@@ -45,8 +45,10 @@ public class DataGeneration {
         generator.addProvider(true, dataMaps);
 
         event.createDatapackRegistryObjects(
-                new RegistrySetBuilder().add(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS, CrystalToolsItemSkillTrees::register)
-                        .add(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_BLOCKS, CrystalToolsBlockSkillTrees::register),
+                new RegistrySetBuilder()
+                        .add(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS, CrystalToolsItemSkillTrees::register)
+                        .add(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_BLOCKS, CrystalToolsBlockSkillTrees::register)
+                        .add(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ENTITIES, CrystalToolsEntitySkillTrees::register),
                 Set.of("crystal_tools", "minecraft"));
     }
 }

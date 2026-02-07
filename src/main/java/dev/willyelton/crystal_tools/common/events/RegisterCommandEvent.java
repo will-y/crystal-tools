@@ -4,6 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.common.command.AddPointsBlockCommand;
 import dev.willyelton.crystal_tools.common.command.AddPointsCommand;
+import dev.willyelton.crystal_tools.common.command.AddPointsEntityCommand;
 import net.minecraft.commands.CommandSourceStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -17,5 +18,6 @@ public class RegisterCommandEvent {
 
         AddPointsCommand.register(commandDispatcher);
         AddPointsBlockCommand.register(commandDispatcher);
+        AddPointsEntityCommand.register(commandDispatcher);
     }
 }

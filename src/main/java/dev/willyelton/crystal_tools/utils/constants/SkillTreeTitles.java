@@ -30,6 +30,8 @@ public class SkillTreeTitles {
     public static final String PULL_XP = "Attract EXP";
     public static final String PULL_MOBS = "Attract Mobs";
     public static final String INSTANT_PICKUP = "Instant Pickup";
+    public static final String CRATE_TRAINING = "Crate Training";
+    public static final String IMMORTALITY = "Immortality";
 
     // Block Entity Titles
     public static final String AUTO_SPLIT = "Auto Split";
@@ -238,6 +240,23 @@ public class SkillTreeTitles {
 
     public static String portableGeneratorSlots(int level) {
         return getName("Extra Slots", level);
+    }
+
+    // Entity Titles
+    public static String entityHealth(int level) {
+        return getName("Health", level);
+    }
+
+    public static String entityDamage(int level) {
+        return getName("Attack Damage", level);
+    }
+
+    public static String entityArmor(int level) {
+        return getName("Armor", level);
+    }
+
+    public static String entitySpeed(int level) {
+        return getName("Movement Speed", level);
     }
 
     private static String getName(String title, int level) {

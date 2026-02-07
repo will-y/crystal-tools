@@ -17,7 +17,7 @@ public class AddPointsBlockCommand {
         LiteralArgumentBuilder<CommandSourceStack> addPointsCommand =
                 Commands.literal("add_points_block")
                         .requires((commandSourceStack -> commandSourceStack.hasPermission(2)))
-                        .then(Commands.argument("points", IntegerArgumentType.integer(0))
+                        .then(Commands.argument("points", IntegerArgumentType.integer(1))
                                 .then(Commands.argument("pos", BlockPosArgument.blockPos())
                                         .executes((commandContext) -> addPointsToBlock(commandContext,
                                                 IntegerArgumentType.getInteger(commandContext, "points"),

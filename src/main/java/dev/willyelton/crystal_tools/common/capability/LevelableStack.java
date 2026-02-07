@@ -22,8 +22,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-// TODO: The Registry access being nullable is fine, that data is only used for the upgrade screen
-// Then we can call it every tick and in the tooltip fine
 public class LevelableStack implements Levelable {
 
     public static @Nullable LevelableStack of(ItemStack stack, @Nullable RegistryAccess registryAccess) {
@@ -39,7 +37,7 @@ public class LevelableStack implements Levelable {
             return new LevelableStack(stack, null, null, skillTreeData);
         }
 
-        Optional<Holder.Reference<SkillData>> skillData = ToolUtils.getSkillData(registryAccess, skillTreeData.treeLocation());
+        Optional<Holder.Reference<SkillData>> skillData = ToolUtils.getItemSkillData(registryAccess, skillTreeData.treeLocation());
 
         return skillData.map(skillDataReference -> new LevelableStack(stack, skillDataReference.value(),
                 skillDataReference.key(), skillTreeData)).orElse(null);

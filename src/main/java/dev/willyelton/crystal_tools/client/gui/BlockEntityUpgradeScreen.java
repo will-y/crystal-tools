@@ -1,15 +1,12 @@
 package dev.willyelton.crystal_tools.client.gui;
 
 import dev.willyelton.crystal_tools.ModRegistration;
-import dev.willyelton.crystal_tools.client.gui.component.SkillButton;
 import dev.willyelton.crystal_tools.common.inventory.container.LevelableContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.LevelableBlockEntity;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
-import dev.willyelton.crystal_tools.common.levelable.skill.node.SkillDataNode;
 import dev.willyelton.crystal_tools.common.network.data.BlockSkillPayload;
 import dev.willyelton.crystal_tools.common.network.data.ResetSkillsBlockPayload;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -56,27 +53,9 @@ public class BlockEntityUpgradeScreen extends BaseUpgradeScreen {
     }
 
     @Override
-    protected void onSkillButtonPress(SkillDataNode node, Button button) {
-        int skillPoints = this.getSkillPoints();
-        boolean shift = hasShiftDown();
-        boolean control = hasControlDown();
-
-        if (skillPoints > 0) {
-            int pointsToSpend = 1;
-            if (node.getLimit() == 0) {
-                pointsToSpend = getPointsToSpend(skillPoints, shift, control);
-            }
-
-            this.container.addToPoints(node.getId(), pointsToSpend);
-
-            ClientPacketDistributor.sendToServer(new BlockSkillPayload(node.getId(), key, pointsToSpend, container.getBlockEntity().getBlockPos()));
-            points.addPoints(node.getId(), pointsToSpend);
-            if (points.getPoints(node.getId()) >= node.getLimit() && node.getLimit() != 0) {
-                ((SkillButton) button).setComplete();
-            }
-        }
-
-        super.onSkillButtonPress(node, button);
+    protected void addPointsForNode(int pointsToSpend, int nodeId) {
+        this.container.addToPoints(nodeId, pointsToSpend);
+        ClientPacketDistributor.sendToServer(new BlockSkillPayload(nodeId, key, pointsToSpend, container.getBlockEntity().getBlockPos()));
     }
 
     @Override

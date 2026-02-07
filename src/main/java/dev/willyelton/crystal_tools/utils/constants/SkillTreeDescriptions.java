@@ -351,4 +351,33 @@ public class SkillTreeDescriptions {
     public String gemGenerator() {
         return String.format("Allows the %s to consume gems for power!", toolName);
     }
+
+    // Entities
+    public String entityHealth() {
+        return String.format("Gives your %s more max health", toolName);
+    }
+
+    public String entityDamage() {
+        return String.format("Gives your %s more attack damage", toolName);
+    }
+
+    public String entityArmor() {
+        return String.format("Gives your %s more armor", toolName);
+    }
+
+    public String entitySpeed() {
+        return String.format("Gives your %s more movement speed", toolName);
+    }
+
+    public String entityLifesteal() {
+        return String.format("Gives your %s lifesteal", toolName);
+    }
+
+    public String crateTraining() {
+        return "Allows your dog to be picked up with a crystal dog cage";
+    }
+
+    public String immortality() {
+        return String.format("When your %s dies, it is returned to your inventory in a dog cage (if possible)", toolName);
+    }
 }

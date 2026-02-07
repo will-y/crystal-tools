@@ -126,3 +126,10 @@ Eventually
 - Quarry cube rotating based on its speed (stopped when stopped)
   - Dim lasers and cube when off?
 - Check generator shift clicking in 1.21
+
+## Wolf
+- Readme
+- Changelog
+- Future:
+  - Reset skills
+  - XP to points

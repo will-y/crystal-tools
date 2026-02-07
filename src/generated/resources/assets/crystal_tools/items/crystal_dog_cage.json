@@ -1,0 +1,14 @@
+{
+  "model": {
+    "type": "minecraft:condition",
+    "on_false": {
+      "type": "minecraft:model",
+      "model": "crystal_tools:item/crystal_dog_cage"
+    },
+    "on_true": {
+      "type": "minecraft:model",
+      "model": "crystal_tools:item/crystal_dog_cage_full"
+    },
+    "property": "crystal_tools:full_cage"
+  }
+}
