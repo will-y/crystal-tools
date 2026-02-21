@@ -72,7 +72,7 @@ public class QuarryLaserRenderer {
 
             if (timeElapsed >= 0) {
                 QuarryLaserRenderState renderState = extractQuarryLaserRenderState(pair.getFirst(), pair.getSecond(),
-                        event.getCamera().getPosition(), event.getLevel(), event.getCamera().getPartialTickTime(), properties.color(), timeElapsed);
+                        event.getCamera().position(), event.getLevel(), event.getCamera().getPartialTickTime(), properties.color(), timeElapsed);
 
                 renderState.timeLeft = timeLeft;
                 long duration = properties.endTime - properties.startTime;

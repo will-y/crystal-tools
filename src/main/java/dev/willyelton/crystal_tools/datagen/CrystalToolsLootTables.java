@@ -4,7 +4,7 @@ import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalTorch;
-import net.minecraft.advancements.critereon.StatePropertiesPredicate;
+import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -66,16 +66,16 @@ public class CrystalToolsLootTables extends VanillaBlockLoot {
     @Override
     protected Iterable<Block> getKnownBlocks() {
         return BuiltInRegistries.BLOCK.entrySet().stream()
-                .filter(e -> e.getKey().location().getNamespace().equals(CrystalTools.MODID))
+                .filter(e -> e.getKey().identifier().getNamespace().equals(CrystalTools.MODID))
                 .map(Map.Entry::getValue)
                 .collect(Collectors.toList());
     }
 
     private void createComponentSavingTable(Block block, DataComponentType<?>... dataComponents) {
         LootPoolSingletonContainer.Builder<?> lti = LootItem.lootTableItem(block);
-        lti.apply(CopyNameFunction.copyName(new CopyNameFunction.Source(LootContext.BlockEntityTarget.BLOCK_ENTITY.getParam())));
+        lti.apply(CopyNameFunction.copyName(LootContext.BlockEntityTarget.BLOCK_ENTITY));
 
-        CopyComponentsFunction.Builder copyComponentsFunctionBuilder = CopyComponentsFunction.copyComponentsFromBlockEntity(LootContext.BlockEntityTarget.BLOCK_ENTITY.getParam());
+        CopyComponentsFunction.Builder copyComponentsFunctionBuilder = CopyComponentsFunction.copyComponentsFromBlockEntity(LootContext.BlockEntityTarget.BLOCK_ENTITY.contextParam());
 
         for (DataComponentType<?> dataComponent : dataComponents) {
             copyComponentsFunctionBuilder.include(dataComponent);

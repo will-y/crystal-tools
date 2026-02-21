@@ -22,7 +22,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.food.FoodProperties;
@@ -119,19 +119,19 @@ public class SkillData {
             return this;
         }
 
-        public Builder attributeNode(int id, String name, String description, ResourceLocation attribute, float value) {
+        public Builder attributeNode(int id, String name, String description, Identifier attribute, float value) {
             return attributeNode(id, name, description, List.of(attribute), value);
         }
 
-        public Builder attributeNode(int id, String name, String description, List<ResourceLocation> attributes, float value) {
+        public Builder attributeNode(int id, String name, String description, List<Identifier> attributes, float value) {
             return attributeNode(id, name, description, attributes, value, 1, false);
         }
 
-        public Builder attributeNode(int id, String name, String description, ResourceLocation attribute, float value, int limit, boolean threshold) {
+        public Builder attributeNode(int id, String name, String description, Identifier attribute, float value, int limit, boolean threshold) {
             return attributeNode(id, name, description, List.of(attribute), value, limit, threshold);
         }
 
-        public Builder attributeNode(int id, String name, String description, List<ResourceLocation> attributes, float value, int limit, boolean threshold) {
+        public Builder attributeNode(int id, String name, String description, List<Identifier> attributes, float value, int limit, boolean threshold) {
             if (including) {
                 currentNode = new AttributeNode(id, name, description, limit, attributes, value, new ArrayList<>(), Optional.empty(), threshold);
                 currentTier.add(currentNode);
@@ -140,19 +140,19 @@ public class SkillData {
             return this;
         }
 
-        public Builder infiniteAttributeNode(int id, String name, String description, ResourceLocation attribute, float value) {
+        public Builder infiniteAttributeNode(int id, String name, String description, Identifier attribute, float value) {
             return infiniteAttributeNode(id, name, description, List.of(attribute), value);
         }
 
-        public Builder infiniteAttributeNode(int id, String name, String description, List<ResourceLocation> attributes, float value) {
+        public Builder infiniteAttributeNode(int id, String name, String description, List<Identifier> attributes, float value) {
             return attributeNode(id, name, description, attributes, value, 0, false);
         }
 
-        public Builder dataComponentNode(int id, String name, String description, ResourceLocation dataComponent, float value) {
+        public Builder dataComponentNode(int id, String name, String description, Identifier dataComponent, float value) {
             return dataComponentNode(id, name, description, dataComponent, value, 1);
         }
 
-        public Builder dataComponentNode(int id, String name, String description, ResourceLocation dataComponent, float value, int limit) {
+        public Builder dataComponentNode(int id, String name, String description, Identifier dataComponent, float value, int limit) {
             if (including) {
                 currentNode = new DataComponentNode(id, name, description, limit, dataComponent, value, new ArrayList<>(), Optional.empty());
                 currentTier.add(currentNode);
@@ -161,13 +161,13 @@ public class SkillData {
             return this;
         }
 
-        public Builder infiniteDataComponentNode(int id, String name, String description, ResourceLocation dataComponent, float value) {
+        public Builder infiniteDataComponentNode(int id, String name, String description, Identifier dataComponent, float value) {
             return dataComponentNode(id, name, description, dataComponent, value, 0);
         }
 
         public Builder enchantmentNode(int id, String name, String description, ResourceKey<Enchantment> enchantment, int level) {
             if (including) {
-                currentNode = new EnchantmentNode(id, name, description, enchantment.location(), level, new ArrayList<>(), Optional.empty());
+                currentNode = new EnchantmentNode(id, name, description, enchantment.identifier(), level, new ArrayList<>(), Optional.empty());
                 currentTier.add(currentNode);
             }
 
@@ -240,11 +240,11 @@ public class SkillData {
             return this;
         }
 
-        public Builder blockNode(int id, String name, String description, ResourceLocation key, float value) {
+        public Builder blockNode(int id, String name, String description, Identifier key, float value) {
             return blockNode(id, name, description, key, value, 1);
         }
 
-        public Builder blockNode(int id, String name, String description, ResourceLocation key, float value, int limit) {
+        public Builder blockNode(int id, String name, String description, Identifier key, float value, int limit) {
             if (including) {
                 currentNode = new BlockEntityNbtNode(id, name, description, limit, List.of(key), value,
                         new ArrayList<>(), Optional.empty());
@@ -254,7 +254,7 @@ public class SkillData {
             return this;
         }
 
-        public Builder entityAttributeNode(int id, String name, String description, ResourceLocation key, float value) {
+        public Builder entityAttributeNode(int id, String name, String description, Identifier key, float value) {
             if (including) {
                 currentNode = new EntityAttributeNode(id, name, description, 1, List.of(key), value, new ArrayList<>(), Optional.empty());
                 currentTier.add(currentNode);
@@ -263,7 +263,7 @@ public class SkillData {
             return this;
         }
 
-        public Builder entityDataNode(int id, String name, String description, ResourceLocation key, float value) {
+        public Builder entityDataNode(int id, String name, String description, Identifier key, float value) {
             if (including) {
                 currentNode = new EntityDataNode(id, name, description, 1, List.of(key), value, new ArrayList<>(), Optional.empty());
                 currentTier.add(currentNode);

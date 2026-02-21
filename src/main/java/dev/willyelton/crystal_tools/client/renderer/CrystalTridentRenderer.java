@@ -4,23 +4,23 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.common.entity.CrystalTridentEntity;
-import net.minecraft.client.model.TridentModel;
 import net.minecraft.client.model.geom.ModelLayers;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.model.object.projectile.TridentModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.state.ThrownTridentRenderState;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Unit;
 
 import java.util.List;
 
 public class CrystalTridentRenderer extends EntityRenderer<CrystalTridentEntity, ThrownTridentRenderState> {
-    public static final ResourceLocation CRYSTAL_TRIDENT_LOCATION = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/entity/crystal_trident.png");
+    public static final Identifier CRYSTAL_TRIDENT_LOCATION = Identifier.fromNamespaceAndPath(CrystalTools.MODID, "textures/entity/crystal_trident.png");
 
     private final TridentModel model;
 

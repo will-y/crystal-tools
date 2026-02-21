@@ -1,6 +1,8 @@
 package dev.willyelton.crystal_tools.client.gui;
 
 import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.textures.FilterMode;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.client.config.CrystalToolsClientConfig;
@@ -41,8 +43,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import org.jetbrains.annotations.Nullable;
@@ -59,7 +61,7 @@ public abstract class BaseUpgradeScreen extends Screen {
     protected static final int X_SIZE = 100;
     protected static final int Y_SIZE = 20;
     protected static final int MIN_X_PADDING = 5;
-    private static final ResourceLocation DEPENDENCY_LINE_LOCATION = ResourceLocation.fromNamespaceAndPath("crystal_tools", "textures/gui/dependency_line.png");
+    private static final Identifier DEPENDENCY_LINE_LOCATION = Identifier.fromNamespaceAndPath("crystal_tools", "textures/gui/dependency_line.png");
     private static final float DEPENDENCY_LINE_WIDTH = 9;
     private static final int DEPENDENCY_LINE_IMAGE_WIDTH = 252;
     private static final int DEPENDENCY_LINE_IMAGE_HEIGHT = 256;
@@ -422,7 +424,7 @@ public abstract class BaseUpgradeScreen extends Screen {
             @Override
             public TextureSetup textureSetup() {
                 TextureManager textureManager = Minecraft.getInstance().getTextureManager();
-                return TextureSetup.singleTexture(textureManager.getTexture(DEPENDENCY_LINE_LOCATION).getTextureView());
+                return TextureSetup.singleTexture(textureManager.getTexture(DEPENDENCY_LINE_LOCATION).getTextureView(), RenderSystem.getSamplerCache().getRepeat(FilterMode.NEAREST));
             }
 
             @Override
@@ -445,12 +447,12 @@ public abstract class BaseUpgradeScreen extends Screen {
     }
 
     public void renderBlockBackground(GuiGraphics guiGraphics, String block) {
-        ResourceLocation blockResource;
+        Identifier blockResource;
         String[] split = block.split(":");
         if (split.length == 1) {
-            blockResource = ResourceLocation.withDefaultNamespace("textures/block/" + block + ".png");
+            blockResource = Identifier.withDefaultNamespace("textures/block/" + block + ".png");
         } else {
-            blockResource = ResourceLocation.fromNamespaceAndPath(split[0], "textures/block/" + split[1] + ".png");
+            blockResource = Identifier.fromNamespaceAndPath(split[0], "textures/block/" + split[1] + ".png");
         }
 
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, blockResource, 0, 0, 0, 0, width, height, 32, 32, Colors.fromRGB(255, 255, 255, (int) (CrystalToolsClientConfig.BACKGROUND_OPACITY.get() * 255)));

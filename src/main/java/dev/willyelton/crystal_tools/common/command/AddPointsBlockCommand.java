@@ -12,11 +12,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
+import static net.minecraft.server.permissions.Permissions.COMMANDS_MODERATOR;
+
 public class AddPointsBlockCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         LiteralArgumentBuilder<CommandSourceStack> addPointsCommand =
                 Commands.literal("add_points_block")
-                        .requires((commandSourceStack -> commandSourceStack.hasPermission(2)))
+                        .requires((commandSourceStack -> commandSourceStack.permissions().hasPermission(COMMANDS_MODERATOR)))
                         .then(Commands.argument("points", IntegerArgumentType.integer(1))
                                 .then(Commands.argument("pos", BlockPosArgument.blockPos())
                                         .executes((commandContext) -> addPointsToBlock(commandContext,

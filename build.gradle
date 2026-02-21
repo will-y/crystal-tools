@@ -130,9 +130,9 @@ configurations {
 }
 
 dependencies {
-    compileOnly "mezz.jei:jei-1.21.9-common-api:${jei_version}"
-    compileOnly "mezz.jei:jei-1.21.9-neoforge-api:${jei_version}"
-//    runtimeOnly "mezz.jei:jei-1.21.9-neoforge:${jei_version}"
+    compileOnly "mezz.jei:jei-1.21.11-common-api:${jei_version}"
+    compileOnly "mezz.jei:jei-1.21.11-neoforge-api:${jei_version}"
+    runtimeOnly "mezz.jei:jei-1.21.11-neoforge:${jei_version}"
     // Compile against only the API artifact
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
     // Use the full Curios API jar at runtime
@@ -140,7 +140,7 @@ dependencies {
 
 //    compileOnly "curse.maven:jade-api-324717:${jade_api_id}"
 //    runtimeOnly "curse.maven:jade-324717:${jade_id}"
-    implementation "curse.maven:jade-324717:7056468"
+    implementation "curse.maven:jade-324717:7313008"
 //
 //    runtimeOnly "mekanism:Mekanism:${mekanism_version}"// Mekanism
 //    runtimeOnly "mekanism:Mekanism:${mekanism_version}:additions"// Mekanism: Additions

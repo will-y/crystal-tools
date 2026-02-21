@@ -4,7 +4,6 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import dev.willyelton.crystal_tools.common.capability.Capabilities;
 import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
@@ -15,18 +14,20 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
+import static net.minecraft.server.permissions.Permissions.COMMANDS_MODERATOR;
+
 public class AddPointsCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         LiteralArgumentBuilder<CommandSourceStack> addPointsCommand =
                 Commands.literal("add_points")
-                        .requires((commandSourceStack -> commandSourceStack.hasPermission(2)))
+                        .requires((commandSourceStack -> commandSourceStack.permissions().hasPermission(COMMANDS_MODERATOR)))
                         .then(Commands.argument("points", IntegerArgumentType.integer(1))
                                 .executes((commandContext) -> addPointsToTool(commandContext, IntegerArgumentType.getInteger(commandContext, "points"))));
 
         dispatcher.register(addPointsCommand);
     }
 
-    static int addPointsToTool(CommandContext<CommandSourceStack> commandContext, int points) throws CommandSyntaxException {
+    static int addPointsToTool(CommandContext<CommandSourceStack> commandContext, int points) {
         Entity entity = commandContext.getSource().getEntity();
 
         if (entity instanceof LivingEntity livingEntity) {

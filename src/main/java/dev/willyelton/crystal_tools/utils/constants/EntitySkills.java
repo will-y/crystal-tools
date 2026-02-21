@@ -1,13 +1,13 @@
 package dev.willyelton.crystal_tools.utils.constants;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import static dev.willyelton.crystal_tools.CrystalTools.rl;
 
 public class EntitySkills {
     private EntitySkills() {}
 
-    public static ResourceLocation CRATE_TRAINING = rl("crate_training");
-    public static ResourceLocation LIFESTEAL = rl("lifesteal");
-    public static ResourceLocation IMMORTALITY = rl("immortality");
+    public static Identifier CRATE_TRAINING = rl("crate_training");
+    public static Identifier LIFESTEAL = rl("lifesteal");
+    public static Identifier IMMORTALITY = rl("immortality");
 }

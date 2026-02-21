@@ -13,11 +13,13 @@ import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 
+import static net.minecraft.server.permissions.Permissions.COMMANDS_MODERATOR;
+
 public class AddPointsEntityCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         LiteralArgumentBuilder<CommandSourceStack> addPointsCommand =
                 Commands.literal("add_points_entity")
-                        .requires((commandSourceStack -> commandSourceStack.hasPermission(2)))
+                        .requires((commandSourceStack -> commandSourceStack.permissions().hasPermission(COMMANDS_MODERATOR)))
                         .then(Commands.argument("points", IntegerArgumentType.integer(1))
                                 .then(Commands.argument("entity", EntityArgument.entity())
                                         .executes((context -> addPointsToEntity(

@@ -1,7 +1,6 @@
 package dev.willyelton.crystal_tools.client.renderer;
 
 import com.mojang.math.Axis;
-import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.client.renderer.blockentity.CrystalQuarryBlockEntityRenderer;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -11,13 +10,13 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.resources.ResourceLocation;
 import org.joml.Quaternionf;
 
+import static dev.willyelton.crystal_tools.CrystalTools.rl;
 import static dev.willyelton.crystal_tools.client.renderer.CrystalToolsRenderTypes.QUARRY_CUBE;
 
 public class QuarryCubeModel extends Model<CrystalQuarryBlockEntityRenderer.QuarryRenderState> {
-    public static ModelLayerLocation LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "quarry_cube"), "main");
+    public static ModelLayerLocation LOCATION = new ModelLayerLocation(rl("quarry_cube"), "main");
 
     // Math constants
     private static final float SIN_45 = (float)Math.sin(Math.PI / 4);

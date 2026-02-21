@@ -7,7 +7,6 @@ import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillSubText;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirement;
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirements;
-import dev.willyelton.crystal_tools.utils.constants.SkillConstants;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
@@ -17,7 +16,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.BlocksAttacks;
@@ -31,7 +30,7 @@ public class DataComponentNode extends SkillDataNode implements ItemStackNode {
             Codec.STRING.fieldOf("name").forGetter(DataComponentNode::getName),
             Codec.STRING.fieldOf("description").forGetter(DataComponentNode::getDescription),
             Codec.INT.fieldOf("limit").forGetter(DataComponentNode::getLimit),
-            ResourceLocation.CODEC.listOf().fieldOf("key").forGetter(DataComponentNode::getKeys),
+            Identifier.CODEC.listOf().fieldOf("key").forGetter(DataComponentNode::getKeys),
             Codec.FLOAT.fieldOf("value").forGetter(DataComponentNode::getValue),
             SkillDataRequirements.CODEC.listOf().fieldOf("requirements").forGetter(DataComponentNode::getRequirements),
             SkillSubText.CODEC.optionalFieldOf("subtext").forGetter(n -> Optional.ofNullable(n.getSkillSubText()))
@@ -42,7 +41,7 @@ public class DataComponentNode extends SkillDataNode implements ItemStackNode {
             ByteBufCodecs.STRING_UTF8, DataComponentNode::getName,
             ByteBufCodecs.STRING_UTF8, DataComponentNode::getDescription,
             ByteBufCodecs.VAR_INT, DataComponentNode::getLimit,
-            ResourceLocation.STREAM_CODEC.apply(ByteBufCodecs.list()), DataComponentNode::getKeys,
+            Identifier.STREAM_CODEC.apply(ByteBufCodecs.list()), DataComponentNode::getKeys,
             ByteBufCodecs.FLOAT, DataComponentNode::getValue,
             SkillDataRequirements.STREAM_CODEC.apply(ByteBufCodecs.list()), DataComponentNode::getRequirements,
             ByteBufCodecs.optional(SkillSubText.STREAM_CODEC), n -> Optional.ofNullable(n.getSkillSubText()),
@@ -50,12 +49,12 @@ public class DataComponentNode extends SkillDataNode implements ItemStackNode {
 
     private final float value;
 
-    public DataComponentNode(int id, String name, String description, int limit, List<ResourceLocation> keys, float value, List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText) {
+    public DataComponentNode(int id, String name, String description, int limit, List<Identifier> keys, float value, List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText) {
         super(id, name, description, limit, keys, requirements, skillSubText.orElse(null));
         this.value = value;
     }
 
-    public DataComponentNode(int id, String name, String description, int limit, ResourceLocation key, float value, List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText) {
+    public DataComponentNode(int id, String name, String description, int limit, Identifier key, float value, List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText) {
         this(id, name, description, limit, List.of(key), value, requirements, skillSubText);
     }
 
@@ -72,7 +71,7 @@ public class DataComponentNode extends SkillDataNode implements ItemStackNode {
     public void processNode(SkillData skillData, ItemStack stack, int pointsToSpend, RegistryAccess registryAccess) {
         Registry<DataComponentType<?>> dataComponents = registryAccess.lookupOrThrow(Registries.DATA_COMPONENT_TYPE);
 
-        for (ResourceLocation key : this.getKeys()) {
+        for (Identifier key : this.getKeys()) {
             Optional<Holder.Reference<DataComponentType<?>>> dataComponentOptional = dataComponents.get(key);
 
             if (dataComponentOptional.isPresent()) {

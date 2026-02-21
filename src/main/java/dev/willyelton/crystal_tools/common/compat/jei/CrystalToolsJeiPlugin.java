@@ -1,6 +1,5 @@
 package dev.willyelton.crystal_tools.common.compat.jei;
 
-import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.compat.jei.generator.GeneratorRecipe;
 import dev.willyelton.crystal_tools.common.compat.jei.generator.GeneratorRecipeCategory;
@@ -14,14 +13,16 @@ import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
+
+import static dev.willyelton.crystal_tools.CrystalTools.rl;
 
 @JeiPlugin
 public class CrystalToolsJeiPlugin implements IModPlugin {
     @Override
-    public ResourceLocation getPluginUid() {
-        return ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "jeiplugin");
+    public Identifier getPluginUid() {
+        return rl("jeiplugin");
     }
 
     @Override
@@ -31,9 +32,9 @@ public class CrystalToolsJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(ModRegistration.CRYSTAL_FURNACE_ITEM.get()), RecipeTypes.SMELTING);
-        registration.addRecipeCatalyst(new ItemStack(ModRegistration.CRYSTAL_GENERATOR.get()), CrystalToolsRecipeTypes.GENERATOR);
-        registration.addRecipeCatalyst(new ItemStack(ModRegistration.CRYSTAL_PEDESTAL.get()), CrystalToolsRecipeTypes.PEDESTAL);
+        registration.addCraftingStation(RecipeTypes.SMELTING, new ItemStack(ModRegistration.CRYSTAL_FURNACE_ITEM.get()));
+        registration.addCraftingStation(CrystalToolsRecipeTypes.GENERATOR, new ItemStack(ModRegistration.CRYSTAL_GENERATOR.get()));
+        registration.addCraftingStation(CrystalToolsRecipeTypes.PEDESTAL, new ItemStack(ModRegistration.CRYSTAL_PEDESTAL.get()));
     }
 
     @Override

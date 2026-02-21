@@ -4,31 +4,31 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import dev.willyelton.crystal_tools.CrystalTools;
+import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.compat.jei.CrystalToolsRecipeTypes;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
-import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.drawable.IDrawableAnimated;
 import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
-import mezz.jei.api.recipe.category.IRecipeCategory;
+import mezz.jei.api.recipe.category.AbstractRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.resources.Identifier;
 
-public class GeneratorRecipeCategory implements IRecipeCategory<GeneratorRecipe> {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/gui/crystal_generator_category.png");
+public class GeneratorRecipeCategory extends AbstractRecipeCategory<GeneratorRecipe> {
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(CrystalTools.MODID, "textures/gui/crystal_generator_category.png");
     private final IDrawableStatic background;
     private final LoadingCache<Integer, IDrawableAnimated> cachedFlames;
 
     public GeneratorRecipeCategory(IGuiHelper guiHelper) {
+        super(CrystalToolsRecipeTypes.GENERATOR, Component.translatable("gui.crystal_tools.category.generator"),
+                guiHelper.createDrawableItemLike(ModRegistration.CRYSTAL_GENERATOR_ITEM.get()), 18 + Minecraft.getInstance().font.width("Requires Upgrade: Metal Generator"), 34);
         this.background = guiHelper.drawableBuilder(TEXTURE, 0, 0, 18, 34)
                 .addPadding(0, 0, 0, 20 + Minecraft.getInstance().font.width("Requires Upgrade: Metal Generator"))
                 .build();
@@ -45,33 +45,15 @@ public class GeneratorRecipeCategory implements IRecipeCategory<GeneratorRecipe>
     }
 
     @Override
-    public RecipeType<GeneratorRecipe> getRecipeType() {
-        return CrystalToolsRecipeTypes.GENERATOR;
-    }
-
-    @Override
-    public Component getTitle() {
-        return Component.translatable("gui.crystal_tools.category.generator");
-    }
-
-    @Override
-    public IDrawable getBackground() {
-        return background;
-    }
-
-    @Override
-    public @Nullable IDrawable getIcon() {
-        return null;
-    }
-
-    @Override
     public void setRecipe(IRecipeLayoutBuilder builder, GeneratorRecipe recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 1, 1)
-                .setSlotName("Fuel").addItemStack(recipe.stack());
+                .setSlotName("Fuel").add(recipe.stack());
     }
 
     @Override
     public void draw(GeneratorRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+        this.background.draw(guiGraphics, 0, 0);
+
         int burnTime = recipe.burnTime();
         IDrawableAnimated flame = cachedFlames.getUnchecked(burnTime);
         flame.draw(guiGraphics, 3, 19);

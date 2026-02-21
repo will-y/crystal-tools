@@ -6,11 +6,11 @@ import dev.willyelton.crystal_tools.common.inventory.container.AbstractGenerator
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 
 public class CrystalGeneratorScreen extends BaseMenuUpgradeScreen<AbstractGeneratorContainerMenu> {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID ,"textures/gui/crystal_generator.png");
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(CrystalTools.MODID ,"textures/gui/crystal_generator.png");
 
     private static final int ENERGY_X = 8;
     private static final int ENERGY_Y = 23;
@@ -26,7 +26,7 @@ public class CrystalGeneratorScreen extends BaseMenuUpgradeScreen<AbstractGenera
     private static final int FIRE_TEXTURE_Y = 0;
 
     public CrystalGeneratorScreen(AbstractGeneratorContainerMenu container, Inventory inventory, Component title) {
-        super(container, inventory, title, ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "crystal_generator"));
+        super(container, inventory, title, Identifier.fromNamespaceAndPath(CrystalTools.MODID, "crystal_generator"));
 
         this.imageHeight = 191;
         this.inventoryLabelY = this.imageHeight - 94;
@@ -64,7 +64,7 @@ public class CrystalGeneratorScreen extends BaseMenuUpgradeScreen<AbstractGenera
         );
     }
 
-    protected ResourceLocation texture() {
+    protected Identifier texture() {
         return TEXTURE;
     }
 

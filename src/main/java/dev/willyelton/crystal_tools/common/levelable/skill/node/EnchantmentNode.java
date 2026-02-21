@@ -17,7 +17,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -32,7 +32,7 @@ public final class EnchantmentNode extends SkillDataNode implements ItemStackNod
             Codec.INT.fieldOf("id").forGetter(EnchantmentNode::getId),
             Codec.STRING.fieldOf("name").forGetter(EnchantmentNode::getName),
             Codec.STRING.fieldOf("description").forGetter(EnchantmentNode::getDescription),
-            ResourceLocation.CODEC.fieldOf("enchantment").forGetter(EnchantmentNode::getEnchantment),
+            Identifier.CODEC.fieldOf("enchantment").forGetter(EnchantmentNode::getEnchantment),
             Codec.INT.fieldOf("level").forGetter(EnchantmentNode::getLevel),
             SkillDataRequirements.CODEC.listOf().fieldOf("requirements").forGetter(EnchantmentNode::getRequirements),
             SkillSubText.CODEC.optionalFieldOf("subtext").forGetter(n -> Optional.ofNullable(n.getSkillSubText()))
@@ -42,7 +42,7 @@ public final class EnchantmentNode extends SkillDataNode implements ItemStackNod
             ByteBufCodecs.VAR_INT, EnchantmentNode::getId,
             ByteBufCodecs.STRING_UTF8, EnchantmentNode::getName,
             ByteBufCodecs.STRING_UTF8, EnchantmentNode::getDescription,
-            ResourceLocation.STREAM_CODEC, EnchantmentNode::getEnchantment,
+            Identifier.STREAM_CODEC, EnchantmentNode::getEnchantment,
             ByteBufCodecs.VAR_INT, EnchantmentNode::getLevel,
             SkillDataRequirements.STREAM_CODEC.apply(ByteBufCodecs.list()), EnchantmentNode::getRequirements,
             ByteBufCodecs.optional(SkillSubText.STREAM_CODEC), n -> Optional.ofNullable(n.getSkillSubText()),
@@ -51,10 +51,10 @@ public final class EnchantmentNode extends SkillDataNode implements ItemStackNod
     public static final Map<ResourceKey<Enchantment>, DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>>> TOGGLE_ENCHANTMENTS =
             Map.of(Enchantments.FROST_WALKER, DataComponents.FROST_WALKER);
 
-    private final ResourceLocation enchantment;
+    private final Identifier enchantment;
     private final int level;
 
-    public EnchantmentNode(int id, String name, String description, ResourceLocation enchantment, int level,
+    public EnchantmentNode(int id, String name, String description, Identifier enchantment, int level,
                            List<SkillDataRequirement> requirements, Optional<SkillSubText> subText) {
         super(id, name, description, 1, List.of(enchantment), requirements, subText.orElse(null));
 
@@ -62,7 +62,7 @@ public final class EnchantmentNode extends SkillDataNode implements ItemStackNod
         this.level = level;
     }
 
-    public ResourceLocation getEnchantment() {
+    public Identifier getEnchantment() {
         return enchantment;
     }
 
@@ -79,15 +79,15 @@ public final class EnchantmentNode extends SkillDataNode implements ItemStackNod
     public void processNode(SkillData skillData, ItemStack stack, int pointsToSpend, RegistryAccess registryAccess) {
         Registry<Enchantment> enchantmentRegistry = registryAccess.lookupOrThrow(Registries.ENCHANTMENT);
 
-        for (ResourceLocation key : this.getKeys()) {
+        for (Identifier key : this.getKeys()) {
             Optional<Holder.Reference<Enchantment>> enchantmentOptional = enchantmentRegistry.get(key);
             if (enchantmentOptional.isPresent()) {
-                if (key.equals(Enchantments.SILK_TOUCH.location())) {
+                if (key.equals(Enchantments.SILK_TOUCH.identifier())) {
                     stack.set(DataComponents.SILK_TOUCH_BONUS, true);
                     if (EnchantmentUtils.hasEnchantment(stack, Enchantments.FORTUNE)) {
                         return;
                     }
-                } else if (key.equals(Enchantments.FORTUNE.location())) {
+                } else if (key.equals(Enchantments.FORTUNE.identifier())) {
                     stack.set(DataComponents.FORTUNE_BONUS, this.level);
                     if (EnchantmentUtils.hasEnchantment(stack, Enchantments.SILK_TOUCH)) {
                         return;

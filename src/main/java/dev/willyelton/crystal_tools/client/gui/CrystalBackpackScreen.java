@@ -8,11 +8,10 @@ import dev.willyelton.crystal_tools.common.capability.Capabilities;
 import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalBackpackContainerMenu;
 import dev.willyelton.crystal_tools.common.network.data.OpenBackpackPayload;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
@@ -22,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBackpackContainerMenu> implements SubScreenContainerScreen {
-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/gui/crystal_backpack.png");
+    public static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(CrystalTools.MODID, "textures/gui/crystal_backpack.png");
 
     static final int TEXTURE_SIZE = 512;
     static final int INVENTORY_WIDTH = 176;
@@ -90,12 +89,12 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
         return (this.height - TOP_BAR_HEIGHT - INVENTORY_HEIGHT) / ROW_HEIGHT;
     }
 
-    @Override
-    public void resize(Minecraft minecraft, int width, int height) {
-        // TODO: Should be fixed, don't want to rn
-        this.onClose();
-        super.resize(minecraft, width, height);
-    }
+//    @Override
+//    public void resize(Minecraft minecraft, int width, int height) {
+//        // TODO: Should be fixed, don't want to rn
+//        this.onClose();
+//        super.resize(minecraft, width, height);
+//    }
 
     @Override
     protected void init() {

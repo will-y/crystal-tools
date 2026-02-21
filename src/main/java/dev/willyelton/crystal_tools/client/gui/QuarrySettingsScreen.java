@@ -4,7 +4,6 @@ import dev.willyelton.crystal_tools.common.inventory.container.CrystalQuarryCont
 import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenType;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Checkbox;
-import net.minecraft.client.gui.components.MultiLineLabel;
 import net.minecraft.client.gui.components.MultiLineTextWidget;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
@@ -70,23 +69,7 @@ public class QuarrySettingsScreen extends BackpackSubScreen<CrystalQuarryContain
     // This is all to just change the text color and remove the shadow
     // Might want to make my own component so I don't need to do this
     private Checkbox fixCheckbox(Checkbox checkbox) {
-        checkbox.textWidget = new MultiLineTextWidget(checkbox.getMessage(), font) {
-            @Override
-            public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-                MultiLineLabel multilinelabel = this.cache.getValue(this.getFreshCacheKey());
-                int i = this.getX();
-                int j = this.getY();
-                int k = 9;
-                int l = this.getColor();
-                if (this.centered) {
-                    int i1 = i + this.getWidth() / 2;
-                    multilinelabel.render(guiGraphics, MultiLineLabel.Align.CENTER, i1, j, k, false, l);
-                } else {
-                    // Just want to change this
-                    multilinelabel.render(guiGraphics, MultiLineLabel.Align.LEFT, i, j, k, false, l);
-                }
-            }
-        }.setMaxWidth(checkbox.getWidth()).setColor(4210752 + 0xFF000000);
+        checkbox.textWidget = new MultiLineTextWidget(checkbox.getMessage().copy().withColor(4210752 + 0xFF000000), font).setMaxWidth(checkbox.getWidth());
 
         return checkbox;
     }

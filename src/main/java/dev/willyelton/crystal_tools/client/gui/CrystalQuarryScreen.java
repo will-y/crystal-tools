@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CrystalQuarryScreen extends BaseMenuUpgradeScreen<CrystalQuarryContainerMenu> implements SubScreenContainerScreen {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID ,"textures/gui/crystal_quarry.png");
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(CrystalTools.MODID ,"textures/gui/crystal_quarry.png");
 
     private static final int ENERGY_X = 8;
     private static final int ENERGY_Y = 23;
@@ -29,7 +29,7 @@ public class CrystalQuarryScreen extends BaseMenuUpgradeScreen<CrystalQuarryCont
     private BackpackScreenButton skillTreeButton;
 
     public CrystalQuarryScreen(CrystalQuarryContainerMenu container, Inventory inventory, Component title) {
-        super(container, inventory, title, ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "crystal_quarry"));
+        super(container, inventory, title, Identifier.fromNamespaceAndPath(CrystalTools.MODID, "crystal_quarry"));
 
         this.imageHeight = 227;
         this.inventoryLabelY = this.imageHeight - 97;

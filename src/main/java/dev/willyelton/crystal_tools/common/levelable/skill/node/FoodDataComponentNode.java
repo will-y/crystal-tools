@@ -11,7 +11,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
 
@@ -43,7 +43,7 @@ public final class FoodDataComponentNode extends SkillDataNode implements ItemSt
     private final FoodProperties value;
 
     public FoodDataComponentNode(int id, String name, String description, int limit, FoodProperties value, List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText) {
-        super(id, name, description, limit, (ResourceLocation) null, requirements, skillSubText.orElse(null));
+        super(id, name, description, limit, (Identifier) null, requirements, skillSubText.orElse(null));
         this.value = value;
     }
 

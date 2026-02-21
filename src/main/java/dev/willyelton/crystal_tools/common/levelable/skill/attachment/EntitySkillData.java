@@ -6,7 +6,7 @@ import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 import java.util.HashMap;
@@ -22,7 +22,7 @@ public class EntitySkillData {
             Codec.INT.fieldOf("skillExperience").forGetter(EntitySkillData::skillExperience),
             Codec.INT.fieldOf("experienceCap").forGetter(EntitySkillData::experienceCap),
             SkillPoints.CODEC.fieldOf("skillPoints").forGetter(EntitySkillData::skillPoints),
-            Codec.unboundedMap(ResourceLocation.CODEC, Codec.FLOAT).fieldOf("skillData").forGetter(EntitySkillData::skillData)
+            Codec.unboundedMap(Identifier.CODEC, Codec.FLOAT).fieldOf("skillData").forGetter(EntitySkillData::skillData)
     ).apply(instance, EntitySkillData::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, EntitySkillData> STREAM_CODEC = StreamCodec.composite(
@@ -30,7 +30,7 @@ public class EntitySkillData {
             ByteBufCodecs.VAR_INT, EntitySkillData::skillExperience,
             ByteBufCodecs.VAR_INT, EntitySkillData::experienceCap,
             SkillPoints.STREAM_CODEC, EntitySkillData::skillPoints,
-            ByteBufCodecs.map(HashMap::new, ResourceLocation.STREAM_CODEC, ByteBufCodecs.FLOAT), EntitySkillData::skillData,
+            ByteBufCodecs.map(HashMap::new, Identifier.STREAM_CODEC, ByteBufCodecs.FLOAT), EntitySkillData::skillData,
             EntitySkillData::new);
 
     public static EntitySkillData empty() {
@@ -42,9 +42,9 @@ public class EntitySkillData {
     private int skillExperience;
     private int experienceCap;
     private final SkillPoints skillPoints;
-    private final Map<ResourceLocation, Float> skillData;
+    private final Map<Identifier, Float> skillData;
 
-    private EntitySkillData(int unspentPoints, int skillExperience, int experienceCap, SkillPoints skillPoints, Map<ResourceLocation, Float> skillData) {
+    private EntitySkillData(int unspentPoints, int skillExperience, int experienceCap, SkillPoints skillPoints, Map<Identifier, Float> skillData) {
         this.unspentPoints = unspentPoints;
         this.skillExperience = skillExperience;
         this.experienceCap = experienceCap;
@@ -80,15 +80,15 @@ public class EntitySkillData {
         this.experienceCap = cap;
     }
 
-    public void addSkill(ResourceLocation rl, float value) {
+    public void addSkill(Identifier rl, float value) {
         this.skillData.compute(rl, (key, oldValue) -> oldValue == null ? value : oldValue + value);
     }
 
-    public boolean hasSkill(ResourceLocation rl) {
+    public boolean hasSkill(Identifier rl) {
         return this.skillData.containsKey(rl);
     }
 
-    public float getSkillValue(ResourceLocation rl) {
+    public float getSkillValue(Identifier rl) {
         Float toReturn = this.skillData.get(rl);
         if (toReturn == null) {
             return 0.0F;
@@ -97,11 +97,11 @@ public class EntitySkillData {
         return toReturn;
     }
 
-    public int getSkillValueInt(ResourceLocation rl) {
+    public int getSkillValueInt(Identifier rl) {
         return Mth.ceil(getSkillValue(rl));
     }
 
-    private Map<ResourceLocation, Float> skillData() {
+    private Map<Identifier, Float> skillData() {
         return skillData;
     }
 }

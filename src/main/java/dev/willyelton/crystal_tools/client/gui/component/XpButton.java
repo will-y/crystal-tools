@@ -4,12 +4,15 @@ package dev.willyelton.crystal_tools.client.gui.component;
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.utils.Colors;
 import dev.willyelton.crystal_tools.utils.XpUtils;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ActiveTextCollector;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.TextAlignment;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.function.Supplier;
@@ -18,7 +21,7 @@ import java.util.function.Supplier;
  * Button to require xp costs
  */
 public class XpButton extends Button {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/gui/xp_button.png");
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(CrystalTools.MODID, "textures/gui/xp_button.png");
 
     protected final CrystalToolsButton.OnTooltip onTooltip;
     protected final Supplier<Integer> levelCostSupplier;
@@ -30,9 +33,7 @@ public class XpButton extends Button {
     }
 
     @Override
-    protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        super.renderWidget(guiGraphics, mouseX, mouseY, partialTick);
-
+    protected void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, getX() + 4, getY() + 5, 0, 0, 9, 9, 256, 256);
 
         if (this.isHovered) {
@@ -41,9 +42,10 @@ public class XpButton extends Button {
     }
 
     @Override
-    public void renderString(GuiGraphics guiGraphics, Font font, int pColor) {
+    public void renderDefaultLabel(ActiveTextCollector textCollector) {
+        Font font = Minecraft.getInstance().font;
         int color = this.active ? Colors.fromRGB(200, 255, 143) : Colors.fromRGB(140, 96, 93);
-        guiGraphics.drawString(font, this.getMessage(), this.getX() + 16, this.getY() + (getHeight() - font.lineHeight) / 2 + 1, color);
+        textCollector.accept(TextAlignment.CENTER, this.getX() + 16, this.getY() + (getHeight() - font.lineHeight) / 2 + 1, this.getMessage().copy().withColor(color));
     }
 
     @Override

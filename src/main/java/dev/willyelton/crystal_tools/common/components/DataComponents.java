@@ -12,7 +12,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
@@ -27,9 +27,9 @@ import java.util.Map;
 public class DataComponents {
     public static final DeferredRegister<DataComponentType<?>> COMPONENTS = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, CrystalTools.MODID);
 
-    public static final Map<String, ResourceLocation> INT_COMPONENTS = new HashMap<>();
-    public static final Map<String, ResourceLocation> FLOAT_COMPONENTS = new HashMap<>();
-    public static final Map<String, ResourceLocation> BOOLEAN_COMPONENTS = new HashMap<>();
+    public static final Map<String, Identifier> INT_COMPONENTS = new HashMap<>();
+    public static final Map<String, Identifier> FLOAT_COMPONENTS = new HashMap<>();
+    public static final Map<String, Identifier> BOOLEAN_COMPONENTS = new HashMap<>();
 
     // Skill Things
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> SKILL_POINTS = register("skill_points", Codec.INT, ByteBufCodecs.VAR_INT, SkillType.INT);
@@ -221,30 +221,30 @@ public class DataComponents {
     }
 
     public static void addToComponent(ItemStack stack, String componentKey, float value) {
-        ResourceLocation resourceLocation = FLOAT_COMPONENTS.get(componentKey);
+        Identifier Identifier = FLOAT_COMPONENTS.get(componentKey);
 
-        if (resourceLocation != null) {
-            DataComponentType<Float> dataComponent = (DataComponentType<Float>) COMPONENTS.getRegistry().get().getValue(resourceLocation);
+        if (Identifier != null) {
+            DataComponentType<Float> dataComponent = (DataComponentType<Float>) COMPONENTS.getRegistry().get().getValue(Identifier);
             if (dataComponent != null) {
                 stack.set(dataComponent, stack.getOrDefault(dataComponent, 0F) + value);
                 return;
             }
         }
 
-        resourceLocation = INT_COMPONENTS.get(componentKey);
+        Identifier = INT_COMPONENTS.get(componentKey);
 
-        if (resourceLocation != null) {
-            DataComponentType<Integer> dataComponent = (DataComponentType<Integer>) COMPONENTS.getRegistry().get().getValue(resourceLocation);
+        if (Identifier != null) {
+            DataComponentType<Integer> dataComponent = (DataComponentType<Integer>) COMPONENTS.getRegistry().get().getValue(Identifier);
             if (dataComponent != null) {
                 stack.set(dataComponent, stack.getOrDefault(dataComponent, 0) + (int) value);
                 return;
             }
         }
 
-        resourceLocation = BOOLEAN_COMPONENTS.get(componentKey);
+        Identifier = BOOLEAN_COMPONENTS.get(componentKey);
 
-        if (resourceLocation != null) {
-            DataComponentType<Boolean> dataComponent = (DataComponentType<Boolean>) COMPONENTS.getRegistry().get().getValue(resourceLocation);
+        if (Identifier != null) {
+            DataComponentType<Boolean> dataComponent = (DataComponentType<Boolean>) COMPONENTS.getRegistry().get().getValue(Identifier);
             if (dataComponent != null && value > 0) {
                 stack.set(dataComponent, true);
                 return;
@@ -255,29 +255,29 @@ public class DataComponents {
     }
 
     public static void setValue(ItemStack stack, String componentKey, float value) {
-        ResourceLocation resourceLocation = FLOAT_COMPONENTS.get(componentKey);
+        Identifier Identifier = FLOAT_COMPONENTS.get(componentKey);
 
-        if (resourceLocation != null) {
-            DataComponentType<Float> dataComponent = (DataComponentType<Float>) COMPONENTS.getRegistry().get().getValue(resourceLocation);
+        if (Identifier != null) {
+            DataComponentType<Float> dataComponent = (DataComponentType<Float>) COMPONENTS.getRegistry().get().getValue(Identifier);
             if (dataComponent != null) {
                 stack.set(dataComponent, value);
                 return;
             }
         }
 
-        resourceLocation = INT_COMPONENTS.get(componentKey);
+        Identifier = INT_COMPONENTS.get(componentKey);
 
-        if (resourceLocation != null) {
-            DataComponentType<Integer> dataComponent = (DataComponentType<Integer>) COMPONENTS.getRegistry().get().getValue(resourceLocation);
+        if (Identifier != null) {
+            DataComponentType<Integer> dataComponent = (DataComponentType<Integer>) COMPONENTS.getRegistry().get().getValue(Identifier);
             if (dataComponent != null) {
                 stack.set(dataComponent, (int) value);
                 return;
             }
         }
 
-        resourceLocation = BOOLEAN_COMPONENTS.get(componentKey);
-        if (resourceLocation != null) {
-            DataComponentType<Boolean> dataComponent = (DataComponentType<Boolean>) COMPONENTS.getRegistry().get().getValue(resourceLocation);
+        Identifier = BOOLEAN_COMPONENTS.get(componentKey);
+        if (Identifier != null) {
+            DataComponentType<Boolean> dataComponent = (DataComponentType<Boolean>) COMPONENTS.getRegistry().get().getValue(Identifier);
             if (dataComponent != null) {
                 stack.set(dataComponent, value > 0);
                 return;

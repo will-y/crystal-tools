@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -27,7 +27,7 @@ import static dev.willyelton.crystal_tools.common.inventory.container.PortableGe
 import static dev.willyelton.crystal_tools.common.inventory.container.PortableGeneratorContainerMenu.START_Y;
 
 public class PortableGeneratorScreen extends CrystalGeneratorScreen {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID ,"textures/gui/portable_generator.png");
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(CrystalTools.MODID ,"textures/gui/portable_generator.png");
     private static final int DISABLED_SLOT_TEXTURE_X = 176;
     private static final int DISABLED_SLOT_TEXTURE_Y = 13;
     private static final int DISABLED_SLOT_TEXTURE_SIZE = 18;
@@ -74,7 +74,7 @@ public class PortableGeneratorScreen extends CrystalGeneratorScreen {
     }
 
     @Override
-    protected ResourceLocation texture() {
+    protected Identifier texture() {
         return TEXTURE;
     }
 

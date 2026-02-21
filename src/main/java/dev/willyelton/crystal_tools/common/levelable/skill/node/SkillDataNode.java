@@ -7,7 +7,7 @@ import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillData
 import dev.willyelton.crystal_tools.utils.CodecUtils;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
@@ -20,15 +20,15 @@ public abstract class SkillDataNode {
     // If 0 = infinite, 1 = normal, 2+ = amount of points you can put in
     private final int limit;
     private final List<SkillDataRequirement> requirements;
-    private final List<ResourceLocation> keys;
+    private final List<Identifier> keys;
     private SkillSubText skillSubText;
 
-    public SkillDataNode(int id, String name, String description, int limit, ResourceLocation key,
+    public SkillDataNode(int id, String name, String description, int limit, Identifier key,
                          List<SkillDataRequirement> requirements, SkillSubText skillSubText) {
         this(id, name, description, limit, key == null ? List.of() : List.of(key), requirements, skillSubText);
     }
 
-    public SkillDataNode(int id, String name, String description, int limit, List<ResourceLocation> keys,
+    public SkillDataNode(int id, String name, String description, int limit, List<Identifier> keys,
                          List<SkillDataRequirement> requirements, SkillSubText skillSubText) {
         this.id = id;
         this.name = name;
@@ -63,7 +63,7 @@ public abstract class SkillDataNode {
         requirements.add(requirement);
     }
 
-    public List<ResourceLocation> getKeys() {
+    public List<Identifier> getKeys() {
         return this.keys;
     }
 
@@ -96,16 +96,16 @@ public abstract class SkillDataNode {
                 ", description='" + description + '\'' +
                 ", limit=" + limit +
                 ", requirements=" + requirements +
-                ", key='" + (keys != null ? keys.stream().map(ResourceLocation::toString).collect(Collectors.joining(", ")) : "") + '\'' +
+                ", key='" + (keys != null ? keys.stream().map(Identifier::toString).collect(Collectors.joining(", ")) : "") + '\'' +
                 '}';
     }
 
     public abstract SkillNodeType getSkillNodeType();
 
-    public static Codec<SkillDataNode> CODEC = ResourceLocation.CODEC.xmap(SkillNodeType::fromResourceLocation, SkillNodeType::resourceLocation)
+    public static Codec<SkillDataNode> CODEC = Identifier.CODEC.xmap(SkillNodeType::fromIdentifier, SkillNodeType::Identifier)
             .dispatch(SkillDataNode::getSkillNodeType, SkillNodeType::codec);
 
     public static StreamCodec<RegistryFriendlyByteBuf, SkillDataNode> STREAM_CODEC = CodecUtils.RESOURCE_LOCATION_STREAM_CODEC
-            .map(SkillNodeType::fromResourceLocation, SkillNodeType::resourceLocation)
+            .map(SkillNodeType::fromIdentifier, SkillNodeType::Identifier)
             .dispatch(SkillDataNode::getSkillNodeType, SkillNodeType::streamCodec);
 }

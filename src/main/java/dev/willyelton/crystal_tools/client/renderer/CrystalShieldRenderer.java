@@ -3,8 +3,8 @@ package dev.willyelton.crystal_tools.client.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.MapCodec;
 import dev.willyelton.crystal_tools.CrystalTools;
-import net.minecraft.client.model.ShieldModel;
 import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.model.object.equipment.ShieldModel;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BannerRenderer;
@@ -13,20 +13,20 @@ import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.MaterialSet;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Unit;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
-import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
 import javax.annotation.Nullable;
 import java.util.Objects;
-import java.util.Set;
+import java.util.function.Consumer;
 
 public class CrystalShieldRenderer implements SpecialModelRenderer<DataComponentMap> {
-    private static final Material SHIELD_MATERIAL = new Material(Sheets.SHIELD_SHEET, ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "entity/crystal_shield"));
+    private static final Material SHIELD_MATERIAL = new Material(Sheets.SHIELD_SHEET, Identifier.fromNamespaceAndPath(CrystalTools.MODID, "entity/crystal_shield"));
 
     private final ShieldModel shieldModel;
     private final MaterialSet materials;
@@ -64,7 +64,7 @@ public class CrystalShieldRenderer implements SpecialModelRenderer<DataComponent
     }
 
     @Override
-    public void getExtents(Set<Vector3f> vectors) {
+    public void getExtents(Consumer<Vector3fc> vectors) {
         PoseStack posestack = new PoseStack();
         posestack.scale(1.0F, -1.0F, -1.0F);
         this.shieldModel.root().getExtentsForGui(posestack, vectors);

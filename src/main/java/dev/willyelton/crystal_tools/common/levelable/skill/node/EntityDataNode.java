@@ -12,7 +12,7 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public class EntityDataNode extends SkillDataNode implements EntityNode {
             Codec.STRING.fieldOf("name").forGetter(EntityDataNode::getName),
             Codec.STRING.fieldOf("description").forGetter(EntityDataNode::getDescription),
             Codec.INT.fieldOf("limit").forGetter(EntityDataNode::getLimit),
-            ResourceLocation.CODEC.listOf().fieldOf("key").forGetter(EntityDataNode::getKeys),
+            Identifier.CODEC.listOf().fieldOf("key").forGetter(EntityDataNode::getKeys),
             Codec.FLOAT.fieldOf("value").forGetter(EntityDataNode::getValue),
             SkillDataRequirements.CODEC.listOf().fieldOf("requirements").forGetter(EntityDataNode::getRequirements),
             SkillSubText.CODEC.optionalFieldOf("subtext").forGetter(n -> Optional.ofNullable(n.getSkillSubText()))
@@ -36,7 +36,7 @@ public class EntityDataNode extends SkillDataNode implements EntityNode {
             ByteBufCodecs.STRING_UTF8, EntityDataNode::getName,
             ByteBufCodecs.STRING_UTF8, EntityDataNode::getDescription,
             ByteBufCodecs.VAR_INT, EntityDataNode::getLimit,
-            ResourceLocation.STREAM_CODEC.apply(ByteBufCodecs.list()), EntityDataNode::getKeys,
+            Identifier.STREAM_CODEC.apply(ByteBufCodecs.list()), EntityDataNode::getKeys,
             ByteBufCodecs.FLOAT, EntityDataNode::getValue,
             SkillDataRequirements.STREAM_CODEC.apply(ByteBufCodecs.list()), EntityDataNode::getRequirements,
             ByteBufCodecs.optional(SkillSubText.STREAM_CODEC), n -> Optional.ofNullable(n.getSkillSubText()),
@@ -44,7 +44,7 @@ public class EntityDataNode extends SkillDataNode implements EntityNode {
 
     private final float value;
 
-    public EntityDataNode(int id, String name, String description, int limit, List<ResourceLocation> keys, float value, List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText) {
+    public EntityDataNode(int id, String name, String description, int limit, List<Identifier> keys, float value, List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText) {
         super(id, name, description, limit, keys, requirements, skillSubText.orElse(null));
 
         this.value = value;
@@ -59,7 +59,7 @@ public class EntityDataNode extends SkillDataNode implements EntityNode {
     public void processNode(SkillData skillData, LivingEntity entity, int pointsToSpend, RegistryAccess registryAccess) {
         EntitySkillData entitySkillData = entity.getData(ModRegistration.ENTITY_SKILL);
 
-        for (ResourceLocation key : getKeys()) {
+        for (Identifier key : getKeys()) {
             entitySkillData.addSkill(key, pointsToSpend * this.value);
         }
 

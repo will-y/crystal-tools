@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.common.tags;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -13,8 +13,8 @@ import static dev.willyelton.crystal_tools.CrystalTools.rl;
 
 public class CrystalToolsTags {
     // Item
-    public static final TagKey<Item> RODS_METAL = ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", "rods/all_metal"));
-    public static final TagKey<Item> RODS_METAL_NETHERITE = ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", "rods/netherite"));
+    public static final TagKey<Item> RODS_METAL = ItemTags.create(Identifier.fromNamespaceAndPath("c", "rods/all_metal"));
+    public static final TagKey<Item> RODS_METAL_NETHERITE = ItemTags.create(Identifier.fromNamespaceAndPath("c", "rods/netherite"));
     public static final TagKey<Item> REPAIRS_CRYSTAL = ItemTags.create(rl("repairs_crystal"));
     public static final TagKey<Item> CRYSTAL_TOOL = ItemTags.create(rl("crystal_tool"));
 

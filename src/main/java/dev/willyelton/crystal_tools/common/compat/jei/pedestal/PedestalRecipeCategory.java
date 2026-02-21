@@ -9,23 +9,22 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 public class PedestalRecipeCategory implements IRecipeCategory<PedestalRecipe>  {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/gui/crystal_generator_category.png");
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(CrystalTools.MODID, "textures/gui/crystal_generator_category.png");
 
     private final IDrawableStatic background;
 
     public PedestalRecipeCategory(IGuiHelper guiHelper) {
         this.background = guiHelper.drawableBuilder(TEXTURE, 0, 0, 18, 18)
-//                .addPadding(0, 0, 0, 20 + 100)
                 .build();
     }
 
@@ -40,7 +39,7 @@ public class PedestalRecipeCategory implements IRecipeCategory<PedestalRecipe>  
     }
 
     @Override
-    public RecipeType<PedestalRecipe> getRecipeType() {
+    public IRecipeType<PedestalRecipe> getRecipeType() {
         return CrystalToolsRecipeTypes.PEDESTAL;
     }
 
@@ -58,7 +57,7 @@ public class PedestalRecipeCategory implements IRecipeCategory<PedestalRecipe>  
     public void setRecipe(IRecipeLayoutBuilder builder, PedestalRecipe recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 1, 1)
                 .setSlotName("Pedestal Item")
-                .addItemStack(recipe.stack());
+                .add(recipe.stack());
     }
 
     @Override

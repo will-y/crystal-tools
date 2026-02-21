@@ -28,7 +28,7 @@ public class RegistryUtils {
             ResourceKey<?> resourceKey = stack.getItemHolder().getKey();
 
             if (resourceKey != null) {
-                Optional<Holder.Reference<SkillData>> dataOptional = skillDataRegistry.get(resourceKey.location());
+                Optional<Holder.Reference<SkillData>> dataOptional = skillDataRegistry.get(resourceKey.identifier());
 
                 if (dataOptional.isPresent()) {
                     return dataOptional.get().value();

@@ -6,19 +6,18 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormatElement;
 import dev.willyelton.crystal_tools.CrystalTools;
-import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.rendertype.RenderSetup;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.resources.Identifier;
 
 import static dev.willyelton.crystal_tools.CrystalTools.rl;
+import static net.minecraft.client.renderer.RenderPipelines.BEACON_BEAM_TRANSLUCENT;
+import static net.minecraft.client.renderer.RenderPipelines.ENTITY_CUTOUT_NO_CULL;
 import static net.minecraft.client.renderer.RenderPipelines.MATRICES_PROJECTION_SNIPPET;
-import static net.minecraft.client.renderer.RenderStateShard.NO_LIGHTMAP;
-import static net.minecraft.client.renderer.RenderStateShard.OVERLAY;
-import static net.minecraft.client.renderer.RenderType.create;
+import static net.minecraft.client.renderer.rendertype.RenderType.create;
 
 public class CrystalToolsRenderTypes {
-    public static final ResourceLocation QUARRY_LASER_LOCATION = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/entity/quarry_laser.png");
+    public static final Identifier QUARRY_LASER_LOCATION = Identifier.fromNamespaceAndPath(CrystalTools.MODID, "textures/entity/quarry_laser.png");
 
     public static final RenderPipeline.Snippet POSITION_COLOR_SNIPPET = RenderPipeline.builder(MATRICES_PROJECTION_SNIPPET)
             .withVertexShader("core/position_color")
@@ -52,32 +51,28 @@ public class CrystalToolsRenderTypes {
 //            .build();
 
     // Copied from the DEBUG_QUADS Render Type
+    private static final RenderSetup BLOCK_OVERLAY_SETUP = RenderSetup.builder(POSITION_COLOR_PIPELINE)
+        .bufferSize(1536)
+        .sortOnUpload()
+        .createRenderSetup();
     public static final RenderType BLOCK_OVERLAY = create(
             "CrystalToolsBlockOverlay",
-            1536,
-            false,
-            true,
-            POSITION_COLOR_PIPELINE,
-            RenderType.CompositeState.builder()
-                    .createCompositeState(false));
+            BLOCK_OVERLAY_SETUP);
 
+    private static final RenderSetup QUARRY_LASER_SETUP = RenderSetup.builder(BEACON_BEAM_TRANSLUCENT)
+            .bufferSize(1536)
+            .sortOnUpload()
+            .withTexture("Sampler0", QUARRY_LASER_LOCATION)
+            .createRenderSetup();
     public static final RenderType QUARRY_LASER = create("QuarryLaser",
-            1536,
-            false,
-            true,
-            RenderPipelines.BEACON_BEAM_TRANSLUCENT,
-            RenderType.CompositeState.builder()
-                    .setTextureState(new RenderStateShard.TextureStateShard(QUARRY_LASER_LOCATION, false))
-                    .createCompositeState(true));
+            QUARRY_LASER_SETUP);
 
+    private static final RenderSetup QUARRY_CUBE_SETUP = RenderSetup.builder(ENTITY_CUTOUT_NO_CULL)
+            .bufferSize(1536)
+            .sortOnUpload()
+            .withTexture("Sampler0", rl("textures/entity/crystal_quarry_cube.png"))
+            .useOverlay()
+            .createRenderSetup();
     public static final RenderType QUARRY_CUBE = create("QuarryCube",
-            1536,
-            true,
-            false,
-            RenderPipelines.ENTITY_CUTOUT_NO_CULL,
-            RenderType.CompositeState.builder()
-                    .setTextureState(new RenderStateShard.TextureStateShard(rl("textures/entity/crystal_quarry_cube.png"), false))
-                    .setLightmapState(NO_LIGHTMAP)
-                    .setOverlayState(OVERLAY)
-                    .createCompositeState(true));
+            QUARRY_CUBE_SETUP);
 }

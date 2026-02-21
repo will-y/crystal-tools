@@ -11,7 +11,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.Consumable;
@@ -51,7 +51,7 @@ public final class EffectNode extends SkillDataNode implements ItemStackNode {
     }
 
     public EffectNode(int id, String name, String description, int limit, List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText, List<MobEffectInstance> effects) {
-        super(id, name, description, limit, (ResourceLocation) null, requirements, skillSubText.orElse(null));
+        super(id, name, description, limit, (Identifier) null, requirements, skillSubText.orElse(null));
         this.effects = effects;
     }
 

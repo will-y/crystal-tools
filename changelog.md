@@ -1,4 +1,7 @@
 # Crystal Tools Change Log
+## 21.11.3.6.0
+- Updates to 1.21.11
+
 ## 21.10.3.6.0
 - Adds Levelable Entities!
 - Adds the Crystal Collar

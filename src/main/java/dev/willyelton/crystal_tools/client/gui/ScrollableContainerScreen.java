@@ -4,20 +4,19 @@ import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.common.inventory.container.ScrollableMenu;
 import dev.willyelton.crystal_tools.common.network.data.ContainerRowsPayload;
 import dev.willyelton.crystal_tools.common.network.data.ScrollPayload;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 public abstract class ScrollableContainerScreen<T extends AbstractContainerMenu & ScrollableMenu> extends AbstractContainerScreen<T> {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/gui/scroll_bar.png");
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(CrystalTools.MODID, "textures/gui/scroll_bar.png");
     protected static final int SCROLL_WIDTH = 14;
     protected static final int HANDLE_WIDTH = 12;
     protected static final int HANDLE_HEIGHT = 15;
@@ -45,11 +44,8 @@ public abstract class ScrollableContainerScreen<T extends AbstractContainerMenu 
         // Might need to go in resize
         this.menu.setMaxRows(getMaxDisplayRows());
         ClientPacketDistributor.sendToServer(new ContainerRowsPayload(getMaxDisplayRows()));
-    }
 
-    @Override
-    public void resize(Minecraft minecraft, int width, int height) {
-        super.resize(minecraft, width, height);
+        // Previously was in resize:
         int i = this.menu.getRowIndexForScroll(this.scrollOffset);
         this.scrollOffset = this.menu.getScrollForRowIndex(i);
         if (i != currentRow) {

@@ -10,7 +10,7 @@ import dev.willyelton.crystal_tools.common.levelable.block.entity.action.ActionT
 import dev.willyelton.crystal_tools.common.levelable.condition.WolfCondition;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
@@ -146,6 +146,6 @@ public class CrystalToolsDataMaps extends DataMapProvider {
                 .add(Items.NETHERITE_SWORD.builtInRegistryHolder(), new SkillTreeData(rl("simple_sword"), 0, 1, false, false, false, true, true), false);
 
         builder(DataMaps.ENTITY_SKILL_TREES)
-                .add(EntityType.WOLF.builtInRegistryHolder(), new SkillTreeData(ResourceLocation.withDefaultNamespace("wolf"), 0, 1, false, false, false, false, false, List.of(new WolfCondition())), false);
+                .add(EntityType.WOLF.builtInRegistryHolder(), new SkillTreeData(Identifier.withDefaultNamespace("wolf"), 0, 1, false, false, false, false, false, List.of(new WolfCondition())), false);
     }
 }

@@ -32,7 +32,7 @@ public class BlockOverlayRenderer {
         final Level level = mc.level;
         if (player != null && level != null) {
             MultiBufferSource.BufferSource buffer = mc.renderBuffers().bufferSource();
-            Vec3 view = mc.gameRenderer.getMainCamera().getPosition();
+            Vec3 view = mc.gameRenderer.getMainCamera().position();
 
             BlockHitResult hitResult = RayTraceUtils.rayTrace(player);
             if (level.getBlockState(hitResult.getBlockPos()).isAir()) {
@@ -73,7 +73,7 @@ public class BlockOverlayRenderer {
         final Level level = mc.level;
         if (player != null && level != null) {
             MultiBufferSource.BufferSource buffer = mc.renderBuffers().bufferSource();
-            Vec3 view = mc.gameRenderer.getMainCamera().getPosition();
+            Vec3 view = mc.gameRenderer.getMainCamera().position();
 
             BlockHitResult hitResult = RayTraceUtils.rayTrace(player);
             if (level.getBlockState(hitResult.getBlockPos()).isAir()) {
@@ -102,7 +102,7 @@ public class BlockOverlayRenderer {
     }
 
     public static void renderBlockPos(PoseStack pose, MultiBufferSource bufferSource, BlockPos pos, int color) {
-        Vec3 view = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+        Vec3 view = Minecraft.getInstance().gameRenderer.getMainCamera().position();
         pose.pushPose();
         pose.translate(-view.x, -view.y, -view.z);
         renderBlockPos(pose, bufferSource.getBuffer(CrystalToolsRenderTypes.BLOCK_OVERLAY), pos, ((color >> 16) & 0xFF) / 255.0F, ((color >> 8) & 0xFF) / 255.0F, (color & 0xFF) / 255.0F);

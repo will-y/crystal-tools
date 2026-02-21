@@ -10,7 +10,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class SkillButton extends CrystalToolsButton {
-    public static final ResourceLocation SKILL_BUTTON_LOCATION = ResourceLocation.fromNamespaceAndPath("crystal_tools", "textures/gui/skill_button.png");
+    public static final Identifier SKILL_BUTTON_LOCATION = Identifier.fromNamespaceAndPath("crystal_tools", "textures/gui/skill_button.png");
     private static final int ITEM_WIDTH = 16;
     // used when it is completed, should also set not active but render differently
     public boolean isComplete = false;
@@ -55,10 +55,10 @@ public class SkillButton extends CrystalToolsButton {
     }
 
     @Override
-    public void renderWidget(@NotNull GuiGraphics guiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+    public void renderContents(@NotNull GuiGraphics guiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         if (this.visible) {
             this.isHovered = pMouseX >= this.getX() + xOffset && pMouseY >= this.getY() + yOffset && pMouseX < this.getX() + xOffset + this.width && pMouseY < this.getY() + yOffset + this.height;
-            super.renderWidget(guiGraphics, pMouseX, pMouseY, pPartialTick);
+            super.renderContents(guiGraphics, pMouseX, pMouseY, pPartialTick);
             if (CrystalToolsConfig.ENABLE_ITEM_REQUIREMENTS.get() && !this.isComplete)
                 this.renderItems(guiGraphics);
         }

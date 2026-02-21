@@ -2,7 +2,7 @@ package dev.willyelton.crystal_tools.common.compat.jade;
 
 import dev.willyelton.crystal_tools.common.capability.LevelableEntity;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -36,7 +36,7 @@ public class LevelableEntityComponentProvider implements IEntityComponentProvide
     }
 
     @Override
-    public ResourceLocation getUid() {
+    public Identifier getUid() {
         return rl("entity_skill");
     }
 }

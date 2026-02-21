@@ -12,7 +12,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -42,7 +42,7 @@ public class ToolUtils {
 
         if (stack.getItemHolder().getData(DataMaps.SKILL_TREES) == null) return false;
 
-        ResourceLocation location = key.location();
+        Identifier location = key.identifier();
 
         if ("minecraft".equalsIgnoreCase(location.getNamespace())) {
             return switch (CrystalToolsServerConfig.VANILLA_SKILL_TREES.get()) {
@@ -87,15 +87,15 @@ public class ToolUtils {
         return !entity.getType().is(CrystalToolsTags.ENTITY_BLACKLIST);
     }
 
-    public static Optional<Holder.Reference<SkillData>> getItemSkillData(RegistryAccess registryAccess, ResourceLocation treeLocation) {
+    public static Optional<Holder.Reference<SkillData>> getItemSkillData(RegistryAccess registryAccess, Identifier treeLocation) {
         return getSkillData(registryAccess, treeLocation, DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS);
     }
 
-    public static Optional<Holder.Reference<SkillData>> getEntitySkillData(RegistryAccess registryAccess, ResourceLocation treeLocation) {
+    public static Optional<Holder.Reference<SkillData>> getEntitySkillData(RegistryAccess registryAccess, Identifier treeLocation) {
         return getSkillData(registryAccess, treeLocation, DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ENTITIES);
     }
 
-    public static Optional<Holder.Reference<SkillData>> getSkillData(RegistryAccess registryAccess, ResourceLocation treeLocation, ResourceKey<Registry<SkillData>> registryKey) {
+    public static Optional<Holder.Reference<SkillData>> getSkillData(RegistryAccess registryAccess, Identifier treeLocation, ResourceKey<Registry<SkillData>> registryKey) {
         if (registryAccess == null) return Optional.empty();
 
         Optional<Registry<SkillData>> skillDataOptional = registryAccess.lookup(registryKey);

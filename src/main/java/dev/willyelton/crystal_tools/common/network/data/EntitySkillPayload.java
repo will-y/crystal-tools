@@ -8,12 +8,12 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public record EntitySkillPayload(int nodeId, ResourceKey<SkillData> key, int pointsToSpend,
                                  int entityId) implements CustomPacketPayload {
 
-    public static final Type<EntitySkillPayload> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "entity_skill"));
+    public static final Type<EntitySkillPayload> TYPE = new Type<>(Identifier.fromNamespaceAndPath(CrystalTools.MODID, "entity_skill"));
     public static final StreamCodec<RegistryFriendlyByteBuf, EntitySkillPayload> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT, EntitySkillPayload::nodeId,
             ResourceKey.streamCodec(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ENTITIES), EntitySkillPayload::key,

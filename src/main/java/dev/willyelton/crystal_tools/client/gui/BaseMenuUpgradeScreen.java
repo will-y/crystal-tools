@@ -12,7 +12,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.level.Level;
 
@@ -25,10 +25,10 @@ public abstract class BaseMenuUpgradeScreen<T extends LevelableContainerMenu> ex
     protected static final int UPGRADE_BUTTON_WIDTH = 12;
     protected static final int UPGRADE_BUTTON_HEIGHT = 12;
 
-    private final ResourceLocation skillLocation;
+    private final Identifier skillLocation;
     private final float expLabelX;
 
-    public BaseMenuUpgradeScreen(T menu, Inventory playerInventory, Component title, ResourceLocation skillLocation) {
+    public BaseMenuUpgradeScreen(T menu, Inventory playerInventory, Component title, Identifier skillLocation) {
         super(menu, playerInventory, title);
 
         this.skillLocation = skillLocation;

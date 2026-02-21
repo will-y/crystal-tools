@@ -3,19 +3,19 @@ package dev.willyelton.crystal_tools.client.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.MapCodec;
 import dev.willyelton.crystal_tools.CrystalTools;
-import net.minecraft.client.model.TridentModel;
 import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.model.object.projectile.TridentModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.special.NoDataSpecialModelRenderer;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemDisplayContext;
-import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
-import java.util.Set;
+import java.util.function.Consumer;
 
 public class CrystalTridentSpecialRenderer implements NoDataSpecialModelRenderer {
-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/entity/crystal_trident.png");
+    public static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(CrystalTools.MODID, "textures/entity/crystal_trident.png");
 
     private final TridentModel crystalTridentModel;
 
@@ -24,7 +24,7 @@ public class CrystalTridentSpecialRenderer implements NoDataSpecialModelRenderer
     }
 
     @Override
-    public void getExtents(Set<Vector3f> vectors) {
+    public void getExtents(Consumer<Vector3fc> vectors) {
         PoseStack posestack = new PoseStack();
         posestack.scale(1.0F, -1.0F, -1.0F);
         this.crystalTridentModel.root().getExtentsForGui(posestack, vectors);

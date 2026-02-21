@@ -4,12 +4,12 @@ import com.mojang.serialization.Codec;
 import dev.willyelton.crystal_tools.utils.CodecUtils;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public interface LevelableCondition {
-    Codec<LevelableCondition> CODEC = ResourceLocation.CODEC.xmap(LevelableConditions::getCondition, LevelableCondition::id);
+    Codec<LevelableCondition> CODEC = Identifier.CODEC.xmap(LevelableConditions::getCondition, LevelableCondition::id);
     StreamCodec<RegistryFriendlyByteBuf, LevelableCondition> STREAM_CODEC = CodecUtils.RESOURCE_LOCATION_STREAM_CODEC
             .map(LevelableConditions::getCondition, LevelableCondition::id);
 
-    ResourceLocation id();
+    Identifier id();
 }

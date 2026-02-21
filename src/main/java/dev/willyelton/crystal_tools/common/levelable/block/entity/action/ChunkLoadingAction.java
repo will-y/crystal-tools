@@ -7,7 +7,7 @@ import dev.willyelton.crystal_tools.common.levelable.block.entity.ActionBlockEnt
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -27,7 +27,7 @@ import java.util.Set;
 import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.CHUNK_LOADING;
 
 public class ChunkLoadingAction extends Action {
-    public static final TicketController TICKET_CONTROLLER = new TicketController(ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "chunk_loader"), ChunkLoadingValidationCallback.INSTANCE);
+    public static final TicketController TICKET_CONTROLLER = new TicketController(Identifier.fromNamespaceAndPath(CrystalTools.MODID, "chunk_loader"), ChunkLoadingValidationCallback.INSTANCE);
 
     private final ChunkLoader chunkLoader;
     private boolean chunkLoadingEnabled;

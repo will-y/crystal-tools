@@ -1,10 +1,9 @@
 package dev.willyelton.crystal_tools.utils;
 
-import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -13,6 +12,8 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static dev.willyelton.crystal_tools.CrystalTools.rl;
 
 public class AttributeUtils {
     private AttributeUtils() {}
@@ -41,8 +42,8 @@ public class AttributeUtils {
             }
         }
 
-        if (!found) {
-            ResourceLocation rl = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, attribute.getKey().location().getPath());
+        if (!found && attribute.getKey() != null) {
+            Identifier rl = rl(attribute.getKey().identifier().getPath());
             newModifiers.add(new ItemAttributeModifiers.Entry(attribute, new AttributeModifier(rl, 1, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.bySlot(data.getEquipmentSlot())));
         }
 

@@ -14,7 +14,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -28,7 +28,7 @@ public class EntityAttributeNode extends SkillDataNode implements EntityNode {
             Codec.STRING.fieldOf("name").forGetter(EntityAttributeNode::getName),
             Codec.STRING.fieldOf("description").forGetter(EntityAttributeNode::getDescription),
             Codec.INT.fieldOf("limit").forGetter(EntityAttributeNode::getLimit),
-            ResourceLocation.CODEC.listOf().fieldOf("key").forGetter(EntityAttributeNode::getKeys),
+            Identifier.CODEC.listOf().fieldOf("key").forGetter(EntityAttributeNode::getKeys),
             Codec.FLOAT.fieldOf("value").forGetter(EntityAttributeNode::getValue),
             SkillDataRequirements.CODEC.listOf().fieldOf("requirements").forGetter(EntityAttributeNode::getRequirements),
             SkillSubText.CODEC.optionalFieldOf("subtext").forGetter(n -> Optional.ofNullable(n.getSkillSubText()))
@@ -39,7 +39,7 @@ public class EntityAttributeNode extends SkillDataNode implements EntityNode {
             ByteBufCodecs.STRING_UTF8, EntityAttributeNode::getName,
             ByteBufCodecs.STRING_UTF8, EntityAttributeNode::getDescription,
             ByteBufCodecs.VAR_INT, EntityAttributeNode::getLimit,
-            ResourceLocation.STREAM_CODEC.apply(ByteBufCodecs.list()), EntityAttributeNode::getKeys,
+            Identifier.STREAM_CODEC.apply(ByteBufCodecs.list()), EntityAttributeNode::getKeys,
             ByteBufCodecs.FLOAT, EntityAttributeNode::getValue,
             SkillDataRequirements.STREAM_CODEC.apply(ByteBufCodecs.list()), EntityAttributeNode::getRequirements,
             ByteBufCodecs.optional(SkillSubText.STREAM_CODEC), n -> Optional.ofNullable(n.getSkillSubText()),
@@ -47,7 +47,7 @@ public class EntityAttributeNode extends SkillDataNode implements EntityNode {
 
     private final float value;
 
-    public EntityAttributeNode(int id, String name, String description, int limit, List<ResourceLocation> keys, float value, List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText) {
+    public EntityAttributeNode(int id, String name, String description, int limit, List<Identifier> keys, float value, List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText) {
         super(id, name, description, limit, keys, requirements, skillSubText.orElse(null));
         this.value = value;
     }
@@ -61,8 +61,8 @@ public class EntityAttributeNode extends SkillDataNode implements EntityNode {
     public void processNode(SkillData skillData, LivingEntity entity, int pointsToSpend, RegistryAccess registryAccess) {
         Registry<Attribute> attributeRegistry = registryAccess.lookupOrThrow(Registries.ATTRIBUTE);
 
-        for (ResourceLocation key : getKeys()) {
-            ResourceLocation id = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, key.getPath());
+        for (Identifier key : getKeys()) {
+            Identifier id = Identifier.fromNamespaceAndPath(CrystalTools.MODID, key.getPath());
             Optional<Holder.Reference<Attribute>> optionalAttribute = attributeRegistry.get(key);
             if (optionalAttribute.isPresent()) {
                 double existingModifier = 0;

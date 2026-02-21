@@ -9,12 +9,12 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 
 public class CrystalFurnaceScreen extends BaseMenuUpgradeScreen<CrystalFurnaceContainerMenu> {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID ,"textures/gui/crystal_furnace.png");
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(CrystalTools.MODID ,"textures/gui/crystal_furnace.png");
     private static final int SLOT_TEXTURE_X = 176;
     private static final int SLOT_TEXTURE_Y = 27;
     private static final int SLOT_TEXTURE_SIZE = 18;
@@ -60,7 +60,7 @@ public class CrystalFurnaceScreen extends BaseMenuUpgradeScreen<CrystalFurnaceCo
     private int animFrame = 0;
 
     public CrystalFurnaceScreen(CrystalFurnaceContainerMenu container, Inventory inventory, Component name) {
-        super(container, inventory, name, ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "crystal_furnace"));
+        super(container, inventory, name, Identifier.fromNamespaceAndPath(CrystalTools.MODID, "crystal_furnace"));
         this.slots = container.slots;
 
         this.imageHeight = 191;

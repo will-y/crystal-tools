@@ -16,7 +16,7 @@ import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.*;
 public class CrystalToolsEntitySkillTrees {
     public static void register(BootstrapContext<SkillData> context) {
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ENTITIES,
-                EntityType.WOLF.builtInRegistryHolder().key().location()), wolf());
+                EntityType.WOLF.builtInRegistryHolder().key().identifier()), wolf());
     }
 
     private static SkillData wolf() {

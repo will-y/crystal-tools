@@ -17,7 +17,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -36,7 +36,7 @@ public final class AttributeNode extends SkillDataNode implements ItemStackNode 
             Codec.STRING.fieldOf("name").forGetter(AttributeNode::getName),
             Codec.STRING.fieldOf("description").forGetter(AttributeNode::getDescription),
             Codec.INT.fieldOf("limit").forGetter(AttributeNode::getLimit),
-            ResourceLocation.CODEC.listOf().fieldOf("key").forGetter(AttributeNode::getKeys),
+            Identifier.CODEC.listOf().fieldOf("key").forGetter(AttributeNode::getKeys),
             Codec.FLOAT.fieldOf("value").forGetter(AttributeNode::getValue),
             SkillDataRequirements.CODEC.listOf().fieldOf("requirements").forGetter(AttributeNode::getRequirements),
             SkillSubText.CODEC.optionalFieldOf("subtext").forGetter(n -> Optional.ofNullable(n.getSkillSubText())),
@@ -48,7 +48,7 @@ public final class AttributeNode extends SkillDataNode implements ItemStackNode 
             ByteBufCodecs.STRING_UTF8, AttributeNode::getName,
             ByteBufCodecs.STRING_UTF8, AttributeNode::getDescription,
             ByteBufCodecs.VAR_INT, AttributeNode::getLimit,
-            ResourceLocation.STREAM_CODEC.apply(ByteBufCodecs.list()), AttributeNode::getKeys,
+            Identifier.STREAM_CODEC.apply(ByteBufCodecs.list()), AttributeNode::getKeys,
             ByteBufCodecs.FLOAT, AttributeNode::getValue,
             SkillDataRequirements.STREAM_CODEC.apply(ByteBufCodecs.list()), AttributeNode::getRequirements,
             ByteBufCodecs.optional(SkillSubText.STREAM_CODEC), n -> Optional.ofNullable(n.getSkillSubText()),
@@ -61,7 +61,7 @@ public final class AttributeNode extends SkillDataNode implements ItemStackNode 
     private final float value;
     private final boolean threshold;
 
-    public AttributeNode(int id, String name, String description, int limit, List<ResourceLocation> keys, float value, List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText, boolean threshold) {
+    public AttributeNode(int id, String name, String description, int limit, List<Identifier> keys, float value, List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText, boolean threshold) {
         super(id, name, description, limit, keys, requirements, skillSubText.orElse(null));
         this.value = value;
         this.threshold = threshold;
@@ -71,7 +71,7 @@ public final class AttributeNode extends SkillDataNode implements ItemStackNode 
         }
     }
 
-    public AttributeNode(int id, String name, String description, int limit, List<ResourceLocation> keys, float value, List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText) {
+    public AttributeNode(int id, String name, String description, int limit, List<Identifier> keys, float value, List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText) {
         this(id, name, description, limit, keys, value, requirements, skillSubText, false);
     }
 
@@ -104,8 +104,8 @@ public final class AttributeNode extends SkillDataNode implements ItemStackNode 
         Registry<Attribute> attributeRegistry = registryAccess.lookupOrThrow(Registries.ATTRIBUTE);
         ItemAttributeModifiers newModifiers = modifiers;
 
-        for (ResourceLocation key : getKeys()) {
-            ResourceLocation rl = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, key.getPath());
+        for (Identifier key : getKeys()) {
+            Identifier rl = Identifier.fromNamespaceAndPath(CrystalTools.MODID, key.getPath());
             Optional<Holder.Reference<Attribute>> optionalAttribute = attributeRegistry.get(key);
             double bonusAmount = 0;
             if (optionalAttribute.isPresent()) {

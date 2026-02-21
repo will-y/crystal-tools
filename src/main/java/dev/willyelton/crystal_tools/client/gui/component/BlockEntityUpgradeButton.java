@@ -5,11 +5,11 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 public class BlockEntityUpgradeButton extends CrystalToolsButton {
-    public static final ResourceLocation BUTTON_LOCATION = ResourceLocation.fromNamespaceAndPath(CrystalTools.MODID, "textures/gui/furnace_button.png");
+    public static final Identifier BUTTON_LOCATION = Identifier.fromNamespaceAndPath(CrystalTools.MODID, "textures/gui/furnace_button.png");
     private final boolean hasSkillPoints;
 
     public BlockEntityUpgradeButton(int x, int y, int width, int height, Component message, OnPress onPress, SkillButton.OnTooltip onTooltip, boolean hasSkillPoints) {

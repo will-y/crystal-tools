@@ -8,7 +8,7 @@ import dev.willyelton.crystal_tools.utils.constants.SkillTreeDescriptions;
 import net.minecraft.core.Holder;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -1512,20 +1512,20 @@ public class CrystalToolsItemSkillTrees {
                     .endOptional();
     }
 
-    public static ResourceLocation attr(Holder<Attribute> attribute) {
+    public static Identifier attr(Holder<Attribute> attribute) {
         ResourceKey<?> key = attribute.getKey();
         if (key == null) {
             throw new IllegalArgumentException("Invalid attribute " + attribute);
         }
 
-        return key.location();
+        return key.identifier();
     }
 
     public static String enchantmentName(ResourceKey<Enchantment> enchantment, int level) {
         if (level == 0) {
-            return formatKey(enchantment.location().getPath());
+            return formatKey(enchantment.identifier().getPath());
         } else {
-            return formatKey(enchantment.location().getPath()) + " " + intToRomanNumeral(level);
+            return formatKey(enchantment.identifier().getPath()) + " " + intToRomanNumeral(level);
         }
     }
 }
