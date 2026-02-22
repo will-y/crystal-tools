@@ -1,5 +1,9 @@
 # Crystal Tools Change Log
-## 21.11.3.6.0
+
+## 21.11.3.6.0 beta 2
+- Fixes trident knockback
+
+## 21.11.3.6.0 beta 1
 - Updates to 1.21.11
 
 ## 21.10.3.6.0

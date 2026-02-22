@@ -4,7 +4,9 @@ import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.entity.CrystalTridentEntity;
 import dev.willyelton.crystal_tools.common.events.LevelTickEvent;
 import dev.willyelton.crystal_tools.common.levelable.EntityTargeter;
+import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -12,22 +14,24 @@ import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.TridentItem;
 import net.minecraft.world.item.component.Weapon;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.ItemAbility;
 import org.jetbrains.annotations.NotNull;
 
-public class CrystalTrident extends SwordLevelableTool implements EntityTargeter {
+import java.util.function.Consumer;
+
+public class CrystalTrident extends TridentItem implements EntityTargeter, LevelableItem {
     public CrystalTrident(Item.Properties properties) {
         super(properties.attributes(TridentItem.createAttributes())
                 .durability(CRYSTAL.durability())
@@ -36,7 +40,7 @@ public class CrystalTrident extends SwordLevelableTool implements EntityTargeter
     }
 
     @Override
-    public float getDestroySpeed(ItemStack pStack, BlockState pState) {
+    public float getDestroySpeed(ItemStack stack, BlockState state) {
         return 1.0F;
     }
 
@@ -46,18 +50,29 @@ public class CrystalTrident extends SwordLevelableTool implements EntityTargeter
     }
 
     @Override
-    public boolean canPerformAction(ItemStack stack, ItemAbility toolAction) {
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+        return !ItemStack.isSameItem(oldStack, newStack);
+    }
+
+    @Override
+    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<Item> onBroken) {
+        int durability = this.getMaxDamage(stack) - stack.getDamageValue();
+
+        if (durability - amount <= 0) {
+            return 0;
+        } else {
+            return amount;
+        }
+    }
+
+    @Override
+    public boolean isFoil(ItemStack stack) {
         return false;
     }
 
     @Override
-    public ItemUseAnimation getUseAnimation(ItemStack stack) {
-        return ItemUseAnimation.SPEAR;
-    }
-
-    @Override
-    public int getUseDuration(ItemStack stack, LivingEntity entity) {
-        return 72000;
+    public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, EquipmentSlot slot) {
+        levelableInventoryTick(stack, level, entity, slot, 1);
     }
 
     @Override
@@ -74,6 +89,7 @@ public class CrystalTrident extends SwordLevelableTool implements EntityTargeter
         }
     }
 
+    // TODO: 26.1: Mixins instead of this
     @Override
     public boolean releaseUsing(ItemStack stack, Level level, LivingEntity entityLiving, int timeLeft) {
         if (entityLiving instanceof Player player) {

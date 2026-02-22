@@ -8,7 +8,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -97,17 +96,6 @@ public class CrystalShield extends ShieldItem implements LevelableItem, EntityTa
     @Override
     public boolean isFoil(ItemStack stack) {
         return false;
-    }
-
-    @Override
-    public int getBarWidth(ItemStack itemStack) {
-        return Math.round(13.0F - (float) itemStack.getDamageValue() * 13.0F / (float) itemStack.getMaxDamage());
-    }
-
-    @Override
-    public int getBarColor(ItemStack itemStack) {
-        float f = Math.max(0.0F, ((float)itemStack.getMaxDamage() - (float)itemStack.getDamageValue()) / (float) itemStack.getMaxDamage());
-        return Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
     }
 
     @Override

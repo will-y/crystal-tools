@@ -143,7 +143,7 @@ public class CrystalBackpack extends Item implements LevelableItem {
             }
         } else {
             // Take item from player's inventory and add it to backpack
-            if (toInsert.getItem().canFitInsideContainerItems()) {
+            if (toInsert.canFitInsideContainerItems()) {
                 ItemStack result = inventory.insertStack(toInsert);
                 slot.set(result);
                 playInsertSound(player);

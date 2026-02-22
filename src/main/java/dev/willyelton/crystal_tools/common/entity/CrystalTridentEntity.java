@@ -5,7 +5,6 @@ import dev.willyelton.crystal_tools.common.capability.Capabilities;
 import dev.willyelton.crystal_tools.common.capability.LevelableStack;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.common.levelable.tool.CrystalTrident;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -22,6 +21,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -32,13 +32,12 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 
-// TODO: why doesn't this extend trident?
+// TODO 21.6: Extend Thrown Trident and Mixin
 public class CrystalTridentEntity extends AbstractArrow {
     public static final String CRYSTAL_TOOLS_TRIDENT_LIGHTNING_TAG = "crystal_tools.trident.lightning";
     private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(CrystalTridentEntity.class, EntityDataSerializers.BYTE);
 
     protected ItemStack tridentStack = new ItemStack(ModRegistration.CRYSTAL_TRIDENT.get());
-    protected CrystalTrident tridentItem = ModRegistration.CRYSTAL_TRIDENT.get();
     protected boolean dealtDamage;
     protected int clientSideReturnTridentTickCount;
 
@@ -131,12 +130,15 @@ public class CrystalTridentEntity extends AbstractArrow {
                 return;
             }
 
-            if (hitEntity instanceof LivingEntity livingEntity) {
-                if (damagingEntity instanceof LivingEntity && level() instanceof ServerLevel level) {
-                    EnchantmentHelper.doPostAttackEffectsWithItemSource(level, livingEntity, damagesource, tridentStack);
-                }
+            if (this.level() instanceof ServerLevel serverlevel1) {
+                EnchantmentHelper.doPostAttackEffectsWithItemSourceOnBreak(
+                        serverlevel1, hitEntity, damagesource, this.getWeaponItem(), p_478671_ -> this.kill(serverlevel1)
+                );
+            }
 
-                this.doPostHurtEffects(livingEntity);
+            if (hitEntity instanceof LivingEntity livingentity) {
+                this.doKnockback(livingentity, damagesource);
+                this.doPostHurtEffects(livingentity);
             }
 
             if (damagingEntity instanceof Player player) {
@@ -151,6 +153,7 @@ public class CrystalTridentEntity extends AbstractArrow {
             this.playSound(SoundEvents.TRIDENT_HIT, 1.0F, 1.0F);
         }
 
+        this.deflect(ProjectileDeflection.REVERSE, hitEntity, this.owner, false);
         this.setDeltaMovement(this.getDeltaMovement().multiply(-0.01D, -0.1D, -0.01D));
     }
 
