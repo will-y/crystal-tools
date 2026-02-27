@@ -57,9 +57,13 @@ public class ScrollableSlot extends ResourceHandlerSlot {
 
     @Override
     public boolean mayPickup(Player playerIn) {
-        try (var tx = Transaction.open(null)) {
+        var resource = handler.getResource(actualSlotIndex);
+        if (resource.isEmpty()) {
+            return false;
+        }
+        try (var tx = Transaction.openRoot()) {
             // Simulated extraction
-            return handler.extract(actualSlotIndex, handler.getResource(actualSlotIndex), 1, tx) == 1;
+            return handler.extract(actualSlotIndex, resource, 1, tx) == 1;
         }
     }
 

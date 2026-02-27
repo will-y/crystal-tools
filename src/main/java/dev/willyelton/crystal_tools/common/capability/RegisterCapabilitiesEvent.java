@@ -22,12 +22,12 @@ public class RegisterCapabilitiesEvent {
     public static void onRegisterCapabilities(net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent event) {
         // Backpack
         event.registerItem(Capabilities.Item.ITEM,
-                (stack, context) -> new CrystalBackpackInventory(stack),
+                CrystalBackpackInventory::new,
                 ModRegistration.CRYSTAL_BACKPACK.get());
 
         // Portable Generator
         event.registerItem(Capabilities.Item.ITEM,
-                (stack, context) -> new PortableGeneratorInventory(stack),
+                PortableGeneratorInventory::new,
                 ModRegistration.PORTABLE_GENERATOR.get());
 
         event.registerItem(Capabilities.Energy.ITEM,

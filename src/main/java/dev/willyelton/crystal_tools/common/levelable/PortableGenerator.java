@@ -10,7 +10,6 @@ import dev.willyelton.crystal_tools.common.inventory.PortableGeneratorInventory;
 import dev.willyelton.crystal_tools.common.inventory.container.PortableGeneratorContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.data.ILevelableContainerData;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.data.ItemStackLevelableContainerData;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -55,11 +54,11 @@ public class PortableGenerator extends Item implements LevelableItem {
         ItemStack stack = player.getItemInHand(hand);
 
         if (player instanceof ServerPlayer serverPlayer) {
-//            serverPlayer.openMenu(
-//                    new PortableGeneratorMenuSupplier(this, stack),
-//                    registryFriendlyByteBuf -> {
-//                        ItemStack.OPTIONAL_STREAM_CODEC.encode(registryFriendlyByteBuf, stack);
-//                    });
+            serverPlayer.openMenu(
+                    new PortableGeneratorMenuSupplier(this, stack),
+                    registryFriendlyByteBuf -> {
+                        ItemStack.OPTIONAL_STREAM_CODEC.encode(registryFriendlyByteBuf, stack);
+                    });
         }
 
         return InteractionResult.SUCCESS;
@@ -99,7 +98,6 @@ public class PortableGenerator extends Item implements LevelableItem {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
-        tooltipAdder.accept(Component.literal("Portable Generator is currently broken and waiting on a Neoforge update").withStyle(ChatFormatting.RED));
         super.appendHoverText(stack, context, tooltipDisplay, tooltipAdder, flag);
 
         tooltipAdder.accept(Component.literal(String.format("\u00A7b%s FE / %s FE", intToCompactString(getEnergy(stack)), intToCompactString(getCapacity(stack)))));

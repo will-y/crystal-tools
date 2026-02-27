@@ -23,13 +23,13 @@ public class CrystalBackpackInventory extends ListComponentItemHandler {
         super(ItemAccess.forStack(new ItemStack(ModRegistration.CRYSTAL_BACKPACK)), DataComponents.BACKPACK_INVENTORY.get(), size);
     }
 
-    public CrystalBackpackInventory(ItemStack stack) {
-        super(ItemAccess.forStack(stack), DataComponents.BACKPACK_INVENTORY.get(), (stack.getOrDefault(DataComponents.CAPACITY, 0) + 1) * 9);
+    public CrystalBackpackInventory(ItemStack stack, ItemAccess access) {
+        super(access, DataComponents.BACKPACK_INVENTORY.get(), (stack.getOrDefault(DataComponents.CAPACITY, 0) + 1) * 9);
     }
 
     @Override
     public boolean isValid(int slot, ItemResource resource) {
-        return !resource.is(ModRegistration.CRYSTAL_BACKPACK.get());
+        return resource.toStack().canFitInsideContainerItems();
     }
 
     public ItemStack insertStack(ItemStack stack) {
@@ -70,7 +70,7 @@ public class CrystalBackpackInventory extends ListComponentItemHandler {
         for (int i = 0; i < size(); i++) {
             ItemResource resource = getResource(i);
             if (!resource.isEmpty()) {
-                resource.toStack(getAmountAsInt(i));
+                stacks.add(resource.toStack(getAmountAsInt(i)));
             }
         }
 

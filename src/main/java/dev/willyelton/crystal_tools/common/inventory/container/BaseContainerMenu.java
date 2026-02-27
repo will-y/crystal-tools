@@ -113,10 +113,6 @@ public abstract class BaseContainerMenu extends AbstractContainerMenu {
         layoutHotbar(leftCol, topRow + 58, slotList, slotFactory);
     }
 
-    protected void layoutHotbar(int leftCol, int topRow) {
-        layoutHotbar(leftCol, topRow, null, CrystalSlotItemHandler::new);
-    }
-
     protected <T extends Slot> void layoutHotbar(int leftCol, int topRow, @Nullable NonNullList<T> slotList, SlotFactory<T> slotFactory) {
 //        addSlotRange(playerInventory, 0, leftCol, topRow, 9, 18, slotList, slotFactory);
         int x = leftCol;

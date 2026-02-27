@@ -1,5 +1,10 @@
 # Crystal Tools Change Log
 
+## 21.11.3.6.0
+- Fixes and re-enables the Crystal Backpack
+- Fixes and re-enables the Portable Crystal Generator
+- Fixes and re-enables Crystal Magnet filtering
+
 ## 21.11.3.6.0 beta 2
 - Fixes trident knockback
 

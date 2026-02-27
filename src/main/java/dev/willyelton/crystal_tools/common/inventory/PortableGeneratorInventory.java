@@ -28,8 +28,8 @@ public class PortableGeneratorInventory extends ItemAccessItemHandler {
         this.generatorStack = ItemStack.EMPTY.copy();
     }
 
-    public PortableGeneratorInventory(ItemStack stack) {
-        super(ItemAccess.forStack(stack), net.minecraft.core.component.DataComponents.CONTAINER, Math.min(stack.getOrDefault(DataComponents.PORTABLE_GENERATOR_SLOTS, 0) + 1, MAX_SIZE));
+    public PortableGeneratorInventory(ItemStack stack, ItemAccess access) {
+        super(access, net.minecraft.core.component.DataComponents.CONTAINER, Math.min(stack.getOrDefault(DataComponents.PORTABLE_GENERATOR_SLOTS, 0) + 1, MAX_SIZE));
 
         this.generatorStack = stack;
     }

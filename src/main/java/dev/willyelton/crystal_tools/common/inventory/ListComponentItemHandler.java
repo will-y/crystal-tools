@@ -43,7 +43,7 @@ public class ListComponentItemHandler extends ItemAccessResourceHandler<ItemReso
         }
 
         ItemContainerContents contents = contentsList.get(listIndex);
-        int contextIndex = listIndex % MAX_CONTENTS_SIZE;
+        int contextIndex = slot % MAX_CONTENTS_SIZE;
 
         return contextIndex < contents.getSlots() ? contents.getStackInSlot(contextIndex) : ItemStack.EMPTY;
     }
@@ -71,19 +71,19 @@ public class ListComponentItemHandler extends ItemAccessResourceHandler<ItemReso
         List<ItemContainerContents> contents = getContents(accessResource);
 
         int listIndex = index / MAX_CONTENTS_SIZE;
-        int thisContentsIndex = listIndex % MAX_CONTENTS_SIZE;
+        int thisContentsIndex = index % MAX_CONTENTS_SIZE;
 
-        ItemContainerContents thisContent = index >= contents.size() ? ItemContainerContents.EMPTY : contents.get(index);
+        ItemContainerContents thisContent = listIndex >= contents.size() ? ItemContainerContents.EMPTY : contents.get(listIndex);
 
-        int thisContentsSlots = Math.clamp((this.size - listIndex * MAX_CONTENTS_SIZE), 0, MAX_CONTENTS_SIZE);
+        int thisContentsSlots = Math.clamp((thisContentsIndex + 1), 0, MAX_CONTENTS_SIZE);
         NonNullList<ItemStack> list = NonNullList.withSize(Math.max(thisContent.getSlots(), thisContentsSlots), ItemStack.EMPTY);
         thisContent.copyInto(list);
         list.set(thisContentsIndex, newResource.toStack(newAmount));
         ItemContainerContents newContents = ItemContainerContents.fromItems(list);
 
         List<ItemContainerContents> copiedContents = deepCopy(contents);
-        if (copiedContents.size() > index) {
-            copiedContents.set(index, newContents);
+        if (copiedContents.size() > listIndex) {
+            copiedContents.set(listIndex, newContents);
         } else {
             copiedContents.add(newContents);
         }
@@ -103,10 +103,12 @@ public class ListComponentItemHandler extends ItemAccessResourceHandler<ItemReso
     }
 
     public void set(ItemStack stack, int index, ItemResource resource, int amount) {
-//        List<ItemContainerContents> result = update(ItemResource.of(stack), index, resource, amount).get(this.component);
-//        stack.set(this.component, result);
-        CrystalTools.LOGGER.info("Setting stack " + stack + " to " + resource + " with amount " + amount);
+        // This causes it to mostly work
+        List<ItemContainerContents> result = update(ItemResource.of(stack), index, resource, amount).get(this.component);
+        stack.set(this.component, result);
+        CrystalTools.LOGGER.info("Setting stack in" + stack + " to " + resource + " with amount " + amount);
 
+        // This updates the actual stack in the ItemAccess
         try (Transaction tx = Transaction.open(null)) {
             ItemResource extractedResource = this.getResource(index);
             if (!extractedResource.isEmpty()) {

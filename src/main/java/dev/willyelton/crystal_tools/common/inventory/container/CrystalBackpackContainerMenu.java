@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.common.inventory.container;
 
 import dev.willyelton.crystal_tools.ModRegistration;
+import dev.willyelton.crystal_tools.client.gui.SlotFactory;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.inventory.CompressionItemStackHandler;
@@ -31,6 +32,7 @@ import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.item.ItemAccessItemHandler;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.item.ItemUtil;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
@@ -49,7 +51,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
 
     private final FilterMenuContents<CrystalBackpackContainerMenu> filterMenuContents;
 
-    private final ItemStack stack;
+    private ItemStack stack;
     private final Player player;
     private final int slotIndex;
     private final int rows;
@@ -206,7 +208,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
     }
 
     @Override
-    protected void layoutHotbar(int leftCol, int topRow) {
+    protected <T extends Slot> void layoutHotbar(int leftCol, int topRow, @Nullable NonNullList<T> slotList, SlotFactory<T> slotFactory) {
         int index = 0;
         int x = leftCol;
         for (int i = 0 ; i < 9 ; i++) {

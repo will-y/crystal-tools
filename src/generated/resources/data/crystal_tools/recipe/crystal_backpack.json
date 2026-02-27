@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "c": "crystal_tools:crystal",
+    "h": "minecraft:chest",
+    "l": "minecraft:leather"
+  },
+  "pattern": [
+    "lcl",
+    "chc",
+    "lcl"
+  ],
+  "result": {
+    "count": 1,
+    "id": "crystal_tools:crystal_backpack"
+  }
+}

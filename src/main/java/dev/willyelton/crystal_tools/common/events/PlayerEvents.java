@@ -48,7 +48,7 @@ public class PlayerEvents {
                 continue;
             }
 
-            stackToInsert = inventory.insertStack(stackToInsert);
+            stackToInsert = inventory.insertStack(stackToInsert.copy());
 
             if (stackToInsert.isEmpty()) {
                 event.getItemEntity().getItem().setCount(stackToInsert.getCount());
