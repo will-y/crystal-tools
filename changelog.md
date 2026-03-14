@@ -1,4 +1,7 @@
 # Crystal Tools Change Log
+## 2.8.3
+- Fixes a duplication issue with the backpack pickup
+
 ## 2.8.2
 ### Fixes
 - Fixes a crash on the portable generator upgrade screen

@@ -20,7 +20,7 @@ import java.util.List;
 public class PlayerEvents {
     @SubscribeEvent
     public static void handleItemPickupEvent(ItemEntityPickupEvent.Pre event) {
-        if (event.getItemEntity().hasPickUpDelay()) return;
+        if (event.getItemEntity().hasPickUpDelay() || event.getItemEntity().getItem().isEmpty()) return;
         if (event.getItemEntity().getData(Registration.MAGNET_ITEM.get()) && !event.getPlayer().equals(event.getItemEntity().getOwner())) {
             List<ItemStack> magnetStacks = InventoryUtils.findAll(event.getPlayer(), stack -> stack.is(Registration.CRYSTAL_MAGNET.get()));
             magnetStacks.forEach(stack -> {
@@ -31,6 +31,11 @@ public class PlayerEvents {
         }
 
         List<ItemStack> backpackStacks = CrystalBackpack.findBackpackStacks(event.getPlayer());
+
+        if (backpackStacks.isEmpty()) {
+            return;
+        }
+
         ItemStack stackToInsert = event.getItemEntity().getItem();
         ItemStack original = event.getItemEntity().getItem().copy();
 
