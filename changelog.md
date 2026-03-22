@@ -1,4 +1,6 @@
 # Crystal Tools Change Log
+## 21.11.3.6.1
+- Fixes other backpack mods causing items to duplicate
 
 ## 21.11.3.7.0
 ### Additions
