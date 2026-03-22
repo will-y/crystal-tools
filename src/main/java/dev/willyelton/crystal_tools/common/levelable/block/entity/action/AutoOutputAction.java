@@ -2,7 +2,6 @@ package dev.willyelton.crystal_tools.common.levelable.block.entity.action;
 
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.ActionBlockEntity;
-import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentGetter;
@@ -46,9 +45,7 @@ public class AutoOutputAction extends Action {
             for (Direction dir : autoOutputable.possibleDirections()) {
                 ResourceHandler<ItemResource> handler = level.getCapability(Capabilities.Item.BLOCK, pos.relative(dir), dir.getOpposite());
 
-                BlockState invState = level.getBlockState(pos.relative(dir));
-
-                if (handler != null && !invState.is(CrystalToolsTags.AUTO_OUTPUT_BLACKLIST)) {
+                if (handler != null) {
                     try (Transaction tx = Transaction.open(null)) {
                         int inserted = handler.insert(ItemResource.of(stack), stack.getCount(), tx);
                         stack.shrink(inserted);

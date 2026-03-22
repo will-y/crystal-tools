@@ -101,12 +101,9 @@ public class TransferUtils {
         return resource.toStack(amount);
     }
 
-    public static ItemStack extractAllFromSlot(ResourceHandler<ItemResource> handler, int index) {
+    public static ItemStack extractAllFromSlotNoCommit(ResourceHandler<ItemResource> handler, int index) {
         try (Transaction tx = Transaction.openRoot()) {
-            ItemStack toReturn = extractAllFromSlot(handler, index, tx);
-            tx.commit();
-
-            return toReturn;
+            return extractAllFromSlot(handler, index, tx);
         }
     }
 

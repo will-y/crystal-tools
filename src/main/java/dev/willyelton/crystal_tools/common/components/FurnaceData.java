@@ -20,9 +20,9 @@ public record FurnaceData(int litTime, int litDuration, List<Integer> cookingPro
             Codec.INT.listOf().fieldOf("cookingProgress").forGetter(FurnaceData::cookingProgress),
             Codec.INT.listOf().fieldOf("cookingTime").forGetter(FurnaceData::cookingTime),
             Codec.FLOAT.fieldOf("expHeld").forGetter(FurnaceData::expHeld),
-            ItemStack.CODEC.listOf().fieldOf("inputItems").forGetter(FurnaceData::inputItems),
-            ItemStack.CODEC.listOf().fieldOf("outputItems").forGetter(FurnaceData::outputItems),
-            ItemStack.CODEC.listOf().fieldOf("fuelItems").forGetter(FurnaceData::fuelItems)
+            ItemStack.OPTIONAL_CODEC.listOf().fieldOf("inputItems").forGetter(FurnaceData::inputItems),
+            ItemStack.OPTIONAL_CODEC.listOf().fieldOf("outputItems").forGetter(FurnaceData::outputItems),
+            ItemStack.OPTIONAL_CODEC.listOf().fieldOf("fuelItems").forGetter(FurnaceData::fuelItems)
     ).apply(instance, FurnaceData::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, FurnaceData> STREAM_CODEC = StreamCodec.composite(
@@ -31,9 +31,9 @@ public record FurnaceData(int litTime, int litDuration, List<Integer> cookingPro
             ByteBufCodecs.INT.apply(list()), FurnaceData::cookingProgress,
             ByteBufCodecs.INT.apply(list()), FurnaceData::cookingTime,
             ByteBufCodecs.FLOAT, FurnaceData::expHeld,
-            ItemStack.STREAM_CODEC.apply(list()), FurnaceData::inputItems,
-            ItemStack.STREAM_CODEC.apply(list()), FurnaceData::outputItems,
-            ItemStack.STREAM_CODEC.apply(list()), FurnaceData::fuelItems,
+            ItemStack.OPTIONAL_STREAM_CODEC.apply(list()), FurnaceData::inputItems,
+            ItemStack.OPTIONAL_STREAM_CODEC.apply(list()), FurnaceData::outputItems,
+            ItemStack.OPTIONAL_STREAM_CODEC.apply(list()), FurnaceData::fuelItems,
             FurnaceData::new);
 
     public FurnaceData() {

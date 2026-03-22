@@ -6,7 +6,6 @@ import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 
 import java.util.concurrent.CompletableFuture;
@@ -29,9 +28,6 @@ public class CrystalToolsBlockTags extends BlockTagsProvider {
                 ModRegistration.CRYSTAL_GEODE.get(),
                 ModRegistration.NETHERITE_INFUSED_CRYSTAL_GEODE.get(),
                 ModRegistration.CRYSTAL_PEDESTAL.get());
-
-        tag(CrystalToolsTags.AUTO_OUTPUT_BLACKLIST).add(
-                Blocks.HOPPER);
 
         tag(CrystalToolsTags.MINABLE_WITH_AIOT)
                 .addTag(BlockTags.MINEABLE_WITH_AXE)

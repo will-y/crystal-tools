@@ -21,7 +21,6 @@ import dev.willyelton.crystal_tools.utils.NBTUtils;
 import dev.willyelton.crystal_tools.utils.TransferUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
@@ -39,14 +38,12 @@ import net.minecraft.world.item.AirItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -154,7 +151,7 @@ public class CrystalFurnaceBlockEntity extends SideConfigBlockEntity implements 
     @Override
     public void setItem(int slot, ItemStack stack) {
         if (ArrayUtils.arrayContains(INPUT_SLOTS, slot)) {
-            ItemStack previous = ItemUtil.getStack(outputHandler, slot);
+            ItemStack previous = ItemUtil.getStack(inputHandler, slot);
             inputHandler.set(slot, ItemResource.of(stack), stack.getCount());
             this.onInputSet(stack, previous, slot);
         } else if (ArrayUtils.arrayContains(OUTPUT_SLOTS, slot)) {
@@ -221,18 +218,6 @@ public class CrystalFurnaceBlockEntity extends SideConfigBlockEntity implements 
     @Override
     protected void applyImplicitComponents(DataComponentGetter componentInput) {
         super.applyImplicitComponents(componentInput);
-
-        ItemContainerContents contents = componentInput.get(net.minecraft.core.component.DataComponents.CONTAINER);
-        var items = NonNullList.withSize(SIZE, ItemStack.EMPTY);
-        if (contents != null) {
-            contents.copyInto(items);
-
-            for (int i = 0; i < items.size(); i++) {
-                if (ArrayUtils.arrayContains(INPUT_SLOTS, i)) {
-                    // TODO? What was this
-                }
-            }
-        }
 
         FurnaceData furnaceData = componentInput.get(DataComponents.FURNACE_DATA);
         if (furnaceData != null) {
@@ -558,18 +543,8 @@ public class CrystalFurnaceBlockEntity extends SideConfigBlockEntity implements 
     private boolean burn(RegistryAccess registryAccess, RecipeHolder<?> recipe, int slot) {
         if (recipe != null && this.canBurn(registryAccess, recipe, slot)) {
             AbstractCookingRecipe castedRecipe = ((RecipeHolder<? extends AbstractCookingRecipe>) recipe).value();
-            ItemResource input = this.inputHandler.getResource(slot);
-            ItemResource output = this.outputHandler.getResource(slot);
             ItemStack recipeOutput = castedRecipe.assemble(new SingleRecipeInput(ItemUtil.getStack(inputHandler, slot)), registryAccess);
-            if (output.isEmpty()) {
-                this.outputHandler.set(slot, ItemResource.of(recipeOutput), recipeOutput.getCount());
-            } else if (output.is(recipeOutput.getItem())) {
-                TransferUtils.grow(outputHandler, slot, recipeOutput.getCount());
-            }
-
-            if (input.is(Blocks.WET_SPONGE.asItem()) && !input.isEmpty() && input.is(Items.BUCKET)) {
-                this.outputHandler.set(slot, ItemResource.of(Items.WATER_BUCKET), 1);
-            }
+            this.outputHandler.set(slot, ItemResource.of(recipeOutput), recipeOutput.getCount() + outputHandler.getAmountAsInt(slot));
 
             TransferUtils.shrink(inputHandler, slot, 1);
             this.expHeld += castedRecipe.experience();
@@ -639,7 +614,7 @@ public class CrystalFurnaceBlockEntity extends SideConfigBlockEntity implements 
             Map<Item, Integer> itemMap = new HashMap<>();
 
             for (int i = 0; i < activeInputSlots.length; i++) {
-                ItemStack stack = TransferUtils.extractAllFromSlot(inputHandler, activeInputSlots[i]);
+                ItemStack stack = TransferUtils.extractAllFromSlotNoCommit(inputHandler, activeInputSlots[i]);
                 items[i] = stack.getItem();
                 if (stack.is(Items.AIR)) continue;
 

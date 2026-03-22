@@ -507,8 +507,6 @@ There are a couple of features that can be customized using datapacks.
 ### Tags
 - `entity_type/entity_blacklist`: Entities that have this tag will not level up the sword, bow, or AIOT when attacked.
   - Default Value: `[minecraft:armor_stand]`
-- `block/auto_output_blacklist`: The Crystal Furnace and Crystal Quarry will not auto output to blocks with this tag.
-  - Default Value: `[minecraft:hopper]`
 
 More information on tags and datapacks can be found [here](https://minecraft.fandom.com/wiki/Tag).
 

@@ -1,4 +1,10 @@
 # Crystal Tools Change Log
+## 21.11.3.7.1
+- Removes Auto Output Blacklist tag in favor of new config screen
+- Fixes a crash when breaking the crystal furnace
+- Fixes auto balancing sometimes resetting progress
+- Fixes furnace not continuing to output when there is an existing item in the output slot
+
 ## 21.11.3.7.0
 ### Additions
 - Side buttons on containers are now translatable
@@ -9,7 +15,6 @@
 
 ## 21.11.3.6.1
 - Fixes other backpack mods causing items to duplicate
-
 
 ## 21.11.3.6.0
 - Fixes and re-enables the Crystal Backpack

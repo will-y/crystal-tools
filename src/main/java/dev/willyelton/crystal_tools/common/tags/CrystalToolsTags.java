@@ -19,7 +19,6 @@ public class CrystalToolsTags {
     public static final TagKey<Item> CRYSTAL_TOOL = ItemTags.create(rl("crystal_tool"));
 
     // Block
-    public static final TagKey<Block> AUTO_OUTPUT_BLACKLIST = BlockTags.create(rl("auto_output_blacklist"));
     public static final TagKey<Block> MINABLE_WITH_AIOT = BlockTags.create(rl("mineable/pickaxe"));
 
     // Entity Type
