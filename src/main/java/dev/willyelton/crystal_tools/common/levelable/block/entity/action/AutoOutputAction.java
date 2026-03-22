@@ -20,8 +20,6 @@ import net.neoforged.neoforge.transfer.transaction.Transaction;
 import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.AUTO_OUTPUT;
 
 public class AutoOutputAction extends Action {
-    private static final Direction[] POSSIBLE_INVENTORIES = new Direction[] {Direction.DOWN, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
-
     private final AutoOutputable autoOutputable;
     private boolean autoOutputEnabled = false;
     // This is different because it isn't persisted, just temporarily disabled
@@ -45,7 +43,7 @@ public class AutoOutputAction extends Action {
             ItemStack stack = autoOutputable.getOutputStacks().get(index);
             if (stack.isEmpty()) continue;
 
-            for (Direction dir : POSSIBLE_INVENTORIES) {
+            for (Direction dir : autoOutputable.possibleDirections()) {
                 ResourceHandler<ItemResource> handler = level.getCapability(Capabilities.Item.BLOCK, pos.relative(dir), dir.getOpposite());
 
                 BlockState invState = level.getBlockState(pos.relative(dir));

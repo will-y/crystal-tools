@@ -28,7 +28,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 
-public class CrystalFurnaceBlock extends BaseEntityBlock {
+public class CrystalFurnaceBlock extends BaseEntityBlock implements CrystalToolsMenuProvider {
     public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
     public static final MapCodec<CrystalFurnaceBlock> CODEC = simpleCodec(CrystalFurnaceBlock::new);
@@ -71,7 +71,8 @@ public class CrystalFurnaceBlock extends BaseEntityBlock {
         }
     }
 
-    protected void openContainer(Level level, BlockPos pos, Player player) {
+    @Override
+    public void openContainer(Level level, BlockPos pos, Player player) {
         BlockEntity be = level.getBlockEntity(pos);
         if (be instanceof CrystalFurnaceBlockEntity crystalFurnaceBlockEntity && player instanceof ServerPlayer serverPlayer) {
             serverPlayer.openMenu(crystalFurnaceBlockEntity, registryFriendlyByteBuf -> registryFriendlyByteBuf.writeBlockPos(pos));

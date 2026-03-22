@@ -84,4 +84,43 @@ public class TransferUtils {
 
         return items;
     }
+
+    public static ItemStack extractAllFromSlot(ResourceHandler<ItemResource> handler, int index, Transaction tx) {
+        ItemResource resource = handler.getResource(index);
+
+        if (resource.isEmpty()) {
+            return ItemStack.EMPTY;
+        }
+
+        int amount = handler.extract(index, resource, 64, tx);
+
+        if (amount <= 0) {
+            return ItemStack.EMPTY;
+        }
+
+        return resource.toStack(amount);
+    }
+
+    public static ItemStack extractAllFromSlot(ResourceHandler<ItemResource> handler, int index) {
+        try (Transaction tx = Transaction.openRoot()) {
+            ItemStack toReturn = extractAllFromSlot(handler, index, tx);
+            tx.commit();
+
+            return toReturn;
+        }
+    }
+
+    public static void shrink(ResourceHandler<ItemResource> handler, int index, int amount) {
+        try (Transaction tx = Transaction.openRoot()) {
+            handler.extract(index, handler.getResource(index), amount, tx);
+            tx.commit();
+        }
+    }
+
+    public static void grow(ResourceHandler<ItemResource> handler, int index, int amount) {
+        try (Transaction tx = Transaction.openRoot()) {
+            handler.insert(index, handler.getResource(index), amount, tx);
+            tx.commit();
+        }
+    }
 }

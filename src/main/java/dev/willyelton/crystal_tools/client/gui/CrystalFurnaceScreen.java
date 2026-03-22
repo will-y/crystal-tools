@@ -13,6 +13,9 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 
+import java.util.List;
+
+// TODO: Need to hide slots and align inventory
 public class CrystalFurnaceScreen extends BaseMenuUpgradeScreen<CrystalFurnaceContainerMenu> {
     private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(CrystalTools.MODID ,"textures/gui/crystal_furnace.png");
     private static final int SLOT_TEXTURE_X = 176;
@@ -80,29 +83,38 @@ public class CrystalFurnaceScreen extends BaseMenuUpgradeScreen<CrystalFurnaceCo
         this.renderTooltip(guiGraphics, mouseX, mouseY);
     }
 
+    @Override
+    public List<ContainerSubScreen<?, ?>> getSubScreens() {
+        return List.of(new SideConfigScreen<>(menu, menu.getPlayer().getInventory(), this));
+    }
+
     private void renderSlotsTexture(GuiGraphics guiGraphics) {
         for (Slot slot: this.slots) {
             if (slot.isActive()) {
                 guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, slot.x - 1 + this.leftPos, slot.y -1 + this.topPos, SLOT_TEXTURE_X, SLOT_TEXTURE_Y, SLOT_TEXTURE_SIZE, SLOT_TEXTURE_SIZE, 256, 256);
-                if (slot instanceof CrystalFurnaceOutputSlot) {
-                    // Draw arrow
-                    guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, slot.x + 3 + this.leftPos, slot.y + 18 + this.topPos, ARROW_TEXTURE_X, ARROW_TEXTURE_Y, ARROW_WIDTH, ARROW_HEIGHT, 256, 256);
-                    // Draw arrow progress
-                    float progress = this.menu.getBurnProgress(slot.index - 5);
-                    int height = (int) (progress * ARROW_HEIGHT);
-                    guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, slot.x + 3 + this.leftPos, slot.y + SLOT_TEXTURE_SIZE + this.topPos + ARROW_HEIGHT - height, ARROW_TEXTURE_ON_X, ARROW_TEXTURE_Y + ARROW_HEIGHT - height, ARROW_WIDTH, height, 256, 256);
-                } else if (slot instanceof CrystalFurnaceInputSlot) {
-                    // Draw fire below
-                    guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, slot.x + 1 + this.leftPos, slot.y + SLOT_TEXTURE_SIZE + this.topPos + 2, FIRE_TEXTURE_X, FIRE_TEXTURE_Y, FIRE_TEXTURE_WIDTH, FIRE_TEXTURE_HEIGHT, 256, 256);
-                    // Draw lit progress
-                    if (this.menu.isLit()) {
-                        float litProgress = this.menu.getLitProgress();
-                        int height = (int) (litProgress * FIRE_TEXTURE_HEIGHT);
-                        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, slot.x + 2 + this.leftPos, slot.y + SLOT_TEXTURE_SIZE + this.topPos + FIRE_TEXTURE_HEIGHT - height + 2, FIRE_TEXTURE_ON_X, FIRE_TEXTURE_Y + FIRE_TEXTURE_HEIGHT - height, FIRE_TEXTURE_WIDTH, height, 256, 256);
+                switch (slot) {
+                    case CrystalFurnaceOutputSlot crystalFurnaceOutputSlot -> {
+                        // Draw arrow
+                        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, slot.x + 3 + this.leftPos, slot.y + 18 + this.topPos, ARROW_TEXTURE_X, ARROW_TEXTURE_Y, ARROW_WIDTH, ARROW_HEIGHT, 256, 256);
+                        // Draw arrow progress
+                        float progress = this.menu.getBurnProgress(crystalFurnaceOutputSlot.getIndex());
+                        int height = (int) (progress * ARROW_HEIGHT);
+                        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, slot.x + 3 + this.leftPos, slot.y + SLOT_TEXTURE_SIZE + this.topPos + ARROW_HEIGHT - height, ARROW_TEXTURE_ON_X, ARROW_TEXTURE_Y + ARROW_HEIGHT - height, ARROW_WIDTH, height, 256, 256);
                     }
-                } else if (slot instanceof CrystalFurnaceFuelSlot && slot.index != 10) {
-                    // Draw fuel arrow thing
-                    guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, slot.x + 4 + this.leftPos, slot.y + 19 + this.topPos, FUEL_ARROW_TEXTURE_X, FUEL_ARROW_TEXTURE_Y, FUEL_ARROW_TEXTURE_WIDTH, FUEL_ARROW_TEXTURE_HEIGHT, 256, 256);
+                    case CrystalFurnaceInputSlot crystalFurnaceInputSlot -> {
+                        // Draw fire below
+                        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, slot.x + 1 + this.leftPos, slot.y + SLOT_TEXTURE_SIZE + this.topPos + 2, FIRE_TEXTURE_X, FIRE_TEXTURE_Y, FIRE_TEXTURE_WIDTH, FIRE_TEXTURE_HEIGHT, 256, 256);
+                        // Draw lit progress
+                        if (this.menu.isLit()) {
+                            float litProgress = this.menu.getLitProgress();
+                            int height = (int) (litProgress * FIRE_TEXTURE_HEIGHT);
+                            guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, slot.x + 2 + this.leftPos, slot.y + SLOT_TEXTURE_SIZE + this.topPos + FIRE_TEXTURE_HEIGHT - height + 2, FIRE_TEXTURE_ON_X, FIRE_TEXTURE_Y + FIRE_TEXTURE_HEIGHT - height, FIRE_TEXTURE_WIDTH, height, 256, 256);
+                        }
+                    }
+                    case CrystalFurnaceFuelSlot crystalFurnaceFuelSlot when slot.index != 10 ->
+                        // Draw fuel arrow thing
+                            guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, slot.x + 4 + this.leftPos, slot.y + 19 + this.topPos, FUEL_ARROW_TEXTURE_X, FUEL_ARROW_TEXTURE_Y, FUEL_ARROW_TEXTURE_WIDTH, FUEL_ARROW_TEXTURE_HEIGHT, 256, 256);
+                    default -> {}
                 }
             }
         }
@@ -112,7 +124,7 @@ public class CrystalFurnaceScreen extends BaseMenuUpgradeScreen<CrystalFurnaceCo
         if (counter > MAX_COUNTER) {
             counter = 0;
             this.animFrame += 1;
-            if (this.animFrame > this.MAX_ANIM_FRAME) this.animFrame = 0;
+            if (this.animFrame > MAX_ANIM_FRAME) this.animFrame = 0;
         }
         counter++;
 

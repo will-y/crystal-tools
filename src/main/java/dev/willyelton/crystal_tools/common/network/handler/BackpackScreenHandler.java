@@ -12,37 +12,36 @@ public class BackpackScreenHandler {
     public static BackpackScreenHandler INSTANCE = new BackpackScreenHandler();
 
     public void handle(final BackpackScreenPayload payload, final IPayloadContext context) {
-        context.enqueueWork(() -> {
-            Player player = context.player();
+        Player player = context.player();
 
-            // Check for filter things
-            if (player.containerMenu instanceof FilterContainerMenu menu) {
-                switch (payload.pickupType()) {
-                    case PICKUP_WHITELIST -> menu.setWhitelist(true);
-                    case PICKUP_BLACKLIST -> menu.setWhitelist(false);
-                    case CLEAR_FILTERS -> menu.clearFilters();
-                }
+        // Check for filter things
+        if (player.containerMenu instanceof FilterContainerMenu menu) {
+            switch (payload.pickupType()) {
+                case PICKUP_WHITELIST -> menu.setWhitelist(true);
+                case PICKUP_BLACKLIST -> menu.setWhitelist(false);
+                case CLEAR_FILTERS -> menu.clearFilters();
             }
+        }
 
-            // Then check for subscreen things
-            if (player.containerMenu instanceof SubScreenContainerMenu menu) {
-                switch (payload.pickupType()) {
-                    case OPEN_COMPRESSION -> menu.openSubScreen(SubScreenType.COMPRESS);
-                    case OPEN_FILTER -> menu.openSubScreen(SubScreenType.FILTER);
-                    case OPEN_SETTINGS -> menu.openSubScreen(SubScreenType.SETTINGS);
-                    case CLOSE_SUB_SCREEN -> menu.closeSubScreen();
-                }
+        // Then check for subscreen things
+        if (player.containerMenu instanceof SubScreenContainerMenu menu) {
+            switch (payload.pickupType()) {
+                case OPEN_COMPRESSION -> menu.openSubScreen(SubScreenType.COMPRESS);
+                case OPEN_FILTER -> menu.openSubScreen(SubScreenType.FILTER);
+                case OPEN_SETTINGS -> menu.openSubScreen(SubScreenType.QUARRY_SETTINGS);
+                case SIDE_CONFIG -> menu.openSubScreen(SubScreenType.SIDE_SETTINGS);
+                case CLOSE_SUB_SCREEN -> menu.closeSubScreen();
             }
+        }
 
-            // Finally do backpack specific things
-            if (player.containerMenu instanceof CrystalBackpackContainerMenu menu) {
-                switch (payload.pickupType()) {
-                    case SORT -> menu.sort();
-                    case COMPRESS -> menu.compress();
-                    case MATCH_CONTENTS -> menu.matchContentsFilter(payload.hasShiftDown());
-                    case REOPEN_BACKPACK -> menu.reopenBackpack();
-                }
+        // Finally do backpack specific things
+        if (player.containerMenu instanceof CrystalBackpackContainerMenu menu) {
+            switch (payload.pickupType()) {
+                case SORT -> menu.sort();
+                case COMPRESS -> menu.compress();
+                case MATCH_CONTENTS -> menu.matchContentsFilter(payload.hasShiftDown());
+                case REOPEN_BACKPACK -> menu.reopenBackpack();
             }
-        });
+        }
     }
 }

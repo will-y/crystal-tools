@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.common.inventory.container;
 
 import dev.willyelton.crystal_tools.client.gui.SlotFactory;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.CrystalSlotItemHandler;
+import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenContainerMenu;
 import dev.willyelton.crystal_tools.utils.TransferUtils;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Inventory;
@@ -18,7 +19,7 @@ import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import net.neoforged.neoforge.transfer.item.PlayerInventoryWrapper;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class BaseContainerMenu extends AbstractContainerMenu {
+public abstract class BaseContainerMenu extends AbstractContainerMenu implements SubScreenContainerMenu {
     protected static final int SLOT_SIZE = 18;
 
     protected final PlayerInventoryWrapper playerInventory;
@@ -91,9 +92,11 @@ public abstract class BaseContainerMenu extends AbstractContainerMenu {
         layoutPlayerInventorySlots(leftCol, topRow, null, CrystalSlotItemHandler::new);
     }
 
+    protected void layoutPlayerInventorySlots(int leftCol, int topRow, NonNullList<CrystalSlotItemHandler> resultList) {
+        layoutPlayerInventorySlots(leftCol, topRow, resultList, CrystalSlotItemHandler::new);
+    }
+
     protected <T extends Slot> void layoutPlayerInventorySlots(int leftCol, int topRow, @Nullable NonNullList<T> slotList, SlotFactory<T> slotFactory) {
-        // Player inventory
-//        addSlotBox(playerInventory, 9, leftCol, topRow, 9, 18, 3, 18, slotList, slotFactory);
         int index = 9;
         int y = topRow;
         for (int j = 0; j < 3; j++) {

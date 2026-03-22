@@ -38,8 +38,18 @@ public class CrystalPedestalBlockEntity extends ActionBlockEntity implements Men
     public CrystalPedestalBlockEntity(BlockPos pos, BlockState blockState) {
         super(ModRegistration.CRYSTAL_PEDESTAL_BLOCK_ENTITY.get(), pos, blockState);
 
-        catalystHandler = new CallbackItemStackHandler(catalystStacks, this::setStack);
-        contentsHandler = new ItemStacksResourceHandler(contentsStacks);
+        catalystHandler = new CallbackItemStackHandler(catalystStacks, this::setStack) {
+            @Override
+            protected void onContentsChanged(int index, ItemStack previousContents) {
+                CrystalPedestalBlockEntity.this.setChanged();
+            }
+        };
+        contentsHandler = new ItemStacksResourceHandler(contentsStacks) {
+            @Override
+            protected void onContentsChanged(int index, ItemStack previousContents) {
+                CrystalPedestalBlockEntity.this.setChanged();
+            }
+        };
     }
 
     public ItemStacksResourceHandler getItemHandlerCapForSide(Direction side) {

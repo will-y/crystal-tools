@@ -12,7 +12,7 @@ import net.minecraft.world.entity.player.Inventory;
 import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.ROW_HEIGHT;
 import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.TOP_BAR_HEIGHT;
 
-public class QuarrySettingsScreen extends BackpackSubScreen<CrystalQuarryContainerMenu, CrystalQuarryScreen> {
+public class QuarrySettingsScreen extends ContainerSubScreen<CrystalQuarryContainerMenu, CrystalQuarryScreen> {
     private Checkbox silkTouchCheckbox;
     private Checkbox fortuneCheckbox;
 
@@ -69,7 +69,7 @@ public class QuarrySettingsScreen extends BackpackSubScreen<CrystalQuarryContain
     // This is all to just change the text color and remove the shadow
     // Might want to make my own component so I don't need to do this
     private Checkbox fixCheckbox(Checkbox checkbox) {
-        checkbox.textWidget = new MultiLineTextWidget(checkbox.getMessage().copy().withColor(4210752 + 0xFF000000), font).setMaxWidth(checkbox.getWidth());
+        checkbox.textWidget = new MultiLineTextWidget(checkbox.getMessage().copy().withColor(4210752 + 0xFF000000).withoutShadow(), font).setMaxWidth(checkbox.getWidth());
 
         return checkbox;
     }
@@ -91,24 +91,13 @@ public class QuarrySettingsScreen extends BackpackSubScreen<CrystalQuarryContain
     }
 
     @Override
-    protected int getRowsToDraw() {
-        // Unused here
-        return 0;
-    }
-
-    @Override
-    protected void drawContentRow(GuiGraphics guiGraphics, int row) {
-
-    }
-
-    @Override
     public Component getButtonName() {
-        return Component.literal("Quarry Settings");
+        return Component.translatable("button.crystal_tools.quarry_settings");
     }
 
     @Override
     public SubScreenType getType() {
-        return SubScreenType.SETTINGS;
+        return SubScreenType.QUARRY_SETTINGS;
     }
 
     @Override

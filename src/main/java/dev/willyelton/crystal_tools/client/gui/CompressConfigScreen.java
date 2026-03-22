@@ -9,7 +9,7 @@ import net.minecraft.world.entity.player.Inventory;
 
 import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.*;
 
-public class CompressConfigScreen extends BackpackSubScreen<CrystalBackpackContainerMenu, CrystalBackpackScreen> {
+public class CompressConfigScreen extends ContainerSubScreen<CrystalBackpackContainerMenu, CrystalBackpackScreen> {
     public CompressConfigScreen(CrystalBackpackContainerMenu menu, Inventory playerInventory, CrystalBackpackScreen returnScreen) {
         super(menu, playerInventory, Component.literal("Compression"), returnScreen);
     }
@@ -26,7 +26,7 @@ public class CompressConfigScreen extends BackpackSubScreen<CrystalBackpackConta
 
     @Override
     public Component getButtonName() {
-        return Component.literal("Configure Compressions");
+        return Component.translatable("button.crystal_tools.compression_settings");
     }
 
     @Override

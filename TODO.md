@@ -85,6 +85,8 @@
         - Action Factory (creates the action)
           - Generic so context parameter can be passed in?
         - Item Animation (default is spin, would also like an attack and mine one)
+- Transfer rework
+  - Add a BlockEntity ItemStacksResourceHandler that deals with setChanged
 
 ### New Blocks
 - Crystal glass (conn texture)
@@ -128,8 +130,6 @@ Eventually
 - Check generator shift clicking in 1.21
 
 ## Wolf
-- Readme
-- Changelog
 - Future:
   - Reset skills
   - XP to points

@@ -41,9 +41,4 @@ public abstract class AbstractGeneratorContainerMenu extends EnergyLevelableCont
     public int getCurrentGeneration() {
         return this.data.get(7);
     }
-
-    @Override
-    public String getBlockType() {
-        return "generator";
-    }
 }

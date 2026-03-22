@@ -15,10 +15,10 @@ import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.*;
 
-public abstract class BackpackSubScreen<T extends BaseContainerMenu & SubScreenContainerMenu, U extends Screen & SubScreenContainerScreen> extends AbstractContainerScreen<T> {
+public abstract class ContainerSubScreen<T extends BaseContainerMenu & SubScreenContainerMenu, U extends Screen & SubScreenContainerScreen> extends AbstractContainerScreen<T> {
     private final U returnScreen;
 
-    public BackpackSubScreen(T menu, Inventory playerInventory, Component title, U returnScreen) {
+    public ContainerSubScreen(T menu, Inventory playerInventory, Component title, U returnScreen) {
         super(menu, playerInventory, title);
         this.returnScreen = returnScreen;
     }
@@ -97,9 +97,13 @@ public abstract class BackpackSubScreen<T extends BaseContainerMenu & SubScreenC
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, y, 0, 217, INVENTORY_WIDTH, 4, TEXTURE_SIZE, TEXTURE_SIZE);
     }
 
-    protected abstract int getRowsToDraw();
+    protected int getRowsToDraw() {
+        return 0;
+    }
 
-    protected abstract void drawContentRow(GuiGraphics guiGraphics, int row);
+    protected void drawContentRow(GuiGraphics guiGraphics, int row) {
+
+    }
 
     public abstract Component getButtonName();
 

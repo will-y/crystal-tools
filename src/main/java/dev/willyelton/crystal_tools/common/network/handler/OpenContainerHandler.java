@@ -12,15 +12,13 @@ public class OpenContainerHandler {
     public static OpenContainerHandler INSTANCE = new OpenContainerHandler();
 
     public void handle(final OpenContainerPayload payload, final IPayloadContext context) {
-        context.enqueueWork(() -> {
-            Player player = context.player();
-            BlockPos pos = BlockPos.of(payload.packedBlockPos());
-            Level level = player.level();
-            Block block = level.getBlockState(pos).getBlock();
+        Player player = context.player();
+        BlockPos pos = BlockPos.of(payload.packedBlockPos());
+        Level level = player.level();
+        Block block = level.getBlockState(pos).getBlock();
 
-            if (block instanceof CrystalToolsMenuProvider menuProvider) {
-                menuProvider.openContainer(level, pos, player);
-            }
-        });
+        if (block instanceof CrystalToolsMenuProvider menuProvider) {
+            menuProvider.openContainer(level, pos, player);
+        }
     }
 }

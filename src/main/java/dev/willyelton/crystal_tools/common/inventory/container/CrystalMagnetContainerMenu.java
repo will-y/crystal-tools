@@ -6,7 +6,6 @@ import dev.willyelton.crystal_tools.common.inventory.container.slot.backpack.Bac
 import dev.willyelton.crystal_tools.common.inventory.container.subscreen.FilterContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.subscreen.FilterMenuContents;
 import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenContainerMenu;
-import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenType;
 import dev.willyelton.crystal_tools.utils.TransferUtils;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -76,16 +75,6 @@ public class CrystalMagnetContainerMenu extends BaseContainerMenu implements Sub
     @Override
     public FilterMenuContents<?> getFilterMenuContents() {
         return filterMenuContents;
-    }
-
-    @Override
-    public void closeSubScreen() {
-
-    }
-
-    @Override
-    public void openSubScreen(SubScreenType subScreenType) {
-
     }
 
     @Override

@@ -3,9 +3,6 @@ package dev.willyelton.crystal_tools.common.inventory.container.subscreen;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 
-/**
- *
- */
 public interface FilterContainerMenu {
     default boolean getWhitelist() {
         return getFilterMenuContents().getWhitelist();

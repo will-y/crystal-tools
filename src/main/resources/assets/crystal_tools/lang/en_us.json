@@ -145,5 +145,10 @@
   "tooltip.crystal_tools.dog_cage_not_owned": "You do not own %s!",
   "tooltip.crystal_tools.pet_died": "%s just died at [%s, %s, %s]! Returning as an Item.",
   "tooltip.crystal_tools.dog_collar": "Use on a tamed Wolf to allow it to level up!",
+  "button.crystal_tools.filter_settings": "Configure Filters",
+  "button.crystal_tools.trash_filter_settings": "Configure Trash Filters",
+  "button.crystal_tools.quarry_settings": "Quarry Settings",
+  "button.crystal_tools.compression_settings": "Configure Compressions",
+  "button.crystal_tools.auto_output_settings": "Configure Sides",
   "config.jade.plugin_crystal_tools.entity_skill": "Entity Skill"
 }

@@ -18,7 +18,7 @@ import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.*;
 import static dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload.BackpackAction.PICKUP_BLACKLIST;
 import static dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload.BackpackAction.PICKUP_WHITELIST;
 
-public class FilterConfigScreen<T extends BaseContainerMenu & SubScreenContainerMenu & FilterContainerMenu, U extends Screen & SubScreenContainerScreen> extends BackpackSubScreen<T, U> {
+public class FilterConfigScreen<T extends BaseContainerMenu & SubScreenContainerMenu & FilterContainerMenu, U extends Screen & SubScreenContainerScreen> extends ContainerSubScreen<T, U> {
     private boolean whitelist;
     private final boolean showMatchBackpackButton;
 
@@ -73,7 +73,7 @@ public class FilterConfigScreen<T extends BaseContainerMenu & SubScreenContainer
 
     @Override
     public Component getButtonName() {
-        return Component.literal("Configure Filters");
+        return Component.translatable("button.crystal_tools.filter_settings");
     }
 
     @Override

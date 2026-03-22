@@ -19,4 +19,9 @@ public class GeneratorItemStackHandler extends ItemStacksResourceHandler {
     public boolean isValid(int index, ItemResource resource) {
         return generatorBlockEntity.getBurnDuration(resource.toStack()) > 0;
     }
+
+    @Override
+    protected void onContentsChanged(int index, ItemStack previousContents) {
+        generatorBlockEntity.setChanged();
+    }
 }

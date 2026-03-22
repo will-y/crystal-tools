@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.client.gui;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.client.gui.component.backpack.BackpackScreenButton;
+import dev.willyelton.crystal_tools.client.gui.component.backpack.ContainerSideButton;
 import dev.willyelton.crystal_tools.client.gui.component.backpack.CompressButton;
 import dev.willyelton.crystal_tools.client.gui.component.backpack.SortButton;
 import dev.willyelton.crystal_tools.common.capability.Capabilities;
@@ -89,13 +89,6 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
         return (this.height - TOP_BAR_HEIGHT - INVENTORY_HEIGHT) / ROW_HEIGHT;
     }
 
-//    @Override
-//    public void resize(Minecraft minecraft, int width, int height) {
-//        // TODO: Should be fixed, don't want to rn
-//        this.onClose();
-//        super.resize(minecraft, width, height);
-//    }
-
     @Override
     protected void init() {
         setHeights();
@@ -114,7 +107,7 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
             actionButtonX -=14;
         }
 
-        this.addRenderableWidget(new BackpackScreenButton(this.leftPos - 21, screenButtonY, Component.literal("Open Skill Tree"),
+        this.addRenderableWidget(new ContainerSideButton(this.leftPos - 21, screenButtonY, Component.literal("Open Skill Tree"),
                 button -> {
                     this.onClose();
                     Levelable levelable = this.container.getBackpackStack().getCapability(Capabilities.ITEM_SKILL, player.level().registryAccess());
@@ -126,15 +119,15 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
                     Component textComponent = Component.literal("Open Skill Tree");
                     guiGraphics.setTooltipForNextFrame(this.font, this.font.split(textComponent, Math.max(CrystalBackpackScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
                 }, 40));
-        screenButtonY += 21;
+//        screenButtonY += 21;
 
-        List<BackpackScreenButton> subScreenButtons = getSideButtons(this.leftPos - 21, screenButtonY, this.width, menu);
-        subScreenButtons.forEach(this::addRenderableWidget);
+//        List<ContainerSideButton> subScreenButtons = getSideButtons(this.leftPos - 21, screenButtonY, this.width, menu);
+//        subScreenButtons.forEach(this::addRenderableWidget);
     }
 
     @Override
-    public List<BackpackSubScreen<?, ?>> getSubScreens() {
-        List<BackpackSubScreen<?, ?>> subScreens = new ArrayList<>();
+    public List<ContainerSubScreen<?, ?>> getSubScreens() {
+        List<ContainerSubScreen<?, ?>> subScreens = new ArrayList<>();
 
         if (this.menu.getFilterRows() > 0) {
             subScreens.add(new FilterConfigScreen<>(menu, menu.getPlayerInventory(), this, true));

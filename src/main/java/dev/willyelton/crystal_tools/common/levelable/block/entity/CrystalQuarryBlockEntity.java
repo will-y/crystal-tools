@@ -16,6 +16,7 @@ import dev.willyelton.crystal_tools.common.levelable.block.entity.action.AutoOut
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.ChunkLoader;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.action.ChunkLoadingAction;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.data.LevelableContainerData;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.data.SideConfigOption;
 import dev.willyelton.crystal_tools.common.network.data.QuarryMineBlockPayload;
 import dev.willyelton.crystal_tools.utils.InventoryUtils;
 import dev.willyelton.crystal_tools.utils.TransferUtils;
@@ -62,10 +63,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.*;
 
-public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements MenuProvider, AutoOutputable, ChunkLoader {
+public class CrystalQuarryBlockEntity extends SideConfigBlockEntity implements MenuProvider, AutoOutputable, ChunkLoader {
     public static final int DATA_SIZE = 14;
 
     private static final int INVENTORY_SIZE = 27;
@@ -133,11 +135,21 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
         useDirt = false;
 
         // Caps
-        itemHandler = new ItemStacksResourceHandler(NonNullList.withSize(INVENTORY_SIZE, ItemStack.EMPTY));
+        itemHandler = new ItemStacksResourceHandler(NonNullList.withSize(INVENTORY_SIZE, ItemStack.EMPTY)) {
+            @Override
+            protected void onContentsChanged(int index, ItemStack previousContents) {
+                CrystalQuarryBlockEntity.this.setChanged();
+            }
+        };
         energyStorage = new CrystalEnergyStorage(10000, getEnergyCost() * 2, 0, 0);
 
         // Filter
-        filterItemHandler = new ItemStacksResourceHandler(NonNullList.withSize(INVENTORY_SIZE, ItemStack.EMPTY));
+        filterItemHandler = new ItemStacksResourceHandler(NonNullList.withSize(INVENTORY_SIZE, ItemStack.EMPTY)) {
+            @Override
+            protected void onContentsChanged(int index, ItemStack previousContents) {
+                CrystalQuarryBlockEntity.this.setChanged();
+            }
+        };
     }
 
     @Override
@@ -164,6 +176,25 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     @Override
     public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
         return new CrystalQuarryContainerMenu(containerId, player.level(), this.getBlockPos(), this.filterRows, playerInventory, this.dataAccess);
+    }
+
+    @Override
+    protected ResourceHandler<ItemResource> getHandlerForConfig(SideConfigOption option) {
+        if (option == SideConfigOption.OUTPUT) {
+            return this.itemHandler;
+        }
+
+        return null;
+    }
+
+    @Override
+    protected SideConfigOption defaultForSide(Direction side) {
+        return SideConfigOption.OUTPUT;
+    }
+
+    @Override
+    public Set<SideConfigOption> supportedSideConfigOptions() {
+        return Set.of(SideConfigOption.OUTPUT, SideConfigOption.DISABLED);
     }
 
     @Override
@@ -768,6 +799,12 @@ public class CrystalQuarryBlockEntity extends LevelableBlockEntity implements Me
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
         return this.saveCustomOnly(registries);
+    }
+
+    @Override
+    public void saveCustomOnly(ValueOutput output) {
+        super.saveCustomOnly(output);
+        this.saveAdditional(output);
     }
 
     private void spawnBreakingParticles(ServerLevel level) {

@@ -1,15 +1,15 @@
 package dev.willyelton.crystal_tools.common.inventory.container.slot.furnace;
 
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalFurnaceContainerMenu;
-import dev.willyelton.crystal_tools.utils.ArrayUtils;
-import net.minecraft.world.inventory.Slot;
+import dev.willyelton.crystal_tools.common.inventory.container.slot.CrystalSlotItemHandler;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 
-public class CrystalFurnaceFuelSlot extends Slot {
+public class CrystalFurnaceFuelSlot extends CrystalSlotItemHandler {
     private final CrystalFurnaceContainerMenu crystalFurnaceContainerMenu;
 
-    public CrystalFurnaceFuelSlot(CrystalFurnaceContainerMenu crystalFurnaceContainerMenu, int pSlot, int pX, int pY) {
-        super(crystalFurnaceContainerMenu.getBlockEntity(), pSlot, pX, pY);
+    public CrystalFurnaceFuelSlot(CrystalFurnaceContainerMenu crystalFurnaceContainerMenu, ItemStacksResourceHandler itemHandler, int index, int x, int y) {
+        super(itemHandler, index, x, y);
         this.crystalFurnaceContainerMenu = crystalFurnaceContainerMenu;
     }
 
@@ -19,6 +19,6 @@ public class CrystalFurnaceFuelSlot extends Slot {
 
     @Override
     public boolean isActive() {
-        return ArrayUtils.arrayContains(crystalFurnaceContainerMenu.getActiveFuelSlots(), this.index);
+        return super.isActive() && crystalFurnaceContainerMenu.getNumActiveFuelSlots() > this.getIndex();
     }
 }

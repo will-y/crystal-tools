@@ -1,12 +1,17 @@
 package dev.willyelton.crystal_tools.common.inventory.container;
 
 import dev.willyelton.crystal_tools.ModRegistration;
+import dev.willyelton.crystal_tools.common.inventory.container.slot.CrystalSlotItemHandler;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.furnace.CrystalFurnaceFuelSlot;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.furnace.CrystalFurnaceInputSlot;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.furnace.CrystalFurnaceOutputSlot;
+import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SideConfigContainerMenu;
+import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenType;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalFurnaceBlockEntity;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.SideConfigBlockEntity;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
@@ -16,32 +21,35 @@ import net.minecraft.world.item.crafting.RecipePropertySet;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
-public class CrystalFurnaceContainerMenu extends LevelableContainerMenu {
-    private final CrystalFurnaceBlockEntity te;
+public class CrystalFurnaceContainerMenu extends LevelableContainerMenu implements SideConfigContainerMenu {
+    private static final int PLAYER_INVENTORY_START = 13;
+    private static final int PLAYER_INVENTORY_END = 49;
+    private static final int INPUT_START = CrystalFurnaceBlockEntity.INPUT_SLOTS[0];
+    private static final int FUEL_START = CrystalFurnaceBlockEntity.FUEL_SLOTS[0];
 
+    private final CrystalFurnaceBlockEntity blockEntity;
     private final int fuelSlotsX = 21;
     private final int[] fuelSlotsPos = new int[] {69, 44, 19};
     private final int inputSlotY = 58;
     private final int outputSlotY = 23;
     private final int[][] slotXValues = new int[][] {new int[] {96, 0, 0, 0, 0}, new int[] {80, 112, 0, 0, 0}, new int[] {74, 96, 118, 0, 0}, new int[] {57, 83, 109, 135, 0}, new int[] {58, 77, 96, 115, 134}};
     private final RecipePropertySet acceptedInputs;
+    private final List<Slot> furnaceSlots = new ArrayList<>();
+    private final NonNullList<CrystalSlotItemHandler> playerSlots = NonNullList.create();
 
-    private static final int PLAYER_INVENTORY_START = 13;
-    private static final int PLAYER_INVENTORY_END = 49;
-    private static final int INPUT_START = CrystalFurnaceBlockEntity.INPUT_SLOTS[0];
-    private static final int FUEL_START = CrystalFurnaceBlockEntity.FUEL_SLOTS[0];
 
     public CrystalFurnaceContainerMenu(int containerId, Level level, BlockPos pos, Inventory playerInventory, ContainerData data) {
         super(ModRegistration.CRYSTAL_FURNACE_CONTAINER.get(), containerId, playerInventory, data);
         acceptedInputs = level.recipeAccess().propertySet(RecipePropertySet.FURNACE_INPUT);
-        te = (CrystalFurnaceBlockEntity) level.getBlockEntity(pos);
+        blockEntity = (CrystalFurnaceBlockEntity) level.getBlockEntity(pos);
 
         this.addFurnaceSlots(5, 5);
-        this.addFuelSlots(3, 3);
+        this.addFuelSlots(3);
 
-        this.layoutPlayerInventorySlots(8, 109);
+        this.layoutPlayerInventorySlots(8, 109, playerSlots);
     }
 
     /**
@@ -104,27 +112,24 @@ public class CrystalFurnaceContainerMenu extends LevelableContainerMenu {
     }
 
     @Override
-    public boolean stillValid(Player pPlayer) {
-        return te.stillValid(pPlayer);
+    public boolean stillValid(Player player) {
+        if (level != null && level.getBlockEntity(blockEntity.getBlockPos()) != blockEntity) {
+            return false;
+        } else {
+            return player.distanceToSqr((double) blockEntity.getBlockPos().getX() + 0.5D, (double) blockEntity.getBlockPos().getY() + 0.5D, (double) blockEntity.getBlockPos().getZ() + 0.5D) <= 64.0D;
+        }
     }
 
     private void addFurnaceSlots(int numSlots, int numActiveSlots) {
-        int[] inputSlots = te.getInputSlots();
-        int[] outputSlots = te.getOutputSLots();
-
         for (int i = 0; i < numSlots; i++) {
-            this.addSlot(new CrystalFurnaceInputSlot(this, inputSlots[i], this.slotXValues[numActiveSlots - 1][i], this.inputSlotY));
-        }
-
-        for (int i = 0; i < numSlots; i++) {
-            this.addSlot(new CrystalFurnaceOutputSlot(player, this, outputSlots[i], this.slotXValues[numActiveSlots - 1][i], this.outputSlotY));
+            furnaceSlots.add(this.addSlot(new CrystalFurnaceInputSlot(this, blockEntity.getInputHandler(), i, this.slotXValues[numActiveSlots - 1][i], this.inputSlotY, blockEntity::onInputSet)));
+            furnaceSlots.add(this.addSlot(new CrystalFurnaceOutputSlot(this, blockEntity.getOutputHandler(), player, i, this.slotXValues[numActiveSlots - 1][i], this.outputSlotY)));
         }
     }
 
-    private void addFuelSlots(int numSlots, int numActiveFuelSlots) {
-        int[] slots = te.getFuelSlots();
+    private void addFuelSlots(int numSlots) {
         for (int i = 0; i < numSlots; i++) {
-            this.addSlot(new CrystalFurnaceFuelSlot(this, slots[i], this.fuelSlotsX, this.fuelSlotsPos[i]));
+            this.furnaceSlots.add(this.addSlot(new CrystalFurnaceFuelSlot(this, blockEntity.getFuelHandler(), i, this.fuelSlotsX, this.fuelSlotsPos[i])));
         }
     }
 
@@ -162,24 +167,34 @@ public class CrystalFurnaceContainerMenu extends LevelableContainerMenu {
     }
 
     @Override
-    public String getBlockType() {
-        return "crystal_furnace";
+    public CrystalFurnaceBlockEntity getBlockEntity() {
+        return this.blockEntity;
     }
 
     @Override
-    public CrystalFurnaceBlockEntity getBlockEntity() {
-        return this.te;
+    public void openSubScreen(SubScreenType subScreenType) {
+        this.furnaceSlots.forEach(slot -> {
+            if (slot instanceof CrystalSlotItemHandler s) {
+                s.setActive(false);
+            }
+        });
+
+        this.playerSlots.forEach(slot -> slot.setActive(false));
     }
 
-    public int[] getActiveInputSlots() {
-        return Arrays.copyOfRange(CrystalFurnaceBlockEntity.INPUT_SLOTS, 0, this.getNumActiveSlots());
+    @Override
+    public void closeSubScreen() {
+        this.furnaceSlots.forEach(slot -> {
+            if (slot instanceof CrystalSlotItemHandler s) {
+                s.setActive(true);
+            }
+        });
+
+        this.playerSlots.forEach(slot -> slot.setActive(true));
     }
 
-    public int[] getActiveOutputSlots() {
-        return Arrays.copyOfRange(CrystalFurnaceBlockEntity.OUTPUT_SLOTS, 0, this.getNumActiveSlots());
-    }
-
-    public int[] getActiveFuelSlots() {
-        return Arrays.copyOfRange(CrystalFurnaceBlockEntity.FUEL_SLOTS, 0, this.getNumActiveFuelSlots());
+    @Override
+    public SideConfigBlockEntity getSideConfigBlockEntity() {
+        return blockEntity;
     }
 }

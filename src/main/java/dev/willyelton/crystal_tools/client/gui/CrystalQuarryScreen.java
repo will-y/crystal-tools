@@ -2,18 +2,13 @@ package dev.willyelton.crystal_tools.client.gui;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.client.gui.component.EnergyBarWidget;
-import dev.willyelton.crystal_tools.client.gui.component.backpack.BackpackScreenButton;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalQuarryContainerMenu;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
-import dev.willyelton.crystal_tools.common.network.data.OpenContainerPayload;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
-import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +20,6 @@ public class CrystalQuarryScreen extends BaseMenuUpgradeScreen<CrystalQuarryCont
     private static final int ENERGY_Y = 23;
     private static final int ENERGY_WIDTH = 160;
     private static final int ENERGY_HEIGHT = 10;
-
-    private BackpackScreenButton skillTreeButton;
 
     public CrystalQuarryScreen(CrystalQuarryContainerMenu container, Inventory inventory, Component title) {
         super(container, inventory, title, Identifier.fromNamespaceAndPath(CrystalTools.MODID, "crystal_quarry"));
@@ -62,8 +55,6 @@ public class CrystalQuarryScreen extends BaseMenuUpgradeScreen<CrystalQuarryCont
                 this.inventoryLabelX,
                 ENERGY_Y + ENERGY_HEIGHT + 6 + 10,
                 4210752 + 0xFF000000, false);
-
-        this.skillTreeButton.setBadgeCounter(this.menu.getSkillPoints());
     }
 
     @Override
@@ -73,39 +64,23 @@ public class CrystalQuarryScreen extends BaseMenuUpgradeScreen<CrystalQuarryCont
         this.addRenderableWidget(
                 new EnergyBarWidget(this.leftPos + ENERGY_X, this.topPos + ENERGY_Y, ENERGY_WIDTH, ENERGY_HEIGHT, Component.empty(), this.font, this.menu)
         );
-        int screenButtonY = this.topPos + 22 + 21;
-
-        List<BackpackScreenButton> subScreenButtons = getSideButtons(this.leftPos - 21, screenButtonY, this.width, menu);
-        subScreenButtons.forEach(this::addRenderableWidget);
     }
 
     @Override
-    protected void initUpgradeButton(Holder.Reference<SkillData> skillData) {
-        skillTreeButton = this.addRenderableWidget(new BackpackScreenButton(this.leftPos - 21, this.topPos + 22, Component.literal("Open Skill Tree"),
-                button -> {
-                    ModGUIs.openScreen(new BlockEntityUpgradeScreen(this.menu, menu.getPlayer(), () -> ClientPacketDistributor.sendToServer(new OpenContainerPayload(this.menu.getBlockPos().asLong())),
-                            skillData.value(), skillData.key()));
-                },
-                (button, guiGraphics, mouseX, mouseY) -> {
-                    Component textComponent = Component.literal("Open Skill Tree");
-                    guiGraphics.setTooltipForNextFrame(this.font, this.font.split(textComponent, Math.max(CrystalQuarryScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
-                }, 40));
-    }
-
-    @Override
-    public List<BackpackSubScreen<?, ?>> getSubScreens() {
-        List<BackpackSubScreen<?, ?>> subScreens = new ArrayList<>();
+    public List<ContainerSubScreen<?, ?>> getSubScreens() {
+        List<ContainerSubScreen<?, ?>> subScreens = new ArrayList<>();
 
         if (this.menu.getFilterRows() > 0) {
             subScreens.add(new FilterConfigScreen<>(menu, menu.getPlayer().getInventory(), this, Component.literal("Trash Filter")) {
                 @Override
                 public Component getButtonName() {
-                    return Component.literal("Configure Trash Filters");
+                    return Component.translatable("button.crystal_tools.trash_filter_settings");
                 }
             });
         }
 
         subScreens.add(new QuarrySettingsScreen(menu, menu.getPlayer().getInventory(), this));
+        subScreens.add(new SideConfigScreen<>(menu, menu.getPlayer().getInventory(), this));
 
         return subScreens;
     }

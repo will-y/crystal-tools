@@ -4,9 +4,11 @@ import com.mojang.serialization.Codec;
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.common.datamap.GeneratorFuelData;
 import dev.willyelton.crystal_tools.common.levelable.LevelableTooltip;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.data.SideConfigOption;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.common.levelable.tool.UseMode;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -145,6 +147,7 @@ public class DataComponents {
 
     // Block Entities
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<LevelableBlockEntityData>> LEVELABLE_BLOCK_ENTITY_DATA = register("levelable_block_entity_data", LevelableBlockEntityData.CODEC, LevelableBlockEntityData.STREAM_CODEC);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Map<Direction, SideConfigOption>>> SIDE_CONFIG_OPTIONS = register("side_config_options", SideConfigOption.DIRECTION_MAP_CODEC, SideConfigOption.DIRECTION_MAP_STREAM_CODEC);
 
     // Furnace
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<FurnaceData>> FURNACE_DATA = register("furnace_data", FurnaceData.CODEC, FurnaceData.STREAM_CODEC);

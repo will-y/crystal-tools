@@ -6,9 +6,11 @@ import dev.willyelton.crystal_tools.common.inventory.container.slot.NoInsertSlot
 import dev.willyelton.crystal_tools.common.inventory.container.slot.backpack.BackpackFilterSlot;
 import dev.willyelton.crystal_tools.common.inventory.container.subscreen.FilterContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.subscreen.FilterMenuContents;
+import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SideConfigContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenType;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalQuarryBlockEntity;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.SideConfigBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Inventory;
@@ -20,7 +22,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 
-public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu implements SubScreenContainerMenu, FilterContainerMenu {
+public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu implements SubScreenContainerMenu, FilterContainerMenu, SideConfigContainerMenu {
     private final CrystalQuarryBlockEntity blockEntity;
     private FilterMenuContents<CrystalQuarryContainerMenu> filterMenuContents;
     // For now, two different inventories to deal with them being in different positions
@@ -108,11 +110,6 @@ public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu imp
     }
 
     @Override
-    public String getBlockType() {
-        return "quarry";
-    }
-
-    @Override
     public CrystalQuarryBlockEntity getBlockEntity() {
         return blockEntity;
     }
@@ -131,9 +128,6 @@ public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu imp
         return new BlockPos(this.data.get(5), this.data.get(6), this.data.get(7));
     }
 
-    public BlockPos getBlockPos() {
-        return blockEntity.getBlockPos();
-    }
 
     @Override
     public boolean getWhitelist() {
@@ -210,5 +204,10 @@ public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu imp
         }
 
         return true;
+    }
+
+    @Override
+    public SideConfigBlockEntity getSideConfigBlockEntity() {
+        return blockEntity;
     }
 }
