@@ -1,14 +1,15 @@
 # Crystal Tools Change Log
-## 21.11.3.6.1
-- Fixes other backpack mods causing items to duplicate
-
 ## 21.11.3.7.0
 ### Additions
 - Side buttons on containers are now translatable
 - Added the option to configure side behavior on the Crystal Furnace and Crystal quarry
 
 ### Fixes
-- Fixed a duplication bug with block entities that store items
+- Fixes a duplication bug with block entities that store items
+
+## 21.11.3.6.1
+- Fixes other backpack mods causing items to duplicate
+
 
 ## 21.11.3.6.0
 - Fixes and re-enables the Crystal Backpack
