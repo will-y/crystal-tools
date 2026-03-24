@@ -1,0 +1,26 @@
+plugins {
+    id 'java-library'
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id 'net.neoforged.moddev' version "${mdg_version}"
+}
+
+version = api_version
+group = api_group_id
+
+base {
+    archivesName = mod_id + "-api"
+}
+
+// TODO: 25 to properties file
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(25))
+        vendor.set(JvmVendorSpec.JETBRAINS)
+    }
+}
+
+neoForge {
+    version = project.neo_version
+}

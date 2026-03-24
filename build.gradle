@@ -152,6 +152,7 @@ dependencies {
 //    runtimeOnly "curse.maven:adorned-1036809:5740650" // Adorned
 
 //     implementation "curse.maven:energized-power-782147:6927412" // Energized Power
+    jarJar project(":api")
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
