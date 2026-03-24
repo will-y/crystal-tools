@@ -2,7 +2,7 @@ package dev.willyelton.crystal_tools.client.gui.component;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -18,7 +18,7 @@ public class BlockEntityUpgradeButton extends CrystalToolsButton {
     }
 
     @Override
-    protected void blitButton(GuiGraphics guiGraphics, int textureY) {
+    protected void blitButton(GuiGraphicsExtractor guiGraphics, int textureY) {
         // first half of button
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, BUTTON_LOCATION, this.getX(), this.getY(), 0, textureY * this.height, this.width / 2, this.height, 256, 256);
         // second half of button
@@ -26,8 +26,8 @@ public class BlockEntityUpgradeButton extends CrystalToolsButton {
     }
 
     @Override
-    protected void drawButtonText(GuiGraphics guiGraphics, Font font, int fgColor) {
-        guiGraphics.drawCenteredString(font, this.getMessage(), this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, fgColor | Mth.ceil(this.alpha * 255.0F) << 24);
+    protected void drawButtonText(GuiGraphicsExtractor guiGraphics, Font font, int fgColor) {
+        guiGraphics.centeredText(font, this.getMessage(), this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, fgColor | Mth.ceil(this.alpha * 255.0F) << 24);
     }
 
     @Override

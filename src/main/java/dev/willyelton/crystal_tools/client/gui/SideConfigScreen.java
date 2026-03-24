@@ -5,7 +5,7 @@ import dev.willyelton.crystal_tools.common.inventory.container.BaseContainerMenu
 import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SideConfigContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenType;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.data.SideConfigOption;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -59,7 +59,7 @@ public class SideConfigScreen<T extends BaseContainerMenu & SideConfigContainerM
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+    public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         drawTopBar(guiGraphics);
 
         for (int i = 0; i < 6; i++) {
@@ -70,8 +70,8 @@ public class SideConfigScreen<T extends BaseContainerMenu & SideConfigContainerM
     }
 
     @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        guiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 4210752 + 0xFF000000, false);
+    protected void extractLabels(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
+        guiGraphics.text(this.font, this.title, this.titleLabelX, this.titleLabelY, 4210752 + 0xFF000000, false);
     }
 
     private SideConfigOption onPress(SideConfigButton button, InputWithModifiers input) {

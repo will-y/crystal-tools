@@ -4,11 +4,10 @@ import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.utils.ArrayUtils;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -20,6 +19,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CrystalAIOTRecipe extends CrystalToolsRecipe {
+    public static final CrystalAIOTRecipe INSTANCE = new  CrystalAIOTRecipe();
+
     private static final Item[] requiredItems = new Item[] {
             ModRegistration.CRYSTAL_AXE.get(),
             ModRegistration.CRYSTAL_PICKAXE.get(),
@@ -28,10 +29,6 @@ public class CrystalAIOTRecipe extends CrystalToolsRecipe {
             ModRegistration.CRYSTAL_SWORD.get(),
             Items.SLIME_BLOCK
     };
-
-    public CrystalAIOTRecipe(CraftingBookCategory category) {
-        super(category);
-    }
 
     @Override
     public boolean matches(CraftingInput container, @NotNull Level level) {
@@ -63,7 +60,7 @@ public class CrystalAIOTRecipe extends CrystalToolsRecipe {
     }
 
     @Override
-    public @NotNull ItemStack assemble(CraftingInput container, HolderLookup.Provider registryAccess) {
+    public @NotNull ItemStack assemble(CraftingInput container) {
         ItemStack result = new ItemStack(ModRegistration.CRYSTAL_AIOT.get());
 
         List<ItemStack> levelableItems = this.getLevelableItems(container);
@@ -76,7 +73,7 @@ public class CrystalAIOTRecipe extends CrystalToolsRecipe {
 
         result.set(DataComponents.SKILL_POINTS, totalPoints);
 
-        increaseLevelCap(result, registryAccess, totalPoints);
+        increaseLevelCap(result, totalPoints);
 
         return result;
     }
@@ -106,7 +103,7 @@ public class CrystalAIOTRecipe extends CrystalToolsRecipe {
     }
 
     @Override
-    public ItemStack getOutput() {
-        return new ItemStack(ModRegistration.CRYSTAL_AIOT.get());
+    public ItemStackTemplate getOutput() {
+        return new ItemStackTemplate(ModRegistration.CRYSTAL_AIOT.get());
     }
 }

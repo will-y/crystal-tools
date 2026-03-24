@@ -7,7 +7,7 @@ import dev.willyelton.crystal_tools.common.levelable.skill.requirement.Requireme
 import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillItemRequirement;
 import dev.willyelton.crystal_tools.utils.Colors;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -55,17 +55,17 @@ public class SkillButton extends CrystalToolsButton {
     }
 
     @Override
-    public void renderContents(@NotNull GuiGraphics guiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+    public void extractContents(@NotNull GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         if (this.visible) {
-            this.isHovered = pMouseX >= this.getX() + xOffset && pMouseY >= this.getY() + yOffset && pMouseX < this.getX() + xOffset + this.width && pMouseY < this.getY() + yOffset + this.height;
-            super.renderContents(guiGraphics, pMouseX, pMouseY, pPartialTick);
+            this.isHovered = mouseX >= this.getX() + xOffset && mouseY >= this.getY() + yOffset && mouseX < this.getX() + xOffset + this.width && mouseY < this.getY() + yOffset + this.height;
+            super.extractContents(guiGraphics, mouseX, mouseY, partialTick);
             if (CrystalToolsConfig.ENABLE_ITEM_REQUIREMENTS.get() && !this.isComplete)
                 this.renderItems(guiGraphics);
         }
     }
 
     @Override
-    protected void blitButton(GuiGraphics guiGraphics, int textureY) {
+    protected void blitButton(GuiGraphicsExtractor guiGraphics, int textureY) {
         // first half of button
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, SKILL_BUTTON_LOCATION, this.getX() + xOffset, this.getY() + yOffset, 0, textureY * 20, this.width / 2, this.height, 256, 256);
         // second half of button
@@ -73,8 +73,8 @@ public class SkillButton extends CrystalToolsButton {
     }
 
     @Override
-    protected void drawButtonText(GuiGraphics guiGraphics, Font font, int fgColor) {
-        guiGraphics.drawCenteredString(font, this.getMessage(), this.getX() + this.width / 2 + this.xOffset, this.getY() + (this.height - 8) / 2 + this.yOffset, fgColor | Mth.ceil(this.alpha * 255.0F) << 24);
+    protected void drawButtonText(GuiGraphicsExtractor guiGraphics, Font font, int fgColor) {
+        guiGraphics.centeredText(font, this.getMessage(), this.getX() + this.width / 2 + this.xOffset, this.getY() + (this.height - 8) / 2 + this.yOffset, fgColor | Mth.ceil(this.alpha * 255.0F) << 24);
     }
 
     @Override
@@ -121,8 +121,8 @@ public class SkillButton extends CrystalToolsButton {
                 pMouseY < (double)(this.getY() + this.height + yOffset);
     }
 
-    private void renderItem(GuiGraphics guiGraphics, ItemStack itemStack, int x, int y, boolean canLevel) {
-        guiGraphics.renderItem(itemStack, x, y);
+    private void renderItem(GuiGraphicsExtractor guiGraphics, ItemStack itemStack, int x, int y, boolean canLevel) {
+        guiGraphics.item(itemStack, x, y);
         int color;
         if (canLevel) {
             color = Colors.fromRGB(0, 255, 0, 50);
@@ -132,7 +132,7 @@ public class SkillButton extends CrystalToolsButton {
         guiGraphics.fill(x, y, x + 16, y + 16, color);
     }
 
-    private void renderItems(GuiGraphics guiGraphics) {
+    private void renderItems(GuiGraphicsExtractor guiGraphics) {
         int i = 0;
         for (SkillItemRequirement req : this.items) {
             for (Item item : req.getItems()) {

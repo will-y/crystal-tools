@@ -29,7 +29,7 @@ public class LevelableStack implements Levelable {
 
         if (!ToolUtils.hasSkillTree(stack)) return null;
 
-        SkillTreeData skillTreeData = stack.getItemHolder().getData(DataMaps.SKILL_TREES);
+        SkillTreeData skillTreeData = stack.typeHolder().getData(DataMaps.SKILL_TREES);
 
         if (skillTreeData == null) return null;
 
@@ -70,7 +70,7 @@ public class LevelableStack implements Levelable {
             // play level up sound
             level.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.PLAYER_LEVELUP, SoundSource.NEUTRAL, 0.8F, 1.0F);
             if (livingEntity instanceof Player player) {
-                player.displayClientMessage(Component.literal("\u00A7b" + stack.getItem().getName(stack).getString() + " Leveled Up (" + getSkillPoints() + " Unspent Points)"), true);
+                player.sendOverlayMessage(Component.literal("\u00A7b" + stack.getItem().getName(stack).getString() + " Leveled Up (" + getSkillPoints() + " Unspent Points)"));
             }
             stack.set(DataComponents.SKILL_EXPERIENCE, Math.max(0, newExperience - experienceCap));
             increaseExpCap();

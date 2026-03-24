@@ -2,7 +2,7 @@ package dev.willyelton.crystal_tools.client.gui.component;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
@@ -16,7 +16,7 @@ public abstract class CrystalToolsButton extends Button {
     }
 
     @Override
-    public void renderContents(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+    public void extractContents(@NotNull GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         Minecraft minecraft = Minecraft.getInstance();
         Font font = minecraft.font;
         int textureY = this.getTextureY(this.isHoveredOrFocused());
@@ -29,9 +29,9 @@ public abstract class CrystalToolsButton extends Button {
         }
     }
 
-    protected abstract void blitButton(GuiGraphics guiGraphics, int textureY);
+    protected abstract void blitButton(GuiGraphicsExtractor guiGraphics, int textureY);
 
-    protected abstract void drawButtonText(GuiGraphics guiGraphics, Font font, int fgColor);
+    protected abstract void drawButtonText(GuiGraphicsExtractor guiGraphics, Font font, int fgColor);
 
     protected abstract int getTextureY(boolean isHovered);
 
@@ -41,6 +41,6 @@ public abstract class CrystalToolsButton extends Button {
     }
 
     public interface OnTooltip {
-        void onTooltip(Button pButton, GuiGraphics guiGraphics, int mouseX, int mouseY);
+        void onTooltip(Button pButton, GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY);
     }
 }

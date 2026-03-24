@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.client.renderer;
 
 import com.mojang.blaze3d.pipeline.BlendFunction;
+import com.mojang.blaze3d.pipeline.ColorTargetState;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
@@ -12,7 +13,7 @@ import net.minecraft.resources.Identifier;
 
 import static dev.willyelton.crystal_tools.CrystalTools.rl;
 import static net.minecraft.client.renderer.RenderPipelines.BEACON_BEAM_TRANSLUCENT;
-import static net.minecraft.client.renderer.RenderPipelines.ENTITY_CUTOUT_NO_CULL;
+import static net.minecraft.client.renderer.RenderPipelines.ENTITY_CUTOUT;
 import static net.minecraft.client.renderer.RenderPipelines.MATRICES_PROJECTION_SNIPPET;
 import static net.minecraft.client.renderer.rendertype.RenderType.create;
 
@@ -22,7 +23,7 @@ public class CrystalToolsRenderTypes {
     public static final RenderPipeline.Snippet POSITION_COLOR_SNIPPET = RenderPipeline.builder(MATRICES_PROJECTION_SNIPPET)
             .withVertexShader("core/position_color")
             .withFragmentShader("core/position_color")
-            .withBlend(BlendFunction.TRANSLUCENT)
+            .withColorTargetState(new ColorTargetState(BlendFunction.TRANSLUCENT))
             .withVertexFormat(DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS)
             .withCull(false)
             .buildSnippet();
@@ -67,7 +68,7 @@ public class CrystalToolsRenderTypes {
     public static final RenderType QUARRY_LASER = create("QuarryLaser",
             QUARRY_LASER_SETUP);
 
-    private static final RenderSetup QUARRY_CUBE_SETUP = RenderSetup.builder(ENTITY_CUTOUT_NO_CULL)
+    private static final RenderSetup QUARRY_CUBE_SETUP = RenderSetup.builder(ENTITY_CUTOUT)
             .bufferSize(1536)
             .sortOnUpload()
             .withTexture("Sampler0", rl("textures/entity/crystal_quarry_cube.png"))

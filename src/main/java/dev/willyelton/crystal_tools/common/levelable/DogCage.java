@@ -43,7 +43,7 @@ public class DogCage extends Item implements MobCaptureTool {
         }
 
         if (CrystalToolsConfig.PICK_UP_OTHER_ENTITIES.get()) {
-            return !livingEntity.getType().is(CrystalToolsTags.PICKUP_ENTITY_BLACKLIST);
+            return !livingEntity.is(CrystalToolsTags.PICKUP_ENTITY_BLACKLIST);
         } else {
             EntitySkillData skillData = livingEntity.getData(ModRegistration.ENTITY_SKILL);
             if (skillData.hasSkill(EntitySkills.CRATE_TRAINING)) {

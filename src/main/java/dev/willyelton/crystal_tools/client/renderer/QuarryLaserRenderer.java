@@ -48,6 +48,7 @@ public class QuarryLaserRenderer {
     }
 
     public static void extractRenderState(ExtractLevelRenderStateEvent event) {
+        float partialTick = event.getDeltaTracker().getGameTimeDeltaPartialTick(false);
         List<QuarryLaserRenderState> laserRenderStates = new ArrayList<>();
         List<QuarryMissingStabilizerRenderState> cubeRenderStates = new ArrayList<>();
 
@@ -72,7 +73,7 @@ public class QuarryLaserRenderer {
 
             if (timeElapsed >= 0) {
                 QuarryLaserRenderState renderState = extractQuarryLaserRenderState(pair.getFirst(), pair.getSecond(),
-                        event.getCamera().position(), event.getLevel(), event.getCamera().getPartialTickTime(), properties.color(), timeElapsed);
+                        event.getCamera().position(), event.getLevel(), partialTick, properties.color(), timeElapsed);
 
                 renderState.timeLeft = timeLeft;
                 long duration = properties.endTime - properties.startTime;

@@ -6,9 +6,8 @@ import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
@@ -21,13 +20,10 @@ import net.minecraft.world.item.crafting.display.SlotDisplay;
 import java.util.List;
 
 public abstract class CrystalToolsRecipe extends CustomRecipe {
-    public CrystalToolsRecipe(CraftingBookCategory category) {
-        super(category);
-    }
 
     public abstract List<ItemStack> getInputs();
 
-    public abstract ItemStack getOutput();
+    public abstract ItemStackTemplate getOutput();
 
     protected int getPoints(ItemStack stack) {
         SkillPoints points = stack.getOrDefault(DataComponents.SKILL_POINT_DATA, new SkillPoints());
@@ -45,18 +41,21 @@ public abstract class CrystalToolsRecipe extends CustomRecipe {
                 new SlotDisplay.ItemStackSlotDisplay(getOutput()), new SlotDisplay.ItemSlotDisplay(Items.CRAFTING_TABLE)));
     }
 
+    @Override
+    public CraftingBookCategory category() {
+        return CraftingBookCategory.EQUIPMENT;
+    }
+
     protected List<Ingredient> getIngredients() {
         return getInputs().stream().map(ItemStack::getItem).map(Ingredient::of).toList();
     }
 
-    protected void increaseLevelCap(ItemStack stack, HolderLookup.Provider provider, int points) {
-        if (provider instanceof RegistryAccess registryAccess) {
-            Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, registryAccess);
+    protected void increaseLevelCap(ItemStack stack, int points) {
+        Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, null);
 
-            if (levelable != null) {
-                levelable.increaseExpCap(points);
-                return;
-            }
+        if (levelable != null) {
+            levelable.increaseExpCap(points);
+            return;
         }
 
         // Fallback if for some reason we don't have a real registry access?

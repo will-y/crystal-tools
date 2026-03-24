@@ -22,9 +22,9 @@ public class ItemFishedEvent {
         Player player = event.getEntity();
         FishingHook hook = event.getHookEntity();
         ItemStack rodStack;
-        if (player.getMainHandItem().is(ModRegistration.CRYSTAL_FISHING_ROD.get()) && hook.getTags().contains(CrystalFishingRod.CRYSTAL_TOOLS_FISHING_MAIN_TAG)) {
+        if (player.getMainHandItem().is(ModRegistration.CRYSTAL_FISHING_ROD.get()) && hook.entityTags().contains(CrystalFishingRod.CRYSTAL_TOOLS_FISHING_MAIN_TAG)) {
             rodStack = player.getMainHandItem();
-        } else if (player.getOffhandItem().is(ModRegistration.CRYSTAL_FISHING_ROD.get()) && hook.getTags().contains(CrystalFishingRod.CRYSTAL_TOOLS_FISHING_OFF_TAG)) {
+        } else if (player.getOffhandItem().is(ModRegistration.CRYSTAL_FISHING_ROD.get()) && hook.entityTags().contains(CrystalFishingRod.CRYSTAL_TOOLS_FISHING_OFF_TAG)) {
             rodStack = player.getOffhandItem();
         } else {
             return;

@@ -16,6 +16,6 @@ public interface ChunkLoader {
      * @return true if the chunk should be forced as ticking
      */
     default boolean shouldTickChunk(ChunkPos chunkPos) {
-        return chunkPos.equals(new ChunkPos(getBlockPos()));
+        return chunkPos.equals(ChunkPos.containing(getBlockPos()));
     }
 }

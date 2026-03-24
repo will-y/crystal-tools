@@ -500,7 +500,7 @@ public class CrystalQuarryBlockEntity extends SideConfigBlockEntity implements M
 
         if (!level.isLoaded(miningAt)) {
             if (this.chunkLoadingAction.isActive()) {
-                this.chunkLoadingAction.loadChunk((ServerLevel) level, new ChunkPos(miningAt));
+                this.chunkLoadingAction.loadChunk((ServerLevel) level, ChunkPos.containing(miningAt));
             } else {
                 return;
             }
@@ -539,7 +539,7 @@ public class CrystalQuarryBlockEntity extends SideConfigBlockEntity implements M
                         continue;
                     }
 
-                    PacketDistributor.sendToPlayersTrackingChunk((ServerLevel) level, new ChunkPos(miningAt), new QuarryMineBlockPayload(this.getBlockPos(), this.miningAt, this.miningState));
+                    PacketDistributor.sendToPlayersTrackingChunk((ServerLevel) level, ChunkPos.containing(miningAt), new QuarryMineBlockPayload(this.getBlockPos(), this.miningAt, this.miningState));
                     break;
                 } else {
                     blocksThisTick++;

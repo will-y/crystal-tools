@@ -524,7 +524,7 @@ public class CrystalFurnaceBlockEntity extends SideConfigBlockEntity implements 
 
     private boolean canBurn(RegistryAccess registryAccess, RecipeHolder<?> recipe, int slot) {
         if (!this.inputHandler.getResource(slot).isEmpty() && recipe != null) {
-            ItemStack recipeOutput = ((RecipeHolder<? extends AbstractCookingRecipe>) recipe).value().assemble(new SingleRecipeInput(ItemUtil.getStack(inputHandler, slot)), registryAccess);
+            ItemStack recipeOutput = ((RecipeHolder<? extends AbstractCookingRecipe>) recipe).value().assemble(new SingleRecipeInput(ItemUtil.getStack(inputHandler, slot)));
 
             if (!recipeOutput.isEmpty()) {
                 ItemResource output = this.outputHandler.getResource(slot);
@@ -543,7 +543,7 @@ public class CrystalFurnaceBlockEntity extends SideConfigBlockEntity implements 
     private boolean burn(RegistryAccess registryAccess, RecipeHolder<?> recipe, int slot) {
         if (recipe != null && this.canBurn(registryAccess, recipe, slot)) {
             AbstractCookingRecipe castedRecipe = ((RecipeHolder<? extends AbstractCookingRecipe>) recipe).value();
-            ItemStack recipeOutput = castedRecipe.assemble(new SingleRecipeInput(ItemUtil.getStack(inputHandler, slot)), registryAccess);
+            ItemStack recipeOutput = castedRecipe.assemble(new SingleRecipeInput(ItemUtil.getStack(inputHandler, slot)));
             this.outputHandler.set(slot, ItemResource.of(recipeOutput), recipeOutput.getCount() + outputHandler.getAmountAsInt(slot));
 
             TransferUtils.shrink(inputHandler, slot, 1);

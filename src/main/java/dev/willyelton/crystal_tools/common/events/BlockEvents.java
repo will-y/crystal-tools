@@ -74,7 +74,7 @@ public class BlockEvents {
                         if (recipeOptional.isPresent()) {
                             SmeltingRecipe recipe = recipeOptional.get().value();
                             popExperience(level, player, recipe.experience());
-                            ItemStack result = recipe.assemble(recipeInput, level.registryAccess()).copy();
+                            ItemStack result = recipe.assemble(recipeInput).copy();
                             result.setCount(stack.getCount() * result.getCount());
 
                             if (!result.is(Items.AIR)) {
@@ -97,7 +97,7 @@ public class BlockEvents {
                 }
 
                 if (pickedUp) {
-                    player.connection.send(new ClientboundSoundPacket(Holder.direct(SoundEvents.ITEM_PICKUP), SoundSource.PLAYERS, player.getX(), player.getY(), player.getZ(), 0.2F, (level.random.nextFloat() - level.random.nextFloat()) * 1.4F + 2.0F, level.getRandom().nextLong()));
+                    player.connection.send(new ClientboundSoundPacket(Holder.direct(SoundEvents.ITEM_PICKUP), SoundSource.PLAYERS, player.getX(), player.getY(), player.getZ(), 0.2F, (level.getRandom().nextFloat() - level.getRandom().nextFloat()) * 1.4F + 2.0F, level.getRandom().nextLong()));
                 }
             }
         }

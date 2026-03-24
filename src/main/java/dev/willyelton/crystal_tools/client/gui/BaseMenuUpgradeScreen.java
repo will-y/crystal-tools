@@ -6,7 +6,7 @@ import dev.willyelton.crystal_tools.common.inventory.container.LevelableContaine
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
 import dev.willyelton.crystal_tools.common.network.data.OpenContainerPayload;
 import dev.willyelton.crystal_tools.utils.IntegerUtils;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.Holder;
@@ -76,10 +76,10 @@ public abstract class BaseMenuUpgradeScreen<T extends LevelableContainerMenu> ex
     }
 
     @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        super.renderLabels(guiGraphics, mouseX, mouseY);
+    protected void extractLabels(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
+        super.extractLabels(guiGraphics, mouseX, mouseY);
         int xOffset = (IntegerUtils.getDigits(this.menu.getExp()) - 1) * 6 + (IntegerUtils.getDigits(this.menu.getExpCap()) - 2) * 6;
-        guiGraphics.drawString(this.font,
+        guiGraphics.text(this.font,
                 Component.literal(String.format("Exp: %d/%d", this.menu.getExp(), this.menu.getExpCap())),
                 (int) (this.expLabelX - xOffset),
                 this.inventoryLabelY,

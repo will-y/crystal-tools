@@ -10,7 +10,7 @@ import dev.willyelton.crystal_tools.utils.TransferUtils;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.transfer.ResourceHandler;
@@ -100,12 +100,12 @@ public class CrystalMagnetContainerMenu extends BaseContainerMenu implements Sub
     }
 
     @Override
-    public void clicked(int slotId, int button, ClickType clickType, Player player) {
+    public void clicked(int slotId, int button, ContainerInput clickType, Player player) {
         if (slotId >= 0) {
             Slot slot = getSlot(slotId);
 
             if (slot instanceof BackpackFilterSlot filterSlot) {
-                if (Objects.isNull(filterMenuContents.getInventory()) || clickType == ClickType.THROW || clickType == ClickType.CLONE) {
+                if (Objects.isNull(filterMenuContents.getInventory()) || clickType == ContainerInput.THROW || clickType == ContainerInput.CLONE) {
                     return;
                 }
                 filterSlot.onClicked(getCarried());

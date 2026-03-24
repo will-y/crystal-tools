@@ -25,10 +25,10 @@ import net.minecraft.data.recipes.SpecialRecipeBuilder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.TransmuteResult;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
@@ -322,7 +322,7 @@ public class CrystalToolsRecipes extends RecipeProvider {
 
         CrystalSmithingRecipe smithingtransformrecipe = new CrystalSmithingRecipe(Optional.of(Ingredient.of(ModRegistration.CRYSTAL_UPGRADE_SMITHING_TEMPLATE.get())),
                 Ingredient.of(ingredientItem), Optional.of(Ingredient.of(ModRegistration.CRYSTAL.get())),
-                new TransmuteResult(resultItem.get()));
+                new ItemStackTemplate(resultItem.get()));
 
         output.accept(resourceKey, smithingtransformrecipe,
                 advancement$builder.build(resourceKey.identifier().withPrefix("recipes/" + RecipeCategory.TOOLS.getFolderName() + "/")));

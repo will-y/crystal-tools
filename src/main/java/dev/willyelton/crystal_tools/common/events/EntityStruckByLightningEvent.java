@@ -12,7 +12,7 @@ public class EntityStruckByLightningEvent {
     public static void handleEntityStruckByLightningEvent(net.neoforged.neoforge.event.entity.EntityStruckByLightningEvent event) {
         LightningBolt lightningBolt = event.getLightning();
         if (lightningBolt.getCause() != null && lightningBolt.getCause().equals(event.getEntity()) &&
-                lightningBolt.getTags().contains(CrystalTridentEntity.CRYSTAL_TOOLS_TRIDENT_LIGHTNING_TAG)) {
+                lightningBolt.entityTags().contains(CrystalTridentEntity.CRYSTAL_TOOLS_TRIDENT_LIGHTNING_TAG)) {
             event.setCanceled(true);
         }
     }

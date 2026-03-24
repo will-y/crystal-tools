@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import dev.willyelton.crystal_tools.client.particle.quarry.breakblock.QuarryBreakParticleType;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.crafting.CrystalAIOTRecipe;
@@ -8,7 +9,6 @@ import dev.willyelton.crystal_tools.common.crafting.CrystalElytraRecipe;
 import dev.willyelton.crystal_tools.common.crafting.CrystalGeneratorRecipe;
 import dev.willyelton.crystal_tools.common.crafting.CrystalQuarryRecipe;
 import dev.willyelton.crystal_tools.common.crafting.CrystalShieldTotemRecipe;
-import dev.willyelton.crystal_tools.common.crafting.CrystalSmithingRecipe;
 import dev.willyelton.crystal_tools.common.entity.CrystalTridentEntity;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalBackpackContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalFurnaceContainerMenu;
@@ -56,8 +56,9 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.resources.ResourceKey;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -68,7 +69,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.StandingAndWallBlockItem;
 import net.minecraft.world.item.component.ItemLore;
-import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.block.Block;
@@ -101,10 +101,10 @@ public class ModRegistration {
 
     // Items
     public static final DeferredHolder<Item, Item> CRYSTAL = ITEMS.registerSimpleItem("crystal");
-    public static final DeferredHolder<Item, Item> NETHERITE_STICK = ITEMS.registerSimpleItem("netherite_stick", new Item.Properties().fireResistant());
-    public static final DeferredHolder<Item, Item> NETHERITE_INFUSED_CRYSTAL_SHARD = ITEMS.registerSimpleItem("netherite_infused_crystal_shard", new Item.Properties().fireResistant().component(net.minecraft.core.component.DataComponents.LORE, new ItemLore(List.of(Component.literal("Found in geodes at the bottom of the Nether!")))));
-    public static final DeferredHolder<Item, Item> CRYSTAL_UPGRADE_SMITHING_TEMPLATE = ITEMS.registerSimpleItem("crystal_upgrade_smithing_template", new Item.Properties().fireResistant());
-    public static final DeferredHolder<Item, Item> CRYSTAL_COLLAR = ITEMS.registerSimpleItem("crystal_collar", new Item.Properties().fireResistant().stacksTo(1)
+    public static final DeferredHolder<Item, Item> NETHERITE_STICK = ITEMS.registerSimpleItem("netherite_stick", () -> new Item.Properties().fireResistant());
+    public static final DeferredHolder<Item, Item> NETHERITE_INFUSED_CRYSTAL_SHARD = ITEMS.registerSimpleItem("netherite_infused_crystal_shard", () -> new Item.Properties().fireResistant().component(net.minecraft.core.component.DataComponents.LORE, new ItemLore(List.of(Component.literal("Found in geodes at the bottom of the Nether!")))));
+    public static final DeferredHolder<Item, Item> CRYSTAL_UPGRADE_SMITHING_TEMPLATE = ITEMS.registerSimpleItem("crystal_upgrade_smithing_template", () -> new Item.Properties().fireResistant());
+    public static final DeferredHolder<Item, Item> CRYSTAL_COLLAR = ITEMS.registerSimpleItem("crystal_collar", () -> new Item.Properties().fireResistant().stacksTo(1)
             .component(net.minecraft.core.component.DataComponents.LORE, new ItemLore(List.of(Component.translatable("tooltip.crystal_tools.dog_collar")))));
     public static final DeferredHolder<Item, Item> CRYSTAL_DOG_CAGE = ITEMS.registerItem("crystal_dog_cage", DogCage::new);
 
@@ -133,17 +133,17 @@ public class ModRegistration {
     public static final DeferredHolder<Item, CrystalElytra> CRYSTAL_ELYTRA = ITEMS.registerItem("crystal_elytra", CrystalElytra::new);
 
     // Blocks
-    public static final DeferredHolder<Block, DropExperienceBlock> CRYSTAL_ORE = BLOCKS.registerBlock("crystal_ore", (properties) -> new DropExperienceBlock(UniformInt.of(3, 7), properties), Block.Properties.ofFullCopy(Blocks.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F));
-    public static final DeferredHolder<Block, DropExperienceBlock> CRYSTAL_DEEPSLATE_ORE = BLOCKS.registerBlock("crystal_deepslate_ore", (properties) -> new DropExperienceBlock(UniformInt.of(3, 7), properties), Block.Properties.ofFullCopy(Blocks.DEEPSLATE).requiresCorrectToolForDrops().strength(4.5F, 3.0F).sound(SoundType.DEEPSLATE));
-    public static final DeferredHolder<Block, Block> CRYSTAL_BLOCK = BLOCKS.registerBlock("crystal_block", Block::new, BlockBehaviour.Properties.ofFullCopy(Blocks.DIAMOND_BLOCK).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.METAL));
-    public static final DeferredHolder<Block, Block> CRYSTAL_GEODE = BLOCKS.registerBlock("crystal_geode", Block::new, BlockBehaviour.Properties.ofFullCopy(Blocks.AMETHYST_BLOCK).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.AMETHYST));
-    public static final DeferredHolder<Block, Block> NETHERITE_INFUSED_CRYSTAL_GEODE = BLOCKS.registerBlock("netherite_infused_crystal_geode", Block::new, BlockBehaviour.Properties.ofFullCopy(Blocks.AMETHYST_BLOCK).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.AMETHYST));
-    public static final DeferredHolder<Block, CrystalFurnaceBlock> CRYSTAL_FURNACE = BLOCKS.registerBlock("crystal_furnace", CrystalFurnaceBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.FURNACE).requiresCorrectToolForDrops().strength(3.0F));
-    public static final DeferredHolder<Block, CrystalGeneratorBlock> CRYSTAL_GENERATOR = BLOCKS.registerBlock("crystal_generator", CrystalGeneratorBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.FURNACE).requiresCorrectToolForDrops().strength(3.0F));
-    public static final DeferredHolder<Block, CrystalQuarryBlock> CRYSTAL_QUARRY = BLOCKS.registerBlock("crystal_quarry", CrystalQuarryBlock::new, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).requiresCorrectToolForDrops().strength(3.0F));
-    public static final DeferredHolder<Block, CrystalPedestalBlock> CRYSTAL_PEDESTAL = BLOCKS.registerBlock("crystal_pedestal", CrystalPedestalBlock::new, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).requiresCorrectToolForDrops().strength(3.0F));
+    public static final DeferredHolder<Block, DropExperienceBlock> CRYSTAL_ORE = BLOCKS.registerBlock("crystal_ore", (properties) -> new DropExperienceBlock(UniformInt.of(3, 7), properties), () -> Block.Properties.ofFullCopy(Blocks.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F));
+    public static final DeferredHolder<Block, DropExperienceBlock> CRYSTAL_DEEPSLATE_ORE = BLOCKS.registerBlock("crystal_deepslate_ore", (properties) -> new DropExperienceBlock(UniformInt.of(3, 7), properties), () -> Block.Properties.ofFullCopy(Blocks.DEEPSLATE).requiresCorrectToolForDrops().strength(4.5F, 3.0F).sound(SoundType.DEEPSLATE));
+    public static final DeferredHolder<Block, Block> CRYSTAL_BLOCK = BLOCKS.registerBlock("crystal_block", Block::new, () -> BlockBehaviour.Properties.ofFullCopy(Blocks.DIAMOND_BLOCK).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.METAL));
+    public static final DeferredHolder<Block, Block> CRYSTAL_GEODE = BLOCKS.registerBlock("crystal_geode", Block::new, () -> BlockBehaviour.Properties.ofFullCopy(Blocks.AMETHYST_BLOCK).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.AMETHYST));
+    public static final DeferredHolder<Block, Block> NETHERITE_INFUSED_CRYSTAL_GEODE = BLOCKS.registerBlock("netherite_infused_crystal_geode", Block::new, () -> BlockBehaviour.Properties.ofFullCopy(Blocks.AMETHYST_BLOCK).requiresCorrectToolForDrops().strength(5.0F, 6.0F).sound(SoundType.AMETHYST));
+    public static final DeferredHolder<Block, CrystalFurnaceBlock> CRYSTAL_FURNACE = BLOCKS.registerBlock("crystal_furnace", CrystalFurnaceBlock::new, () -> BlockBehaviour.Properties.ofFullCopy(Blocks.FURNACE).requiresCorrectToolForDrops().strength(3.0F));
+    public static final DeferredHolder<Block, CrystalGeneratorBlock> CRYSTAL_GENERATOR = BLOCKS.registerBlock("crystal_generator", CrystalGeneratorBlock::new, () -> BlockBehaviour.Properties.ofFullCopy(Blocks.FURNACE).requiresCorrectToolForDrops().strength(3.0F));
+    public static final DeferredHolder<Block, CrystalQuarryBlock> CRYSTAL_QUARRY = BLOCKS.registerBlock("crystal_quarry", CrystalQuarryBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).requiresCorrectToolForDrops().strength(3.0F));
+    public static final DeferredHolder<Block, CrystalPedestalBlock> CRYSTAL_PEDESTAL = BLOCKS.registerBlock("crystal_pedestal", CrystalPedestalBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).requiresCorrectToolForDrops().strength(3.0F));
     public static final DeferredHolder<Block, CrystalTorch> CRYSTAL_TORCH = BLOCKS.registerBlock("crystal_torch", CrystalTorch::new);
-    public static final DeferredHolder<Block, CrystalWallTorch> CRYSTAL_WALL_TORCH = BLOCKS.registerBlock("crystal_wall_torch", CrystalWallTorch::new, BlockBehaviour.Properties.ofFullCopy(Blocks.SOUL_WALL_TORCH));
+    public static final DeferredHolder<Block, CrystalWallTorch> CRYSTAL_WALL_TORCH = BLOCKS.registerBlock("crystal_wall_torch", CrystalWallTorch::new, () -> BlockBehaviour.Properties.ofFullCopy(Blocks.SOUL_WALL_TORCH));
     public static final DeferredHolder<Block, QuarryStabilizer> QUARRY_STABILIZER = BLOCKS.registerBlock("quarry_stabilizer", QuarryStabilizer::new);
 
     // Block Items
@@ -254,12 +254,11 @@ public class ModRegistration {
                     .build());
 
     // Recipes
-    public static final DeferredHolder<RecipeSerializer<?>, CustomRecipe.Serializer<CrystalElytraRecipe>> CRYSTAL_ELYTRA_RECIPE = RECIPES.register("crystal_elytra_recipe", () -> new CustomRecipe.Serializer<>(CrystalElytraRecipe::new));
-    public static final DeferredHolder<RecipeSerializer<?>, CustomRecipe.Serializer<CrystalAIOTRecipe>> CRYSTAL_AIOT_RECIPE = RECIPES.register("crystal_aiot_recipe", () -> new CustomRecipe.Serializer<>(CrystalAIOTRecipe::new));
-    public static final DeferredHolder<RecipeSerializer<?>, CustomRecipe.Serializer<CrystalGeneratorRecipe>> CRYSTAL_GENERATOR_RECIPE = RECIPES.register("crystal_generator_recipe", () -> new CustomRecipe.Serializer<>(CrystalGeneratorRecipe::new));
-    public static final DeferredHolder<RecipeSerializer<?>, CustomRecipe.Serializer<CrystalQuarryRecipe>> CRYSTAL_QUARRY_RECIPE = RECIPES.register("crystal_quarry_recipe", () -> new CustomRecipe.Serializer<>(CrystalQuarryRecipe::new));
-    public static final DeferredHolder<RecipeSerializer<?>, CustomRecipe.Serializer<CrystalShieldTotemRecipe>> CRYSTAL_SHIELD_TOTEM_RECIPE = RECIPES.register("crystal_shield_totem_recipe", () -> new CustomRecipe.Serializer<>(CrystalShieldTotemRecipe::new));
-    public static final DeferredHolder<RecipeSerializer<?>, CrystalSmithingRecipe.Serializer> CRYSTAL_SMITHING_RECIPE = RECIPES.register("crystal_smithing_transform", CrystalSmithingRecipe.Serializer::new);
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<CrystalElytraRecipe>> CRYSTAL_ELYTRA_RECIPE = RECIPES.register("crystal_elytra_recipe", () -> new RecipeSerializer<>(MapCodec.unit(CrystalElytraRecipe.INSTANCE), StreamCodec.unit(CrystalElytraRecipe.INSTANCE)));
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<CrystalAIOTRecipe>> CRYSTAL_AIOT_RECIPE = RECIPES.register("crystal_aiot_recipe", () -> new RecipeSerializer<>(MapCodec.unit(CrystalAIOTRecipe.INSTANCE), StreamCodec.unit(CrystalAIOTRecipe.INSTANCE)));
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<CrystalGeneratorRecipe>> CRYSTAL_GENERATOR_RECIPE = RECIPES.register("crystal_generator_recipe", () -> new RecipeSerializer<>(MapCodec.unit(CrystalGeneratorRecipe.INSTANCE), StreamCodec.unit(CrystalGeneratorRecipe.INSTANCE)));
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<CrystalQuarryRecipe>> CRYSTAL_QUARRY_RECIPE = RECIPES.register("crystal_quarry_recipe", () -> new RecipeSerializer<>(MapCodec.unit(CrystalQuarryRecipe.INSTANCE), StreamCodec.unit(CrystalQuarryRecipe.INSTANCE)));
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<CrystalShieldTotemRecipe>> CRYSTAL_SHIELD_TOTEM_RECIPE = RECIPES.register("crystal_shield_totem_recipe", () -> new RecipeSerializer<>(MapCodec.unit(CrystalShieldTotemRecipe.INSTANCE), StreamCodec.unit(CrystalShieldTotemRecipe.INSTANCE)));
 
     public static void init(IEventBus modEventBus) {
         ITEMS.register(modEventBus);

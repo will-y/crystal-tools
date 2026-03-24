@@ -3,7 +3,7 @@ package dev.willyelton.crystal_tools.client.gui.component;
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.common.inventory.container.EnergyLevelableContainerMenu;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -27,12 +27,12 @@ public class EnergyBarWidget extends AbstractWidget {
     }
 
     @Override
-    protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+    protected void extractWidgetRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         this.renderEnergyBar(guiGraphics);
         this.renderTooltip(guiGraphics, mouseX, mouseY);
     }
 
-    private void renderTooltip(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    private void renderTooltip(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
         int x1 = this.getX();
         int x2 = x1 + this.width;
         int y1 = this.getY();
@@ -46,7 +46,7 @@ public class EnergyBarWidget extends AbstractWidget {
 
     // TODO: Maybe draw the blank outline here, need to draw both halves like button
     // Animations
-    private void renderEnergyBar(GuiGraphics guiGraphics) {
+    private void renderEnergyBar(GuiGraphicsExtractor guiGraphics) {
         float energyProgress = this.menu.getCurrentEnergy() / this.menu.getMaxEnergy();
         int width = (int) (energyProgress * this.width);
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, this.getX(), this.getY(), ENERGY_TEXTURE_X, ENERGY_TEXTURE_Y, width, this.height, 256, 256);

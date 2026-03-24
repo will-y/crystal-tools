@@ -37,10 +37,10 @@ public class ToolUtils {
     }
 
     public static boolean hasSkillTree(ItemStack stack) {
-        ResourceKey<Item> key = stack.getItemHolder().getKey();
+        ResourceKey<Item> key = stack.typeHolder().getKey();
         if (key == null) return false;
 
-        if (stack.getItemHolder().getData(DataMaps.SKILL_TREES) == null) return false;
+        if (stack.typeHolder().getData(DataMaps.SKILL_TREES) == null) return false;
 
         Identifier location = key.identifier();
 
@@ -67,7 +67,7 @@ public class ToolUtils {
             if (contents != null) {
                 Level level = player.level();
                 for (ItemContainerContents item : contents) {
-                    item.stream().forEach(toDrop -> level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY(), player.getZ(), toDrop)));
+                    item.allItemsCopyStream().forEach(toDrop -> level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY(), player.getZ(), toDrop)));
                 }
             }
         }
@@ -84,7 +84,7 @@ public class ToolUtils {
     }
 
     public static boolean isValidEntity(LivingEntity entity) {
-        return !entity.getType().is(CrystalToolsTags.ENTITY_BLACKLIST);
+        return !entity.is(CrystalToolsTags.ENTITY_BLACKLIST);
     }
 
     public static Optional<Holder.Reference<SkillData>> getItemSkillData(RegistryAccess registryAccess, Identifier treeLocation) {
@@ -110,7 +110,7 @@ public class ToolUtils {
             return Collections.emptyList();
         }
 
-        return filterContents.stream().filter(stack1 -> !stack1.isEmpty()).toList();
+        return filterContents.allItemsCopyStream().filter(stack1 -> !stack1.isEmpty()).toList();
     }
 
     public static boolean matchesFilter(ItemStack stack, ItemStack toMatch, List<ItemStack> filter) {

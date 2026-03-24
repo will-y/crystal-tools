@@ -13,6 +13,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -48,7 +49,7 @@ public class AxeLevelableTool extends DiggerLevelableTool {
     }
 
     @Override
-    public boolean canPerformAction(ItemStack stack, ItemAbility itemAbility) {
+    public boolean canPerformAction(ItemInstance itemInstance, ItemAbility itemAbility) {
         return ItemAbilities.DEFAULT_AXE_ACTIONS.contains(itemAbility);
     }
 

@@ -309,8 +309,8 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
                 if (this.isLit()) {
                     needsChange = true;
                     addSkillExpFromBurn(this.litTotalTime);
-                    if (!fuelItemStack.getCraftingRemainder().isEmpty()) {
-                        fuelHandler.insert(ItemResource.of(fuelItemStack.getCraftingRemainder()), fuelItemStack.getCraftingRemainder().getCount(), tx);
+                    if (fuelItemStack.getCraftingRemainder() != null) {
+                        fuelHandler.insert(ItemResource.of(fuelItemStack.getCraftingRemainder()), fuelItemStack.getCraftingRemainder().count(), tx);
                     }
 
                     tx.commit();
@@ -430,14 +430,14 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         }
 
         if (metalGenerator) {
-            GeneratorFuelData data = stack.getItemHolder().getData(DataMaps.GENERATOR_METALS);
+            GeneratorFuelData data = stack.typeHolder().getData(DataMaps.GENERATOR_METALS);
             if (data != null) {
                 return data;
             }
         }
 
         if (gemGenerator) {
-            return stack.getItemHolder().getData(DataMaps.GENERATOR_GEMS);
+            return stack.typeHolder().getData(DataMaps.GENERATOR_GEMS);
         }
 
         return null;

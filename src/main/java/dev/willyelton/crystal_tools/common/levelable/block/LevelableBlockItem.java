@@ -103,11 +103,11 @@ public class LevelableBlockItem extends BlockItem {
         }
 
         ItemContainerContents container = getContainer(stack);
-        if (container != null && !container.stream().allMatch(ItemStack::isEmpty)) {
+        if (container != null && !container.allItemsCopyStream().allMatch(ItemStack::isEmpty)) {
             if (!tooltipFlag.hasAltDown()) {
                 components.accept(Component.literal("<Hold Alt For Stored Items>"));
             } else {
-                container.stream().forEach(storedStack -> {
+                container.allItemsCopyStream().forEach(storedStack -> {
                     if (!storedStack.isEmpty()) {
                         components.accept(Component.literal(ItemStackUtils.toString(storedStack)));
                     }

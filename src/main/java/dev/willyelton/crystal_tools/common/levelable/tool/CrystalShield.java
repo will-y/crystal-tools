@@ -32,14 +32,14 @@ public class CrystalShield extends ShieldItem implements LevelableItem, EntityTa
     public CrystalShield(Item.Properties properties) {
         super(properties.durability(1000)
                 .component(net.minecraft.core.component.DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY)
-                .component(
+                .delayedComponent(
                         net.minecraft.core.component.DataComponents.BLOCKS_ATTACKS,
-                        new BlocksAttacks(
+                        context -> new BlocksAttacks(
                                 0.25F,
                                 1.0F,
                                 List.of(new BlocksAttacks.DamageReduction(90.0F, Optional.empty(), 0.0F, 1.0F)),
                                 new BlocksAttacks.ItemDamageFunction(3.0F, 1.0F, 1.0F),
-                                Optional.of(DamageTypeTags.BYPASSES_SHIELD),
+                                Optional.of(context.getOrThrow(DamageTypeTags.BYPASSES_SHIELD)),
                                 Optional.of(SoundEvents.SHIELD_BLOCK),
                                 Optional.of(SoundEvents.SHIELD_BREAK)
                         )

@@ -9,7 +9,6 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.special.NoDataSpecialModelRenderer;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.ItemDisplayContext;
 import org.joml.Vector3fc;
 
 import java.util.function.Consumer;
@@ -31,7 +30,7 @@ public class CrystalTridentSpecialRenderer implements NoDataSpecialModelRenderer
     }
 
     @Override
-    public void submit(ItemDisplayContext itemDisplayContext, PoseStack poseStack, SubmitNodeCollector nodeCollector, int p_388874_, int p_388252_, boolean p_387131_, int p_451703_) {
+    public void submit(PoseStack poseStack, SubmitNodeCollector nodeCollector, int p_388874_, int p_388252_, boolean p_387131_, int p_451703_) {
         poseStack.pushPose();
         poseStack.scale(1.0F, -1.0F, -1.0F);
         nodeCollector.submitModelPart(this.crystalTridentModel.root(), poseStack, this.crystalTridentModel.renderType(TEXTURE),
@@ -39,16 +38,16 @@ public class CrystalTridentSpecialRenderer implements NoDataSpecialModelRenderer
         poseStack.popPose();
     }
 
-    public record Unbaked() implements SpecialModelRenderer.Unbaked {
-        public static final MapCodec<SpecialModelRenderer.Unbaked> MAP_CODEC = MapCodec.unit(new CrystalTridentSpecialRenderer.Unbaked());
+    public record Unbaked() implements NoDataSpecialModelRenderer.Unbaked {
+        public static final MapCodec<NoDataSpecialModelRenderer.Unbaked> MAP_CODEC = MapCodec.unit(new CrystalTridentSpecialRenderer.Unbaked());
 
         @Override
-        public MapCodec<SpecialModelRenderer.Unbaked> type() {
+        public MapCodec<NoDataSpecialModelRenderer.Unbaked> type() {
             return MAP_CODEC;
         }
 
         @Override
-        public SpecialModelRenderer<?> bake(SpecialModelRenderer.BakingContext context) {
+        public CrystalTridentSpecialRenderer bake(SpecialModelRenderer.BakingContext context) {
             return new CrystalTridentSpecialRenderer(new TridentModel(context.entityModelSet().bakeLayer(ModelLayers.TRIDENT)));
         }
     }

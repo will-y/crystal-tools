@@ -69,7 +69,7 @@ public class ChunkLoadingAction extends Action {
     public boolean addToExtra(String key, float value) {
         if (CHUNK_LOADING.toString().equals(key)) {
             this.chunkLoadingEnabled = true;
-            this.loadChunk((ServerLevel) blockEntity.getLevel(), new ChunkPos(blockEntity.getBlockPos()));
+            this.loadChunk((ServerLevel) blockEntity.getLevel(), ChunkPos.containing(blockEntity.getBlockPos()));
             return true;
         }
 
@@ -107,26 +107,26 @@ public class ChunkLoadingAction extends Action {
 
     public void loadChunk(ServerLevel level, ChunkPos chunkPos) {
         boolean ticking = chunkLoader.shouldTickChunk(chunkPos);
-        chunkSet.add(chunkPos.toLong());
+        chunkSet.add(chunkPos.pack());
         blockEntity.setChanged();
-        TICKET_CONTROLLER.forceChunk(level, blockEntity.getBlockPos(), chunkPos.x, chunkPos.z, true, ticking);
+        TICKET_CONTROLLER.forceChunk(level, blockEntity.getBlockPos(), chunkPos.x(), chunkPos.z(), true, ticking);
     }
 
     public void unloadChunk(ServerLevel level, ChunkPos chunkPos) {
         boolean ticking = chunkLoader.shouldTickChunk(chunkPos);
-        chunkSet.remove(chunkPos.toLong());
+        chunkSet.remove(chunkPos.pack());
         blockEntity.setChanged();
-        TICKET_CONTROLLER.forceChunk(level, blockEntity.getBlockPos(), chunkPos.x, chunkPos.z, false, ticking);
+        TICKET_CONTROLLER.forceChunk(level, blockEntity.getBlockPos(), chunkPos.x(), chunkPos.z(), false, ticking);
     }
 
     public void unloadAll(ServerLevel serverLevel) {
         for (Long chunkLong : chunkSet) {
-            ChunkPos chunkPos = new ChunkPos(chunkLong);
+            ChunkPos chunkPos = ChunkPos.unpack(chunkLong);
 
             // Try to remove the ticking and non ticking version for each chunk because
             // We don't store which one it was registered to
-            TICKET_CONTROLLER.forceChunk(serverLevel, blockEntity.getBlockPos(), chunkPos.x, chunkPos.z, false, true);
-            TICKET_CONTROLLER.forceChunk(serverLevel, blockEntity.getBlockPos(), chunkPos.x, chunkPos.z, false, false);
+            TICKET_CONTROLLER.forceChunk(serverLevel, blockEntity.getBlockPos(), chunkPos.x(), chunkPos.z(), false, true);
+            TICKET_CONTROLLER.forceChunk(serverLevel, blockEntity.getBlockPos(), chunkPos.x(), chunkPos.z(), false, false);
         }
 
         chunkSet.clear();

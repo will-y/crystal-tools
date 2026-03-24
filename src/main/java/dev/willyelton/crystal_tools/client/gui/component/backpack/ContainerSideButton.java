@@ -4,7 +4,7 @@ import dev.willyelton.crystal_tools.client.gui.component.CrystalToolsButton;
 import dev.willyelton.crystal_tools.utils.Colors;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -30,7 +30,7 @@ public class ContainerSideButton extends CrystalToolsButton {
     }
 
     @Override
-    protected void blitButton(GuiGraphics guiGraphics, int textureY) {
+    protected void blitButton(GuiGraphicsExtractor guiGraphics, int textureY) {
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, getX(), getY(), xTextureOffset, textureY, BUTTON_SIZE, BUTTON_SIZE, 512, 512);
         if (badgeCounter > 0) {
             String badgeCounterString = String.valueOf(badgeCounter);
@@ -38,12 +38,12 @@ public class ContainerSideButton extends CrystalToolsButton {
             int badgeWidth = xOffset + xOffset % 2 + 4;
             guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, getX() - badgeWidth + 2 + 5, getY() - 3, 0, 80, badgeWidth / 2, 10, 512, 512);
             guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, getX() - badgeWidth / 2 + 7, getY() - 3, 66 - badgeWidth / 2.0F, 80, badgeWidth / 2, 10, 512, 512);
-            guiGraphics.drawString(Minecraft.getInstance().font, badgeCounterString, getX() - xOffset + 5, getY() - 2, Colors.fromRGB(255, 255, 255), true);
+            guiGraphics.text(Minecraft.getInstance().font, badgeCounterString, getX() - xOffset + 5, getY() - 2, Colors.fromRGB(255, 255, 255), true);
         }
     }
 
     @Override
-    protected void drawButtonText(GuiGraphics guiGraphics, Font font, int fgColor) {
+    protected void drawButtonText(GuiGraphicsExtractor guiGraphics, Font font, int fgColor) {
 
     }
 

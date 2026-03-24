@@ -39,7 +39,7 @@ public class KeyPressEvent {
             if (!handleUpgradeMenu(mainHandItem, mc.player)) {
                 ItemStack offHandItem = mc.player.getItemInHand(InteractionHand.OFF_HAND);
                 if (!handleUpgradeMenu(offHandItem, mc.player) && !mainHandItem.isEmpty()) {
-                    mc.player.displayClientMessage(Component.literal("No Skill Tree Defined for " + mainHandItem.getItemName().getString()).withStyle(ChatFormatting.RED), true);
+                    mc.player.sendOverlayMessage (Component.literal("No Skill Tree Defined for " + mainHandItem.getItemName().getString()).withStyle(ChatFormatting.RED));
                 }
             }
         }

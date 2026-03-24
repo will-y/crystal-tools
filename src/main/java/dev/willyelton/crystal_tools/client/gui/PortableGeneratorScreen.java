@@ -7,7 +7,7 @@ import dev.willyelton.crystal_tools.common.events.DatapackRegistryEvents;
 import dev.willyelton.crystal_tools.common.inventory.container.AbstractGeneratorContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.PortableGeneratorContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.Holder;
@@ -52,8 +52,8 @@ public class PortableGeneratorScreen extends CrystalGeneratorScreen {
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
-        super.renderBg(guiGraphics, partialTick, mouseX, mouseY);
+    public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
         this.renderDisabledSlots(guiGraphics);
     }
 
@@ -94,7 +94,7 @@ public class PortableGeneratorScreen extends CrystalGeneratorScreen {
         return null;
     }
 
-    protected void renderDisabledSlots(GuiGraphics guiGraphics) {
+    protected void renderDisabledSlots(GuiGraphicsExtractor guiGraphics) {
         for (int i = activeSlots; i < TOTAL_SLOTS; i++) {
             int x = i % SLOTS_PER_ROW;
             int y = i / SLOTS_PER_ROW;

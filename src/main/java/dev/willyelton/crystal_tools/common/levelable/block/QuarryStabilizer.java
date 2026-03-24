@@ -83,7 +83,7 @@ public class QuarryStabilizer extends Block {
             if (stabilizerPositions.size() == 4 && stack.is(ModRegistration.CRYSTAL_QUARRY_ITEM)) {
                 stack.remove(DataComponents.QUARRY_DATA);
                 stack.set(DataComponents.QUARRY_BOUNDS, stabilizerPositions);
-                player.displayClientMessage(Component.literal("Stabilizer Positions Saved to Quarry"), true);
+                player.sendOverlayMessage(Component.literal("Stabilizer Positions Saved to Quarry"));
                 return InteractionResult.SUCCESS;
             }
         }
@@ -109,8 +109,8 @@ public class QuarryStabilizer extends Block {
         Map<Integer, Integer> zMap = new HashMap<>();
 
         for (BlockPos pos : positions) {
-            xMap.compute(pos.getX(), (key, value) -> value == null ? 1 : value + 1);
-            zMap.compute(pos.getZ(), (key, value) -> value == null ? 1 : value + 1);
+            xMap.compute(pos.getX(), (key, val) -> val == null ? 1 : val + 1);
+            zMap.compute(pos.getZ(), (key, val) -> val == null ? 1 : val + 1);
         }
         int x = xMap.entrySet().stream().filter(entry -> entry.getValue() == 1).map(Map.Entry::getKey).findFirst().orElse(0);
         int z = zMap.entrySet().stream().filter(entry -> entry.getValue() == 1).map(Map.Entry::getKey).findFirst().orElse(0);

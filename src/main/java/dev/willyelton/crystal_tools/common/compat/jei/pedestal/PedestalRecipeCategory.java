@@ -13,7 +13,7 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -61,7 +61,7 @@ public class PedestalRecipeCategory implements IRecipeCategory<PedestalRecipe>  
     }
 
     @Override
-    public void draw(PedestalRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(PedestalRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
         Minecraft minecraft = Minecraft.getInstance();
         Font font = minecraft.font;
 
@@ -70,12 +70,12 @@ public class PedestalRecipeCategory implements IRecipeCategory<PedestalRecipe>  
         Component titleComponent = Component.translatable(recipe.data().type().name());
         Component descriptionComponent = Component.translatable(recipe.data().type().getDescription());
 
-        guiGraphics.drawString(font, titleComponent, 25, 0, 0xFF000000, false);
-        guiGraphics.drawWordWrap(font, descriptionComponent, 25, 10, 100, 0xFF606060, false);
+        guiGraphics.text(font, titleComponent, 25, 0, 0xFF000000, false);
+        guiGraphics.textWithWordWrap(font, descriptionComponent, 25, 10, 100, 0xFF606060, false);
         int y = font.split(descriptionComponent, 100).size() * 9;
 
         if (recipe.data().params() != null && recipe.data().params().range() > 0) {
-            guiGraphics.drawString(font, Component.literal("Range: +" + recipe.data().params().range()), 25, 11 + y, 0xFF8080FF, false);
+            guiGraphics.text(font, Component.literal("Range: +" + recipe.data().params().range()), 25, 11 + y, 0xFF8080FF, false);
         }
     }
 }

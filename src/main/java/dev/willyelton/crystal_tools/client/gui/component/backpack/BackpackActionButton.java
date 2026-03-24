@@ -5,7 +5,7 @@ import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScre
 import dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -30,12 +30,12 @@ public abstract class BackpackActionButton extends CrystalToolsButton {
     }
 
     @Override
-    protected void blitButton(GuiGraphics guiGraphics, int textureY) {
+    protected void blitButton(GuiGraphicsExtractor guiGraphics, int textureY) {
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, getX(), getY(), getUOffset(), textureY, BUTTON_SIZE, BUTTON_SIZE, 512, 512);
     }
 
     @Override
-    protected void drawButtonText(GuiGraphics guiGraphics, Font font, int fgColor) {
+    protected void drawButtonText(GuiGraphicsExtractor guiGraphics, Font font, int fgColor) {
 
     }
 

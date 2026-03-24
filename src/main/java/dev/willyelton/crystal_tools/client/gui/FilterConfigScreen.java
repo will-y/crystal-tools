@@ -8,7 +8,7 @@ import dev.willyelton.crystal_tools.common.inventory.container.subscreen.FilterC
 import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenType;
 import dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -67,7 +67,7 @@ public class FilterConfigScreen<T extends BaseContainerMenu & SubScreenContainer
     }
 
     @Override
-    protected void drawContentRow(GuiGraphics guiGraphics, int row) {
+    protected void drawContentRow(GuiGraphicsExtractor guiGraphics, int row) {
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, topPos + TOP_BAR_HEIGHT + ROW_HEIGHT * row, 0, 222, INVENTORY_WIDTH, ROW_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
     }
 

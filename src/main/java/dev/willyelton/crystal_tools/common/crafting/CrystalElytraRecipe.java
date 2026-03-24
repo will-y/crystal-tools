@@ -3,10 +3,9 @@ package dev.willyelton.crystal_tools.common.crafting;
 import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -15,9 +14,7 @@ import net.minecraft.world.level.Level;
 import java.util.List;
 
 public class CrystalElytraRecipe extends CrystalToolsRecipe {
-    public CrystalElytraRecipe(CraftingBookCategory category) {
-        super(category);
-    }
+    public static final CrystalElytraRecipe INSTANCE = new CrystalElytraRecipe();
 
     @Override
     public boolean matches(CraftingInput container, Level level) {
@@ -46,7 +43,7 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingInput container, HolderLookup.Provider registryAccess) {
+    public ItemStack assemble(CraftingInput container) {
         ItemStack stack = new ItemStack(ModRegistration.CRYSTAL_ELYTRA.get());
         List<ItemStack> items = this.getItems(container);
 
@@ -67,7 +64,7 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
 
         stack.set(DataComponents.SKILL_EXPERIENCE, crystalChestPlateItem.getOrDefault(DataComponents.SKILL_EXPERIENCE, 0));
 
-        increaseLevelCap(stack, registryAccess, totalPoints);
+        increaseLevelCap(stack, totalPoints);
 
         return stack;
     }
@@ -100,7 +97,7 @@ public class CrystalElytraRecipe extends CrystalToolsRecipe {
     }
 
     @Override
-    public ItemStack getOutput() {
-        return new ItemStack(ModRegistration.CRYSTAL_ELYTRA.get());
+    public ItemStackTemplate getOutput() {
+        return new ItemStackTemplate(ModRegistration.CRYSTAL_ELYTRA.get());
     }
 }

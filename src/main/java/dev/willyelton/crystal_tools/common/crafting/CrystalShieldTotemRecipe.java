@@ -2,10 +2,9 @@ package dev.willyelton.crystal_tools.common.crafting;
 
 import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -17,9 +16,7 @@ import java.util.stream.Stream;
 import static dev.willyelton.crystal_tools.ModRegistration.CRYSTAL_SHIELD_TOTEM_RECIPE;
 
 public class CrystalShieldTotemRecipe extends CrystalToolsRecipe {
-    public CrystalShieldTotemRecipe(CraftingBookCategory category) {
-        super(category);
-    }
+    public static final CrystalShieldTotemRecipe INSTANCE = new CrystalShieldTotemRecipe();
 
     @Override
     public List<ItemStack> getInputs() {
@@ -29,8 +26,8 @@ public class CrystalShieldTotemRecipe extends CrystalToolsRecipe {
     }
 
     @Override
-    public ItemStack getOutput() {
-        return new ItemStack(ModRegistration.CRYSTAL_SHIELD);
+    public ItemStackTemplate getOutput() {
+        return new ItemStackTemplate(ModRegistration.CRYSTAL_SHIELD);
     }
 
     @Override
@@ -42,7 +39,7 @@ public class CrystalShieldTotemRecipe extends CrystalToolsRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingInput input, HolderLookup.Provider registries) {
+    public ItemStack assemble(CraftingInput input) {
         ItemStack result = (input.getItem(0).is(ModRegistration.CRYSTAL_SHIELD) ? input.getItem(0) : input.getItem(1)).copy();
 
         DataComponents.addToComponent(result, DataComponents.FILLED_TOTEM_SLOTS, 1);

@@ -1,4 +1,7 @@
 # Crystal Tools Change Log
+## 26.1.0.0
+- Updates to 26.1
+
 ## 21.11.3.7.1
 - Removes Auto Output Blacklist tag in favor of new config screen
 - Fixes a crash when breaking the crystal furnace

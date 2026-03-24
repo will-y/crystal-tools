@@ -59,7 +59,7 @@ public class CrystalToolsItemTags extends TagsProvider<Item> {
         this.getOrCreateRawBuilder(ItemTags.TRIDENT_ENCHANTABLE).addElement(
                 ModRegistration.CRYSTAL_TRIDENT.getId());
 
-        this.getOrCreateRawBuilder(Tags.Items.TOOLS_SPEAR).addElement(
+        this.getOrCreateRawBuilder(Tags.Items.TOOLS_TRIDENT).addElement(
                 ModRegistration.CRYSTAL_TRIDENT.getId());
 
         this.getOrCreateRawBuilder(Tags.Items.TOOLS_FISHING_ROD).addElement(

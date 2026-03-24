@@ -17,7 +17,7 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.AbstractRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 
@@ -51,7 +51,7 @@ public class GeneratorRecipeCategory extends AbstractRecipeCategory<GeneratorRec
     }
 
     @Override
-    public void draw(GeneratorRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(GeneratorRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
         this.background.draw(guiGraphics, 0, 0);
 
         int burnTime = recipe.burnTime();
@@ -64,12 +64,12 @@ public class GeneratorRecipeCategory extends AbstractRecipeCategory<GeneratorRec
         Font font = minecraft.font;
         Component burnTimeComponent = Component.literal(String.format("Burns for %d ticks", burnTime));
         Component feComponent = Component.literal(String.format("Generates %d FE per tick", feGeneration));
-        guiGraphics.drawString(font, burnTimeComponent, 25, 0, 0xFF808080, false);
-        guiGraphics.drawString(font, feComponent, 25, 10, 0xFF808080, false);
+        guiGraphics.text(font, burnTimeComponent, 25, 0, 0xFF808080, false);
+        guiGraphics.text(font, feComponent, 25, 10, 0xFF808080, false);
 
         if (!recipe.upgradeRequired().isEmpty()) {
             Component upgradeComponent = Component.literal("Requires Upgrade: " + recipe.upgradeRequired());
-            guiGraphics.drawString(font, upgradeComponent, 25, 20, 0xFF40BABE, false);
+            guiGraphics.text(font, upgradeComponent, 25, 20, 0xFF40BABE, false);
         }
     }
 }

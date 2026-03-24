@@ -5,12 +5,12 @@ import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.components.LevelableBlockEntityData;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
-import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.ItemLore;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -24,9 +24,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class CrystalQuarryRecipe extends CrystalToolsRecipe {
-    public CrystalQuarryRecipe(CraftingBookCategory category) {
-        super(category);
-    }
+    public static final CrystalQuarryRecipe INSTANCE = new CrystalQuarryRecipe();
 
     @Override
     public boolean matches(CraftingInput input, Level level) {
@@ -43,7 +41,7 @@ public class CrystalQuarryRecipe extends CrystalToolsRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingInput input, HolderLookup.Provider registries) {
+    public ItemStack assemble(CraftingInput input) {
         ItemStack result = new ItemStack(ModRegistration.CRYSTAL_QUARRY_ITEM);
 
         ItemStack aiotItem = input.getItem(1, 1);
@@ -70,11 +68,14 @@ public class CrystalQuarryRecipe extends CrystalToolsRecipe {
     }
 
     @Override
-    public ItemStack getOutput() {
-        ItemStack output = new ItemStack(ModRegistration.CRYSTAL_QUARRY_ITEM.get());
-        output.set(net.minecraft.core.component.DataComponents.LORE,
-                new ItemLore(List.of(Component.literal(
-                        String.format("Will take %d%% of the points from the AIOT used to craft this.", (int) (CrystalToolsConfig.QUARRY_INITIAL_POINT_MULTIPLIER.get() * 100))))));
+    public ItemStackTemplate getOutput() {
+        ItemStackTemplate output = new ItemStackTemplate(ModRegistration.CRYSTAL_QUARRY_ITEM.get());
+        DataComponentPatch patch = DataComponentPatch.builder()
+                .set(net.minecraft.core.component.DataComponents.LORE,
+                        new ItemLore(List.of(Component.literal(
+                                String.format("Will take %d%% of the points from the AIOT used to craft this.", (int) (CrystalToolsConfig.QUARRY_INITIAL_POINT_MULTIPLIER.get() * 100))))))
+                .build();
+        output.apply(patch);
         return output;
     }
 

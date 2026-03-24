@@ -35,7 +35,7 @@ public class CrystalQuarryBlockItem extends LevelableBlockItem {
             } else {
                 Player player = context.getPlayer();
                 if (player != null && !player.level().isClientSide()) {
-                    player.displayClientMessage(Component.literal("\u00A7c\u00A7lQuarry must be placed next to the stabilizer boundary"), true);
+                    player.sendOverlayMessage(Component.literal("\u00A7c\u00A7lQuarry must be placed next to the stabilizer boundary"));
                 }
 
                 return false;
@@ -43,7 +43,7 @@ public class CrystalQuarryBlockItem extends LevelableBlockItem {
         } else {
             Player player = context.getPlayer();
             if (player != null && !player.level().isClientSide()) {
-                player.displayClientMessage(Component.literal("\u00A7c\u00A7lQuarry must be linked to stabilizers to place"), true);
+                player.sendOverlayMessage(Component.literal("\u00A7c\u00A7lQuarry must be linked to stabilizers to place"));
             }
             return false;
         }

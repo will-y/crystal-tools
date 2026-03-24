@@ -61,25 +61,25 @@ public class ModeSwitchHandler {
                 if (tool.getOrDefault(DataComponents.HAS_3x3, false)) {
                     boolean disable3x3 = tool.getOrDefault(DataComponents.DISABLE_3x3, false);
                     tool.set(DataComponents.DISABLE_3x3, !disable3x3);
-                    player.displayClientMessage(Component.literal("Break Mode: " + (!disable3x3 ? "1x1" : "3x3")), true);
+                    player.sendOverlayMessage(Component.literal("Break Mode: " + (!disable3x3 ? "1x1" : "3x3")));
                 }
             } else if (payload.hasCtrlDown() && !payload.hasShiftDown() && !payload.hasAltDown()){
                 // Auto smelt on/off
                 if (tool.getOrDefault(DataComponents.AUTO_SMELT, false)) {
                     boolean disableAutoSmelt = tool.getOrDefault(DataComponents.DISABLE_AUTO_SMELT, false);
                     tool.set(DataComponents.DISABLE_AUTO_SMELT, !disableAutoSmelt);
-                    player.displayClientMessage(Component.literal("Auto Smelt " + (!disableAutoSmelt ? "Disabled" : "Enabled")), true);
+                    player.sendOverlayMessage(Component.literal("Auto Smelt " + (!disableAutoSmelt ? "Disabled" : "Enabled")));
                 }
             } else {
                 // silk touch or fortune
                 if (EnchantmentUtils.hasEnchantment(tool, Enchantments.SILK_TOUCH) && tool.getOrDefault(DataComponents.FORTUNE_BONUS, 0) > 0) {
                     EnchantmentUtils.removeEnchantment(tool, Enchantments.SILK_TOUCH);
                     EnchantmentUtils.addEnchantment(tool, Enchantments.FORTUNE, tool.getOrDefault(DataComponents.FORTUNE_BONUS, 3), player);
-                    player.displayClientMessage(Component.literal("Mine Mode: Fortune"), true);
+                    player.sendOverlayMessage(Component.literal("Mine Mode: Fortune"));
                 } else if (EnchantmentUtils.hasEnchantment(tool, Enchantments.FORTUNE) && tool.getOrDefault(DataComponents.SILK_TOUCH_BONUS, false)) {
                     EnchantmentUtils.removeEnchantment(tool, Enchantments.FORTUNE);
                     EnchantmentUtils.addEnchantment(tool, Enchantments.SILK_TOUCH, 1, player);
-                    player.displayClientMessage(Component.literal("Mine Mode: Silk Touch"), true);
+                    player.sendOverlayMessage(Component.literal("Mine Mode: Silk Touch"));
                 }
             }
         }
@@ -89,7 +89,7 @@ public class ModeSwitchHandler {
             if (tool.is(ModRegistration.CRYSTAL_AIOT.get())) {
                 UseMode currentMode = tool.getOrDefault(DataComponents.USE_MODE, UseMode.HOE);
                 tool.set(DataComponents.USE_MODE, UseMode.nextMode(tool, currentMode));
-                player.displayClientMessage(Component.literal("Mode: " + UseMode.nextMode(tool, currentMode)), true);
+                player.sendOverlayMessage(Component.literal("Mode: " + UseMode.nextMode(tool, currentMode)));
             }
         }
 
@@ -98,20 +98,20 @@ public class ModeSwitchHandler {
         if (tool.is(ModRegistration.CRYSTAL_BACKPACK.get())) {
             boolean pickupDisabled = tool.getOrDefault(DataComponents.PICKUP_DISABLED, false);
             tool.set(DataComponents.PICKUP_DISABLED, !pickupDisabled);
-            player.displayClientMessage(Component.literal("Auto Pickup " + (pickupDisabled ? "Enabled" : "Disabled")), true);
+            player.sendOverlayMessage(Component.literal("Auto Pickup " + (pickupDisabled ? "Enabled" : "Disabled")));
         }
 
         // Trident
         if (tool.getOrDefault(DataComponents.MINE_MODE, false) && tool.is(ModRegistration.CRYSTAL_TRIDENT.get())) {
             boolean riptideDisabled = tool.getOrDefault(DataComponents.RIPTIDE_DISABLED, false);
             tool.set(DataComponents.RIPTIDE_DISABLED, !riptideDisabled);
-            player.displayClientMessage(Component.literal("Riptide " + (riptideDisabled ? "Enabled" : "Disabled")), true);
+            player.sendOverlayMessage(Component.literal("Riptide " + (riptideDisabled ? "Enabled" : "Disabled")));
         }
 
         if (tool.getOrDefault(DataComponents.AUTO_TARGET, false) && payload.hasShiftDown()) {
             boolean autoTargetDisabled = tool.getOrDefault(DataComponents.DISABLE_AUTO_TARGET, false);
             tool.set(DataComponents.DISABLE_AUTO_TARGET, !autoTargetDisabled);
-            player.displayClientMessage(Component.literal("Auto Target " + (autoTargetDisabled ? "Enabled" : "Disabled")), true);
+            player.sendOverlayMessage(Component.literal("Auto Target " + (autoTargetDisabled ? "Enabled" : "Disabled")));
         }
 
         // Elytra
@@ -130,14 +130,14 @@ public class ModeSwitchHandler {
             // TODO: Can probably extract this for all of the toggles
             boolean disableNightVision = stack.getOrDefault(DataComponents.DISABLE_NIGHT_VISION, false);
             stack.set(DataComponents.DISABLE_NIGHT_VISION, !disableNightVision);
-            player.displayClientMessage(Component.literal("Night Vision " + (disableNightVision ? "Enabled" : "Disabled")), true);
+            player.sendOverlayMessage(Component.literal("Night Vision " + (disableNightVision ? "Enabled" : "Disabled")));
         }
     }
 
     private void disableCreativeFlight(Player player, ItemStack stack, SkillData skillData) {
         if (stack.getOrDefault(DataComponents.CREATIVE_FLIGHT, false)) {
             boolean added = AttributeUtils.toggleAttribute(stack, NeoForgeMod.CREATIVE_FLIGHT, skillData);
-            player.displayClientMessage(Component.literal("Creative Flight " + (added ? "Enabled" : "Disabled")), true);
+            player.sendOverlayMessage(Component.literal("Creative Flight " + (added ? "Enabled" : "Disabled")));
         }
     }
 
@@ -147,11 +147,11 @@ public class ModeSwitchHandler {
                 EnchantmentUtils.removeEnchantment(stack, Enchantments.FROST_WALKER);
                 stack.set(DataComponents.FROST_WALKER, true);
 
-                player.displayClientMessage(Component.literal("Frost Walker Disabled"), true);
+                player.sendOverlayMessage(Component.literal("Frost Walker Disabled"));
             } else if (stack.getOrDefault(DataComponents.FROST_WALKER, false)) {
                 EnchantmentUtils.addEnchantment(stack, Enchantments.FROST_WALKER, 2, player);
 
-                player.displayClientMessage(Component.literal("Frost Walker Enabled"), true);
+                player.sendOverlayMessage(Component.literal("Frost Walker Enabled"));
             }
         }
     }
@@ -161,12 +161,12 @@ public class ModeSwitchHandler {
             if (stack.getOrDefault(DataComponents.PULL_MOBS, false)) {
                 boolean disabled = stack.getOrDefault(DataComponents.DISABLE_MOB_PULL, false);
                 stack.set(DataComponents.DISABLE_MOB_PULL, !disabled);
-                player.displayClientMessage(Component.literal("Pulling Mobs " + (disabled ? "Enabled" : "Disabled")), true);
+                player.sendOverlayMessage(Component.literal("Pulling Mobs " + (disabled ? "Enabled" : "Disabled")));
             }
         } else {
             boolean disabled = stack.getOrDefault(DataComponents.DISABLED, false);
             stack.set(DataComponents.DISABLED, !disabled);
-            player.displayClientMessage(Component.literal("Magnet " + (disabled ? "Enabled" : "Disabled")), true);
+            player.sendOverlayMessage(Component.literal("Magnet " + (disabled ? "Enabled" : "Disabled")));
         }
     }
 }

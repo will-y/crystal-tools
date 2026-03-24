@@ -121,12 +121,12 @@ public class CrystalPedestalBlockEntity extends ActionBlockEntity implements Men
     }
 
     private void setActions(ItemStack newStack, ItemStack oldStack) {
-        ActionData oldActionData = oldStack.getItemHolder().getData(DataMaps.PEDESTAL_ACTIONS);
+        ActionData oldActionData = oldStack.typeHolder().getData(DataMaps.PEDESTAL_ACTIONS);
         if (oldActionData != null) {
             this.removeAction(oldActionData.type());
         }
 
-        ActionData actionData = newStack.getItemHolder().getData(DataMaps.PEDESTAL_ACTIONS);
+        ActionData actionData = newStack.typeHolder().getData(DataMaps.PEDESTAL_ACTIONS);
         if (actionData != null) {
             this.addAction(actionData.type().getActionInstance(this, actionData.params()), actionData.params());
         }

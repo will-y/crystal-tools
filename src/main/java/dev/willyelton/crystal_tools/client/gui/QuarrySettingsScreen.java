@@ -2,7 +2,7 @@ package dev.willyelton.crystal_tools.client.gui;
 
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalQuarryContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenType;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Checkbox;
 import net.minecraft.client.gui.components.MultiLineTextWidget;
 import net.minecraft.client.gui.components.Tooltip;
@@ -47,14 +47,14 @@ public class QuarrySettingsScreen extends ContainerSubScreen<CrystalQuarryContai
                 .pos(leftPos + 4, topPos + 20 + 20 * index)
                 .selected(menu.getSetting(buttonId))
                 .tooltip(Tooltip.create(Component.literal(tooltip)))
-                .onValueChange((checkbox, value) -> {
-                    menu.setSetting(buttonId, value);
-                    if (buttonId == 1 && value) {
+                .onValueChange((checkbox, checkBoxValue) -> {
+                    menu.setSetting(buttonId, checkBoxValue);
+                    if (buttonId == 1 && checkBoxValue) {
                         menu.setSetting(11, false);
                         if (fortuneCheckbox != null) {
                             fortuneCheckbox.selected = false;
                         }
-                    } else if (buttonId == 2 && value) {
+                    } else if (buttonId == 2 && checkBoxValue) {
                         menu.setSetting(10, false);
                         if (silkTouchCheckbox != null) {
                             silkTouchCheckbox.selected = false;
@@ -75,7 +75,7 @@ public class QuarrySettingsScreen extends ContainerSubScreen<CrystalQuarryContai
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+    public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         drawTopBar(guiGraphics);
 
         for (int i = 0; i < 6; i++) {
@@ -86,8 +86,8 @@ public class QuarrySettingsScreen extends ContainerSubScreen<CrystalQuarryContai
     }
 
     @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        guiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 4210752 + 0xFF000000, false);
+    protected void extractLabels(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
+        guiGraphics.text(this.font, this.title, this.titleLabelX, this.titleLabelY, 4210752 + 0xFF000000, false);
     }
 
     @Override

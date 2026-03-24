@@ -3,7 +3,7 @@ package dev.willyelton.crystal_tools.client.gui;
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.client.gui.component.EnergyBarWidget;
 import dev.willyelton.crystal_tools.common.inventory.container.AbstractGeneratorContainerMenu;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -33,22 +33,22 @@ public class CrystalGeneratorScreen extends BaseMenuUpgradeScreen<AbstractGenera
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+    public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, texture(), leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
         this.renderFire(guiGraphics);
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        super.render(guiGraphics, mouseX, mouseY, partialTick);
-        this.renderTooltip(guiGraphics, mouseX, mouseY);
+    public void extractRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.extractRenderState(guiGraphics, mouseX, mouseY, partialTick);
+        this.extractTooltip(guiGraphics, mouseX, mouseY);
     }
 
     @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        super.renderLabels(guiGraphics, mouseX, mouseY);
+    protected void extractLabels(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
+        super.extractLabels(guiGraphics, mouseX, mouseY);
 
-        guiGraphics.drawString(this.font,
+        guiGraphics.text(this.font,
                 Component.literal(String.format("Generating %s FE/Tick", this.menu.getCurrentGeneration())),
                 this.inventoryLabelX,
                 ENERGY_Y + ENERGY_HEIGHT + 6,
@@ -76,7 +76,7 @@ public class CrystalGeneratorScreen extends BaseMenuUpgradeScreen<AbstractGenera
         return FIRE_Y;
     }
 
-    private void renderFire(GuiGraphics guiGraphics) {
+    private void renderFire(GuiGraphicsExtractor guiGraphics) {
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, texture(), this.leftPos + fireX(), this.topPos + fireY(), FIRE_TEXTURE_OFF_X, FIRE_TEXTURE_Y, FIRE_WIDTH, FIRE_HEIGHT, 256, 256);
 
         if (this.menu.isLit()) {

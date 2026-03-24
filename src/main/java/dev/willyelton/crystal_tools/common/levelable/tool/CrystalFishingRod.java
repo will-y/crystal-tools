@@ -13,6 +13,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
@@ -67,7 +68,7 @@ public class CrystalFishingRod extends LevelableTool {
     }
 
     @Override
-    public boolean canPerformAction(ItemStack stack, ItemAbility itemAbility) {
+    public boolean canPerformAction(ItemInstance itemInstance, ItemAbility itemAbility) {
         return ItemAbilities.DEFAULT_FISHING_ROD_ACTIONS.contains(itemAbility);
     }
 

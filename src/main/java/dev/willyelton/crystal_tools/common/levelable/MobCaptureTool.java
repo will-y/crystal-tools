@@ -41,7 +41,7 @@ public interface MobCaptureTool {
         } else {
             Component cannotCapture = cannotCapture(stack, level, player, livingEntity);
             if (cannotCapture != null && player != null) {
-                player.displayClientMessage(cannotCapture, true);
+                player.sendOverlayMessage(cannotCapture);
             }
         }
 

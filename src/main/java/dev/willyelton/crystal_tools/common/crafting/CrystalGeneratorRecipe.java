@@ -5,10 +5,9 @@ import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.components.LevelableBlockEntityData;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.utils.ToolUtils;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -22,9 +21,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class CrystalGeneratorRecipe extends CrystalToolsRecipe {
-    public CrystalGeneratorRecipe(CraftingBookCategory category) {
-        super(category);
-    }
+    public static final CrystalGeneratorRecipe INSTANCE = new CrystalGeneratorRecipe();
 
     @Override
     public boolean matches(CraftingInput input, Level level) {
@@ -42,7 +39,7 @@ public class CrystalGeneratorRecipe extends CrystalToolsRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingInput input, HolderLookup.Provider registries) {
+    public ItemStack assemble(CraftingInput input) {
         ItemStack result = new ItemStack(ModRegistration.CRYSTAL_GENERATOR_ITEM.get());
 
         ItemStack furnaceItem = input.getItem(1, 1);
@@ -71,8 +68,8 @@ public class CrystalGeneratorRecipe extends CrystalToolsRecipe {
     }
 
     @Override
-    public ItemStack getOutput() {
-        return new ItemStack(ModRegistration.CRYSTAL_GENERATOR_ITEM.get());
+    public ItemStackTemplate getOutput() {
+        return new ItemStackTemplate(ModRegistration.CRYSTAL_GENERATOR_ITEM.get());
     }
 
     @Override

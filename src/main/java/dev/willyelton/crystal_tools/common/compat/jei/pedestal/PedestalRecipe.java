@@ -15,7 +15,7 @@ public record PedestalRecipe(ItemStack stack, ActionData data) {
         List<PedestalRecipe> recipes = new ArrayList<>();
 
         for (ItemStack stack : ingredientManager.getAllItemStacks()) {
-            Holder<Item> holder = stack.getItemHolder();
+            Holder<Item> holder = stack.typeHolder();
 
             ActionData data = holder.getData(DataMaps.PEDESTAL_ACTIONS);
             if (data != null) {

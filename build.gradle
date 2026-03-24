@@ -48,18 +48,13 @@ base {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
+        languageVersion.set(JavaLanguageVersion.of(25))
         vendor.set(JvmVendorSpec.JETBRAINS)
     }
 }
 
 neoForge {
     version = project.neo_version
-
-    parchment {
-        mappingsVersion = project.parchment_mappings_version
-        minecraftVersion = project.parchment_minecraft_version
-    }
 
     runs {
         client {
@@ -130,17 +125,17 @@ configurations {
 }
 
 dependencies {
-    compileOnly "mezz.jei:jei-1.21.11-common-api:${jei_version}"
-    compileOnly "mezz.jei:jei-1.21.11-neoforge-api:${jei_version}"
-    runtimeOnly "mezz.jei:jei-1.21.11-neoforge:${jei_version}"
+    compileOnly "mezz.jei:jei-26.1-pre-3-common-api:${jei_version}"
+    compileOnly "mezz.jei:jei-26.1-pre-3-neoforge-api:${jei_version}"
+    runtimeOnly "mezz.jei:jei-26.1-pre-3-neoforge:${jei_version}"
     // Compile against only the API artifact
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
     // Use the full Curios API jar at runtime
 //    runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}"
 
-//    compileOnly "curse.maven:jade-api-324717:${jade_api_id}"
+    compileOnly "curse.maven:jade-api-324717:7313008"
 //    runtimeOnly "curse.maven:jade-324717:${jade_id}"
-    implementation "curse.maven:jade-324717:7313008"
+//    implementation "curse.maven:jade-324717:7313008"
 //
 //    runtimeOnly "mekanism:Mekanism:${mekanism_version}"// Mekanism
 //    runtimeOnly "mekanism:Mekanism:${mekanism_version}:additions"// Mekanism: Additions
@@ -148,7 +143,7 @@ dependencies {
 //    runtimeOnly "mekanism:Mekanism:${mekanism_version}:tools"// Mekanism: Tools
 //
     compileOnly "org.appliedenergistics:guideme:${guideme_version}:api"
-    runtimeOnly "org.appliedenergistics:guideme:${guideme_version}"
+//    runtimeOnly "org.appliedenergistics:guideme:${guideme_version}"
 
 
 //    implementation("io.wispforest:accessories-neoforge:${accessories_version}")

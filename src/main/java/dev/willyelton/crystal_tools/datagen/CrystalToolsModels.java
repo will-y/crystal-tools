@@ -23,9 +23,9 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
-import static dev.willyelton.crystal_tools.CrystalTools.rl;
 import static net.minecraft.client.data.models.ItemModelGenerators.TRIM_PREFIX_BOOTS;
 import static net.minecraft.client.data.models.ItemModelGenerators.TRIM_PREFIX_CHESTPLATE;
 import static net.minecraft.client.data.models.ItemModelGenerators.TRIM_PREFIX_HELMET;
@@ -124,11 +124,11 @@ public class CrystalToolsModels extends ModelProvider {
 
         ItemModel.Unbaked itemmodel$unbaked = ItemModelUtils.plainModel(itemModels.createFlatItemModel(tridentItem, ModelTemplates.FLAT_ITEM));
         ItemModel.Unbaked itemmodel$unbaked1 = ItemModelUtils.specialModel(
-                CrystalToolsModelTemplates.CRYSTAL_TRIDENT_IN_HAND.create(tridentItem, TextureMapping.particle(rl("block/crystal_block")), itemModels.modelOutput),
+                CrystalToolsModelTemplates.CRYSTAL_TRIDENT_IN_HAND.create(tridentItem, TextureMapping.particle(ModRegistration.CRYSTAL_BLOCK.get()), itemModels.modelOutput),
                 new CrystalTridentSpecialRenderer.Unbaked()
         );
         ItemModel.Unbaked itemmodel$unbaked2 = ItemModelUtils.specialModel(
-                CrystalToolsModelTemplates.CRYSTAL_TRIDENT_THROWING.create(tridentItem, TextureMapping.particle(rl("block/crystal_block")), itemModels.modelOutput),
+                CrystalToolsModelTemplates.CRYSTAL_TRIDENT_THROWING.create(tridentItem, TextureMapping.particle(ModRegistration.CRYSTAL_BLOCK.get()), itemModels.modelOutput),
                 new CrystalTridentSpecialRenderer.Unbaked()
         );
         ItemModel.Unbaked itemmodel$unbaked3 = ItemModelUtils.conditional(ItemModelUtils.isUsingItem(), itemmodel$unbaked2, itemmodel$unbaked1);
@@ -151,6 +151,7 @@ public class CrystalToolsModels extends ModelProvider {
         ItemModel.Unbaked disabled = ItemModelUtils.plainModel(itemModels.createFlatItemModel(magnetItem, "_disabled", ModelTemplates.FLAT_ITEM));
 
         itemModels.itemModelOutput.accept(magnetItem, new ConditionalItemModel.Unbaked(
+                Optional.empty(),
                 new Disabled(),
                 disabled,
                 enabled));
@@ -162,6 +163,7 @@ public class CrystalToolsModels extends ModelProvider {
         ItemModel.Unbaked lit = ItemModelUtils.plainModel(itemModels.createFlatItemModel(portableGenerator, "_lit", ModelTemplates.FLAT_HANDHELD_ITEM));
 
         itemModels.itemModelOutput.accept(portableGenerator, new ConditionalItemModel.Unbaked(
+                Optional.empty(),
                 new Lit(),
                 lit,
                 unLit));
@@ -173,6 +175,7 @@ public class CrystalToolsModels extends ModelProvider {
         ItemModel.Unbaked full = ItemModelUtils.plainModel(itemModels.createFlatItemModel(portableGenerator, "_full", ModelTemplates.FLAT_HANDHELD_ITEM));
 
         itemModels.itemModelOutput.accept(portableGenerator, new ConditionalItemModel.Unbaked(
+                Optional.empty(),
                 new FullCage(),
                 full,
                 empty));

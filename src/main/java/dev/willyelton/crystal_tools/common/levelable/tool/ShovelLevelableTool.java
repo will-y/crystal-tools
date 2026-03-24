@@ -3,7 +3,7 @@ package dev.willyelton.crystal_tools.common.levelable.tool;
 import dev.willyelton.crystal_tools.utils.ToolUseUtils;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.context.UseOnContext;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
@@ -20,7 +20,7 @@ public class ShovelLevelableTool extends DiggerLevelableTool {
     }
 
     @Override
-    public boolean canPerformAction(ItemStack stack, ItemAbility itemAbility) {
+    public boolean canPerformAction(ItemInstance instance, ItemAbility itemAbility) {
         return ItemAbilities.DEFAULT_SHOVEL_ACTIONS.contains(itemAbility);
     }
 }

@@ -45,8 +45,10 @@ public class LivingDeathEvent {
                 }
 
                 if (weaponStack.getOrDefault(DataComponents.CAPTURING, 0).floatValue() > serverLevel.getRandom().nextFloat()) {
-                    SpawnEggItem spawnEggItem = SpawnEggItem.byId(deadEntity.getType());
-                    spawnItem(serverLevel, deadEntity, spawnEggItem);
+                    SpawnEggItem.byId(deadEntity.getType()).ifPresent(holder -> {
+                        spawnItem(serverLevel, deadEntity, holder.value());
+                    });
+
                 }
             }
         }
@@ -75,9 +77,8 @@ public class LivingDeathEvent {
                 if (livingEntity instanceof TamableAnimal tamableAnimal) {
                     LivingEntity owner = tamableAnimal.getOwner();
                     if (owner instanceof Player player) {
-                        player.displayClientMessage(Component.translatable("tooltip.crystal_tools.pet_died", tamableAnimal.getDisplayName(),
-                                        (int) deadEntity.getX(), (int) deadEntity.getY(), (int) deadEntity.getZ()).withStyle(ChatFormatting.RED),
-                                true);
+                        player.sendOverlayMessage(Component.translatable("tooltip.crystal_tools.pet_died", tamableAnimal.getDisplayName(),
+                                        (int) deadEntity.getX(), (int) deadEntity.getY(), (int) deadEntity.getZ()).withStyle(ChatFormatting.RED));
 
                         var handler = owner.getCapability(Capabilities.Item.ENTITY);
 

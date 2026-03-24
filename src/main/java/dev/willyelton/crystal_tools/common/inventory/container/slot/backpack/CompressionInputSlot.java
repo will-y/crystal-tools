@@ -108,7 +108,7 @@ public class CompressionInputSlot extends CrystalSlotItemHandler {
         set(inputStack);
         setChanged();
 
-        ItemStack outputStack = actualRecipe.assemble(getCraftingInput(stack, size), level.registryAccess()).copy();
+        ItemStack outputStack = actualRecipe.assemble(getCraftingInput(stack, size)).copy();
         outputSlot.set(outputStack);
         outputSlot.setChanged();
     }

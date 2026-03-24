@@ -19,7 +19,7 @@ public record GeneratorRecipe(ItemStack stack, int burnTime, int bonusGeneration
     public static List<GeneratorRecipe> createGeneratorRecipes(IIngredientManager ingredientManager) {
         List<GeneratorRecipe> recipes = new ArrayList<>();
         for (ItemStack stack : ingredientManager.getAllItemStacks()) {
-            Holder<Item> holder = stack.getItemHolder();
+            Holder<Item> holder = stack.typeHolder();
             GeneratorFuelData gemFuelData = holder.getData(DataMaps.GENERATOR_GEMS);
             if (gemFuelData != null) {
                 recipes.add(new GeneratorRecipe(stack, gemFuelData.burnTime(), gemFuelData.bonusGeneration(), "Gem Generator"));

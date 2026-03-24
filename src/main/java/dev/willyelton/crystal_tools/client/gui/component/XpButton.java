@@ -7,7 +7,7 @@ import dev.willyelton.crystal_tools.utils.XpUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ActiveTextCollector;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.TextAlignment;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -33,7 +33,7 @@ public class XpButton extends Button {
     }
 
     @Override
-    protected void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+    protected void extractContents(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, getX() + 4, getY() + 5, 0, 0, 9, 9, 256, 256);
 
         if (this.isHovered) {
@@ -42,7 +42,7 @@ public class XpButton extends Button {
     }
 
     @Override
-    public void renderDefaultLabel(ActiveTextCollector textCollector) {
+    public void extractDefaultLabel(ActiveTextCollector textCollector) {
         Font font = Minecraft.getInstance().font;
         int color = this.active ? Colors.fromRGB(200, 255, 143) : Colors.fromRGB(140, 96, 93);
         textCollector.accept(TextAlignment.CENTER, this.getX() + 16, this.getY() + (getHeight() - font.lineHeight) / 2 + 1, this.getMessage().copy().withColor(color));

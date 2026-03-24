@@ -8,7 +8,7 @@ import dev.willyelton.crystal_tools.common.capability.Capabilities;
 import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalBackpackContainerMenu;
 import dev.willyelton.crystal_tools.common.network.data.OpenBackpackPayload;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -53,13 +53,13 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
     }
 
     @Override
-    public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        super.render(guiGraphics, mouseX, mouseY, partialTick);
-        this.renderTooltip(guiGraphics, mouseX, mouseY);
+    public void extractRenderState(@NotNull GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.extractRenderState(guiGraphics, mouseX, mouseY, partialTick);
+        this.extractTooltip(guiGraphics, mouseX, mouseY);
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+    public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         int rowsToDraw = getDisplayRows();
 
         // Backpack top bar
@@ -73,7 +73,7 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
         // Player inventory
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, topPos + TOP_BAR_HEIGHT + ROW_HEIGHT * rowsToDraw, 0, 125, INVENTORY_WIDTH, INVENTORY_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
 
-        super.renderBg(guiGraphics, partialTick, mouseX, mouseY);
+        super.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
     }
 
     public int getDisplayRows() {

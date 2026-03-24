@@ -57,7 +57,7 @@ public class ShieldBlockEvent {
 
         if (stack.getOrDefault(DataComponents.SHIELD_KNOCKBACK, false)) {
             if (blocker instanceof ServerPlayer player) {
-                player.connection.send(new ClientboundSoundPacket(Holder.direct(SoundEvents.WIND_CHARGE_BURST.value()), SoundSource.PLAYERS, blocker.getX(), blocker.getY(), blocker.getZ(), 2F, (level.random.nextFloat() - level.random.nextFloat()) * 1.4F + 2.0F, level.getRandom().nextLong()));
+                player.connection.send(new ClientboundSoundPacket(Holder.direct(SoundEvents.WIND_CHARGE_BURST.value()), SoundSource.PLAYERS, blocker.getX(), blocker.getY(), blocker.getZ(), 2F, (level.getRandom().nextFloat() - level.getRandom().nextFloat()) * 1.4F + 2.0F, level.getRandom().nextLong()));
             }
             target.push(target.getPosition(0).subtract(blocker.getPosition(0)).add(0, 0.5, 0));
         }

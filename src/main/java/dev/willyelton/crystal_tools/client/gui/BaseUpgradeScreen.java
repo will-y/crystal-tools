@@ -27,17 +27,17 @@ import dev.willyelton.crystal_tools.utils.InventoryUtils;
 import dev.willyelton.crystal_tools.utils.ListUtils;
 import dev.willyelton.crystal_tools.utils.XpUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.render.TextureSetup;
-import net.minecraft.client.gui.render.state.GuiElementRenderState;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.state.gui.GuiElementRenderState;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
@@ -176,16 +176,16 @@ public abstract class BaseUpgradeScreen extends Screen {
     protected abstract void changeClientSkillPoints(int change);
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        this.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+    public void extractRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        this.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
         this.renderBlockBackground(guiGraphics, CrystalToolsClientConfig.UPGRADE_SCREEN_BACKGROUND.get());
 
         drawDependencyLines(guiGraphics);
         guiGraphics.nextStratum();
-        guiGraphics.drawString(font, "Skill Points: " + this.getSkillPoints(), 5, 5, -1);
+        guiGraphics.text(font, "Skill Points: " + this.getSkillPoints(), 5, 5, -1);
 
         for (Renderable renderable : this.renderables) {
-            renderable.render(guiGraphics, mouseX, mouseY, partialTick);
+            renderable.extractRenderState(guiGraphics, mouseX, mouseY, partialTick);
         }
 
         ANIMATION_COUNTER++;
@@ -198,8 +198,8 @@ public abstract class BaseUpgradeScreen extends Screen {
     }
 
     @Override
-    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        super.renderTransparentBackground(guiGraphics);
+    public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.extractTransparentBackground(guiGraphics);
     }
 
     protected abstract int getSkillPoints();
@@ -323,7 +323,7 @@ public abstract class BaseUpgradeScreen extends Screen {
         }
     }
 
-    private void drawDependencyLines(GuiGraphics guiGraphics) {
+    private void drawDependencyLines(GuiGraphicsExtractor guiGraphics) {
         for (SkillButton button : skillButtons.values()) {
             SkillDataNode node = button.getDataNode();
             for (SkillDataRequirement requirement : node.getRequirements()) {
@@ -387,11 +387,11 @@ public abstract class BaseUpgradeScreen extends Screen {
         return true;
     }
 
-    private void drawDependencyLine(GuiGraphics guiGraphics, int[] p1, int[] p2, int textureY) {
+    private void drawDependencyLine(GuiGraphicsExtractor guiGraphics, int[] p1, int[] p2, int textureY) {
         drawDependencyLine(guiGraphics, p1[0], p1[1], p2[0], p2[1], textureY);
     }
 
-    private void drawDependencyLine(GuiGraphics guiGraphics, int x1, int y1, int x2, int y2, int yImageStart) {
+    private void drawDependencyLine(GuiGraphicsExtractor guiGraphics, int x1, int y1, int x2, int y2, int yImageStart) {
         float yImageEnd = yImageStart + DEPENDENCY_LINE_WIDTH;
         float length = (float) Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
         float angle = (float) Math.atan2((x2 - x1), (y2 - y1));
@@ -446,7 +446,7 @@ public abstract class BaseUpgradeScreen extends Screen {
         return new int[] {x, y};
     }
 
-    public void renderBlockBackground(GuiGraphics guiGraphics, String block) {
+    public void renderBlockBackground(GuiGraphicsExtractor guiGraphics, String block) {
         Identifier blockResource;
         String[] split = block.split(":");
         if (split.length == 1) {

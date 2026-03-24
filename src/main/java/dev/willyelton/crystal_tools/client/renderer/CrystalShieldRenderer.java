@@ -8,15 +8,15 @@ import net.minecraft.client.model.object.equipment.ShieldModel;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BannerRenderer;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
-import net.minecraft.client.resources.model.Material;
-import net.minecraft.client.resources.model.MaterialSet;
+import net.minecraft.client.resources.model.sprite.SpriteGetter;
+import net.minecraft.client.resources.model.sprite.SpriteId;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Unit;
 import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
 import org.joml.Vector3fc;
@@ -26,14 +26,14 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 public class CrystalShieldRenderer implements SpecialModelRenderer<DataComponentMap> {
-    private static final Material SHIELD_MATERIAL = new Material(Sheets.SHIELD_SHEET, Identifier.fromNamespaceAndPath(CrystalTools.MODID, "entity/crystal_shield"));
+    private static final SpriteId SHIELD_MATERIAL = new SpriteId(Sheets.SHIELD_SHEET, Identifier.fromNamespaceAndPath(CrystalTools.MODID, "entity/crystal_shield"));
 
-    private final ShieldModel shieldModel;
-    private final MaterialSet materials;
+    private final ShieldModel model;
+    private final SpriteGetter sprites;
 
-    public CrystalShieldRenderer(MaterialSet materials, ShieldModel shieldModel) {
-        this.materials = materials;
-        this.shieldModel = shieldModel;
+    public CrystalShieldRenderer(SpriteGetter sprites, ShieldModel model) {
+        this.sprites = sprites;
+        this.model = model;
     }
 
     @Nullable
@@ -42,24 +42,34 @@ public class CrystalShieldRenderer implements SpecialModelRenderer<DataComponent
     }
 
     @Override
-    public void submit(DataComponentMap components, ItemDisplayContext itemDisplayContext, PoseStack poseStack, SubmitNodeCollector nodeCollector, int p_386748_, int p_388858_, boolean p_387642_, int p_451675_) {
-        BannerPatternLayers bannerpatternlayers = components != null ? components.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY) : BannerPatternLayers.EMPTY;
-        DyeColor dyecolor = components != null ? components.get(DataComponents.BASE_COLOR) : null;
-        boolean hasBanner = !bannerpatternlayers.layers().isEmpty() || dyecolor != null;
-        poseStack.pushPose();
-        poseStack.scale(1.0F, -1.0F, -1.0F);
-        Material material = SHIELD_MATERIAL;
-        nodeCollector.submitModelPart(this.shieldModel.handle(), poseStack, this.shieldModel.renderType(material.atlasLocation()),
-                p_386748_, p_388858_, this.materials.get(material), false, false, -1, null, p_451675_);
+    public void submit(DataComponentMap components, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, int overlayCoords, boolean hasFoil, int outlineColor) {
+        BannerPatternLayers patterns = components != null
+                ? components.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY)
+                : BannerPatternLayers.EMPTY;
+        DyeColor baseColor = components != null ? components.get(DataComponents.BASE_COLOR) : null;
+        boolean hasPatterns = !patterns.layers().isEmpty() || baseColor != null;
+        SpriteId base = hasPatterns ? Sheets.SHIELD_BASE : Sheets.SHIELD_BASE_NO_PATTERN;
+        submitNodeCollector.submitModel(this.model, Unit.INSTANCE, poseStack, lightCoords, overlayCoords, -1, base, this.sprites, outlineColor, null);
+        if (hasPatterns) {
+            BannerRenderer.submitPatterns(
+                    this.sprites,
+                    poseStack,
+                    submitNodeCollector,
+                    lightCoords,
+                    overlayCoords,
+                    this.model,
+                    Unit.INSTANCE,
+                    false,
+                    Objects.requireNonNullElse(baseColor, DyeColor.WHITE),
+                    patterns,
+                    null
+            );
+        }
 
-        if (hasBanner) {
-            BannerRenderer.submitPatterns(this.materials, poseStack, nodeCollector, p_386748_, p_388858_, this.shieldModel, Unit.INSTANCE,
-                    material, false, Objects.requireNonNullElse(dyecolor, DyeColor.WHITE), bannerpatternlayers,
-                    p_387642_, null, p_451675_);
-        } else {
-            nodeCollector.submitModelPart(this.shieldModel.plate(), poseStack, this.shieldModel.renderType(material.atlasLocation()),
-                    p_386748_, p_388858_, this.materials.get(material), false, p_387642_, -1,
-                    null, p_451675_);
+        if (hasFoil) {
+            submitNodeCollector.submitModel(
+                    this.model, Unit.INSTANCE, poseStack, RenderTypes.entityGlint(), lightCoords, overlayCoords, -1, this.sprites.get(base), 0, null
+            );
         }
     }
 
@@ -67,10 +77,10 @@ public class CrystalShieldRenderer implements SpecialModelRenderer<DataComponent
     public void getExtents(Consumer<Vector3fc> vectors) {
         PoseStack posestack = new PoseStack();
         posestack.scale(1.0F, -1.0F, -1.0F);
-        this.shieldModel.root().getExtentsForGui(posestack, vectors);
+        this.model.root().getExtentsForGui(posestack, vectors);
     }
 
-    public record Unbaked() implements SpecialModelRenderer.Unbaked {
+    public record Unbaked() implements SpecialModelRenderer.Unbaked<DataComponentMap> {
         public static final CrystalShieldRenderer.Unbaked INSTANCE = new CrystalShieldRenderer.Unbaked();
         public static final MapCodec<CrystalShieldRenderer.Unbaked> MAP_CODEC = MapCodec.unit(INSTANCE);
 
@@ -80,8 +90,8 @@ public class CrystalShieldRenderer implements SpecialModelRenderer<DataComponent
         }
 
         @Override
-        public SpecialModelRenderer<?> bake(SpecialModelRenderer.BakingContext context) {
-            return new CrystalShieldRenderer(context.materials(), new ShieldModel(context.entityModelSet().bakeLayer(ModelLayers.SHIELD)));
+        public CrystalShieldRenderer bake(SpecialModelRenderer.BakingContext context) {
+            return new CrystalShieldRenderer(context.sprites(), new ShieldModel(context.entityModelSet().bakeLayer(ModelLayers.SHIELD)));
         }
     }
 }

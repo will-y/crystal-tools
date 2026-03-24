@@ -15,8 +15,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -93,12 +93,12 @@ public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu imp
     }
 
     @Override
-    public void clicked(int slotId, int button, ClickType clickType, Player player) {
+    public void clicked(int slotId, int button, ContainerInput clickType, Player player) {
         if (slotId >= 0) {
             Slot slot = getSlot(slotId);
 
             if (slot instanceof BackpackFilterSlot filterSlot) {
-                if (filterMenuContents.getInventory() == null || clickType == ClickType.THROW || clickType == ClickType.CLONE) {
+                if (filterMenuContents.getInventory() == null || clickType == ContainerInput.THROW || clickType == ContainerInput.CLONE) {
                     return;
                 }
                 filterSlot.onClicked(getCarried());

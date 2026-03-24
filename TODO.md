@@ -133,3 +133,5 @@ Eventually
 - Future:
   - Reset skills
   - XP to points
+## 21.6 Porting
+- Furnace screen is wrong

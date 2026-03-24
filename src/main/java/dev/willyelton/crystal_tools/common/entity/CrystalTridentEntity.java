@@ -6,14 +6,9 @@ import dev.willyelton.crystal_tools.common.capability.LevelableStack;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
@@ -23,19 +18,17 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
+import net.minecraft.world.entity.projectile.arrow.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 
-// TODO 21.6: Extend Thrown Trident and Mixin
-public class CrystalTridentEntity extends AbstractArrow {
+// TODO: Mixin instead of overwriting everything
+public class CrystalTridentEntity extends ThrownTrident {
     public static final String CRYSTAL_TOOLS_TRIDENT_LIGHTNING_TAG = "crystal_tools.trident.lightning";
-    private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(CrystalTridentEntity.class, EntityDataSerializers.BYTE);
 
     protected ItemStack tridentStack = new ItemStack(ModRegistration.CRYSTAL_TRIDENT.get());
     protected boolean dealtDamage;
@@ -46,15 +39,13 @@ public class CrystalTridentEntity extends AbstractArrow {
     }
 
     public CrystalTridentEntity(Level level, LivingEntity shooter, ItemStack stack) {
-        super(ModRegistration.CRYSTAL_TRIDENT_ENTITY.get(), shooter, level, stack, null);
+        super(level, shooter, stack);
         this.tridentStack = stack;
-        this.entityData.set(ID_LOYALTY, this.getLoyaltyFromItem(stack));
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
-        builder.define(ID_LOYALTY, (byte) 0);
+    public EntityType<?> getType() {
+        return ModRegistration.CRYSTAL_TRIDENT_ENTITY.get();
     }
 
     @Override
@@ -110,11 +101,6 @@ public class CrystalTridentEntity extends AbstractArrow {
     }
 
     @Override
-    protected EntityHitResult findHitEntity(Vec3 pStartVec, Vec3 pEndVec) {
-        return this.dealtDamage ? null : super.findHitEntity(pStartVec, pEndVec);
-    }
-
-    @Override
     protected void onHitEntity(EntityHitResult result) {
         Entity hitEntity = result.getEntity();
         float damage = 8.0F + tridentStack.getOrDefault(DataComponents.PROJECTILE_DAMAGE, 0F);
@@ -165,56 +151,6 @@ public class CrystalTridentEntity extends AbstractArrow {
         super.onHitBlock(result);
     }
 
-    @Override
-    protected boolean tryPickup(Player player) {
-        return super.tryPickup(player) || this.isNoPhysics() && this.ownedBy(player) && player.getInventory().add(this.getPickupItem());
-    }
-
-    @Override
-    protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundEvents.TRIDENT_HIT_GROUND;
-    }
-
-    @Override
-    public void playerTouch(Player entity) {
-        if (this.ownedBy(entity) || this.getOwner() == null) {
-            super.playerTouch(entity);
-        }
-    }
-
-    @Override
-    public void readAdditionalSaveData(ValueInput valueInput) {
-        super.readAdditionalSaveData(valueInput);
-
-        this.dealtDamage = valueInput.getBooleanOr("DealtDamage", false);
-        this.entityData.set(ID_LOYALTY, this.getLoyaltyFromItem(this.getPickupItemStackOrigin()));
-    }
-
-    @Override
-    public void addAdditionalSaveData(ValueOutput valueOutput) {
-        super.addAdditionalSaveData(valueOutput);
-
-        valueOutput.putBoolean("DealtDamage", this.dealtDamage);
-    }
-
-    @Override
-    public void tickDespawn() {
-        int loyaltyLevel = this.entityData.get(ID_LOYALTY);
-        if (this.pickup != AbstractArrow.Pickup.ALLOWED || loyaltyLevel <= 0) {
-            super.tickDespawn();
-        }
-    }
-
-    @Override
-    protected float getWaterInertia() {
-        return 0.99F;
-    }
-
-    @Override
-    public boolean shouldRender(double pX, double pY, double pZ) {
-        return true;
-    }
-
     private boolean isChanneling() {
         return tridentStack.getOrDefault(DataComponents.CHANNELING, 0) > 0;
     }
@@ -247,11 +183,5 @@ public class CrystalTridentEntity extends AbstractArrow {
         }
 
         return false;
-    }
-
-    private byte getLoyaltyFromItem(ItemStack stack) {
-        return this.level() instanceof ServerLevel serverlevel
-                ? (byte) Mth.clamp(EnchantmentHelper.getTridentReturnToOwnerAcceleration(serverlevel, stack, this), 0, 127)
-                : 0;
     }
 }

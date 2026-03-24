@@ -4,7 +4,7 @@ import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.common.inventory.container.ScrollableMenu;
 import dev.willyelton.crystal_tools.common.network.data.ContainerRowsPayload;
 import dev.willyelton.crystal_tools.common.network.data.ScrollPayload;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -105,7 +105,7 @@ public abstract class ScrollableContainerScreen<T extends AbstractContainerMenu 
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+    public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
         if (this.canScroll()) {
             int scrollXActual = leftPos + scrollX;
             int scrollYActual = topPos + scrollY;
