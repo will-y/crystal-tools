@@ -127,7 +127,7 @@ configurations {
 dependencies {
     compileOnly "mezz.jei:jei-26.1-pre-3-common-api:${jei_version}"
     compileOnly "mezz.jei:jei-26.1-pre-3-neoforge-api:${jei_version}"
-    runtimeOnly "mezz.jei:jei-26.1-pre-3-neoforge:${jei_version}"
+//    runtimeOnly "mezz.jei:jei-26.1-pre-3-neoforge:${jei_version}"
     // Compile against only the API artifact
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
     // Use the full Curios API jar at runtime

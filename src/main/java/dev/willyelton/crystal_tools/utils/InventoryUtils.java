@@ -6,7 +6,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.item.ItemUtil;
@@ -26,27 +25,6 @@ public class InventoryUtils {
 
         inv.removeItem(index, 1);
         return true;
-    }
-
-    public static void copyTo(IItemHandlerModifiable source, IItemHandlerModifiable destination) {
-        int maxIndex = Math.min(source.getSlots(), destination.getSlots());
-        for (int i = 0; i < maxIndex; i++) {
-            destination.setStackInSlot(i, source.getStackInSlot(i));
-        }
-    }
-
-    public static void clear(IItemHandlerModifiable inv) {
-        for (int i = 0; i < inv.getSlots(); i++) {
-            inv.setStackInSlot(i, ItemStack.EMPTY);
-        }
-    }
-
-    public static boolean contains(IItemHandlerModifiable inv, ItemStack itemStack) {
-        for (int i = 0; i < inv.getSlots(); i++) {
-            if (ItemStack.isSameItemSameComponents(inv.getStackInSlot(i), itemStack)) return true;
-        }
-
-        return false;
     }
 
     public static ItemStack findItem(Inventory inv, Predicate<ItemStack> predicate) {
