@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.inventory.container;
 
-import dev.willyelton.crystal_tools.client.gui.SlotFactory;
+import dev.willyelton.crystal_tools.api.client.SlotFactory;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.CrystalSlotItemHandler;
 import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenContainerMenu;
 import dev.willyelton.crystal_tools.utils.TransferUtils;

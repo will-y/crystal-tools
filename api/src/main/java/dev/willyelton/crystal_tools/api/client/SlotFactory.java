@@ -1,4 +1,4 @@
-package dev.willyelton.crystal_tools.client.gui;
+package dev.willyelton.crystal_tools.api.client;
 
 import net.minecraft.world.inventory.Slot;
 import net.neoforged.neoforge.transfer.IndexModifier;
