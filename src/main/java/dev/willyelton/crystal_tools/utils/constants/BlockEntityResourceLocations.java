@@ -13,7 +13,6 @@ public class BlockEntityResourceLocations {
     public static final Identifier FUEL_SLOT_BONUS = rl("fuel_slot_bonus");
     public static final Identifier AUTO_BALANCE = rl("auto_balance");
     public static final Identifier EXP_BOOST = rl("exp_boost");
-    public static final Identifier AUTO_OUTPUT = rl("auto_output");
     public static final Identifier SAVE_FUEL = rl("save_fuel");
 
     // Quarry
@@ -22,7 +21,6 @@ public class BlockEntityResourceLocations {
     public static final Identifier TRASH_FILTER = rl("trash_filter");
     public static final Identifier SILK_TOUCH = rl("silk_touch");
     public static final Identifier FORTUNE = rl("fortune");
-    public static final Identifier CHUNK_LOADING = rl("chunk_loading");
 
     // Generator
     public static final Identifier FE_GENERATION = rl("fe_generation");

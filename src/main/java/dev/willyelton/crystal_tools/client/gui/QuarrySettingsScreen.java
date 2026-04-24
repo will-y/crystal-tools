@@ -1,16 +1,14 @@
 package dev.willyelton.crystal_tools.client.gui;
 
+import dev.willyelton.crystal_tools.api.client.gui.ContainerSubScreen;
+import dev.willyelton.crystal_tools.api.common.inventory.container.SubScreenType;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalQuarryContainerMenu;
-import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenType;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Checkbox;
 import net.minecraft.client.gui.components.MultiLineTextWidget;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-
-import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.ROW_HEIGHT;
-import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.TOP_BAR_HEIGHT;
 
 public class QuarrySettingsScreen extends ContainerSubScreen<CrystalQuarryContainerMenu, CrystalQuarryScreen> {
     private Checkbox silkTouchCheckbox;
@@ -43,7 +41,7 @@ public class QuarrySettingsScreen extends ContainerSubScreen<CrystalQuarryContai
     }
 
     private Checkbox addCheckbox(String title, String tooltip, int buttonId, int index) {
-       return this.addRenderableWidget(fixCheckbox(Checkbox.builder(Component.literal(title), font)
+        return this.addRenderableWidget(fixCheckbox(Checkbox.builder(Component.literal(title), font)
                 .pos(leftPos + 4, topPos + 20 + 20 * index)
                 .selected(menu.getSetting(buttonId))
                 .tooltip(Tooltip.create(Component.literal(tooltip)))

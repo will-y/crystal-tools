@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.common.levelable;
 
+import dev.willyelton.crystal_tools.api.common.config.CrystalToolsCoreConfig;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
@@ -16,7 +17,7 @@ public interface LevelableItem {
 
     @Deprecated
     default int getExperienceCap(ItemStack tool) {
-        return tool.getOrDefault(DataComponents.EXPERIENCE_CAP, CrystalToolsConfig.BASE_EXPERIENCE_CAP.get());
+        return tool.getOrDefault(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.EXPERIENCE_CAP, CrystalToolsCoreConfig.BASE_EXPERIENCE_CAP.get());
     }
 
     default void levelableInventoryTick(ItemStack stack, Level level, Entity entity, @Nullable EquipmentSlot equipmentSlot, double repairModifier) {

@@ -3,7 +3,7 @@ package dev.willyelton.crystal_tools.client.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.datafixers.util.Pair;
-import dev.willyelton.crystal_tools.utils.Colors;
+import dev.willyelton.crystal_tools.api.utils.Colors;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;

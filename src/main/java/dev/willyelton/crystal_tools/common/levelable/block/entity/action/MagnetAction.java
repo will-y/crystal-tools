@@ -1,11 +1,15 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity.action;
 
-import dev.willyelton.crystal_tools.common.capability.Levelable;
+import dev.willyelton.crystal_tools.ModRegistration;
+import dev.willyelton.crystal_tools.api.common.block.entity.ActionBlockEntity;
+import dev.willyelton.crystal_tools.api.common.block.entity.action.Action;
+import dev.willyelton.crystal_tools.api.common.block.entity.action.ActionParameters;
+import dev.willyelton.crystal_tools.api.common.capability.Levelable;
+import dev.willyelton.crystal_tools.api.utils.ToolUtils;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.common.levelable.block.entity.ActionBlockEntity;
-import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -66,7 +70,7 @@ public class MagnetAction extends Action {
                             stack.hurtAndBreak(Mth.ceil(params.durabilityModifier()), (ServerLevel) level, null, item -> {});
                         }
 
-                        Levelable levelable = stack.getCapability(dev.willyelton.crystal_tools.common.capability.Capabilities.ITEM_SKILL, level.registryAccess());
+                        Levelable levelable = stack.getCapability(dev.willyelton.crystal_tools.api.common.capability.Capabilities.ITEM_SKILL, level.registryAccess());
                         if (levelable != null && CrystalToolsConfig.LEVEL_ITEMS_IN_PEDESTAL.get()) {
                             levelable.addExp(level, pos, null);
                         }
@@ -107,8 +111,8 @@ public class MagnetAction extends Action {
     }
 
     @Override
-    public ActionType getActionType() {
-        return ActionType.MAGNET;
+    public Identifier getActionType() {
+        return ModRegistration.MAGNET_ACTION.getId();
     }
 
     @Override

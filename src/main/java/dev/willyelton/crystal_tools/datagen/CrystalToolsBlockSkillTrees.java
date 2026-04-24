@@ -1,10 +1,11 @@
 package dev.willyelton.crystal_tools.datagen;
 
 import dev.willyelton.crystal_tools.ModRegistration;
-import dev.willyelton.crystal_tools.common.events.DatapackRegistryEvents;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
+import dev.willyelton.crystal_tools.api.common.event.DatapackRegistryEvents;
+import dev.willyelton.crystal_tools.api.common.skill.SkillData;
+import dev.willyelton.crystal_tools.api.utils.constants.BlockEntityIdentifiers;
 import dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations;
-import dev.willyelton.crystal_tools.utils.constants.SkillTreeDescriptions;
+import dev.willyelton.crystal_tools.api.utils.constants.SkillTreeDescriptions;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 
@@ -19,25 +20,25 @@ import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLo
 import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.MINING_SPEED;
 import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.SLOT_BONUS;
 import static dev.willyelton.crystal_tools.utils.constants.BlockEntityResourceLocations.TRASH_FILTER;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AUTO_OUTPUT;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.AUTO_SPLIT;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.CHUNK_LOADING;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.FOOD_GENERATOR;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.GEM_GENERATOR;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.METAL_GENERATOR;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.REDSTONE_CONTROL;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.SAVE_FUEL;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.SILK_TOUCH;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.expBoost;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.feCapacity;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.feGeneration;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.fortune;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.fuelEfficiency;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.furnaceFuelSlot;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.furnaceSlot;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.furnaceSpeed;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.miningSpeed;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.trashFilter;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillTreeTitles.AUTO_OUTPUT;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillTreeTitles.AUTO_SPLIT;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillTreeTitles.CHUNK_LOADING;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillTreeTitles.FOOD_GENERATOR;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillTreeTitles.GEM_GENERATOR;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillTreeTitles.METAL_GENERATOR;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillTreeTitles.REDSTONE_CONTROL;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillTreeTitles.SAVE_FUEL;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillTreeTitles.SILK_TOUCH;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillTreeTitles.expBoost;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillTreeTitles.feCapacity;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillTreeTitles.feGeneration;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillTreeTitles.fortune;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillTreeTitles.fuelEfficiency;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillTreeTitles.furnaceFuelSlot;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillTreeTitles.furnaceSlot;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillTreeTitles.furnaceSpeed;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillTreeTitles.miningSpeed;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillTreeTitles.trashFilter;
 
 public class CrystalToolsBlockSkillTrees {
     private final BootstrapContext<SkillData> context;
@@ -127,7 +128,7 @@ public class CrystalToolsBlockSkillTrees {
                     .blockNode(21, furnaceSlot(4), desc.furnaceSlot(), SLOT_BONUS, 1)
                         .nodeRequirement(16)
                         .previousTierOrRequirements()
-                    .blockNode(22, AUTO_OUTPUT, desc.autoOutput(), BlockEntityResourceLocations.AUTO_OUTPUT, 1)
+                    .blockNode(22, AUTO_OUTPUT, desc.autoOutput(), BlockEntityIdentifiers.AUTO_OUTPUT, 1)
                         .previousTierOrRequirements()
                     .blockNode(23, SAVE_FUEL, desc.saveFuel(), BlockEntityResourceLocations.SAVE_FUEL, 1)
                         .previousTierOrRequirements()
@@ -167,7 +168,7 @@ public class CrystalToolsBlockSkillTrees {
                     .blockNode(5, miningSpeed(4), desc.miningSpeed(), MINING_SPEED, 1)
                         .energyCost()
                         .nodeRequirement(4)
-                    .blockNode(6, AUTO_OUTPUT, desc.autoOutput(), BlockEntityResourceLocations.AUTO_OUTPUT, 1)
+                    .blockNode(6, AUTO_OUTPUT, desc.autoOutput(), BlockEntityIdentifiers.AUTO_OUTPUT, 1)
                         .nodeRequirement(4)
                     .blockNode(7, trashFilter(2), desc.trashFilter(), TRASH_FILTER, 1)
                         .nodeRequirement(4)
@@ -195,7 +196,7 @@ public class CrystalToolsBlockSkillTrees {
                     .blockNode(14, miningSpeed(8), desc.miningSpeed(), MINING_SPEED, 1)
                         .energyCost()
                         .nodeRequirement(13)
-                    .blockNode(15, CHUNK_LOADING, desc.chunkLoading(), BlockEntityResourceLocations.CHUNK_LOADING, 1)
+                    .blockNode(15, CHUNK_LOADING, desc.chunkLoading(), BlockEntityIdentifiers.CHUNK_LOADING, 1)
                         .subText("NOTE: Will only tick the chunk that the quarry block is in.\nMake sure to keep your power generation in the same chunk.", "#ABABAB")
                         .nodeRequirement(13)
                 .tier()

@@ -1,16 +1,17 @@
 package dev.willyelton.crystal_tools.common.inventory.container;
 
 import dev.willyelton.crystal_tools.ModRegistration;
-import dev.willyelton.crystal_tools.common.inventory.container.slot.CrystalSlotItemHandler;
-import dev.willyelton.crystal_tools.common.inventory.container.slot.NoInsertSlot;
-import dev.willyelton.crystal_tools.common.inventory.container.slot.backpack.BackpackFilterSlot;
-import dev.willyelton.crystal_tools.common.inventory.container.subscreen.FilterContainerMenu;
-import dev.willyelton.crystal_tools.common.inventory.container.subscreen.FilterMenuContents;
-import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SideConfigContainerMenu;
-import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenContainerMenu;
-import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenType;
+import dev.willyelton.crystal_tools.api.common.inventory.container.EnergyLevelableContainerMenu;
+import dev.willyelton.crystal_tools.api.common.inventory.container.slot.CrystalSlotItemHandler;
+import dev.willyelton.crystal_tools.api.common.inventory.container.slot.NoInsertSlot;
+import dev.willyelton.crystal_tools.api.common.inventory.container.slot.FilterSlot;
+import dev.willyelton.crystal_tools.api.common.inventory.container.subscreen.FilterContainerMenu;
+import dev.willyelton.crystal_tools.api.common.inventory.container.subscreen.FilterMenuContents;
+import dev.willyelton.crystal_tools.api.common.inventory.container.subscreen.SideConfigContainerMenu;
+import dev.willyelton.crystal_tools.api.common.inventory.container.subscreen.SubScreenContainerMenu;
+import dev.willyelton.crystal_tools.api.common.inventory.container.SubScreenType;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalQuarryBlockEntity;
-import dev.willyelton.crystal_tools.common.levelable.block.entity.SideConfigBlockEntity;
+import dev.willyelton.crystal_tools.api.common.block.entity.SideConfigBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Inventory;
@@ -47,7 +48,7 @@ public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu imp
 
         filterMenuContents = new FilterMenuContents<>(this, filterRows, true);
         this.addSlotBox(blockEntity.getItemHandler(), 0, 8, 59, 9, SLOT_SIZE, 3, SLOT_SIZE, quarrySlots, NoInsertSlot::new);
-        this.addSlotBox(blockEntity.getFilterItemHandler(), 0, 8, 18, 9, SLOT_SIZE, filterRows, SLOT_SIZE, filterMenuContents.getFilterSlots(), BackpackFilterSlot::new);
+        this.addSlotBox(blockEntity.getFilterItemHandler(), 0, 8, 18, 9, SLOT_SIZE, filterRows, SLOT_SIZE, filterMenuContents.getFilterSlots(), FilterSlot::new);
         filterMenuContents.toggleSlots(false);
     }
 
@@ -97,7 +98,7 @@ public class CrystalQuarryContainerMenu extends EnergyLevelableContainerMenu imp
         if (slotId >= 0) {
             Slot slot = getSlot(slotId);
 
-            if (slot instanceof BackpackFilterSlot filterSlot) {
+            if (slot instanceof FilterSlot filterSlot) {
                 if (filterMenuContents.getInventory() == null || clickType == ContainerInput.THROW || clickType == ContainerInput.CLONE) {
                     return;
                 }

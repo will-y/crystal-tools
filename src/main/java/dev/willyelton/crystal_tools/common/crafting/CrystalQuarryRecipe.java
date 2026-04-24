@@ -1,10 +1,10 @@
 package dev.willyelton.crystal_tools.common.crafting;
 
 import dev.willyelton.crystal_tools.ModRegistration;
-import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.components.LevelableBlockEntityData;
+import dev.willyelton.crystal_tools.api.Registration;
+import dev.willyelton.crystal_tools.api.common.datacomponent.LevelableBlockEntityData;
+import dev.willyelton.crystal_tools.api.utils.ToolUtils;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.utils.ToolUtils;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -50,7 +50,7 @@ public class CrystalQuarryRecipe extends CrystalToolsRecipe {
         int cap = ToolUtils.getNewCap(CrystalToolsConfig.QUARRY_BASE_EXPERIENCE_CAP.get(), points);
 
         LevelableBlockEntityData skillData = new LevelableBlockEntityData(points, cap);
-        result.set(DataComponents.LEVELABLE_BLOCK_ENTITY_DATA, skillData);
+        result.set(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.LEVELABLE_BLOCK_ENTITY_DATA, skillData);
 
         return result;
     }
@@ -62,8 +62,8 @@ public class CrystalQuarryRecipe extends CrystalToolsRecipe {
 
     @Override
     public List<ItemStack> getInputs() {
-        return Stream.of(ModRegistration.CRYSTAL_BLOCK_ITEM.get(), ModRegistration.CRYSTAL.get(), ModRegistration.CRYSTAL_BLOCK_ITEM.get(),
-                ModRegistration.CRYSTAL.get(), ModRegistration.CRYSTAL_AIOT.get(), ModRegistration.CRYSTAL.get(), Items.NETHERITE_INGOT,
+        return Stream.of(ModRegistration.CRYSTAL_BLOCK_ITEM.get(), Registration.CRYSTAL.get(), ModRegistration.CRYSTAL_BLOCK_ITEM.get(),
+                Registration.CRYSTAL.get(), ModRegistration.CRYSTAL_AIOT.get(), Registration.CRYSTAL.get(), Items.NETHERITE_INGOT,
                 Items.NETHERITE_INGOT, Items.NETHERITE_INGOT).map(ItemStack::new).toList();
     }
 

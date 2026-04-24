@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.common.levelable.condition;
 
 import dev.willyelton.crystal_tools.ModRegistration;
+import dev.willyelton.crystal_tools.api.common.levelable.condition.LevelableEntityCondition;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.wolf.Wolf;

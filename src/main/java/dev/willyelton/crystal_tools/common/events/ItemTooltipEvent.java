@@ -2,12 +2,12 @@ package dev.willyelton.crystal_tools.common.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
-import dev.willyelton.crystal_tools.common.capability.Capabilities;
-import dev.willyelton.crystal_tools.common.capability.LevelableStack;
+import dev.willyelton.crystal_tools.api.common.capability.Capabilities;
+import dev.willyelton.crystal_tools.api.common.capability.LevelableStack;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.levelable.LevelableTooltip;
-import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
-import dev.willyelton.crystal_tools.utils.ToolUtils;
+import dev.willyelton.crystal_tools.api.common.levelable.LevelableTooltip;
+import dev.willyelton.crystal_tools.api.utils.EnchantmentUtils;
+import dev.willyelton.crystal_tools.api.utils.ToolUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -37,19 +37,19 @@ public class ItemTooltipEvent {
             tooltips.add(index++, Component.literal("\u00A7c\u00A7l" + "Broken"));
         }
 
-        int experience = stack.getOrDefault(DataComponents.SKILL_EXPERIENCE, 0);
+        int experience = stack.getOrDefault(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.SKILL_EXPERIENCE, 0);
         int experienceCap = levelableStack.getExperienceCap();
         tooltips.add(index++, Component.literal(String.format("%d/%d XP To Next Level", experience, experienceCap)));
 
-        int skillPoints = stack.getOrDefault(DataComponents.SKILL_POINTS, 0);
+        int skillPoints = stack.getOrDefault(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.SKILL_POINTS, 0);
         if (skillPoints > 0) {
             tooltips.add(index++, Component.literal(String.format("%d Unspent Skill Points (%s to open skill tree)",
                     skillPoints, RegisterKeyBindingsEvent.UPGRADE_MENU.getKey().getDisplayName().getString())));
         }
 
         if (stack.getOrDefault(DataComponents.MINE_MODE, false)
-                && stack.getOrDefault(DataComponents.SILK_TOUCH_BONUS, false)
-                && stack.getOrDefault(DataComponents.FORTUNE_BONUS, 0) > 0) {
+                && stack.getOrDefault(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.SILK_TOUCH_BONUS, false)
+                && stack.getOrDefault(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.FORTUNE_BONUS, 0) > 0) {
             // Only show mode if it has both enchantments
             String mode = EnchantmentUtils.hasEnchantment(stack, Enchantments.SILK_TOUCH) ? "Silk Touch" : "Fortune";
             String changeKey = RegisterKeyBindingsEvent.MODE_SWITCH == null ? "" : " (" + RegisterKeyBindingsEvent.MODE_SWITCH.getKey().getDisplayName().getString() + " to change)";
@@ -79,7 +79,7 @@ public class ItemTooltipEvent {
             tooltips.add(index++, Component.literal(String.format("\u00A72%d/%d Totems of Undying", stack.getOrDefault(DataComponents.FILLED_TOTEM_SLOTS, 0), totemSlots)));
         }
 
-        LevelableTooltip levelableTooltip = stack.get(DataComponents.SKILL_TOOLTIP);
+        LevelableTooltip levelableTooltip = stack.get(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.SKILL_TOOLTIP);
         if (levelableTooltip != null) {
             levelableTooltip.addTooltips(tooltips, event.getContext(), event.getFlags(), index);
         }

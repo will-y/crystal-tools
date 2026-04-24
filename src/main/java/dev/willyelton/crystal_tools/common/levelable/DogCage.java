@@ -1,8 +1,8 @@
 package dev.willyelton.crystal_tools.common.levelable;
 
-import dev.willyelton.crystal_tools.ModRegistration;
+import dev.willyelton.crystal_tools.api.Registration;
+import dev.willyelton.crystal_tools.api.common.skill.attachment.EntitySkillData;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.common.levelable.skill.attachment.EntitySkillData;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import dev.willyelton.crystal_tools.utils.constants.EntitySkills;
 import net.minecraft.ChatFormatting;
@@ -45,7 +45,7 @@ public class DogCage extends Item implements MobCaptureTool {
         if (CrystalToolsConfig.PICK_UP_OTHER_ENTITIES.get()) {
             return !livingEntity.is(CrystalToolsTags.PICKUP_ENTITY_BLACKLIST);
         } else {
-            EntitySkillData skillData = livingEntity.getData(ModRegistration.ENTITY_SKILL);
+            EntitySkillData skillData = livingEntity.getData(Registration.ENTITY_SKILL);
             if (skillData.hasSkill(EntitySkills.CRATE_TRAINING)) {
                 if (livingEntity instanceof TamableAnimal tamableAnimal) {
                     return tamableAnimal.isOwnedBy(player);
@@ -71,7 +71,7 @@ public class DogCage extends Item implements MobCaptureTool {
             }
         }
 
-        EntitySkillData skillData = livingEntity.getData(ModRegistration.ENTITY_SKILL);
+        EntitySkillData skillData = livingEntity.getData(Registration.ENTITY_SKILL);
         if (!skillData.hasSkill(EntitySkills.CRATE_TRAINING)) {
             return Component.translatable("tooltip.crystal_tools.dog_cage_not_trained", entityName);
         }

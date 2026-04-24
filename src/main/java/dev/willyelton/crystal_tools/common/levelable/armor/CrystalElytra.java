@@ -1,8 +1,8 @@
 package dev.willyelton.crystal_tools.common.levelable.armor;
 
 import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
-import dev.willyelton.crystal_tools.common.capability.Capabilities;
-import dev.willyelton.crystal_tools.common.capability.Levelable;
+import dev.willyelton.crystal_tools.api.common.capability.Capabilities;
+import dev.willyelton.crystal_tools.api.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.common.levelable.tool.LevelableTool;
@@ -38,7 +38,7 @@ public class CrystalElytra extends LevelableTool implements LevelableItem {
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> components, TooltipFlag flag) {
         String modeSwitchKey = RegisterKeyBindingsEvent.MODE_SWITCH.getKey().getDisplayName().getString();
 
-        if (stack.getOrDefault(DataComponents.CREATIVE_FLIGHT, false)) {
+        if (stack.getOrDefault(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.CREATIVE_FLIGHT, false)) {
             if (stack.getOrDefault(DataComponents.DISABLE_CREATIVE_FLIGHT, false)) {
                 components.accept(Component.literal("\u00A7c\u00A7l" + "Creative Flight Disabled (Ctrl + " + modeSwitchKey + ") To Enable"));
             } else {

@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.inventory;
 
-import dev.willyelton.crystal_tools.utils.TransferUtils;
+import dev.willyelton.crystal_tools.api.utils.TransferUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Containers;

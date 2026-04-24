@@ -4,7 +4,7 @@ import com.google.common.base.Predicates;
 import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.datamap.GeneratorFuelData;
-import dev.willyelton.crystal_tools.utils.ItemStackUtils;
+import dev.willyelton.crystal_tools.api.utils.ItemStackUtils;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;

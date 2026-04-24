@@ -2,10 +2,11 @@ package dev.willyelton.crystal_tools.common.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.ModRegistration;
+import dev.willyelton.crystal_tools.api.Registration;
+import dev.willyelton.crystal_tools.api.common.datamap.CrystalCoreDataMaps;
+import dev.willyelton.crystal_tools.api.common.skill.attachment.EntitySkillData;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.datamap.DataMaps;
 import dev.willyelton.crystal_tools.common.levelable.MobCaptureTool;
-import dev.willyelton.crystal_tools.common.levelable.skill.attachment.EntitySkillData;
 import dev.willyelton.crystal_tools.utils.constants.EntitySkills;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -40,7 +41,7 @@ public class LivingDeathEvent {
 
             if (weaponStack != null && deadEntity.level() instanceof ServerLevel serverLevel) {
                 if (weaponStack.getOrDefault(DataComponents.BEHEADING, 0).floatValue() > serverLevel.getRandom().nextFloat()) {
-                    Item skullItem = deadEntity.getType().builtInRegistryHolder().getData(DataMaps.MOB_HEADS);
+                    Item skullItem = deadEntity.getType().builtInRegistryHolder().getData(CrystalCoreDataMaps.MOB_HEADS);
                     spawnItem(serverLevel, deadEntity, skullItem);
                 }
 
@@ -66,7 +67,7 @@ public class LivingDeathEvent {
 
     private static boolean reviveEntity(Entity deadEntity) {
         if (deadEntity instanceof LivingEntity livingEntity && livingEntity.level() instanceof ServerLevel serverLevel) {
-            EntitySkillData entitySkillData = livingEntity.getData(ModRegistration.ENTITY_SKILL);
+            EntitySkillData entitySkillData = livingEntity.getData(Registration.ENTITY_SKILL);
             if (entitySkillData.hasSkill(EntitySkills.IMMORTALITY)) {
                 livingEntity.setHealth(livingEntity.getMaxHealth() / 2);
                 ItemStack cageItem = new ItemStack(ModRegistration.CRYSTAL_DOG_CAGE);

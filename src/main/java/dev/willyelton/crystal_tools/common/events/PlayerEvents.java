@@ -2,13 +2,13 @@ package dev.willyelton.crystal_tools.common.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.ModRegistration;
-import dev.willyelton.crystal_tools.common.capability.Capabilities;
-import dev.willyelton.crystal_tools.common.capability.Levelable;
+import dev.willyelton.crystal_tools.api.common.capability.Capabilities;
+import dev.willyelton.crystal_tools.api.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.common.levelable.CrystalBackpack;
-import dev.willyelton.crystal_tools.utils.InventoryUtils;
-import dev.willyelton.crystal_tools.utils.ToolUtils;
+import dev.willyelton.crystal_tools.api.utils.InventoryUtils;
+import dev.willyelton.crystal_tools.api.utils.ToolUtils;
 import net.minecraft.util.TriState;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;

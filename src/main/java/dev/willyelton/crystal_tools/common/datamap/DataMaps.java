@@ -1,8 +1,6 @@
 package dev.willyelton.crystal_tools.common.datamap;
 
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.registries.datamaps.DataMapType;
 
@@ -21,27 +19,6 @@ public class DataMaps {
                     Registries.ITEM,
                     GeneratorFuelData.CODEC)
             .synced(GeneratorFuelData.CODEC, false)
-            .build();
-
-    public static final DataMapType<EntityType<?>, Item> MOB_HEADS = DataMapType.builder(
-                    rl("mob_heads"),
-                    Registries.ENTITY_TYPE,
-                    BuiltInRegistries.ITEM.byNameCodec())
-            .synced(BuiltInRegistries.ITEM.byNameCodec(), false)
-            .build();
-
-    public static final DataMapType<Item, SkillTreeData> SKILL_TREES = DataMapType.builder(
-                    rl("skill_trees"),
-                    Registries.ITEM,
-                    SkillTreeData.CODEC)
-            .synced(SkillTreeData.CODEC, true)
-            .build();
-
-    public static final DataMapType<EntityType<?>, SkillTreeData> ENTITY_SKILL_TREES = DataMapType.builder(
-                    rl("entity_skill_trees"),
-                    Registries.ENTITY_TYPE,
-                    SkillTreeData.CODEC)
-            .synced(SkillTreeData.CODEC, true)
             .build();
 
     public static final DataMapType<Item, ActionData> PEDESTAL_ACTIONS = DataMapType.builder(

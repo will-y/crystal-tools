@@ -5,7 +5,7 @@ import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.client.renderer.QuarryLaserRenderer;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.utils.Colors;
+import dev.willyelton.crystal_tools.api.utils.Colors;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;

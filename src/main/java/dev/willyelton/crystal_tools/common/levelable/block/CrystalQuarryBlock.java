@@ -1,8 +1,8 @@
 package dev.willyelton.crystal_tools.common.levelable.block;
 
 import com.mojang.serialization.MapCodec;
+import dev.willyelton.crystal_tools.api.common.inventory.container.CrystalToolsMenuProvider;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalQuarryBlockEntity;
-import dev.willyelton.crystal_tools.common.levelable.block.entity.LevelableBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;

@@ -1,5 +1,6 @@
 package dev.willyelton.crystal_tools.common.inventory.container;
 
+import dev.willyelton.crystal_tools.api.common.inventory.container.EnergyLevelableContainerMenu;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;

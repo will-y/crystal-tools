@@ -1,9 +1,9 @@
 package dev.willyelton.crystal_tools.common.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.common.capability.Capabilities;
-import dev.willyelton.crystal_tools.common.capability.LevelableStack;
-import dev.willyelton.crystal_tools.utils.ToolUtils;
+import dev.willyelton.crystal_tools.api.common.capability.Capabilities;
+import dev.willyelton.crystal_tools.api.common.capability.LevelableStack;
+import dev.willyelton.crystal_tools.api.utils.ToolUtils;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;

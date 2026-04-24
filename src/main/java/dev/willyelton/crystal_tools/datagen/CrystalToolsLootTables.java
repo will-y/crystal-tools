@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.datagen;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.ModRegistration;
+import dev.willyelton.crystal_tools.api.Registration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalTorch;
 import net.minecraft.advancements.criterion.StatePropertiesPredicate;
@@ -37,30 +38,30 @@ public class CrystalToolsLootTables extends VanillaBlockLoot {
         dropSelf(ModRegistration.QUARRY_STABILIZER.get());
         // TODO: Need to drop items
         dropSelf(ModRegistration.CRYSTAL_PEDESTAL.get());
-        add(ModRegistration.CRYSTAL_ORE.get(), createOreDrop(ModRegistration.CRYSTAL_ORE.get(), ModRegistration.CRYSTAL.get()));
-        add(ModRegistration.CRYSTAL_DEEPSLATE_ORE.get(), createOreDrop(ModRegistration.CRYSTAL_DEEPSLATE_ORE.get(), ModRegistration.CRYSTAL.get()));
+        add(ModRegistration.CRYSTAL_ORE.get(), createOreDrop(ModRegistration.CRYSTAL_ORE.get(), Registration.CRYSTAL.get()));
+        add(ModRegistration.CRYSTAL_DEEPSLATE_ORE.get(), createOreDrop(ModRegistration.CRYSTAL_DEEPSLATE_ORE.get(), Registration.CRYSTAL.get()));
         createTorchTable(ModRegistration.CRYSTAL_TORCH.get());
         createComponentSavingTable(ModRegistration.CRYSTAL_FURNACE.get(),
                 DataComponents.FURNACE_DATA.get(),
                 DataComponents.FURNACE_UPGRADES.get(),
-                DataComponents.LEVELABLE_BLOCK_ENTITY_DATA.get(),
+                dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.LEVELABLE_BLOCK_ENTITY_DATA.get(),
                 net.minecraft.core.component.DataComponents.CONTAINER,
-                DataComponents.AUTO_OUTPUT.get());
+                dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.AUTO_OUTPUT.get());
         createComponentSavingTable(ModRegistration.CRYSTAL_GENERATOR.get(),
-                DataComponents.LEVELABLE_BLOCK_ENTITY_DATA.get(),
+                dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.LEVELABLE_BLOCK_ENTITY_DATA.get(),
                 DataComponents.GENERATOR_DATA.get(),
                 DataComponents.GENERATOR_UPGRADES.get(),
                 net.minecraft.core.component.DataComponents.CONTAINER);
         createComponentSavingTable(ModRegistration.CRYSTAL_QUARRY.get(),
-                DataComponents.LEVELABLE_BLOCK_ENTITY_DATA.get(),
+                dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.LEVELABLE_BLOCK_ENTITY_DATA.get(),
                 net.minecraft.core.component.DataComponents.CONTAINER,
                 DataComponents.QUARRY_BOUNDS.get(),
                 DataComponents.QUARRY_DATA.get(),
                 DataComponents.QUARRY_UPGRADES.get(),
                 DataComponents.QUARRY_SETTINGS.get(),
-                DataComponents.FILTER_INVENTORY.get(),
-                DataComponents.AUTO_OUTPUT.get(),
-                DataComponents.CHUNKLOADING.get());
+                dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.FILTER_INVENTORY.get(),
+                dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.AUTO_OUTPUT.get(),
+                dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.CHUNKLOADING.get());
     }
 
     @Override

@@ -4,9 +4,9 @@ import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.components.FurnaceUpgrades;
 import dev.willyelton.crystal_tools.common.components.GeneratorData;
 import dev.willyelton.crystal_tools.common.components.GeneratorUpgrades;
-import dev.willyelton.crystal_tools.common.components.LevelableBlockEntityData;
-import dev.willyelton.crystal_tools.utils.ItemStackUtils;
-import dev.willyelton.crystal_tools.utils.StringUtils;
+import dev.willyelton.crystal_tools.api.common.datacomponent.LevelableBlockEntityData;
+import dev.willyelton.crystal_tools.api.utils.ItemStackUtils;
+import dev.willyelton.crystal_tools.api.utils.StringUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -25,7 +25,7 @@ public class LevelableBlockItem extends BlockItem {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> components, TooltipFlag tooltipFlag) {
-        LevelableBlockEntityData entityData = stack.get(DataComponents.LEVELABLE_BLOCK_ENTITY_DATA);
+        LevelableBlockEntityData entityData = stack.get(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.LEVELABLE_BLOCK_ENTITY_DATA);
         if (entityData != null) {
             components.accept(Component.literal(String.format("%d/%d XP To Next Level", entityData.exp(), entityData.expCap())));
             int skillPoints = entityData.skillPoints();
@@ -94,10 +94,10 @@ public class LevelableBlockItem extends BlockItem {
             }
 
             // Actions
-            if (stack.getOrDefault(DataComponents.AUTO_OUTPUT, false)) {
+            if (stack.getOrDefault(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.AUTO_OUTPUT, false)) {
                 components.accept(Component.literal("\u00A76     Auto Output"));
             }
-            if (stack.getOrDefault(DataComponents.CHUNKLOADING, false)) {
+            if (stack.getOrDefault(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.CHUNKLOADING, false)) {
                 components.accept(Component.literal("\u00A76     Chunkloading"));
             }
         }

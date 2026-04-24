@@ -1,9 +1,9 @@
 package dev.willyelton.crystal_tools.datagen;
 
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.events.DatapackRegistryEvents;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
-import dev.willyelton.crystal_tools.utils.constants.SkillTreeDescriptions;
+import dev.willyelton.crystal_tools.api.common.event.DatapackRegistryEvents;
+import dev.willyelton.crystal_tools.api.common.skill.SkillData;
+import dev.willyelton.crystal_tools.api.utils.constants.SkillTreeDescriptions;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -13,13 +13,13 @@ import java.util.List;
 
 import static dev.willyelton.crystal_tools.CrystalTools.rl;
 import static dev.willyelton.crystal_tools.datagen.CrystalToolsItemSkillTrees.attr;
-import static dev.willyelton.crystal_tools.utils.constants.SkillConstants.DURABILITY;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.attackDamage;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.attackSpeed;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.durability;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.miningSpeed;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.reach;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.unbreaking;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillConstants.DURABILITY;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillTreeTitles.attackDamage;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillTreeTitles.attackSpeed;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillTreeTitles.durability;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillTreeTitles.miningSpeed;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillTreeTitles.reach;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillTreeTitles.unbreaking;
 
 public class MinecraftItemSkillTrees {
     public static void registerSkillTrees(BootstrapContext<SkillData> context) {

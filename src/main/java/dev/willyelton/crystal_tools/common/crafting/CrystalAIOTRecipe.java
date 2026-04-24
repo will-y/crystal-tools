@@ -1,9 +1,9 @@
 package dev.willyelton.crystal_tools.common.crafting;
 
 import dev.willyelton.crystal_tools.ModRegistration;
-import dev.willyelton.crystal_tools.common.components.DataComponents;
+import dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
-import dev.willyelton.crystal_tools.utils.ArrayUtils;
+import dev.willyelton.crystal_tools.api.utils.ArrayUtils;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;

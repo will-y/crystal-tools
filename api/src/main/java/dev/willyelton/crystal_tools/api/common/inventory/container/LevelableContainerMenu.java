@@ -1,0 +1,58 @@
+package dev.willyelton.crystal_tools.api.common.inventory.container;
+
+import dev.willyelton.crystal_tools.api.common.block.entity.LevelableBlockEntity;
+import dev.willyelton.crystal_tools.api.common.block.entity.model.ILevelableContainerData;
+import dev.willyelton.crystal_tools.api.common.skill.SkillPoints;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.level.Level;
+
+public abstract class LevelableContainerMenu extends BaseContainerMenu {
+    private final ILevelableContainerData levelableContainerData;
+
+    protected LevelableContainerMenu(MenuType<?> menuType, int containerId, Inventory playerInventory, ContainerData data) {
+        super(menuType, containerId, playerInventory, data);
+        levelableContainerData = (ILevelableContainerData) data;
+    }
+
+    public int getSkillPoints() {
+        return levelableContainerData.getSkillPoints();
+    }
+
+    public void addSkillPoints(int points) {
+        levelableContainerData.addSkillPoints(points);
+    }
+
+    public void addToPoints(int nodeId, int value) {
+        levelableContainerData.addToPoints(nodeId, value);
+    }
+
+    public int getExp() {
+        return levelableContainerData.getExp();
+    }
+
+    public int getExpCap() {
+        return levelableContainerData.getExpCap();
+    }
+
+    public SkillPoints getPoints() {
+        return levelableContainerData.getPoints();
+    }
+
+    public Player getPlayer() {
+        return this.player;
+    }
+
+    public abstract LevelableBlockEntity getBlockEntity();
+
+    public BlockPos getBlockPos() {
+        return getBlockEntity().getBlockPos();
+    }
+
+    public Level getLevel() {
+        return getBlockEntity() == null ? null : getBlockEntity().getLevel();
+    }
+}

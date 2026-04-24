@@ -2,14 +2,14 @@ package dev.willyelton.crystal_tools.common.network.handler;
 
 import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
+import dev.willyelton.crystal_tools.api.common.skill.SkillData;
 import dev.willyelton.crystal_tools.common.levelable.tool.UseMode;
 import dev.willyelton.crystal_tools.common.network.data.ModeSwitchPayload;
-import dev.willyelton.crystal_tools.utils.AttributeUtils;
-import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
-import dev.willyelton.crystal_tools.utils.InventoryUtils;
-import dev.willyelton.crystal_tools.utils.ItemStackUtils;
-import dev.willyelton.crystal_tools.utils.RegistryUtils;
+import dev.willyelton.crystal_tools.api.utils.AttributeUtils;
+import dev.willyelton.crystal_tools.api.utils.EnchantmentUtils;
+import dev.willyelton.crystal_tools.api.utils.InventoryUtils;
+import dev.willyelton.crystal_tools.api.utils.ItemStackUtils;
+import dev.willyelton.crystal_tools.api.utils.RegistryUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -72,11 +72,11 @@ public class ModeSwitchHandler {
                 }
             } else {
                 // silk touch or fortune
-                if (EnchantmentUtils.hasEnchantment(tool, Enchantments.SILK_TOUCH) && tool.getOrDefault(DataComponents.FORTUNE_BONUS, 0) > 0) {
+                if (EnchantmentUtils.hasEnchantment(tool, Enchantments.SILK_TOUCH) && tool.getOrDefault(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.FORTUNE_BONUS, 0) > 0) {
                     EnchantmentUtils.removeEnchantment(tool, Enchantments.SILK_TOUCH);
-                    EnchantmentUtils.addEnchantment(tool, Enchantments.FORTUNE, tool.getOrDefault(DataComponents.FORTUNE_BONUS, 3), player);
+                    EnchantmentUtils.addEnchantment(tool, Enchantments.FORTUNE, tool.getOrDefault(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.FORTUNE_BONUS, 3), player);
                     player.sendOverlayMessage(Component.literal("Mine Mode: Fortune"));
-                } else if (EnchantmentUtils.hasEnchantment(tool, Enchantments.FORTUNE) && tool.getOrDefault(DataComponents.SILK_TOUCH_BONUS, false)) {
+                } else if (EnchantmentUtils.hasEnchantment(tool, Enchantments.FORTUNE) && tool.getOrDefault(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.SILK_TOUCH_BONUS, false)) {
                     EnchantmentUtils.removeEnchantment(tool, Enchantments.FORTUNE);
                     EnchantmentUtils.addEnchantment(tool, Enchantments.SILK_TOUCH, 1, player);
                     player.sendOverlayMessage(Component.literal("Mine Mode: Silk Touch"));
@@ -135,20 +135,20 @@ public class ModeSwitchHandler {
     }
 
     private void disableCreativeFlight(Player player, ItemStack stack, SkillData skillData) {
-        if (stack.getOrDefault(DataComponents.CREATIVE_FLIGHT, false)) {
+        if (stack.getOrDefault(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.CREATIVE_FLIGHT, false)) {
             boolean added = AttributeUtils.toggleAttribute(stack, NeoForgeMod.CREATIVE_FLIGHT, skillData);
             player.sendOverlayMessage(Component.literal("Creative Flight " + (added ? "Enabled" : "Disabled")));
         }
     }
 
     private void disableFrostWalker(Player player, ItemStack stack) {
-        if (stack.getOrDefault(DataComponents.FROST_WALKER, false) || EnchantmentUtils.hasEnchantment(stack, Enchantments.FROST_WALKER)) {
+        if (stack.getOrDefault(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.FROST_WALKER, false) || EnchantmentUtils.hasEnchantment(stack, Enchantments.FROST_WALKER)) {
             if (EnchantmentUtils.hasEnchantment(stack, Enchantments.FROST_WALKER)) {
                 EnchantmentUtils.removeEnchantment(stack, Enchantments.FROST_WALKER);
-                stack.set(DataComponents.FROST_WALKER, true);
+                stack.set(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.FROST_WALKER, true);
 
                 player.sendOverlayMessage(Component.literal("Frost Walker Disabled"));
-            } else if (stack.getOrDefault(DataComponents.FROST_WALKER, false)) {
+            } else if (stack.getOrDefault(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.FROST_WALKER, false)) {
                 EnchantmentUtils.addEnchantment(stack, Enchantments.FROST_WALKER, 2, player);
 
                 player.sendOverlayMessage(Component.literal("Frost Walker Enabled"));

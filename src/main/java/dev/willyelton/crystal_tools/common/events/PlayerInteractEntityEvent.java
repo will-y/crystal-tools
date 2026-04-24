@@ -2,9 +2,8 @@ package dev.willyelton.crystal_tools.common.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.ModRegistration;
-import dev.willyelton.crystal_tools.client.gui.EntityUpgradeScreen;
-import dev.willyelton.crystal_tools.client.gui.ModGUIs;
-import dev.willyelton.crystal_tools.common.capability.LevelableEntity;
+import dev.willyelton.crystal_tools.api.client.gui.EntityUpgradeScreen;
+import dev.willyelton.crystal_tools.api.common.capability.LevelableEntity;
 import dev.willyelton.crystal_tools.common.levelable.MobCaptureTool;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -17,6 +16,8 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+
+import static dev.willyelton.crystal_tools.api.utils.ScreenUtils.openScreen;
 
 @EventBusSubscriber(modid = CrystalTools.MODID)
 public class PlayerInteractEntityEvent {
@@ -40,7 +41,7 @@ public class PlayerInteractEntityEvent {
                 LevelableEntity levelable = LevelableEntity.of(livingEntity, event.getLevel().registryAccess());
                 if (levelable != null && levelable.checkConditions(livingEntity, player)) {
                     if (event.getLevel().isClientSide()) {
-                        ModGUIs.openScreen(new EntityUpgradeScreen(livingEntity, player, levelable));
+                        openScreen(new EntityUpgradeScreen(livingEntity, player, levelable));
                     }
 
                     event.setCanceled(true);

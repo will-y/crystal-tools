@@ -1,6 +1,9 @@
 package dev.willyelton.crystal_tools.client.gui;
 
 import dev.willyelton.crystal_tools.CrystalTools;
+import dev.willyelton.crystal_tools.api.client.gui.BaseMenuUpgradeScreen;
+import dev.willyelton.crystal_tools.api.client.gui.ContainerSubScreen;
+import dev.willyelton.crystal_tools.api.client.gui.SideConfigScreen;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalFurnaceContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.furnace.CrystalFurnaceFuelSlot;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.furnace.CrystalFurnaceInputSlot;
@@ -15,9 +18,11 @@ import net.minecraft.world.inventory.Slot;
 
 import java.util.List;
 
+import static dev.willyelton.crystal_tools.api.utils.constants.ApiConstants.baseRl;
+
 // TODO: Need to hide slots and align inventory
 public class CrystalFurnaceScreen extends BaseMenuUpgradeScreen<CrystalFurnaceContainerMenu> {
-    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(CrystalTools.MODID ,"textures/gui/crystal_furnace.png");
+    private static final Identifier TEXTURE = baseRl("textures/gui/crystal_furnace.png");
     private static final int SLOT_TEXTURE_X = 176;
     private static final int SLOT_TEXTURE_Y = 27;
     private static final int SLOT_TEXTURE_SIZE = 18;

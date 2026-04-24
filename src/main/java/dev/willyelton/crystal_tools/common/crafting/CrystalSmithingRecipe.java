@@ -1,8 +1,8 @@
 package dev.willyelton.crystal_tools.common.crafting;
 
-import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
-import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
+import dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents;
+import dev.willyelton.crystal_tools.api.common.skill.SkillPoints;
+import dev.willyelton.crystal_tools.api.utils.EnchantmentUtils;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;

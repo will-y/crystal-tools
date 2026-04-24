@@ -1,6 +1,7 @@
 package dev.willyelton.crystal_tools.common.levelable.block;
 
 import com.mojang.serialization.MapCodec;
+import dev.willyelton.crystal_tools.api.common.inventory.container.CrystalToolsMenuProvider;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.components.GeneratorData;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalGeneratorBlockEntity;

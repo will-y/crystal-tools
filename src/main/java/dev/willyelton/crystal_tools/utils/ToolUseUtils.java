@@ -2,9 +2,11 @@ package dev.willyelton.crystal_tools.utils;
 
 import com.mojang.datafixers.util.Pair;
 import dev.willyelton.crystal_tools.ModRegistration;
+import dev.willyelton.crystal_tools.api.common.capability.Capabilities;
+import dev.willyelton.crystal_tools.api.common.capability.Levelable;
+import dev.willyelton.crystal_tools.api.utils.BlockCollectors;
+import dev.willyelton.crystal_tools.api.utils.ToolUtils;
 import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
-import dev.willyelton.crystal_tools.common.capability.Capabilities;
-import dev.willyelton.crystal_tools.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalTorch;
 import dev.willyelton.crystal_tools.common.levelable.tool.VeinMinerLevelableTool;

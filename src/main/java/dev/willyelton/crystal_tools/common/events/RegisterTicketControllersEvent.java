@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.common.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.common.levelable.block.entity.action.ChunkLoadingAction;
+import dev.willyelton.crystal_tools.api.common.block.entity.action.ChunkLoadingAction;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 

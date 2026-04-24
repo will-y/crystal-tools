@@ -1,14 +1,14 @@
 package dev.willyelton.crystal_tools.common.levelable;
 
 import com.google.common.base.Predicates;
-import dev.willyelton.crystal_tools.common.capability.Levelable;
-import dev.willyelton.crystal_tools.common.compat.curios.CuriosCompatibility;
+import dev.willyelton.crystal_tools.api.common.block.entity.model.ILevelableContainerData;
+import dev.willyelton.crystal_tools.api.common.capability.Levelable;
+import dev.willyelton.crystal_tools.api.common.compat.curios.CuriosCompatibility;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.datamap.GeneratorFuelData;
 import dev.willyelton.crystal_tools.common.inventory.PortableGeneratorInventory;
 import dev.willyelton.crystal_tools.common.inventory.container.PortableGeneratorContainerMenu;
-import dev.willyelton.crystal_tools.common.levelable.block.entity.data.ILevelableContainerData;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.data.ItemStackLevelableContainerData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -41,8 +41,8 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import static dev.willyelton.crystal_tools.api.utils.StringUtils.intToCompactString;
 import static dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalGeneratorBlockEntity.getFuelData;
-import static dev.willyelton.crystal_tools.utils.StringUtils.intToCompactString;
 
 public class PortableGenerator extends Item implements LevelableItem {
     public PortableGenerator(Item.Properties properties) {
@@ -163,7 +163,7 @@ public class PortableGenerator extends Item implements LevelableItem {
                     stack.set(DataComponents.BURNING_ITEM_DATA, newFuelData);
                     stack.set(DataComponents.MAX_BURN_TIME, newFuelData.burnTime());
                     fuelData = newFuelData;
-                    Levelable levelable = stack.getCapability(dev.willyelton.crystal_tools.common.capability.Capabilities.ITEM_SKILL, level.registryAccess());
+                    Levelable levelable = stack.getCapability(dev.willyelton.crystal_tools.api.common.capability.Capabilities.ITEM_SKILL, level.registryAccess());
                     if (levelable != null && levelItems) {
                         levelable.addExp(level, pos, player, (float) Math.ceil(CrystalToolsConfig.PORTABLE_GENERATOR_SKILL_POINTS_PER_BURN_TIME.get() * newFuelData.burnTime()));
                     }

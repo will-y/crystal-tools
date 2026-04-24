@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.inventory.container.slot.backpack;
 
-import dev.willyelton.crystal_tools.common.inventory.container.slot.CrystalSlotItemHandler;
+import dev.willyelton.crystal_tools.api.common.inventory.container.slot.CrystalSlotItemHandler;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.transfer.IndexModifier;

@@ -1,7 +1,8 @@
 package dev.willyelton.crystal_tools.client.gui;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.client.gui.component.EnergyBarWidget;
+import dev.willyelton.crystal_tools.api.client.gui.BaseMenuUpgradeScreen;
+import dev.willyelton.crystal_tools.api.client.gui.component.EnergyBarWidget;
 import dev.willyelton.crystal_tools.common.inventory.container.AbstractGeneratorContainerMenu;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;

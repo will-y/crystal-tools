@@ -1,23 +1,25 @@
 package dev.willyelton.crystal_tools.common.inventory.container;
 
 import dev.willyelton.crystal_tools.ModRegistration;
-import dev.willyelton.crystal_tools.api.client.SlotFactory;
+import dev.willyelton.crystal_tools.api.common.inventory.SlotFactory;
+import dev.willyelton.crystal_tools.api.common.inventory.container.BaseContainerMenu;
+import dev.willyelton.crystal_tools.api.common.inventory.container.ScrollableMenu;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.inventory.CompressionItemStackHandler;
 import dev.willyelton.crystal_tools.common.inventory.CrystalBackpackInventory;
-import dev.willyelton.crystal_tools.common.inventory.container.slot.CrystalSlotItemHandler;
-import dev.willyelton.crystal_tools.common.inventory.container.slot.ReadOnlySlot;
-import dev.willyelton.crystal_tools.common.inventory.container.slot.ScrollableSlot;
-import dev.willyelton.crystal_tools.common.inventory.container.slot.backpack.BackpackFilterSlot;
+import dev.willyelton.crystal_tools.api.common.inventory.container.slot.CrystalSlotItemHandler;
+import dev.willyelton.crystal_tools.api.common.inventory.container.slot.ReadOnlySlot;
+import dev.willyelton.crystal_tools.api.common.inventory.container.slot.ScrollableSlot;
+import dev.willyelton.crystal_tools.api.common.inventory.container.slot.FilterSlot;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.backpack.CompressionInputSlot;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.backpack.CompressionOutputSlot;
-import dev.willyelton.crystal_tools.common.inventory.container.subscreen.FilterContainerMenu;
-import dev.willyelton.crystal_tools.common.inventory.container.subscreen.FilterMenuContents;
-import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenContainerMenu;
-import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenType;
+import dev.willyelton.crystal_tools.api.common.inventory.container.subscreen.FilterContainerMenu;
+import dev.willyelton.crystal_tools.api.common.inventory.container.subscreen.FilterMenuContents;
+import dev.willyelton.crystal_tools.api.common.inventory.container.subscreen.SubScreenContainerMenu;
+import dev.willyelton.crystal_tools.api.common.inventory.container.SubScreenType;
 import dev.willyelton.crystal_tools.common.levelable.CrystalBackpack;
-import dev.willyelton.crystal_tools.utils.TransferUtils;
+import dev.willyelton.crystal_tools.api.utils.TransferUtils;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -36,15 +38,15 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-import static dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenType.COMPRESS;
-import static dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenType.FILTER;
-import static dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenType.NONE;
+import static dev.willyelton.crystal_tools.api.common.inventory.container.SubScreenType.COMPRESS;
+import static dev.willyelton.crystal_tools.api.common.inventory.container.SubScreenType.FILTER;
+import static dev.willyelton.crystal_tools.api.common.inventory.container.SubScreenType.NONE;
+import static dev.willyelton.crystal_tools.api.utils.constants.ApiConstants.FILTER_SLOTS_PER_ROW;
 
 public class CrystalBackpackContainerMenu extends BaseContainerMenu implements ScrollableMenu, SubScreenContainerMenu, FilterContainerMenu {
     public static final int START_Y = 18;
     private static final int START_X = 8;
     private static final int SLOTS_PER_ROW = 9;
-    public static final int FILTER_SLOTS_PER_ROW = 9;
 
     private final CrystalBackpackInventory inventory;
     private CompressionItemStackHandler compressionInventory;
@@ -79,8 +81,8 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
         this.player = playerInventory.player;
         this.slotIndex = slotIndex;
         this.rows = inventory.size() / SLOTS_PER_ROW;
-        this.filterRows = stack.getOrDefault(DataComponents.FILTER_CAPACITY, 0);
-        this.filterMenuContents = new FilterMenuContents<>(this, filterRows * FILTER_SLOTS_PER_ROW, stack.getOrDefault(DataComponents.WHITELIST, true));
+        this.filterRows = stack.getOrDefault(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.FILTER_CAPACITY, 0);
+        this.filterMenuContents = new FilterMenuContents<>(this, filterRows * FILTER_SLOTS_PER_ROW, stack.getOrDefault(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.WHITELIST, true));
         this.canSort = stack.getOrDefault(DataComponents.SORT_ENABLED, false);
         this.canCompress = stack.getOrDefault(DataComponents.COMPRESSION_ENABLED, false);
         this.backpackSlots = NonNullList.createWithCapacity(rows * SLOTS_PER_ROW);
@@ -108,7 +110,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
             int filterRows = Math.min(rows, getFilterRows());
             this.addSlotBox(filterMenuContents.getInventory(), TransferUtils.indexModifier(filterMenuContents.getInventory()),
                     0, START_X, START_Y, FILTER_SLOTS_PER_ROW, SLOT_SIZE, filterRows, SLOT_SIZE, filterMenuContents.getFilterSlots(),
-                    BackpackFilterSlot::new);
+                    FilterSlot::new);
             filterMenuContents.toggleSlots(false);
         }
     }
@@ -229,7 +231,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
             switch (slot) {
                 case CompressionInputSlot compressionInputSlot -> compressionInputSlot.onClicked(getCarried());
                 case CompressionOutputSlot compressionOutputSlot -> compressionOutputSlot.onClicked(getCarried());
-                case BackpackFilterSlot filterSlot -> {
+                case FilterSlot filterSlot -> {
                     if (Objects.isNull(filterMenuContents.getInventory()) || clickType == ContainerInput.THROW || clickType == ContainerInput.CLONE) {
                         return;
                     }
@@ -261,7 +263,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
     @Override
     public void setWhitelist(boolean whitelist) {
         FilterContainerMenu.super.setWhitelist(whitelist);
-        stack.set(DataComponents.WHITELIST, whitelist);
+        stack.set(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.WHITELIST, whitelist);
     }
 
     public void sort() {
@@ -286,7 +288,7 @@ public class CrystalBackpackContainerMenu extends BaseContainerMenu implements S
             return null;
         }
 
-        return new ItemAccessItemHandler(ItemAccess.forStack(stack), DataComponents.FILTER_INVENTORY.get(), filterRows * FILTER_SLOTS_PER_ROW);
+        return new ItemAccessItemHandler(ItemAccess.forStack(stack), dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.FILTER_INVENTORY.get(), filterRows * FILTER_SLOTS_PER_ROW);
     }
 
     private CompressionItemStackHandler createCompressionInventory(ItemStack stack) {

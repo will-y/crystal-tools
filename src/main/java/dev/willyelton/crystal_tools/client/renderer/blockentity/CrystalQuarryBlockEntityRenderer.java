@@ -5,7 +5,7 @@ import dev.willyelton.crystal_tools.client.renderer.CrystalToolsRenderTypes;
 import dev.willyelton.crystal_tools.client.renderer.QuarryCubeModel;
 import dev.willyelton.crystal_tools.client.renderer.QuarryLaserRenderer;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalQuarryBlockEntity;
-import dev.willyelton.crystal_tools.utils.Colors;
+import dev.willyelton.crystal_tools.api.utils.Colors;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;

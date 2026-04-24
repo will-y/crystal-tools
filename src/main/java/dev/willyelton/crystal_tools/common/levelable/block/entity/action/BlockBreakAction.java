@@ -2,13 +2,18 @@ package dev.willyelton.crystal_tools.common.levelable.block.entity.action;
 
 import com.google.common.primitives.Floats;
 import com.mojang.serialization.Codec;
-import dev.willyelton.crystal_tools.common.capability.Levelable;
+import dev.willyelton.crystal_tools.ModRegistration;
+import dev.willyelton.crystal_tools.api.common.block.entity.ActionBlockEntity;
+import dev.willyelton.crystal_tools.api.common.block.entity.action.Action;
+import dev.willyelton.crystal_tools.api.common.block.entity.action.ActionParameters;
+import dev.willyelton.crystal_tools.api.common.capability.Levelable;
+import dev.willyelton.crystal_tools.api.utils.InventoryUtils;
+import dev.willyelton.crystal_tools.api.utils.ToolUtils;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.common.levelable.block.entity.ActionBlockEntity;
-import dev.willyelton.crystal_tools.utils.InventoryUtils;
-import dev.willyelton.crystal_tools.utils.ToolUtils;
+import dev.willyelton.crystal_tools.common.levelable.block.CrystalPedestalBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -28,8 +33,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static dev.willyelton.crystal_tools.common.levelable.block.CrystalPedestalBlock.FACING;
-
 // TODO: Consider making the quarry use this?
 public class BlockBreakAction extends Action {
     private final float[] breakProgress;
@@ -48,7 +51,7 @@ public class BlockBreakAction extends Action {
 
     @Override
     public void tickAction(@NotNull Level level, BlockPos pos, BlockState state) {
-        Direction facing = state.getValue(FACING);
+        Direction facing = state.getValue(CrystalPedestalBlock.FACING);
         if (!noFit.isEmpty()) {
             ResourceHandler<ItemResource> handler = level.getCapability(Capabilities.Item.BLOCK, pos, null);
 
@@ -94,7 +97,7 @@ public class BlockBreakAction extends Action {
                 level.destroyBlock(miningPos, false);
                 // TODO: Abstract this part out into `Action`
                 stack.hurtAndBreak(durabilityToUse, (ServerLevel) level, null, item -> {});
-                Levelable levelable = stack.getCapability(dev.willyelton.crystal_tools.common.capability.Capabilities.ITEM_SKILL, level.registryAccess());
+                Levelable levelable = stack.getCapability(dev.willyelton.crystal_tools.api.common.capability.Capabilities.ITEM_SKILL, level.registryAccess());
                 if (levelable != null && CrystalToolsConfig.LEVEL_ITEMS_IN_PEDESTAL.get()) {
                     levelable.addExp(level, pos, null);
                 }
@@ -108,8 +111,8 @@ public class BlockBreakAction extends Action {
     }
 
     @Override
-    public ActionType getActionType() {
-        return ActionType.BLOCK_BREAK;
+    public Identifier getActionType() {
+        return ModRegistration.BLOCK_BREAK_ACTION.getId();
     }
 
     @Override
@@ -146,7 +149,7 @@ public class BlockBreakAction extends Action {
         dropItems(this.blockEntity.getLevel(), this.blockEntity.getBlockPos(), this.noFit);
 
         for (int i = 0; i < this.breakProgress.length; i++) {
-            this.blockEntity.getLevel().destroyBlockProgress(-1 - i, this.blockEntity.getBlockPos().relative(this.blockEntity.getBlockState().getValue(FACING), i + 1), -1);
+            this.blockEntity.getLevel().destroyBlockProgress(-1 - i, this.blockEntity.getBlockPos().relative(this.blockEntity.getBlockState().getValue(CrystalPedestalBlock.FACING), i + 1), -1);
         }
     }
 

@@ -1,30 +1,29 @@
 package dev.willyelton.crystal_tools.datagen;
 
 import dev.willyelton.crystal_tools.ModRegistration;
+import dev.willyelton.crystal_tools.api.common.skill.SkillData;
+import dev.willyelton.crystal_tools.api.utils.constants.SkillTreeDescriptions;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.events.DatapackRegistryEvents;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
-import dev.willyelton.crystal_tools.utils.constants.SkillTreeDescriptions;
+import dev.willyelton.crystal_tools.api.common.event.DatapackRegistryEvents;
 import net.minecraft.core.Holder;
 import net.minecraft.data.worldgen.BootstrapContext;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.neoforged.neoforge.common.NeoForgeMod;
 
 import java.util.List;
 
-import static dev.willyelton.crystal_tools.utils.StringUtils.formatKey;
-import static dev.willyelton.crystal_tools.utils.constants.SkillConstants.BLOCKS_ATTACKS;
-import static dev.willyelton.crystal_tools.utils.constants.SkillConstants.DURABILITY;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.*;
+import static dev.willyelton.crystal_tools.api.utils.EnchantmentUtils.enchantmentName;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillConstants.BLOCKS_ATTACKS;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillConstants.DURABILITY;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillTreeTitles.*;
 
 public class CrystalToolsItemSkillTrees {
     private final BootstrapContext<SkillData> context;
@@ -1263,36 +1262,36 @@ public class CrystalToolsItemSkillTrees {
         return SkillData.builder(EquipmentSlot.MAINHAND)
                 .tier()
                     .dataComponentNode(0, capacity(1), desc.capacity(), DataComponents.CAPACITY.getId(), 1)
-                    .dataComponentNode(1, filterSlots(1), desc.filterSlots(), DataComponents.FILTER_CAPACITY.getId(), 1)
+                    .dataComponentNode(1, filterSlots(1), desc.filterSlots(), dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.FILTER_CAPACITY.getId(), 1)
                     .dataComponentNode(2, AUTO_PICKUP, desc.backpackPickup(), DataComponents.BACKPACK_AUTO_PICKUP.getId(), 1)
                 .tier()
                     .dataComponentNode(3, capacity(2), desc.capacity(), DataComponents.CAPACITY.getId(), 1)
                         .nodeRequirement(0)
-                    .dataComponentNode(4, filterSlots(2), desc.filterSlots(), DataComponents.FILTER_CAPACITY.getId(), 1)
+                    .dataComponentNode(4, filterSlots(2), desc.filterSlots(), dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.FILTER_CAPACITY.getId(), 1)
                         .nodeRequirement(1)
                 .tier()
                     .dataComponentNode(5, capacity(3), desc.capacity(), DataComponents.CAPACITY.getId(), 1)
                         .nodeRequirement(3)
-                    .dataComponentNode(6, filterSlots(3), desc.filterSlots(), DataComponents.FILTER_CAPACITY.getId(), 1)
+                    .dataComponentNode(6, filterSlots(3), desc.filterSlots(), dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.FILTER_CAPACITY.getId(), 1)
                         .nodeRequirement(4)
                     .dataComponentNode(7, SORT, desc.sort(), DataComponents.SORT_ENABLED.getId(), 1)
                         .previousTierOrRequirements()
                 .tier()
                     .dataComponentNode(8, capacity(4), desc.capacity(), DataComponents.CAPACITY.getId(), 1)
                         .nodeRequirement(5)
-                    .dataComponentNode(9, filterSlots(4), desc.filterSlots(), DataComponents.FILTER_CAPACITY.getId(), 1)
+                    .dataComponentNode(9, filterSlots(4), desc.filterSlots(), dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.FILTER_CAPACITY.getId(), 1)
                         .nodeRequirement(6)
                 .tier()
                     .dataComponentNode(10, capacity(5), desc.capacity(), DataComponents.CAPACITY.getId(), 1)
                         .nodeRequirement(8)
-                    .dataComponentNode(11, filterSlots(5), desc.filterSlots(), DataComponents.FILTER_CAPACITY.getId(), 1)
+                    .dataComponentNode(11, filterSlots(5), desc.filterSlots(), dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.FILTER_CAPACITY.getId(), 1)
                         .nodeRequirement(9)
                     .dataComponentNode(12, STORE, desc.store(), DataComponents.INVENTORY_STORE.getId(), 1)
                         .previousTierOrRequirements()
                 .tier()
                     .dataComponentNode(13, capacity(6), desc.capacity(), DataComponents.CAPACITY.getId(), 1)
                         .nodeRequirement(10)
-                    .dataComponentNode(14, filterSlots(6), desc.filterSlots(), DataComponents.FILTER_CAPACITY.getId(), 1)
+                    .dataComponentNode(14, filterSlots(6), desc.filterSlots(), dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.FILTER_CAPACITY.getId(), 1)
                         .nodeRequirement(11)
                     .dataComponentNode(15, COMPRESS, desc.compress(), DataComponents.COMPRESSION_ENABLED.getId(), 1)
                         .previousTierOrRequirements()
@@ -1318,7 +1317,7 @@ public class CrystalToolsItemSkillTrees {
                     .dataComponentNode(5, magnetRange(2), desc.magnetRange(), DataComponents.MAGNET_RANGE.getId(), 1)
                         .nodeRequirement(2)
                 .tier()
-                    .dataComponentNode(6, filterSlots(1), desc.filterSlots(), DataComponents.FILTER_CAPACITY.getId(), 1)
+                    .dataComponentNode(6, filterSlots(1), desc.filterSlots(), dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.FILTER_CAPACITY.getId(), 1)
                         .previousTierOrRequirements()
                     .dataComponentNode(7, unbreaking(1), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.1F)
                         .previousTierOrRequirements()
@@ -1342,7 +1341,7 @@ public class CrystalToolsItemSkillTrees {
                     .dataComponentNode(14, magnetRange(4), desc.magnetRange(), DataComponents.MAGNET_RANGE.getId(), 1)
                         .nodeRequirement(11)
                 .tier()
-                    .dataComponentNode(15, filterSlots(2), desc.filterSlots(), DataComponents.FILTER_CAPACITY.getId(), 1)
+                    .dataComponentNode(15, filterSlots(2), desc.filterSlots(), dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.FILTER_CAPACITY.getId(), 1)
                         .nodeRequirement(6)
                         .previousTierOrRequirements()
                     .dataComponentNode(16, unbreaking(2), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.1F)
@@ -1368,7 +1367,7 @@ public class CrystalToolsItemSkillTrees {
                     .dataComponentNode(23, magnetRange(6), desc.magnetRange(), DataComponents.MAGNET_RANGE.getId(), 1)
                         .nodeRequirement(20)
                 .tier()
-                    .dataComponentNode(24, filterSlots(3), desc.filterSlots(), DataComponents.FILTER_CAPACITY.getId(), 1)
+                    .dataComponentNode(24, filterSlots(3), desc.filterSlots(), dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.FILTER_CAPACITY.getId(), 1)
                         .nodeRequirement(15)
                         .previousTierOrRequirements()
                     .dataComponentNode(25, unbreaking(3), desc.unbreaking(), DataComponents.UNBREAKING.getId(), 0.1F)
@@ -1519,13 +1518,5 @@ public class CrystalToolsItemSkillTrees {
         }
 
         return key.identifier();
-    }
-
-    public static String enchantmentName(ResourceKey<Enchantment> enchantment, int level) {
-        if (level == 0) {
-            return formatKey(enchantment.identifier().getPath());
-        } else {
-            return formatKey(enchantment.identifier().getPath()) + " " + intToRomanNumeral(level);
-        }
     }
 }

@@ -2,6 +2,8 @@ package dev.willyelton.crystal_tools;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
+import dev.willyelton.crystal_tools.api.common.block.entity.action.ActionType;
+import dev.willyelton.crystal_tools.api.utils.constants.ApiConstants;
 import dev.willyelton.crystal_tools.client.particle.quarry.breakblock.QuarryBreakParticleType;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.crafting.CrystalAIOTRecipe;
@@ -35,8 +37,10 @@ import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalFurnace
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalGeneratorBlockEntity;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalPedestalBlockEntity;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalQuarryBlockEntity;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.action.BlockBreakAction;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.action.ChargingAction;
+import dev.willyelton.crystal_tools.common.levelable.block.entity.action.MagnetAction;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.data.SimpleLevelableContainerData;
-import dev.willyelton.crystal_tools.common.levelable.skill.attachment.EntitySkillData;
 import dev.willyelton.crystal_tools.common.levelable.tool.AIOLevelableTool;
 import dev.willyelton.crystal_tools.common.levelable.tool.AxeLevelableTool;
 import dev.willyelton.crystal_tools.common.levelable.tool.BowLevelableItem;
@@ -87,6 +91,9 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 import java.util.List;
 
+import static dev.willyelton.crystal_tools.api.utils.constants.ApiConstants.ACTION_TYPE_REGISTRY_KEY;
+import static dev.willyelton.crystal_tools.api.utils.constants.ApiConstants.baseRl;
+
 // TODO: Rename back if that weird issue with the debug Registration goes away
 public class ModRegistration {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(CrystalTools.MODID);
@@ -98,9 +105,9 @@ public class ModRegistration {
     public static final DeferredRegister<RecipeSerializer<?>> RECIPES = DeferredRegister.create(Registries.RECIPE_SERIALIZER, CrystalTools.MODID);
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(BuiltInRegistries.PARTICLE_TYPE, CrystalTools.MODID);
     private static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, CrystalTools.MODID);
+    public static final DeferredRegister<ActionType<?, ?>> ACTION_TYPES = DeferredRegister.create(ACTION_TYPE_REGISTRY_KEY, ApiConstants.CORE_MOD_ID);
 
     // Items
-    public static final DeferredHolder<Item, Item> CRYSTAL = ITEMS.registerSimpleItem("crystal");
     public static final DeferredHolder<Item, Item> NETHERITE_STICK = ITEMS.registerSimpleItem("netherite_stick", () -> new Item.Properties().fireResistant());
     public static final DeferredHolder<Item, Item> NETHERITE_INFUSED_CRYSTAL_SHARD = ITEMS.registerSimpleItem("netherite_infused_crystal_shard", () -> new Item.Properties().fireResistant().component(net.minecraft.core.component.DataComponents.LORE, new ItemLore(List.of(Component.literal("Found in geodes at the bottom of the Nether!")))));
     public static final DeferredHolder<Item, Item> CRYSTAL_UPGRADE_SMITHING_TEMPLATE = ITEMS.registerSimpleItem("crystal_upgrade_smithing_template", () -> new Item.Properties().fireResistant());
@@ -196,11 +203,6 @@ public class ModRegistration {
             AttachmentType.builder(() -> false)
                     .serialize(Codec.BOOL.fieldOf("bool"))
                     .build());
-    public static final DeferredHolder<AttachmentType<?>, AttachmentType<EntitySkillData>> ENTITY_SKILL = ATTACHMENT_TYPES.register("entity_skill_data", () ->
-            AttachmentType.builder(EntitySkillData::empty)
-                    .serialize(EntitySkillData.CODEC.fieldOf("skillData"))
-                    .sync(EntitySkillData.STREAM_CODEC)
-                    .build());
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<Boolean>> WOLF_COLLAR = ATTACHMENT_TYPES.register("wolf_collar", () ->
             AttachmentType.builder(() -> false)
                     .serialize(Codec.BOOL.fieldOf("wolfCollar"))
@@ -213,7 +215,6 @@ public class ModRegistration {
                     .title(Component.translatable("tab.crystal_tools"))
                     .icon(() -> new ItemStack(CRYSTAL_PICKAXE.get()))
                     .displayItems((featureFlags, output) -> {
-                        output.accept(CRYSTAL.get());
                         output.accept(NETHERITE_STICK.get());
                         output.accept(NETHERITE_INFUSED_CRYSTAL_SHARD.get());
                         output.accept(CRYSTAL_UPGRADE_SMITHING_TEMPLATE.get());
@@ -260,6 +261,11 @@ public class ModRegistration {
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<CrystalQuarryRecipe>> CRYSTAL_QUARRY_RECIPE = RECIPES.register("crystal_quarry_recipe", () -> new RecipeSerializer<>(MapCodec.unit(CrystalQuarryRecipe.INSTANCE), StreamCodec.unit(CrystalQuarryRecipe.INSTANCE)));
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<CrystalShieldTotemRecipe>> CRYSTAL_SHIELD_TOTEM_RECIPE = RECIPES.register("crystal_shield_totem_recipe", () -> new RecipeSerializer<>(MapCodec.unit(CrystalShieldTotemRecipe.INSTANCE), StreamCodec.unit(CrystalShieldTotemRecipe.INSTANCE)));
 
+    // Action Types
+    public static final DeferredHolder<ActionType<?, ?>, ActionType<BlockBreakAction, ?>> BLOCK_BREAK_ACTION = ACTION_TYPES.register("block_break", () -> new ActionType<>(baseRl("block_break"), BlockBreakAction::new));
+    public static final DeferredHolder<ActionType<?, ?>, ActionType<MagnetAction, ?>> MAGNET_ACTION = ACTION_TYPES.register("magnet", () -> new ActionType<>(baseRl("magnet"), MagnetAction::new));
+    public static final DeferredHolder<ActionType<?, ?>, ActionType<ChargingAction, ?>> CHARGE_ACTION = ACTION_TYPES.register("charge", () -> new ActionType<>(baseRl("charge"), ChargingAction::new));
+
     public static void init(IEventBus modEventBus) {
         ITEMS.register(modEventBus);
         BLOCKS.register(modEventBus);
@@ -270,6 +276,5 @@ public class ModRegistration {
         DataComponents.COMPONENTS.register(modEventBus);
         RECIPES.register(modEventBus);
         PARTICLES.register(modEventBus);
-        ATTACHMENT_TYPES.register(modEventBus);
     }
 }

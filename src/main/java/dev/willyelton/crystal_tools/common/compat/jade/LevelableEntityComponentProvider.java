@@ -1,6 +1,6 @@
 package dev.willyelton.crystal_tools.common.compat.jade;
 
-import dev.willyelton.crystal_tools.common.capability.LevelableEntity;
+import dev.willyelton.crystal_tools.api.common.capability.LevelableEntity;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;

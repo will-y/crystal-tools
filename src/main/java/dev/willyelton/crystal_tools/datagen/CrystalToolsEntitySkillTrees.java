@@ -1,17 +1,17 @@
 package dev.willyelton.crystal_tools.datagen;
 
 import dev.willyelton.crystal_tools.ModRegistration;
-import dev.willyelton.crystal_tools.common.events.DatapackRegistryEvents;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
+import dev.willyelton.crystal_tools.api.common.event.DatapackRegistryEvents;
+import dev.willyelton.crystal_tools.api.common.skill.SkillData;
 import dev.willyelton.crystal_tools.utils.constants.EntitySkills;
-import dev.willyelton.crystal_tools.utils.constants.SkillTreeDescriptions;
+import dev.willyelton.crystal_tools.api.utils.constants.SkillTreeDescriptions;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import static dev.willyelton.crystal_tools.datagen.CrystalToolsItemSkillTrees.attr;
-import static dev.willyelton.crystal_tools.utils.constants.SkillTreeTitles.*;
+import static dev.willyelton.crystal_tools.api.utils.constants.SkillTreeTitles.*;
 
 public class CrystalToolsEntitySkillTrees {
     public static void register(BootstrapContext<SkillData> context) {

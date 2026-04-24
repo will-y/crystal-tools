@@ -4,9 +4,9 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
-import dev.willyelton.crystal_tools.ModRegistration;
-import dev.willyelton.crystal_tools.common.capability.Levelable;
-import dev.willyelton.crystal_tools.common.capability.LevelableEntity;
+import dev.willyelton.crystal_tools.api.Registration;
+import dev.willyelton.crystal_tools.api.common.capability.Levelable;
+import dev.willyelton.crystal_tools.api.common.capability.LevelableEntity;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -35,8 +35,8 @@ public class AddPointsEntityCommand {
             Levelable levelable = LevelableEntity.of(livingEntity, null);
 
             if (levelable != null) {
-                livingEntity.getData(ModRegistration.ENTITY_SKILL).addSkillPoints(points);
-                livingEntity.syncData(ModRegistration.ENTITY_SKILL);
+                livingEntity.getData(Registration.ENTITY_SKILL).addSkillPoints(points);
+                livingEntity.syncData(Registration.ENTITY_SKILL);
             }
         }
 

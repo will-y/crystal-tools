@@ -1,7 +1,7 @@
 package dev.willyelton.crystal_tools.common.inventory.container.slot.furnace;
 
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalFurnaceContainerMenu;
-import dev.willyelton.crystal_tools.common.inventory.container.slot.CrystalSlotItemHandler;
+import dev.willyelton.crystal_tools.api.common.inventory.container.slot.CrystalSlotItemHandler;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalFurnaceBlockEntity;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;

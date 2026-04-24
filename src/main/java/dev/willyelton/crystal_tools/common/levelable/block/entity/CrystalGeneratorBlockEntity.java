@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.common.levelable.block.entity;
 
 import com.google.common.base.Predicates;
 import dev.willyelton.crystal_tools.ModRegistration;
+import dev.willyelton.crystal_tools.api.common.block.entity.LevelableBlockEntity;
 import dev.willyelton.crystal_tools.common.components.GeneratorData;
 import dev.willyelton.crystal_tools.common.components.GeneratorUpgrades;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
@@ -11,7 +12,7 @@ import dev.willyelton.crystal_tools.common.energy.CrystalEnergyStorage;
 import dev.willyelton.crystal_tools.common.inventory.GeneratorItemStackHandler;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalGeneratorContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalFurnaceBlock;
-import dev.willyelton.crystal_tools.common.levelable.block.entity.data.LevelableContainerData;
+import dev.willyelton.crystal_tools.api.common.block.entity.model.LevelableContainerData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;

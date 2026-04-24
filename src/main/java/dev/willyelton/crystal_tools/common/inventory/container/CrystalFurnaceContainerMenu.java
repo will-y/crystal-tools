@@ -1,15 +1,16 @@
 package dev.willyelton.crystal_tools.common.inventory.container;
 
 import dev.willyelton.crystal_tools.ModRegistration;
-import dev.willyelton.crystal_tools.common.inventory.container.slot.CrystalSlotItemHandler;
+import dev.willyelton.crystal_tools.api.common.inventory.container.LevelableContainerMenu;
+import dev.willyelton.crystal_tools.api.common.inventory.container.slot.CrystalSlotItemHandler;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.furnace.CrystalFurnaceFuelSlot;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.furnace.CrystalFurnaceInputSlot;
 import dev.willyelton.crystal_tools.common.inventory.container.slot.furnace.CrystalFurnaceOutputSlot;
-import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SideConfigContainerMenu;
-import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenType;
+import dev.willyelton.crystal_tools.api.common.inventory.container.subscreen.SideConfigContainerMenu;
+import dev.willyelton.crystal_tools.api.common.inventory.container.SubScreenType;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalFurnaceBlockEntity;
-import dev.willyelton.crystal_tools.common.levelable.block.entity.SideConfigBlockEntity;
-import dev.willyelton.crystal_tools.utils.ArrayUtils;
+import dev.willyelton.crystal_tools.api.common.block.entity.SideConfigBlockEntity;
+import dev.willyelton.crystal_tools.api.utils.ArrayUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Inventory;

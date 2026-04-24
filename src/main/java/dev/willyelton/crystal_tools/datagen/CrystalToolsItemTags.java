@@ -2,6 +2,8 @@ package dev.willyelton.crystal_tools.datagen;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.ModRegistration;
+import dev.willyelton.crystal_tools.api.Registration;
+import dev.willyelton.crystal_tools.api.common.tag.CrystalCoreTags;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -22,15 +24,15 @@ public class CrystalToolsItemTags extends TagsProvider<Item> {
     protected void addTags(HolderLookup.Provider provider) {
 
         this.getOrCreateRawBuilder(Tags.Items.GEMS).addElement(
-                ModRegistration.CRYSTAL.getId());
+                Registration.CRYSTAL.getId());
 
         this.getOrCreateRawBuilder(Tags.Items.RODS).addElement(
                 ModRegistration.NETHERITE_STICK.getId());
 
-        this.getOrCreateRawBuilder(CrystalToolsTags.RODS_METAL).addElement(
+        this.getOrCreateRawBuilder(CrystalCoreTags.RODS_METAL).addElement(
                 ModRegistration.NETHERITE_STICK.getId());
 
-        this.getOrCreateRawBuilder(CrystalToolsTags.RODS_METAL_NETHERITE).addElement(
+        this.getOrCreateRawBuilder(CrystalCoreTags.RODS_METAL_NETHERITE).addElement(
                 ModRegistration.NETHERITE_STICK.getId());
 
         this.getOrCreateRawBuilder(ItemTags.PICKAXES)

@@ -10,8 +10,6 @@ import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalFurnace
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalGeneratorBlockEntity;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalPedestalBlockEntity;
 import dev.willyelton.crystal_tools.common.levelable.block.entity.CrystalQuarryBlockEntity;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -68,12 +66,5 @@ public class RegisterCapabilitiesEvent {
                 Capabilities.Item.BLOCK,
                 ModRegistration.CRYSTAL_PEDESTAL_BLOCK_ENTITY.get(),
                 CrystalPedestalBlockEntity::getItemHandlerCapForSide);
-
-        // All levelable items
-        for (Item item : BuiltInRegistries.ITEM) {
-            event.registerItem(dev.willyelton.crystal_tools.common.capability.Capabilities.ITEM_SKILL,
-                    LevelableStack::of,
-                    item);
-        }
     }
 }

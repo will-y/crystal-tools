@@ -2,12 +2,12 @@ package dev.willyelton.crystal_tools.common.levelable;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.ModRegistration;
-import dev.willyelton.crystal_tools.common.capability.Levelable;
+import dev.willyelton.crystal_tools.api.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.compat.curios.CuriosCompatibility;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalBackpackContainerMenu;
-import dev.willyelton.crystal_tools.utils.InventoryUtils;
+import dev.willyelton.crystal_tools.api.utils.InventoryUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -280,7 +280,7 @@ public class CrystalBackpack extends Item implements LevelableItem {
     public static void addXpToBackpacks(Player player, int exp) {
         findBackpackStacks(player)
                 .forEach(stack -> {
-                    Levelable levelable = stack.getCapability(dev.willyelton.crystal_tools.common.capability.Capabilities.ITEM_SKILL, player.level().registryAccess());
+                    Levelable levelable = stack.getCapability(dev.willyelton.crystal_tools.api.common.capability.Capabilities.ITEM_SKILL, player.level().registryAccess());
                     if (levelable != null) {
                         levelable.addExp(player.level(), player.blockPosition(), player, exp);
                     }

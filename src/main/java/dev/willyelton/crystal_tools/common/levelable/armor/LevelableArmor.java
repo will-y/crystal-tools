@@ -4,8 +4,8 @@ import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
-import dev.willyelton.crystal_tools.utils.EnchantmentUtils;
-import dev.willyelton.crystal_tools.utils.ToolUtils;
+import dev.willyelton.crystal_tools.api.utils.EnchantmentUtils;
+import dev.willyelton.crystal_tools.api.utils.ToolUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -44,7 +44,7 @@ public class LevelableArmor extends Item implements LevelableItem {
             }
         }
 
-        if (stack.getOrDefault(DataComponents.FROST_WALKER, false)) {
+        if (stack.getOrDefault(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.FROST_WALKER, false)) {
             if (EnchantmentUtils.hasEnchantment(stack, Enchantments.FROST_WALKER)) {
                 consumer.accept(Component.literal("\u00A79" + "Shift + " + modeSwitchKey + " To Disable Frost Walker"));
             } else {

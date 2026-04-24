@@ -1,6 +1,8 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity.data;
 
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
+import dev.willyelton.crystal_tools.api.common.block.entity.model.ILevelableContainerData;
+import dev.willyelton.crystal_tools.api.common.block.entity.model.LevelableContainerData;
+import dev.willyelton.crystal_tools.api.common.skill.SkillPoints;
 
 public class SimpleLevelableContainerData implements ILevelableContainerData {
     private final int extraData;

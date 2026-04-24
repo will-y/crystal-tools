@@ -29,7 +29,7 @@ public class PlayerDiedEvent {
         int charges = stack.getOrDefault(DataComponents.FILLED_TOTEM_SLOTS, 0);
 
         if (charges > 0) {
-            DataComponents.addToComponent(stack, DataComponents.FILLED_TOTEM_SLOTS, -1);
+            dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.addToComponent(stack, DataComponents.FILLED_TOTEM_SLOTS, -1);
             return true;
         }
 

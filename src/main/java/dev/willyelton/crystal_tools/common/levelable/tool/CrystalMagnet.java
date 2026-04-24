@@ -5,7 +5,7 @@ import dev.willyelton.crystal_tools.client.events.RegisterKeyBindingsEvent;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalMagnetContainerMenu;
-import dev.willyelton.crystal_tools.utils.ToolUtils;
+import dev.willyelton.crystal_tools.api.utils.ToolUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -36,7 +36,7 @@ import java.util.function.Predicate;
 public class CrystalMagnet extends LevelableTool {
     public CrystalMagnet(Properties properties) {
         super(properties.durability(2000)
-                .component(DataComponents.WHITELIST, false));
+                .component(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.WHITELIST, false));
     }
 
     // If this becomes a performance issue, can do something similar to the projectile tracking?

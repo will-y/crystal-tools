@@ -1,7 +1,8 @@
 package dev.willyelton.crystal_tools.client.gui;
 
+import dev.willyelton.crystal_tools.api.client.gui.ContainerSubScreen;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalBackpackContainerMenu;
-import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenType;
+import dev.willyelton.crystal_tools.api.common.inventory.container.SubScreenType;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;

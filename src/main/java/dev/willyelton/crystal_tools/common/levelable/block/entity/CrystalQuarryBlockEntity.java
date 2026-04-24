@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.common.levelable.block.entity;
 
 import com.mojang.serialization.Codec;
 import dev.willyelton.crystal_tools.ModRegistration;
+import dev.willyelton.crystal_tools.api.common.block.entity.SideConfigBlockEntity;
 import dev.willyelton.crystal_tools.client.particle.quarry.breakblock.QuarryBreakParticleData;
 import dev.willyelton.crystal_tools.common.components.QuarryData;
 import dev.willyelton.crystal_tools.common.components.QuarrySettings;
@@ -10,16 +11,16 @@ import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.energy.CrystalEnergyStorage;
 import dev.willyelton.crystal_tools.common.inventory.container.CrystalQuarryContainerMenu;
 import dev.willyelton.crystal_tools.common.levelable.block.CrystalQuarryBlock;
-import dev.willyelton.crystal_tools.common.levelable.block.entity.action.Action;
-import dev.willyelton.crystal_tools.common.levelable.block.entity.action.AutoOutputAction;
-import dev.willyelton.crystal_tools.common.levelable.block.entity.action.AutoOutputable;
-import dev.willyelton.crystal_tools.common.levelable.block.entity.action.ChunkLoader;
-import dev.willyelton.crystal_tools.common.levelable.block.entity.action.ChunkLoadingAction;
-import dev.willyelton.crystal_tools.common.levelable.block.entity.data.LevelableContainerData;
-import dev.willyelton.crystal_tools.common.levelable.block.entity.data.SideConfigOption;
+import dev.willyelton.crystal_tools.api.common.block.entity.action.Action;
+import dev.willyelton.crystal_tools.api.common.block.entity.action.AutoOutputAction;
+import dev.willyelton.crystal_tools.api.common.block.entity.action.AutoOutputable;
+import dev.willyelton.crystal_tools.api.common.block.entity.action.ChunkLoader;
+import dev.willyelton.crystal_tools.api.common.block.entity.action.ChunkLoadingAction;
+import dev.willyelton.crystal_tools.api.common.block.entity.model.LevelableContainerData;
+import dev.willyelton.crystal_tools.api.common.block.entity.model.SideConfigOption;
 import dev.willyelton.crystal_tools.common.network.data.QuarryMineBlockPayload;
-import dev.willyelton.crystal_tools.utils.InventoryUtils;
-import dev.willyelton.crystal_tools.utils.TransferUtils;
+import dev.willyelton.crystal_tools.api.utils.InventoryUtils;
+import dev.willyelton.crystal_tools.api.utils.TransferUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -259,7 +260,7 @@ public class CrystalQuarryBlockEntity extends SideConfigBlockEntity implements M
             }
         }
 
-        ItemContainerContents filterContents = componentInput.get(dev.willyelton.crystal_tools.common.components.DataComponents.FILTER_INVENTORY);
+        ItemContainerContents filterContents = componentInput.get(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.FILTER_INVENTORY);
         if (filterContents != null) {
             for (int i = 0; i < filterContents.getSlots(); i++) {
                 ItemStack stack = filterContents.getStackInSlot(i);
@@ -366,7 +367,7 @@ public class CrystalQuarryBlockEntity extends SideConfigBlockEntity implements M
         components.set(DataComponents.CONTAINER, contents);
 
         ItemContainerContents filterContents = ItemContainerContents.fromItems(this.filterItemHandler.copyToList());
-        components.set(dev.willyelton.crystal_tools.common.components.DataComponents.FILTER_INVENTORY, filterContents);
+        components.set(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.FILTER_INVENTORY, filterContents);
 
         QuarryData quarryData = new QuarryData(miningAt == null ? BlockPos.ZERO : miningAt, currentProgress, miningState, finished, waitingStacks, energyStorage.getAmountAsInt(), whitelist);
         components.set(dev.willyelton.crystal_tools.common.components.DataComponents.QUARRY_DATA, quarryData);

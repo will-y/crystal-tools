@@ -1,11 +1,15 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity.action;
 
+import dev.willyelton.crystal_tools.ModRegistration;
+import dev.willyelton.crystal_tools.api.common.block.entity.ActionBlockEntity;
+import dev.willyelton.crystal_tools.api.common.block.entity.action.Action;
+import dev.willyelton.crystal_tools.api.common.block.entity.action.ActionParameters;
+import dev.willyelton.crystal_tools.api.utils.ItemStackUtils;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.inventory.PortableGeneratorInventory;
 import dev.willyelton.crystal_tools.common.levelable.PortableGenerator;
-import dev.willyelton.crystal_tools.common.levelable.block.entity.ActionBlockEntity;
-import dev.willyelton.crystal_tools.utils.ItemStackUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -35,8 +39,8 @@ public class ChargingAction extends Action {
     }
 
     @Override
-    public ActionType getActionType() {
-        return ActionType.CHARGE;
+    public Identifier getActionType() {
+        return ModRegistration.CHARGE_ACTION.getId();
     }
 
     @Override

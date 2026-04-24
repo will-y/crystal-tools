@@ -1,8 +1,8 @@
 package dev.willyelton.crystal_tools.common.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.common.capability.Capabilities;
-import dev.willyelton.crystal_tools.common.capability.Levelable;
+import dev.willyelton.crystal_tools.api.common.capability.Capabilities;
+import dev.willyelton.crystal_tools.api.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import net.minecraft.core.Holder;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
@@ -69,7 +69,7 @@ public class ShieldBlockEvent {
         }
 
         // Mob Effects
-        List<MobEffectInstance> effects = stack.getOrDefault(DataComponents.EFFECTS, Collections.emptyList());
+        List<MobEffectInstance> effects = stack.getOrDefault(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.EFFECTS, Collections.emptyList());
         effects.forEach(target::addEffect);
     }
 }

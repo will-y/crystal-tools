@@ -1,10 +1,9 @@
 package dev.willyelton.crystal_tools.client.events;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.client.gui.ModGUIs;
-import dev.willyelton.crystal_tools.client.gui.UpgradeScreen;
-import dev.willyelton.crystal_tools.common.capability.Capabilities;
-import dev.willyelton.crystal_tools.common.capability.Levelable;
+import dev.willyelton.crystal_tools.api.client.gui.UpgradeScreen;
+import dev.willyelton.crystal_tools.api.common.capability.Capabilities;
+import dev.willyelton.crystal_tools.api.common.capability.Levelable;
 import dev.willyelton.crystal_tools.common.network.data.ModeSwitchPayload;
 import dev.willyelton.crystal_tools.common.network.data.OpenBackpackPayload;
 import dev.willyelton.crystal_tools.common.network.data.TriggerRocketPayload;
@@ -22,6 +21,8 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
+
+import static dev.willyelton.crystal_tools.api.utils.ScreenUtils.openScreen;
 
 @EventBusSubscriber(modid = CrystalTools.MODID, value = Dist.CLIENT)
 public class KeyPressEvent {
@@ -77,7 +78,7 @@ public class KeyPressEvent {
         Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level.registryAccess());
 
         if (levelable != null) {
-            ModGUIs.openScreen(new UpgradeScreen(stack, player, levelable));
+            openScreen(new UpgradeScreen(stack, player, levelable));
             return true;
         }
 

@@ -1,10 +1,11 @@
 package dev.willyelton.crystal_tools.common.crafting;
 
 import dev.willyelton.crystal_tools.ModRegistration;
-import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.components.LevelableBlockEntityData;
+import dev.willyelton.crystal_tools.api.Registration;
+import dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents;
+import dev.willyelton.crystal_tools.api.common.datacomponent.LevelableBlockEntityData;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.utils.ToolUtils;
+import dev.willyelton.crystal_tools.api.utils.ToolUtils;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
@@ -28,13 +29,13 @@ public class CrystalGeneratorRecipe extends CrystalToolsRecipe {
         if (input.width() != 3 || input.height() != 3) return false;
 
         return input.getItem(0, 0).is(Items.REDSTONE_BLOCK) &&
-                input.getItem(0, 1).is(ModRegistration.CRYSTAL.get()) &&
+                input.getItem(0, 1).is(Registration.CRYSTAL.get()) &&
                 input.getItem(0, 2).is(Items.REDSTONE_BLOCK) &&
-                input.getItem(1, 0).is(ModRegistration.CRYSTAL.get()) &&
+                input.getItem(1, 0).is(Registration.CRYSTAL.get()) &&
                 input.getItem(1, 1).is(ModRegistration.CRYSTAL_FURNACE_ITEM.get()) &&
-                input.getItem(1, 2).is(ModRegistration.CRYSTAL.get()) &&
+                input.getItem(1, 2).is(Registration.CRYSTAL.get()) &&
                 input.getItem(2, 0).is(Items.REDSTONE_BLOCK) &&
-                input.getItem(2, 1).is(ModRegistration.CRYSTAL.get()) &&
+                input.getItem(2, 1).is(Registration.CRYSTAL.get()) &&
                 input.getItem(2, 2).is(Items.REDSTONE_BLOCK);
     }
 
@@ -44,7 +45,7 @@ public class CrystalGeneratorRecipe extends CrystalToolsRecipe {
 
         ItemStack furnaceItem = input.getItem(1, 1);
 
-        LevelableBlockEntityData furnaceData = furnaceItem.get(DataComponents.LEVELABLE_BLOCK_ENTITY_DATA);
+        LevelableBlockEntityData furnaceData = furnaceItem.get(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.LEVELABLE_BLOCK_ENTITY_DATA);
         if (furnaceData != null) {
             int points = furnaceData.points().getTotalPoints() + furnaceData.skillPoints();
             int cap = ToolUtils.getNewCap(CrystalToolsConfig.GENERATOR_BASE_EXPERIENCE_CAP.get(), points);
@@ -62,9 +63,9 @@ public class CrystalGeneratorRecipe extends CrystalToolsRecipe {
 
     @Override
     public List<ItemStack> getInputs() {
-        return Stream.of(Items.REDSTONE_BLOCK, ModRegistration.CRYSTAL.get(), Items.REDSTONE_BLOCK,
-                ModRegistration.CRYSTAL.get(), ModRegistration.CRYSTAL_FURNACE_ITEM.get(), ModRegistration.CRYSTAL.get(),
-                Items.REDSTONE_BLOCK, ModRegistration.CRYSTAL.get(), Items.REDSTONE_BLOCK).map(ItemStack::new).toList();
+        return Stream.of(Items.REDSTONE_BLOCK, Registration.CRYSTAL.get(), Items.REDSTONE_BLOCK,
+                Registration.CRYSTAL.get(), ModRegistration.CRYSTAL_FURNACE_ITEM.get(), Registration.CRYSTAL.get(),
+                Items.REDSTONE_BLOCK, Registration.CRYSTAL.get(), Items.REDSTONE_BLOCK).map(ItemStack::new).toList();
     }
 
     @Override

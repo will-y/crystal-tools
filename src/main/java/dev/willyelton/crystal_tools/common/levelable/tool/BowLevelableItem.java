@@ -5,7 +5,7 @@ import dev.willyelton.crystal_tools.common.events.LevelTickEvent;
 import dev.willyelton.crystal_tools.common.levelable.EntityTargeter;
 import dev.willyelton.crystal_tools.common.levelable.LevelableItem;
 import dev.willyelton.crystal_tools.common.tags.CrystalToolsTags;
-import dev.willyelton.crystal_tools.utils.ToolUtils;
+import dev.willyelton.crystal_tools.api.utils.ToolUtils;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
@@ -91,7 +91,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem, EntityTa
                         }
 
                         if (abstractarrow instanceof Arrow arrow) {
-                            List<MobEffectInstance> effects = stack.getOrDefault(DataComponents.EFFECTS, Collections.emptyList());
+                            List<MobEffectInstance> effects = stack.getOrDefault(dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.EFFECTS, Collections.emptyList());
                             effects.forEach(arrow::addEffect);
                         }
 

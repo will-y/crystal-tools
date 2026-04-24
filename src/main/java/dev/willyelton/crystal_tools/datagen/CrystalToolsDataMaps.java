@@ -1,12 +1,13 @@
 package dev.willyelton.crystal_tools.datagen;
 
 import dev.willyelton.crystal_tools.ModRegistration;
+import dev.willyelton.crystal_tools.api.Registration;
+import dev.willyelton.crystal_tools.api.common.datamap.CrystalCoreDataMaps;
 import dev.willyelton.crystal_tools.common.datamap.ActionData;
 import dev.willyelton.crystal_tools.common.datamap.DataMaps;
 import dev.willyelton.crystal_tools.common.datamap.GeneratorFuelData;
-import dev.willyelton.crystal_tools.common.datamap.SkillTreeData;
-import dev.willyelton.crystal_tools.common.levelable.block.entity.action.ActionParameters;
-import dev.willyelton.crystal_tools.common.levelable.block.entity.action.ActionType;
+import dev.willyelton.crystal_tools.api.common.skill.SkillTreeData;
+import dev.willyelton.crystal_tools.api.common.block.entity.action.ActionParameters;
 import dev.willyelton.crystal_tools.common.levelable.condition.WolfCondition;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -31,7 +32,7 @@ public class CrystalToolsDataMaps extends DataMapProvider {
     @Override
     protected void gather(HolderLookup.Provider provider) {
         builder(DataMaps.GENERATOR_GEMS)
-                .add(ModRegistration.CRYSTAL, new GeneratorFuelData(10800, 100), false)
+                .add(Registration.CRYSTAL, new GeneratorFuelData(10800, 100), false)
                 .add(Items.AMETHYST_SHARD.builtInRegistryHolder(), new GeneratorFuelData(1800, 20), false)
                 .add(Items.DIAMOND.builtInRegistryHolder(), new GeneratorFuelData(5400, 80), false)
                 .add(Items.EMERALD.builtInRegistryHolder(), new GeneratorFuelData(3600, 40), false)
@@ -68,7 +69,8 @@ public class CrystalToolsDataMaps extends DataMapProvider {
                 .add(Tags.Items.INGOTS, new GeneratorFuelData(800, 5), false)
                 .build();
 
-        builder(DataMaps.MOB_HEADS)
+        // TODO: Datagen in new mod
+        builder(CrystalCoreDataMaps.MOB_HEADS)
                 .add(EntityType.ZOMBIE.builtInRegistryHolder(), Items.ZOMBIE_HEAD, false)
                 .add(EntityType.CREEPER.builtInRegistryHolder(), Items.CREEPER_HEAD, false)
                 .add(EntityType.PIGLIN.builtInRegistryHolder(), Items.PIGLIN_HEAD, false)
@@ -79,14 +81,14 @@ public class CrystalToolsDataMaps extends DataMapProvider {
                 .add(EntityType.PLAYER.builtInRegistryHolder(), Items.PLAYER_HEAD, false);
 
         builder(DataMaps.PEDESTAL_ACTIONS)
-                .add(ModRegistration.CRYSTAL_MAGNET, new ActionData(ActionType.MAGNET, Optional.of(new ActionParameters(1, 5, 5))), false)
-                .add(ItemTags.PICKAXES, new ActionData(ActionType.BLOCK_BREAK, Optional.of(new ActionParameters(1, 2, 0))), false)
-                .add(ItemTags.SHOVELS, new ActionData(ActionType.BLOCK_BREAK, Optional.of(new ActionParameters(1, 2, 0))), false)
-                .add(ItemTags.HOES, new ActionData(ActionType.BLOCK_BREAK, Optional.of(new ActionParameters(1, 2, 0))), false)
-                .add(ItemTags.AXES, new ActionData(ActionType.BLOCK_BREAK, Optional.of(new ActionParameters(1, 2, 0))), false)
-                .add(ModRegistration.PORTABLE_GENERATOR, new ActionData(ActionType.CHARGE, Optional.of(new ActionParameters(1, -1, 25))), false);
+                .add(ModRegistration.CRYSTAL_MAGNET, new ActionData(ModRegistration.MAGNET_ACTION.getId(), Optional.of(new ActionParameters(1, 5, 5))), false)
+                .add(ItemTags.PICKAXES, new ActionData(ModRegistration.BLOCK_BREAK_ACTION.getId(), Optional.of(new ActionParameters(1, 2, 0))), false)
+                .add(ItemTags.SHOVELS, new ActionData(ModRegistration.BLOCK_BREAK_ACTION.getId(), Optional.of(new ActionParameters(1, 2, 0))), false)
+                .add(ItemTags.HOES, new ActionData(ModRegistration.BLOCK_BREAK_ACTION.getId(), Optional.of(new ActionParameters(1, 2, 0))), false)
+                .add(ItemTags.AXES, new ActionData(ModRegistration.BLOCK_BREAK_ACTION.getId(), Optional.of(new ActionParameters(1, 2, 0))), false)
+                .add(ModRegistration.PORTABLE_GENERATOR, new ActionData(ModRegistration.CHARGE_ACTION.getId(), Optional.of(new ActionParameters(1, -1, 25))), false);
 
-        var builder = builder(DataMaps.SKILL_TREES)
+        var builder = builder(CrystalCoreDataMaps.SKILL_TREES)
                 .add(ModRegistration.CRYSTAL_PICKAXE, new SkillTreeData(rl("crystal_pickaxe"), true, false), false)
                 .add(ModRegistration.CRYSTAL_HOE, new SkillTreeData(rl("crystal_hoe"), true, false), false)
                 .add(ModRegistration.CRYSTAL_SHOVEL, new SkillTreeData(rl("crystal_shovel"), true, false), false)
@@ -145,7 +147,7 @@ public class CrystalToolsDataMaps extends DataMapProvider {
                 .add(Items.NETHERITE_SHOVEL.builtInRegistryHolder(), new SkillTreeData(rl("simple_shovel"), 0, 1, false, false, false, true, false), false)
                 .add(Items.NETHERITE_SWORD.builtInRegistryHolder(), new SkillTreeData(rl("simple_sword"), 0, 1, false, false, false, true, true), false);
 
-        builder(DataMaps.ENTITY_SKILL_TREES)
+        builder(CrystalCoreDataMaps.ENTITY_SKILL_TREES)
                 .add(EntityType.WOLF.builtInRegistryHolder(), new SkillTreeData(Identifier.withDefaultNamespace("wolf"), 0, 1, false, false, false, false, false, List.of(new WolfCondition())), false);
     }
 }

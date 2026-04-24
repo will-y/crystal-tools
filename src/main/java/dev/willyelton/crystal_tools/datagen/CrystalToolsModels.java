@@ -2,6 +2,7 @@ package dev.willyelton.crystal_tools.datagen;
 
 import dev.willyelton.crystal_tools.CrystalTools;
 import dev.willyelton.crystal_tools.ModRegistration;
+import dev.willyelton.crystal_tools.api.Registration;
 import dev.willyelton.crystal_tools.client.model.property.Disabled;
 import dev.willyelton.crystal_tools.client.model.property.FullCage;
 import dev.willyelton.crystal_tools.client.model.property.Lit;
@@ -39,7 +40,7 @@ public class CrystalToolsModels extends ModelProvider {
     @Override
     protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
         // Items
-        itemModels.generateFlatItem(ModRegistration.CRYSTAL.get(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(Registration.CRYSTAL.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModRegistration.NETHERITE_STICK.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModRegistration.NETHERITE_INFUSED_CRYSTAL_SHARD.get(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModRegistration.CRYSTAL_UPGRADE_SMITHING_TEMPLATE.get(), ModelTemplates.FLAT_ITEM);

@@ -2,8 +2,6 @@ package dev.willyelton.crystal_tools;
 
 import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal_tools.common.config.CrystalToolsServerConfig;
-import dev.willyelton.crystal_tools.common.levelable.condition.LevelableConditions;
-import dev.willyelton.crystal_tools.common.levelable.skill.requirement.SkillDataRequirements;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.context.ContextKey;
 import net.neoforged.bus.api.IEventBus;
@@ -26,9 +24,6 @@ public class CrystalTools {
         // Register configs
         container.registerConfig(ModConfig.Type.COMMON, CrystalToolsConfig.COMMON_CONFIG, "crystal_tools.toml");
         container.registerConfig(ModConfig.Type.SERVER, CrystalToolsServerConfig.SERVER_CONFIG, "crystal_tools-server.toml");
-
-        SkillDataRequirements.bootstrap();
-        LevelableConditions.bootstrap();
     }
 
     public static Identifier rl(String path) {

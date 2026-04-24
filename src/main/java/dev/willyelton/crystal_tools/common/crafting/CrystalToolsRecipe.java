@@ -1,11 +1,11 @@
 package dev.willyelton.crystal_tools.common.crafting;
 
-import dev.willyelton.crystal_tools.common.capability.Capabilities;
-import dev.willyelton.crystal_tools.common.capability.Levelable;
-import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.config.CrystalToolsConfig;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
-import dev.willyelton.crystal_tools.utils.ToolUtils;
+import dev.willyelton.crystal_tools.api.common.capability.Capabilities;
+import dev.willyelton.crystal_tools.api.common.capability.Levelable;
+import dev.willyelton.crystal_tools.api.common.config.CrystalToolsCoreConfig;
+import dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents;
+import dev.willyelton.crystal_tools.api.common.skill.SkillPoints;
+import dev.willyelton.crystal_tools.api.utils.ToolUtils;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
@@ -59,7 +59,7 @@ public abstract class CrystalToolsRecipe extends CustomRecipe {
         }
 
         // Fallback if for some reason we don't have a real registry access?
-        int newCap = ToolUtils.getNewCap(CrystalToolsConfig.BASE_EXPERIENCE_CAP.get(), points);
+        int newCap = ToolUtils.getNewCap(CrystalToolsCoreConfig.BASE_EXPERIENCE_CAP.get(), points);
 
         stack.set(DataComponents.EXPERIENCE_CAP, newCap);
     }

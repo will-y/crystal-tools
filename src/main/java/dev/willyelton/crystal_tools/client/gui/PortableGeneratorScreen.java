@@ -1,12 +1,13 @@
 package dev.willyelton.crystal_tools.client.gui;
 
 import dev.willyelton.crystal_tools.CrystalTools;
-import dev.willyelton.crystal_tools.common.capability.Capabilities;
-import dev.willyelton.crystal_tools.common.capability.Levelable;
-import dev.willyelton.crystal_tools.common.events.DatapackRegistryEvents;
+import dev.willyelton.crystal_tools.api.client.gui.UpgradeScreen;
+import dev.willyelton.crystal_tools.api.common.capability.Capabilities;
+import dev.willyelton.crystal_tools.api.common.capability.Levelable;
+import dev.willyelton.crystal_tools.api.common.event.DatapackRegistryEvents;
 import dev.willyelton.crystal_tools.common.inventory.container.AbstractGeneratorContainerMenu;
 import dev.willyelton.crystal_tools.common.inventory.container.PortableGeneratorContainerMenu;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillData;
+import dev.willyelton.crystal_tools.api.common.skill.SkillData;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;

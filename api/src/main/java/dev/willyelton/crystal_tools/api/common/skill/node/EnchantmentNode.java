@@ -1,0 +1,104 @@
+package dev.willyelton.crystal_tools.api.common.skill.node;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents;
+import dev.willyelton.crystal_tools.api.common.skill.SkillData;
+import dev.willyelton.crystal_tools.api.common.skill.SkillSubText;
+import dev.willyelton.crystal_tools.api.common.skill.requirement.SkillDataRequirement;
+import dev.willyelton.crystal_tools.api.common.skill.requirement.SkillDataRequirements;
+import dev.willyelton.crystal_tools.api.utils.EnchantmentUtils;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.neoforged.neoforge.registries.DeferredHolder;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+public final class EnchantmentNode extends SkillDataNode implements ItemStackNode {
+    public static final Codec<EnchantmentNode> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            Codec.INT.fieldOf("id").forGetter(EnchantmentNode::getId),
+            Codec.STRING.fieldOf("name").forGetter(EnchantmentNode::getName),
+            Codec.STRING.fieldOf("description").forGetter(EnchantmentNode::getDescription),
+            Identifier.CODEC.fieldOf("enchantment").forGetter(EnchantmentNode::getEnchantment),
+            Codec.INT.fieldOf("level").forGetter(EnchantmentNode::getLevel),
+            SkillDataRequirements.CODEC.listOf().fieldOf("requirements").forGetter(EnchantmentNode::getRequirements),
+            SkillSubText.CODEC.optionalFieldOf("subtext").forGetter(n -> Optional.ofNullable(n.getSkillSubText()))
+    ).apply(instance, EnchantmentNode::new));
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, EnchantmentNode> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.VAR_INT, EnchantmentNode::getId,
+            ByteBufCodecs.STRING_UTF8, EnchantmentNode::getName,
+            ByteBufCodecs.STRING_UTF8, EnchantmentNode::getDescription,
+            Identifier.STREAM_CODEC, EnchantmentNode::getEnchantment,
+            ByteBufCodecs.VAR_INT, EnchantmentNode::getLevel,
+            SkillDataRequirements.STREAM_CODEC.apply(ByteBufCodecs.list()), EnchantmentNode::getRequirements,
+            ByteBufCodecs.optional(SkillSubText.STREAM_CODEC), n -> Optional.ofNullable(n.getSkillSubText()),
+            EnchantmentNode::new);
+
+    // TODO: Registration event? Then these datacomponents don't have to go in core
+    public static final Map<ResourceKey<Enchantment>, DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>>> TOGGLE_ENCHANTMENTS =
+            Map.of(Enchantments.FROST_WALKER, DataComponents.FROST_WALKER);
+
+    private final Identifier enchantment;
+    private final int level;
+
+    public EnchantmentNode(int id, String name, String description, Identifier enchantment, int level,
+                           List<SkillDataRequirement> requirements, Optional<SkillSubText> subText) {
+        super(id, name, description, 1, List.of(enchantment), requirements, subText.orElse(null));
+
+        this.enchantment = enchantment;
+        this.level = level;
+    }
+
+    public Identifier getEnchantment() {
+        return enchantment;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    @Override
+    public SkillNodeType getSkillNodeType() {
+        return SkillNodeType.ENCHANTMENT;
+    }
+
+    @Override
+    public void processNode(SkillData skillData, ItemStack stack, int pointsToSpend, RegistryAccess registryAccess) {
+        Registry<Enchantment> enchantmentRegistry = registryAccess.lookupOrThrow(Registries.ENCHANTMENT);
+
+        for (Identifier key : this.getKeys()) {
+            Optional<Holder.Reference<Enchantment>> enchantmentOptional = enchantmentRegistry.get(key);
+            if (enchantmentOptional.isPresent()) {
+                if (key.equals(Enchantments.SILK_TOUCH.identifier())) {
+                    stack.set(DataComponents.SILK_TOUCH_BONUS, true);
+                    if (EnchantmentUtils.hasEnchantment(stack, Enchantments.FORTUNE)) {
+                        return;
+                    }
+                } else if (key.equals(Enchantments.FORTUNE.identifier())) {
+                    stack.set(DataComponents.FORTUNE_BONUS, this.level);
+                    if (EnchantmentUtils.hasEnchantment(stack, Enchantments.SILK_TOUCH)) {
+                        return;
+                    }
+                } else if (TOGGLE_ENCHANTMENTS.containsKey(enchantmentOptional.get().getKey())) {
+                    stack.set(TOGGLE_ENCHANTMENTS.get(enchantmentOptional.get().getKey()), true);
+                }
+
+                enchantmentOptional.ifPresent(enchantmentReference -> stack.enchant(enchantmentReference, this.level));
+            }
+        }
+    }
+}

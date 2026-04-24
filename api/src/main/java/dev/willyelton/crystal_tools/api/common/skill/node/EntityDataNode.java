@@ -1,0 +1,72 @@
+package dev.willyelton.crystal_tools.api.common.skill.node;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import dev.willyelton.crystal_tools.api.Registration;
+import dev.willyelton.crystal_tools.api.common.skill.SkillData;
+import dev.willyelton.crystal_tools.api.common.skill.SkillSubText;
+import dev.willyelton.crystal_tools.api.common.skill.attachment.EntitySkillData;
+import dev.willyelton.crystal_tools.api.common.skill.requirement.SkillDataRequirement;
+import dev.willyelton.crystal_tools.api.common.skill.requirement.SkillDataRequirements;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.LivingEntity;
+
+import java.util.List;
+import java.util.Optional;
+
+public class EntityDataNode extends SkillDataNode implements EntityNode {
+
+    public static final Codec<EntityDataNode> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            Codec.INT.fieldOf("id").forGetter(EntityDataNode::getId),
+            Codec.STRING.fieldOf("name").forGetter(EntityDataNode::getName),
+            Codec.STRING.fieldOf("description").forGetter(EntityDataNode::getDescription),
+            Codec.INT.fieldOf("limit").forGetter(EntityDataNode::getLimit),
+            Identifier.CODEC.listOf().fieldOf("key").forGetter(EntityDataNode::getKeys),
+            Codec.FLOAT.fieldOf("value").forGetter(EntityDataNode::getValue),
+            SkillDataRequirements.CODEC.listOf().fieldOf("requirements").forGetter(EntityDataNode::getRequirements),
+            SkillSubText.CODEC.optionalFieldOf("subtext").forGetter(n -> Optional.ofNullable(n.getSkillSubText()))
+    ).apply(instance, EntityDataNode::new));
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, EntityDataNode> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.VAR_INT, EntityDataNode::getId,
+            ByteBufCodecs.STRING_UTF8, EntityDataNode::getName,
+            ByteBufCodecs.STRING_UTF8, EntityDataNode::getDescription,
+            ByteBufCodecs.VAR_INT, EntityDataNode::getLimit,
+            Identifier.STREAM_CODEC.apply(ByteBufCodecs.list()), EntityDataNode::getKeys,
+            ByteBufCodecs.FLOAT, EntityDataNode::getValue,
+            SkillDataRequirements.STREAM_CODEC.apply(ByteBufCodecs.list()), EntityDataNode::getRequirements,
+            ByteBufCodecs.optional(SkillSubText.STREAM_CODEC), n -> Optional.ofNullable(n.getSkillSubText()),
+            EntityDataNode::new);
+
+    private final float value;
+
+    public EntityDataNode(int id, String name, String description, int limit, List<Identifier> keys, float value, List<SkillDataRequirement> requirements, Optional<SkillSubText> skillSubText) {
+        super(id, name, description, limit, keys, requirements, skillSubText.orElse(null));
+
+        this.value = value;
+    }
+
+    @Override
+    public SkillNodeType getSkillNodeType() {
+        return SkillNodeType.ENTITY_DATA;
+    }
+
+    @Override
+    public void processNode(SkillData skillData, LivingEntity entity, int pointsToSpend, RegistryAccess registryAccess) {
+        EntitySkillData entitySkillData = entity.getData(Registration.ENTITY_SKILL);
+
+        for (Identifier key : getKeys()) {
+            entitySkillData.addSkill(key, pointsToSpend * this.value);
+        }
+
+        entity.syncData(Registration.ENTITY_SKILL);
+    }
+
+    private float getValue() {
+        return this.value;
+    }
+}

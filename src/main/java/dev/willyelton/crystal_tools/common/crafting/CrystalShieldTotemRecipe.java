@@ -42,7 +42,7 @@ public class CrystalShieldTotemRecipe extends CrystalToolsRecipe {
     public ItemStack assemble(CraftingInput input) {
         ItemStack result = (input.getItem(0).is(ModRegistration.CRYSTAL_SHIELD) ? input.getItem(0) : input.getItem(1)).copy();
 
-        DataComponents.addToComponent(result, DataComponents.FILLED_TOTEM_SLOTS, 1);
+        dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.addToComponent(result, DataComponents.FILLED_TOTEM_SLOTS, 1);
 
         return result;
     }

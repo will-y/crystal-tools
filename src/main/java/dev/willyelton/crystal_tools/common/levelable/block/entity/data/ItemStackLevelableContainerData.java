@@ -1,7 +1,8 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity.data;
 
-import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.common.levelable.skill.SkillPoints;
+import dev.willyelton.crystal_tools.api.common.block.entity.model.ILevelableContainerData;
+import dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents;
+import dev.willyelton.crystal_tools.api.common.skill.SkillPoints;
 import net.minecraft.world.item.ItemStack;
 
 public abstract class ItemStackLevelableContainerData implements ILevelableContainerData {

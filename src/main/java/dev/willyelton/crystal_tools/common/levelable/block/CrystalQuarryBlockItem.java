@@ -3,7 +3,7 @@ package dev.willyelton.crystal_tools.common.levelable.block;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
 import dev.willyelton.crystal_tools.common.components.QuarryData;
 import dev.willyelton.crystal_tools.common.components.QuarryUpgrades;
-import dev.willyelton.crystal_tools.utils.StringUtils;
+import dev.willyelton.crystal_tools.api.utils.StringUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

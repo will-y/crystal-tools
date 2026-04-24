@@ -1,22 +1,23 @@
 package dev.willyelton.crystal_tools.client.gui;
 
+import dev.willyelton.crystal_tools.api.client.gui.ContainerSubScreen;
+import dev.willyelton.crystal_tools.api.client.gui.SubScreenContainerScreen;
+import dev.willyelton.crystal_tools.api.common.inventory.container.BaseContainerMenu;
+import dev.willyelton.crystal_tools.api.common.inventory.container.SubScreenType;
+import dev.willyelton.crystal_tools.api.common.inventory.container.subscreen.FilterContainerMenu;
+import dev.willyelton.crystal_tools.api.common.inventory.container.subscreen.SubScreenContainerMenu;
+import dev.willyelton.crystal_tools.api.common.network.model.BackpackAction;
 import dev.willyelton.crystal_tools.client.gui.component.backpack.ClearFilterButton;
 import dev.willyelton.crystal_tools.client.gui.component.backpack.MatchContentsButton;
 import dev.willyelton.crystal_tools.client.gui.component.backpack.WhitelistToggleButton;
-import dev.willyelton.crystal_tools.common.inventory.container.BaseContainerMenu;
-import dev.willyelton.crystal_tools.common.inventory.container.subscreen.FilterContainerMenu;
-import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenContainerMenu;
-import dev.willyelton.crystal_tools.common.inventory.container.subscreen.SubScreenType;
-import dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-import static dev.willyelton.crystal_tools.client.gui.CrystalBackpackScreen.*;
-import static dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload.BackpackAction.PICKUP_BLACKLIST;
-import static dev.willyelton.crystal_tools.common.network.data.BackpackScreenPayload.BackpackAction.PICKUP_WHITELIST;
+import static dev.willyelton.crystal_tools.api.common.network.model.BackpackAction.PICKUP_BLACKLIST;
+import static dev.willyelton.crystal_tools.api.common.network.model.BackpackAction.PICKUP_WHITELIST;
 
 public class FilterConfigScreen<T extends BaseContainerMenu & SubScreenContainerMenu & FilterContainerMenu, U extends Screen & SubScreenContainerScreen> extends ContainerSubScreen<T, U> {
     private boolean whitelist;
@@ -47,7 +48,7 @@ public class FilterConfigScreen<T extends BaseContainerMenu & SubScreenContainer
                         if (button instanceof WhitelistToggleButton toggleButton) {
                             toggleButton.setWhitelist(whitelist);
                             menu.setWhitelist(whitelist);
-                            BackpackScreenPayload.BackpackAction type = whitelist ? PICKUP_WHITELIST : PICKUP_BLACKLIST;
+                            BackpackAction type = whitelist ? PICKUP_WHITELIST : PICKUP_BLACKLIST;
                             menu.sendUpdatePacket(type);
                         }
                     },

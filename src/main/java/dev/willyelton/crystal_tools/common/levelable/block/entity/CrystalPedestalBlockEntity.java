@@ -1,6 +1,8 @@
 package dev.willyelton.crystal_tools.common.levelable.block.entity;
 
 import dev.willyelton.crystal_tools.ModRegistration;
+import dev.willyelton.crystal_tools.api.common.block.entity.ActionBlockEntity;
+import dev.willyelton.crystal_tools.api.common.block.entity.action.Action;
 import dev.willyelton.crystal_tools.common.datamap.ActionData;
 import dev.willyelton.crystal_tools.common.datamap.DataMaps;
 import dev.willyelton.crystal_tools.common.inventory.CallbackItemStackHandler;
@@ -123,12 +125,15 @@ public class CrystalPedestalBlockEntity extends ActionBlockEntity implements Men
     private void setActions(ItemStack newStack, ItemStack oldStack) {
         ActionData oldActionData = oldStack.typeHolder().getData(DataMaps.PEDESTAL_ACTIONS);
         if (oldActionData != null) {
-            this.removeAction(oldActionData.type());
+            this.removeAction(oldActionData.actionType());
         }
 
         ActionData actionData = newStack.typeHolder().getData(DataMaps.PEDESTAL_ACTIONS);
         if (actionData != null) {
-            this.addAction(actionData.type().getActionInstance(this, actionData.params()), actionData.params());
+            Action action = this.createAction(actionData.actionType(), actionData.params());
+            if (action != null) {
+                this.addAction(action, actionData.params());
+            }
         }
     }
 

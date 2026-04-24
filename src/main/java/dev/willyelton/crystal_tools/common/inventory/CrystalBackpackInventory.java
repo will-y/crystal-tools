@@ -2,7 +2,7 @@ package dev.willyelton.crystal_tools.common.inventory;
 
 import dev.willyelton.crystal_tools.ModRegistration;
 import dev.willyelton.crystal_tools.common.components.DataComponents;
-import dev.willyelton.crystal_tools.utils.TransferUtils;
+import dev.willyelton.crystal_tools.api.utils.TransferUtils;
 import it.unimi.dsi.fastutil.ints.Int2IntArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import net.minecraft.world.item.Item;
@@ -20,11 +20,11 @@ public class CrystalBackpackInventory extends ListComponentItemHandler {
 
     // TODO: Do I even need this constructor?
     public CrystalBackpackInventory(int size) {
-        super(ItemAccess.forStack(new ItemStack(ModRegistration.CRYSTAL_BACKPACK)), DataComponents.BACKPACK_INVENTORY.get(), size);
+        super(ItemAccess.forStack(new ItemStack(ModRegistration.CRYSTAL_BACKPACK)),dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.ITEM_INVENTORY.get(), size);
     }
 
     public CrystalBackpackInventory(ItemStack stack, ItemAccess access) {
-        super(access, DataComponents.BACKPACK_INVENTORY.get(), (stack.getOrDefault(DataComponents.CAPACITY, 0) + 1) * 9);
+        super(access, dev.willyelton.crystal_tools.api.common.datacomponent.DataComponents.ITEM_INVENTORY.get(), (stack.getOrDefault(DataComponents.CAPACITY, 0) + 1) * 9);
     }
 
     @Override

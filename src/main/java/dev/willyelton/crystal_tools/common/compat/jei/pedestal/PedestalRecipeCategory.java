@@ -67,8 +67,8 @@ public class PedestalRecipeCategory implements IRecipeCategory<PedestalRecipe>  
 
         background.draw(guiGraphics, 0, 0);
 
-        Component titleComponent = Component.translatable(recipe.data().type().name());
-        Component descriptionComponent = Component.translatable(recipe.data().type().getDescription());
+        Component titleComponent = Component.translatable(translatableComponentFromIdentifier(recipe.data().actionType()));
+        Component descriptionComponent = Component.translatable(translatableComponentFromIdentifier(recipe.data().actionType()) + ".description");
 
         guiGraphics.text(font, titleComponent, 25, 0, 0xFF000000, false);
         guiGraphics.textWithWordWrap(font, descriptionComponent, 25, 10, 100, 0xFF606060, false);
@@ -77,5 +77,9 @@ public class PedestalRecipeCategory implements IRecipeCategory<PedestalRecipe>  
         if (recipe.data().params() != null && recipe.data().params().range() > 0) {
             guiGraphics.text(font, Component.literal("Range: +" + recipe.data().params().range()), 25, 11 + y, 0xFF8080FF, false);
         }
+    }
+
+    private String translatableComponentFromIdentifier(Identifier identifier) {
+        return String.format("action.%s.%s", identifier.getNamespace(), identifier.getPath());
     }
 }
