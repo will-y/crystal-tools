@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 2.8.4
+### Fixes
+- Fixes a crash when shifting while opening a skill tree
+
 ## 2.8.3
 - Fixes a duplication issue with the backpack pickup
 
