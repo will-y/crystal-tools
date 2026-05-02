@@ -1,0 +1,151 @@
+package dev.willyelton.crystal.tools.client.gui;
+
+import dev.willyelton.crystal.tools.CrystalTools;
+import dev.willyelton.crystal.core.client.gui.ContainerSubScreen;
+import dev.willyelton.crystal.core.client.gui.ScrollableContainerScreen;
+import dev.willyelton.crystal.core.client.gui.SubScreenContainerScreen;
+import dev.willyelton.crystal.core.client.gui.UpgradeScreen;
+import dev.willyelton.crystal.core.client.gui.component.ContainerSideButton;
+import dev.willyelton.crystal.core.common.capability.Capabilities;
+import dev.willyelton.crystal.core.common.capability.Levelable;
+import dev.willyelton.crystal.tools.client.gui.component.backpack.CompressButton;
+import dev.willyelton.crystal.tools.client.gui.component.backpack.SortButton;
+import dev.willyelton.crystal.tools.common.inventory.container.CrystalBackpackContainerMenu;
+import dev.willyelton.crystal.tools.common.levelable.CrystalBackpack;
+import dev.willyelton.crystal.tools.common.network.data.OpenBackpackPayload;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static dev.willyelton.crystal.core.utils.ScreenUtils.openScreen;
+import static dev.willyelton.crystal.core.utils.constants.ApiConstants.ROW_HEIGHT;
+import static dev.willyelton.crystal.core.utils.constants.ApiConstants.TOP_BAR_HEIGHT;
+
+public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBackpackContainerMenu> implements SubScreenContainerScreen {
+    public static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(CrystalTools.MODID, "textures/gui/crystal_backpack.png");
+
+    static final int TEXTURE_SIZE = 512;
+    static final int INVENTORY_WIDTH = 176;
+    static final int INVENTORY_HEIGHT = 96;
+
+    private final CrystalBackpackContainerMenu container;
+    private final Player player;
+
+    public CrystalBackpackScreen(CrystalBackpackContainerMenu container, Inventory inventory, Component name) {
+        super(container, inventory, name, INVENTORY_WIDTH - 3, TOP_BAR_HEIGHT, 128);
+        this.container = container;
+        player = inventory.player;
+        this.inventoryLabelX = 8;
+    }
+
+    private void setHeights() {
+        int rowsToDraw = getDisplayRows();
+
+        this.inventoryLabelY = rowsToDraw * ROW_HEIGHT + CrystalBackpackContainerMenu.START_Y + 2;
+        this.imageHeight = TOP_BAR_HEIGHT + INVENTORY_HEIGHT + rowsToDraw * ROW_HEIGHT;
+        this.imageWidth = INVENTORY_WIDTH;
+        if (rowsToDraw > menu.getRows()) {
+            this.imageWidth += SCROLL_WIDTH + 4;
+        }
+
+        this.setScrollHeight(rowsToDraw * ROW_HEIGHT);
+    }
+
+    @Override
+    public void extractRenderState(@NotNull GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.extractRenderState(guiGraphics, mouseX, mouseY, partialTick);
+        this.extractTooltip(guiGraphics, mouseX, mouseY);
+    }
+
+    @Override
+    public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        int rowsToDraw = getDisplayRows();
+
+        // Backpack top bar
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, topPos, 0, 0, INVENTORY_WIDTH, TOP_BAR_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
+
+        for (int row = 0; row < rowsToDraw; row++) {
+            // Backpack row
+            guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, topPos + TOP_BAR_HEIGHT + ROW_HEIGHT * row, 0, 222, INVENTORY_WIDTH, ROW_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
+        }
+
+        // Player inventory
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, topPos + TOP_BAR_HEIGHT + ROW_HEIGHT * rowsToDraw, 0, 125, INVENTORY_WIDTH, INVENTORY_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
+
+        super.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
+    }
+
+    public int getDisplayRows() {
+        if (getMaxDisplayRows() <= 0) {
+            return menu.getRows();
+        } else {
+            return Math.min(menu.getRows(), getMaxDisplayRows());
+        }
+    }
+
+    @Override
+    public int getMaxDisplayRows() {
+        return (this.height - TOP_BAR_HEIGHT - INVENTORY_HEIGHT) / ROW_HEIGHT;
+    }
+
+    @Override
+    protected void init() {
+        setHeights();
+        super.init();
+
+        int actionButtonX = this.leftPos + 157;
+        int screenButtonY = this.topPos + 17;
+
+        if (this.menu.canSort()) {
+            this.addRenderableWidget(new SortButton(actionButtonX, this.topPos + 4, this, container));
+            actionButtonX -= 14;
+        }
+
+        if (this.menu.canCompress()) {
+            this.addRenderableWidget(new CompressButton(actionButtonX, this.topPos + 4, this, container));
+            actionButtonX -=14;
+        }
+
+        this.addRenderableWidget(new ContainerSideButton(this.leftPos - 21, screenButtonY, Component.literal("Open Skill Tree"),
+                button -> {
+                    this.onClose();
+                    Levelable levelable = this.container.getBackpackStack().getCapability(Capabilities.ITEM_SKILL, player.level().registryAccess());
+                    if (levelable != null) {
+                        ItemStack backpackStack = CrystalBackpack.getBackpackFromSlotIndex(player, menu.getSlotIndex());
+                        openScreen(new UpgradeScreen(backpackStack, menu.getSlotIndex(), menu.getPlayer(), () -> ClientPacketDistributor.sendToServer(new OpenBackpackPayload(menu.getSlotIndex())), levelable));
+                    }
+                },
+                (button, guiGraphics, mouseX, mouseY) -> {
+                    Component textComponent = Component.literal("Open Skill Tree");
+                    guiGraphics.setTooltipForNextFrame(this.font, this.font.split(textComponent, Math.max(CrystalBackpackScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
+                }, 40));
+//        screenButtonY += 21;
+
+//        List<ContainerSideButton> subScreenButtons = getSideButtons(this.leftPos - 21, screenButtonY, this.width, menu);
+//        subScreenButtons.forEach(this::addRenderableWidget);
+    }
+
+    @Override
+    public List<ContainerSubScreen<?, ?>> getSubScreens() {
+        List<ContainerSubScreen<?, ?>> subScreens = new ArrayList<>();
+
+        if (this.menu.getFilterRows() > 0) {
+            subScreens.add(new FilterConfigScreen<>(menu, menu.getPlayerInventory(), this, true));
+        }
+
+        if (this.menu.canCompress()) {
+            subScreens.add(new CompressConfigScreen(menu, menu.getPlayerInventory(), this));
+        }
+
+        return subScreens;
+    }
+}

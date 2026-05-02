@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": "crystal_core:crystal",
+    "n": "minecraft:netherite_ingot"
+  },
+  "pattern": [
+    "c",
+    "n"
+  ],
+  "result": {
+    "count": 4,
+    "id": "crystal_tools:quarry_stabilizer"
+  }
+}

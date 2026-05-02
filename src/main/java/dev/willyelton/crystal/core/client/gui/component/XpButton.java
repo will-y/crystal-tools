@@ -1,0 +1,59 @@
+package dev.willyelton.crystal.core.client.gui.component;
+
+import dev.willyelton.crystal.core.utils.Colors;
+import dev.willyelton.crystal.core.utils.constants.ApiConstants;
+import dev.willyelton.crystal.core.utils.XpUtils;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ActiveTextCollector;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.TextAlignment;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.player.Player;
+
+import java.util.function.Supplier;
+
+/**
+ * Button to require xp costs
+ */
+public class XpButton extends Button {
+    private static final Identifier TEXTURE = ApiConstants.baseRl("textures/gui/xp_button.png");
+
+    protected final CrystalToolsButton.OnTooltip onTooltip;
+    protected final Supplier<Integer> levelCostSupplier;
+
+    public XpButton(int x, int y, int width, int height, OnPress onPress, CrystalToolsButton.OnTooltip onToolTip, Supplier<Integer> levelCostSupplier) {
+        super(x, y, width, height, Component.literal("" + levelCostSupplier.get()), onPress, DEFAULT_NARRATION);
+        this.onTooltip = onToolTip;
+        this.levelCostSupplier = levelCostSupplier;
+    }
+
+    @Override
+    protected void extractContents(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, getX() + 4, getY() + 5, 0, 0, 9, 9, 256, 256);
+
+        if (this.isHovered) {
+            this.onTooltip.onTooltip(this, guiGraphics, mouseX, mouseY);
+        }
+    }
+
+    @Override
+    public void extractDefaultLabel(ActiveTextCollector textCollector) {
+        Font font = Minecraft.getInstance().font;
+        int color = this.active ? Colors.fromRGB(200, 255, 143) : Colors.fromRGB(140, 96, 93);
+        textCollector.accept(TextAlignment.CENTER, this.getX() + 16, this.getY() + (getHeight() - font.lineHeight) / 2 + 1, this.getMessage().copy().withColor(color));
+    }
+
+    @Override
+    public Component getMessage() {
+        return Component.literal("" + levelCostSupplier.get());
+    }
+
+    public void update(int levelCost, Player player) {
+        active = XpUtils.getPlayerTotalXp(player) >= levelCost;
+        this.setMessage(Component.literal("" + levelCost));
+    }
+}

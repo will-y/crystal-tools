@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": "crystal_core:crystal",
+    "f": "minecraft:furnace"
+  },
+  "pattern": [
+    "ccc",
+    "cfc",
+    "ccc"
+  ],
+  "result": {
+    "id": "crystal_tools:crystal_furnace"
+  }
+}

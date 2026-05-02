@@ -1,0 +1,130 @@
+package dev.willyelton.crystal.core.client.gui;
+
+import dev.willyelton.crystal.core.Registration;
+import dev.willyelton.crystal.core.common.capability.Levelable;
+import dev.willyelton.crystal.core.common.capability.LevelableStack;
+import dev.willyelton.crystal.core.common.datacomponent.DataComponents;
+import dev.willyelton.crystal.core.common.network.payload.ResetSkillsPayload;
+import dev.willyelton.crystal.core.common.network.payload.ToolHealPayload;
+import dev.willyelton.crystal.core.common.network.payload.ToolSkillPayload;
+import dev.willyelton.crystal.core.common.skill.SkillPoints;
+import dev.willyelton.crystal.core.utils.ToolUtils;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Set;
+
+public class UpgradeScreen extends BaseUpgradeScreen {
+    @Nullable
+    private Button healButton;
+    private final ItemStack stack;
+    private final Runnable onClose;
+    private final Levelable levelable;
+
+    // TODO: Fix
+    private int slotIndex = -1;
+
+    public UpgradeScreen(ItemStack itemStack, Player player, Levelable levelable) {
+        this(itemStack, player, null, levelable);
+    }
+
+    public UpgradeScreen(ItemStack stack, int slotIndex, Player player, Runnable onClose, Levelable levelable) {
+        this(stack, player, onClose, levelable);
+        this.slotIndex = slotIndex;
+    }
+
+    public UpgradeScreen(ItemStack itemStack, Player player, Runnable onClose, Levelable levelable) {
+        super(player, Component.literal("Upgrade Screen"), levelable.getSkillTree(), levelable.getKey());
+        this.stack = itemStack;
+        this.onClose = onClose;
+        this.levelable = levelable;
+    }
+
+    /**
+     * Used to init things differently from the default item implementation of the upgrade screen
+     */
+    @Override
+    protected void initComponents() {
+        super.initComponents();
+
+        if (levelable instanceof LevelableStack levelableStack && !levelableStack.allowRepair()) return;
+
+        // add button to spend skill points to heal tool
+        healButton = addRenderableWidget(Button.builder(Component.literal("Heal"), (button) -> {
+            ClientPacketDistributor.sendToServer(ToolHealPayload.INSTANCE);
+            // also do client side to update ui, seems to work, might want to test more
+            DataComponents.addToComponent(stack, DataComponents.SKILL_POINTS, -1);
+            this.updateButtons();
+            // Itemstack won't get updated yet I guess so need to manually disable heal after use
+            button.active = false;
+        }).bounds(5, 15, 30, Y_SIZE).tooltip(Tooltip.create(Component.literal("Uses a skill point to fully repair this tool"))).build());
+    }
+
+    @Override
+    protected void resetPoints(boolean crystalRequired) {
+        if (!crystalRequired || this.player.getInventory().hasAnyOf(Set.of(Registration.CRYSTAL.get()))) {
+            ClientPacketDistributor.sendToServer(ResetSkillsPayload.INSTANCE);
+            ToolUtils.resetPoints(this.stack, this.player);
+        }
+
+        this.onClose();
+    }
+
+    @Override
+    public SkillPoints getPoints() {
+        return this.stack.getOrDefault(DataComponents.SKILL_POINT_DATA, new SkillPoints()).copy();
+    }
+
+    @Override
+    protected int getSkillPoints() {
+        return stack.getOrDefault(DataComponents.SKILL_POINTS, 0);
+    }
+
+    @Override
+    protected void updateButtons() {
+        super.updateButtons();
+        int skillPoints = getSkillPoints();
+        if (this.healButton != null) {
+            this.healButton.active = skillPoints > 0 && this.stack.isDamaged();
+        }
+    }
+
+    @Override
+    protected void addPointsForNode(int pointsToSpend, int nodeId) {
+        ClientPacketDistributor.sendToServer(new ToolSkillPayload(nodeId, key, pointsToSpend));
+        DataComponents.addToComponent(stack, DataComponents.SKILL_POINTS, -pointsToSpend);
+    }
+
+    @Override
+    protected void changeClientSkillPoints(int change) {
+        DataComponents.addToComponent(stack, DataComponents.SKILL_POINTS, change);
+    }
+
+    @Override
+    protected int getXpButtonY() {
+        return 35;
+    }
+
+    @Override
+    public void onClose() {
+        super.onClose();
+        if (this.onClose != null) {
+            this.onClose.run();
+        }
+    }
+
+    @Override
+    protected boolean allowReset() {
+        return levelable.allowReset();
+    }
+
+    @Override
+    protected boolean allowXpLevels() {
+        return levelable.allowXpLevels();
+    }
+}

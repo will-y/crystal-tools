@@ -1,0 +1,85 @@
+package dev.willyelton.crystal.tools.common.compat.jei.pedestal;
+
+import dev.willyelton.crystal.tools.CrystalTools;
+import dev.willyelton.crystal.tools.common.compat.jei.CrystalToolsRecipeTypes;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.drawable.IDrawableStatic;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
+import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.category.IRecipeCategory;
+import mezz.jei.api.recipe.types.IRecipeType;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import org.jetbrains.annotations.Nullable;
+
+public class PedestalRecipeCategory implements IRecipeCategory<PedestalRecipe>  {
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(CrystalTools.MODID, "textures/gui/crystal_generator_category.png");
+
+    private final IDrawableStatic background;
+
+    public PedestalRecipeCategory(IGuiHelper guiHelper) {
+        this.background = guiHelper.drawableBuilder(TEXTURE, 0, 0, 18, 18)
+                .build();
+    }
+
+    @Override
+    public int getWidth() {
+        return 120;
+    }
+
+    @Override
+    public int getHeight() {
+        return 100;
+    }
+
+    @Override
+    public IRecipeType<PedestalRecipe> getRecipeType() {
+        return CrystalToolsRecipeTypes.PEDESTAL;
+    }
+
+    @Override
+    public Component getTitle() {
+        return Component.translatable("gui.crystal_tools.category.pedestal");
+    }
+
+    @Override
+    public @Nullable IDrawable getIcon() {
+        return null;
+    }
+
+    @Override
+    public void setRecipe(IRecipeLayoutBuilder builder, PedestalRecipe recipe, IFocusGroup focuses) {
+        builder.addSlot(RecipeIngredientRole.INPUT, 1, 1)
+                .setSlotName("Pedestal Item")
+                .add(recipe.stack());
+    }
+
+    @Override
+    public void draw(PedestalRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
+        Minecraft minecraft = Minecraft.getInstance();
+        Font font = minecraft.font;
+
+        background.draw(guiGraphics, 0, 0);
+
+        Component titleComponent = Component.translatable(translatableComponentFromIdentifier(recipe.data().actionType()));
+        Component descriptionComponent = Component.translatable(translatableComponentFromIdentifier(recipe.data().actionType()) + ".description");
+
+        guiGraphics.text(font, titleComponent, 25, 0, 0xFF000000, false);
+        guiGraphics.textWithWordWrap(font, descriptionComponent, 25, 10, 100, 0xFF606060, false);
+        int y = font.split(descriptionComponent, 100).size() * 9;
+
+        if (recipe.data().params() != null && recipe.data().params().range() > 0) {
+            guiGraphics.text(font, Component.literal("Range: +" + recipe.data().params().range()), 25, 11 + y, 0xFF8080FF, false);
+        }
+    }
+
+    private String translatableComponentFromIdentifier(Identifier identifier) {
+        return String.format("action.%s.%s", identifier.getNamespace(), identifier.getPath());
+    }
+}

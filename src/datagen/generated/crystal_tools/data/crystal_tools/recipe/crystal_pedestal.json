@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "b": "crystal_core:crystal_block",
+    "c": "minecraft:chest",
+    "n": "minecraft:netherite_ingot"
+  },
+  "pattern": [
+    "n",
+    "b",
+    "c"
+  ],
+  "result": {
+    "id": "crystal_tools:crystal_pedestal"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": "crystal_core:crystal",
+    "s": "minecraft:stick"
+  },
+  "pattern": [
+    "c",
+    "s"
+  ],
+  "result": {
+    "count": 4,
+    "id": "crystal_core:crystal_torch"
+  }
+}

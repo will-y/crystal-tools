@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "a": "minecraft:enchanted_golden_apple",
+    "c": "crystal_core:crystal"
+  },
+  "pattern": [
+    "ccc",
+    "cac",
+    "ccc"
+  ],
+  "result": {
+    "id": "crystal_tools:crystal_apple"
+  }
+}

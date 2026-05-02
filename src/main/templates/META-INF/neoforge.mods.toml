@@ -2,13 +2,13 @@ license="${mod_license}"
 issueTrackerURL="https://github.com/will-y/crystal-tools/issues" #optional
 
 [[mods]]
-modId="${mod_id}"
-version="${mod_version}"
-displayName="${mod_name}"
+modId="${core_id}"
+version="${core_version}"
+displayName="${core_name}"
 authors="${mod_authors}"
-description='''${mod_description}'''
+description='''${core_description}'''
 
-[[dependencies.${mod_id}]]
+[[dependencies."${core_id}"]]
     # the modid of the dependency
     modId="neoforge" #mandatory
     type="required"
@@ -16,21 +16,21 @@ description='''${mod_description}'''
     ordering="NONE"
     side="BOTH"
 
-[[dependencies.${mod_id}]]
+[[dependencies."${core_id}"]]
     modId="minecraft"
     type="required"
     versionRange="${minecraft_version_range}"
     ordering="NONE"
     side="BOTH"
 
-[[dependencies.${mod_id}]]
+[[dependencies."${core_id}"]]
     modId="jei"
     type="optional"
     versionRange="[19,)"
     ordering="NONE"
     side="CLIENT"
 
-[[dependencies.${mod_id}]]
+[[dependencies."${core_id}"]]
     modId="curios"
     type="optional"
     versionRange="[8,)"

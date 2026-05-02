@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "c": "crystal_core:crystal",
+    "s": "minecraft:shield",
+    "t": "#c:rods/netherite"
+  },
+  "pattern": [
+    " c ",
+    "tsc",
+    " c "
+  ],
+  "result": {
+    "id": "crystal_tools:crystal_shield"
+  }
+}

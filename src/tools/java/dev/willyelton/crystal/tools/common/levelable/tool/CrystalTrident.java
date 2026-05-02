@@ -1,0 +1,194 @@
+package dev.willyelton.crystal.tools.common.levelable.tool;
+
+import dev.willyelton.crystal.tools.common.components.DataComponents;
+import dev.willyelton.crystal.tools.common.entity.CrystalTridentEntity;
+import dev.willyelton.crystal.tools.common.events.LevelTickEvent;
+import dev.willyelton.crystal.tools.common.levelable.EntityTargeter;
+import dev.willyelton.crystal.tools.common.levelable.LevelableItem;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
+import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TridentItem;
+import net.minecraft.world.item.component.Weapon;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Consumer;
+
+public class CrystalTrident extends TridentItem implements EntityTargeter, LevelableItem {
+    public CrystalTrident(Properties properties) {
+        super(properties.attributes(TridentItem.createAttributes())
+                .durability(CRYSTAL.durability())
+                .component(net.minecraft.core.component.DataComponents.TOOL, TridentItem.createToolProperties())
+                .component(net.minecraft.core.component.DataComponents.WEAPON, new Weapon(1)));
+    }
+
+    @Override
+    public float getDestroySpeed(ItemStack stack, BlockState state) {
+        return 1.0F;
+    }
+
+    @Override
+    public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
+        return false;
+    }
+
+    @Override
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+        return !ItemStack.isSameItem(oldStack, newStack);
+    }
+
+    @Override
+    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<Item> onBroken) {
+        int durability = this.getMaxDamage(stack) - stack.getDamageValue();
+
+        if (durability - amount <= 0) {
+            return 0;
+        } else {
+            return amount;
+        }
+    }
+
+    @Override
+    public boolean isFoil(ItemStack stack) {
+        return false;
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, EquipmentSlot slot) {
+        levelableInventoryTick(stack, level, entity, slot, 1);
+    }
+
+    @Override
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
+        ItemStack stack = player.getItemInHand(hand);
+
+        if (stack.getDamageValue() >= stack.getMaxDamage() - 1) {
+            return InteractionResult.FAIL;
+        } else if (riptideEnabled(stack) && !canRiptide(stack, player)) {
+            return InteractionResult.FAIL;
+        } else {
+            player.startUsingItem(hand);
+            return InteractionResult.CONSUME;
+        }
+    }
+
+    // TODO: 26.1: Mixins instead of this
+    @Override
+    public boolean releaseUsing(ItemStack stack, Level level, LivingEntity entityLiving, int timeLeft) {
+        if (entityLiving instanceof Player player) {
+            int timeUsed = this.getUseDuration(stack, entityLiving) - timeLeft;
+            if (timeUsed >= 10) {
+                int riptideLevel = stack.getOrDefault(DataComponents.RIPTIDE, 0);
+                if (!level.isClientSide()) {
+                    stack.hurtAndBreak(1, player, entityLiving.getUsedItemHand().asEquipmentSlot());
+
+                    if (!riptideEnabled(stack)) {
+                        CrystalTridentEntity tridentEntity = new CrystalTridentEntity(level, player, stack);
+                        float velocity = 2.5F + stack.getOrDefault(DataComponents.PROJECTILE_SPEED, 0F) * 0.5F;
+                        tridentEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, velocity, 1.0F);
+                        if (player.getAbilities().instabuild) {
+                            tridentEntity.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
+                        }
+
+                        level.addFreshEntity(tridentEntity);
+
+                        int target = stack.getOrDefault(DataComponents.ENTITY_TARGET, -1);
+                        if (target != -1) {
+                            LevelTickEvent.startTracking(level, tridentEntity.getId(), target, velocity / 2);
+                        }
+
+                        level.playSound(null, tridentEntity, SoundEvents.TRIDENT_THROW.value(), SoundSource.PLAYERS, 1.0F, 1.0F);
+                        if (!player.getAbilities().instabuild) {
+                            player.getInventory().removeItem(stack);
+                        }
+                    }
+                }
+
+                player.awardStat(Stats.ITEM_USED.get(this));
+                // Do riptide things
+                if (canRiptide(stack, player)) {
+                    float playerYRot = player.getYRot();
+                    float playerXRot = player.getXRot();
+                    float playerPushX = -Mth.sin(playerYRot * ((float)Math.PI / 180F)) * Mth.cos(playerXRot * ((float)Math.PI / 180F));
+                    float playerPushY = -Mth.sin(playerXRot * ((float)Math.PI / 180F));
+                    float playerPushZ = Mth.cos(playerYRot * ((float)Math.PI / 180F)) * Mth.cos(playerXRot * ((float)Math.PI / 180F));
+                    float playerSpeed = Mth.sqrt(playerPushX * playerPushX + playerPushY * playerPushY + playerPushZ * playerPushZ);
+                    float playerPushMagnitude = 3.0F * ((1.0F + (float) riptideLevel) / 4.0F);
+                    playerPushX *= playerPushMagnitude / playerSpeed;
+                    playerPushY *= playerPushMagnitude / playerSpeed;
+                    playerPushZ *= playerPushMagnitude / playerSpeed;
+                    player.push(playerPushX, playerPushY, playerPushZ);
+                    // TODO: Can increase this attack damage now
+                    player.startAutoSpinAttack(20, 8.0F, stack);
+                    if (player.onGround()) {
+                        player.move(MoverType.SELF, new Vec3(0.0D, 1.1999999F, 0.0D));
+                    }
+
+                    SoundEvent soundevent;
+                    if (riptideLevel >= 3) {
+                        soundevent = SoundEvents.TRIDENT_RIPTIDE_3.value();
+                    } else if (riptideLevel == 2) {
+                        soundevent = SoundEvents.TRIDENT_RIPTIDE_2.value();
+                    } else {
+                        soundevent = SoundEvents.TRIDENT_RIPTIDE_1.value();
+                    }
+
+                    level.playSound(null, player, soundevent, SoundSource.PLAYERS, 1.0F, 1.0F);
+                }
+            }
+        }
+
+        return true;
+    }
+
+    @Override
+    public void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration) {
+        refreshTarget(stack, level, livingEntity);
+
+        super.onUseTick(level, livingEntity, stack, remainingUseDuration);
+    }
+
+    @Override
+    public void onStopUsing(ItemStack stack, LivingEntity entity, int count) {
+        clearTarget(stack, entity.level());
+        super.onStopUsing(stack, entity, count);
+    }
+
+    @Override
+    public boolean mineBlock(@NotNull ItemStack tool, Level level, @NotNull BlockState blockState, @NotNull BlockPos blockPos, @NotNull LivingEntity entity) {
+        return false;
+    }
+
+    private boolean canRiptide(ItemStack stack, Player player) {
+        if (stack.getOrDefault(DataComponents.RIPTIDE_DISABLED, false)) return false;
+
+        if (stack.getOrDefault(DataComponents.ALWAYS_RIPTIDE, false)) return true;
+
+        return stack.getOrDefault(DataComponents.RIPTIDE, 0) > 0 && player.isInWaterOrRain();
+    }
+
+    private boolean riptideEnabled(ItemStack stack) {
+        if (stack.getOrDefault(DataComponents.RIPTIDE_DISABLED, false)) return false;
+
+        if (stack.getOrDefault(DataComponents.ALWAYS_RIPTIDE, false)) return true;
+
+        return stack.getOrDefault(DataComponents.RIPTIDE, 0) > 0;
+    }
+}
