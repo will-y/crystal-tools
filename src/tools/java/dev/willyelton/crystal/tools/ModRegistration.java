@@ -246,5 +246,6 @@ public class ModRegistration {
         DataComponents.COMPONENTS.register(modEventBus);
         RECIPES.register(modEventBus);
         PARTICLES.register(modEventBus);
+        ATTACHMENT_TYPES.register(modEventBus);
     }
 }

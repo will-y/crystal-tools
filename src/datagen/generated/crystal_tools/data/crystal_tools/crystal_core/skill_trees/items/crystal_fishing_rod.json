@@ -105,7 +105,7 @@
           "description": "Adds 10% to the chance not to use durability",
           "id": 6,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 1,
           "name": "Unbreaking I",
@@ -233,7 +233,7 @@
           "description": "Adds 10% to the chance not to use durability",
           "id": 11,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 1,
           "name": "Unbreaking II",
@@ -373,7 +373,7 @@
           "description": "Adds 10% to the chance not to use durability",
           "id": 16,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 1,
           "name": "Unbreaking III",
@@ -431,7 +431,7 @@
           "description": "Automatically repairs the Fishing Rod over time",
           "id": 18,
           "key": [
-            "crystal_tools:auto_repair"
+            "crystal_core:auto_repair"
           ],
           "limit": 0,
           "name": "Auto Repair",
@@ -539,7 +539,7 @@
           "description": "Adds 10% to the chance not to use durability",
           "id": 22,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 70,
           "name": "Infinite Unbreaking",

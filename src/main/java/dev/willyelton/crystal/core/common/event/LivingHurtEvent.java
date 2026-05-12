@@ -1,12 +1,12 @@
-package dev.willyelton.crystal.tools.common.events;
+package dev.willyelton.crystal.core.common.event;
 
-import dev.willyelton.crystal.tools.CrystalTools;
 import dev.willyelton.crystal.core.common.capability.Capabilities;
 import dev.willyelton.crystal.core.common.capability.Levelable;
 import dev.willyelton.crystal.core.common.capability.LevelableStack;
-import dev.willyelton.crystal.tools.common.components.DataComponents;
+import dev.willyelton.crystal.core.common.datacomponent.DataComponents;
 import dev.willyelton.crystal.core.utils.InventoryUtils;
 import dev.willyelton.crystal.core.utils.ToolUtils;
+import dev.willyelton.crystal.core.utils.constants.ApiConstants;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -14,7 +14,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 
-@EventBusSubscriber(modid = CrystalTools.MODID)
+@EventBusSubscriber(modid = ApiConstants.CORE_MOD_ID)
 public class LivingHurtEvent {
     @SubscribeEvent
     public static void handleLivingHurtEvent(LivingDamageEvent.Post event) {

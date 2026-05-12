@@ -1,6 +1,6 @@
 package dev.willyelton.crystal.core.utils;
 
-import dev.willyelton.crystal.core.common.config.CrystalToolsCoreConfig;
+import dev.willyelton.crystal.core.common.config.CrystalCoreConfig;
 import dev.willyelton.crystal.core.common.datacomponent.DataComponents;
 import dev.willyelton.crystal.core.common.datamap.CrystalCoreDataMaps;
 import dev.willyelton.crystal.core.common.event.DatapackRegistryEvents;
@@ -46,7 +46,7 @@ public class ToolUtils {
     }
 
     public static int getNewCap(int currentCap, int levelIncrease) {
-        return (int) Math.min((float) (currentCap * Math.pow(CrystalToolsCoreConfig.EXPERIENCE_MULTIPLIER.get(), levelIncrease)), CrystalToolsCoreConfig.MAX_EXP.get());
+        return (int) Math.min((float) (currentCap * Math.pow(CrystalCoreConfig.EXPERIENCE_MULTIPLIER.get(), levelIncrease)), CrystalCoreConfig.MAX_EXP.get());
     }
 
     public static void resetPoints(ItemStack stack, Player player) {

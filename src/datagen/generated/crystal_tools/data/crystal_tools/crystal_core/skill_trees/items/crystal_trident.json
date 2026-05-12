@@ -52,7 +52,7 @@
           "description": "Adds 10% to the chance not to use durability",
           "id": 3,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 1,
           "name": "Unbreaking I",
@@ -122,7 +122,7 @@
           "description": "Mobs killed by this Trident will have a chance to drop their head",
           "id": 6,
           "key": [
-            "crystal_tools:beheading"
+            "crystal_core:beheading"
           ],
           "limit": 1,
           "name": "Beheading I",
@@ -243,7 +243,7 @@
           "description": "Mobs killed by this Trident will have a chance to drop their spawn egg",
           "id": 10,
           "key": [
-            "crystal_tools:capture"
+            "crystal_core:capture"
           ],
           "limit": 1,
           "name": "Capturing I",
@@ -361,7 +361,7 @@
           "description": "Adds 10% to the chance not to use durability",
           "id": 14,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 1,
           "name": "Unbreaking II",
@@ -449,7 +449,7 @@
           "description": "Mobs killed by this Trident will have a chance to drop their head",
           "id": 17,
           "key": [
-            "crystal_tools:beheading"
+            "crystal_core:beheading"
           ],
           "limit": 1,
           "name": "Beheading II",
@@ -555,7 +555,7 @@
           "description": "Mobs killed by this Trident will have a chance to drop their spawn egg",
           "id": 20,
           "key": [
-            "crystal_tools:capture"
+            "crystal_core:capture"
           ],
           "limit": 1,
           "name": "Capturing I",
@@ -585,7 +585,7 @@
           "description": "Automatically repairs the Trident over time",
           "id": 21,
           "key": [
-            "crystal_tools:auto_repair"
+            "crystal_core:auto_repair"
           ],
           "limit": 0,
           "name": "Auto Repair",
@@ -703,7 +703,7 @@
           "description": "Adds 10% to the chance not to use durability",
           "id": 25,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 1,
           "name": "Unbreaking III",
@@ -791,7 +791,7 @@
           "description": "Mobs killed by this Trident will have a chance to drop their head",
           "id": 28,
           "key": [
-            "crystal_tools:beheading"
+            "crystal_core:beheading"
           ],
           "limit": 1,
           "name": "Beheading III",
@@ -897,7 +897,7 @@
           "description": "Mobs killed by this Trident will have a chance to drop their spawn egg",
           "id": 31,
           "key": [
-            "crystal_tools:capture"
+            "crystal_core:capture"
           ],
           "limit": 1,
           "name": "Capturing I",
@@ -1043,7 +1043,7 @@
           "description": "Adds 10% to the chance not to use durability",
           "id": 36,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 70,
           "name": "Infinite Unbreaking",

@@ -2,7 +2,7 @@ package dev.willyelton.crystal.tools.common.crafting;
 
 import dev.willyelton.crystal.core.common.capability.Capabilities;
 import dev.willyelton.crystal.core.common.capability.Levelable;
-import dev.willyelton.crystal.core.common.config.CrystalToolsCoreConfig;
+import dev.willyelton.crystal.core.common.config.CrystalCoreConfig;
 import dev.willyelton.crystal.core.common.datacomponent.DataComponents;
 import dev.willyelton.crystal.core.common.skill.SkillPoints;
 import dev.willyelton.crystal.core.utils.ToolUtils;
@@ -59,7 +59,7 @@ public abstract class CrystalToolsRecipe extends CustomRecipe {
         }
 
         // Fallback if for some reason we don't have a real registry access?
-        int newCap = ToolUtils.getNewCap(CrystalToolsCoreConfig.BASE_EXPERIENCE_CAP.get(), points);
+        int newCap = ToolUtils.getNewCap(CrystalCoreConfig.BASE_EXPERIENCE_CAP.get(), points);
 
         stack.set(DataComponents.EXPERIENCE_CAP, newCap);
     }

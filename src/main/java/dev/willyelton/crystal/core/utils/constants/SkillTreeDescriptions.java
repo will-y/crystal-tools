@@ -1,5 +1,7 @@
 package dev.willyelton.crystal.core.utils.constants;
 
+import static dev.willyelton.crystal.core.utils.constants.SkillTreeTitles.intToRomanNumeral;
+
 public class SkillTreeDescriptions {
     private final String toolName;
 
@@ -47,8 +49,8 @@ public class SkillTreeDescriptions {
         return String.format("Gives Silk Touch to the %s", toolName);
     }
 
-    public String fortune() {
-        return String.format("Gives Fortune III to the %s", toolName);
+    public String fortune(int level) {
+        return String.format("Gives Fortune %s to the %s", intToRomanNumeral(level), toolName);
     }
 
     public String autoPickup() {

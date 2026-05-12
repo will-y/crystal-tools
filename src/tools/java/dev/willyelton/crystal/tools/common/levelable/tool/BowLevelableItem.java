@@ -1,11 +1,11 @@
 package dev.willyelton.crystal.tools.common.levelable.tool;
 
+import dev.willyelton.crystal.core.common.levelable.LevelableItem;
+import dev.willyelton.crystal.core.common.tag.CrystalCoreTags;
+import dev.willyelton.crystal.core.utils.ToolUtils;
 import dev.willyelton.crystal.tools.common.components.DataComponents;
 import dev.willyelton.crystal.tools.common.events.LevelTickEvent;
 import dev.willyelton.crystal.tools.common.levelable.EntityTargeter;
-import dev.willyelton.crystal.tools.common.levelable.LevelableItem;
-import dev.willyelton.crystal.tools.common.tags.CrystalToolsTags;
-import dev.willyelton.crystal.core.utils.ToolUtils;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
@@ -41,7 +41,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem, EntityTa
         super(properties
                 .durability(CRYSTAL.durability())
                 .fireResistant()
-                .repairable(CrystalToolsTags.REPAIRS_CRYSTAL));
+                .repairable(CrystalCoreTags.REPAIRS_CRYSTAL));
     }
 
     @Override

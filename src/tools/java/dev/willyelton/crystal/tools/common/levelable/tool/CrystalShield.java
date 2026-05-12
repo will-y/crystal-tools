@@ -1,9 +1,9 @@
 package dev.willyelton.crystal.tools.common.levelable.tool;
 
+import dev.willyelton.crystal.core.common.levelable.LevelableItem;
+import dev.willyelton.crystal.core.common.tag.CrystalCoreTags;
 import dev.willyelton.crystal.tools.common.components.DataComponents;
 import dev.willyelton.crystal.tools.common.levelable.EntityTargeter;
-import dev.willyelton.crystal.tools.common.levelable.LevelableItem;
-import dev.willyelton.crystal.tools.common.tags.CrystalToolsTags;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -45,7 +45,7 @@ public class CrystalShield extends ShieldItem implements LevelableItem, EntityTa
                         )
                 )
                 .fireResistant()
-                .repairable(CrystalToolsTags.REPAIRS_CRYSTAL));
+                .repairable(CrystalCoreTags.REPAIRS_CRYSTAL));
     }
 
     @Override

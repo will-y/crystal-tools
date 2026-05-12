@@ -1,4 +1,4 @@
-package dev.willyelton.crystal.tools.common.command;
+package dev.willyelton.crystal.core.common.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;

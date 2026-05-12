@@ -212,7 +212,7 @@
           "description": "Adds 10% to the chance not to use durability",
           "id": 10,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 1,
           "name": "Unbreaking I",
@@ -261,7 +261,7 @@
           "description": "Mobs killed by this AIOT will have a chance to drop their head",
           "id": 12,
           "key": [
-            "crystal_tools:beheading"
+            "crystal_core:beheading"
           ],
           "limit": 1,
           "name": "Beheading I",
@@ -359,7 +359,7 @@
           "description": "Mobs killed by this AIOT will have a chance to drop their spawn egg",
           "id": 16,
           "key": [
-            "crystal_tools:capture"
+            "crystal_core:capture"
           ],
           "limit": 1,
           "name": "Capturing I",
@@ -529,7 +529,7 @@
           "description": "Automatically repairs the AIOT over time",
           "id": 22,
           "key": [
-            "crystal_tools:auto_repair"
+            "crystal_core:auto_repair"
           ],
           "limit": 0,
           "name": "Auto Repair",
@@ -608,7 +608,7 @@
           "description": "Automatically smelts the blocks that you mine",
           "id": 25,
           "key": [
-            "crystal_tools:auto_smelt"
+            "crystal_core:auto_smelt"
           ],
           "limit": 1,
           "name": "Auto Smelting",
@@ -633,7 +633,7 @@
           "description": "Mobs killed by this AIOT will have a chance to drop their spawn egg",
           "id": 26,
           "key": [
-            "crystal_tools:capture"
+            "crystal_core:capture"
           ],
           "limit": 1,
           "name": "Capturing II",
@@ -697,7 +697,7 @@
           "description": "You gain 1 heart back on each attack with the AIOT",
           "id": 27,
           "key": [
-            "crystal_tools:lifesteal"
+            "crystal_core:lifesteal"
           ],
           "limit": 1,
           "name": "Lifesteal I",
@@ -787,7 +787,7 @@
           "description": "Adds 10% to the chance not to use durability",
           "id": 30,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 1,
           "name": "Unbreaking II",
@@ -852,7 +852,7 @@
           "description": "Mobs killed by this AIOT will have a chance to drop their head",
           "id": 32,
           "key": [
-            "crystal_tools:beheading"
+            "crystal_core:beheading"
           ],
           "limit": 1,
           "name": "Beheading II",
@@ -1014,7 +1014,7 @@
           "description": "When you mine block with this AIOT, the drops will automatically go into your inventory if there is space",
           "id": 37,
           "key": [
-            "crystal_tools:auto_pickup"
+            "crystal_core:auto_pickup"
           ],
           "limit": 1,
           "name": "Auto Pickup",
@@ -1040,7 +1040,7 @@
           "description": "Mobs killed by this AIOT will have a chance to drop their spawn egg",
           "id": 38,
           "key": [
-            "crystal_tools:capture"
+            "crystal_core:capture"
           ],
           "limit": 1,
           "name": "Capturing III",
@@ -1074,7 +1074,7 @@
           "description": "Right-Click to place a torch",
           "id": 39,
           "key": [
-            "crystal_tools:torch"
+            "crystal_core:torch"
           ],
           "limit": 1,
           "name": "Torch",
@@ -1149,7 +1149,7 @@
           "description": "Adds 10% to the chance not to use durability",
           "id": 42,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 1,
           "name": "Unbreaking III",
@@ -1214,7 +1214,7 @@
           "description": "Mobs killed by this AIOT will have a chance to drop their head",
           "id": 44,
           "key": [
-            "crystal_tools:beheading"
+            "crystal_core:beheading"
           ],
           "limit": 1,
           "name": "Beheading III",
@@ -1462,7 +1462,7 @@
           "description": "Adds 10% to the chance not to use durability",
           "id": 53,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 70,
           "name": "Infinite Unbreaking",

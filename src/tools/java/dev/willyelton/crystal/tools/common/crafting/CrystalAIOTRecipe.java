@@ -2,7 +2,7 @@ package dev.willyelton.crystal.tools.common.crafting;
 
 import dev.willyelton.crystal.tools.ModRegistration;
 import dev.willyelton.crystal.core.common.datacomponent.DataComponents;
-import dev.willyelton.crystal.tools.common.levelable.LevelableItem;
+import dev.willyelton.crystal.core.common.levelable.LevelableItem;
 import dev.willyelton.crystal.core.utils.ArrayUtils;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

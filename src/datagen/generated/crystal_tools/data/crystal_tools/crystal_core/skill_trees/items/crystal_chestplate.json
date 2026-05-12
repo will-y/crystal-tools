@@ -419,7 +419,7 @@
           "description": "Automatically repairs the Chestplate over time",
           "id": 18,
           "key": [
-            "crystal_tools:auto_repair"
+            "crystal_core:auto_repair"
           ],
           "limit": 0,
           "name": "Auto Repair",

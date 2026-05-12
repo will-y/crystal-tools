@@ -1,6 +1,6 @@
 package dev.willyelton.crystal.core.client.gui.component;
 
-import dev.willyelton.crystal.core.common.config.CrystalToolsCoreConfig;
+import dev.willyelton.crystal.core.common.config.CrystalCoreConfig;
 import dev.willyelton.crystal.core.common.skill.SkillPoints;
 import dev.willyelton.crystal.core.common.skill.node.SkillDataNode;
 import dev.willyelton.crystal.core.common.skill.requirement.RequirementType;
@@ -58,7 +58,7 @@ public class SkillButton extends CrystalToolsButton {
         if (this.visible) {
             this.isHovered = mouseX >= this.getX() + xOffset && mouseY >= this.getY() + yOffset && mouseX < this.getX() + xOffset + this.width && mouseY < this.getY() + yOffset + this.height;
             super.extractContents(guiGraphics, mouseX, mouseY, partialTick);
-            if (CrystalToolsCoreConfig.ENABLE_ITEM_REQUIREMENTS.get() && !this.isComplete)
+            if (CrystalCoreConfig.ENABLE_ITEM_REQUIREMENTS.get() && !this.isComplete)
                 this.renderItems(guiGraphics);
         }
     }

@@ -20,7 +20,7 @@
           },
           {
             "data": {
-              "Name": "crystal_tools:netherite_infused_crystal_geode"
+              "Name": "crystal_core:netherite_infused_crystal_geode"
             },
             "weight": 4
           },
@@ -49,7 +49,7 @@
       "inner_layer_provider": {
         "type": "minecraft:simple_state_provider",
         "state": {
-          "Name": "crystal_tools:crystal_geode"
+          "Name": "crystal_core:crystal_geode"
         }
       },
       "inner_placements": [

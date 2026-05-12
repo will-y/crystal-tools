@@ -1,5 +1,5 @@
 {
-  "feature": "crystal_tools:crystal_deepslate_ore",
+  "feature": "crystal_core:crystal_deepslate_ore",
   "placement": [
     {
       "type": "minecraft:count",

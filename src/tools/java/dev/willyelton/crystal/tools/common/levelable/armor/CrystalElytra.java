@@ -4,7 +4,7 @@ import dev.willyelton.crystal.tools.client.events.RegisterKeyBindingsEvent;
 import dev.willyelton.crystal.core.common.capability.Capabilities;
 import dev.willyelton.crystal.core.common.capability.Levelable;
 import dev.willyelton.crystal.tools.common.components.DataComponents;
-import dev.willyelton.crystal.tools.common.levelable.LevelableItem;
+import dev.willyelton.crystal.core.common.levelable.LevelableItem;
 import dev.willyelton.crystal.tools.common.levelable.tool.LevelableTool;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;

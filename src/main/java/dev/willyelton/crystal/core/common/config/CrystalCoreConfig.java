@@ -3,8 +3,12 @@ package dev.willyelton.crystal.core.common.config;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 // TODO: Groups
-public class CrystalToolsCoreConfig {
+public class CrystalCoreConfig {
     public static final ModConfigSpec COMMON_CONFIG;
+
+    // Repair
+    public static ModConfigSpec.IntValue TOOL_REPAIR_COOLDOWN;
+    public static ModConfigSpec.BooleanValue REPAIR_IN_HAND;
 
     public static ModConfigSpec.BooleanValue ENABLE_ITEM_REQUIREMENTS;
     public static ModConfigSpec.BooleanValue REQUIRE_CRYSTAL_FOR_RESET;
@@ -24,6 +28,11 @@ public class CrystalToolsCoreConfig {
     }
 
     private static void setupConfig(ModConfigSpec.Builder builder) {
+        TOOL_REPAIR_COOLDOWN = builder.comment("Determines the cooldown between tool auto repairs")
+                .defineInRange("tool_repair_cooldown", 300, 1, 10000);
+        REPAIR_IN_HAND = builder.comment("If true, tools will auto repair while you are holding them")
+                .define("repair_in_hand", false);
+
         ENABLE_ITEM_REQUIREMENTS = builder.comment("Enables or disables item requirements for certain upgrades")
                 .define("enable_item_requirements", true);
         REQUIRE_CRYSTAL_FOR_RESET = builder.comment("Require a crystal item in your inventory for resetting skill points")

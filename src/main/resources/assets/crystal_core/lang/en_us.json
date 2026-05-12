@@ -1,0 +1,13 @@
+{
+  "item.crystal_core.crystal": "Crystal",
+  "item.crystal_core.netherite_stick": "Netherite Stick",
+  "item.crystal_core.netherite_infused_crystal_shard": "Netherite Infused Crystal Shard",
+  "block.crystal_core.crystal_ore": "Crystal Ore",
+  "block.crystal_core.crystal_deepslate_ore": "Deepslate Crystal Ore",
+  "block.crystal_core.crystal_block": "Crystal Block",
+  "block.crystal_core.crystal_geode": "Crystal Geode",
+  "block.crystal_core.netherite_infused_crystal_geode": "Netherite Infused Crystal Geode",
+  "block.crystal_core.crystal_torch": "Crystal Torch",
+  "tab.crystal_core": "Crystal Core",
+  "key.crystal_core.upgrade_menu": "Open Upgrade Menu"
+}

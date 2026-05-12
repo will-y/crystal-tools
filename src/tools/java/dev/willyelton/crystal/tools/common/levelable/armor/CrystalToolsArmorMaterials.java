@@ -1,11 +1,11 @@
 package dev.willyelton.crystal.tools.common.levelable.armor;
 
+import dev.willyelton.crystal.core.common.tag.CrystalCoreTags;
 import dev.willyelton.crystal.tools.CrystalTools;
-import dev.willyelton.crystal.tools.common.tags.CrystalToolsTags;
-import net.minecraft.util.Util;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Util;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.item.equipment.EquipmentAsset;
@@ -25,5 +25,5 @@ public class CrystalToolsArmorMaterials {
         consumer.put(ArmorType.HELMET, 3);
         consumer.put(ArmorType.BODY, 11);
     }), 15, SoundEvents.ARMOR_EQUIP_NETHERITE, 3.0F, 0.1F,
-            CrystalToolsTags.REPAIRS_CRYSTAL, CRYSTAL_EQUIPMENT_ASSET);
+            CrystalCoreTags.REPAIRS_CRYSTAL, CRYSTAL_EQUIPMENT_ASSET);
 }

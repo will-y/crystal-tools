@@ -1,11 +1,11 @@
 package dev.willyelton.crystal.tools.common.levelable.armor;
 
-import dev.willyelton.crystal.tools.client.events.RegisterKeyBindingsEvent;
-import dev.willyelton.crystal.tools.common.components.DataComponents;
-import dev.willyelton.crystal.tools.common.levelable.LevelableItem;
-import dev.willyelton.crystal.tools.common.tags.CrystalToolsTags;
+import dev.willyelton.crystal.core.common.levelable.LevelableItem;
+import dev.willyelton.crystal.core.common.tag.CrystalCoreTags;
 import dev.willyelton.crystal.core.utils.EnchantmentUtils;
 import dev.willyelton.crystal.core.utils.ToolUtils;
+import dev.willyelton.crystal.tools.client.events.RegisterKeyBindingsEvent;
+import dev.willyelton.crystal.tools.common.components.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -29,7 +29,7 @@ public class LevelableArmor extends Item implements LevelableItem {
     public LevelableArmor(Properties properties, ArmorType type) {
         super(properties.fireResistant()
                 .durability(CRYSTAL.durability())
-                .repairable(CrystalToolsTags.REPAIRS_CRYSTAL)
+                .repairable(CrystalCoreTags.REPAIRS_CRYSTAL)
                 .humanoidArmor(ARMOR_MATERIAL, type));
     }
 

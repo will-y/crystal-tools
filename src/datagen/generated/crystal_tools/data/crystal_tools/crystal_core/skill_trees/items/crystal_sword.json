@@ -183,7 +183,7 @@
           "description": "Adds 10% to the chance not to use durability",
           "id": 9,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 1,
           "name": "Unbreaking I",
@@ -206,7 +206,7 @@
           "description": "Mobs killed by this Sword will have a chance to drop their head",
           "id": 10,
           "key": [
-            "crystal_tools:beheading"
+            "crystal_core:beheading"
           ],
           "limit": 1,
           "name": "Beheading I",
@@ -350,7 +350,7 @@
           "description": "Mobs killed by this Sword will have a chance to drop their spawn egg",
           "id": 15,
           "key": [
-            "crystal_tools:capture"
+            "crystal_core:capture"
           ],
           "limit": 1,
           "name": "Capturing I",
@@ -377,7 +377,7 @@
           "description": "You gain 1 heart back on each attack with the Sword",
           "id": 16,
           "key": [
-            "crystal_tools:lifesteal"
+            "crystal_core:lifesteal"
           ],
           "limit": 1,
           "name": "Lifesteal I",
@@ -464,7 +464,7 @@
           "description": "Adds 10% to the chance not to use durability",
           "id": 19,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 1,
           "name": "Unbreaking II",
@@ -495,7 +495,7 @@
           "description": "Mobs killed by this Sword will have a chance to drop their head",
           "id": 20,
           "key": [
-            "crystal_tools:beheading"
+            "crystal_core:beheading"
           ],
           "limit": 1,
           "name": "Beheading II",
@@ -653,7 +653,7 @@
           "description": "Mobs killed by this Sword will have a chance to drop their spawn egg",
           "id": 25,
           "key": [
-            "crystal_tools:capture"
+            "crystal_core:capture"
           ],
           "limit": 1,
           "name": "Capturing II",
@@ -708,7 +708,7 @@
           "description": "Automatically repairs the Sword over time",
           "id": 27,
           "key": [
-            "crystal_tools:auto_repair"
+            "crystal_core:auto_repair"
           ],
           "limit": 0,
           "name": "Auto Repair",
@@ -733,7 +733,7 @@
           "description": "Adds 10% to the chance not to use durability",
           "id": 28,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 1,
           "name": "Unbreaking III",
@@ -764,7 +764,7 @@
           "description": "Mobs killed by this Sword will have a chance to drop their head",
           "id": 29,
           "key": [
-            "crystal_tools:beheading"
+            "crystal_core:beheading"
           ],
           "limit": 1,
           "name": "Beheading III",
@@ -944,7 +944,7 @@
           "description": "Mobs killed by this Sword will have a chance to drop their spawn egg",
           "id": 35,
           "key": [
-            "crystal_tools:capture"
+            "crystal_core:capture"
           ],
           "limit": 1,
           "name": "Capturing III",
@@ -1040,7 +1040,7 @@
           "description": "Adds 10% to the chance not to use durability",
           "id": 39,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 70,
           "name": "Infinite Unbreaking",

@@ -4,6 +4,7 @@ import com.google.common.base.Predicates;
 import dev.willyelton.crystal.core.common.block.entity.model.ILevelableContainerData;
 import dev.willyelton.crystal.core.common.capability.Levelable;
 import dev.willyelton.crystal.core.common.compat.curios.CuriosCompatibility;
+import dev.willyelton.crystal.core.common.levelable.LevelableItem;
 import dev.willyelton.crystal.tools.common.components.DataComponents;
 import dev.willyelton.crystal.tools.common.config.CrystalToolsConfig;
 import dev.willyelton.crystal.tools.common.datamap.GeneratorFuelData;

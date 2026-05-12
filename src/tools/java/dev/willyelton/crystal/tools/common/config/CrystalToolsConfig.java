@@ -11,8 +11,6 @@ public class CrystalToolsConfig {
     public static ModConfigSpec.IntValue FISHING_ROD_EXP;
 
     // Repair
-    public static ModConfigSpec.IntValue TOOL_REPAIR_COOLDOWN;
-    public static ModConfigSpec.BooleanValue REPAIR_IN_HAND;
     public static ModConfigSpec.DoubleValue ROCKET_REPAIR_MODIFIER;
     public static ModConfigSpec.DoubleValue APPLE_REPAIR_MODIFIER;
 
@@ -88,10 +86,6 @@ public class CrystalToolsConfig {
 
         // Tool Settings
         builder.comment("Configure different tool options").push("tool");
-        TOOL_REPAIR_COOLDOWN = builder.comment("Determines the cooldown between tool auto repairs")
-                .defineInRange("tool_repair_cooldown", 300, 1, 10000);
-        REPAIR_IN_HAND = builder.comment("If true, tools will auto repair while you are holding them")
-                .define("repair_in_hand", false);
         ROCKET_REPAIR_MODIFIER = builder.comment("Increases the repair cooldown for the rocket")
                 .defineInRange("rocket_repair_modifier", 10D, 1D, 10000D);
         APPLE_REPAIR_MODIFIER = builder.comment("Increases the repair cooldown for the apple")

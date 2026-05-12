@@ -6,7 +6,7 @@
     "targets": [
       {
         "state": {
-          "Name": "crystal_tools:crystal_deepslate_ore"
+          "Name": "crystal_core:crystal_deepslate_ore"
         },
         "target": {
           "predicate_type": "minecraft:tag_match",

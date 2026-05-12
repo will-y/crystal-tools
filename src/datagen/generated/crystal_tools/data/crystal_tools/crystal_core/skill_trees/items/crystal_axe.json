@@ -80,7 +80,7 @@
           "description": "Adds 10% to the chance not to use durability",
           "id": 4,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 1,
           "name": "Unbreaking I",
@@ -230,7 +230,7 @@
           "description": "Adds 10% to the chance not to use durability",
           "id": 10,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 1,
           "name": "Unbreaking II",
@@ -417,7 +417,7 @@
           "description": "When you mine block with this Axe, the drops will automatically go into your inventory if there is space",
           "id": 16,
           "key": [
-            "crystal_tools:auto_pickup"
+            "crystal_core:auto_pickup"
           ],
           "limit": 1,
           "name": "Auto Pickup",
@@ -441,7 +441,7 @@
           "description": "Automatically repairs the Axe over time",
           "id": 17,
           "key": [
-            "crystal_tools:auto_repair"
+            "crystal_core:auto_repair"
           ],
           "limit": 0,
           "name": "Auto Repair",
@@ -491,7 +491,7 @@
           "key": [
             "crystal_tools:vein_miner"
           ],
-          "limit": 1,
+          "limit": 0,
           "name": "Tree Chopper",
           "requirements": [
             {
@@ -517,7 +517,7 @@
           "description": "Automatically smelts the blocks that you mine",
           "id": 20,
           "key": [
-            "crystal_tools:auto_smelt"
+            "crystal_core:auto_smelt"
           ],
           "limit": 1,
           "name": "Auto Smelting",
@@ -567,7 +567,7 @@
           "description": "Adds 10% to the chance not to use durability",
           "id": 23,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 1,
           "name": "Unbreaking III",
@@ -744,7 +744,7 @@
       {
         "type": "crystal_core:enchantment",
         "node": {
-          "description": "Gives Fortune III to the Axe",
+          "description": "Gives Fortune V to the Axe",
           "enchantment": "minecraft:fortune",
           "id": 29,
           "level": 5,

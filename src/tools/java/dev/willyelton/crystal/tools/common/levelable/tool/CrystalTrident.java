@@ -4,7 +4,7 @@ import dev.willyelton.crystal.tools.common.components.DataComponents;
 import dev.willyelton.crystal.tools.common.entity.CrystalTridentEntity;
 import dev.willyelton.crystal.tools.common.events.LevelTickEvent;
 import dev.willyelton.crystal.tools.common.levelable.EntityTargeter;
-import dev.willyelton.crystal.tools.common.levelable.LevelableItem;
+import dev.willyelton.crystal.core.common.levelable.LevelableItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;

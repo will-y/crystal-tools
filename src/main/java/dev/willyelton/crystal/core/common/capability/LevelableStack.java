@@ -1,6 +1,6 @@
 package dev.willyelton.crystal.core.common.capability;
 
-import dev.willyelton.crystal.core.common.config.CrystalToolsCoreConfig;
+import dev.willyelton.crystal.core.common.config.CrystalCoreConfig;
 import dev.willyelton.crystal.core.common.datacomponent.DataComponents;
 import dev.willyelton.crystal.core.common.datamap.CrystalCoreDataMaps;
 import dev.willyelton.crystal.core.common.skill.SkillData;
@@ -70,7 +70,7 @@ public class LevelableStack implements Levelable {
             // play level up sound
             level.playSound(null, blockPos.getX(), blockPos.getY(), blockPos.getZ(), SoundEvents.PLAYER_LEVELUP, SoundSource.NEUTRAL, 0.8F, 1.0F);
             if (livingEntity instanceof Player player) {
-                player.sendOverlayMessage(Component.literal("\u00A7b" + stack.getItem().getName(stack).getString() + " Leveled Up (" + getSkillPoints() + " Unspent Points)"));
+                player.sendOverlayMessage(Component.literal("\u00A7b" + stack.getItem().getName(stack).getString() + " Leveled Up (" + getSkillPoints() + " Unspent Point(s))"));
             }
             stack.set(DataComponents.SKILL_EXPERIENCE, Math.max(0, newExperience - experienceCap));
             increaseExpCap();
@@ -87,7 +87,7 @@ public class LevelableStack implements Levelable {
         if (stack.has(DataComponents.EXPERIENCE_CAP)) {
             return stack.getOrDefault(DataComponents.EXPERIENCE_CAP, 0);
         } else {
-            int toReturn = CrystalToolsCoreConfig.BASE_EXPERIENCE_CAP.get() + skillTreeData.baseExperienceModifier();
+            int toReturn = CrystalCoreConfig.BASE_EXPERIENCE_CAP.get() + skillTreeData.baseExperienceModifier();
             stack.set(DataComponents.EXPERIENCE_CAP, toReturn);
 
             return toReturn;

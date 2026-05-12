@@ -8,7 +8,7 @@ import dev.willyelton.crystal.core.Registration;
 import dev.willyelton.crystal.core.client.gui.component.SkillButton;
 import dev.willyelton.crystal.core.client.gui.component.XpButton;
 import dev.willyelton.crystal.core.client.gui.config.CrystalToolsCoreClientConfig;
-import dev.willyelton.crystal.core.common.config.CrystalToolsCoreConfig;
+import dev.willyelton.crystal.core.common.config.CrystalCoreConfig;
 import dev.willyelton.crystal.core.common.network.payload.PointsFromXpPayload;
 import dev.willyelton.crystal.core.common.network.payload.RemoveItemPayload;
 import dev.willyelton.crystal.core.common.skill.SkillData;
@@ -126,7 +126,7 @@ public abstract class BaseUpgradeScreen extends Screen {
      * Used to init things differently from the default item implementation of the upgrade screen
      */
     protected void initComponents() {
-        if (CrystalToolsCoreConfig.EXPERIENCE_PER_SKILL_LEVEL.get() > 0 && allowXpLevels()) {
+        if (CrystalCoreConfig.EXPERIENCE_PER_SKILL_LEVEL.get() > 0 && allowXpLevels()) {
             xpButton = addRenderableWidget(new XpButton(5, getXpButtonY(), 30, Y_SIZE, pButton -> {
                 int pointsToGain = getPointsToSpend(Integer.MAX_VALUE, hasShiftDown(), hasControlDown());
                 int xpCost = XpUtils.getXpCost(pointsToGain, points.getTotalPoints() + getSkillPoints());
@@ -137,12 +137,19 @@ public abstract class BaseUpgradeScreen extends Screen {
                     updateButtons();
                 }
             }, (button, guiGraphics, mouseX, mouseY) -> {
-                Component textComponent = Component.literal(String.format("Use Experience To Gain Skill Points (+%d Points)", getPointsToSpend(Integer.MAX_VALUE, hasShiftDown(), hasControlDown())));
+                Component textComponent;
+                int pointsToSpend = getPointsToSpend(Integer.MAX_VALUE, hasShiftDown(), hasControlDown());
+                if (pointsToSpend == 1) {
+                    textComponent = Component.literal("Use Experience To Gain a Skill Point");
+                } else {
+                    textComponent = Component.literal(String.format("Use Experience To Gain Skill Points (+%d Points)", pointsToSpend));
+                }
+
                 guiGraphics.setTooltipForNextFrame(this.font, this.font.split(textComponent, Math.max(BaseUpgradeScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
             }, () -> XpUtils.getLevelForXp(XpUtils.getXpCost(getPointsToSpend(Integer.MAX_VALUE, hasShiftDown(), hasControlDown()), points.getTotalPoints() + getSkillPoints()))));
         }
 
-        boolean resetRequiresCrystal = CrystalToolsCoreConfig.REQUIRE_CRYSTAL_FOR_RESET.get();
+        boolean resetRequiresCrystal = CrystalCoreConfig.REQUIRE_CRYSTAL_FOR_RESET.get();
         String text = "Reset Skill Points";
         if (resetRequiresCrystal) text += " (Requires 1 Crystal)";
         Tooltip resetTooltip = Tooltip.create(Component.literal(text));
@@ -177,7 +184,6 @@ public abstract class BaseUpgradeScreen extends Screen {
 
     @Override
     public void extractRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
-        this.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
         this.renderBlockBackground(guiGraphics, backgroundLocation());
 
         drawDependencyLines(guiGraphics);
@@ -208,7 +214,12 @@ public abstract class BaseUpgradeScreen extends Screen {
 
     @Override
     public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
-        super.extractTransparentBackground(guiGraphics);
+        this.extractTransparentBackground(guiGraphics);
+    }
+
+    @Override
+    public void extractTransparentBackground(GuiGraphicsExtractor graphics) {
+        graphics.fillGradient(0, 0, this.width, this.height, Colors.fromRGB(0, 0, 0, 170), Colors.fromRGB(0, 0, 0, 180));
     }
 
     protected abstract int getSkillPoints();
@@ -294,7 +305,7 @@ public abstract class BaseUpgradeScreen extends Screen {
         List<SkillDataRequirement> requirements = node.getRequirements();
 
         for (SkillDataRequirement requirement : requirements) {
-            if (CrystalToolsCoreConfig.ENABLE_ITEM_REQUIREMENTS.get() && requirement.getRequirementType() == RequirementType.ITEM) {
+            if (CrystalCoreConfig.ENABLE_ITEM_REQUIREMENTS.get() && requirement.getRequirementType() == RequirementType.ITEM) {
                 SkillItemRequirement itemRequirement = (SkillItemRequirement) (requirement);
                 itemRequirement.getItems().forEach(item -> {
                     ClientPacketDistributor.sendToServer(new RemoveItemPayload(item.getDefaultInstance()));
@@ -328,7 +339,7 @@ public abstract class BaseUpgradeScreen extends Screen {
         }
 
         if (resetButton != null) {
-            this.resetButton.active = !CrystalToolsCoreConfig.REQUIRE_CRYSTAL_FOR_RESET.get() || this.player.getInventory().hasAnyOf(Set.of(Registration.CRYSTAL.get()));
+            this.resetButton.active = !CrystalCoreConfig.REQUIRE_CRYSTAL_FOR_RESET.get() || this.player.getInventory().hasAnyOf(Set.of(Registration.CRYSTAL.get()));
         }
     }
 
@@ -442,7 +453,7 @@ public abstract class BaseUpgradeScreen extends Screen {
             }
 
             @Override
-            public @Nullable ScreenRectangle bounds() {
+            public ScreenRectangle bounds() {
                 return new ScreenRectangle(x1, y1, x2, y2).transformMaxBounds(guiGraphics.pose());
             }
         });
@@ -464,7 +475,7 @@ public abstract class BaseUpgradeScreen extends Screen {
             blockResource = Identifier.fromNamespaceAndPath(split[0], "textures/block/" + split[1] + ".png");
         }
 
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, blockResource, 0, 0, 0, 0, width, height, 32, 32, Colors.fromRGB(255, 255, 255, (int) (CrystalToolsCoreClientConfig.BACKGROUND_OPACITY.get() * 255)));
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED_PREMULTIPLIED_ALPHA, blockResource, 0, 0, 0, 0, width, height, 32, 32, Colors.fromRGB(255, 255, 255, (int) (CrystalToolsCoreClientConfig.BACKGROUND_OPACITY.get() * 255)));
     }
 
     protected int getPointsToSpend(int points, boolean shiftDown, boolean controlDown) {

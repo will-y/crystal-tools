@@ -1,6 +1,6 @@
 package dev.willyelton.crystal.core;
 
-import dev.willyelton.crystal.core.common.config.CrystalToolsCoreConfig;
+import dev.willyelton.crystal.core.common.config.CrystalCoreConfig;
 import dev.willyelton.crystal.core.common.skill.requirement.SkillDataRequirements;
 import dev.willyelton.crystal.core.utils.constants.ApiConstants;
 import net.neoforged.bus.api.IEventBus;
@@ -18,7 +18,7 @@ public class CrystalCore {
     public CrystalCore(IEventBus modEventBus, ModContainer container) {
         Registration.init(modEventBus);
 
-        container.registerConfig(ModConfig.Type.COMMON, CrystalToolsCoreConfig.COMMON_CONFIG, "crystal_core.toml");
+        container.registerConfig(ModConfig.Type.COMMON, CrystalCoreConfig.COMMON_CONFIG, "crystal_core.toml");
 
         // TODO: this should be like actions as well
         SkillDataRequirements.bootstrap();

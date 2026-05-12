@@ -11,6 +11,7 @@ import static dev.willyelton.crystal.core.utils.constants.ApiConstants.baseRl;
 
 public class CrystalCoreTags {
     // Item
+    public static final TagKey<Item> REPAIRS_CRYSTAL = ItemTags.create(baseRl("repairs_crystal"));
     public static final TagKey<Item> RODS_METAL = ItemTags.create(Identifier.fromNamespaceAndPath("c", "rods/all_metal"));
     public static final TagKey<Item> RODS_METAL_NETHERITE = ItemTags.create(Identifier.fromNamespaceAndPath("c", "rods/netherite"));
 

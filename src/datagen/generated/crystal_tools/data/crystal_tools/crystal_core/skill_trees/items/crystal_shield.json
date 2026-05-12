@@ -292,7 +292,7 @@
           "description": "Automatically repairs the Shield over time",
           "id": 12,
           "key": [
-            "crystal_tools:auto_repair"
+            "crystal_core:auto_repair"
           ],
           "limit": 0,
           "name": "Auto Repair",

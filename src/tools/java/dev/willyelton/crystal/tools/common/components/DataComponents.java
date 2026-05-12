@@ -19,20 +19,11 @@ import java.util.List;
 public class DataComponents {
     public static final DeferredRegister<DataComponentType<?>> COMPONENTS = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, CrystalTools.MODID);
 
-    // All tools
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> UNBREAKING = register("unbreaking", Codec.FLOAT, ByteBufCodecs.FLOAT);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> TORCH = register("torch", Codec.BOOL, ByteBufCodecs.BOOL);
-
     // Mining tools
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> AUTO_PICKUP = register("auto_pickup", Codec.BOOL, ByteBufCodecs.BOOL);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> AUTO_SMELT = register("auto_smelt", Codec.BOOL, ByteBufCodecs.BOOL);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> DISABLE_AUTO_SMELT = register("disable_auto_smelt", Codec.BOOL, ByteBufCodecs.BOOL);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> VEIN_MINER = register("vein_miner", Codec.INT, ByteBufCodecs.VAR_INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> HAS_3x3 = register("3x3", Codec.BOOL, ByteBufCodecs.BOOL);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> DISABLE_3x3 = register("disable_3x3", Codec.BOOL, ByteBufCodecs.BOOL);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> MINE_MODE = register("mine_mode", Codec.BOOL, ByteBufCodecs.BOOL);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> AUTO_REPAIR = register("auto_repair", Codec.INT, ByteBufCodecs.VAR_INT);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Long>> AUTO_REPAIR_GAME_TIME = register("auto_repair_game_time", Codec.LONG, ByteBufCodecs.VAR_LONG);
 
     // Axe
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> LEAF_MINE = register("leaf_mine", Codec.BOOL, ByteBufCodecs.BOOL);
@@ -43,16 +34,9 @@ public class DataComponents {
     // AIOT
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<UseMode>> USE_MODE = register("use_mode", UseMode.CODEC, UseMode.STREAM_CODEC);
 
-    // Weapons
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> FIRE = register("fire", Codec.BOOL, ByteBufCodecs.BOOL);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> LIFESTEAL = register("lifesteal", Codec.INT, ByteBufCodecs.VAR_INT);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> BEHEADING = register("beheading", Codec.FLOAT, ByteBufCodecs.FLOAT);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> CAPTURING = register("capture", Codec.FLOAT, ByteBufCodecs.FLOAT);
-
     // Armor
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> NIGHT_VISION = register("night_vision", Codec.BOOL, ByteBufCodecs.BOOL);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> DISABLE_NIGHT_VISION = register("disable_night_vision", Codec.BOOL, ByteBufCodecs.BOOL);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> NO_FALL_DAMAGE = register("no_fall_damage", Codec.BOOL, ByteBufCodecs.BOOL);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> DISABLE_CREATIVE_FLIGHT = register("disable_creative_flight", Codec.BOOL, ByteBufCodecs.BOOL);
 
     // Bow

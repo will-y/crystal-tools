@@ -2,11 +2,11 @@ package dev.willyelton.crystal.tools.common.levelable.tool;
 
 import dev.willyelton.crystal.core.common.capability.Capabilities;
 import dev.willyelton.crystal.core.common.capability.Levelable;
-import dev.willyelton.crystal.tools.common.components.DataComponents;
-import dev.willyelton.crystal.tools.common.levelable.LevelableItem;
-import dev.willyelton.crystal.tools.common.network.data.BlockBreakPayload;
-import dev.willyelton.crystal.tools.common.tags.CrystalToolsTags;
+import dev.willyelton.crystal.core.common.levelable.LevelableItem;
+import dev.willyelton.crystal.core.common.tag.CrystalCoreTags;
 import dev.willyelton.crystal.core.utils.ToolUtils;
+import dev.willyelton.crystal.tools.common.components.DataComponents;
+import dev.willyelton.crystal.tools.common.network.data.BlockBreakPayload;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -36,7 +36,7 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     public LevelableTool(Properties properties) {
         super(properties.fireResistant()
                 .rarity(Rarity.RARE)
-                .repairable(CrystalToolsTags.REPAIRS_CRYSTAL)
+                .repairable(CrystalCoreTags.REPAIRS_CRYSTAL)
                 .stacksTo(1)
                 .component(net.minecraft.core.component.DataComponents.ENCHANTABLE, null));
     }
@@ -92,7 +92,7 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     @Override
     public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<Item> onBroken) {
         int durability = this.getMaxDamage(stack) - stack.getDamageValue();
-        float unbreakingLevel = stack.getOrDefault(DataComponents.UNBREAKING, 0F);
+        float unbreakingLevel = stack.getOrDefault(dev.willyelton.crystal.core.common.datacomponent.DataComponents.UNBREAKING, 0F);
         int damageToTake = 0;
 
         while (amount > 0) {

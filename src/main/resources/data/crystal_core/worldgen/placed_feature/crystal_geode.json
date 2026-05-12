@@ -1,5 +1,5 @@
 {
-  "feature": "crystal_tools:crystal_geode",
+  "feature": "crystal_core:crystal_geode",
   "placement": [
     {
       "type": "minecraft:rarity_filter",

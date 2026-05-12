@@ -2,7 +2,7 @@ package dev.willyelton.crystal.core.common.skill.requirement;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.willyelton.crystal.core.common.config.CrystalToolsCoreConfig;
+import dev.willyelton.crystal.core.common.config.CrystalCoreConfig;
 import dev.willyelton.crystal.core.common.skill.SkillPoints;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -32,7 +32,7 @@ public class SkillItemRequirement implements SkillDataRequirement {
     @Override
     public boolean canLevel(SkillPoints points, Player player) {
         // If config is disabled, always allow
-        if (!CrystalToolsCoreConfig.ENABLE_ITEM_REQUIREMENTS.get()) return true;
+        if (!CrystalCoreConfig.ENABLE_ITEM_REQUIREMENTS.get()) return true;
 
         for (Item item : items) {
             if (!hasItem(player, item)) {

@@ -65,9 +65,9 @@ public class ModeSwitchHandler {
                 }
             } else if (payload.hasCtrlDown() && !payload.hasShiftDown() && !payload.hasAltDown()){
                 // Auto smelt on/off
-                if (tool.getOrDefault(DataComponents.AUTO_SMELT, false)) {
-                    boolean disableAutoSmelt = tool.getOrDefault(DataComponents.DISABLE_AUTO_SMELT, false);
-                    tool.set(DataComponents.DISABLE_AUTO_SMELT, !disableAutoSmelt);
+                if (tool.getOrDefault(dev.willyelton.crystal.core.common.datacomponent.DataComponents.AUTO_SMELT, false)) {
+                    boolean disableAutoSmelt = tool.getOrDefault(dev.willyelton.crystal.core.common.datacomponent.DataComponents.DISABLE_AUTO_SMELT, false);
+                    tool.set(dev.willyelton.crystal.core.common.datacomponent.DataComponents.DISABLE_AUTO_SMELT, !disableAutoSmelt);
                     player.sendOverlayMessage(Component.literal("Auto Smelt " + (!disableAutoSmelt ? "Disabled" : "Enabled")));
                 }
             } else {

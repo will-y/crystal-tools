@@ -1,7 +1,7 @@
 package dev.willyelton.crystal.core.common.block.entity;
 
 import dev.willyelton.crystal.core.common.block.entity.action.Action;
-import dev.willyelton.crystal.core.common.config.CrystalToolsCoreConfig;
+import dev.willyelton.crystal.core.common.config.CrystalCoreConfig;
 import dev.willyelton.crystal.core.common.datacomponent.DataComponents;
 import dev.willyelton.crystal.core.common.datacomponent.LevelableBlockEntityData;
 import dev.willyelton.crystal.core.common.skill.SkillPoints;
@@ -161,6 +161,6 @@ public abstract class LevelableBlockEntity extends ActionBlockEntity {
     }
 
     protected int getBaseExpCap() {
-        return CrystalToolsCoreConfig.BASE_EXPERIENCE_CAP.get();
+        return CrystalCoreConfig.BASE_EXPERIENCE_CAP.get();
     }
 }

@@ -83,7 +83,7 @@ public class Registration {
     // Creative Tabs
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> TAB = TABS.register("crystal_core_tab", () ->
             CreativeModeTab.builder()
-                    .title(Component.translatable("tab.crystal_tools"))
+                    .title(Component.translatable("tab.crystal_core"))
                     .icon(() -> new ItemStack(CRYSTAL.get()))
                     .displayItems((featureFlags, output) -> {
                         output.accept(CRYSTAL.get());

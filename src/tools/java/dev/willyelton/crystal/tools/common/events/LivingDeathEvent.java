@@ -1,10 +1,9 @@
 package dev.willyelton.crystal.tools.common.events;
 
-import dev.willyelton.crystal.tools.CrystalTools;
-import dev.willyelton.crystal.tools.ModRegistration;
 import dev.willyelton.crystal.core.Registration;
-import dev.willyelton.crystal.core.common.datamap.CrystalCoreDataMaps;
 import dev.willyelton.crystal.core.common.skill.attachment.EntitySkillData;
+import dev.willyelton.crystal.core.utils.constants.ApiConstants;
+import dev.willyelton.crystal.tools.ModRegistration;
 import dev.willyelton.crystal.tools.common.components.DataComponents;
 import dev.willyelton.crystal.tools.common.levelable.MobCaptureTool;
 import dev.willyelton.crystal.tools.utils.constants.EntitySkills;
@@ -16,48 +15,22 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SpawnEggItem;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
-@EventBusSubscriber(modid = CrystalTools.MODID)
+@EventBusSubscriber(modid = ApiConstants.CORE_MOD_ID)
 public class LivingDeathEvent {
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGH)
     public static void handle(net.neoforged.neoforge.event.entity.living.LivingDeathEvent event) {
         Entity deadEntity = event.getEntity();
 
         if (reviveEntity(deadEntity)) {
             event.setCanceled(true);
-            return;
-        }
-
-        if (event.getSource().getEntity() != null) {
-            ItemStack weaponStack = event.getSource().getEntity().getWeaponItem();
-
-            if (weaponStack != null && deadEntity.level() instanceof ServerLevel serverLevel) {
-                if (weaponStack.getOrDefault(DataComponents.BEHEADING, 0).floatValue() > serverLevel.getRandom().nextFloat()) {
-                    Item skullItem = deadEntity.getType().builtInRegistryHolder().getData(CrystalCoreDataMaps.MOB_HEADS);
-                    spawnItem(serverLevel, deadEntity, skullItem);
-                }
-
-                if (weaponStack.getOrDefault(DataComponents.CAPTURING, 0).floatValue() > serverLevel.getRandom().nextFloat()) {
-                    SpawnEggItem.byId(deadEntity.getType()).ifPresent(holder -> {
-                        spawnItem(serverLevel, deadEntity, holder.value());
-                    });
-
-                }
-            }
-        }
-    }
-
-    private static void spawnItem(ServerLevel level, Entity entity, Item item) {
-        if (item != null) {
-            spawnItem(level, entity, new ItemStack(item));
         }
     }
 

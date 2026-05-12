@@ -1,7 +1,7 @@
 package dev.willyelton.crystal.tools.common.levelable.tool;
 
 import com.mojang.serialization.Codec;
-import dev.willyelton.crystal.tools.common.components.DataComponents;
+import dev.willyelton.crystal.core.common.datacomponent.DataComponents;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.StringRepresentable;

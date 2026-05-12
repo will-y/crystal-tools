@@ -490,7 +490,7 @@
           "description": "Automatically repairs the Leggings over time",
           "id": 21,
           "key": [
-            "crystal_tools:auto_repair"
+            "crystal_core:auto_repair"
           ],
           "limit": 0,
           "name": "Auto Repair",

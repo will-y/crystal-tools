@@ -1,6 +1,5 @@
 package dev.willyelton.crystal.tools.datagen;
 
-import dev.willyelton.crystal.tools.common.components.DataComponents;
 import dev.willyelton.crystal.core.common.event.DatapackRegistryEvents;
 import dev.willyelton.crystal.core.common.skill.SkillData;
 import dev.willyelton.crystal.core.utils.constants.SkillTreeDescriptions;
@@ -11,15 +10,10 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import java.util.List;
 
+import static dev.willyelton.crystal.core.utils.constants.SkillConstants.DURABILITY;
+import static dev.willyelton.crystal.core.utils.constants.SkillTreeTitles.*;
 import static dev.willyelton.crystal.tools.CrystalTools.rl;
 import static dev.willyelton.crystal.tools.datagen.CrystalToolsItemSkillTrees.attr;
-import static dev.willyelton.crystal.core.utils.constants.SkillConstants.DURABILITY;
-import static dev.willyelton.crystal.core.utils.constants.SkillTreeTitles.attackDamage;
-import static dev.willyelton.crystal.core.utils.constants.SkillTreeTitles.attackSpeed;
-import static dev.willyelton.crystal.core.utils.constants.SkillTreeTitles.durability;
-import static dev.willyelton.crystal.core.utils.constants.SkillTreeTitles.miningSpeed;
-import static dev.willyelton.crystal.core.utils.constants.SkillTreeTitles.reach;
-import static dev.willyelton.crystal.core.utils.constants.SkillTreeTitles.unbreaking;
 
 public class MinecraftItemSkillTrees {
     public static void registerSkillTrees(BootstrapContext<SkillData> context) {
@@ -50,7 +44,7 @@ public class MinecraftItemSkillTrees {
                 .tier()
                     .attributeNode(4, reach(1), desc.reach(), List.of(attr(Attributes.BLOCK_INTERACTION_RANGE), attr(Attributes.ENTITY_INTERACTION_RANGE)), 0.5F)
                         .previousTierOrRequirements()
-                    .dataComponentNode(5, unbreaking(1), desc.unbreaking(5), DataComponents.UNBREAKING.getId(), 0.05F)
+                    .dataComponentNode(5, unbreaking(1), desc.unbreaking(5), dev.willyelton.crystal.core.common.datacomponent.DataComponents.UNBREAKING.getId(), 0.05F)
                         .previousTierOrRequirements()
                 .tier()
                     .attributeNode(6, miningSpeed(3), desc.miningSpeed(), attr(Attributes.MINING_EFFICIENCY), 2F)
@@ -68,7 +62,7 @@ public class MinecraftItemSkillTrees {
                     .attributeNode(10, reach(2), desc.reach(), List.of(attr(Attributes.BLOCK_INTERACTION_RANGE), attr(Attributes.ENTITY_INTERACTION_RANGE)), 0.25F)
                         .nodeRequirement(4)
                         .previousTierOrRequirements()
-                    .dataComponentNode(11, unbreaking(2), desc.unbreaking(5), DataComponents.UNBREAKING.getId(), 0.05F)
+                    .dataComponentNode(11, unbreaking(2), desc.unbreaking(5), dev.willyelton.crystal.core.common.datacomponent.DataComponents.UNBREAKING.getId(), 0.05F)
                         .nodeRequirement(5)
                         .previousTierOrRequirements()
                 .tier()
@@ -87,7 +81,7 @@ public class MinecraftItemSkillTrees {
                     .attributeNode(16, reach(3), desc.reach(), List.of(attr(Attributes.BLOCK_INTERACTION_RANGE), attr(Attributes.ENTITY_INTERACTION_RANGE)), 0.25F)
                         .nodeRequirement(10)
                         .previousTierOrRequirements()
-                    .dataComponentNode(17, unbreaking(3), desc.unbreaking(5), DataComponents.UNBREAKING.getId(), 0.05F)
+                    .dataComponentNode(17, unbreaking(3), desc.unbreaking(5), dev.willyelton.crystal.core.common.datacomponent.DataComponents.UNBREAKING.getId(), 0.05F)
                         .nodeRequirement(11)
                         .previousTierOrRequirements()
                 .build();
@@ -108,7 +102,7 @@ public class MinecraftItemSkillTrees {
                 .tier()
                     .attributeNode(4, reach(1), desc.reach(), List.of(attr(Attributes.BLOCK_INTERACTION_RANGE), attr(Attributes.ENTITY_INTERACTION_RANGE)), 0.5F)
                         .previousTierOrRequirements()
-                    .dataComponentNode(5, unbreaking(1), desc.unbreaking(5), DataComponents.UNBREAKING.getId(), 0.05F)
+                    .dataComponentNode(5, unbreaking(1), desc.unbreaking(5), dev.willyelton.crystal.core.common.datacomponent.DataComponents.UNBREAKING.getId(), 0.05F)
                         .previousTierOrRequirements()
                 .tier()
                     .attributeNode(6, attackDamage(3), desc.attackDamage(), attr(Attributes.ATTACK_DAMAGE), 0.25F)
@@ -126,7 +120,7 @@ public class MinecraftItemSkillTrees {
                     .attributeNode(10, reach(2), desc.reach(), List.of(attr(Attributes.BLOCK_INTERACTION_RANGE), attr(Attributes.ENTITY_INTERACTION_RANGE)), 0.25F)
                         .nodeRequirement(4)
                         .previousTierOrRequirements()
-                    .dataComponentNode(11, unbreaking(2), desc.unbreaking(5), DataComponents.UNBREAKING.getId(), 0.05F)
+                    .dataComponentNode(11, unbreaking(2), desc.unbreaking(5), dev.willyelton.crystal.core.common.datacomponent.DataComponents.UNBREAKING.getId(), 0.05F)
                         .nodeRequirement(5)
                         .previousTierOrRequirements()
                 .tier()
@@ -145,7 +139,7 @@ public class MinecraftItemSkillTrees {
                     .attributeNode(16, reach(3), desc.reach(), List.of(attr(Attributes.BLOCK_INTERACTION_RANGE), attr(Attributes.ENTITY_INTERACTION_RANGE)), 0.25F)
                         .nodeRequirement(10)
                         .previousTierOrRequirements()
-                    .dataComponentNode(17, unbreaking(3), desc.unbreaking(5), DataComponents.UNBREAKING.getId(), 0.05F)
+                    .dataComponentNode(17, unbreaking(3), desc.unbreaking(5), dev.willyelton.crystal.core.common.datacomponent.DataComponents.UNBREAKING.getId(), 0.05F)
                         .nodeRequirement(11)
                         .previousTierOrRequirements()
                 .build();

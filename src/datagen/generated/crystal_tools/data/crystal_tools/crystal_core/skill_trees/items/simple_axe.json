@@ -105,7 +105,7 @@
           "description": "Adds 5% to the chance not to use durability",
           "id": 5,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 1,
           "name": "Unbreaking I",
@@ -260,7 +260,7 @@
           "description": "Adds 5% to the chance not to use durability",
           "id": 11,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 1,
           "name": "Unbreaking II",
@@ -421,7 +421,7 @@
           "description": "Adds 5% to the chance not to use durability",
           "id": 17,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 1,
           "name": "Unbreaking III",

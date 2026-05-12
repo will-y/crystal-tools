@@ -1,16 +1,16 @@
-package dev.willyelton.crystal.tools.common.events;
+package dev.willyelton.crystal.core.common.event;
 
 import com.mojang.brigadier.CommandDispatcher;
-import dev.willyelton.crystal.tools.CrystalTools;
-import dev.willyelton.crystal.tools.common.command.AddPointsBlockCommand;
-import dev.willyelton.crystal.tools.common.command.AddPointsCommand;
-import dev.willyelton.crystal.tools.common.command.AddPointsEntityCommand;
+import dev.willyelton.crystal.core.common.command.AddPointsBlockCommand;
+import dev.willyelton.crystal.core.common.command.AddPointsCommand;
+import dev.willyelton.crystal.core.common.command.AddPointsEntityCommand;
+import dev.willyelton.crystal.core.utils.constants.ApiConstants;
 import net.minecraft.commands.CommandSourceStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 
-@EventBusSubscriber(modid = CrystalTools.MODID)
+@EventBusSubscriber(modid = ApiConstants.CORE_MOD_ID)
 public class RegisterCommandEvent {
     @SubscribeEvent
     public static void onRegisterCommandEvent(RegisterCommandsEvent event) {

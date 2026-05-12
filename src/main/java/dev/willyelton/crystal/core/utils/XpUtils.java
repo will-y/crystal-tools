@@ -1,6 +1,6 @@
 package dev.willyelton.crystal.core.utils;
 
-import dev.willyelton.crystal.core.common.config.CrystalToolsCoreConfig;
+import dev.willyelton.crystal.core.common.config.CrystalCoreConfig;
 import net.minecraft.world.entity.player.Player;
 
 public class XpUtils {
@@ -35,8 +35,8 @@ public class XpUtils {
     }
 
     public static int getXpCost(int pointsToGain, int totalPoints) {
-        int xpLevelCost = CrystalToolsCoreConfig.EXPERIENCE_PER_SKILL_LEVEL.get();
-        int levelScaling = CrystalToolsCoreConfig.EXPERIENCE_LEVELING_SCALING.get();
+        int xpLevelCost = CrystalCoreConfig.EXPERIENCE_PER_SKILL_LEVEL.get();
+        int levelScaling = CrystalCoreConfig.EXPERIENCE_LEVELING_SCALING.get();
 
         if (levelScaling > 0) {
             long totalCost = 0;

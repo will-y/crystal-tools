@@ -221,7 +221,7 @@
           "description": "Adds 10% to the chance not to use durability",
           "id": 28,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 1,
           "name": "Unbreaking I",
@@ -447,7 +447,7 @@
           "description": "Automatically repairs the Elytra over time",
           "id": 18,
           "key": [
-            "crystal_tools:auto_repair"
+            "crystal_core:auto_repair"
           ],
           "limit": 0,
           "name": "Auto Repair",
@@ -471,7 +471,7 @@
           "description": "Adds 10% to the chance not to use durability",
           "id": 29,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 1,
           "name": "Unbreaking II",
@@ -728,7 +728,7 @@
           "description": "Adds 10% to the chance not to use durability",
           "id": 30,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 1,
           "name": "Unbreaking III",
@@ -760,7 +760,7 @@
           "description": "Adds 10% to the chance not to use durability",
           "id": 31,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 70,
           "name": "Infinite Unbreaking",

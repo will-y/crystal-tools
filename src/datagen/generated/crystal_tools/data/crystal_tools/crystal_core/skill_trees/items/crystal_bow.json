@@ -194,7 +194,7 @@
           "description": "Adds 10% to the chance not to use durability",
           "id": 10,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 1,
           "name": "Unbreaking I",
@@ -218,7 +218,7 @@
           "description": "Mobs killed by this Bow will have a chance to drop their head",
           "id": 39,
           "key": [
-            "crystal_tools:beheading"
+            "crystal_core:beheading"
           ],
           "limit": 1,
           "name": "Beheading I",
@@ -364,7 +364,7 @@
           "description": "Mobs killed by this Bow will have a chance to drop their spawn egg",
           "id": 42,
           "key": [
-            "crystal_tools:capture"
+            "crystal_core:capture"
           ],
           "limit": 1,
           "name": "Capturing I",
@@ -440,7 +440,7 @@
           "description": "Adds 10% to the chance not to use durability",
           "id": 17,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 1,
           "name": "Unbreaking II",
@@ -471,7 +471,7 @@
           "description": "Mobs killed by this Bow will have a chance to drop their head",
           "id": 40,
           "key": [
-            "crystal_tools:beheading"
+            "crystal_core:beheading"
           ],
           "limit": 1,
           "name": "Beheading II",
@@ -624,7 +624,7 @@
           "description": "Mobs killed by this Bow will have a chance to drop their spawn egg",
           "id": 43,
           "key": [
-            "crystal_tools:capture"
+            "crystal_core:capture"
           ],
           "limit": 1,
           "name": "Capturing II",
@@ -684,7 +684,7 @@
           "description": "Automatically repairs the Bow over time",
           "id": 23,
           "key": [
-            "crystal_tools:auto_repair"
+            "crystal_core:auto_repair"
           ],
           "limit": 0,
           "name": "Auto Repair",
@@ -709,7 +709,7 @@
           "description": "Adds 10% to the chance not to use durability",
           "id": 24,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 1,
           "name": "Unbreaking III",
@@ -765,7 +765,7 @@
           "description": "Mobs killed by this Bow will have a chance to drop their head",
           "id": 41,
           "key": [
-            "crystal_tools:beheading"
+            "crystal_core:beheading"
           ],
           "limit": 1,
           "name": "Beheading III",
@@ -922,7 +922,7 @@
           "description": "Mobs killed by this Bow will have a chance to drop their spawn egg",
           "id": 44,
           "key": [
-            "crystal_tools:capture"
+            "crystal_core:capture"
           ],
           "limit": 1,
           "name": "Capturing III",
@@ -1039,7 +1039,7 @@
           "description": "Adds 10% to the chance not to use durability",
           "id": 34,
           "key": [
-            "crystal_tools:unbreaking"
+            "crystal_core:unbreaking"
           ],
           "limit": 70,
           "name": "Infinite Unbreaking",

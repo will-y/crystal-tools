@@ -207,7 +207,7 @@ public class ToolUseUtils {
     public static InteractionResult useOnTorch(UseOnContext context) {
         ItemStack stack = context.getItemInHand();
 
-        if (stack.getOrDefault(DataComponents.TORCH, false)) {
+        if (stack.getOrDefault(dev.willyelton.crystal.core.common.datacomponent.DataComponents.TORCH, false)) {
             Level level = context.getLevel();
             BlockPos position = context.getClickedPos();
             BlockState state = level.getBlockState(position);

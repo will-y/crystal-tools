@@ -152,7 +152,7 @@
           "description": "Automatically repairs the Apple over time",
           "id": 8,
           "key": [
-            "crystal_tools:auto_repair"
+            "crystal_core:auto_repair"
           ],
           "limit": 0,
           "name": "Auto Repair",

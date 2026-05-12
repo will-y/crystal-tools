@@ -25,6 +25,26 @@ public class DataComponents {
 
     public static final DeferredRegister<DataComponentType<?>> COMPONENTS = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, ApiConstants.CORE_MOD_ID);
 
+    // All Tools
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> UNBREAKING = register("unbreaking", Codec.FLOAT, ByteBufCodecs.FLOAT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> TORCH = register("torch", Codec.BOOL, ByteBufCodecs.BOOL);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> AUTO_REPAIR = register("auto_repair", Codec.INT, ByteBufCodecs.VAR_INT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Long>> AUTO_REPAIR_GAME_TIME = register("auto_repair_game_time", Codec.LONG, ByteBufCodecs.VAR_LONG);
+
+    // Mining Tools
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> AUTO_PICKUP = register("auto_pickup", Codec.BOOL, ByteBufCodecs.BOOL);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> AUTO_SMELT = register("auto_smelt", Codec.BOOL, ByteBufCodecs.BOOL);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> DISABLE_AUTO_SMELT = register("disable_auto_smelt", Codec.BOOL, ByteBufCodecs.BOOL);
+
+    // Weapons
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> FIRE = register("fire", Codec.BOOL, ByteBufCodecs.BOOL);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> LIFESTEAL = register("lifesteal", Codec.INT, ByteBufCodecs.VAR_INT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> BEHEADING = register("beheading", Codec.FLOAT, ByteBufCodecs.FLOAT);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> CAPTURING = register("capture", Codec.FLOAT, ByteBufCodecs.FLOAT);
+
+    // Armor
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> NO_FALL_DAMAGE = register("no_fall_damage", Codec.BOOL, ByteBufCodecs.BOOL);
+
     // Skill Things
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> SKILL_POINTS = register("skill_points", Codec.INT, ByteBufCodecs.VAR_INT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> SKILL_EXPERIENCE = register("skill_experience", Codec.INT, ByteBufCodecs.VAR_INT);

@@ -12,7 +12,6 @@ import static dev.willyelton.crystal.tools.CrystalTools.rl;
 
 public class CrystalToolsTags {
     // Item
-    public static final TagKey<Item> REPAIRS_CRYSTAL = ItemTags.create(rl("repairs_crystal"));
     public static final TagKey<Item> CRYSTAL_TOOL = ItemTags.create(rl("crystal_tool"));
 
     // Block

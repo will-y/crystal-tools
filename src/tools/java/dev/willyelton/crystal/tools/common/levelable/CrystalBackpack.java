@@ -1,5 +1,6 @@
 package dev.willyelton.crystal.tools.common.levelable;
 
+import dev.willyelton.crystal.core.common.levelable.LevelableItem;
 import dev.willyelton.crystal.tools.CrystalTools;
 import dev.willyelton.crystal.tools.ModRegistration;
 import dev.willyelton.crystal.core.common.capability.Levelable;

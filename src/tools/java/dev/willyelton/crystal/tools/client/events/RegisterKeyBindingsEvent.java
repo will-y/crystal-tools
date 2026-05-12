@@ -14,7 +14,6 @@ import static dev.willyelton.crystal.tools.CrystalTools.rl;
 public class RegisterKeyBindingsEvent {
     public static final KeyMapping.Category CATEGORY = new KeyMapping.Category(rl("category"));
 
-    public static KeyMapping UPGRADE_MENU;
     public static KeyMapping VEIN_MINE;
     public static KeyMapping MODE_SWITCH;
     public static KeyMapping OPEN_BACKPACK;
@@ -31,7 +30,6 @@ public class RegisterKeyBindingsEvent {
     public static void registerKeys(RegisterKeyMappingsEvent e) {
         e.registerCategory(CATEGORY);
 
-        UPGRADE_MENU = createBinding("upgrade_menu", GLFW.GLFW_KEY_K, e);
         VEIN_MINE = createBinding("vein_mine", GLFW.GLFW_KEY_GRAVE_ACCENT, e);
         MODE_SWITCH = createBinding("mode_switch", GLFW.GLFW_KEY_M, e);
         OPEN_BACKPACK = createBinding("open_backpack", GLFW.GLFW_KEY_B, e);
