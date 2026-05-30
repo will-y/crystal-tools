@@ -25,8 +25,10 @@ import javax.annotation.Nullable;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import static dev.willyelton.crystal_tools.CrystalTools.rl;
+
 public class CrystalShieldRenderer implements SpecialModelRenderer<DataComponentMap> {
-    private static final SpriteId SHIELD_MATERIAL = new SpriteId(Sheets.SHIELD_SHEET, Identifier.fromNamespaceAndPath(CrystalTools.MODID, "entity/crystal_shield"));
+    private static final SpriteId SHIELD_MATERIAL = new SpriteId(Sheets.SHIELD_SHEET, rl("entity/crystal_shield"));
 
     private final ShieldModel model;
     private final SpriteGetter sprites;
@@ -48,7 +50,7 @@ public class CrystalShieldRenderer implements SpecialModelRenderer<DataComponent
                 : BannerPatternLayers.EMPTY;
         DyeColor baseColor = components != null ? components.get(DataComponents.BASE_COLOR) : null;
         boolean hasPatterns = !patterns.layers().isEmpty() || baseColor != null;
-        SpriteId base = hasPatterns ? Sheets.SHIELD_BASE : Sheets.SHIELD_BASE_NO_PATTERN;
+        SpriteId base = SHIELD_MATERIAL;
         submitNodeCollector.submitModel(this.model, Unit.INSTANCE, poseStack, lightCoords, overlayCoords, -1, base, this.sprites, outlineColor, null);
         if (hasPatterns) {
             BannerRenderer.submitPatterns(
@@ -81,16 +83,16 @@ public class CrystalShieldRenderer implements SpecialModelRenderer<DataComponent
     }
 
     public record Unbaked() implements SpecialModelRenderer.Unbaked<DataComponentMap> {
-        public static final CrystalShieldRenderer.Unbaked INSTANCE = new CrystalShieldRenderer.Unbaked();
-        public static final MapCodec<CrystalShieldRenderer.Unbaked> MAP_CODEC = MapCodec.unit(INSTANCE);
+        public static final Unbaked INSTANCE = new Unbaked();
+        public static final MapCodec<Unbaked> MAP_CODEC = MapCodec.unit(INSTANCE);
 
         @Override
-        public MapCodec<CrystalShieldRenderer.Unbaked> type() {
+        public MapCodec<Unbaked> type() {
             return MAP_CODEC;
         }
 
         @Override
-        public CrystalShieldRenderer bake(SpecialModelRenderer.BakingContext context) {
+        public CrystalShieldRenderer bake(BakingContext context) {
             return new CrystalShieldRenderer(context.sprites(), new ShieldModel(context.entityModelSet().bakeLayer(ModelLayers.SHIELD)));
         }
     }

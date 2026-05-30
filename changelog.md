@@ -1,6 +1,9 @@
 # Crystal Tools Change Log
 ## 26.1.0.0
 - Updates to 26.1
+- Fixes add points with XP button not rendering correctly
+- Fixes crystal shield model
+- Updates to Neo 26.1.2.68-beta
 
 ## 21.11.3.7.1
 - Removes Auto Output Blacklist tag in favor of new config screen

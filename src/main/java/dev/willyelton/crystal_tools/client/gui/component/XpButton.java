@@ -34,18 +34,21 @@ public class XpButton extends Button {
 
     @Override
     protected void extractContents(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        this.extractDefaultSprite(guiGraphics);
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, getX() + 4, getY() + 5, 0, 0, 9, 9, 256, 256);
 
         if (this.isHovered) {
             this.onTooltip.onTooltip(this, guiGraphics, mouseX, mouseY);
         }
+
+        this.extractDefaultLabel(guiGraphics.textRendererForWidget(this, GuiGraphicsExtractor.HoveredTextEffects.NONE));
     }
 
     @Override
     public void extractDefaultLabel(ActiveTextCollector textCollector) {
         Font font = Minecraft.getInstance().font;
         int color = this.active ? Colors.fromRGB(200, 255, 143) : Colors.fromRGB(140, 96, 93);
-        textCollector.accept(TextAlignment.CENTER, this.getX() + 16, this.getY() + (getHeight() - font.lineHeight) / 2 + 1, this.getMessage().copy().withColor(color));
+        textCollector.accept(TextAlignment.CENTER, this.getX() + 22, this.getY() + (getHeight() - font.lineHeight) / 2 + 1, this.getMessage().copy().withColor(color));
     }
 
     @Override

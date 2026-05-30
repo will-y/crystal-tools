@@ -11,7 +11,6 @@ public class ModifyDefaultComponentsEvent {
     @SubscribeEvent
     public static void handleDefaultComponents(net.neoforged.neoforge.event.ModifyDefaultComponentsEvent event) {
         // Remove the enchantable component from my tools (can't do in props with constructor)
-        // TODO: Javadocs PR to Neo
-        event.modifyMatching(item -> item instanceof LevelableTool, builder -> builder.set(DataComponents.ENCHANTABLE, null));
+        event.modifyMatching((item, _) -> item instanceof LevelableTool, (components, _, _) -> components.set(DataComponents.ENCHANTABLE, null));
     }
 }
