@@ -5,7 +5,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Increases the Sword's Attack Damage",
+          "description": "Increases the Spear's Attack Damage",
           "id": 0,
           "key": [
             "minecraft:attack_damage"
@@ -17,15 +17,15 @@
         }
       },
       {
-        "type": "crystal_tools:attribute",
+        "type": "crystal_tools:data_component",
         "node": {
-          "description": "Increases the Sword's Attack Speed",
+          "description": "Holding right click with your Spear causes you to move faster!",
           "id": 1,
           "key": [
-            "minecraft:attack_speed"
+            "crystal_tools:dash"
           ],
           "limit": 1,
-          "name": "Attack Speed I",
+          "name": "Dash I",
           "requirements": [],
           "value": 1.0
         }
@@ -33,7 +33,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Increases the Sword's Durability",
+          "description": "Increases the Spear's Durability",
           "id": 2,
           "key": [
             "minecraft:max_damage"
@@ -49,7 +49,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Increases the Sword's Attack Damage",
+          "description": "Increases the Spear's Attack Damage",
           "id": 3,
           "key": [
             "minecraft:attack_damage"
@@ -68,15 +68,15 @@
         }
       },
       {
-        "type": "crystal_tools:attribute",
+        "type": "crystal_tools:data_component",
         "node": {
-          "description": "Increases the Sword's Attack Speed",
+          "description": "Holding right click with your Spear causes you to move faster!",
           "id": 4,
           "key": [
-            "minecraft:attack_speed"
+            "crystal_tools:dash"
           ],
           "limit": 1,
-          "name": "Attack Speed II",
+          "name": "Dash II",
           "requirements": [
             {
               "type": "crystal_tools:node_requirement",
@@ -91,7 +91,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Increases the Sword's Durability",
+          "description": "Increases the Spear's Durability",
           "id": 5,
           "key": [
             "minecraft:max_damage"
@@ -114,7 +114,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Fire Aspect II to the Sword",
+          "description": "Gives the enchantment Fire Aspect II to the Spear",
           "enchantment": "minecraft:fire_aspect",
           "id": 6,
           "level": 2,
@@ -134,7 +134,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Adds Knockback Resistance when holding the Sword",
+          "description": "Adds Knockback Resistance when holding the Spear",
           "id": 7,
           "key": [
             "minecraft:knockback_resistance"
@@ -157,7 +157,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Adds Knockback to the Sword",
+          "description": "Adds Knockback to the Spear",
           "id": 8,
           "key": [
             "minecraft:attack_knockback"
@@ -203,7 +203,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Mobs killed by this Sword will have a chance to drop their head",
+          "description": "Mobs killed by this Spear will have a chance to drop their head",
           "id": 10,
           "key": [
             "crystal_tools:beheading"
@@ -228,7 +228,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Increases the Sword's Attack Damage",
+          "description": "Increases the Spear's Attack Damage",
           "id": 11,
           "key": [
             "minecraft:attack_damage"
@@ -257,15 +257,15 @@
         }
       },
       {
-        "type": "crystal_tools:attribute",
+        "type": "crystal_tools:data_component",
         "node": {
-          "description": "Increases the Sword's Attack Speed",
+          "description": "Holding right click with your Spear causes you to move faster!",
           "id": 12,
           "key": [
-            "minecraft:attack_speed"
+            "crystal_tools:dash"
           ],
           "limit": 1,
-          "name": "Attack Speed III",
+          "name": "Dash III",
           "requirements": [
             {
               "type": "crystal_tools:node_requirement",
@@ -290,7 +290,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Increases the Sword's Durability",
+          "description": "Increases the Spear's Durability",
           "id": 13,
           "key": [
             "minecraft:max_damage"
@@ -321,7 +321,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Increases the Sword's Reach Distance",
+          "description": "Increases the Spear's Reach Distance",
           "id": 14,
           "key": [
             "minecraft:entity_interaction_range",
@@ -347,7 +347,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Mobs killed by this Sword will have a chance to drop their spawn egg",
+          "description": "Mobs killed by this Spear will have a chance to drop their spawn egg",
           "id": 15,
           "key": [
             "crystal_tools:capture"
@@ -374,7 +374,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "You gain 1 heart back on each attack with the Sword",
+          "description": "You gain 1 heart back on each attack with the Spear",
           "id": 16,
           "key": [
             "crystal_tools:lifesteal"
@@ -399,7 +399,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Adds Knockback Resistance when holding the Sword",
+          "description": "Adds Knockback Resistance when holding the Spear",
           "id": 17,
           "key": [
             "minecraft:knockback_resistance"
@@ -430,7 +430,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Adds Knockback to the Sword",
+          "description": "Adds Knockback to the Spear",
           "id": 18,
           "key": [
             "minecraft:attack_knockback"
@@ -492,7 +492,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Mobs killed by this Sword will have a chance to drop their head",
+          "description": "Mobs killed by this Spear will have a chance to drop their head",
           "id": 20,
           "key": [
             "crystal_tools:beheading"
@@ -525,7 +525,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Increases the Sword's Attack Damage",
+          "description": "Increases the Spear's Attack Damage",
           "id": 21,
           "key": [
             "minecraft:attack_damage"
@@ -554,15 +554,15 @@
         }
       },
       {
-        "type": "crystal_tools:attribute",
+        "type": "crystal_tools:data_component",
         "node": {
-          "description": "Increases the Sword's Attack Speed",
+          "description": "Holding right click with your Spear causes you to move faster!",
           "id": 22,
           "key": [
-            "minecraft:attack_speed"
+            "crystal_tools:dash"
           ],
           "limit": 1,
-          "name": "Attack Speed IV",
+          "name": "Dash IV",
           "requirements": [
             {
               "type": "crystal_tools:node_requirement",
@@ -587,7 +587,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Increases the Sword's Durability",
+          "description": "Increases the Spear's Durability",
           "id": 23,
           "key": [
             "minecraft:max_damage"
@@ -618,7 +618,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Increases the Sword's Reach Distance",
+          "description": "Increases the Spear's Reach Distance",
           "id": 24,
           "key": [
             "minecraft:entity_interaction_range",
@@ -650,7 +650,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Mobs killed by this Sword will have a chance to drop their spawn egg",
+          "description": "Mobs killed by this Spear will have a chance to drop their spawn egg",
           "id": 25,
           "key": [
             "crystal_tools:capture"
@@ -683,7 +683,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Looting III to the Sword",
+          "description": "Gives the enchantment Looting III to the Spear",
           "enchantment": "minecraft:looting",
           "id": 26,
           "level": 3,
@@ -705,7 +705,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Automatically repairs the Sword over time",
+          "description": "Automatically repairs the Spear over time",
           "id": 27,
           "key": [
             "crystal_tools:auto_repair"
@@ -761,7 +761,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Mobs killed by this Sword will have a chance to drop their head",
+          "description": "Mobs killed by this Spear will have a chance to drop their head",
           "id": 29,
           "key": [
             "crystal_tools:beheading"
@@ -792,7 +792,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Sweeping Edge III to the Sword",
+          "description": "Gives the enchantment Sweeping Edge III to the Spear",
           "enchantment": "minecraft:sweeping_edge",
           "id": 30,
           "level": 3,
@@ -816,7 +816,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Increases the Sword's Attack Damage",
+          "description": "Increases the Spear's Attack Damage",
           "id": 31,
           "key": [
             "minecraft:attack_damage"
@@ -845,15 +845,15 @@
         }
       },
       {
-        "type": "crystal_tools:attribute",
+        "type": "crystal_tools:data_component",
         "node": {
-          "description": "Increases the Sword's Attack Speed",
+          "description": "Holding right click with your Spear causes you to move faster!",
           "id": 32,
           "key": [
-            "minecraft:attack_speed"
+            "crystal_tools:dash"
           ],
           "limit": 1,
-          "name": "Attack Speed V",
+          "name": "Dash V",
           "requirements": [
             {
               "type": "crystal_tools:node_requirement",
@@ -878,7 +878,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Increases the Sword's Durability",
+          "description": "Increases the Spear's Durability",
           "id": 33,
           "key": [
             "minecraft:max_damage"
@@ -909,7 +909,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Increases the Sword's Reach Distance",
+          "description": "Increases the Spear's Reach Distance",
           "id": 34,
           "key": [
             "minecraft:entity_interaction_range",
@@ -941,7 +941,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Mobs killed by this Sword will have a chance to drop their spawn egg",
+          "description": "Mobs killed by this Spear will have a chance to drop their spawn egg",
           "id": 35,
           "key": [
             "crystal_tools:capture"
@@ -974,7 +974,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Increases the Sword's Attack Damage",
+          "description": "Increases the Spear's Attack Damage",
           "id": 36,
           "key": [
             "minecraft:attack_damage"
@@ -995,28 +995,7 @@
       {
         "type": "crystal_tools:data_component",
         "node": {
-          "description": "Increases the Sword's Attack Speed",
-          "id": 37,
-          "key": [
-            "minecraft:attack_speed"
-          ],
-          "limit": 0,
-          "name": "Infinite Attack Speed",
-          "requirements": [
-            {
-              "type": "crystal_tools:node_requirement",
-              "node": [
-                32
-              ]
-            }
-          ],
-          "value": 0.25
-        }
-      },
-      {
-        "type": "crystal_tools:data_component",
-        "node": {
-          "description": "Increases the Sword's Durability",
+          "description": "Increases the Spear's Durability",
           "id": 38,
           "key": [
             "minecraft:max_damage"
@@ -1068,7 +1047,7 @@
       {
         "type": "crystal_tools:attribute",
         "node": {
-          "description": "Increases the Sword's Reach Distance",
+          "description": "Increases the Spear's Reach Distance",
           "id": 40,
           "key": [
             "minecraft:entity_interaction_range",
@@ -1092,7 +1071,7 @@
       {
         "type": "crystal_tools:enchantment",
         "node": {
-          "description": "Gives the enchantment Looting V to the Sword",
+          "description": "Gives the enchantment Looting V to the Spear",
           "enchantment": "minecraft:looting",
           "id": 41,
           "level": 5,
@@ -1102,7 +1081,6 @@
               "type": "crystal_tools:node_requirement",
               "node": [
                 36,
-                37,
                 38,
                 39,
                 40

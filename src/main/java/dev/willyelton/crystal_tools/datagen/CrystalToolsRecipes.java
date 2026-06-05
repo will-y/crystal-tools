@@ -153,6 +153,15 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
 
+        shaped(RecipeCategory.COMBAT, ModRegistration.CRYSTAL_SPEAR.get())
+                .pattern("  c")
+                .pattern(" s ")
+                .pattern("s  ")
+                .define('c', ModRegistration.CRYSTAL.get())
+                .define('s', CrystalToolsTags.RODS_METAL_NETHERITE)
+                .unlockedBy("has_crystal", HAS_CRYSTAL)
+                .save(output);
+
         shaped(RecipeCategory.COMBAT, ModRegistration.CRYSTAL_BOW.get())
                 .pattern(" sc")
                 .pattern("s c")

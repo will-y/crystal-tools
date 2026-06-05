@@ -1,4 +1,4 @@
-// 26.1.2	2026-05-30T19:34:23.2756712	Model Definitions - crystal_tools
+// 26.1.2	2026-05-30T19:54:33.6339481	Model Definitions - crystal_tools
 44eb603a54aabeb5d4f7c1fd34fc281a6fbb6170 assets/crystal_tools/blockstates/crystal_block.json
 16c7f01ecbdd437f59531bd56029a2d12186c9a6 assets/crystal_tools/blockstates/crystal_deepslate_ore.json
 b45cd6d350dcfbffe28c7a2e3695c880e9ac5b54 assets/crystal_tools/blockstates/crystal_furnace.json
@@ -37,6 +37,7 @@ d73e7661f50c8a4dcebf7ab69a5010480d319d50 assets/crystal_tools/items/crystal_pick
 3b5eb0104bad54862ae158bc02075c40bad617dd assets/crystal_tools/items/crystal_rocket.json
 51cc638569370ad436e2eb469ce7e8576be1ec92 assets/crystal_tools/items/crystal_shield.json
 242e6d3cd6625ced787992220a0b25399f35723e assets/crystal_tools/items/crystal_shovel.json
+c543968d90cea76d560345a4cd3b6d98842ab2e4 assets/crystal_tools/items/crystal_spear.json
 78dbbc2c1ecdd5f58498ffeb4d59b7d342a4e3cd assets/crystal_tools/items/crystal_sword.json
 32eab23b3b9a46dc1e048390f77df65abe1983c1 assets/crystal_tools/items/crystal_torch.json
 ebdf5acc2eb5262ea22e4e5cfcd55486ab03713c assets/crystal_tools/items/crystal_trident.json
@@ -138,6 +139,8 @@ d797d1d63be9ae32189d2a8fb259112d173e737b assets/crystal_tools/models/item/crysta
 cb4c80b67b7bbbae9b37f8f8fb5a480b9e632939 assets/crystal_tools/models/item/crystal_shield.json
 b6df0e05c7de1568a352d0ff037f4f8ea2e890df assets/crystal_tools/models/item/crystal_shield_blocking.json
 118e393eb9b23ba18708f6a04bd9c3b4490ce905 assets/crystal_tools/models/item/crystal_shovel.json
+10c7ea4953c22dc629fe803183828cc4efb7bfc3 assets/crystal_tools/models/item/crystal_spear.json
+738b46d0519816ecc460d59c5bf57753f32c0887 assets/crystal_tools/models/item/crystal_spear_in_hand.json
 4fb0d98449e05753ae35dcb85ba96c978dd8afbb assets/crystal_tools/models/item/crystal_sword.json
 74378f8c3d3a814952fd981fd234be56deb1e3a8 assets/crystal_tools/models/item/crystal_torch.json
 5d05547fe23a73c427e5efe3b415dd99d36b3605 assets/crystal_tools/models/item/crystal_trident.json

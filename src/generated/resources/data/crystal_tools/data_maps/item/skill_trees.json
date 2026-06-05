@@ -84,6 +84,11 @@
       "allowDamageXp": false,
       "treeLocation": "crystal_tools:crystal_shovel"
     },
+    "crystal_tools:crystal_spear": {
+      "allowMiningXp": false,
+      "experienceScaling": 3.0,
+      "treeLocation": "crystal_tools:crystal_spear"
+    },
     "crystal_tools:crystal_sword": {
       "experienceScaling": 0.8,
       "treeLocation": "crystal_tools:crystal_sword"

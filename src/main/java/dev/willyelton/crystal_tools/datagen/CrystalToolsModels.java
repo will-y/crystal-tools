@@ -63,6 +63,7 @@ public class CrystalToolsModels extends ModelProvider {
         itemModels.generateFishingRod(ModRegistration.CRYSTAL_FISHING_ROD.get());
         generateCrystalShield(itemModels);
         generatePortableGenerator(itemModels);
+        itemModels.generateSpear(ModRegistration.CRYSTAL_SPEAR.get());
 
         // Armor
         itemModels.generateTrimmableItem(ModRegistration.CRYSTAL_HELMET.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, TRIM_PREFIX_HELMET, false);

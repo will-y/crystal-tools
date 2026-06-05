@@ -1,4 +1,4 @@
-// 26.1.2	2026-05-30T19:16:06.8225888	Registries
+// 26.1.2	2026-06-04T23:08:27.324796	Registries
 fc5742856159734f886e60a3e6559bbe51c57d92 data/crystal_tools/crystal_tools/skill_trees/blocks/crystal_furnace.json
 2a0c63ddccc640131e357b3a412a3141a43ba97d data/crystal_tools/crystal_tools/skill_trees/blocks/crystal_generator.json
 864b0773e2a28be44ba79d150e23cda8cff8944d data/crystal_tools/crystal_tools/skill_trees/blocks/crystal_quarry.json
@@ -19,7 +19,8 @@ fa6a475583c83f857e94434ee4b810663d8e6b26 data/crystal_tools/crystal_tools/skill_
 e25ec1d7d8bdd83deba9352f463913ed0c0a6843 data/crystal_tools/crystal_tools/skill_trees/items/crystal_rocket.json
 87ed20330ffb6f45c5f035b1d593f3ef8241accd data/crystal_tools/crystal_tools/skill_trees/items/crystal_shield.json
 7e8a6f2d5959e4105e90fd3c8335f49085ae694d data/crystal_tools/crystal_tools/skill_trees/items/crystal_shovel.json
-8c9145a3a997839caa3bac985fdd41112cc85cb0 data/crystal_tools/crystal_tools/skill_trees/items/crystal_sword.json
+b41c8007dfabbe3a684a00b3fefb607fc0851914 data/crystal_tools/crystal_tools/skill_trees/items/crystal_spear.json
+b004723cbcf472b60713e8253910a6c12c48c4c5 data/crystal_tools/crystal_tools/skill_trees/items/crystal_sword.json
 a68466484eda9be6a3c8b5a97343448d39f14a55 data/crystal_tools/crystal_tools/skill_trees/items/crystal_trident.json
 3134cee1baf705d1f9656f654d472aa46ff2d265 data/crystal_tools/crystal_tools/skill_trees/items/portable_crystal_generator.json
 ddd28429b888fae08085550c583264c637729802 data/crystal_tools/crystal_tools/skill_trees/items/simple_axe.json

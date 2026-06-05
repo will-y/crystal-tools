@@ -1,4 +1,11 @@
 # Crystal Tools Change Log
+## 26.1.1.0
+- Adds the Crystal Spear!
+  - Has the same skills as a sword except Attack Speed is replaced with Dash
+- Fixes eating a crystal apple causing a lot of warning logs and showing the missing texture particle
+- Fixes an issue where the knockback skill would just give you more knockback resistance
+- Updates to Neo 26.1.2.73
+
 ## 26.1.0.0
 - Updates to 26.1
 - Fixes add points with XP button not rendering correctly
