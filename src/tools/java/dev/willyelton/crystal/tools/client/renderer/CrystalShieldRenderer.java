@@ -48,7 +48,7 @@ public class CrystalShieldRenderer implements SpecialModelRenderer<DataComponent
                 : BannerPatternLayers.EMPTY;
         DyeColor baseColor = components != null ? components.get(DataComponents.BASE_COLOR) : null;
         boolean hasPatterns = !patterns.layers().isEmpty() || baseColor != null;
-        SpriteId base = hasPatterns ? Sheets.SHIELD_BASE : Sheets.SHIELD_BASE_NO_PATTERN;
+        SpriteId base = SHIELD_MATERIAL;
         submitNodeCollector.submitModel(this.model, Unit.INSTANCE, poseStack, lightCoords, overlayCoords, -1, base, this.sprites, outlineColor, null);
         if (hasPatterns) {
             BannerRenderer.submitPatterns(

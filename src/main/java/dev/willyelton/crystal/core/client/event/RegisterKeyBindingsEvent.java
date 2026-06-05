@@ -15,6 +15,7 @@ public class RegisterKeyBindingsEvent {
     public static final KeyMapping.Category CATEGORY = new KeyMapping.Category(baseRl("category"));
 
     public static KeyMapping UPGRADE_MENU;
+    public static KeyMapping MODE_SWITCH;
 
     private static KeyMapping createBinding(String name, int key, RegisterKeyMappingsEvent e) {
         KeyMapping keyBinding = new KeyMapping(getKey(name), key, CATEGORY);
@@ -27,6 +28,7 @@ public class RegisterKeyBindingsEvent {
         e.registerCategory(CATEGORY);
 
         UPGRADE_MENU = createBinding("upgrade_menu", GLFW.GLFW_KEY_K, e);
+        MODE_SWITCH = createBinding("mode_switch", GLFW.GLFW_KEY_M, e);
     }
 
     private static String getKey(String name) {

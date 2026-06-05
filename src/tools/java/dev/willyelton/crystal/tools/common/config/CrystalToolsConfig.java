@@ -67,7 +67,6 @@ public class CrystalToolsConfig {
 
     // Entity Things
     public static ModConfigSpec.BooleanValue PICK_UP_OTHER_ENTITIES;
-    public static ModConfigSpec.DoubleValue ENTITY_SKILL_POINT_MULTIPLIER;
 
     static {
         ModConfigSpec.Builder configBuilder = new ModConfigSpec.Builder();
@@ -192,8 +191,6 @@ public class CrystalToolsConfig {
         builder.comment("Change Entity Related Settings").push("entity");
         PICK_UP_OTHER_ENTITIES = builder.comment("If true, you can pick up mobs other than tamed dogs in the Crystal Dog Cage")
                 .define("pick_up_other_entities", false);
-        ENTITY_SKILL_POINT_MULTIPLIER = builder.comment("This value will be multiplied by the damage taken / received by levelable entities to get the skill points")
-                        .defineInRange("entity_skill_point_multiplier", 2.0D, 0.1D, 1000.0D);
         builder.pop();
     }
 }

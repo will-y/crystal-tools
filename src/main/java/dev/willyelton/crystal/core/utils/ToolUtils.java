@@ -4,7 +4,7 @@ import dev.willyelton.crystal.core.common.config.CrystalCoreConfig;
 import dev.willyelton.crystal.core.common.datacomponent.DataComponents;
 import dev.willyelton.crystal.core.common.datamap.CrystalCoreDataMaps;
 import dev.willyelton.crystal.core.common.event.DatapackRegistryEvents;
-import dev.willyelton.crystal.core.common.event.intermod.registries.SkillTreeBlackListRegistry;
+import dev.willyelton.crystal.core.common.registry.SkillTreeBlackListRegistry;
 import dev.willyelton.crystal.core.common.skill.SkillData;
 import dev.willyelton.crystal.core.common.skill.SkillPoints;
 import dev.willyelton.crystal.core.common.tag.CrystalCoreTags;

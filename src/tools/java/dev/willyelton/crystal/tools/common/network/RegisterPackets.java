@@ -4,7 +4,7 @@ import dev.willyelton.crystal.tools.CrystalTools;
 import dev.willyelton.crystal.tools.common.network.data.BackpackScreenPayload;
 import dev.willyelton.crystal.tools.common.network.data.BlockBreakPayload;
 import dev.willyelton.crystal.tools.common.network.data.BlockStripPayload;
-import dev.willyelton.crystal.tools.common.network.data.ModeSwitchPayload;
+import dev.willyelton.crystal.tools.common.network.data.MagnetModePayload;
 import dev.willyelton.crystal.tools.common.network.data.OpenBackpackPayload;
 import dev.willyelton.crystal.tools.common.network.data.QuarryMineBlockPayload;
 import dev.willyelton.crystal.tools.common.network.data.TriggerRocketPayload;
@@ -12,7 +12,7 @@ import dev.willyelton.crystal.tools.common.network.data.VeinMiningPayload;
 import dev.willyelton.crystal.tools.common.network.handler.BackpackScreenHandler;
 import dev.willyelton.crystal.tools.common.network.handler.BlockBreakHandler;
 import dev.willyelton.crystal.tools.common.network.handler.BlockStripHandler;
-import dev.willyelton.crystal.tools.common.network.handler.ModeSwitchHandler;
+import dev.willyelton.crystal.tools.common.network.handler.MagnetModeSwitchHandler;
 import dev.willyelton.crystal.tools.common.network.handler.OpenBackpackHandler;
 import dev.willyelton.crystal.tools.common.network.handler.QuarryMineBlockHandler;
 import dev.willyelton.crystal.tools.common.network.handler.TriggerRocketHandler;
@@ -30,7 +30,7 @@ public class RegisterPackets {
         final PayloadRegistrar registrar = event.registrar("1.1.0");
 
         // Client to Server
-        registrar.playToServer(ModeSwitchPayload.TYPE, ModeSwitchPayload.STREAM_CODEC, ModeSwitchHandler.INSTANCE::handle);
+        registrar.playToServer(MagnetModePayload.TYPE, MagnetModePayload.STREAM_CODEC, MagnetModeSwitchHandler.INSTANCE::handle);
         registrar.playToServer(BackpackScreenPayload.TYPE, BackpackScreenPayload.STREAM_CODEC, BackpackScreenHandler.INSTANCE::handle);
         registrar.playToServer(BlockBreakPayload.TYPE, BlockBreakPayload.STREAM_CODEC, BlockBreakHandler.INSTANCE::handle);
         registrar.playToServer(BlockStripPayload.TYPE, BlockStripPayload.STREAM_CODEC, BlockStripHandler.INSTANCE::handle);

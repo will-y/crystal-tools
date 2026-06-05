@@ -3,6 +3,7 @@ package dev.willyelton.crystal.core.common.network;
 import dev.willyelton.crystal.core.common.network.handler.BlockSkillHandler;
 import dev.willyelton.crystal.core.common.network.handler.ContainerRowsHandler;
 import dev.willyelton.crystal.core.common.network.handler.EntitySkillHandler;
+import dev.willyelton.crystal.core.common.network.handler.ModeSwitchPacketHandler;
 import dev.willyelton.crystal.core.common.network.handler.OpenContainerHandler;
 import dev.willyelton.crystal.core.common.network.handler.OpenSubScreenHandler;
 import dev.willyelton.crystal.core.common.network.handler.PointsFromXpHandler;
@@ -16,6 +17,7 @@ import dev.willyelton.crystal.core.common.network.handler.UpdateSideConfigHandle
 import dev.willyelton.crystal.core.common.network.payload.BlockSkillPayload;
 import dev.willyelton.crystal.core.common.network.payload.ContainerRowsPayload;
 import dev.willyelton.crystal.core.common.network.payload.EntitySkillPayload;
+import dev.willyelton.crystal.core.common.network.payload.ModeSwitchPayload;
 import dev.willyelton.crystal.core.common.network.payload.OpenContainerPayload;
 import dev.willyelton.crystal.core.common.network.payload.OpenSubScreenPayload;
 import dev.willyelton.crystal.core.common.network.payload.PointsFromXpPayload;
@@ -52,5 +54,6 @@ public class RegisterPackets {
         registrar.playToServer(PointsFromXpPayload.TYPE, PointsFromXpPayload.STREAM_CODEC, PointsFromXpHandler.INSTANCE::handle);
         registrar.playToServer(ScrollPayload.TYPE, ScrollPayload.STREAM_CODEC, ScrollHandler.INSTANCE::handle);
         registrar.playToServer(ContainerRowsPayload.TYPE, ContainerRowsPayload.STREAM_CODEC, ContainerRowsHandler.INSTANCE::handle);
+        registrar.playToServer(ModeSwitchPayload.TYPE, ModeSwitchPayload.STREAM_CODEC, ModeSwitchPacketHandler.INSTANCE::handle);
     }
 }

@@ -151,7 +151,7 @@
           "description": "Gives your wolf lifesteal",
           "id": 8,
           "key": [
-            "crystal_tools:lifesteal"
+            "crystal_core:lifesteal"
           ],
           "limit": 1,
           "name": "Lifesteal I",
@@ -373,7 +373,7 @@
           "description": "Gives your wolf lifesteal",
           "id": 17,
           "key": [
-            "crystal_tools:lifesteal"
+            "crystal_core:lifesteal"
           ],
           "limit": 1,
           "name": "Lifesteal II",

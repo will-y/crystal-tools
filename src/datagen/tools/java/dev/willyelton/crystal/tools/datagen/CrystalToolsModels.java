@@ -19,6 +19,7 @@ import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TexturedModel;
 import net.minecraft.client.renderer.item.ConditionalItemModel;
 import net.minecraft.client.renderer.item.ItemModel;
+import net.minecraft.client.renderer.special.ShieldSpecialRenderer;
 import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.Item;
@@ -122,12 +123,13 @@ public class CrystalToolsModels extends ModelProvider {
 
     private void generateCrystalShield(ItemModelGenerators itemModels) {
         Item shieldItem = ModRegistration.CRYSTAL_SHIELD.get();
-        ItemModel.Unbaked itemmodel$unbaked = ItemModelUtils.specialModel(CrystalToolsModelTemplates.CRYSTAL_SHIELD.create(shieldItem, TextureMapping.particle(Registration.CRYSTAL_BLOCK.get()), itemModels.modelOutput),
+        ItemModel.Unbaked normal = ItemModelUtils.specialModel(CrystalToolsModelTemplates.CRYSTAL_SHIELD.create(shieldItem, TextureMapping.particle(Registration.CRYSTAL_BLOCK.get()), itemModels.modelOutput),
                 new CrystalShieldRenderer.Unbaked());
-        ItemModel.Unbaked itemmodel$unbaked1 = ItemModelUtils.specialModel(
+        ItemModel.Unbaked blocking = ItemModelUtils.specialModel(
                 CrystalToolsModelTemplates.CRYSTAL_SHIELD_BLOCKING.create(shieldItem, TextureMapping.particle(Registration.CRYSTAL_BLOCK.get()), itemModels.modelOutput),
                 new CrystalShieldRenderer.Unbaked());
-        itemModels.generateBooleanDispatch(ModRegistration.CRYSTAL_SHIELD.get(), ItemModelUtils.isUsingItem(), itemmodel$unbaked1, itemmodel$unbaked);
+        itemModels.itemModelOutput
+                .accept(shieldItem, ItemModelUtils.conditional(ShieldSpecialRenderer.DEFAULT_TRANSFORMATION, ItemModelUtils.isUsingItem(), blocking, normal));
     }
 
     private void generateCrystalMagnet(ItemModelGenerators itemModels) {

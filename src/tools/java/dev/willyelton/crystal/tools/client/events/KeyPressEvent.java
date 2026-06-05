@@ -1,7 +1,7 @@
 package dev.willyelton.crystal.tools.client.events;
 
 import dev.willyelton.crystal.tools.CrystalTools;
-import dev.willyelton.crystal.tools.common.network.data.ModeSwitchPayload;
+import dev.willyelton.crystal.core.common.network.payload.ModeSwitchPayload;
 import dev.willyelton.crystal.tools.common.network.data.OpenBackpackPayload;
 import dev.willyelton.crystal.tools.common.network.data.TriggerRocketPayload;
 import dev.willyelton.crystal.tools.common.network.data.VeinMiningPayload;

@@ -8,6 +8,5 @@ public class EntitySkills {
     private EntitySkills() {}
 
     public static Identifier CRATE_TRAINING = rl("crate_training");
-    public static Identifier LIFESTEAL = rl("lifesteal");
     public static Identifier IMMORTALITY = rl("immortality");
 }

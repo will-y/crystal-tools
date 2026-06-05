@@ -1,11 +1,10 @@
-package dev.willyelton.crystal.tools.common.levelable.armor;
+package dev.willyelton.crystal.core.common.levelable;
 
-import dev.willyelton.crystal.core.common.levelable.LevelableItem;
+import dev.willyelton.crystal.core.client.event.RegisterKeyBindingsEvent;
 import dev.willyelton.crystal.core.common.tag.CrystalCoreTags;
 import dev.willyelton.crystal.core.utils.EnchantmentUtils;
 import dev.willyelton.crystal.core.utils.ToolUtils;
-import dev.willyelton.crystal.tools.client.events.RegisterKeyBindingsEvent;
-import dev.willyelton.crystal.tools.common.components.DataComponents;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;

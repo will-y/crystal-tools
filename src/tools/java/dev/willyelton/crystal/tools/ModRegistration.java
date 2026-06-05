@@ -23,7 +23,7 @@ import dev.willyelton.crystal.tools.common.levelable.CrystalBackpack;
 import dev.willyelton.crystal.tools.common.levelable.DogCage;
 import dev.willyelton.crystal.tools.common.levelable.PortableGenerator;
 import dev.willyelton.crystal.tools.common.levelable.armor.CrystalElytra;
-import dev.willyelton.crystal.tools.common.levelable.armor.LevelableArmor;
+import dev.willyelton.crystal.core.common.levelable.LevelableArmor;
 import dev.willyelton.crystal.tools.common.levelable.block.CrystalFurnaceBlock;
 import dev.willyelton.crystal.tools.common.levelable.block.CrystalGeneratorBlock;
 import dev.willyelton.crystal.tools.common.levelable.block.CrystalPedestalBlock;

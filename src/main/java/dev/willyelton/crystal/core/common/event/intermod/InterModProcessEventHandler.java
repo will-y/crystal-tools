@@ -1,7 +1,7 @@
 package dev.willyelton.crystal.core.common.event.intermod;
 
 import dev.willyelton.crystal.core.CrystalCore;
-import dev.willyelton.crystal.core.common.event.intermod.registries.SkillTreeBlackListRegistry;
+import dev.willyelton.crystal.core.common.registry.SkillTreeBlackListRegistry;
 import dev.willyelton.crystal.core.common.levelable.condition.LevelableCondition;
 import dev.willyelton.crystal.core.common.levelable.condition.LevelableConditions;
 import dev.willyelton.crystal.core.utils.constants.ApiConstants;

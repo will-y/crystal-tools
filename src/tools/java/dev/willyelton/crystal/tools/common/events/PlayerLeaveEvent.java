@@ -14,6 +14,5 @@ public class PlayerLeaveEvent {
         if (event.getEntity() instanceof ServerPlayer serverPlayer) {
             VeinMiners.stopVeinMining(serverPlayer);
         }
-
     }
 }

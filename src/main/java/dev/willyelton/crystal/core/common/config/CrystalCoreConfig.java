@@ -21,6 +21,9 @@ public class CrystalCoreConfig {
 
     public static ModConfigSpec.IntValue EXPERIENCE_LEVELING_SCALING;
 
+    // Entity
+    public static ModConfigSpec.DoubleValue ENTITY_SKILL_POINT_MULTIPLIER;
+
     static {
         ModConfigSpec.Builder configBuilder = new ModConfigSpec.Builder();
         setupConfig(configBuilder);
@@ -49,5 +52,8 @@ public class CrystalCoreConfig {
 
         EXPERIENCE_LEVELING_SCALING = builder.comment("Number of levels in a tool before the experience duration costs increases. Set to 0 to disable scaling")
                 .defineInRange("experience_leveling_scaling", 10, 0, 100);
+
+        ENTITY_SKILL_POINT_MULTIPLIER = builder.comment("This value will be multiplied by the damage taken / received by levelable entities to get the skill points")
+                .defineInRange("entity_skill_point_multiplier", 2.0D, 0.1D, 1000.0D);
     }
 }

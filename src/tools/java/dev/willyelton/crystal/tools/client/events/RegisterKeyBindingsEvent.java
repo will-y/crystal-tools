@@ -15,7 +15,6 @@ public class RegisterKeyBindingsEvent {
     public static final KeyMapping.Category CATEGORY = new KeyMapping.Category(rl("category"));
 
     public static KeyMapping VEIN_MINE;
-    public static KeyMapping MODE_SWITCH;
     public static KeyMapping OPEN_BACKPACK;
     public static KeyMapping TRIGGER_ROCKET;
     public static KeyMapping TOGGLE_MAGNET;
@@ -31,7 +30,6 @@ public class RegisterKeyBindingsEvent {
         e.registerCategory(CATEGORY);
 
         VEIN_MINE = createBinding("vein_mine", GLFW.GLFW_KEY_GRAVE_ACCENT, e);
-        MODE_SWITCH = createBinding("mode_switch", GLFW.GLFW_KEY_M, e);
         OPEN_BACKPACK = createBinding("open_backpack", GLFW.GLFW_KEY_B, e);
         TRIGGER_ROCKET = createBinding("trigger_rocket", GLFW.GLFW_KEY_R, e);
         TOGGLE_MAGNET = createBinding("toggle_magnet", GLFW.GLFW_KEY_N, e);

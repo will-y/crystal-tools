@@ -2,7 +2,7 @@ package dev.willyelton.crystal.tools.common.events;
 
 import dev.willyelton.crystal.tools.CrystalTools;
 import dev.willyelton.crystal.core.common.event.intermod.InterModConstants;
-import dev.willyelton.crystal.core.common.event.intermod.registries.SkillTreeBlackListRegistry;
+import dev.willyelton.crystal.core.common.registry.SkillTreeBlackListRegistry;
 import dev.willyelton.crystal.core.utils.constants.ApiConstants;
 import dev.willyelton.crystal.tools.common.config.CrystalToolsServerConfig;
 import dev.willyelton.crystal.tools.common.config.VanillaSkillTreeLevel;

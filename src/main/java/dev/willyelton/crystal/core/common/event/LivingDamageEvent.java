@@ -1,17 +1,17 @@
-package dev.willyelton.crystal.tools.common.events;
+package dev.willyelton.crystal.core.common.event;
 
-import dev.willyelton.crystal.tools.CrystalTools;
 import dev.willyelton.crystal.core.Registration;
 import dev.willyelton.crystal.core.common.capability.LevelableEntity;
+import dev.willyelton.crystal.core.common.config.CrystalCoreConfig;
 import dev.willyelton.crystal.core.common.skill.attachment.EntitySkillData;
-import dev.willyelton.crystal.tools.common.config.CrystalToolsConfig;
-import dev.willyelton.crystal.tools.utils.constants.EntitySkills;
+import dev.willyelton.crystal.core.utils.EntitySkills;
+import dev.willyelton.crystal.core.utils.constants.ApiConstants;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 
-@EventBusSubscriber(modid = CrystalTools.MODID)
+@EventBusSubscriber(modid = ApiConstants.CORE_MOD_ID)
 public class LivingDamageEvent {
 
     @SubscribeEvent
@@ -28,7 +28,7 @@ public class LivingDamageEvent {
     private static void handleDamage(LivingEntity entity, float amount) {
         LevelableEntity levelableEntity = LevelableEntity.of(entity, entity.level().registryAccess());
         if (levelableEntity != null && levelableEntity.allowDamageXp()) {
-            levelableEntity.addExp(entity.level(), entity.getOnPos(), entity, (float) (amount * CrystalToolsConfig.ENTITY_SKILL_POINT_MULTIPLIER.get()));
+            levelableEntity.addExp(entity.level(), entity.getOnPos(), entity, (float) (amount * CrystalCoreConfig.ENTITY_SKILL_POINT_MULTIPLIER.get()));
         }
     }
 
