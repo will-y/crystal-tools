@@ -1,4 +1,4 @@
-// 26.1	2026-04-28T18:57:27.5887048	Model Definitions - crystal_tools
+// 26.1	2026-06-15T23:00:03.997828685	Model Definitions - crystal_tools
 b45cd6d350dcfbffe28c7a2e3695c880e9ac5b54 assets/crystal_tools/blockstates/crystal_furnace.json
 5b3a0011ba65ea34d26e2bc6b140aa829622b04c assets/crystal_tools/blockstates/crystal_generator.json
 d7d6bd3e3adc5733be7419bb7e231f2a2a33051c assets/crystal_tools/blockstates/crystal_quarry.json
@@ -23,7 +23,7 @@ aced7d03f45a4f2e1b0157392c9b34a20892b69f assets/crystal_tools/items/crystal_hoe.
 d73e7661f50c8a4dcebf7ab69a5010480d319d50 assets/crystal_tools/items/crystal_pickaxe.json
 2a8454cc8023b32ddc50af1ba32d15d329201db0 assets/crystal_tools/items/crystal_quarry.json
 3b5eb0104bad54862ae158bc02075c40bad617dd assets/crystal_tools/items/crystal_rocket.json
-bb04f99c4c245869ee7757b75bfac115d42088b4 assets/crystal_tools/items/crystal_shield.json
+51cc638569370ad436e2eb469ce7e8576be1ec92 assets/crystal_tools/items/crystal_shield.json
 242e6d3cd6625ced787992220a0b25399f35723e assets/crystal_tools/items/crystal_shovel.json
 78dbbc2c1ecdd5f58498ffeb4d59b7d342a4e3cd assets/crystal_tools/items/crystal_sword.json
 ebdf5acc2eb5262ea22e4e5cfcd55486ab03713c assets/crystal_tools/items/crystal_trident.json

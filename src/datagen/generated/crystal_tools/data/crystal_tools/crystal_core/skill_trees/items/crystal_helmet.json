@@ -614,7 +614,7 @@
           "description": "Gives you night vision while wearing the Helmet",
           "id": 26,
           "key": [
-            "crystal_tools:night_vision"
+            "crystal_core:night_vision"
           ],
           "limit": 1,
           "name": "Night Vision",

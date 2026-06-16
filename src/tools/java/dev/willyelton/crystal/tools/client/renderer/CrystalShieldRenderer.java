@@ -2,7 +2,6 @@ package dev.willyelton.crystal.tools.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.MapCodec;
-import dev.willyelton.crystal.tools.CrystalTools;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.object.equipment.ShieldModel;
 import net.minecraft.client.renderer.Sheets;
@@ -14,7 +13,6 @@ import net.minecraft.client.resources.model.sprite.SpriteGetter;
 import net.minecraft.client.resources.model.sprite.SpriteId;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.resources.Identifier;
 import net.minecraft.util.Unit;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
@@ -25,8 +23,10 @@ import javax.annotation.Nullable;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import static dev.willyelton.crystal.tools.CrystalTools.rl;
+
 public class CrystalShieldRenderer implements SpecialModelRenderer<DataComponentMap> {
-    private static final SpriteId SHIELD_MATERIAL = new SpriteId(Sheets.SHIELD_SHEET, Identifier.fromNamespaceAndPath(CrystalTools.MODID, "entity/crystal_shield"));
+    private static final SpriteId SHIELD_MATERIAL = new SpriteId(Sheets.SHIELD_SHEET, rl("entity/crystal_shield"));
 
     private final ShieldModel model;
     private final SpriteGetter sprites;
@@ -91,6 +91,7 @@ public class CrystalShieldRenderer implements SpecialModelRenderer<DataComponent
 
         @Override
         public CrystalShieldRenderer bake(BakingContext context) {
+
             return new CrystalShieldRenderer(context.sprites(), new ShieldModel(context.entityModelSet().bakeLayer(ModelLayers.SHIELD)));
         }
     }

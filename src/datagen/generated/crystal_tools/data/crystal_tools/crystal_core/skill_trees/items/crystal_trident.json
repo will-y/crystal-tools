@@ -927,7 +927,7 @@
           "description": "Allows you to toggle Riptide off",
           "id": 32,
           "key": [
-            "crystal_tools:mine_mode"
+            "crystal_core:mine_mode"
           ],
           "limit": 1,
           "name": "Riptide Toggle",
