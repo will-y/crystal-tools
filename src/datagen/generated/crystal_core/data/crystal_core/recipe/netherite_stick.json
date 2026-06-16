@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "n": "#c:ingots/netherite"
+  },
+  "pattern": [
+    "n",
+    "n"
+  ],
+  "result": {
+    "count": 4,
+    "id": "crystal_core:netherite_stick"
+  }
+}

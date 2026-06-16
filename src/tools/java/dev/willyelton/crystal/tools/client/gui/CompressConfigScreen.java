@@ -1,0 +1,40 @@
+package dev.willyelton.crystal.tools.client.gui;
+
+import dev.willyelton.crystal.core.client.gui.ContainerSubScreen;
+import dev.willyelton.crystal.tools.common.inventory.container.CrystalBackpackContainerMenu;
+import dev.willyelton.crystal.core.common.inventory.container.SubScreenType;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
+
+public class CompressConfigScreen extends ContainerSubScreen<CrystalBackpackContainerMenu, CrystalBackpackScreen> {
+    public CompressConfigScreen(CrystalBackpackContainerMenu menu, Inventory playerInventory, CrystalBackpackScreen returnScreen) {
+        super(menu, playerInventory, Component.literal("Compression"), returnScreen);
+    }
+
+    @Override
+    protected int getRowsToDraw() {
+        return menu.getCompressionRows();
+    }
+
+    @Override
+    protected void drawContentRow(GuiGraphicsExtractor guiGraphics, int row) {
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, topPos + TOP_BAR_HEIGHT + ROW_HEIGHT * row, 0, 317, INVENTORY_WIDTH, ROW_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
+    }
+
+    @Override
+    public Component getButtonName() {
+        return Component.translatable("button.crystal_tools.compression_settings");
+    }
+
+    @Override
+    public SubScreenType getType() {
+        return SubScreenType.COMPRESS;
+    }
+
+    @Override
+    public int getButtonTextureXOffset() {
+        return 20;
+    }
+}

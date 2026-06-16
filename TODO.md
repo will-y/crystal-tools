@@ -133,5 +133,16 @@ Eventually
 - Future:
   - Reset skills
   - XP to points
+
 ## 21.6 Porting
 - Furnace screen is wrong
+- Things to move to core that probably aren't there:
+  - Item tooltip event
+  - Lots of events / datacomponents that have to do with tool behavior?
+    - What should actually be in core vs tools?
+- 3x3 mining overlay looks bad
+- Apple shows missing particles when eating
+  - [13:58:27] [Render thread/WARN] [minecraft/ItemStackTemplate]: Can't create item stack with properties ItemStackTemplate[item=Reference{ResourceKey[minecraft:item / crystal_tools:crystal_apple]=crystal_tools:crystal_apple}, count=2, components={crystal_core:experience_cap=>75, crystal_core:skill_experience=>1}], error: Item stack with stack size of 2 was larger than maximum: 1
+  - ^ Happens when eating, trying to create stack with size 2 somewhere?
+- Config translations
+- Move mode switching to core and have some sort of config?

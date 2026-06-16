@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": "crystal_core:crystal",
+    "n": "#c:rods/netherite",
+    "s": "minecraft:string"
+  },
+  "pattern": [
+    "s s",
+    "nsn",
+    " c "
+  ],
+  "result": {
+    "id": "crystal_tools:crystal_collar"
+  }
+}

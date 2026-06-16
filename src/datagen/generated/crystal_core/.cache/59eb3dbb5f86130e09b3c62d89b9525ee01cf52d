@@ -1,0 +1,7 @@
+// 26.2	2026-06-16T12:24:07.730127782	Loot Tables
+c7b3ac0114db221fa04717ba57cc9d5b00f82bf1 data/crystal_core/loot_table/blocks/crystal_block.json
+53d1b05f3dd529910d6f5f2d98731fdb51174e93 data/crystal_core/loot_table/blocks/crystal_deepslate_ore.json
+bafe06238a8db5ca1b77c135c99fa31fe9df073d data/crystal_core/loot_table/blocks/crystal_geode.json
+396c262f17896e1c9ab8ee89b7ec2e2027a6ad11 data/crystal_core/loot_table/blocks/crystal_ore.json
+da885484da5be8d77b897437fd1b5b87baf78bd4 data/crystal_core/loot_table/blocks/crystal_torch.json
+a879b84202c44117a2bbd76c5fe83bde26eb44a4 data/crystal_core/loot_table/blocks/netherite_infused_crystal_geode.json

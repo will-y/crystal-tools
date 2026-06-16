@@ -1,0 +1,55 @@
+package dev.willyelton.crystal.tools.common.events;
+
+import dev.willyelton.crystal.core.client.event.RegisterKeyBindingsEvent;
+import dev.willyelton.crystal.core.common.capability.Capabilities;
+import dev.willyelton.crystal.core.common.capability.LevelableStack;
+import dev.willyelton.crystal.core.common.levelable.LevelableTooltip;
+import dev.willyelton.crystal.core.utils.ToolUtils;
+import dev.willyelton.crystal.tools.CrystalTools;
+import dev.willyelton.crystal.tools.common.components.DataComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+
+import java.util.List;
+
+@EventBusSubscriber(modid = CrystalTools.MODID)
+public class ItemTooltipEvent {
+    @SubscribeEvent
+    public static void addItemToolTips(net.neoforged.neoforge.event.entity.player.ItemTooltipEvent event) {
+        int index = 1;
+        ItemStack stack = event.getItemStack();
+
+        LevelableStack levelableStack = stack.getCapability(Capabilities.ITEM_SKILL, null);
+
+        if (!ToolUtils.hasSkillTree(stack) || levelableStack == null) return;
+
+        List<Component> tooltips = event.getToolTip();
+        if (stack.getOrDefault(DataComponents.DISABLED, false)) {
+            tooltips.add(index++, Component.literal("\u00A7c\u00A7l" + "Disabled"));
+        }
+
+        if (stack.getOrDefault(dev.willyelton.crystal.core.common.datacomponent.DataComponents.MINE_MODE, false) && stack.getOrDefault(DataComponents.HAS_3x3, false)) {
+            String mode = stack.getOrDefault(DataComponents.DISABLE_3x3, false) ? "1x1" : "3x3";
+            String changeKey = RegisterKeyBindingsEvent.MODE_SWITCH == null ? "" : " (Shift + " + RegisterKeyBindingsEvent.MODE_SWITCH.getKey().getDisplayName().getString() + " to change)";
+            tooltips.add(index++, Component.literal("\u00A79" + "Break Mode: " + mode + changeKey));
+        }
+
+        if (stack.getOrDefault(DataComponents.AUTO_TARGET, false)) {
+            boolean enabled = !stack.getOrDefault(DataComponents.DISABLE_AUTO_TARGET, false);
+            String changeKey = RegisterKeyBindingsEvent.MODE_SWITCH == null ? "" : " (Shift + " + RegisterKeyBindingsEvent.MODE_SWITCH.getKey().getDisplayName().getString() + " to toggle)";
+            tooltips.add(index++, Component.literal("\u00A79" + "Auto Target " + (enabled ? "Enabled" : "Disabled") + changeKey));
+        }
+
+        int totemSlots = stack.getOrDefault(DataComponents.TOTEM_SLOTS, 0);
+        if (totemSlots > 0) {
+            tooltips.add(index++, Component.literal(String.format("\u00A72%d/%d Totems of Undying", stack.getOrDefault(DataComponents.FILLED_TOTEM_SLOTS, 0), totemSlots)));
+        }
+
+        LevelableTooltip levelableTooltip = stack.get(dev.willyelton.crystal.core.common.datacomponent.DataComponents.SKILL_TOOLTIP);
+        if (levelableTooltip != null) {
+            levelableTooltip.addTooltips(tooltips, event.getContext(), event.getFlags(), index);
+        }
+    }
+}

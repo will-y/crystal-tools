@@ -1,0 +1,28 @@
+package dev.willyelton.crystal.core.common.network.payload;
+
+import dev.willyelton.crystal.core.common.event.DatapackRegistryEvents;
+import dev.willyelton.crystal.core.common.skill.SkillData;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceKey;
+
+import static dev.willyelton.crystal.core.utils.constants.ApiConstants.baseRl;
+
+public record EntitySkillPayload(int nodeId, ResourceKey<SkillData> key, int pointsToSpend,
+                                 int entityId) implements CustomPacketPayload {
+
+    public static final Type<EntitySkillPayload> TYPE = new Type<>(baseRl("entity_skill"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, EntitySkillPayload> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.INT, EntitySkillPayload::nodeId,
+            ResourceKey.streamCodec(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ENTITIES), EntitySkillPayload::key,
+            ByteBufCodecs.INT, EntitySkillPayload::pointsToSpend,
+            ByteBufCodecs.INT, EntitySkillPayload::entityId,
+            EntitySkillPayload::new);
+
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
+    }
+}

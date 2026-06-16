@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "crystal_core:crystal",
+    "crystal_tools:crystal_upgrade_smithing_template",
+    "minecraft:netherite_ingot"
+  ],
+  "result": {
+    "count": 2,
+    "id": "crystal_tools:crystal_upgrade_smithing_template"
+  }
+}

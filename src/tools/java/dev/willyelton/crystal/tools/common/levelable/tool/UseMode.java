@@ -1,0 +1,48 @@
+package dev.willyelton.crystal.tools.common.levelable.tool;
+
+import com.mojang.serialization.Codec;
+import dev.willyelton.crystal.core.common.datacomponent.DataComponents;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
+
+public enum UseMode implements StringRepresentable {
+    HOE,
+    SHOVEL,
+    AXE,
+    TORCH;
+
+    public static Codec<UseMode> CODEC = StringRepresentable.fromEnum(UseMode::values);
+
+    public static StreamCodec<FriendlyByteBuf, UseMode> STREAM_CODEC = NeoForgeStreamCodecs.enumCodec(UseMode.class);
+
+    public static UseMode nextMode(ItemStack tool, UseMode mode) {
+        switch (mode) {
+            case HOE -> {
+                return SHOVEL;
+            }
+            case SHOVEL -> {
+                return AXE;
+            }
+            case AXE -> {
+                if (tool.getOrDefault(DataComponents.TORCH, false)) {
+                    return TORCH;
+                } else {
+                    return HOE;
+                }
+            }
+            case TORCH -> {
+                return HOE;
+            }
+        }
+
+        return HOE;
+    }
+
+    @Override
+    public String getSerializedName() {
+        return this.name().toLowerCase();
+    }
+}

@@ -1,0 +1,9 @@
+// 26.2	2026-06-16T12:24:07.732788119	crystal_core:recipes
+15819b3717a59e3ef5cb329d34c30e5c2833e407 data/crystal_core/advancement/recipes/decorations/crystal_block.json
+57e75b9f37aae1be7fd8d4f3251376ae30c18599 data/crystal_core/advancement/recipes/misc/crystal.json
+8cfb2217f9869f800968c8050b04af5be3d99499 data/crystal_core/advancement/recipes/misc/crystal_torch.json
+bf5fc5618c7a9c8e38bc11eeb50441473b29bd38 data/crystal_core/advancement/recipes/misc/netherite_stick.json
+a1471e4cc385fa9ebc48be56f5fb92d0f68f0f95 data/crystal_core/recipe/crystal.json
+6cf9a11f2cbe1962f5fa1ab93f0910a514981798 data/crystal_core/recipe/crystal_block.json
+55d3e7dcfee982fce2f3b5d9218f886402da0a3a data/crystal_core/recipe/crystal_torch.json
+b0406527eacbd387dc06ac023e4b00980d353919 data/crystal_core/recipe/netherite_stick.json

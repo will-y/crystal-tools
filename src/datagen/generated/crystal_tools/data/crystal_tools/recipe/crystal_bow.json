@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "c": "crystal_core:crystal",
+    "s": "#c:rods/netherite"
+  },
+  "pattern": [
+    " sc",
+    "s c",
+    " sc"
+  ],
+  "result": {
+    "id": "crystal_tools:crystal_bow"
+  }
+}

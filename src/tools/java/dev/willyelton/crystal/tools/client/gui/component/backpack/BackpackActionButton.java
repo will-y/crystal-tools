@@ -1,0 +1,55 @@
+package dev.willyelton.crystal.tools.client.gui.component.backpack;
+
+import dev.willyelton.crystal.core.client.gui.component.CrystalToolsButton;
+import dev.willyelton.crystal.core.common.network.model.BackpackAction;
+import dev.willyelton.crystal.core.common.inventory.container.subscreen.SubScreenContainerMenu;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.network.chat.Component;
+
+import static dev.willyelton.crystal.tools.client.gui.CrystalBackpackScreen.TEXTURE;
+
+public abstract class BackpackActionButton extends CrystalToolsButton {
+    private static final int BUTTON_SIZE = 12;
+    private static final int TEXTURE_Y = 281;
+
+    private final int uOffset;
+
+    public BackpackActionButton(int x, int y, Component name, BackpackAction action, int uOffset, Screen screen, SubScreenContainerMenu container) {
+        this(x, y, name, button -> container.sendUpdatePacket(action, Minecraft.getInstance().hasShiftDown()), (button, guiGraphics, mouseX, mouseY) -> {
+            guiGraphics.setTooltipForNextFrame(screen.getMinecraft().font, screen.getMinecraft().font.split(name, Math.max(screen.width / 2 - 43, 170)), mouseX, mouseY);
+        }, uOffset);
+    }
+
+    public BackpackActionButton(int x, int y, Component name, OnPress onPress, OnTooltip onTooltip, int uOffset) {
+        super(x, y, BUTTON_SIZE, BUTTON_SIZE, name, onPress, onTooltip);
+        this.uOffset = uOffset;
+    }
+
+    @Override
+    protected void blitButton(GuiGraphicsExtractor guiGraphics, int textureY) {
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, getX(), getY(), getUOffset(), textureY, BUTTON_SIZE, BUTTON_SIZE, 512, 512);
+    }
+
+    @Override
+    protected void drawButtonText(GuiGraphicsExtractor guiGraphics, Font font, int fgColor) {
+
+    }
+
+    @Override
+    protected int getTextureY(boolean isHovered) {
+        // I don't like how it stays focused when clicked
+        if (this.isHovered) {
+            return TEXTURE_Y + BUTTON_SIZE;
+        }
+
+        return TEXTURE_Y;
+    }
+
+    protected int getUOffset() {
+        return this.uOffset;
+    }
+}

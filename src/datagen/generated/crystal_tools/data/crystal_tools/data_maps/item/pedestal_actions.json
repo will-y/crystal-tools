@@ -1,0 +1,48 @@
+{
+  "values": {
+    "#minecraft:axes": {
+      "type": "crystal_core:block_break",
+      "params": {
+        "durabilityModifier": 2.0,
+        "maxTickCounter": 1
+      }
+    },
+    "#minecraft:hoes": {
+      "type": "crystal_core:block_break",
+      "params": {
+        "durabilityModifier": 2.0,
+        "maxTickCounter": 1
+      }
+    },
+    "#minecraft:pickaxes": {
+      "type": "crystal_core:block_break",
+      "params": {
+        "durabilityModifier": 2.0,
+        "maxTickCounter": 1
+      }
+    },
+    "#minecraft:shovels": {
+      "type": "crystal_core:block_break",
+      "params": {
+        "durabilityModifier": 2.0,
+        "maxTickCounter": 1
+      }
+    },
+    "crystal_tools:crystal_magnet": {
+      "type": "crystal_core:magnet",
+      "params": {
+        "durabilityModifier": 5.0,
+        "maxTickCounter": 1,
+        "range": 5
+      }
+    },
+    "crystal_tools:portable_crystal_generator": {
+      "type": "crystal_core:charge",
+      "params": {
+        "durabilityModifier": -1.0,
+        "maxTickCounter": 1,
+        "range": 25
+      }
+    }
+  }
+}

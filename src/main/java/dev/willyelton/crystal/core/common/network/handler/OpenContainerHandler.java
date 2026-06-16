@@ -1,0 +1,24 @@
+package dev.willyelton.crystal.core.common.network.handler;
+
+import dev.willyelton.crystal.core.common.inventory.container.CrystalToolsMenuProvider;
+import dev.willyelton.crystal.core.common.network.payload.OpenContainerPayload;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
+
+public class OpenContainerHandler {
+    public static OpenContainerHandler INSTANCE = new OpenContainerHandler();
+
+    public void handle(final OpenContainerPayload payload, final IPayloadContext context) {
+        Player player = context.player();
+        BlockPos pos = BlockPos.of(payload.packedBlockPos());
+        Level level = player.level();
+        Block block = level.getBlockState(pos).getBlock();
+
+        if (block instanceof CrystalToolsMenuProvider menuProvider) {
+            menuProvider.openContainer(level, pos, player);
+        }
+    }
+}

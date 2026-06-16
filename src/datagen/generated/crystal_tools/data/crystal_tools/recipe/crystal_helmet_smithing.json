@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": "crystal_core:crystal",
+  "base": "minecraft:netherite_helmet",
+  "result": {
+    "id": "crystal_tools:crystal_helmet"
+  },
+  "template": "crystal_tools:crystal_upgrade_smithing_template"
+}

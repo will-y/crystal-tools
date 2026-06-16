@@ -136,6 +136,7 @@ There will be upgrades that are common to most tools, and tools will each get un
   - Wither
 - Auto Target Entities
 
+
 ### Spear
 - Dash
   - Gain a speed boost when pressing right click
