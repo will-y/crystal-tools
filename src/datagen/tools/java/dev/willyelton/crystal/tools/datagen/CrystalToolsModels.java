@@ -59,6 +59,7 @@ public class CrystalToolsModels extends ModelProvider {
         generateCrystalBow(itemModels);
         generateCrystalTrident(itemModels);
         itemModels.generateFishingRod(ModRegistration.CRYSTAL_FISHING_ROD.get());
+        itemModels.generateSpear(ModRegistration.CRYSTAL_SPEAR.get());
         generateCrystalShield(itemModels);
         generatePortableGenerator(itemModels);
 

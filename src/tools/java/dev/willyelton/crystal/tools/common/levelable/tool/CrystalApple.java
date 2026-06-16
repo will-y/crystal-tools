@@ -8,7 +8,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
@@ -25,10 +24,6 @@ public class CrystalApple extends LevelableTool {
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity player) {
-        if (!(player instanceof Player) || !((Player) player).getAbilities().instabuild) {
-            stack.grow(1);
-        }
-
         Levelable levelable = stack.getCapability(Capabilities.ITEM_SKILL, level.registryAccess());
         if (levelable != null) {
             FoodProperties food = stack.getOrDefault(net.minecraft.core.component.DataComponents.FOOD, new FoodProperties(0, 0, false));
@@ -37,7 +32,13 @@ public class CrystalApple extends LevelableTool {
             stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
         }
 
-        return super.finishUsingItem(stack, level, player);
+        ItemStack result = super.finishUsingItem(stack, level, player);
+
+        if (result.getCount() == 0) {
+            result.grow(1);
+        }
+
+        return result;
     }
 
     @Override

@@ -1,5 +1,6 @@
-// 26.1	2026-04-28T18:57:27.5939849	crystal_tools:recipes
+// 26.1	2026-06-15T23:31:31.43741376	crystal_tools:recipes
 f31db4bed05fc604a6cf0feaa98a4edc8f6818ce data/crystal_tools/advancement/recipes/combat/crystal_bow.json
+be77e86de576e8644c501259732146f61f35f264 data/crystal_tools/advancement/recipes/combat/crystal_spear.json
 ee5a32452cb298535ddcf3223bbb82626b6ae8d7 data/crystal_tools/advancement/recipes/combat/crystal_sword.json
 ebfdcfef9e6484aa4bc7cbbf7a4795d77da702f4 data/crystal_tools/advancement/recipes/food/crystal_apple.json
 233fe8c24f22eafe40e393a232451bda9586f15e data/crystal_tools/advancement/recipes/misc/crystal_collar.json
@@ -48,6 +49,7 @@ e489632496cf994fa8e6c1e2f578df38869e27fe data/crystal_tools/recipe/crystal_rocke
 e9bbace96142967dd440008827efee0d04f54568 data/crystal_tools/recipe/crystal_shield.json
 5c3697fc4d7a035f0eae25cdfd5f8424d8d90bc8 data/crystal_tools/recipe/crystal_shield_totem.json
 514438382d1f64050d6a6acec733cdd63e083543 data/crystal_tools/recipe/crystal_shovel.json
+f35dc6a10288b45f62015d218605ac1c81d3cdaa data/crystal_tools/recipe/crystal_spear.json
 a5908a21c301ea883a3fe385603849695f8e51fc data/crystal_tools/recipe/crystal_sword.json
 119451472c14933ecd9bd7277d151d362c5f3045 data/crystal_tools/recipe/crystal_trident.json
 d8b8784c530509dbb1050997c8f25b85981cc078 data/crystal_tools/recipe/crystal_upgrade_smithing_template.json

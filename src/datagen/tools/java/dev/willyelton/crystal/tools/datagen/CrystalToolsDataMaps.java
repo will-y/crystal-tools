@@ -97,7 +97,8 @@ public class CrystalToolsDataMaps extends DataMapProvider {
                 .add(ModRegistration.CRYSTAL_ROCKET, new SkillTreeData(rl("crystal_rocket"), 5.0F, false, false), false)
                 .add(ModRegistration.CRYSTAL_BACKPACK, new SkillTreeData(rl("crystal_backpack"), 125, 1, false, true, true, false, false), false)
                 .add(ModRegistration.CRYSTAL_MAGNET, new SkillTreeData(rl("crystal_magnet"), 1.0F, false, false), false)
-                .add(ModRegistration.PORTABLE_GENERATOR, new SkillTreeData(rl("portable_crystal_generator"), 1.0F, false, false), false);
+                .add(ModRegistration.PORTABLE_GENERATOR, new SkillTreeData(rl("portable_crystal_generator"), 1.0F, false, false), false)
+                .add(ModRegistration.CRYSTAL_SPEAR, new SkillTreeData(rl("crystal_spear"), 3.0F, false, true), false);
 
 
         builder.add(Items.DIAMOND_PICKAXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_pickaxe"), 0, 1, false, false, false, true, false), false)

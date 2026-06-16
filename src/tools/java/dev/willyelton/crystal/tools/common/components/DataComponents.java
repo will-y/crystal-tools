@@ -41,6 +41,9 @@ public class DataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> ARROW_SPEED = register("arrow_speed_bonus", Codec.FLOAT, ByteBufCodecs.FLOAT);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Float>> DRAW_SPEED = register("draw_speed", Codec.FLOAT, ByteBufCodecs.FLOAT);
 
+    // Spear
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> DASH = register("dash", Codec.INT, ByteBufCodecs.VAR_INT);
+
     // Food Things
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> EAT_SPEED_BONUS = register("eat_speed_bonus", Codec.INT, ByteBufCodecs.INT);
 

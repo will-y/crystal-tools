@@ -48,6 +48,7 @@ import dev.willyelton.crystal.tools.common.levelable.tool.CrystalFishingRod;
 import dev.willyelton.crystal.tools.common.levelable.tool.CrystalMagnet;
 import dev.willyelton.crystal.tools.common.levelable.tool.CrystalRocket;
 import dev.willyelton.crystal.tools.common.levelable.tool.CrystalShield;
+import dev.willyelton.crystal.tools.common.levelable.tool.CrystalSpear;
 import dev.willyelton.crystal.tools.common.levelable.tool.CrystalTrident;
 import dev.willyelton.crystal.tools.common.levelable.tool.HoeLevelableTool;
 import dev.willyelton.crystal.tools.common.levelable.tool.PickaxeLevelableTool;
@@ -123,6 +124,7 @@ public class ModRegistration {
     public static final DeferredHolder<Item, CrystalBackpack> CRYSTAL_BACKPACK = ITEMS.registerItem("crystal_backpack", CrystalBackpack::new);
     public static final DeferredHolder<Item, CrystalMagnet> CRYSTAL_MAGNET = ITEMS.registerItem("crystal_magnet", CrystalMagnet::new);
     public static final DeferredHolder<Item, PortableGenerator> PORTABLE_GENERATOR = ITEMS.registerItem("portable_crystal_generator", PortableGenerator::new);
+    public static final DeferredHolder<Item, CrystalSpear> CRYSTAL_SPEAR = ITEMS.registerItem("crystal_spear", CrystalSpear::new);
 
     // Armor
     public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_HELMET = ITEMS.registerItem("crystal_helmet", (properties) -> new LevelableArmor(properties.humanoidArmor(CrystalToolsArmorMaterials.CRYSTAL, ArmorType.HELMET)));
@@ -222,6 +224,7 @@ public class ModRegistration {
                         output.accept(CRYSTAL_SHIELD.get());
                         output.accept(CRYSTAL_MAGNET.get());
                         output.accept(PORTABLE_GENERATOR.get());
+                        output.accept(CRYSTAL_SPEAR.get());
                     })
                     .build());
 

@@ -354,6 +354,10 @@ public class SkillTreeDescriptions {
         return String.format("Allows the %s to consume gems for power!", toolName);
     }
 
+    public String dash() {
+        return String.format("Holding right click with your %s causes you to move faster!", toolName);
+    }
+
     // Entities
     public String entityHealth() {
         return String.format("Gives your %s more max health", toolName);

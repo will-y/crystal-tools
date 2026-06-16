@@ -242,6 +242,10 @@ public class SkillTreeTitles {
         return getName("Extra Slots", level);
     }
 
+    public static String dash(int level) {
+        return getName("Dash", level);
+    }
+
     // Entity Titles
     public static String entityHealth(int level) {
         return getName("Health", level);

@@ -136,6 +136,11 @@ There will be upgrades that are common to most tools, and tools will each get un
   - Wither
 - Auto Target Entities
 
+
+### Spear
+- Dash
+  - Gain a speed boost when pressing right click
+
 ### Fishing Rod
 - Lure
 - Luck of the Sea
@@ -330,6 +335,9 @@ There will be upgrades that are common to most tools, and tools will each get un
 
 #### Trident
 ![Trident Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/trident.png)
+
+#### Spear
+![Spear Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/spear.png)
 
 #### Fishing Rod
 ![Fishing Rod Crafting](https://github.com/will-y/crystal-tools/raw/main/img/crafting/fishing_rod.png)
