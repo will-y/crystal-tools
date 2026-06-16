@@ -1,10 +1,10 @@
 package dev.willyelton.crystal.core.common.levelable;
 
 import dev.willyelton.crystal.core.client.event.RegisterKeyBindingsEvent;
+import dev.willyelton.crystal.core.common.datacomponent.DataComponents;
 import dev.willyelton.crystal.core.common.tag.CrystalCoreTags;
 import dev.willyelton.crystal.core.utils.EnchantmentUtils;
 import dev.willyelton.crystal.core.utils.ToolUtils;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -17,19 +17,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.item.equipment.ArmorMaterial;
-import net.minecraft.world.item.equipment.ArmorType;
 
 import java.util.function.Consumer;
 
 public class LevelableArmor extends Item implements LevelableItem {
-    private static final ArmorMaterial ARMOR_MATERIAL = CrystalToolsArmorMaterials.CRYSTAL;
 
-    public LevelableArmor(Properties properties, ArmorType type) {
+    public LevelableArmor(Properties properties) {
         super(properties.fireResistant()
                 .durability(CRYSTAL.durability())
-                .repairable(CrystalCoreTags.REPAIRS_CRYSTAL)
-                .humanoidArmor(ARMOR_MATERIAL, type));
+                .repairable(CrystalCoreTags.REPAIRS_CRYSTAL));
     }
 
     @Override
@@ -43,7 +39,7 @@ public class LevelableArmor extends Item implements LevelableItem {
             }
         }
 
-        if (stack.getOrDefault(dev.willyelton.crystal.core.common.datacomponent.DataComponents.FROST_WALKER, false)) {
+        if (stack.getOrDefault(DataComponents.FROST_WALKER, false)) {
             if (EnchantmentUtils.hasEnchantment(stack, Enchantments.FROST_WALKER)) {
                 consumer.accept(Component.literal("\u00A79" + "Shift + " + modeSwitchKey + " To Disable Frost Walker"));
             } else {

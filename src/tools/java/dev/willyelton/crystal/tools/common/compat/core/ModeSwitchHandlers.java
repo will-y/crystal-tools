@@ -99,11 +99,12 @@ public class ModeSwitchHandlers {
         }, ModeSwitchHandlerRegistry.NORMAL);
     }
 
+    // TODO: Maybe move all of the armor ones to core?
     private static boolean disableNightVision(Player player, ItemStack stack) {
-        if (stack.is(ModRegistration.CRYSTAL_HELMET.get()) && stack.getOrDefault(DataComponents.NIGHT_VISION, false)) {
+        if (stack.is(ModRegistration.CRYSTAL_HELMET.get()) && stack.getOrDefault(dev.willyelton.crystal.core.common.datacomponent.DataComponents.NIGHT_VISION, false)) {
             // TODO: Can probably extract this for all of the toggles
-            boolean disableNightVision = stack.getOrDefault(DataComponents.DISABLE_NIGHT_VISION, false);
-            stack.set(DataComponents.DISABLE_NIGHT_VISION, !disableNightVision);
+            boolean disableNightVision = stack.getOrDefault(dev.willyelton.crystal.core.common.datacomponent.DataComponents.DISABLE_NIGHT_VISION, false);
+            stack.set(dev.willyelton.crystal.core.common.datacomponent.DataComponents.DISABLE_NIGHT_VISION, !disableNightVision);
             player.sendOverlayMessage(Component.literal("Night Vision " + (disableNightVision ? "Enabled" : "Disabled")));
             return true;
         }

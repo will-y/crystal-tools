@@ -1,16 +1,14 @@
 package dev.willyelton.crystal.tools.common.events;
 
-import dev.willyelton.crystal.tools.CrystalTools;
-import dev.willyelton.crystal.tools.client.events.RegisterKeyBindingsEvent;
+import dev.willyelton.crystal.core.client.event.RegisterKeyBindingsEvent;
 import dev.willyelton.crystal.core.common.capability.Capabilities;
 import dev.willyelton.crystal.core.common.capability.LevelableStack;
-import dev.willyelton.crystal.tools.common.components.DataComponents;
 import dev.willyelton.crystal.core.common.levelable.LevelableTooltip;
-import dev.willyelton.crystal.core.utils.EnchantmentUtils;
 import dev.willyelton.crystal.core.utils.ToolUtils;
+import dev.willyelton.crystal.tools.CrystalTools;
+import dev.willyelton.crystal.tools.common.components.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 
@@ -32,25 +30,10 @@ public class ItemTooltipEvent {
             tooltips.add(index++, Component.literal("\u00A7c\u00A7l" + "Disabled"));
         }
 
-        if (stack.getOrDefault(DataComponents.MINE_MODE, false)
-                && stack.getOrDefault(dev.willyelton.crystal.core.common.datacomponent.DataComponents.SILK_TOUCH_BONUS, false)
-                && stack.getOrDefault(dev.willyelton.crystal.core.common.datacomponent.DataComponents.FORTUNE_BONUS, 0) > 0) {
-            // Only show mode if it has both enchantments
-            String mode = EnchantmentUtils.hasEnchantment(stack, Enchantments.SILK_TOUCH) ? "Silk Touch" : "Fortune";
-            String changeKey = RegisterKeyBindingsEvent.MODE_SWITCH == null ? "" : " (" + RegisterKeyBindingsEvent.MODE_SWITCH.getKey().getDisplayName().getString() + " to change)";
-            tooltips.add(index++, Component.literal("\u00A79" + "Mine Mode: " + mode + changeKey));
-        }
-
-        if (stack.getOrDefault(DataComponents.MINE_MODE, false) && stack.getOrDefault(DataComponents.HAS_3x3, false)) {
+        if (stack.getOrDefault(dev.willyelton.crystal.core.common.datacomponent.DataComponents.MINE_MODE, false) && stack.getOrDefault(DataComponents.HAS_3x3, false)) {
             String mode = stack.getOrDefault(DataComponents.DISABLE_3x3, false) ? "1x1" : "3x3";
             String changeKey = RegisterKeyBindingsEvent.MODE_SWITCH == null ? "" : " (Shift + " + RegisterKeyBindingsEvent.MODE_SWITCH.getKey().getDisplayName().getString() + " to change)";
             tooltips.add(index++, Component.literal("\u00A79" + "Break Mode: " + mode + changeKey));
-        }
-
-        if (stack.getOrDefault(DataComponents.MINE_MODE, false) && stack.getOrDefault(dev.willyelton.crystal.core.common.datacomponent.DataComponents.AUTO_SMELT, false)) {
-            boolean enabled = !stack.getOrDefault(dev.willyelton.crystal.core.common.datacomponent.DataComponents.DISABLE_AUTO_SMELT, false);
-            String changeKey = RegisterKeyBindingsEvent.MODE_SWITCH == null ? "" : " (Ctrl + " + RegisterKeyBindingsEvent.MODE_SWITCH.getKey().getDisplayName().getString() + " to toggle)";
-            tooltips.add(index++, Component.literal("\u00A79" + "Auto Smelt " + (enabled ? "Enabled" : "Disabled") + changeKey));
         }
 
         if (stack.getOrDefault(DataComponents.AUTO_TARGET, false)) {

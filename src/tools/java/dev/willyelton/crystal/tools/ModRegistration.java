@@ -3,6 +3,7 @@ package dev.willyelton.crystal.tools;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import dev.willyelton.crystal.core.common.block.entity.action.ActionType;
+import dev.willyelton.crystal.core.common.levelable.LevelableArmor;
 import dev.willyelton.crystal.core.utils.constants.ApiConstants;
 import dev.willyelton.crystal.tools.client.particle.quarry.breakblock.QuarryBreakParticleType;
 import dev.willyelton.crystal.tools.common.components.DataComponents;
@@ -23,7 +24,7 @@ import dev.willyelton.crystal.tools.common.levelable.CrystalBackpack;
 import dev.willyelton.crystal.tools.common.levelable.DogCage;
 import dev.willyelton.crystal.tools.common.levelable.PortableGenerator;
 import dev.willyelton.crystal.tools.common.levelable.armor.CrystalElytra;
-import dev.willyelton.crystal.core.common.levelable.LevelableArmor;
+import dev.willyelton.crystal.tools.common.levelable.armor.CrystalToolsArmorMaterials;
 import dev.willyelton.crystal.tools.common.levelable.block.CrystalFurnaceBlock;
 import dev.willyelton.crystal.tools.common.levelable.block.CrystalGeneratorBlock;
 import dev.willyelton.crystal.tools.common.levelable.block.CrystalPedestalBlock;
@@ -124,10 +125,10 @@ public class ModRegistration {
     public static final DeferredHolder<Item, PortableGenerator> PORTABLE_GENERATOR = ITEMS.registerItem("portable_crystal_generator", PortableGenerator::new);
 
     // Armor
-    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_HELMET = ITEMS.registerItem("crystal_helmet", (properties) -> new LevelableArmor(properties, ArmorType.HELMET));
-    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_CHESTPLATE = ITEMS.registerItem("crystal_chestplate", (properties) -> new LevelableArmor(properties, ArmorType.CHESTPLATE));
-    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_LEGGINGS = ITEMS.registerItem("crystal_leggings", (properties) -> new LevelableArmor(properties, ArmorType.LEGGINGS));
-    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_BOOTS = ITEMS.registerItem("crystal_boots", (properties) -> new LevelableArmor(properties, ArmorType.BOOTS));
+    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_HELMET = ITEMS.registerItem("crystal_helmet", (properties) -> new LevelableArmor(properties.humanoidArmor(CrystalToolsArmorMaterials.CRYSTAL, ArmorType.HELMET)));
+    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_CHESTPLATE = ITEMS.registerItem("crystal_chestplate", (properties) -> new LevelableArmor(properties.humanoidArmor(CrystalToolsArmorMaterials.CRYSTAL, ArmorType.CHESTPLATE)));
+    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_LEGGINGS = ITEMS.registerItem("crystal_leggings", (properties) -> new LevelableArmor(properties.humanoidArmor(CrystalToolsArmorMaterials.CRYSTAL, ArmorType.LEGGINGS)));
+    public static final DeferredHolder<Item, LevelableArmor> CRYSTAL_BOOTS = ITEMS.registerItem("crystal_boots", (properties) -> new LevelableArmor(properties.humanoidArmor(CrystalToolsArmorMaterials.CRYSTAL, ArmorType.BOOTS)));
     public static final DeferredHolder<Item, CrystalElytra> CRYSTAL_ELYTRA = ITEMS.registerItem("crystal_elytra", CrystalElytra::new);
 
     // Blocks

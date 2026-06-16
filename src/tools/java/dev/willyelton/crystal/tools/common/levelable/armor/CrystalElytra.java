@@ -1,6 +1,6 @@
 package dev.willyelton.crystal.tools.common.levelable.armor;
 
-import dev.willyelton.crystal.tools.client.events.RegisterKeyBindingsEvent;
+import dev.willyelton.crystal.core.client.event.RegisterKeyBindingsEvent;
 import dev.willyelton.crystal.core.common.capability.Capabilities;
 import dev.willyelton.crystal.core.common.capability.Levelable;
 import dev.willyelton.crystal.tools.common.components.DataComponents;

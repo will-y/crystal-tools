@@ -34,8 +34,6 @@ public class DataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<UseMode>> USE_MODE = register("use_mode", UseMode.CODEC, UseMode.STREAM_CODEC);
 
     // Armor
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> NIGHT_VISION = register("night_vision", Codec.BOOL, ByteBufCodecs.BOOL);
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> DISABLE_NIGHT_VISION = register("disable_night_vision", Codec.BOOL, ByteBufCodecs.BOOL);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> DISABLE_CREATIVE_FLIGHT = register("disable_creative_flight", Codec.BOOL, ByteBufCodecs.BOOL);
 
     // Bow

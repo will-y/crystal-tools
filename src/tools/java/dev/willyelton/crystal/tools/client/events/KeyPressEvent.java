@@ -1,7 +1,7 @@
 package dev.willyelton.crystal.tools.client.events;
 
 import dev.willyelton.crystal.tools.CrystalTools;
-import dev.willyelton.crystal.core.common.network.payload.ModeSwitchPayload;
+import dev.willyelton.crystal.tools.common.network.data.MagnetModePayload;
 import dev.willyelton.crystal.tools.common.network.data.OpenBackpackPayload;
 import dev.willyelton.crystal.tools.common.network.data.TriggerRocketPayload;
 import dev.willyelton.crystal.tools.common.network.data.VeinMiningPayload;
@@ -24,12 +24,8 @@ public class KeyPressEvent {
             return;
         }
 
-        if (RegisterKeyBindingsEvent.MODE_SWITCH.consumeClick()) {
-            handleModeSwitch(false);
-        }
-
         if (RegisterKeyBindingsEvent.TOGGLE_MAGNET.consumeClick()) {
-            handleModeSwitch(true);
+            handleMagnetToggle();
         }
 
         if (RegisterKeyBindingsEvent.OPEN_BACKPACK.consumeClick()) {
@@ -50,8 +46,8 @@ public class KeyPressEvent {
     /**
      * Handles changing the mining mode (silk touch or fortune)
      */
-    public static void handleModeSwitch(boolean magnet) {
-        ClientPacketDistributor.sendToServer(new ModeSwitchPayload(Minecraft.getInstance().hasShiftDown(), Minecraft.getInstance().hasControlDown(), Minecraft.getInstance().hasAltDown(), magnet));
+    public static void handleMagnetToggle() {
+        ClientPacketDistributor.sendToServer(new MagnetModePayload(Minecraft.getInstance().hasShiftDown()));
     }
 
     public static void handleOpenBackpack() {

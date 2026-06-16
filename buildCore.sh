@@ -1,1 +1,1 @@
-./gradlew build -x toolsJar
+./gradlew publishToMavenLocal -x toolsJar

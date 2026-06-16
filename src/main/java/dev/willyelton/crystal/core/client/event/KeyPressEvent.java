@@ -3,6 +3,7 @@ package dev.willyelton.crystal.core.client.event;
 import dev.willyelton.crystal.core.client.gui.UpgradeScreen;
 import dev.willyelton.crystal.core.common.capability.Capabilities;
 import dev.willyelton.crystal.core.common.capability.Levelable;
+import dev.willyelton.crystal.core.common.network.payload.ModeSwitchPayload;
 import dev.willyelton.crystal.core.utils.constants.ApiConstants;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -16,6 +17,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 import static dev.willyelton.crystal.core.utils.ScreenUtils.openScreen;
 
@@ -41,6 +43,10 @@ public class KeyPressEvent {
                 }
             }
         }
+
+        if (RegisterKeyBindingsEvent.MODE_SWITCH.consumeClick()) {
+            handleModeSwitch();
+        }
     }
 
     public static boolean handleUpgradeMenu(ItemStack stack, Player player) {
@@ -58,5 +64,12 @@ public class KeyPressEvent {
         }
 
         return false;
+    }
+
+    /**
+     * Handles changing the mining mode (silk touch or fortune)
+     */
+    public static void handleModeSwitch() {
+        ClientPacketDistributor.sendToServer(new ModeSwitchPayload(Minecraft.getInstance().hasShiftDown(), Minecraft.getInstance().hasControlDown(), Minecraft.getInstance().hasAltDown()));
     }
 }
