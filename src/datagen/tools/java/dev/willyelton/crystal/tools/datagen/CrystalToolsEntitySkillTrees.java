@@ -1,22 +1,28 @@
 package dev.willyelton.crystal.tools.datagen;
 
-import dev.willyelton.crystal.tools.ModRegistration;
 import dev.willyelton.crystal.core.common.event.DatapackRegistryEvents;
 import dev.willyelton.crystal.core.common.skill.SkillData;
-import dev.willyelton.crystal.tools.utils.constants.EntitySkills;
 import dev.willyelton.crystal.core.utils.constants.SkillTreeDescriptions;
+import dev.willyelton.crystal.tools.ModRegistration;
+import dev.willyelton.crystal.tools.utils.constants.EntitySkills;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
-import static dev.willyelton.crystal.core.utils.constants.SkillTreeTitles.*;
+import static dev.willyelton.crystal.core.utils.constants.SkillTreeTitles.CRATE_TRAINING;
+import static dev.willyelton.crystal.core.utils.constants.SkillTreeTitles.IMMORTALITY;
+import static dev.willyelton.crystal.core.utils.constants.SkillTreeTitles.entityArmor;
+import static dev.willyelton.crystal.core.utils.constants.SkillTreeTitles.entityDamage;
+import static dev.willyelton.crystal.core.utils.constants.SkillTreeTitles.entityHealth;
+import static dev.willyelton.crystal.core.utils.constants.SkillTreeTitles.entitySpeed;
+import static dev.willyelton.crystal.core.utils.constants.SkillTreeTitles.lifesteal;
 import static dev.willyelton.crystal.tools.datagen.CrystalToolsItemSkillTrees.attr;
 
 public class CrystalToolsEntitySkillTrees {
     public static void register(BootstrapContext<SkillData> context) {
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ENTITIES,
-                EntityType.WOLF.builtInRegistryHolder().key().identifier()), wolf());
+                EntityTypes.WOLF.builtInRegistryHolder().key().identifier()), wolf());
     }
 
     private static SkillData wolf() {

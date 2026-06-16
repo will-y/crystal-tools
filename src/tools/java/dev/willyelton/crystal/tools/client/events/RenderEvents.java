@@ -9,7 +9,7 @@ import dev.willyelton.crystal.tools.common.components.DataComponents;
 import dev.willyelton.crystal.tools.common.levelable.tool.LevelableTool;
 import dev.willyelton.crystal.tools.common.levelable.tool.VeinMinerLevelableTool;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.state.level.BlockOutlineRenderState;
 import net.minecraft.client.renderer.state.level.LevelRenderState;
 import net.minecraft.world.InteractionHand;
@@ -81,7 +81,7 @@ public class RenderEvents {
 
     static class BlockVanillaBlockOutline implements CustomBlockOutlineRenderer {
         @Override
-        public boolean render(BlockOutlineRenderState renderState, MultiBufferSource.BufferSource buffer, PoseStack poseStack, boolean translucentPass, LevelRenderState levelRenderState) {
+        public boolean render(BlockOutlineRenderState renderState, SubmitNodeCollector submitNodeCollector, PoseStack poseStack, LevelRenderState levelRenderState) {
             return true;
         }
     }

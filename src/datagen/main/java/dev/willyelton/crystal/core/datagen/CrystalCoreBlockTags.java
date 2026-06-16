@@ -18,9 +18,9 @@ public class CrystalCoreBlockTags extends BlockTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider provider) {
         tag(BlockTags.MINEABLE_WITH_PICKAXE).add(
-                Registration.CRYSTAL_BLOCK.get(),
-                Registration.CRYSTAL_ORE.get(),
-                Registration.CRYSTAL_DEEPSLATE_ORE.get(),
-                Registration.NETHERITE_INFUSED_CRYSTAL_GEODE.get());
+                Registration.CRYSTAL_BLOCK.getKey(),
+                Registration.CRYSTAL_ORE.getKey(),
+                Registration.CRYSTAL_DEEPSLATE_ORE.getKey(),
+                Registration.NETHERITE_INFUSED_CRYSTAL_GEODE.getKey());
     }
 }

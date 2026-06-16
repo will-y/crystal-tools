@@ -3,7 +3,7 @@ package dev.willyelton.crystal.core.datagen;
 import dev.willyelton.crystal.core.Registration;
 import dev.willyelton.crystal.core.common.block.entity.CrystalTorch;
 import dev.willyelton.crystal.core.utils.constants.ApiConstants;
-import net.minecraft.advancements.criterion.StatePropertiesPredicate;
+import net.minecraft.advancements.predicates.StatePropertiesPredicate;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.packs.VanillaBlockLoot;

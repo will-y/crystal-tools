@@ -11,7 +11,7 @@ import dev.willyelton.crystal.tools.client.events.RegisterKeyBindingsEvent;
 import dev.willyelton.crystal.tools.common.components.DataComponents;
 import dev.willyelton.crystal.tools.common.levelable.tool.VeinMinerLevelableTool;
 import dev.willyelton.crystal.tools.common.network.data.BlockStripPayload;
-import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;

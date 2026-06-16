@@ -18,11 +18,11 @@ public class CrystalToolsBlockTags extends BlockTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider provider) {
         tag(BlockTags.MINEABLE_WITH_PICKAXE).add(
-                ModRegistration.CRYSTAL_FURNACE.get(),
-                ModRegistration.CRYSTAL_GENERATOR.get(),
-                ModRegistration.CRYSTAL_QUARRY.get(),
-                ModRegistration.QUARRY_STABILIZER.get(),
-                ModRegistration.CRYSTAL_PEDESTAL.get());
+                ModRegistration.CRYSTAL_FURNACE.getKey(),
+                ModRegistration.CRYSTAL_GENERATOR.getKey(),
+                ModRegistration.CRYSTAL_QUARRY.getKey(),
+                ModRegistration.QUARRY_STABILIZER.getKey(),
+                ModRegistration.CRYSTAL_PEDESTAL.getKey());
 
         tag(CrystalToolsTags.MINABLE_WITH_AIOT)
                 .addTag(BlockTags.MINEABLE_WITH_AXE)

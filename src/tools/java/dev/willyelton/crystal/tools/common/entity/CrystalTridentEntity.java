@@ -1,8 +1,8 @@
 package dev.willyelton.crystal.tools.common.entity;
 
-import dev.willyelton.crystal.tools.ModRegistration;
 import dev.willyelton.crystal.core.common.capability.Capabilities;
 import dev.willyelton.crystal.core.common.capability.LevelableStack;
+import dev.willyelton.crystal.tools.ModRegistration;
 import dev.willyelton.crystal.tools.common.components.DataComponents;
 import dev.willyelton.crystal.tools.common.config.CrystalToolsConfig;
 import net.minecraft.core.BlockPos;
@@ -13,6 +13,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -111,7 +112,7 @@ public class CrystalTridentEntity extends ThrownTrident {
         Entity damagingEntity = this.getOwner();
         this.dealtDamage = true;
         if (hitEntity.hurtOrSimulate(damagesource, damage)) {
-            if (hitEntity.getType() == EntityType.ENDERMAN) {
+            if (hitEntity.getType() == EntityTypes.ENDERMAN) {
                 return;
             }
 
@@ -167,7 +168,7 @@ public class CrystalTridentEntity extends ThrownTrident {
         if (!this.level().isClientSide() && this.isChanneling()) {
             blockPos = blockPos.above();
             if (this.level().canSeeSky(blockPos)) {
-                LightningBolt lightningbolt = EntityType.LIGHTNING_BOLT.create(this.level(), EntitySpawnReason.TRIGGERED);
+                LightningBolt lightningbolt = EntityTypes.LIGHTNING_BOLT.create(this.level(), EntitySpawnReason.TRIGGERED);
                 if (lightningbolt != null) {
                     int damage = 5 + tridentStack.getOrDefault(DataComponents.CHANNELING, 0);
                     lightningbolt.setDamage(damage);

@@ -7,6 +7,6 @@ public class ScreenUtils {
     private ScreenUtils() {}
 
     public static void openScreen(Screen screen) {
-        Minecraft.getInstance().setScreen(screen);
+        Minecraft.getInstance().setScreenAndShow(screen);
     }
 }

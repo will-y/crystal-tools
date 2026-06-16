@@ -1,12 +1,14 @@
 package dev.willyelton.crystal.tools.datagen;
 
-import dev.willyelton.crystal.tools.CrystalTools;
 import dev.willyelton.crystal.core.common.tag.CrystalCoreTags;
+import dev.willyelton.crystal.tools.CrystalTools;
 import dev.willyelton.crystal.tools.common.tags.CrystalToolsTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.EntityTypeTagsProvider;
+import net.minecraft.tags.TagEntry;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.neoforged.neoforge.common.Tags;
 
 import java.util.concurrent.CompletableFuture;
@@ -19,7 +21,7 @@ public class CrystalToolsEntityTypeTags extends EntityTypeTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider provider) {
         tag(CrystalCoreTags.ENTITY_BLACKLIST).add(
-                EntityType.ARMOR_STAND);
+                TagEntry.element(EntityType.getKey(EntityTypes.ARMOR_STAND)));
 
         tag(CrystalToolsTags.PICKUP_ENTITY_BLACKLIST)
                 .addTag(Tags.EntityTypes.CAPTURING_NOT_SUPPORTED)

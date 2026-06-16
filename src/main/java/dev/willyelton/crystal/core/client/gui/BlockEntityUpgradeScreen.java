@@ -39,16 +39,14 @@ public class BlockEntityUpgradeScreen extends BaseUpgradeScreen {
 
     @Override
     public void onClose() {
-        if (minecraft != null) {
-            if (screen != null) {
-                minecraft.popGuiLayer();
-                minecraft.setScreen(this.screen);
-            }
+        if (screen != null) {
+            minecraft.gui.popScreenLayer();
+            minecraft.setScreenAndShow(this.screen);
+        }
 
-            if (onClose != null) {
-                super.onClose();
-                onClose.run();
-            }
+        if (onClose != null) {
+            super.onClose();
+            onClose.run();
         }
     }
 

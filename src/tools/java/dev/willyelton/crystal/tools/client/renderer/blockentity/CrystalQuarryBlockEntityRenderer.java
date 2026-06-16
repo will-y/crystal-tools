@@ -51,7 +51,7 @@ public class CrystalQuarryBlockEntityRenderer implements BlockEntityRenderer<Cry
         renderState.centerPos = new Vec3(blockEntity.getCenterX(), blockEntity.getCenterY(), blockEntity.getCenterZ());
         renderState.ageInTicks = blockEntity.getLevel().getGameTime() + partialTick;
         List<QuarryLaserRenderer.QuarryLaserRenderState> laserRenderStates = new ArrayList<>();
-        laserRenderStates.add(QuarryLaserRenderer.extractQuarryLaserRenderState(renderState.centerPos, blockEntity.getMiningAt().getCenter(), cameraPos, blockEntity.getLevel(), partialTick, MINING_COLOR));
+        laserRenderStates.add(QuarryLaserRenderer.extractQuarryLaserRenderState(renderState.centerPos, Vec3.atCenterOf(blockEntity.getMiningAt()), cameraPos, blockEntity.getLevel(), partialTick, MINING_COLOR));
 
         List<BlockPos> corners = blockEntity.getStabilizerPositions();
 
@@ -63,7 +63,7 @@ public class CrystalQuarryBlockEntityRenderer implements BlockEntityRenderer<Cry
         }
 
         for (BlockPos corner : corners) {
-            laserRenderStates.add(QuarryLaserRenderer.extractQuarryLaserRenderState(corner.getCenter(), renderState.centerPos, cameraPos, blockEntity.getLevel(), partialTick, FRAME_COLOR));
+            laserRenderStates.add(QuarryLaserRenderer.extractQuarryLaserRenderState(Vec3.atCenterOf(corner), renderState.centerPos, cameraPos, blockEntity.getLevel(), partialTick, FRAME_COLOR));
         }
 
         renderState.quarryLaserRenderStates = laserRenderStates;

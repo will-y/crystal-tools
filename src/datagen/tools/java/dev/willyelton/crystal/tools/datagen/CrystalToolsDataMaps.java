@@ -1,19 +1,19 @@
 package dev.willyelton.crystal.tools.datagen;
 
-import dev.willyelton.crystal.tools.ModRegistration;
 import dev.willyelton.crystal.core.Registration;
+import dev.willyelton.crystal.core.common.block.entity.action.ActionParameters;
 import dev.willyelton.crystal.core.common.datamap.CrystalCoreDataMaps;
+import dev.willyelton.crystal.core.common.skill.SkillTreeData;
+import dev.willyelton.crystal.tools.ModRegistration;
 import dev.willyelton.crystal.tools.common.datamap.ActionData;
 import dev.willyelton.crystal.tools.common.datamap.DataMaps;
 import dev.willyelton.crystal.tools.common.datamap.GeneratorFuelData;
-import dev.willyelton.crystal.core.common.skill.SkillTreeData;
-import dev.willyelton.crystal.core.common.block.entity.action.ActionParameters;
 import dev.willyelton.crystal.tools.common.levelable.condition.WolfCondition;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.DataMapProvider;
@@ -138,6 +138,6 @@ public class CrystalToolsDataMaps extends DataMapProvider {
                 .add(Items.NETHERITE_SWORD.builtInRegistryHolder(), new SkillTreeData(rl("simple_sword"), 0, 1, false, false, false, true, true), false);
 
         builder(CrystalCoreDataMaps.ENTITY_SKILL_TREES)
-                .add(EntityType.WOLF.builtInRegistryHolder(), new SkillTreeData(Identifier.withDefaultNamespace("wolf"), 0, 1, false, false, false, false, false, List.of(new WolfCondition())), false);
+                .add(EntityTypes.WOLF.builtInRegistryHolder(), new SkillTreeData(Identifier.withDefaultNamespace("wolf"), 0, 1, false, false, false, false, false, List.of(new WolfCondition())), false);
     }
 }

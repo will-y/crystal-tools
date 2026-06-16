@@ -44,7 +44,7 @@ public class MagnetAction extends Action {
 
     @Override
     public void tickAction(@NotNull Level level, BlockPos pos, BlockState state) {
-        Vec3 centerPos = pos.getCenter();
+        Vec3 centerPos = Vec3.atCenterOf(pos);
         ItemStack stack = getItem();
 
         if (ToolUtils.isBroken(stack) || stack.getOrDefault(DataComponents.DISABLED, false)) return;
@@ -85,7 +85,7 @@ public class MagnetAction extends Action {
     }
 
     private boolean canPickup(BlockPos pos, ItemEntity itemEntity, ItemStack magnetStack) {
-        return magnetStack.getOrDefault(DataComponents.INSTANT_PICKUP, false) || itemEntity.distanceToSqr(pos.getCenter()) <= 2.3F;
+        return magnetStack.getOrDefault(DataComponents.INSTANT_PICKUP, false) || itemEntity.distanceToSqr(Vec3.atCenterOf(pos)) <= 2.3F;
     }
 
     private boolean storeItem(Level level, BlockPos pos, ItemEntity itemEntity) {

@@ -50,7 +50,7 @@ public class ChargingAction extends Action {
 
     @Override
     public void tickAction(@NotNull Level level, BlockPos pos, BlockState state) {
-        Vec3 centerPos = pos.getCenter();
+        Vec3 centerPos = Vec3.atCenterOf(pos);
         ItemStack stack = getItem();
 
         if (level.getGameTime() % 100 == 32) {

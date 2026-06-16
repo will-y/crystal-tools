@@ -8,6 +8,7 @@ import net.minecraft.client.model.object.projectile.TridentModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.special.NoDataSpecialModelRenderer;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.Unit;
 import org.joml.Vector3fc;
 
 import java.util.function.Consumer;
@@ -29,11 +30,11 @@ public class CrystalTridentSpecialRenderer implements NoDataSpecialModelRenderer
     }
 
     @Override
-    public void submit(PoseStack poseStack, SubmitNodeCollector nodeCollector, int p_388874_, int p_388252_, boolean p_387131_, int p_451703_) {
+    public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, int overlayCoords, boolean hasFoil, int outlineColor) {
         poseStack.pushPose();
         poseStack.scale(1.0F, -1.0F, -1.0F);
-        nodeCollector.submitModelPart(this.crystalTridentModel.root(), poseStack, this.crystalTridentModel.renderType(TEXTURE),
-                p_388874_, p_388252_, null, false, p_387131_, -1, null, p_451703_);
+        submitNodeCollector.order(0).submitModel(this.crystalTridentModel, Unit.INSTANCE, poseStack, this.crystalTridentModel.renderType(TEXTURE),
+                lightCoords, overlayCoords, outlineColor, null);
         poseStack.popPose();
     }
 

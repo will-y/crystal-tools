@@ -26,6 +26,7 @@ import java.util.Map;
 
 import static dev.willyelton.crystal.tools.CrystalTools.ck;
 
+// TODO: Features
 public class QuarryLaserRenderer {
     public static final float LASER_SPEED_MODIFIER = 1.2F;
 
@@ -111,11 +112,11 @@ public class QuarryLaserRenderer {
     }
 
     public static QuarryLaserRenderState extractQuarryLaserRenderState(BlockPos start, BlockPos end, Vec3 cameraPos, Level level, float partialTick, int color) {
-        return extractQuarryLaserRenderState(start.getCenter(), end.getCenter(), cameraPos, level, partialTick, color);
+        return extractQuarryLaserRenderState(Vec3.atCenterOf(start), Vec3.atCenterOf(end), cameraPos, level, partialTick, color);
     }
 
     public static QuarryLaserRenderState extractQuarryLaserRenderState(BlockPos start, BlockPos end, Vec3 cameraPos, Level level, float partialTick, int color, int timeElapsed) {
-        return extractQuarryLaserRenderState(start.getCenter(), end.getCenter(), cameraPos, level, partialTick, color, timeElapsed);
+        return extractQuarryLaserRenderState(Vec3.atCenterOf(start), Vec3.atCenterOf(end), cameraPos, level, partialTick, color, timeElapsed);
     }
 
     public static QuarryLaserRenderState extractQuarryLaserRenderState(Vec3 start, Vec3 end, Vec3 cameraPos, Level level, float partialTick, int color) {
@@ -165,15 +166,15 @@ public class QuarryLaserRenderer {
 
         if (cubeRenderStates != null) {
             for (QuarryMissingStabilizerRenderState renderState : cubeRenderStates) {
-                BlockOverlayRenderer.renderBlockPos(event.getPoseStack(), Minecraft.getInstance().renderBuffers().bufferSource(),
-                        renderState.pos, renderState.color);
+//                BlockOverlayRenderer.renderBlockPos(event.getPoseStack(), Minecraft.getInstance().renderBuffers().bufferSource(),
+//                        renderState.pos, renderState.color);
             }
         }
     }
 
     public static void renderLaser(PoseStack poseStack, QuarryLaserRenderState renderState) {
-        VertexConsumer consumer = Minecraft.getInstance().renderBuffers().bufferSource().getBuffer(CrystalToolsRenderTypes.QUARRY_LASER);
-        renderLaser(poseStack, consumer, renderState);
+//        VertexConsumer consumer = Minecraft.getInstance().renderBuffers().bufferSource().getBuffer(CrystalToolsRenderTypes.QUARRY_LASER);
+//        renderLaser(poseStack, consumer, renderState);
     }
 
     public static void renderLaser(PoseStack poseStack, VertexConsumer consumer, QuarryLaserRenderState renderState) {

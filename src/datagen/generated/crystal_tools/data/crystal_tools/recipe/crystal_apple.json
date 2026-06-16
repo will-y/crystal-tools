@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "key": {
     "a": "minecraft:enchanted_golden_apple",
     "c": "crystal_core:crystal"

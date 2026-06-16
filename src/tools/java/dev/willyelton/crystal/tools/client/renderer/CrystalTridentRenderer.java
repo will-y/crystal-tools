@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ThrownTridentRenderer;
 import net.minecraft.client.renderer.entity.state.ThrownTridentRenderState;
-import net.minecraft.client.renderer.feature.ItemFeatureRenderer;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
@@ -38,7 +38,7 @@ public class CrystalTridentRenderer extends ThrownTridentRenderer {
                             this.model,
                             Unit.INSTANCE,
                             poseStack,
-                            ItemFeatureRenderer.getFoilRenderType(this.model.renderType(CRYSTAL_TRIDENT_LOCATION), false),
+                            RenderTypes.entityGlint(),
                             state.lightCoords,
                             OverlayTexture.NO_OVERLAY,
                             state.outlineColor,

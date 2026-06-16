@@ -1,3 +1,6 @@
+# 26.2.0.0-beta 1
+- Updates to 26.2
+
 # Crystal Tools Change Log
 ## 26.1.0.0
 - Updates to 26.1

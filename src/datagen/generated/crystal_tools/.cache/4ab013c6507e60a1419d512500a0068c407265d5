@@ -1,8 +1,8 @@
-// 26.1	2026-04-28T18:57:27.5887048	Tags for minecraft:item mod id crystal_tools
-929c70385886b5b1b969253aefc7d02587d6b53a data/crystal_tools/tags/item/crystal_tool.json
+// 26.2	2026-06-16T12:24:08.100438117	Tags for minecraft:item mod id crystal_tools
 57e45092a9d16513c86c61d19a53b79a7fc1d48c data/c/tags/item/gems.json
 a4acf82102d0b9ef2019a434776189c40b4492ef data/c/tags/item/tools/fishing_rod.json
 050ebb85d898a6e11ea61a06f8cc43bf32db31d7 data/c/tags/item/tools/trident.json
+929c70385886b5b1b969253aefc7d02587d6b53a data/crystal_tools/tags/item/crystal_tool.json
 4f3fdd2c060957d645e2c8366a9202e404c92f1d data/minecraft/tags/item/axes.json
 8b82d70d7034dc2af6dec56bc37b84c05934ee83 data/minecraft/tags/item/chest_armor.json
 7416bc423bbce51d8ce0ab679b820748827a744f data/minecraft/tags/item/enchantable/bow.json

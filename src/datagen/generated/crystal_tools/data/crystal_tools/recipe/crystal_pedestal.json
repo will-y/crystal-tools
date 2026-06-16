@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "key": {
     "b": "crystal_core:crystal_block",
     "c": "minecraft:chest",

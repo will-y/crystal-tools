@@ -62,8 +62,8 @@ public abstract class ContainerSubScreen<T extends BaseContainerMenu & SubScreen
         menu.closeSubScreen();
         ClientPacketDistributor.sendToServer(new OpenSubScreenPayload(SubScreenType.NONE));
         if (this.returnScreen != null) {
-            this.minecraft.popGuiLayer();
-            this.minecraft.setScreen(this.returnScreen);
+            this.minecraft.gui.popScreenLayer();
+            this.minecraft.setScreenAndShow(this.returnScreen);
         } else {
             super.onClose();
         }
