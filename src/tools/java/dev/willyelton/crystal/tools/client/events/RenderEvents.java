@@ -23,39 +23,23 @@ import net.neoforged.neoforge.client.CustomBlockOutlineRenderer;
 import net.neoforged.neoforge.client.event.ExtractBlockOutlineRenderStateEvent;
 import net.neoforged.neoforge.client.event.ExtractLevelRenderStateEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.client.event.SubmitCustomGeometryEvent;
 
 @EventBusSubscriber(modid = CrystalTools.MODID, value = Dist.CLIENT)
 public class RenderEvents {
-    @SubscribeEvent
-    public static void handleRenderLevelStageEvent(RenderLevelStageEvent.AfterWeather event) {
-        QuarryLaserRenderer.render(event);
-    }
 
     @SubscribeEvent
     public static void handleExtractLevelRenderStateEvent(ExtractLevelRenderStateEvent event) {
         QuarryLaserRenderer.extractRenderState(event);
+        if (!CrystalToolsClientConfig.DISABLE_BLOCK_TARGET_RENDERING.get()) {
+            BlockOverlayRenderer.extractRenderState(event);
+        }
     }
 
     @SubscribeEvent
-    public static void handleRenderLevelStageEvent(RenderLevelStageEvent.AfterTranslucentBlocks event) {
-        if (CrystalToolsClientConfig.DISABLE_BLOCK_TARGET_RENDERING.get()) {
-            return;
-        }
-
-        Player player = Minecraft.getInstance().player;
-        if (player != null && !player.isCreative() && !player.isSpectator()) {
-            ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
-
-            if (RegisterKeyBindingsEvent.VEIN_MINE.isDown()
-                    && stack.getItem() instanceof VeinMinerLevelableTool veinMinerLevelableTool
-                    && stack.getOrDefault(DataComponents.VEIN_MINER, 0) > 0) {
-                BlockOverlayRenderer.renderVeinMiner(event, veinMinerLevelableTool, stack);
-            } else if (stack.getItem() instanceof LevelableTool toolItem
-                    && stack.getOrDefault(DataComponents.HAS_3x3, false)
-                    && !stack.getOrDefault(DataComponents.DISABLE_3x3, false)) {
-                BlockOverlayRenderer.render3x3(event, toolItem, stack);
-            }
-        }
+    public static void handleSubmitGeometryEvent(SubmitCustomGeometryEvent event) {
+        BlockOverlayRenderer.submit(event);
+        QuarryLaserRenderer.submit(event);
     }
 
     @SubscribeEvent

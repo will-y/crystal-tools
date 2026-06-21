@@ -16,7 +16,7 @@ import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import static dev.willyelton.crystal.core.utils.constants.ApiConstants.baseRl;
 
 public abstract class ContainerSubScreen<T extends BaseContainerMenu & SubScreenContainerMenu, U extends Screen & SubScreenContainerScreen> extends AbstractContainerScreen<T> {
-    public static final Identifier TEXTURE = baseRl("textures/gui/crystal_backpack.png");
+    public static final Identifier TEXTURE = baseRl("textures/gui/subscreen.png");
     public static final int TEXTURE_SIZE = 512;
     public static final int INVENTORY_WIDTH = 176;
     public static final int INVENTORY_HEIGHT = 96;

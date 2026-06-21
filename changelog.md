@@ -1,7 +1,14 @@
-# 26.2.0.0-beta 1
+# Crystal Tools Change Log
+## 26.2.0.0
+- Fixes an issue with the jar-in-jar range
+- Fixes 3x3 and vein mining block highlighting
+- Fixes quarry rendering
+- Fixes furnace screen
+- Fixes buttons on furnace, quarry, and generator screens
+
+## 26.2.0.0-beta 1
 - Updates to 26.2
 
-# Crystal Tools Change Log
 ## 26.1.1.0
 - Adds the Crystal Spear!
   - Has the same skills as a sword except Attack Speed is replaced with Dash

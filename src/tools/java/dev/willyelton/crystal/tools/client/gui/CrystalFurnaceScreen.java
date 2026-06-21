@@ -19,10 +19,11 @@ import net.minecraft.world.inventory.Slot;
 import java.util.List;
 
 import static dev.willyelton.crystal.core.utils.constants.ApiConstants.baseRl;
+import static dev.willyelton.crystal.tools.CrystalTools.rl;
 
 // TODO: Need to hide slots and align inventory
 public class CrystalFurnaceScreen extends BaseMenuUpgradeScreen<CrystalFurnaceContainerMenu> {
-    private static final Identifier TEXTURE = baseRl("textures/gui/crystal_furnace.png");
+    private static final Identifier TEXTURE = rl("textures/gui/crystal_furnace.png");
     private static final int SLOT_TEXTURE_X = 176;
     private static final int SLOT_TEXTURE_Y = 27;
     private static final int SLOT_TEXTURE_SIZE = 18;
@@ -71,7 +72,7 @@ public class CrystalFurnaceScreen extends BaseMenuUpgradeScreen<CrystalFurnaceCo
         super(container, inventory, name, Identifier.fromNamespaceAndPath(CrystalTools.MODID, "crystal_furnace"));
         this.slots = container.slots;
 
-//        this.imageHeight = 191;
+        this.imageHeight = 191;
         this.inventoryLabelY = this.imageHeight - 94;
     }
 

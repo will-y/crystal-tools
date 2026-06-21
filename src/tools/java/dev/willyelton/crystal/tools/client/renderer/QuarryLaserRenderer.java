@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.datafixers.util.Pair;
 import dev.willyelton.crystal.core.utils.Colors;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
@@ -15,7 +16,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.event.ExtractLevelRenderStateEvent;
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.client.event.SubmitCustomGeometryEvent;
+import net.neoforged.neoforge.client.submit.RenderPhaseKeys;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -26,7 +28,6 @@ import java.util.Map;
 
 import static dev.willyelton.crystal.tools.CrystalTools.ck;
 
-// TODO: Features
 public class QuarryLaserRenderer {
     public static final float LASER_SPEED_MODIFIER = 1.2F;
 
@@ -100,7 +101,6 @@ public class QuarryLaserRenderer {
                 quarryMissingStabilizerRenderState.pos = pos;
                 quarryMissingStabilizerRenderState.color = properties.color();
                 cubeRenderStates.add(quarryMissingStabilizerRenderState);
-//                BlockOverlayRenderer.renderBlockPos(event.getPoseStack(), Minecraft.getInstance().renderBuffers().bufferSource(), pos, properties.color());
             }
         }
 
@@ -120,7 +120,7 @@ public class QuarryLaserRenderer {
     }
 
     public static QuarryLaserRenderState extractQuarryLaserRenderState(Vec3 start, Vec3 end, Vec3 cameraPos, Level level, float partialTick, int color) {
-        return extractQuarryLaserRenderState(start, end , cameraPos, level, partialTick, color, -1);
+        return extractQuarryLaserRenderState(start, end, cameraPos, level, partialTick, color, -1);
     }
 
     public static QuarryLaserRenderState extractQuarryLaserRenderState(Vec3 start, Vec3 end, Vec3 cameraPos, Level level, float partialTick, int color, int timeElapsed) {
@@ -148,36 +148,35 @@ public class QuarryLaserRenderer {
         // Is it bad to mutate render state (probably)
         endPos.sub(startPos).normalize();
         Vector3f half = new Vector3f(verticalNormalVector).add(endPos).normalize();
-        Vector3f cross =  new Vector3f(verticalNormalVector).cross(half);
+        Vector3f cross = new Vector3f(verticalNormalVector).cross(half);
         renderState.rotation = new Quaternionf(cross.x, cross.y, cross.z, verticalNormalVector.dot(half)).normalize();
 
         return renderState;
     }
 
-    public static void render(RenderLevelStageEvent event) {
+    public static void submit(SubmitCustomGeometryEvent event) {
         List<QuarryLaserRenderState> laserRenderStates = event.getLevelRenderState().getRenderData(LASER_CONTEXT_KEY);
         List<QuarryMissingStabilizerRenderState> cubeRenderStates = event.getLevelRenderState().getRenderData(MISSING_STABILIZER_CONTEXT_KEY);
 
         if (laserRenderStates != null) {
             for (QuarryLaserRenderState renderState : laserRenderStates) {
-                renderLaser(event.getPoseStack(), renderState);
+                submitLaser(event, event.getPoseStack(), renderState);
             }
         }
 
         if (cubeRenderStates != null) {
+            Vec3 view = event.getLevelRenderState().cameraRenderState.pos;
+            PoseStack poseStack = event.getPoseStack();
+            poseStack.pushPose();
+            poseStack.translate(-view.x, -view.y, -view.z);
             for (QuarryMissingStabilizerRenderState renderState : cubeRenderStates) {
-//                BlockOverlayRenderer.renderBlockPos(event.getPoseStack(), Minecraft.getInstance().renderBuffers().bufferSource(),
-//                        renderState.pos, renderState.color);
+                BlockOverlayRenderer.submitBlockPos(event, poseStack, renderState.pos, renderState.color);
             }
+            poseStack.popPose();
         }
     }
 
-    public static void renderLaser(PoseStack poseStack, QuarryLaserRenderState renderState) {
-//        VertexConsumer consumer = Minecraft.getInstance().renderBuffers().bufferSource().getBuffer(CrystalToolsRenderTypes.QUARRY_LASER);
-//        renderLaser(poseStack, consumer, renderState);
-    }
-
-    public static void renderLaser(PoseStack poseStack, VertexConsumer consumer, QuarryLaserRenderState renderState) {
+    public static void submitLaser(SubmitNodeCollector collector, PoseStack poseStack, QuarryLaserRenderState renderState) {
         if (renderState == null) return;
         float beamRadius = 0.05f;
         float glowRadius = 0.06f;
@@ -199,8 +198,10 @@ public class QuarryLaserRenderer {
         float maxV = -1.0F + f2;
         float minV = renderState.height * (0.5F / beamRadius) + maxV;
 
-        renderPart(poseStack, consumer, renderState.color, 0, renderState.yMax, 0.0F,
-                beamRadius, beamRadius, 0.0F, x3, 0.0F, 0.0F, z4, 0.0F, 1.0F, minV, maxV);
+//        renderPart(poseStack, consumer, renderState.color, 0, renderState.yMax, 0.0F,
+//                beamRadius, beamRadius, 0.0F, x3, 0.0F, 0.0F, z4, 0.0F, 1.0F, minV, maxV);
+        collector.submitCustomGeometry(poseStack, CrystalToolsRenderTypes.QUARRY_LASER, new LaserPartRenderer(renderState.color, 0, renderState.yMax, 0.0F,
+                beamRadius, beamRadius, 0.0F, x3, 0.0F, 0.0F, z4, 0.0F, 1.0F, minV, maxV));
         poseStack.popPose();
         x1 = -glowRadius;
         float f4 = -glowRadius;
@@ -208,15 +209,21 @@ public class QuarryLaserRenderer {
         x3 = -glowRadius;
         maxV = -1.0F + f2;
         minV = renderState.height + maxV;
-        renderPart(poseStack, consumer, ARGB.color(54, renderState.color),
-                0, renderState.yMax, x1, f4, glowRadius, z2, x3, glowRadius, glowRadius, glowRadius, 0.0F, 1.0F, minV, maxV);
+//        renderPart(poseStack, consumer, ARGB.color(54, renderState.color),
+//                0, renderState.yMax, x1, f4, glowRadius, z2, x3, glowRadius, glowRadius, glowRadius, 0.0F, 1.0F, minV, maxV);
+        collector.submitCustomGeometry(poseStack, CrystalToolsRenderTypes.QUARRY_LASER, new LaserPartRenderer(ARGB.color(54, renderState.color),
+                0, renderState.yMax, x1, f4, glowRadius, z2, x3, glowRadius, glowRadius, glowRadius, 0.0F, 1.0F, minV, maxV));
         poseStack.popPose();
     }
 
-    private static void renderPart(PoseStack poseStack, VertexConsumer consumer, int color, int minY, float maxY, float x1,
+
+    public static void submitLaser(SubmitCustomGeometryEvent event, PoseStack poseStack, QuarryLaserRenderState renderState) {
+        submitLaser(event.getSubmitNodeCollector(), poseStack, renderState);
+    }
+
+    private static void renderPart(PoseStack.Pose pose, VertexConsumer consumer, int color, int minY, float maxY, float x1,
                                    float z1, float x2, float z2, float x3, float z3, float x4, float z4, float minU,
                                    float maxU, float minV, float maxV) {
-        var pose = poseStack.last();
         renderQuad(pose, consumer, color, minY, maxY, x1, z1, x2, z2, minU, maxU, minV, maxV);
         renderQuad(pose, consumer, color, minY, maxY, x4, z4, x3, z3, minU, maxU, minV, maxV);
         renderQuad(pose, consumer, color, minY, maxY, x2, z2, x4, z4, minU, maxU, minV, maxV);
@@ -240,7 +247,8 @@ public class QuarryLaserRenderer {
                 .setNormal(pose, 0.0F, 1.0F, 0.0F);
     }
 
-    public record LaserRendererProperties(long startTime, long endTime, int color) {}
+    public record LaserRendererProperties(long startTime, long endTime, int color) {
+    }
 
     public static class QuarryLaserRenderState extends BlockEntityRenderState {
         public float partialTick;
@@ -259,5 +267,16 @@ public class QuarryLaserRenderer {
     public static class QuarryMissingStabilizerRenderState {
         public BlockPos pos;
         public int color;
+    }
+
+    private record LaserPartRenderer(int color, int minY, float maxY, float x1,
+                                     float z1, float x2, float z2, float x3, float z3, float x4, float z4, float minU,
+                                     float maxU, float minV,
+                                     float maxV) implements SubmitNodeCollector.CustomGeometryRenderer {
+
+        @Override
+        public void render(PoseStack.Pose pose, VertexConsumer buffer) {
+            renderPart(pose, buffer, color, minY, maxY, x1, z1, x2, z2, x3, z3, x4, z4, minU, maxU, minV, maxV);
+        }
     }
 }

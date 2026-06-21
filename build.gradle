@@ -240,7 +240,7 @@ dependencies {
 
     toolsJarJar (toolsImplementation("dev.willyelton.crystal.core:crystal_core")) {
         version {
-            strictly '[26.1.0.0, 26.1.1.0)'
+            strictly '[26.2.0.0, 26.3.0.0)'
             prefer "${core_version}"
         }
     }
@@ -311,7 +311,7 @@ def coreJar = jar {
     duplicatesStrategy = DuplicatesStrategy.FAIL
 //    archiveClassifier.set(sourceSets.main.name)
     from(sourceSets.main.output)
-    archiveFileName.set("crystal_core-${project.version}.jar")
+    archiveFileName.set("crystal_core-${core_version}.jar")
     manifest.attributes(getManifestAttributes('CrystalCore'))
 }
 

@@ -88,10 +88,7 @@ public class CrystalQuarryBlockEntityRenderer implements BlockEntityRenderer<Cry
             poseStack.translate((double) -quarryPos.getX() + view.x, (double) -quarryPos.getY() + view.y, (double) -quarryPos.getZ() + view.z);
 
             for (QuarryLaserRenderer.QuarryLaserRenderState quarryLaserRenderState : renderState.quarryLaserRenderStates) {
-                nodeCollector.submitCustomGeometry(poseStack, CrystalToolsRenderTypes.QUARRY_LASER,
-                        (pose, consumer) -> {
-                            QuarryLaserRenderer.renderLaser(poseStack, consumer, quarryLaserRenderState);
-                        });
+                QuarryLaserRenderer.submitLaser(nodeCollector, poseStack, quarryLaserRenderState);
             }
 
             poseStack.popPose();
