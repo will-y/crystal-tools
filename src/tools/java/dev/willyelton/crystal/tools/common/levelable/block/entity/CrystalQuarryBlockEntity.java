@@ -533,7 +533,7 @@ public class CrystalQuarryBlockEntity extends SideConfigBlockEntity implements M
                     if (!miningState.getFluidState().isEmpty()) {
                         // TODO: Tank option later
                         BlockState blockState = useDirt ? Blocks.DIRT.defaultBlockState() : Blocks.AIR.defaultBlockState();
-                        level.setBlock(miningAt, blockState, 3);
+                        level.setBlock(miningAt, blockState, Block.UPDATE_NEIGHBORS | Block.UPDATE_CLIENTS);
                         blocksThisTick++;
                         miningState = null;
                         nextPosition();
