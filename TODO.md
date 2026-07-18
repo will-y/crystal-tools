@@ -134,15 +134,30 @@ Eventually
   - Reset skills
   - XP to points
 
-## 21.6 Porting
-- Furnace screen is wrong
-- Things to move to core that probably aren't there:
-  - Item tooltip event
-  - Lots of events / datacomponents that have to do with tool behavior?
-    - What should actually be in core vs tools?
-- 3x3 mining overlay looks bad
-- Apple shows missing particles when eating
-  - [13:58:27] [Render thread/WARN] [minecraft/ItemStackTemplate]: Can't create item stack with properties ItemStackTemplate[item=Reference{ResourceKey[minecraft:item / crystal_tools:crystal_apple]=crystal_tools:crystal_apple}, count=2, components={crystal_core:experience_cap=>75, crystal_core:skill_experience=>1}], error: Item stack with stack size of 2 was larger than maximum: 1
-  - ^ Happens when eating, trying to create stack with size 2 somewhere?
-- Config translations
-- Move mode switching to core and have some sort of config?
+## Golem
+- Skills:
+  - Movement speed
+  - Range?
+  - item pickup / place speed
+  - carry stack size (both stack size and number of stacks)
+  - Pick up items off ground
+  - Filter which items it can pick up / pick out of chests
+  - Pick which chests it takes from and which ones it puts in (some item that you use on it, netherite stick maybe l-click for destination r-click for source)
+  - Smelting?
+
+Things To Do:
+- Get my eyes to work
+- Custom TransportItemsBetweenContainers
+  - Gain skill points
+  - Speed?
+  - Smelting goes here? Or maybe another behavior?
+- Create UI
+  - Interact with inventory page? (maybe just view for now)
+  - Pickup filter
+  - Settings page
+    - Configure range
+    - View source / destination blocks? (allow you to remove them from here?)
+    - Toggle smelting
+- Some model for smelting upgrade
+- Pick up as item
+  - UI from item maybe?

@@ -23,10 +23,13 @@ public class CrystalToolsEntitySkillTrees {
     public static void register(BootstrapContext<SkillData> context) {
         context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ENTITIES,
                 EntityTypes.WOLF.builtInRegistryHolder().key().identifier()), wolf());
+
+        context.register(ResourceKey.create(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ENTITIES,
+                ModRegistration.CRYSTAL_GOLEM_ENTITY.getId()), crystalGolem());
     }
 
     private static SkillData wolf() {
-        SkillTreeDescriptions desc = new SkillTreeDescriptions("wolf");
+        SkillTreeDescriptions desc = new SkillTreeDescriptions("Wolf");
         return SkillData.builder(null)
                 .tier()
                     .entityAttributeNode(0, entityHealth(1), desc.entityHealth(), attr(Attributes.MAX_HEALTH), 1)
@@ -89,6 +92,14 @@ public class CrystalToolsEntitySkillTrees {
                     .entityDataNode(23, IMMORTALITY, desc.immortality(), EntitySkills.IMMORTALITY, 1)
                         .previousTierAndRequirements()
                         .itemRequirement(ModRegistration.CRYSTAL_DOG_CAGE.get())
+                .build();
+    }
+
+    private static SkillData crystalGolem() {
+        SkillTreeDescriptions desc = new SkillTreeDescriptions("Crystal Golem");
+        return SkillData.builder(null)
+                .tier()
+                .entityAttributeNode(0, entityHealth(1), desc.entityHealth(), attr(Attributes.MAX_HEALTH), 1)
                 .build();
     }
 }

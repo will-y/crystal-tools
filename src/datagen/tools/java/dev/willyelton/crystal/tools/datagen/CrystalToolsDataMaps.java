@@ -100,7 +100,6 @@ public class CrystalToolsDataMaps extends DataMapProvider {
                 .add(ModRegistration.PORTABLE_GENERATOR, new SkillTreeData(rl("portable_crystal_generator"), 1.0F, false, false), false)
                 .add(ModRegistration.CRYSTAL_SPEAR, new SkillTreeData(rl("crystal_spear"), 3.0F, false, true), false);
 
-
         builder.add(Items.DIAMOND_PICKAXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_pickaxe"), 0, 1, false, false, false, true, false), false)
                 .add(Items.DIAMOND_AXE.builtInRegistryHolder(), new SkillTreeData(rl("simple_axe"), 0, 1, false, false, false, true, true), false)
                 .add(Items.DIAMOND_HOE.builtInRegistryHolder(), new SkillTreeData(rl("simple_hoe"), 0, 1, false, false, false, true, false), false)
@@ -138,6 +137,7 @@ public class CrystalToolsDataMaps extends DataMapProvider {
                 .add(Items.NETHERITE_SWORD.builtInRegistryHolder(), new SkillTreeData(rl("simple_sword"), 0, 1, false, false, false, true, true), false);
 
         builder(CrystalCoreDataMaps.ENTITY_SKILL_TREES)
-                .add(EntityTypes.WOLF.builtInRegistryHolder(), new SkillTreeData(Identifier.withDefaultNamespace("wolf"), 0, 1, false, false, false, false, false, List.of(new WolfCondition())), false);
+                .add(EntityTypes.WOLF.builtInRegistryHolder(), new SkillTreeData(Identifier.withDefaultNamespace("wolf"), 0, 1, false, false, false, false, false, List.of(new WolfCondition())), false)
+                .add(ModRegistration.CRYSTAL_GOLEM_ENTITY, new SkillTreeData(rl("crystal_golem"), 0, 1, false, false, false, false, false, List.of()), false);
     }
 }

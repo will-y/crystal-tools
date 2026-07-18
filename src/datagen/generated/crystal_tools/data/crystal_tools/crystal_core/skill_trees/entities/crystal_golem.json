@@ -1,0 +1,20 @@
+{
+  "tiers": [
+    [
+      {
+        "type": "crystal_core:entity_attribute",
+        "node": {
+          "description": "Gives your Crystal Golem more max health",
+          "id": 0,
+          "key": [
+            "minecraft:max_health"
+          ],
+          "limit": 1,
+          "name": "Health I",
+          "requirements": [],
+          "value": 1.0
+        }
+      }
+    ]
+  ]
+}

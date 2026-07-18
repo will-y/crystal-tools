@@ -1,7 +1,8 @@
-// 26.2	2026-06-16T12:24:08.104230929	Registries
+// 26.2	2026-07-11T15:10:42.1704348	Registries
 7850068b6a06e6d5ca5612d5f74da63a4db0891a data/crystal_tools/crystal_core/skill_trees/blocks/crystal_furnace.json
 3305a179479f12afc0f0817664577f556ca2bbf7 data/crystal_tools/crystal_core/skill_trees/blocks/crystal_generator.json
 6bf46e275c6c7eea7b0005436624e64987458d10 data/crystal_tools/crystal_core/skill_trees/blocks/crystal_quarry.json
+a54282610b3e3497112d86f95ab9b695a2e596d5 data/crystal_tools/crystal_core/skill_trees/entities/crystal_golem.json
 a07c876591d552b38592264bd432c9a2e4a65a8e data/crystal_tools/crystal_core/skill_trees/items/crystal_aiot.json
 c920a91f416d4209bbdcf340b4d5ca5bf950e3ee data/crystal_tools/crystal_core/skill_trees/items/crystal_apple.json
 ee9e3a5c6fb21ba49ed85f3310b99083c4c25db3 data/crystal_tools/crystal_core/skill_trees/items/crystal_axe.json
@@ -28,4 +29,4 @@ ac2f19914bdd3d6a141a42f7036314626f07bd33 data/crystal_tools/crystal_core/skill_t
 5202b776e8bb3117bf856d3addcffaae5ce1bfe1 data/crystal_tools/crystal_core/skill_trees/items/simple_pickaxe.json
 19b37e64457bae716392cfe7210b7ff8a41051d8 data/crystal_tools/crystal_core/skill_trees/items/simple_shovel.json
 1ab8d3f71aef3aea11f8515fe9aa20662bec8dce data/crystal_tools/crystal_core/skill_trees/items/simple_sword.json
-ac958477b2e40822389db392abc95aa200a809d3 data/minecraft/crystal_core/skill_trees/entities/wolf.json
+f137236210e2bbf9962c7d29b77016536647848b data/minecraft/crystal_core/skill_trees/entities/wolf.json

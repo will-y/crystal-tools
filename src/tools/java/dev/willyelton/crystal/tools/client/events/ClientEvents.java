@@ -3,6 +3,7 @@ package dev.willyelton.crystal.tools.client.events;
 
 import dev.willyelton.crystal.tools.CrystalTools;
 import dev.willyelton.crystal.tools.ModRegistration;
+import dev.willyelton.crystal.tools.client.renderer.CrystalGolemRenderer;
 import dev.willyelton.crystal.tools.client.renderer.CrystalToolsRenderTypes;
 import dev.willyelton.crystal.tools.client.renderer.CrystalTridentRenderer;
 import dev.willyelton.crystal.tools.client.renderer.QuarryCubeModel;
@@ -19,6 +20,8 @@ public class ClientEvents {
     @SubscribeEvent
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModRegistration.CRYSTAL_TRIDENT_ENTITY.get(), CrystalTridentRenderer::new);
+        event.registerEntityRenderer(ModRegistration.CRYSTAL_GOLEM_ENTITY.get(), CrystalGolemRenderer::new);
+
         event.registerBlockEntityRenderer(ModRegistration.CRYSTAL_QUARRY_BLOCK_ENTITY.get(), CrystalQuarryBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(ModRegistration.CRYSTAL_PEDESTAL_BLOCK_ENTITY.get(), CrystalPedestalBlockEntityRenderer::new);
     }

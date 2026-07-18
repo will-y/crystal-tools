@@ -1,5 +1,13 @@
 {
   "values": {
+    "crystal_tools:crystal_golem": {
+      "allowDamageXp": false,
+      "allowMiningXp": false,
+      "allowRepair": false,
+      "allowReset": false,
+      "allowXpLevels": false,
+      "treeLocation": "crystal_tools:crystal_golem"
+    },
     "minecraft:wolf": {
       "allowDamageXp": false,
       "allowMiningXp": false,

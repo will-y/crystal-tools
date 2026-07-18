@@ -4,7 +4,7 @@
       {
         "type": "crystal_core:entity_attribute",
         "node": {
-          "description": "Gives your wolf more max health",
+          "description": "Gives your Wolf more max health",
           "id": 0,
           "key": [
             "minecraft:max_health"
@@ -18,7 +18,7 @@
       {
         "type": "crystal_core:entity_attribute",
         "node": {
-          "description": "Gives your wolf more attack damage",
+          "description": "Gives your Wolf more attack damage",
           "id": 1,
           "key": [
             "minecraft:attack_damage"
@@ -32,7 +32,7 @@
       {
         "type": "crystal_core:entity_attribute",
         "node": {
-          "description": "Gives your wolf more armor",
+          "description": "Gives your Wolf more armor",
           "id": 2,
           "key": [
             "minecraft:armor"
@@ -46,7 +46,7 @@
       {
         "type": "crystal_core:entity_attribute",
         "node": {
-          "description": "Gives your wolf more movement speed",
+          "description": "Gives your Wolf more movement speed",
           "id": 3,
           "key": [
             "minecraft:movement_speed"
@@ -62,7 +62,7 @@
       {
         "type": "crystal_core:entity_attribute",
         "node": {
-          "description": "Gives your wolf more max health",
+          "description": "Gives your Wolf more max health",
           "id": 4,
           "key": [
             "minecraft:max_health"
@@ -83,7 +83,7 @@
       {
         "type": "crystal_core:entity_attribute",
         "node": {
-          "description": "Gives your wolf more attack damage",
+          "description": "Gives your Wolf more attack damage",
           "id": 5,
           "key": [
             "minecraft:attack_damage"
@@ -104,7 +104,7 @@
       {
         "type": "crystal_core:entity_attribute",
         "node": {
-          "description": "Gives your wolf more armor",
+          "description": "Gives your Wolf more armor",
           "id": 6,
           "key": [
             "minecraft:armor"
@@ -125,7 +125,7 @@
       {
         "type": "crystal_core:entity_attribute",
         "node": {
-          "description": "Gives your wolf more movement speed",
+          "description": "Gives your Wolf more movement speed",
           "id": 7,
           "key": [
             "minecraft:movement_speed"
@@ -148,7 +148,7 @@
       {
         "type": "crystal_core:entity_data",
         "node": {
-          "description": "Gives your wolf lifesteal",
+          "description": "Gives your Wolf lifesteal",
           "id": 8,
           "key": [
             "crystal_core:lifesteal"
@@ -174,7 +174,7 @@
       {
         "type": "crystal_core:entity_attribute",
         "node": {
-          "description": "Gives your wolf more max health",
+          "description": "Gives your Wolf more max health",
           "id": 9,
           "key": [
             "minecraft:max_health"
@@ -201,7 +201,7 @@
       {
         "type": "crystal_core:entity_attribute",
         "node": {
-          "description": "Gives your wolf more attack damage",
+          "description": "Gives your Wolf more attack damage",
           "id": 10,
           "key": [
             "minecraft:attack_damage"
@@ -228,7 +228,7 @@
       {
         "type": "crystal_core:entity_attribute",
         "node": {
-          "description": "Gives your wolf more armor",
+          "description": "Gives your Wolf more armor",
           "id": 11,
           "key": [
             "minecraft:armor"
@@ -255,7 +255,7 @@
       {
         "type": "crystal_core:entity_attribute",
         "node": {
-          "description": "Gives your wolf more movement speed",
+          "description": "Gives your Wolf more movement speed",
           "id": 12,
           "key": [
             "minecraft:movement_speed"
@@ -284,7 +284,7 @@
       {
         "type": "crystal_core:entity_attribute",
         "node": {
-          "description": "Gives your wolf more max health",
+          "description": "Gives your Wolf more max health",
           "id": 13,
           "key": [
             "minecraft:max_health"
@@ -305,7 +305,7 @@
       {
         "type": "crystal_core:entity_attribute",
         "node": {
-          "description": "Gives your wolf more attack damage",
+          "description": "Gives your Wolf more attack damage",
           "id": 14,
           "key": [
             "minecraft:attack_damage"
@@ -326,7 +326,7 @@
       {
         "type": "crystal_core:entity_attribute",
         "node": {
-          "description": "Gives your wolf more armor",
+          "description": "Gives your Wolf more armor",
           "id": 15,
           "key": [
             "minecraft:armor"
@@ -347,7 +347,7 @@
       {
         "type": "crystal_core:entity_attribute",
         "node": {
-          "description": "Gives your wolf more movement speed",
+          "description": "Gives your Wolf more movement speed",
           "id": 16,
           "key": [
             "minecraft:movement_speed"
@@ -370,7 +370,7 @@
       {
         "type": "crystal_core:entity_data",
         "node": {
-          "description": "Gives your wolf lifesteal",
+          "description": "Gives your Wolf lifesteal",
           "id": 17,
           "key": [
             "crystal_core:lifesteal"
@@ -420,7 +420,7 @@
       {
         "type": "crystal_core:entity_attribute",
         "node": {
-          "description": "Gives your wolf more max health",
+          "description": "Gives your Wolf more max health",
           "id": 19,
           "key": [
             "minecraft:max_health"
@@ -448,7 +448,7 @@
       {
         "type": "crystal_core:entity_attribute",
         "node": {
-          "description": "Gives your wolf more attack damage",
+          "description": "Gives your Wolf more attack damage",
           "id": 20,
           "key": [
             "minecraft:attack_damage"
@@ -476,7 +476,7 @@
       {
         "type": "crystal_core:entity_attribute",
         "node": {
-          "description": "Gives your wolf more armor",
+          "description": "Gives your Wolf more armor",
           "id": 21,
           "key": [
             "minecraft:armor"
@@ -504,7 +504,7 @@
       {
         "type": "crystal_core:entity_attribute",
         "node": {
-          "description": "Gives your wolf more movement speed",
+          "description": "Gives your Wolf more movement speed",
           "id": 22,
           "key": [
             "minecraft:movement_speed"
@@ -534,7 +534,7 @@
       {
         "type": "crystal_core:entity_data",
         "node": {
-          "description": "When your wolf dies, it is returned to your inventory in a dog cage (if possible)",
+          "description": "When your Wolf dies, it is returned to your inventory in a dog cage (if possible)",
           "id": 23,
           "key": [
             "crystal_tools:immortality"

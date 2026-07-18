@@ -115,6 +115,8 @@ neoForge {
         enabledSourceSets = sourceSets
     }
 
+    validateAccessTransformers = true
+
     mods {
         crystal_core {
             sourceSet(sourceSets.main)
@@ -219,7 +221,7 @@ dependencies {
 //    runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}"
 
     compileOnly "curse.maven:jade-api-324717:7313008"
-//    runtimeOnly "curse.maven:jade-324717:${jade_id}"
+    runtimeOnly "curse.maven:jade-324717:8326243"
 //    implementation "curse.maven:jade-324717:7313008"
 //
 //    runtimeOnly "mekanism:Mekanism:${mekanism_version}"// Mekanism

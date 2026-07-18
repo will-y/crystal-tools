@@ -12,6 +12,7 @@ import dev.willyelton.crystal.tools.common.crafting.CrystalElytraRecipe;
 import dev.willyelton.crystal.tools.common.crafting.CrystalGeneratorRecipe;
 import dev.willyelton.crystal.tools.common.crafting.CrystalQuarryRecipe;
 import dev.willyelton.crystal.tools.common.crafting.CrystalShieldTotemRecipe;
+import dev.willyelton.crystal.tools.common.entity.CrystalGolem;
 import dev.willyelton.crystal.tools.common.entity.CrystalTridentEntity;
 import dev.willyelton.crystal.tools.common.inventory.container.CrystalBackpackContainerMenu;
 import dev.willyelton.crystal.tools.common.inventory.container.CrystalFurnaceContainerMenu;
@@ -88,6 +89,7 @@ import java.util.List;
 
 import static dev.willyelton.crystal.core.utils.constants.ApiConstants.ACTION_TYPE_REGISTRY_KEY;
 import static dev.willyelton.crystal.core.utils.constants.ApiConstants.baseRl;
+import static dev.willyelton.crystal.tools.CrystalTools.rl;
 
 // TODO: Rename back if that weird issue with the debug Registration goes away
 public class ModRegistration {
@@ -152,7 +154,13 @@ public class ModRegistration {
             .sized(0.5F, 0.5F)
             .clientTrackingRange(4)
             .updateInterval(20)
-            .build(ResourceKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(CrystalTools.MODID, "crystal_trident"))));
+            .build(ResourceKey.create(Registries.ENTITY_TYPE, rl("crystal_trident"))));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<CrystalGolem>> CRYSTAL_GOLEM_ENTITY = ENTITIES.register("crystal_golem", () -> EntityType.Builder.<CrystalGolem>of(CrystalGolem::new, MobCategory.MISC)
+            .sized(0.49F, 0.98F)
+            .eyeHeight(0.8125F)
+            .clientTrackingRange(10)
+            .build(ResourceKey.create(Registries.ENTITY_TYPE, rl("crystal_golem"))));
 
     // Block Entities
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CrystalFurnaceBlockEntity>> CRYSTAL_FURNACE_BLOCK_ENTITY = BLOCK_ENTITIES.register("crystal_furnace", () -> new BlockEntityType<>(CrystalFurnaceBlockEntity::new, CRYSTAL_FURNACE.get()));
