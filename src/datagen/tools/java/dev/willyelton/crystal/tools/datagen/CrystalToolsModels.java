@@ -22,12 +22,14 @@ import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.client.renderer.special.ShieldSpecialRenderer;
 import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static dev.willyelton.crystal.tools.CrystalTools.rl;
 import static net.minecraft.client.data.models.ItemModelGenerators.TRIM_PREFIX_BOOTS;
 import static net.minecraft.client.data.models.ItemModelGenerators.TRIM_PREFIX_CHESTPLATE;
 import static net.minecraft.client.data.models.ItemModelGenerators.TRIM_PREFIX_HELMET;
@@ -80,6 +82,9 @@ public class CrystalToolsModels extends ModelProvider {
 
         blockModels.createFlatItemModel(ModRegistration.QUARRY_STABILIZER_ITEM.get());
         blockModels.createFlatItemModel(ModRegistration.CRYSTAL_PEDESTAL_ITEM.get());
+
+        blockModels.createChest(ModRegistration.CRYSTAL_CHEST.get(), Registration.CRYSTAL_BLOCK.get(),
+                rl("crystal"), false);
     }
 
     private void generateCrystalBow(ItemModelGenerators itemModels) {

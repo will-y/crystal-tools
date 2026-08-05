@@ -6,6 +6,7 @@ import dev.willyelton.crystal.tools.common.energy.CrystalEnergyStorage;
 import dev.willyelton.crystal.tools.common.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal.tools.common.inventory.PortableGeneratorInventory;
 import dev.willyelton.crystal.tools.common.levelable.PortableGenerator;
+import dev.willyelton.crystal.tools.common.levelable.block.entity.CrystalChestBlockEntity;
 import dev.willyelton.crystal.tools.common.levelable.block.entity.CrystalFurnaceBlockEntity;
 import dev.willyelton.crystal.tools.common.levelable.block.entity.CrystalGeneratorBlockEntity;
 import dev.willyelton.crystal.tools.common.levelable.block.entity.CrystalPedestalBlockEntity;
@@ -29,7 +30,7 @@ public class RegisterCapabilitiesEvent {
                 ModRegistration.PORTABLE_GENERATOR.get());
 
         event.registerItem(Capabilities.Energy.ITEM,
-                (stack, context) -> new CrystalEnergyStorage(PortableGenerator.getCapacity(stack),
+                (stack, _) -> new CrystalEnergyStorage(PortableGenerator.getCapacity(stack),
                         0, 40, PortableGenerator.getEnergy(stack)),
                 ModRegistration.PORTABLE_GENERATOR.get());
 
@@ -66,5 +67,11 @@ public class RegisterCapabilitiesEvent {
                 Capabilities.Item.BLOCK,
                 ModRegistration.CRYSTAL_PEDESTAL_BLOCK_ENTITY.get(),
                 CrystalPedestalBlockEntity::getItemHandlerCapForSide);
+
+        // Chest
+        event.registerBlockEntity(
+                Capabilities.Item.BLOCK,
+                ModRegistration.CRYSTAL_CHEST_BLOCK_ENTITY.get(),
+                CrystalChestBlockEntity::getItemHandlerCapForSide);
     }
 }

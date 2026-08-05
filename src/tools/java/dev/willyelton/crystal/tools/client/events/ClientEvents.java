@@ -7,8 +7,12 @@ import dev.willyelton.crystal.tools.client.renderer.CrystalGolemRenderer;
 import dev.willyelton.crystal.tools.client.renderer.CrystalToolsRenderTypes;
 import dev.willyelton.crystal.tools.client.renderer.CrystalTridentRenderer;
 import dev.willyelton.crystal.tools.client.renderer.QuarryCubeModel;
+import dev.willyelton.crystal.tools.client.renderer.blockentity.CrystalChestRenderer;
 import dev.willyelton.crystal.tools.client.renderer.blockentity.CrystalPedestalBlockEntityRenderer;
 import dev.willyelton.crystal.tools.client.renderer.blockentity.CrystalQuarryBlockEntityRenderer;
+import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.model.object.chest.ChestModel;
+import net.minecraft.client.renderer.blockentity.ChestRenderer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -24,6 +28,7 @@ public class ClientEvents {
 
         event.registerBlockEntityRenderer(ModRegistration.CRYSTAL_QUARRY_BLOCK_ENTITY.get(), CrystalQuarryBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(ModRegistration.CRYSTAL_PEDESTAL_BLOCK_ENTITY.get(), CrystalPedestalBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModRegistration.CRYSTAL_CHEST_BLOCK_ENTITY.get(), CrystalChestRenderer::new);
     }
 
     @SubscribeEvent

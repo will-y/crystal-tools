@@ -29,9 +29,10 @@ import java.util.List;
 import static dev.willyelton.crystal.core.utils.ScreenUtils.openScreen;
 import static dev.willyelton.crystal.core.utils.constants.ApiConstants.ROW_HEIGHT;
 import static dev.willyelton.crystal.core.utils.constants.ApiConstants.TOP_BAR_HEIGHT;
+import static dev.willyelton.crystal.tools.CrystalTools.rl;
 
 public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBackpackContainerMenu> implements SubScreenContainerScreen {
-    public static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(CrystalTools.MODID, "textures/gui/crystal_backpack.png");
+    public static final Identifier TEXTURE = rl("textures/gui/crystal_backpack.png");
 
     static final int TEXTURE_SIZE = 512;
     static final int INVENTORY_WIDTH = 176;

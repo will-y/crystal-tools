@@ -1,5 +1,7 @@
 package dev.willyelton.crystal.tools.client.events;
 
+import dev.willyelton.crystal.core.Registration;
+import dev.willyelton.crystal.core.client.gui.CrystalContainerScreen;
 import dev.willyelton.crystal.tools.CrystalTools;
 import dev.willyelton.crystal.tools.ModRegistration;
 import dev.willyelton.crystal.tools.client.gui.CrystalBackpackScreen;
@@ -27,6 +29,8 @@ public class RegisterMenuScreensEvent {
         event.register(ModRegistration.CRYSTAL_QUARRY_CONTAINER.get(), CrystalQuarryScreen::new);
         event.register(ModRegistration.CRYSTAL_BACKPACK_CONTAINER.get(), CrystalBackpackScreen::new);
         event.register(ModRegistration.CRYSTAL_PEDESTAL_CONTAINER.get(), CrystalPedestalScreen::new);
+        // TODO: Move to core if I don't need one for every container
+        event.register(Registration.CRYSTAL_CONTAINER_MENU.get(), CrystalContainerScreen::new);
 
         // Little hacky, the generic type is backpack screen but that will always be null in this case. Also, can't be a lamba because the compiler is dumb
         event.register(ModRegistration.CRYSTAL_MAGNET_CONTAINER.get(), new MenuScreens.ScreenConstructor<CrystalMagnetContainerMenu, FilterConfigScreen<CrystalMagnetContainerMenu, CrystalBackpackScreen>>() {

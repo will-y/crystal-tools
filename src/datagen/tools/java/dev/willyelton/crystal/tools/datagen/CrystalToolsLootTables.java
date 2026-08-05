@@ -31,6 +31,7 @@ public class CrystalToolsLootTables extends VanillaBlockLoot {
         dropSelf(ModRegistration.QUARRY_STABILIZER.get());
         // TODO: Need to drop items
         dropSelf(ModRegistration.CRYSTAL_PEDESTAL.get());
+        dropSelf(ModRegistration.CRYSTAL_CHEST.get());
         createComponentSavingTable(ModRegistration.CRYSTAL_FURNACE.get(),
                 DataComponents.FURNACE_DATA.get(),
                 DataComponents.FURNACE_UPGRADES.get(),

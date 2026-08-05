@@ -8,6 +8,7 @@ import dev.willyelton.crystal.core.common.block.entity.action.AutoOutputable;
 import dev.willyelton.crystal.core.common.block.entity.action.ChunkLoader;
 import dev.willyelton.crystal.core.common.block.entity.action.ChunkLoadingAction;
 import dev.willyelton.crystal.core.common.datacomponent.DataComponents;
+import dev.willyelton.crystal.core.common.inventory.container.CrystalContainerMenu;
 import dev.willyelton.crystal.core.common.skill.attachment.EntitySkillData;
 import dev.willyelton.crystal.core.utils.constants.ApiConstants;
 import net.minecraft.core.Direction;
@@ -15,6 +16,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -28,6 +30,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.attachment.AttachmentType;
+import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
@@ -47,6 +50,7 @@ public class Registration {
 
     private static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(ApiConstants.CORE_MOD_ID);
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(ApiConstants.CORE_MOD_ID);
+    public static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(Registries.MENU, ApiConstants.CORE_MOD_ID);
     private static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, ApiConstants.CORE_MOD_ID);
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, ApiConstants.CORE_MOD_ID);
     public static final DeferredRegister<ActionType<?, ?>> ACTION_TYPES = DeferredRegister.create(ACTION_TYPE_REGISTRY_KEY, ApiConstants.CORE_MOD_ID);
@@ -72,6 +76,10 @@ public class Registration {
     public static final DeferredHolder<Item, BlockItem> CRYSTAL_GEODE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem(CRYSTAL_GEODE);
     public static final DeferredHolder<Item, BlockItem> NETHERITE_INFUSED_CRYSTAL_GEODE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem(NETHERITE_INFUSED_CRYSTAL_GEODE);
     public static final DeferredHolder<Item, StandingAndWallBlockItem> CRYSTAL_TORCH_ITEM = ITEMS.registerItem("crystal_torch", (properties) -> new StandingAndWallBlockItem(CRYSTAL_TORCH.get(), CRYSTAL_WALL_TORCH.get(), Direction.DOWN, properties.useBlockDescriptionPrefix()));
+
+    // Containers
+    public static final DeferredHolder<MenuType<?>, MenuType<CrystalContainerMenu>> CRYSTAL_CONTAINER_MENU = CONTAINERS.register("crystal",
+            () -> IMenuTypeExtension.create(CrystalContainerMenu::new));
 
     // Data Attachments
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<EntitySkillData>> ENTITY_SKILL = ATTACHMENT_TYPES.register("entity_skill_data", () ->
@@ -104,6 +112,7 @@ public class Registration {
     public static void init(IEventBus modEventBus) {
         ITEMS.register(modEventBus);
         BLOCKS.register(modEventBus);
+        CONTAINERS.register(modEventBus);
         ATTACHMENT_TYPES.register(modEventBus);
         TABS.register(modEventBus);
         DataComponents.COMPONENTS.register(modEventBus);

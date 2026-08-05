@@ -15,6 +15,7 @@ import dev.willyelton.crystal.tools.common.crafting.CrystalShieldTotemRecipe;
 import dev.willyelton.crystal.tools.common.entity.CrystalGolem;
 import dev.willyelton.crystal.tools.common.entity.CrystalTridentEntity;
 import dev.willyelton.crystal.tools.common.inventory.container.CrystalBackpackContainerMenu;
+import dev.willyelton.crystal.core.common.inventory.container.CrystalContainerMenu;
 import dev.willyelton.crystal.tools.common.inventory.container.CrystalFurnaceContainerMenu;
 import dev.willyelton.crystal.tools.common.inventory.container.CrystalGeneratorContainerMenu;
 import dev.willyelton.crystal.tools.common.inventory.container.CrystalMagnetContainerMenu;
@@ -26,6 +27,7 @@ import dev.willyelton.crystal.tools.common.levelable.DogCage;
 import dev.willyelton.crystal.tools.common.levelable.PortableGenerator;
 import dev.willyelton.crystal.tools.common.levelable.armor.CrystalElytra;
 import dev.willyelton.crystal.tools.common.levelable.armor.CrystalToolsArmorMaterials;
+import dev.willyelton.crystal.tools.common.levelable.block.CrystalChestBlock;
 import dev.willyelton.crystal.tools.common.levelable.block.CrystalFurnaceBlock;
 import dev.willyelton.crystal.tools.common.levelable.block.CrystalGeneratorBlock;
 import dev.willyelton.crystal.tools.common.levelable.block.CrystalPedestalBlock;
@@ -33,6 +35,7 @@ import dev.willyelton.crystal.tools.common.levelable.block.CrystalQuarryBlock;
 import dev.willyelton.crystal.tools.common.levelable.block.CrystalQuarryBlockItem;
 import dev.willyelton.crystal.tools.common.levelable.block.LevelableBlockItem;
 import dev.willyelton.crystal.tools.common.levelable.block.QuarryStabilizer;
+import dev.willyelton.crystal.tools.common.levelable.block.entity.CrystalChestBlockEntity;
 import dev.willyelton.crystal.tools.common.levelable.block.entity.CrystalFurnaceBlockEntity;
 import dev.willyelton.crystal.tools.common.levelable.block.entity.CrystalGeneratorBlockEntity;
 import dev.willyelton.crystal.tools.common.levelable.block.entity.CrystalPedestalBlockEntity;
@@ -61,7 +64,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -141,6 +143,7 @@ public class ModRegistration {
     public static final DeferredHolder<Block, CrystalQuarryBlock> CRYSTAL_QUARRY = BLOCKS.registerBlock("crystal_quarry", CrystalQuarryBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).requiresCorrectToolForDrops().strength(3.0F));
     public static final DeferredHolder<Block, CrystalPedestalBlock> CRYSTAL_PEDESTAL = BLOCKS.registerBlock("crystal_pedestal", CrystalPedestalBlock::new, () -> BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).requiresCorrectToolForDrops().strength(3.0F));
     public static final DeferredHolder<Block, QuarryStabilizer> QUARRY_STABILIZER = BLOCKS.registerBlock("quarry_stabilizer", QuarryStabilizer::new);
+    public static final DeferredHolder<Block, CrystalChestBlock> CRYSTAL_CHEST = BLOCKS.registerBlock("crystal_chest", CrystalChestBlock::new);
 
     // Block Items
     public static final DeferredHolder<Item, BlockItem> CRYSTAL_FURNACE_ITEM = ITEMS.registerItem("crystal_furnace", (properties) -> new LevelableBlockItem(CRYSTAL_FURNACE.get(), properties.useBlockDescriptionPrefix()));
@@ -148,25 +151,14 @@ public class ModRegistration {
     public static final DeferredHolder<Item, BlockItem> CRYSTAL_QUARRY_ITEM = ITEMS.registerItem("crystal_quarry", (properties) -> new CrystalQuarryBlockItem(CRYSTAL_QUARRY.get(), properties.useBlockDescriptionPrefix()));
     public static final DeferredHolder<Item, BlockItem> CRYSTAL_PEDESTAL_ITEM = ITEMS.registerSimpleBlockItem(CRYSTAL_PEDESTAL);
     public static final DeferredHolder<Item, BlockItem> QUARRY_STABILIZER_ITEM = ITEMS.registerSimpleBlockItem(QUARRY_STABILIZER);
-
-    // Entities
-    public static final DeferredHolder<EntityType<?>, EntityType<CrystalTridentEntity>> CRYSTAL_TRIDENT_ENTITY = ENTITIES.register("crystal_trident", () -> EntityType.Builder.<CrystalTridentEntity>of(CrystalTridentEntity::new, MobCategory.MISC)
-            .sized(0.5F, 0.5F)
-            .clientTrackingRange(4)
-            .updateInterval(20)
-            .build(ResourceKey.create(Registries.ENTITY_TYPE, rl("crystal_trident"))));
-
-    public static final DeferredHolder<EntityType<?>, EntityType<CrystalGolem>> CRYSTAL_GOLEM_ENTITY = ENTITIES.register("crystal_golem", () -> EntityType.Builder.<CrystalGolem>of(CrystalGolem::new, MobCategory.MISC)
-            .sized(0.49F, 0.98F)
-            .eyeHeight(0.8125F)
-            .clientTrackingRange(10)
-            .build(ResourceKey.create(Registries.ENTITY_TYPE, rl("crystal_golem"))));
+    public static final DeferredHolder<Item, BlockItem> CRYSTAL_CHEST_ITEM = ITEMS.registerSimpleBlockItem(CRYSTAL_CHEST);
 
     // Block Entities
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CrystalFurnaceBlockEntity>> CRYSTAL_FURNACE_BLOCK_ENTITY = BLOCK_ENTITIES.register("crystal_furnace", () -> new BlockEntityType<>(CrystalFurnaceBlockEntity::new, CRYSTAL_FURNACE.get()));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CrystalGeneratorBlockEntity>> CRYSTAL_GENERATOR_BLOCK_ENTITY = BLOCK_ENTITIES.register("crystal_generator", () -> new BlockEntityType<>(CrystalGeneratorBlockEntity::new, CRYSTAL_GENERATOR.get()));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CrystalQuarryBlockEntity>> CRYSTAL_QUARRY_BLOCK_ENTITY = BLOCK_ENTITIES.register("crystal_quarry", () -> new BlockEntityType<>(CrystalQuarryBlockEntity::new, CRYSTAL_QUARRY.get()));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CrystalPedestalBlockEntity>> CRYSTAL_PEDESTAL_BLOCK_ENTITY = BLOCK_ENTITIES.register("crystal_pedestal", () -> new BlockEntityType<>(CrystalPedestalBlockEntity::new, CRYSTAL_PEDESTAL.get()));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CrystalChestBlockEntity>> CRYSTAL_CHEST_BLOCK_ENTITY = BLOCK_ENTITIES.register("crystal_chest", () -> new BlockEntityType<>(CrystalChestBlockEntity::new, CRYSTAL_CHEST.get()));
 
     // Containers
     public static final DeferredHolder<MenuType<?>, MenuType<CrystalFurnaceContainerMenu>> CRYSTAL_FURNACE_CONTAINER = CONTAINERS.register("crystal_furnace",
@@ -183,6 +175,19 @@ public class ModRegistration {
             () -> IMenuTypeExtension.create(CrystalMagnetContainerMenu::new));
     public static final DeferredHolder<MenuType<?>, MenuType<CrystalPedestalContainerMenu>> CRYSTAL_PEDESTAL_CONTAINER = CONTAINERS.register("crystal_pedestal",
             () -> IMenuTypeExtension.create(CrystalPedestalContainerMenu::new));
+
+    // Entities
+    public static final DeferredHolder<EntityType<?>, EntityType<CrystalTridentEntity>> CRYSTAL_TRIDENT_ENTITY = ENTITIES.register("crystal_trident", () -> EntityType.Builder.<CrystalTridentEntity>of(CrystalTridentEntity::new, MobCategory.MISC)
+            .sized(0.5F, 0.5F)
+            .clientTrackingRange(4)
+            .updateInterval(20)
+            .build(ResourceKey.create(Registries.ENTITY_TYPE, rl("crystal_trident"))));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<CrystalGolem>> CRYSTAL_GOLEM_ENTITY = ENTITIES.register("crystal_golem", () -> EntityType.Builder.<CrystalGolem>of(CrystalGolem::new, MobCategory.MISC)
+            .sized(0.49F, 0.98F)
+            .eyeHeight(0.8125F)
+            .clientTrackingRange(10)
+            .build(ResourceKey.create(Registries.ENTITY_TYPE, rl("crystal_golem"))));
 
     // Particles
     public static final DeferredHolder<ParticleType<?>, QuarryBreakParticleType> QUARRY_BREAK_PARTICLE = PARTICLES.register("quarry_break_particle", () -> new QuarryBreakParticleType(false));
@@ -226,6 +231,7 @@ public class ModRegistration {
                         output.accept(CRYSTAL_QUARRY_ITEM.get());
                         output.accept(QUARRY_STABILIZER_ITEM.get());
                         output.accept(CRYSTAL_PEDESTAL_ITEM.get());
+                        output.accept(CRYSTAL_CHEST_ITEM.get());
                         output.accept(CRYSTAL_BACKPACK.get());
                         output.accept(CRYSTAL_TRIDENT.get());
                         output.accept(CRYSTAL_FISHING_ROD.get());

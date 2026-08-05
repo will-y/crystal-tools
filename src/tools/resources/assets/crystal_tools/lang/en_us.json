@@ -28,6 +28,7 @@
   "block.crystal_tools.crystal_generator": "Crystal Generator",
   "block.crystal_tools.crystal_quarry": "Crystal Quarry",
   "block.crystal_tools.quarry_stabilizer": "Quarry Stabilizer",
+  "block.crystal_tools.crystal_chest": "Crystal Chest",
   "key.crystal_tools.vein_mine": "Vein Mine",
   "key.crystal_tools.mode_switch": "Mode Switch",
   "key.crystal_tools.open_backpack": "Open Backpack",
@@ -39,6 +40,7 @@
   "container.crystal_tools.crystal_generator": "Crystal Generator",
   "container.crystal_tools.crystal_quarry": "Crystal Quarry",
   "container.crystal_tools.crystal_pedestal": "Crystal Pedestal",
+  "container.crystal_tools.crystal_chest": "Crystal Chest",
   "crystal_tools.configuration.disable_trident": "Disable Trident",
   "crystal_tools.configuration.experience_boost_percentage": "Experience Boost Percentage",
   "crystal_tools.configuration.disable_leggings": "Disable Leggings",
@@ -146,5 +148,6 @@
   "button.crystal_tools.quarry_settings": "Quarry Settings",
   "button.crystal_tools.compression_settings": "Configure Compressions",
   "button.crystal_tools.auto_output_settings": "Configure Sides",
-  "config.jade.plugin_crystal_tools.entity_skill": "Entity Skill"
+  "config.jade.plugin_crystal_tools.entity_skill": "Entity Skill",
+  "entity.crystal_tools.crystal_golem": "Crystal Golem"
 }
