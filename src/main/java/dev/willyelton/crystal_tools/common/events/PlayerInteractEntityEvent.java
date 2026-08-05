@@ -40,7 +40,7 @@ public class PlayerInteractEntityEvent {
                 LevelableEntity levelable = LevelableEntity.of(livingEntity, event.getLevel().registryAccess());
                 if (levelable != null && levelable.checkConditions(livingEntity, player)) {
                     if (event.getLevel().isClientSide()) {
-                        ModGUIs.openScreen(new EntityUpgradeScreen(livingEntity, player, levelable));
+                        ModGUIs.openEntityScreen(livingEntity, player, levelable);
                     }
 
                     event.setCanceled(true);

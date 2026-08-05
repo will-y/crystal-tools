@@ -1,4 +1,8 @@
 # Crystal Tools Change Log
+## 26.1.1.1
+- Fixes a crash on dedicated servers
+- Updates to Neo 26.1.2.94
+
 ## 26.1.1.0
 - Adds the Crystal Spear!
   - Has the same skills as a sword except Attack Speed is replaced with Dash
