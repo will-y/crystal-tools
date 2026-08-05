@@ -2,7 +2,6 @@ package dev.willyelton.crystal.tools.common.events;
 
 import dev.willyelton.crystal.tools.CrystalTools;
 import dev.willyelton.crystal.tools.ModRegistration;
-import dev.willyelton.crystal.core.client.gui.EntityUpgradeScreen;
 import dev.willyelton.crystal.core.common.capability.LevelableEntity;
 import dev.willyelton.crystal.tools.common.levelable.MobCaptureTool;
 import net.minecraft.server.level.ServerLevel;
@@ -17,7 +16,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
-import static dev.willyelton.crystal.core.utils.ScreenUtils.openScreen;
+import static dev.willyelton.crystal.core.utils.ScreenUtils.openEntityScreen;
 
 @EventBusSubscriber(modid = CrystalTools.MODID)
 public class PlayerInteractEntityEvent {
@@ -41,7 +40,7 @@ public class PlayerInteractEntityEvent {
                 LevelableEntity levelable = LevelableEntity.of(livingEntity, event.getLevel().registryAccess());
                 if (levelable != null && levelable.checkConditions(livingEntity, player)) {
                     if (event.getLevel().isClientSide()) {
-                        openScreen(new EntityUpgradeScreen(livingEntity, player, levelable));
+                        openEntityScreen(livingEntity, player, levelable);
                     }
 
                     event.setCanceled(true);

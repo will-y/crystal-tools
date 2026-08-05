@@ -1,4 +1,7 @@
 # Crystal Tools Change Log
+##  26.2.0.1
+- Fixes a crash on dedicated servers
+
 ## 26.2.0.0
 - Fixes an issue with the jar-in-jar range
 - Fixes 3x3 and vein mining block highlighting
