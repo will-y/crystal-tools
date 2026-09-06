@@ -85,4 +85,8 @@ public class CrystalContainerMenu extends BaseContainerMenu {
     public int inventoryStartY() {
         return 100;
     }
+
+    public BaseContainerBlockEntity blockEntity() {
+        return blockEntity;
+    }
 }
