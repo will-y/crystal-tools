@@ -47,6 +47,7 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
@@ -54,8 +55,8 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
     private final float speedModifier;
     private final int horizontalSearchDistance;
     private final int verticalSearchDistance;
-    private final Predicate<TransportItemTarget> sourceBlockType;
-    private final Predicate<TransportItemTarget> destinationBlockType;
+    private final Supplier<Predicate<TransportItemTarget>> sourceBlockType;
+    private final Supplier<Predicate<TransportItemTarget>> destinationBlockType;
     private final Predicate<TransportItemTarget> shouldQueueForTarget;
     private final Consumer<PathfinderMob> onStartTravelling;
     private final Map<TransportItemsBetweenContainers.ContainerInteractionState, OnTargetReachedInteraction> onTargetInteractionActions;
@@ -64,7 +65,7 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
     private TransportItemsBetweenContainers.@Nullable ContainerInteractionState interactionState;
     private int ticksSinceReachingTarget;
 
-    public TransportItemsBetweenHandlers(float speedModifier, Predicate<TransportItemTarget> sourceBlockType, Predicate<TransportItemTarget> destinationBlockType,
+    public TransportItemsBetweenHandlers(float speedModifier, Supplier<Predicate<TransportItemTarget>> sourceBlockType, Supplier<Predicate<TransportItemTarget>> destinationBlockType,
                                          int horizontalSearchDistance, int verticalSearchDistance,
                                          Map<TransportItemsBetweenContainers.ContainerInteractionState, OnTargetReachedInteraction> onTargetInteractionActions,
                                          Consumer<PathfinderMob> onStartTravelling,
@@ -170,7 +171,7 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
     }
 
     private boolean isWantedBlock(PathfinderMob mob, TransportItemTarget target) {
-        return canPickUpItems(mob) ? this.sourceBlockType.test(target) : this.destinationBlockType.test(target);
+        return canPickUpItems(mob) ? this.sourceBlockType.get().test(target) : this.destinationBlockType.get().test(target);
     }
 
     private boolean targetHasNotChanged(Level level, TransportItemTarget target) {
@@ -458,6 +459,7 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
                 for (BlockEntity potentialTarget : levelChunk.getBlockEntities().values()) {
                     double distance = potentialTarget.getBlockPos().distToCenterSqr(body.position());
                     if (distance < closestDistance) {
+                        // TODO: Loop over directions here
                         TransportItemTarget targetValidToPick = this.isTargetValidToPick(body, level, potentialTarget, visitedPositions, unreachablePositions, targetBlockSearchArea);
 
                         if (targetValidToPick != null) {
@@ -561,6 +563,7 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
     public interface OnTargetReachedInteraction extends TriConsumer<PathfinderMob, TransportItemTarget, Integer> {
     }
 
+    // TODO: Face somehow
     public record TransportItemTarget(BlockPos pos, ResourceHandler<ItemResource> handler, BlockEntity blockEntity,
                                       BlockState state) {
         public static @Nullable TransportItemTarget tryCreatePossibleTarget(BlockEntity blockEntity, Level level) {

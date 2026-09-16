@@ -386,4 +386,12 @@ public class SkillTreeDescriptions {
     public String immortality() {
         return String.format("When your %s dies, it is returned to your inventory in a dog cage (if possible)", toolName);
     }
+
+    public String entitySources() {
+        return String.format("Allows your %s to choose specific block faces to take items from", toolName);
+    }
+
+    public String entityDestinations() {
+        return String.format("Allows your %s to choose specific block faces to place items into", toolName);
+    }
 }

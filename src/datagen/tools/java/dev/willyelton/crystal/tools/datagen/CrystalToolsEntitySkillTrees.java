@@ -10,13 +10,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
-import static dev.willyelton.crystal.core.utils.constants.SkillTreeTitles.CRATE_TRAINING;
-import static dev.willyelton.crystal.core.utils.constants.SkillTreeTitles.IMMORTALITY;
-import static dev.willyelton.crystal.core.utils.constants.SkillTreeTitles.entityArmor;
-import static dev.willyelton.crystal.core.utils.constants.SkillTreeTitles.entityDamage;
-import static dev.willyelton.crystal.core.utils.constants.SkillTreeTitles.entityHealth;
-import static dev.willyelton.crystal.core.utils.constants.SkillTreeTitles.entitySpeed;
-import static dev.willyelton.crystal.core.utils.constants.SkillTreeTitles.lifesteal;
+import static dev.willyelton.crystal.core.utils.constants.SkillTreeTitles.*;
 import static dev.willyelton.crystal.tools.datagen.CrystalToolsItemSkillTrees.attr;
 
 public class CrystalToolsEntitySkillTrees {
@@ -100,6 +94,11 @@ public class CrystalToolsEntitySkillTrees {
         return SkillData.builder(null)
                 .tier()
                 .entityAttributeNode(0, entityHealth(1), desc.entityHealth(), attr(Attributes.MAX_HEALTH), 1)
+                .tier()
+                .infiniteEntityDataNode(1, entitySources(1), desc.entitySources(), EntitySkills.SOURCE_SELECTION, 1)
+                .nodeRequirement(0)
+                .infiniteEntityDataNode(2, entityDestinations(1), desc.entityDestinations(), EntitySkills.DESTINATION_SELECTION, 1)
+                .nodeRequirement(0)
                 .build();
     }
 }

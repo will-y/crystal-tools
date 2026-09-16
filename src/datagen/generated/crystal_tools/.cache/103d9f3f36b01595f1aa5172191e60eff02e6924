@@ -1,8 +1,8 @@
-// 26.2	2026-07-11T15:10:42.1704348	Registries
+// 26.2	2026-09-15T19:58:31.4167558	Registries
 7850068b6a06e6d5ca5612d5f74da63a4db0891a data/crystal_tools/crystal_core/skill_trees/blocks/crystal_furnace.json
 3305a179479f12afc0f0817664577f556ca2bbf7 data/crystal_tools/crystal_core/skill_trees/blocks/crystal_generator.json
 6bf46e275c6c7eea7b0005436624e64987458d10 data/crystal_tools/crystal_core/skill_trees/blocks/crystal_quarry.json
-a54282610b3e3497112d86f95ab9b695a2e596d5 data/crystal_tools/crystal_core/skill_trees/entities/crystal_golem.json
+a87e69ae665f1e24b77fd31878309503b04d9586 data/crystal_tools/crystal_core/skill_trees/entities/crystal_golem.json
 a07c876591d552b38592264bd432c9a2e4a65a8e data/crystal_tools/crystal_core/skill_trees/items/crystal_aiot.json
 c920a91f416d4209bbdcf340b4d5ca5bf950e3ee data/crystal_tools/crystal_core/skill_trees/items/crystal_apple.json
 ee9e3a5c6fb21ba49ed85f3310b99083c4c25db3 data/crystal_tools/crystal_core/skill_trees/items/crystal_axe.json

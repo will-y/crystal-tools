@@ -16,7 +16,7 @@ public record BlockStripPayload(BlockPos blockPos, InteractionHand hand, BlockSt
     public static final Type<BlockStripPayload> TYPE = new Type<>(rl("block_strip"));
     public static final StreamCodec<RegistryFriendlyByteBuf, BlockStripPayload> STREAM_CODEC = StreamCodec.composite(
             BlockPos.STREAM_CODEC, BlockStripPayload::blockPos,
-            NeoForgeStreamCodecs.enumCodec(InteractionHand.class), BlockStripPayload::hand,
+            InteractionHand.STREAM_CODEC, BlockStripPayload::hand,
             ByteBufCodecs.idMapper(Block.BLOCK_STATE_REGISTRY), BlockStripPayload::strippedState,
             BlockStripPayload::new);
 

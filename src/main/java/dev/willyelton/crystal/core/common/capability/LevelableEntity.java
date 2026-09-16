@@ -131,7 +131,7 @@ public class LevelableEntity implements Levelable {
         return true;
     }
 
-    private EntitySkillData getEntitySkillData() {
+    public EntitySkillData getEntitySkillData() {
         return entity.getData(Registration.ENTITY_SKILL);
     }
 

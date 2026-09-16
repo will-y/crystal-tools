@@ -67,6 +67,8 @@ public class CrystalToolsConfig {
 
     // Entity Things
     public static ModConfigSpec.BooleanValue PICK_UP_OTHER_ENTITIES;
+    public static ModConfigSpec.IntValue SOURCES_PER_LEVEL;
+    public static ModConfigSpec.IntValue DESTINATIONS_PER_LEVEL;
 
     static {
         ModConfigSpec.Builder configBuilder = new ModConfigSpec.Builder();
@@ -164,15 +166,15 @@ public class CrystalToolsConfig {
         QUARRY_BASE_EXPERIENCE_CAP = builder.comment("Starting EXP Cap for the quarry")
                 .defineInRange("quarry_base_experience_cap", 500, 1, 100000);
         QUARRY_SPEED_UPGRADE_MULTIPLIER = builder.comment("Multiplier for the speed upgrade of the quarry")
-                        .defineInRange("quarry_speed_upgrade_multiplier", 20D, 0.1D, 100000D);
+                .defineInRange("quarry_speed_upgrade_multiplier", 20D, 0.1D, 100000D);
         QUARRY_MAX_SIZE = builder.comment("Max size of the quarry")
-                        .defineInRange("quarry_max_size", 64, 2, 256);
+                .defineInRange("quarry_max_size", 64, 2, 256);
         builder.pop();
 
         // Magnet
         builder.comment("Crystal magnet settings").push("magnet");
         MAGNET_BASE_RANGE = builder.comment("Magnet Base Range (in blocks)")
-                        .defineInRange("magnet_base_range", 5.0, 0, 100);
+                .defineInRange("magnet_base_range", 5.0, 0, 100);
         builder.pop();
 
         // Pedestal
@@ -191,6 +193,10 @@ public class CrystalToolsConfig {
         builder.comment("Change Entity Related Settings").push("entity");
         PICK_UP_OTHER_ENTITIES = builder.comment("If true, you can pick up mobs other than tamed dogs in the Crystal Dog Cage")
                 .define("pick_up_other_entities", false);
+        SOURCES_PER_LEVEL = builder.comment("Number of extra source positions you get per level of Source Selection for a Crystal Golem")
+                .defineInRange("sources_per_level", 2, 1, 100000);
+        DESTINATIONS_PER_LEVEL = builder.comment("Number of extra destination positions you get per level of Destination Selection for a Crystal Golem")
+                .defineInRange("destinations_per_level", 2, 1, 100000);
         builder.pop();
     }
 }

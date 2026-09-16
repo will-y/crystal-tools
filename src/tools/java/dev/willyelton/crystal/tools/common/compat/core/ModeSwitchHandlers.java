@@ -6,6 +6,7 @@ import dev.willyelton.crystal.core.utils.AttributeUtils;
 import dev.willyelton.crystal.core.utils.EnchantmentUtils;
 import dev.willyelton.crystal.tools.ModRegistration;
 import dev.willyelton.crystal.tools.common.components.DataComponents;
+import dev.willyelton.crystal.tools.common.levelable.tool.GolemCommandRod;
 import dev.willyelton.crystal.tools.common.levelable.tool.UseMode;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -97,6 +98,19 @@ public class ModeSwitchHandlers {
 
             return false;
         }, ModeSwitchHandlerRegistry.NORMAL);
+
+        // Golem Command Rod
+        ModeSwitchHandlerRegistry.addModeSwitchHandler((player, stack, skillData, hasShiftDown, hasCtrlDown, hasAltDown, isHeld) -> {
+            if (stack.is(ModRegistration.CRYSTAL_GOLEM_COMMAND_ROD)) {
+                GolemCommandRod.CommandRodMode nextMode = stack.getOrDefault(DataComponents.GOLEM_COMMAND_ROD_MODE, GolemCommandRod.CommandRodMode.SET_POSITIONS).next();
+                stack.set(DataComponents.GOLEM_COMMAND_ROD_MODE, nextMode);
+                player.sendOverlayMessage(Component.literal("Command Mode: " + nextMode));
+
+                return true;
+            }
+
+            return false;
+        });
     }
 
     // TODO: Maybe move all of the armor ones to core?

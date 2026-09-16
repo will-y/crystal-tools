@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "c": "crystal_core:crystal",
+    "s": "#c:rods/wooden"
+  },
+  "pattern": [
+    " c",
+    "s "
+  ],
+  "result": {
+    "id": "crystal_tools:crystal_golem_command_rod"
+  }
+}

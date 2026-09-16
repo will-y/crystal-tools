@@ -143,21 +143,14 @@ Eventually
   - Pick up items off ground
   - Filter which items it can pick up / pick out of chests
   - Pick which chests it takes from and which ones it puts in (some item that you use on it, netherite stick maybe l-click for destination r-click for source)
-  - Smelting?
+  - Smelting? (probably not, because you can make them use furnace)
 
 Things To Do:
 - Get my eyes to work
 - Custom TransportItemsBetweenContainers
-  - Gain skill points
   - Speed?
-  - Smelting goes here? Or maybe another behavior?
-- Create UI
-  - Interact with inventory page? (maybe just view for now)
-  - Pickup filter
-  - Settings page
-    - Configure range
-    - View source / destination blocks? (allow you to remove them from here?)
-    - Toggle smelting
-- Some model for smelting upgrade
+  - Different containers, going to have to figure out order
+- Pick up items
+- Filter screen (set from control rod)
 - Pick up as item
-  - UI from item maybe?
+  - Control Rod Ability

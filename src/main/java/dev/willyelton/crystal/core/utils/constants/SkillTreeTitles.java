@@ -263,6 +263,14 @@ public class SkillTreeTitles {
         return getName("Movement Speed", level);
     }
 
+    public static String entitySources(int level) {
+        return getName("Source Selection", level);
+    }
+
+    public static String entityDestinations(int level) {
+        return getName("Destination Selection", level);
+    }
+
     private static String getName(String title, int level) {
         if (level == 0) {
             return "Infinite " + title;

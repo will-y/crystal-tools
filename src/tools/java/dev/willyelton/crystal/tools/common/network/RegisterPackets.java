@@ -4,6 +4,7 @@ import dev.willyelton.crystal.tools.CrystalTools;
 import dev.willyelton.crystal.tools.common.network.data.BackpackScreenPayload;
 import dev.willyelton.crystal.tools.common.network.data.BlockBreakPayload;
 import dev.willyelton.crystal.tools.common.network.data.BlockStripPayload;
+import dev.willyelton.crystal.tools.common.network.data.ItemClickEmptyPayload;
 import dev.willyelton.crystal.tools.common.network.data.MagnetModePayload;
 import dev.willyelton.crystal.tools.common.network.data.OpenBackpackPayload;
 import dev.willyelton.crystal.tools.common.network.data.QuarryMineBlockPayload;
@@ -12,6 +13,7 @@ import dev.willyelton.crystal.tools.common.network.data.VeinMiningPayload;
 import dev.willyelton.crystal.tools.common.network.handler.BackpackScreenHandler;
 import dev.willyelton.crystal.tools.common.network.handler.BlockBreakHandler;
 import dev.willyelton.crystal.tools.common.network.handler.BlockStripHandler;
+import dev.willyelton.crystal.tools.common.network.handler.ItemClickEmptyHandler;
 import dev.willyelton.crystal.tools.common.network.handler.MagnetModeSwitchHandler;
 import dev.willyelton.crystal.tools.common.network.handler.OpenBackpackHandler;
 import dev.willyelton.crystal.tools.common.network.handler.QuarryMineBlockHandler;
@@ -37,6 +39,7 @@ public class RegisterPackets {
         registrar.playToServer(OpenBackpackPayload.TYPE, OpenBackpackPayload.STREAM_CODEC, OpenBackpackHandler.INSTANCE::handle);
         registrar.playToServer(VeinMiningPayload.TYPE, VeinMiningPayload.STREAM_CODEC, VeinMiningHandler.INSTANCE::handle);
         registrar.playToServer(TriggerRocketPayload.TYPE, TriggerRocketPayload.STREAM_CODEC, TriggerRocketHandler.INSTANCE::handle);
+        registrar.playToServer(ItemClickEmptyPayload.TYPE, ItemClickEmptyPayload.STREAM_CODEC, ItemClickEmptyHandler.INSTANCE::handle);
 
         // Server to Client
         // If any client handler requires client only classes it will have to go in to the new client only even

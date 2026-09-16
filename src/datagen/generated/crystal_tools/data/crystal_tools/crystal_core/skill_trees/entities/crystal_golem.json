@@ -15,6 +15,50 @@
           "value": 1.0
         }
       }
+    ],
+    [
+      {
+        "type": "crystal_core:entity_data",
+        "node": {
+          "description": "Allows your Crystal Golem to choose specific block faces to take items from",
+          "id": 1,
+          "key": [
+            "crystal_tools:source_selection"
+          ],
+          "limit": 0,
+          "name": "Source Selection I",
+          "requirements": [
+            {
+              "type": "crystal_core:node_requirement",
+              "node": [
+                0
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      },
+      {
+        "type": "crystal_core:entity_data",
+        "node": {
+          "description": "Allows your Crystal Golem to choose specific block faces to place items into",
+          "id": 2,
+          "key": [
+            "crystal_tools:destination_selection"
+          ],
+          "limit": 0,
+          "name": "Destination Selection I",
+          "requirements": [
+            {
+              "type": "crystal_core:node_requirement",
+              "node": [
+                0
+              ]
+            }
+          ],
+          "value": 1.0
+        }
+      }
     ]
   ]
 }

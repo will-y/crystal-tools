@@ -4,24 +4,28 @@ import dev.willyelton.crystal.core.common.skill.SkillData;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ModeSwitchHandlerRegistry {
     public static final int HIGHEST = 1;
     public static final int LOWEST = 1000;
     public static final int NORMAL = 500;
 
-    private static final TreeSet<ModeSwitchHandlerWrapper> MODE_SWITCH_HANDLERS = new TreeSet<>(Comparator.comparingInt(ModeSwitchHandlerWrapper::priority));
+    private static final ConcurrentSkipListSet<ModeSwitchHandlerWrapper> MODE_SWITCH_HANDLERS = new ConcurrentSkipListSet<>(Comparator.comparingInt(ModeSwitchHandlerWrapper::priority).thenComparingInt(ModeSwitchHandlerWrapper::id));
+    private static final AtomicInteger ID_COUNTER = new AtomicInteger();
 
     public static void addModeSwitchHandler(ModeSwitchHandler handler) {
         addModeSwitchHandler(handler, NORMAL);
     }
 
     public static void addModeSwitchHandler(ModeSwitchHandler handler, int priority) {
-        MODE_SWITCH_HANDLERS.add(new ModeSwitchHandlerWrapper(handler, priority));
+        MODE_SWITCH_HANDLERS.add(new ModeSwitchHandlerWrapper(handler, priority, ID_COUNTER.getAndIncrement()));
     }
 
     public static List<ModeSwitchHandler> getModeSwitchHandlers() {
@@ -29,7 +33,7 @@ public class ModeSwitchHandlerRegistry {
     }
 
     @ApiStatus.Internal
-    public record ModeSwitchHandlerWrapper(ModeSwitchHandler handler, int priority) {}
+    public record ModeSwitchHandlerWrapper(ModeSwitchHandler handler, int priority, int id) {}
 
     @FunctionalInterface
     public interface ModeSwitchHandler {
@@ -47,7 +51,7 @@ public class ModeSwitchHandlerRegistry {
         /// @param hasAltDown If the player is holding alt
         /// @param isHeld If the player is holding the item in either hand
         /// @return True if this handler is handling the interaction (blocks all further mode switch actions)
-        boolean handle(Player player, ItemStack stack, SkillData skillData, boolean hasShiftDown, boolean hasCtrlDown,
+        boolean handle(Player player, ItemStack stack, @Nullable SkillData skillData, boolean hasShiftDown, boolean hasCtrlDown,
                        boolean hasAltDown, boolean isHeld);
     }
 }

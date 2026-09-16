@@ -3,6 +3,8 @@ package dev.willyelton.crystal.tools.common.components;
 import com.mojang.serialization.Codec;
 import dev.willyelton.crystal.tools.CrystalTools;
 import dev.willyelton.crystal.tools.common.datamap.GeneratorFuelData;
+import dev.willyelton.crystal.tools.common.entity.BlockPosDirection;
+import dev.willyelton.crystal.tools.common.levelable.tool.GolemCommandRod;
 import dev.willyelton.crystal.tools.common.levelable.tool.UseMode;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentType;
@@ -124,6 +126,11 @@ public class DataComponents {
     // Entities
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> CAPTURED_ENTITY_TOOLTIP = register("captured_entity_tooltip", Codec.STRING, ByteBufCodecs.STRING_UTF8);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> BREAK_CAGE_ON_USE = register("break_cage_on_use", Codec.BOOL, ByteBufCodecs.BOOL);
+
+    // Golem
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<GolemCommandRod.CommandRodMode>> GOLEM_COMMAND_ROD_MODE = register("command_rod_mode", GolemCommandRod.CommandRodMode.CODEC, GolemCommandRod.CommandRodMode.STREAM_CODEC);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<BlockPosDirection>>> GOLEM_COMMAND_ROD_SOURCE_POSITIONS = register("command_rod_source_positions", BlockPosDirection.CODEC.listOf(), BlockPosDirection.STREAM_CODEC.apply(ByteBufCodecs.list()));
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<List<BlockPosDirection>>> GOLEM_COMMAND_ROD_DESTINATION_POSITIONS = register("command_rod_destination_positions", BlockPosDirection.CODEC.listOf(), BlockPosDirection.STREAM_CODEC.apply(ByteBufCodecs.list()));
 
     // Utilities
     private static <T> DeferredHolder<DataComponentType<?>, DataComponentType<T>> register(String key, Codec<T> codec, StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec) {

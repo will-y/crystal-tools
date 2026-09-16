@@ -49,6 +49,7 @@ public class CrystalToolsModels extends ModelProvider {
         itemModels.generateFlatItem(ModRegistration.CRYSTAL_COLLAR.get(), ModelTemplates.FLAT_ITEM);
         generateDogCage(itemModels);
         generateCrystalMagnet(itemModels);
+        itemModels.generateFlatItem(ModRegistration.CRYSTAL_GOLEM_COMMAND_ROD.get(), ModelTemplates.FLAT_HANDHELD_ITEM);
 
         // Tools
         itemModels.generateFlatItem(ModRegistration.CRYSTAL_AIOT.get(), ModelTemplates.FLAT_HANDHELD_ITEM);

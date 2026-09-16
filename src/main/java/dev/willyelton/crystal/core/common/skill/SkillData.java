@@ -272,6 +272,15 @@ public class SkillData {
             return this;
         }
 
+        public Builder infiniteEntityDataNode(int id, String name, String description, Identifier key, float value) {
+            if (including) {
+                currentNode = new EntityDataNode(id, name, description, 0, List.of(key), value, new ArrayList<>(), Optional.empty());
+                currentTier.add(currentNode);
+            }
+
+            return this;
+        }
+
         public Builder energyCost() {
             return subText("Increases Energy Cost", "#FF0000");
         }

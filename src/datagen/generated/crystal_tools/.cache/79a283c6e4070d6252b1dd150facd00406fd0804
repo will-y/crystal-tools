@@ -1,4 +1,4 @@
-// 26.2	2026-06-16T12:24:08.105453512	crystal_tools:recipes
+// 26.2	2026-09-13T12:47:26.1650018	crystal_tools:recipes
 f31db4bed05fc604a6cf0feaa98a4edc8f6818ce data/crystal_tools/advancement/recipes/combat/crystal_bow.json
 be77e86de576e8644c501259732146f61f35f264 data/crystal_tools/advancement/recipes/combat/crystal_spear.json
 ee5a32452cb298535ddcf3223bbb82626b6ae8d7 data/crystal_tools/advancement/recipes/combat/crystal_sword.json
@@ -16,6 +16,7 @@ dd69e30c10cd78f3bb065ddf64487936013ed40c data/crystal_tools/advancement/recipes/
 1543f96f5db2152cb72f56cdcd6f36f9d7b5db30 data/crystal_tools/advancement/recipes/tools/crystal_chestplate_smithing.json
 9bd51ac306db1be6f743a6e287552d226d3ea22c data/crystal_tools/advancement/recipes/tools/crystal_dog_cage.json
 fa7772c4c09412f2d4e405542df2799f5ab45f89 data/crystal_tools/advancement/recipes/tools/crystal_fishing_rod.json
+2dd252cf75f1054f10022c99a3281b939d1dff62 data/crystal_tools/advancement/recipes/tools/crystal_golem_command_rod.json
 99c16b510c23145f18cab67d08c616c4e4dce0be data/crystal_tools/advancement/recipes/tools/crystal_helmet_smithing.json
 45efc99a8cf8288f2658a062399c7d39099987a1 data/crystal_tools/advancement/recipes/tools/crystal_hoe.json
 f73f88d771bb247c9e6efed647ae71415325ed87 data/crystal_tools/advancement/recipes/tools/crystal_leggings_smithing.json
@@ -38,6 +39,7 @@ c6dd85538ba0ad0d19a8e4ff4f9d9a7c2d96d903 data/crystal_tools/recipe/crystal_dog_c
 29ed155b5be09cfa632942e45a03b4ddc2009481 data/crystal_tools/recipe/crystal_fishing_rod.json
 8c96b1ca3f25a022330db3a2286c0b2550863743 data/crystal_tools/recipe/crystal_furnace.json
 f236fc39adf5bbce261d52883e392f17e954f116 data/crystal_tools/recipe/crystal_generator.json
+2b94895153bb84888900acf69288223e7d8b9b70 data/crystal_tools/recipe/crystal_golem_command_rod.json
 52325b85bd6e8aaf3e7b8f47019de72fb6e43752 data/crystal_tools/recipe/crystal_helmet_smithing.json
 11719ed63108de31f1456045af72335df5ba527e data/crystal_tools/recipe/crystal_hoe.json
 1f4a8a3075dc7db709c96ff9f179480e34e71f81 data/crystal_tools/recipe/crystal_leggings_smithing.json

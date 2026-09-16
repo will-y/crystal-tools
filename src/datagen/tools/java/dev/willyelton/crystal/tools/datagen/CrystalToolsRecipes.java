@@ -28,6 +28,7 @@ import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.Optional;
@@ -216,6 +217,14 @@ public class CrystalToolsRecipes extends RecipeProvider {
                 .define('p', Items.PISTON)
                 .define('g', ModRegistration.CRYSTAL_GENERATOR.get())
                 .define('s', CrystalCoreTags.RODS_METAL_NETHERITE)
+                .unlockedBy("has_crystal", HAS_CRYSTAL)
+                .save(output);
+
+        shaped(RecipeCategory.TOOLS, ModRegistration.CRYSTAL_GOLEM_COMMAND_ROD.get())
+                .pattern(" c")
+                .pattern("s ")
+                .define('c', Registration.CRYSTAL.get())
+                .define('s', Tags.Items.RODS_WOODEN)
                 .unlockedBy("has_crystal", HAS_CRYSTAL)
                 .save(output);
 

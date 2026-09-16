@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import dev.willyelton.crystal.tools.CrystalTools;
 import dev.willyelton.crystal.tools.client.config.CrystalToolsClientConfig;
 import dev.willyelton.crystal.tools.client.renderer.BlockOverlayRenderer;
+import dev.willyelton.crystal.tools.client.renderer.GolemCommandRodRenderer;
 import dev.willyelton.crystal.tools.client.renderer.QuarryLaserRenderer;
 import dev.willyelton.crystal.tools.common.components.DataComponents;
 import dev.willyelton.crystal.tools.common.levelable.tool.LevelableTool;
@@ -34,12 +35,14 @@ public class RenderEvents {
         if (!CrystalToolsClientConfig.DISABLE_BLOCK_TARGET_RENDERING.get()) {
             BlockOverlayRenderer.extractRenderState(event);
         }
+        GolemCommandRodRenderer.extractRenderState(event);
     }
 
     @SubscribeEvent
     public static void handleSubmitGeometryEvent(SubmitCustomGeometryEvent event) {
         BlockOverlayRenderer.submit(event);
         QuarryLaserRenderer.submit(event);
+        GolemCommandRodRenderer.submit(event);
     }
 
     @SubscribeEvent

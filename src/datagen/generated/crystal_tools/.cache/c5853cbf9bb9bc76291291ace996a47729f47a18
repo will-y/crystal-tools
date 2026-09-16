@@ -1,4 +1,4 @@
-// 26.2	2026-07-18T11:15:33.6830087	Model Definitions - crystal_tools
+// 26.2	2026-09-06T16:02:50.3765435	Model Definitions - crystal_tools
 ac3743737b01790b23d3bbc2c8786f1da17303f9 assets/crystal_tools/blockstates/crystal_chest.json
 b45cd6d350dcfbffe28c7a2e3695c880e9ac5b54 assets/crystal_tools/blockstates/crystal_furnace.json
 5b3a0011ba65ea34d26e2bc6b140aa829622b04c assets/crystal_tools/blockstates/crystal_generator.json
@@ -17,6 +17,7 @@ b04efe47cdd8f9cbd31a7767d40f8a75d7757364 assets/crystal_tools/items/crystal_ches
 ed4a0e58e61aa8a869a47921713b6cf4fc43e5a3 assets/crystal_tools/items/crystal_fishing_rod.json
 36d6a46410c49e27a84e76f6772bc4f43387e092 assets/crystal_tools/items/crystal_furnace.json
 8de21bc1cfdaa5d0b73cca7da2e235e32eb740cd assets/crystal_tools/items/crystal_generator.json
+e87251a26fcca01ace3df4c48844ef7b8dff8576 assets/crystal_tools/items/crystal_golem_command_rod.json
 9e2c8105941563763bed6a2875aaee578d01e676 assets/crystal_tools/items/crystal_helmet.json
 aced7d03f45a4f2e1b0157392c9b34a20892b69f assets/crystal_tools/items/crystal_hoe.json
 3c1741259837f967f9dbefe044f426ab92aa6b11 assets/crystal_tools/items/crystal_leggings.json
@@ -81,6 +82,7 @@ fa61b92a8460a8254d9e2381b6052ec1c6c8c66a assets/crystal_tools/models/item/crysta
 8d22456375af8702967ed29b36acb4ed22fdd6fe assets/crystal_tools/models/item/crystal_fishing_rod_cast.json
 62ce53b12c4463044cd745ca387e05df25413e79 assets/crystal_tools/models/item/crystal_furnace.json
 c7a0b7d6f61583a3ca08b47586a049d51167cf17 assets/crystal_tools/models/item/crystal_generator.json
+d78d2c4479fb15b294d67c80a52b528e652db48c assets/crystal_tools/models/item/crystal_golem_command_rod.json
 4221e4838a45620bd09a05f0f11688bf6f2349c6 assets/crystal_tools/models/item/crystal_helmet.json
 40e684d996b857e3038b9beedbe9892524f755ca assets/crystal_tools/models/item/crystal_helmet_amethyst_trim.json
 bc890e6b0436a8a90230d313ffb313dddde1561e assets/crystal_tools/models/item/crystal_helmet_copper_trim.json

@@ -1,4 +1,14 @@
 # Crystal Tools Change Log
+## 26.2.1.0
+### Additions
+- Adds the Crystal Golem!
+- Adds the following config options
+  - `sources_per_level` (2): Number of extra source positions you get per level of Source Selection for a Crystal Golem
+  - `destinations_per_level` (2): Number of extra destinations positions you get per level of Destination Selection for a Crystal Golem
+
+### Fixes
+- Fixes the mode switch key not working
+
 ## 26.2.0.0
 - Fixes an issue with the jar-in-jar range
 - Fixes 3x3 and vein mining block highlighting

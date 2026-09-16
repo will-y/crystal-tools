@@ -10,6 +10,8 @@ import net.neoforged.fml.config.ModConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import static dev.willyelton.crystal.core.common.registry.core.ModeSwitchHandlers.registerModeSwitchHandlers;
+
 @Mod(ApiConstants.CORE_MOD_ID)
 public class CrystalCore {
 
@@ -22,5 +24,6 @@ public class CrystalCore {
 
         // TODO: this should be like actions as well
         SkillDataRequirements.bootstrap();
+        registerModeSwitchHandlers();
     }
 }

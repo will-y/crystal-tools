@@ -12,10 +12,10 @@ import dev.willyelton.crystal.tools.common.crafting.CrystalElytraRecipe;
 import dev.willyelton.crystal.tools.common.crafting.CrystalGeneratorRecipe;
 import dev.willyelton.crystal.tools.common.crafting.CrystalQuarryRecipe;
 import dev.willyelton.crystal.tools.common.crafting.CrystalShieldTotemRecipe;
+import dev.willyelton.crystal.tools.common.entity.BlockPosDirection;
 import dev.willyelton.crystal.tools.common.entity.CrystalGolem;
 import dev.willyelton.crystal.tools.common.entity.CrystalTridentEntity;
 import dev.willyelton.crystal.tools.common.inventory.container.CrystalBackpackContainerMenu;
-import dev.willyelton.crystal.core.common.inventory.container.CrystalContainerMenu;
 import dev.willyelton.crystal.tools.common.inventory.container.CrystalFurnaceContainerMenu;
 import dev.willyelton.crystal.tools.common.inventory.container.CrystalGeneratorContainerMenu;
 import dev.willyelton.crystal.tools.common.inventory.container.CrystalMagnetContainerMenu;
@@ -24,6 +24,7 @@ import dev.willyelton.crystal.tools.common.inventory.container.CrystalQuarryCont
 import dev.willyelton.crystal.tools.common.inventory.container.PortableGeneratorContainerMenu;
 import dev.willyelton.crystal.tools.common.levelable.CrystalBackpack;
 import dev.willyelton.crystal.tools.common.levelable.DogCage;
+import dev.willyelton.crystal.tools.common.levelable.tool.GolemCommandRod;
 import dev.willyelton.crystal.tools.common.levelable.PortableGenerator;
 import dev.willyelton.crystal.tools.common.levelable.armor.CrystalElytra;
 import dev.willyelton.crystal.tools.common.levelable.armor.CrystalToolsArmorMaterials;
@@ -64,6 +65,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -79,6 +81,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.gameevent.BlockPositionSource;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.attachment.AttachmentType;
@@ -105,12 +108,14 @@ public class ModRegistration {
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(BuiltInRegistries.PARTICLE_TYPE, CrystalTools.MODID);
     private static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, CrystalTools.MODID);
     public static final DeferredRegister<ActionType<?, ?>> ACTION_TYPES = DeferredRegister.create(ACTION_TYPE_REGISTRY_KEY, ApiConstants.CORE_MOD_ID);
+    public static final DeferredRegister<EntityDataSerializer<?>> ENTITY_DATA_SERIALIZERS = DeferredRegister.create(NeoForgeRegistries.ENTITY_DATA_SERIALIZERS, CrystalTools.MODID);
 
     // Items
     public static final DeferredHolder<Item, Item> CRYSTAL_UPGRADE_SMITHING_TEMPLATE = ITEMS.registerSimpleItem("crystal_upgrade_smithing_template", () -> new Item.Properties().fireResistant());
     public static final DeferredHolder<Item, Item> CRYSTAL_COLLAR = ITEMS.registerSimpleItem("crystal_collar", () -> new Item.Properties().fireResistant().stacksTo(1)
             .component(net.minecraft.core.component.DataComponents.LORE, new ItemLore(List.of(Component.translatable("tooltip.crystal_tools.dog_collar")))));
     public static final DeferredHolder<Item, Item> CRYSTAL_DOG_CAGE = ITEMS.registerItem("crystal_dog_cage", DogCage::new);
+    public static final DeferredHolder<Item, Item> CRYSTAL_GOLEM_COMMAND_ROD = ITEMS.registerItem("crystal_golem_command_rod", GolemCommandRod::new);
 
     // Tools
     public static final DeferredHolder<Item, PickaxeLevelableTool> CRYSTAL_PICKAXE = ITEMS.registerItem("crystal_pickaxe", PickaxeLevelableTool::new);
@@ -203,6 +208,10 @@ public class ModRegistration {
                     .sync(ByteBufCodecs.BOOL)
                     .build());
 
+    // Entity Data Serializers
+    public static final DeferredHolder<EntityDataSerializer<?>, EntityDataSerializer<List<BlockPosDirection>>> BLOCK_POSITION_DIRECTION_SERIALIZER = ENTITY_DATA_SERIALIZERS.register("block_position_direction",
+            () -> EntityDataSerializer.forValueType(BlockPosDirection.STREAM_CODEC.apply(ByteBufCodecs.list())));
+
     // Creative Tabs
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> TAB = TABS.register("crystal_tools_tab", () ->
             CreativeModeTab.builder()
@@ -239,6 +248,7 @@ public class ModRegistration {
                         output.accept(CRYSTAL_MAGNET.get());
                         output.accept(PORTABLE_GENERATOR.get());
                         output.accept(CRYSTAL_SPEAR.get());
+                        output.accept(CRYSTAL_GOLEM_COMMAND_ROD.get());
                     })
                     .build());
 
@@ -265,5 +275,6 @@ public class ModRegistration {
         RECIPES.register(modEventBus);
         PARTICLES.register(modEventBus);
         ATTACHMENT_TYPES.register(modEventBus);
+        ENTITY_DATA_SERIALIZERS.register(modEventBus);
     }
 }

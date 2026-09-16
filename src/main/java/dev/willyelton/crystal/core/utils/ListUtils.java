@@ -29,4 +29,8 @@ public class ListUtils {
 
         return result;
     }
+
+    public static <T> List<T> firstN(List<T> inputList, int size) {
+        return inputList.subList(0, Math.min(size, inputList.size()));
+    }
 }

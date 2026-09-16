@@ -3,6 +3,7 @@ package dev.willyelton.crystal.tools.common.entity.ai;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
+import dev.willyelton.crystal.tools.common.entity.BlockPosDirection;
 import dev.willyelton.crystal.tools.common.entity.CrystalGolem;
 import dev.willyelton.crystal.tools.common.entity.ai.behavior.TransportItemsBetweenHandlers;
 import net.minecraft.sounds.SoundEvent;
@@ -36,18 +37,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class CrystalGolemAi {
     // TODO: These will change to either my tags, or if overwritten by entity, that logic
-    private static final Predicate<TransportItemsBetweenHandlers.TransportItemTarget> TRANSPORT_ITEM_SOURCE_BLOCK = block -> block.state().is(BlockTags.COPPER_CHESTS);
-    private static final Predicate<TransportItemsBetweenHandlers.TransportItemTarget> TRANSPORT_ITEM_DESTINATION_BLOCK = block -> block.state().is(Blocks.CHEST) || block.state().is(Blocks.TRAPPED_CHEST);
+    private static final Predicate<TransportItemsBetweenHandlers.TransportItemTarget> DEFAULT_TRANSPORT_ITEM_SOURCE_BLOCK = block -> block.state().is(BlockTags.COPPER_CHESTS);
+    private static final Predicate<TransportItemsBetweenHandlers.TransportItemTarget> DEFAULT_TRANSPORT_ITEM_DESTINATION_BLOCK = block -> block.state().is(Blocks.CHEST) || block.state().is(Blocks.TRAPPED_CHEST);
 
     public static void updateActivity(CrystalGolem body) {
         body.getBrain().setActiveActivityToFirstValid(ImmutableList.of(Activity.IDLE));
     }
 
     public static List<ActivityData<CopperGolem>> getActivities(CopperGolem body) {
-        return List.of(initCoreActivity(), initIdleActivity());
+        if (body instanceof CrystalGolem crystalGolem) {
+            return List.of(initCoreActivity(), initIdleActivity(crystalGolem));
+        }
+
+        return List.of();
+
     }
 
     private static ActivityData<CopperGolem> initCoreActivity() {
@@ -65,7 +72,7 @@ public class CrystalGolemAi {
         );
     }
 
-    private static ActivityData<CopperGolem> initIdleActivity() {
+    private static ActivityData<CopperGolem> initIdleActivity(CrystalGolem crystalGolem) {
         return ActivityData.create(
                 Activity.IDLE,
                 ImmutableList.of(
@@ -73,8 +80,9 @@ public class CrystalGolemAi {
                                 0,
                                 new TransportItemsBetweenHandlers(
                                         1.0F,
-                                        TRANSPORT_ITEM_SOURCE_BLOCK,
-                                        TRANSPORT_ITEM_DESTINATION_BLOCK,
+                                        // TODO: Going to have to probably be a bi-predicate
+                                        sourcePredicate(crystalGolem),
+                                        destinationPredicate(crystalGolem),
                                         32,
                                         8,
                                         getTargetReachedInteractions(),
@@ -97,6 +105,30 @@ public class CrystalGolemAi {
                         )
                 )
         );
+    }
+
+    private static Supplier<Predicate<TransportItemsBetweenHandlers.TransportItemTarget>> sourcePredicate(CrystalGolem crystalGolem) {
+        return () -> {
+            List<BlockPosDirection> sourcePositions = crystalGolem.getSourcePositions();
+
+            if (sourcePositions.isEmpty()) {
+                return DEFAULT_TRANSPORT_ITEM_SOURCE_BLOCK;
+            } else {
+                return transportItemTarget -> sourcePositions.stream().anyMatch(p -> p.pos().equals(transportItemTarget.pos()));
+            }
+        };
+    }
+
+    private static Supplier<Predicate<TransportItemsBetweenHandlers.TransportItemTarget>> destinationPredicate(CrystalGolem crystalGolem) {
+        return () -> {
+            List<BlockPosDirection> destinationPositions = crystalGolem.getDestinationPositions();
+
+            if (destinationPositions.isEmpty()) {
+                return DEFAULT_TRANSPORT_ITEM_DESTINATION_BLOCK;
+            } else {
+                return transportItemTarget -> destinationPositions.stream().anyMatch(p -> p.pos().equals(transportItemTarget.pos()));
+            }
+        };
     }
 
     private static Map<TransportItemsBetweenContainers.ContainerInteractionState, TransportItemsBetweenHandlers.OnTargetReachedInteraction> getTargetReachedInteractions() {
