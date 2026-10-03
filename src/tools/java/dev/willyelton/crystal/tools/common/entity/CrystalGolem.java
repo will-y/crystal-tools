@@ -17,7 +17,9 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jspecify.annotations.Nullable;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static dev.willyelton.crystal.core.utils.ListUtils.firstN;
 
@@ -60,12 +62,12 @@ public class CrystalGolem extends CopperGolem {
         entityData.define(DESTINATION_POSITIONS, List.of());
     }
 
-    public List<BlockPosDirection> getSourcePositions() {
-        return this.entityData.get(SOURCE_POSITIONS);
+    public Set<BlockPosDirection> getSourcePositions() {
+        return new HashSet<>(this.entityData.get(SOURCE_POSITIONS));
     }
 
-    public List<BlockPosDirection> getDestinationPositions() {
-        return this.entityData.get(DESTINATION_POSITIONS);
+    public Set<BlockPosDirection> getDestinationPositions() {
+        return new HashSet<>(this.entityData.get(DESTINATION_POSITIONS));
     }
 
     public int setSourcePositions(List<BlockPosDirection> sourcePositions) {
@@ -112,8 +114,8 @@ public class CrystalGolem extends CopperGolem {
     public void addAdditionalSaveData(ValueOutput output) {
         super.addAdditionalSaveData(output);
 
-        output.store("source_positions", BlockPosDirection.CODEC.listOf(), this.getSourcePositions());
-        output.store("destination_positions", BlockPosDirection.CODEC.listOf(), this.getDestinationPositions());
+        output.store("source_positions", BlockPosDirection.CODEC.listOf(), this.getSourcePositions().stream().toList());
+        output.store("destination_positions", BlockPosDirection.CODEC.listOf(), this.getDestinationPositions().stream().toList());
     }
 
     @Override

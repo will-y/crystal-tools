@@ -2,10 +2,13 @@ package dev.willyelton.crystal.tools.common.entity.ai.behavior;
 
 import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableMap;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.willyelton.crystal.core.common.capability.LevelableEntity;
+import dev.willyelton.crystal.tools.ModRegistration;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.GlobalPos;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.PathfinderMob;
@@ -71,9 +74,9 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
                                          Consumer<PathfinderMob> onStartTravelling,
                                          Predicate<TransportItemTarget> shouldQueueForTarget) {
         super(ImmutableMap.of(
-                MemoryModuleType.VISITED_BLOCK_POSITIONS,
+                ModRegistration.VISITED_BLOCK_POSITIONS.get(),
                 MemoryStatus.REGISTERED,
-                MemoryModuleType.UNREACHABLE_TRANSPORT_BLOCK_POSITIONS,
+                ModRegistration.UNREACHABLE_TRANSPORT_BLOCK_POSITIONS.get(),
                 MemoryStatus.REGISTERED,
                 MemoryModuleType.TRANSPORT_ITEMS_COOLDOWN_TICKS,
                 MemoryStatus.VALUE_ABSENT,
@@ -142,7 +145,7 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
             if (targetBlockPosition.isPresent()) {
                 this.target = targetBlockPosition.get();
                 this.onStartTravelling(body);
-                this.setVisitedBlockPos(body, level, this.target.pos);
+                this.setVisitedBlockPos(body, level, this.target.pos, this.target.face);
             } else {
                 this.enterCooldownAfterNoMatchingTargetFound(body);
             }
@@ -164,7 +167,7 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
                 return true;
             }
 
-            this.markVisitedBlockPosAsUnreachable(body, level, this.target.pos);
+            this.markVisitedBlockPosAsUnreachable(body, level, this.target.pos, this.target.face);
         }
 
         return false;
@@ -232,7 +235,7 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
     // Gets all chests if double chest
     private Stream<TransportItemTarget> getConnectedTargets(TransportItemTarget target, Level level) {
         if (target.state.getValueOrElse(ChestBlock.TYPE, ChestType.SINGLE) != ChestType.SINGLE) {
-            TransportItemTarget connectedTarget = TransportItemTarget.tryCreatePossibleTarget(ChestBlock.getConnectedBlockPos(target.pos, target.state), level);
+            TransportItemTarget connectedTarget = TransportItemTarget.tryCreatePossibleTarget(ChestBlock.getConnectedBlockPos(target.pos, target.state), level, target.face());
             return connectedTarget != null ? Stream.of(target, connectedTarget) : Stream.of(target);
         } else {
             return Stream.of(target);
@@ -404,8 +407,8 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
 
     protected void clearMemoriesAfterMatchingTargetFound(PathfinderMob body) {
         this.stopTargetingCurrentTarget(body);
-        body.getBrain().eraseMemory(MemoryModuleType.VISITED_BLOCK_POSITIONS);
-        body.getBrain().eraseMemory(MemoryModuleType.UNREACHABLE_TRANSPORT_BLOCK_POSITIONS);
+        body.getBrain().eraseMemory(ModRegistration.VISITED_BLOCK_POSITIONS.get());
+        body.getBrain().eraseMemory(ModRegistration.UNREACHABLE_TRANSPORT_BLOCK_POSITIONS.get());
     }
 
     protected void stopTargetingCurrentTarget(PathfinderMob body) {
@@ -446,8 +449,8 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
 
     private Optional<TransportItemTarget> getTransportTarget(ServerLevel level, PathfinderMob body) {
         AABB targetBlockSearchArea = this.getTargetSearchArea(body);
-        Set<GlobalPos> visitedPositions = getVisitedPositions(body);
-        Set<GlobalPos> unreachablePositions = getUnreachablePositions(body);
+        Set<GlobalPosDirection> visitedPositions = getVisitedPositions(body);
+        Set<GlobalPosDirection> unreachablePositions = getUnreachablePositions(body);
         List<ChunkPos> list = ChunkPos.rangeClosed(ChunkPos.containing(body.blockPosition()), Math.floorDiv(this.getHorizontalSearchDistance(body), 16) + 1)
                 .toList();
         TransportItemTarget target = null;
@@ -460,11 +463,14 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
                     double distance = potentialTarget.getBlockPos().distToCenterSqr(body.position());
                     if (distance < closestDistance) {
                         // TODO: Loop over directions here
-                        TransportItemTarget targetValidToPick = this.isTargetValidToPick(body, level, potentialTarget, visitedPositions, unreachablePositions, targetBlockSearchArea);
+                        for (Direction direction : Direction.values()) {
+                            TransportItemTarget targetValidToPick = this.isTargetValidToPick(body, level, potentialTarget, visitedPositions, unreachablePositions, targetBlockSearchArea, direction);
 
-                        if (targetValidToPick != null) {
-                            target = targetValidToPick;
-                            closestDistance = distance;
+                            if (targetValidToPick != null) {
+                                target = targetValidToPick;
+                                closestDistance = distance;
+                                break;
+                            }
                         }
                     }
                 }
@@ -487,25 +493,25 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
         return mob.isPassenger() ? 1 : this.verticalSearchDistance;
     }
 
-    private static Set<GlobalPos> getVisitedPositions(PathfinderMob mob) {
-        return mob.getBrain().getMemory(MemoryModuleType.VISITED_BLOCK_POSITIONS).orElse(Set.of());
+    private static Set<GlobalPosDirection> getVisitedPositions(PathfinderMob mob) {
+        return mob.getBrain().getMemory(ModRegistration.VISITED_BLOCK_POSITIONS.get()).orElse(Set.of());
     }
 
-    private static Set<GlobalPos> getUnreachablePositions(PathfinderMob mob) {
-        return mob.getBrain().getMemory(MemoryModuleType.UNREACHABLE_TRANSPORT_BLOCK_POSITIONS).orElse(Set.of());
+    private static Set<GlobalPosDirection> getUnreachablePositions(PathfinderMob mob) {
+        return mob.getBrain().getMemory(ModRegistration.UNREACHABLE_TRANSPORT_BLOCK_POSITIONS.get()).orElse(Set.of());
     }
 
     private @Nullable TransportItemTarget isTargetValidToPick(PathfinderMob body, Level level,
-                                                              BlockEntity blockEntity, Set<GlobalPos> visitedPositions,
-                                                              Set<GlobalPos> unreachablePositions,
-                                                              AABB targetBlockSearchArea) {
+                                                              BlockEntity blockEntity, Set<GlobalPosDirection> visitedPositions,
+                                                              Set<GlobalPosDirection> unreachablePositions,
+                                                              AABB targetBlockSearchArea, Direction face) {
         BlockPos blockPos = blockEntity.getBlockPos();
         boolean isWithinSearchArea = targetBlockSearchArea.contains(blockPos.getX(), blockPos.getY(), blockPos.getZ());
         if (!isWithinSearchArea) {
             return null;
         }
 
-        TransportItemTarget transportItemTarget = TransportItemTarget.tryCreatePossibleTarget(blockEntity, level);
+        TransportItemTarget transportItemTarget = TransportItemTarget.tryCreatePossibleTarget(blockEntity, level, face);
         if (transportItemTarget == null) {
             return null;
         }
@@ -516,10 +522,10 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
         return isValidTarget ? transportItemTarget : null;
     }
 
-    private boolean isPositionAlreadyVisited(Set<GlobalPos> visitedPositions, Set<GlobalPos> unreachablePositions,
+    private boolean isPositionAlreadyVisited(Set<GlobalPosDirection> visitedPositions, Set<GlobalPosDirection> unreachablePositions,
                                              TransportItemTarget target, Level level) {
         return this.getConnectedTargets(target, level)
-                .map(transportItemTarget -> new GlobalPos(level.dimension(), transportItemTarget.pos))
+                .map(transportItemTarget -> new GlobalPosDirection(level.dimension(), transportItemTarget.pos, transportItemTarget.face))
                 .anyMatch(pos -> visitedPositions.contains(pos) || unreachablePositions.contains(pos));
     }
 
@@ -527,13 +533,13 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
         return transportItemTarget.blockEntity instanceof BaseContainerBlockEntity blockEntity && blockEntity.isLocked();
     }
 
-    protected void setVisitedBlockPos(PathfinderMob body, Level level, BlockPos target) {
-        Set<GlobalPos> visitedPositions = new HashSet<>(getVisitedPositions(body));
-        visitedPositions.add(new GlobalPos(level.dimension(), target));
+    protected void setVisitedBlockPos(PathfinderMob body, Level level, BlockPos target, Direction face) {
+        Set<GlobalPosDirection> visitedPositions = new HashSet<>(getVisitedPositions(body));
+        visitedPositions.add(new GlobalPosDirection(level.dimension(), target, face));
         if (visitedPositions.size() > 10) {
             this.enterCooldownAfterNoMatchingTargetFound(body);
         } else {
-            body.getBrain().setMemoryWithExpiry(MemoryModuleType.VISITED_BLOCK_POSITIONS, visitedPositions, 6000L);
+            body.getBrain().setMemoryWithExpiry(ModRegistration.VISITED_BLOCK_POSITIONS.get(), visitedPositions, 6000L);
         }
     }
 
@@ -541,20 +547,20 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
         this.stopTargetingCurrentTarget(body);
         // TODO: Something to increase?
         body.getBrain().setMemory(MemoryModuleType.TRANSPORT_ITEMS_COOLDOWN_TICKS, 140);
-        body.getBrain().eraseMemory(MemoryModuleType.VISITED_BLOCK_POSITIONS);
-        body.getBrain().eraseMemory(MemoryModuleType.UNREACHABLE_TRANSPORT_BLOCK_POSITIONS);
+        body.getBrain().eraseMemory(ModRegistration.VISITED_BLOCK_POSITIONS.get());
+        body.getBrain().eraseMemory(ModRegistration.UNREACHABLE_TRANSPORT_BLOCK_POSITIONS.get());
     }
 
-    protected void markVisitedBlockPosAsUnreachable(PathfinderMob body, Level level, BlockPos target) {
-        Set<GlobalPos> visitedPositions = new HashSet<>(getVisitedPositions(body));
-        visitedPositions.remove(new GlobalPos(level.dimension(), target));
-        Set<GlobalPos> unreachablePositions = new HashSet<>(getUnreachablePositions(body));
-        unreachablePositions.add(new GlobalPos(level.dimension(), target));
+    protected void markVisitedBlockPosAsUnreachable(PathfinderMob body, Level level, BlockPos target, Direction face) {
+        Set<GlobalPosDirection> visitedPositions = new HashSet<>(getVisitedPositions(body));
+        visitedPositions.remove(new GlobalPosDirection(level.dimension(), target, face));
+        Set<GlobalPosDirection> unreachablePositions = new HashSet<>(getUnreachablePositions(body));
+        unreachablePositions.add(new GlobalPosDirection(level.dimension(), target, face));
         if (unreachablePositions.size() > 50) {
             this.enterCooldownAfterNoMatchingTargetFound(body);
         } else {
-            body.getBrain().setMemoryWithExpiry(MemoryModuleType.VISITED_BLOCK_POSITIONS, visitedPositions, 6000L);
-            body.getBrain().setMemoryWithExpiry(MemoryModuleType.UNREACHABLE_TRANSPORT_BLOCK_POSITIONS, unreachablePositions, 6000L);
+            body.getBrain().setMemoryWithExpiry(ModRegistration.VISITED_BLOCK_POSITIONS.get(), visitedPositions, 6000L);
+            body.getBrain().setMemoryWithExpiry(ModRegistration.UNREACHABLE_TRANSPORT_BLOCK_POSITIONS.get(), unreachablePositions, 6000L);
         }
     }
 
@@ -565,18 +571,27 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
 
     // TODO: Face somehow
     public record TransportItemTarget(BlockPos pos, ResourceHandler<ItemResource> handler, BlockEntity blockEntity,
-                                      BlockState state) {
-        public static @Nullable TransportItemTarget tryCreatePossibleTarget(BlockEntity blockEntity, Level level) {
+                                      BlockState state, Direction face) {
+        public static @Nullable TransportItemTarget tryCreatePossibleTarget(BlockEntity blockEntity, Level level, Direction face) {
             BlockPos blockPos = blockEntity.getBlockPos();
             BlockState blockState = blockEntity.getBlockState();
-            ResourceHandler<ItemResource> handler = level.getCapability(Capabilities.Item.BLOCK, blockPos, null);
+            ResourceHandler<ItemResource> handler = level.getCapability(Capabilities.Item.BLOCK, blockPos, face);
 
-            return handler != null ? new TransportItemTarget(blockPos, handler, blockEntity, blockState) : null;
+            return handler != null ? new TransportItemTarget(blockPos, handler, blockEntity, blockState, face) : null;
         }
 
-        public static @Nullable TransportItemTarget tryCreatePossibleTarget(BlockPos blockPos, Level level) {
+        public static @Nullable TransportItemTarget tryCreatePossibleTarget(BlockPos blockPos, Level level, Direction face) {
             BlockEntity blockEntity = level.getBlockEntity(blockPos);
-            return blockEntity == null ? null : tryCreatePossibleTarget(blockEntity, level);
+            return blockEntity == null ? null : tryCreatePossibleTarget(blockEntity, level, face);
         }
+    }
+
+    public record GlobalPosDirection(ResourceKey<Level> dimension, BlockPos pos, Direction face) {
+        // codec
+        public static final Codec<GlobalPosDirection> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+                Level.RESOURCE_KEY_CODEC.fieldOf("dimension").forGetter(GlobalPosDirection::dimension),
+                BlockPos.CODEC.fieldOf("pos").forGetter(GlobalPosDirection::pos),
+                Direction.CODEC.fieldOf("face").forGetter(GlobalPosDirection::face)
+        ).apply(instance, GlobalPosDirection::new));
     }
 }

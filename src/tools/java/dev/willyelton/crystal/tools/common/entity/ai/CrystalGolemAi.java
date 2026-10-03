@@ -35,6 +35,7 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -109,24 +110,24 @@ public class CrystalGolemAi {
 
     private static Supplier<Predicate<TransportItemsBetweenHandlers.TransportItemTarget>> sourcePredicate(CrystalGolem crystalGolem) {
         return () -> {
-            List<BlockPosDirection> sourcePositions = crystalGolem.getSourcePositions();
+            Set<BlockPosDirection> sourcePositions = crystalGolem.getSourcePositions();
 
             if (sourcePositions.isEmpty()) {
                 return DEFAULT_TRANSPORT_ITEM_SOURCE_BLOCK;
             } else {
-                return transportItemTarget -> sourcePositions.stream().anyMatch(p -> p.pos().equals(transportItemTarget.pos()));
+                return transportItemTarget -> sourcePositions.contains(new BlockPosDirection(transportItemTarget.pos(), transportItemTarget.face()));
             }
         };
     }
 
     private static Supplier<Predicate<TransportItemsBetweenHandlers.TransportItemTarget>> destinationPredicate(CrystalGolem crystalGolem) {
         return () -> {
-            List<BlockPosDirection> destinationPositions = crystalGolem.getDestinationPositions();
+            Set<BlockPosDirection> destinationPositions = crystalGolem.getDestinationPositions();
 
             if (destinationPositions.isEmpty()) {
                 return DEFAULT_TRANSPORT_ITEM_DESTINATION_BLOCK;
             } else {
-                return transportItemTarget -> destinationPositions.stream().anyMatch(p -> p.pos().equals(transportItemTarget.pos()));
+                return transportItemTarget -> destinationPositions.contains(new BlockPosDirection(transportItemTarget.pos(), transportItemTarget.face()));
             }
         };
     }

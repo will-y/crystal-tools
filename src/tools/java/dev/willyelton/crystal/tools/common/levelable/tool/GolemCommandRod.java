@@ -178,10 +178,10 @@ public class GolemCommandRod extends Item implements ItemClickHandler {
                     }
                 }
                 case READ_POSITIONS -> {
-                    List<BlockPosDirection> sourcePositions = crystalGolem.getSourcePositions();
-                    List<BlockPosDirection> destinationPositions = crystalGolem.getDestinationPositions();
-                    stack.set(DataComponents.GOLEM_COMMAND_ROD_SOURCE_POSITIONS, sourcePositions);
-                    stack.set(DataComponents.GOLEM_COMMAND_ROD_DESTINATION_POSITIONS, destinationPositions);
+                    Set<BlockPosDirection> sourcePositions = crystalGolem.getSourcePositions();
+                    Set<BlockPosDirection> destinationPositions = crystalGolem.getDestinationPositions();
+                    stack.set(DataComponents.GOLEM_COMMAND_ROD_SOURCE_POSITIONS, sourcePositions.stream().toList());
+                    stack.set(DataComponents.GOLEM_COMMAND_ROD_DESTINATION_POSITIONS, destinationPositions.stream().toList());
                     if (!player.level().isClientSide()) {
                         player.sendOverlayMessage(Component.literal("Positions Read from Crystal Golem").withColor(TextColor.AQUA));
                     }

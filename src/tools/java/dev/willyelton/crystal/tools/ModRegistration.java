@@ -1,5 +1,7 @@
 package dev.willyelton.crystal.tools;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import dev.willyelton.crystal.core.common.block.entity.action.ActionType;
@@ -15,6 +17,7 @@ import dev.willyelton.crystal.tools.common.crafting.CrystalShieldTotemRecipe;
 import dev.willyelton.crystal.tools.common.entity.BlockPosDirection;
 import dev.willyelton.crystal.tools.common.entity.CrystalGolem;
 import dev.willyelton.crystal.tools.common.entity.CrystalTridentEntity;
+import dev.willyelton.crystal.tools.common.entity.ai.behavior.TransportItemsBetweenHandlers;
 import dev.willyelton.crystal.tools.common.inventory.container.CrystalBackpackContainerMenu;
 import dev.willyelton.crystal.tools.common.inventory.container.CrystalFurnaceContainerMenu;
 import dev.willyelton.crystal.tools.common.inventory.container.CrystalGeneratorContainerMenu;
@@ -69,6 +72,7 @@ import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -91,6 +95,8 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import static dev.willyelton.crystal.core.utils.constants.ApiConstants.ACTION_TYPE_REGISTRY_KEY;
 import static dev.willyelton.crystal.core.utils.constants.ApiConstants.baseRl;
@@ -109,6 +115,7 @@ public class ModRegistration {
     private static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, CrystalTools.MODID);
     public static final DeferredRegister<ActionType<?, ?>> ACTION_TYPES = DeferredRegister.create(ACTION_TYPE_REGISTRY_KEY, ApiConstants.CORE_MOD_ID);
     public static final DeferredRegister<EntityDataSerializer<?>> ENTITY_DATA_SERIALIZERS = DeferredRegister.create(NeoForgeRegistries.ENTITY_DATA_SERIALIZERS, CrystalTools.MODID);
+    public static final DeferredRegister<MemoryModuleType<?>> MEMORY_MODULE_TYPES = DeferredRegister.create(Registries.MEMORY_MODULE_TYPE, CrystalTools.MODID);
 
     // Items
     public static final DeferredHolder<Item, Item> CRYSTAL_UPGRADE_SMITHING_TEMPLATE = ITEMS.registerSimpleItem("crystal_upgrade_smithing_template", () -> new Item.Properties().fireResistant());
@@ -212,6 +219,12 @@ public class ModRegistration {
     public static final DeferredHolder<EntityDataSerializer<?>, EntityDataSerializer<List<BlockPosDirection>>> BLOCK_POSITION_DIRECTION_SERIALIZER = ENTITY_DATA_SERIALIZERS.register("block_position_direction",
             () -> EntityDataSerializer.forValueType(BlockPosDirection.STREAM_CODEC.apply(ByteBufCodecs.list())));
 
+    // Memory Modules
+    public static final DeferredHolder<MemoryModuleType<?>, MemoryModuleType<Set<TransportItemsBetweenHandlers.GlobalPosDirection>>> VISITED_BLOCK_POSITIONS = MEMORY_MODULE_TYPES.register("visited_block_position_directions",
+            () -> new MemoryModuleType<>(Optional.of(TransportItemsBetweenHandlers.GlobalPosDirection.CODEC.listOf().xmap(Sets::newHashSet, Lists::newArrayList))));
+    public static final DeferredHolder<MemoryModuleType<?>, MemoryModuleType<Set<TransportItemsBetweenHandlers.GlobalPosDirection>>> UNREACHABLE_TRANSPORT_BLOCK_POSITIONS = MEMORY_MODULE_TYPES.register("unreachable_block_position_directions",
+            () -> new MemoryModuleType<>(Optional.of(TransportItemsBetweenHandlers.GlobalPosDirection.CODEC.listOf().xmap(Sets::newHashSet, Lists::newArrayList))));
+
     // Creative Tabs
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> TAB = TABS.register("crystal_tools_tab", () ->
             CreativeModeTab.builder()
@@ -276,5 +289,6 @@ public class ModRegistration {
         PARTICLES.register(modEventBus);
         ATTACHMENT_TYPES.register(modEventBus);
         ENTITY_DATA_SERIALIZERS.register(modEventBus);
+        MEMORY_MODULE_TYPES.register(modEventBus);
     }
 }
