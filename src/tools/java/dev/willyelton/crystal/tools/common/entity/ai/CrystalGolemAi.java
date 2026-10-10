@@ -3,8 +3,10 @@ package dev.willyelton.crystal.tools.common.entity.ai;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.util.Pair;
+import dev.willyelton.crystal.tools.ModRegistration;
 import dev.willyelton.crystal.tools.common.entity.BlockPosDirection;
 import dev.willyelton.crystal.tools.common.entity.CrystalGolem;
+import dev.willyelton.crystal.tools.common.entity.ai.behavior.PickUpItems;
 import dev.willyelton.crystal.tools.common.entity.ai.behavior.TransportItemsBetweenHandlers;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -12,7 +14,6 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.EntityTypes;
-import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.ActivityData;
 import net.minecraft.world.entity.ai.behavior.AnimalPanic;
 import net.minecraft.world.entity.ai.behavior.CountDownCooldownTicks;
@@ -26,7 +27,6 @@ import net.minecraft.world.entity.ai.behavior.SetEntityLookTargetSometimes;
 import net.minecraft.world.entity.ai.behavior.TransportItemsBetweenContainers;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import net.minecraft.world.entity.animal.golem.CopperGolem;
 import net.minecraft.world.entity.animal.golem.CopperGolemState;
 import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.level.block.Blocks;
@@ -49,16 +49,11 @@ public class CrystalGolemAi {
         body.getBrain().setActiveActivityToFirstValid(ImmutableList.of(Activity.IDLE));
     }
 
-    public static List<ActivityData<CopperGolem>> getActivities(CopperGolem body) {
-        if (body instanceof CrystalGolem crystalGolem) {
-            return List.of(initCoreActivity(), initIdleActivity(crystalGolem));
-        }
-
-        return List.of();
-
+    public static List<ActivityData<CrystalGolem>> getActivities(CrystalGolem body) {
+        return List.of(initCoreActivity(), initIdleActivity(body));
     }
 
-    private static ActivityData<CopperGolem> initCoreActivity() {
+    private static ActivityData<CrystalGolem> initCoreActivity() {
         return ActivityData.create(
                 Activity.CORE,
                 0,
@@ -68,17 +63,20 @@ public class CrystalGolemAi {
                         new MoveToTargetSink(),
                         InteractWithDoor.create(),
                         new CountDownCooldownTicks(MemoryModuleType.GAZE_COOLDOWN_TICKS),
-                        new CountDownCooldownTicks(MemoryModuleType.TRANSPORT_ITEMS_COOLDOWN_TICKS)
+                        new CountDownCooldownTicks(MemoryModuleType.TRANSPORT_ITEMS_COOLDOWN_TICKS),
+                        new CountDownCooldownTicks(ModRegistration.PICKUP_ITEMS_COOLDOWN_TICKS.get())
                 )
         );
     }
 
-    private static ActivityData<CopperGolem> initIdleActivity(CrystalGolem crystalGolem) {
+    private static ActivityData<CrystalGolem> initIdleActivity(CrystalGolem crystalGolem) {
         return ActivityData.create(
                 Activity.IDLE,
                 ImmutableList.of(
+                        Pair.of(0,
+                                new PickUpItems(5.0F, 32, 8)),
                         Pair.of(
-                                0,
+                                1,
                                 new TransportItemsBetweenHandlers(
                                         1.0F,
                                         // TODO: Going to have to probably be a bi-predicate
@@ -91,9 +89,9 @@ public class CrystalGolemAi {
                                         shouldQueueForTarget()
                                 )
                         ),
-                        Pair.of(1, SetEntityLookTargetSometimes.create(EntityTypes.PLAYER, 6.0F, UniformInt.of(40, 80))),
+                        Pair.of(2, SetEntityLookTargetSometimes.create(EntityTypes.PLAYER, 6.0F, UniformInt.of(40, 80))),
                         Pair.of(
-                                2,
+                                3,
                                 new RunOne<>(
                                         ImmutableMap.of(
                                                 MemoryModuleType.WALK_TARGET,
@@ -115,7 +113,7 @@ public class CrystalGolemAi {
             if (sourcePositions.isEmpty()) {
                 return DEFAULT_TRANSPORT_ITEM_SOURCE_BLOCK;
             } else {
-                return transportItemTarget -> sourcePositions.contains(new BlockPosDirection(transportItemTarget.pos(), transportItemTarget.face()));
+                return transportItemTarget -> sourcePositions.contains(new BlockPosDirection(transportItemTarget.blockPos(), transportItemTarget.face()));
             }
         };
     }
@@ -127,7 +125,7 @@ public class CrystalGolemAi {
             if (destinationPositions.isEmpty()) {
                 return DEFAULT_TRANSPORT_ITEM_DESTINATION_BLOCK;
             } else {
-                return transportItemTarget -> destinationPositions.contains(new BlockPosDirection(transportItemTarget.pos(), transportItemTarget.face()));
+                return transportItemTarget -> destinationPositions.contains(new BlockPosDirection(transportItemTarget.blockPos(), transportItemTarget.face()));
             }
         };
     }
@@ -156,7 +154,7 @@ public class CrystalGolemAi {
                         container.startOpen(crystalGolem);
                     }
 
-                    crystalGolem.setOpenedChestPos(target.pos());
+                    crystalGolem.setOpenedChestPos(target.blockPos());
                     crystalGolem.setState(state);
                 }
 
@@ -177,12 +175,10 @@ public class CrystalGolemAi {
         };
     }
 
-    private static Consumer<PathfinderMob> onTravelling() {
+    private static Consumer<CrystalGolem> onTravelling() {
         return body -> {
-            if (body instanceof CopperGolem copperGolem) {
-                copperGolem.clearOpenedChestPos();
-                copperGolem.setState(CopperGolemState.IDLE);
-            }
+            body.clearOpenedChestPos();
+            body.setState(CopperGolemState.IDLE);
         };
     }
 

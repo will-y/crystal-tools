@@ -6,11 +6,11 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.willyelton.crystal.core.common.capability.LevelableEntity;
 import dev.willyelton.crystal.tools.ModRegistration;
+import dev.willyelton.crystal.tools.common.entity.CrystalGolem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
@@ -29,7 +29,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.ChestType;
 import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -53,15 +52,12 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
+public class TransportItemsBetweenHandlers extends CrystalGolemBehavior<TransportItemsBetweenHandlers.GlobalPosDirection> {
 
-    private final float speedModifier;
-    private final int horizontalSearchDistance;
-    private final int verticalSearchDistance;
     private final Supplier<Predicate<TransportItemTarget>> sourceBlockType;
     private final Supplier<Predicate<TransportItemTarget>> destinationBlockType;
     private final Predicate<TransportItemTarget> shouldQueueForTarget;
-    private final Consumer<PathfinderMob> onStartTravelling;
+    private final Consumer<CrystalGolem> onStartTravelling;
     private final Map<TransportItemsBetweenContainers.ContainerInteractionState, OnTargetReachedInteraction> onTargetInteractionActions;
     private @Nullable TransportItemTarget target = null;
     private TransportItemsBetweenContainers.TransportItemState state;
@@ -71,7 +67,7 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
     public TransportItemsBetweenHandlers(float speedModifier, Supplier<Predicate<TransportItemTarget>> sourceBlockType, Supplier<Predicate<TransportItemTarget>> destinationBlockType,
                                          int horizontalSearchDistance, int verticalSearchDistance,
                                          Map<TransportItemsBetweenContainers.ContainerInteractionState, OnTargetReachedInteraction> onTargetInteractionActions,
-                                         Consumer<PathfinderMob> onStartTravelling,
+                                         Consumer<CrystalGolem> onStartTravelling,
                                          Predicate<TransportItemTarget> shouldQueueForTarget) {
         super(ImmutableMap.of(
                 ModRegistration.VISITED_BLOCK_POSITIONS.get(),
@@ -81,12 +77,9 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
                 MemoryModuleType.TRANSPORT_ITEMS_COOLDOWN_TICKS,
                 MemoryStatus.VALUE_ABSENT,
                 MemoryModuleType.IS_PANICKING,
-                MemoryStatus.VALUE_ABSENT));
-        this.speedModifier = speedModifier;
+                MemoryStatus.VALUE_ABSENT), speedModifier, horizontalSearchDistance, verticalSearchDistance);
         this.sourceBlockType = sourceBlockType;
         this.destinationBlockType = destinationBlockType;
-        this.horizontalSearchDistance = horizontalSearchDistance;
-        this.verticalSearchDistance = verticalSearchDistance;
         this.onStartTravelling = onStartTravelling;
         this.shouldQueueForTarget = shouldQueueForTarget;
         this.onTargetInteractionActions = onTargetInteractionActions;
@@ -94,19 +87,19 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
     }
 
     @Override
-    protected void start(ServerLevel level, PathfinderMob body, long timestamp) {
+    protected void start(ServerLevel level, CrystalGolem body, long timestamp) {
         if (body.getNavigation() instanceof GroundPathNavigation pathNavigation) {
             pathNavigation.setCanPathToTargetsBelowSurface(true);
         }
     }
 
     @Override
-    protected boolean checkExtraStartConditions(ServerLevel level, PathfinderMob body) {
+    protected boolean checkExtraStartConditions(ServerLevel level, CrystalGolem body) {
         return !body.isLeashed();
     }
 
     @Override
-    protected boolean canStillUse(ServerLevel level, PathfinderMob body, long timestamp) {
+    protected boolean canStillUse(ServerLevel level, CrystalGolem body, long timestamp) {
         return body.getBrain().getMemory(MemoryModuleType.TRANSPORT_ITEMS_COOLDOWN_TICKS).isEmpty()
                 && !body.isPanicking()
                 && !body.isLeashed();
@@ -118,11 +111,11 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
     }
 
     @Override
-    protected void tick(ServerLevel level, PathfinderMob body, long timestamp) {
+    protected void tick(ServerLevel level, CrystalGolem body, long timestamp) {
         boolean updatedInvalidTarget = this.updateInvalidTarget(level, body);
         if (this.target == null) {
             this.stop(level, body, timestamp);
-        } else if (!updatedInvalidTarget) {
+        } else if (updatedInvalidTarget) {
             if (this.state.equals(TransportItemsBetweenContainers.TransportItemState.QUEUING)) {
                 this.onQueuingForTarget(this.target, level, body);
             }
@@ -137,7 +130,15 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
         }
     }
 
-    private boolean updateInvalidTarget(ServerLevel level, PathfinderMob body) {
+    @Override
+    protected void stop(ServerLevel level, CrystalGolem body, long timestamp) {
+        this.onStartTravelling(body);
+        if (body.getNavigation() instanceof GroundPathNavigation pathNavigation) {
+            pathNavigation.setCanPathToTargetsBelowSurface(false);
+        }
+    }
+
+    private boolean updateInvalidTarget(ServerLevel level, CrystalGolem body) {
         if (!this.hasValidTarget(level, body)) {
             this.stopTargetingCurrentTarget(body);
             Optional<TransportItemTarget> targetBlockPosition = this.getTransportTarget(level, body);
@@ -145,18 +146,18 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
             if (targetBlockPosition.isPresent()) {
                 this.target = targetBlockPosition.get();
                 this.onStartTravelling(body);
-                this.setVisitedBlockPos(body, level, this.target.pos, this.target.face);
+                this.setVisitedBlockPos(body, new GlobalPosDirection(level.dimension(), this.target.blockPos(), this.target.face()));
             } else {
                 this.enterCooldownAfterNoMatchingTargetFound(body);
             }
 
-            return true;
-        } else {
             return false;
+        } else {
+            return true;
         }
     }
 
-    private boolean hasValidTarget(Level level, PathfinderMob body) {
+    private boolean hasValidTarget(Level level, CrystalGolem body) {
         boolean targetIsOfValidType = this.target != null && this.isWantedBlock(body, this.target) && this.targetHasNotChanged(level, this.target);
         if (targetIsOfValidType && !this.isTargetBlocked(level, this.target)) {
             if (!this.state.equals(TransportItemsBetweenContainers.TransportItemState.TRAVELLING)) {
@@ -167,61 +168,25 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
                 return true;
             }
 
-            this.markVisitedBlockPosAsUnreachable(body, level, this.target.pos, this.target.face);
+            this.markVisitedBlockPosAsUnreachable(body, level, this.target.blockPos, this.target.face);
         }
 
         return false;
     }
 
-    private boolean isWantedBlock(PathfinderMob mob, TransportItemTarget target) {
+    private boolean isWantedBlock(CrystalGolem mob, TransportItemTarget target) {
         return canPickUpItems(mob) ? this.sourceBlockType.get().test(target) : this.destinationBlockType.get().test(target);
     }
 
     private boolean targetHasNotChanged(Level level, TransportItemTarget target) {
-        return target.blockEntity.equals(level.getBlockEntity(target.pos));
+        return target.blockEntity.equals(level.getBlockEntity(target.blockPos));
     }
 
     private boolean isTargetBlocked(Level level, TransportItemTarget target) {
-        return ChestBlock.isChestBlockedAt(level, target.pos);
+        return ChestBlock.isChestBlockedAt(level, target.blockPos);
     }
 
-    private boolean hasValidTravellingPath(Level level, TransportItemTarget target, PathfinderMob body) {
-        Path path = body.getNavigation().getPath() == null ? body.getNavigation().createPath(target.pos, 0) : body.getNavigation().getPath();
-        Vec3 posFromWhichToReachTarget = this.getPositionToReachTargetFrom(path, body);
-        boolean canReachTarget = this.isWithinTargetDistance(getInteractionRange(body), target, level, body, posFromWhichToReachTarget);
-        boolean hasNotYetCreatedPathToTarget = path == null && !canReachTarget;
-        return hasNotYetCreatedPathToTarget || this.targetIsReachableFromPosition(level, canReachTarget, posFromWhichToReachTarget, target, body);
-    }
-
-    private Vec3 getPositionToReachTargetFrom(@Nullable Path path, PathfinderMob body) {
-        boolean haveNoValidPath = path == null || path.getEndNode() == null;
-        Vec3 bottomCenter = haveNoValidPath ? body.position() : Vec3.atBottomCenterOf(path.getEndNode().asBlockPos());
-        return this.setMiddleYPosition(body, bottomCenter);
-    }
-
-    private Vec3 setMiddleYPosition(PathfinderMob body, Vec3 pos) {
-        return pos.add(0.0, body.getBoundingBox().getYsize() / 2.0, 0.0);
-    }
-
-    private boolean isWithinTargetDistance(double distance, TransportItemTarget target, Level level, PathfinderMob body, Vec3 fromPos) {
-        AABB boundingBox = body.getBoundingBox();
-        AABB movedBoundBox = AABB.ofSize(fromPos, boundingBox.getXsize(), boundingBox.getYsize(), boundingBox.getZsize());
-        return target.state.getCollisionShape(level, target.pos).bounds().inflate(distance, 0.5, distance).move(target.pos).intersects(movedBoundBox);
-    }
-
-    private boolean targetIsReachableFromPosition(Level level, boolean canReachTarget, Vec3 pos, TransportItemTarget target, PathfinderMob body) {
-        return canReachTarget && this.canSeeAnyTargetSide(target, level, body, pos);
-    }
-
-    private boolean canSeeAnyTargetSide(TransportItemTarget target, Level level, PathfinderMob body, Vec3 eyePosition) {
-        Vec3 center = Vec3.atCenterOf(target.pos);
-        return Direction.stream()
-                .map(direction -> center.add(0.5 * direction.getStepX(), 0.5 * direction.getStepY(), 0.5 * direction.getStepZ()))
-                .map(hitTarget -> level.clip(new ClipContext(eyePosition, hitTarget, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, body)))
-                .anyMatch(hitResult -> hitResult.getType() == HitResult.Type.BLOCK && hitResult.getBlockPos().equals(target.pos));
-    }
-
-    private void onQueuingForTarget(TransportItemTarget target, Level level, PathfinderMob body) {
+    private void onQueuingForTarget(TransportItemTarget target, Level level, CrystalGolem body) {
         if (!this.isAnotherMobInteractingWithTarget(target, level)) {
             this.resumeTravelling(body);
         }
@@ -235,51 +200,41 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
     // Gets all chests if double chest
     private Stream<TransportItemTarget> getConnectedTargets(TransportItemTarget target, Level level) {
         if (target.state.getValueOrElse(ChestBlock.TYPE, ChestType.SINGLE) != ChestType.SINGLE) {
-            TransportItemTarget connectedTarget = TransportItemTarget.tryCreatePossibleTarget(ChestBlock.getConnectedBlockPos(target.pos, target.state), level, target.face());
+            TransportItemTarget connectedTarget = TransportItemTarget.tryCreatePossibleTarget(ChestBlock.getConnectedBlockPos(target.blockPos, target.state), level, target.face());
             return connectedTarget != null ? Stream.of(target, connectedTarget) : Stream.of(target);
         } else {
             return Stream.of(target);
         }
     }
 
-    private void resumeTravelling(PathfinderMob body) {
+    private void resumeTravelling(CrystalGolem body) {
         this.setTransportingState(TransportItemsBetweenContainers.TransportItemState.TRAVELLING);
-        this.walkTowardsTarget(body);
-    }
-
-    private void walkTowardsTarget(PathfinderMob body) {
-        if (this.target != null) {
-            BehaviorUtils.setWalkAndLookTargetMemories(body, this.target.pos, this.speedModifier, 0);
-        }
+        this.walkTowardsTarget(body, this.target);
     }
 
     private void setTransportingState(TransportItemsBetweenContainers.TransportItemState state) {
         this.state = state;
     }
 
-    protected void onTravelToTarget(TransportItemTarget target, Level level, PathfinderMob body) {
+    protected void onTravelToTarget(TransportItemTarget target, Level level, CrystalGolem body) {
         if (this.isWithinTargetDistance(3.0, target, level, body, this.getCenterPos(body)) && this.isAnotherMobInteractingWithTarget(target, level)) {
-            // If it is in range but the chest is now taken, the requeue?
+            // If it is in range but the chest is now taken, then requeue?
             this.startQueuing(body);
-        } else if (this.isWithinTargetDistance(getInteractionRange(body), target, level, body, this.getCenterPos(body))) {
+        } else if (this.isWithinTargetDistance(body.getInteractionRange(), target, level, body, this.getCenterPos(body))) {
             // Do target action
             this.startOnReachedTargetInteraction(target, body);
         } else {
             // Keep walking
-            this.walkTowardsTarget(body);
+            this.walkTowardsTarget(body, this.target);
         }
     }
 
-    private Vec3 getCenterPos(PathfinderMob body) {
-        return this.setMiddleYPosition(body, body.position());
-    }
-
-    private void startQueuing(PathfinderMob body) {
+    private void startQueuing(CrystalGolem body) {
         this.stopInPlace(body);
         this.setTransportingState(TransportItemsBetweenContainers.TransportItemState.QUEUING);
     }
 
-    private void stopInPlace(PathfinderMob mob) {
+    private void stopInPlace(CrystalGolem mob) {
         mob.getNavigation().stop();
         mob.setXxa(0.0F);
         mob.setYya(0.0F);
@@ -287,7 +242,7 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
         mob.setDeltaMovement(0.0, mob.getDeltaMovement().y, 0.0);
     }
 
-    private void startOnReachedTargetInteraction(TransportItemTarget target, PathfinderMob body) {
+    private void startOnReachedTargetInteraction(TransportItemTarget target, CrystalGolem body) {
         this.doReachedTargetInteraction(body, target,
                 this.onReachedInteraction(TransportItemsBetweenContainers.ContainerInteractionState.PICKUP_ITEM),
                 this.onReachedInteraction(TransportItemsBetweenContainers.ContainerInteractionState.PICKUP_NO_ITEM),
@@ -297,15 +252,15 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
         this.setTransportingState(TransportItemsBetweenContainers.TransportItemState.INTERACTING);
     }
 
-    private BiConsumer<PathfinderMob, ResourceHandler<ItemResource>> onReachedInteraction(TransportItemsBetweenContainers.ContainerInteractionState state) {
+    private BiConsumer<CrystalGolem, ResourceHandler<ItemResource>> onReachedInteraction(TransportItemsBetweenContainers.ContainerInteractionState state) {
         return (mob, handler) -> this.setInteractionState(state);
     }
 
-    private void doReachedTargetInteraction(PathfinderMob body, TransportItemTarget target,
-                                            BiConsumer<PathfinderMob, ResourceHandler<ItemResource>> onPickupSuccess,
-                                            BiConsumer<PathfinderMob, ResourceHandler<ItemResource>> onPickupFailure,
-                                            BiConsumer<PathfinderMob, ResourceHandler<ItemResource>> onPlaceSuccess,
-                                            BiConsumer<PathfinderMob, ResourceHandler<ItemResource>> onPlaceFailure) {
+    private void doReachedTargetInteraction(CrystalGolem body, TransportItemTarget target,
+                                            BiConsumer<CrystalGolem, ResourceHandler<ItemResource>> onPickupSuccess,
+                                            BiConsumer<CrystalGolem, ResourceHandler<ItemResource>> onPickupFailure,
+                                            BiConsumer<CrystalGolem, ResourceHandler<ItemResource>> onPlaceSuccess,
+                                            BiConsumer<CrystalGolem, ResourceHandler<ItemResource>> onPlaceFailure) {
         if (canPickUpItems(body)) {
             if (matchesGettingItemsRequirement(target.handler)) {
                 onPickupSuccess.accept(body, target.handler);
@@ -324,32 +279,27 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
     }
 
     // TODO: If specific blocks are chosen, don't care about matching items
-    private static boolean matchesLeavingItemsRequirement(PathfinderMob body, ResourceHandler<ItemResource> handler) {
+    private static boolean matchesLeavingItemsRequirement(CrystalGolem body, ResourceHandler<ItemResource> handler) {
         return ResourceHandlerUtil.isEmpty(handler) || hasItemMatchingHandItem(body, handler);
     }
 
     // TODO: Match all items, not just hand?
-    private static boolean hasItemMatchingHandItem(PathfinderMob body, ResourceHandler<ItemResource> handler) {
+    private static boolean hasItemMatchingHandItem(CrystalGolem body, ResourceHandler<ItemResource> handler) {
         ItemStack mainHandItem = body.getMainHandItem();
 
         return ResourceHandlerUtil.contains(handler, ItemResource.of(mainHandItem));
     }
 
-    private static boolean canPickUpItems(PathfinderMob body) {
+    private static boolean canPickUpItems(CrystalGolem body) {
         // TODO: Mob handler to check if there is space
         return body.getMainHandItem().isEmpty();
-    }
-
-    private static double getInteractionRange(PathfinderMob body) {
-        // TODO: Could increase this
-        return body.getNavigation().getPath() != null && body.getNavigation().getPath().isDone() ? 1.0 : 0.5;
     }
 
     private void setInteractionState(TransportItemsBetweenContainers.ContainerInteractionState state) {
         this.interactionState = state;
     }
 
-    private void onReachedTarget(TransportItemTarget target, Level level, PathfinderMob body) {
+    private void onReachedTarget(TransportItemTarget target, Level level, CrystalGolem body) {
         if (!this.isWithinTargetDistance(2.0, target, level, body, this.getCenterPos(body))) {
             this.onStartTravelling(body);
         } else {
@@ -369,15 +319,15 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
         }
     }
 
-    private void onStartTravelling(PathfinderMob body) {
+    private void onStartTravelling(CrystalGolem body) {
         this.onStartTravelling.accept(body);
         this.setTransportingState(TransportItemsBetweenContainers.TransportItemState.TRAVELLING);
         this.interactionState = null;
         this.ticksSinceReachingTarget = 0;
     }
 
-    private void onTargetInteraction(TransportItemTarget target, PathfinderMob body) {
-        body.getBrain().setMemory(MemoryModuleType.LOOK_TARGET, new BlockPosTracker(target.pos));
+    private void onTargetInteraction(TransportItemTarget target, CrystalGolem body) {
+        body.getBrain().setMemory(MemoryModuleType.LOOK_TARGET, new BlockPosTracker(target.blockPos));
         this.stopInPlace(body);
         if (this.interactionState != null) {
             Optional.ofNullable(this.onTargetInteractionActions.get(this.interactionState))
@@ -386,15 +336,14 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
     }
 
     // TODO: All Items
-    private void pickUpItems(PathfinderMob body, ResourceHandler<ItemResource> handler) {
-        body.setItemSlot(EquipmentSlot.MAINHAND, pickupItemFromContainer(handler));
-        body.setGuaranteedDrop(EquipmentSlot.MAINHAND);
+    private void pickUpItems(CrystalGolem body, ResourceHandler<ItemResource> handler) {
+        body.addToInventory(pickupItemFromContainer(handler));
         this.clearMemoriesAfterMatchingTargetFound(body);
     }
 
     private static ItemStack pickupItemFromContainer(ResourceHandler<ItemResource> handler) {
         try (Transaction tx = Transaction.openRoot()) {
-            // TODO: Increase stack size
+            // TODO: Increase stack size and stack count
             ResourceStack<ItemResource> result = ResourceHandlerUtil.extractFirst(handler, Predicates.alwaysTrue(), 16, tx);
             tx.commit();
             if (result != null && !result.isEmpty()) {
@@ -405,25 +354,26 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
         return ItemStack.EMPTY;
     }
 
-    protected void clearMemoriesAfterMatchingTargetFound(PathfinderMob body) {
+    protected void clearMemoriesAfterMatchingTargetFound(CrystalGolem body) {
         this.stopTargetingCurrentTarget(body);
         body.getBrain().eraseMemory(ModRegistration.VISITED_BLOCK_POSITIONS.get());
         body.getBrain().eraseMemory(ModRegistration.UNREACHABLE_TRANSPORT_BLOCK_POSITIONS.get());
     }
 
-    protected void stopTargetingCurrentTarget(PathfinderMob body) {
+    @Override
+    public void stopTargetingCurrentTarget(CrystalGolem body) {
         this.ticksSinceReachingTarget = 0;
         this.target = null;
         body.getNavigation().stop();
         body.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
     }
 
-    private void putDownItem(PathfinderMob body, ResourceHandler<ItemResource> handler) {
+    private void putDownItem(CrystalGolem body, ResourceHandler<ItemResource> handler) {
         LevelableEntity levelableEntity = LevelableEntity.of(body, body.level().registryAccess());
 
         ItemStack itemsLeftAfterVisitingChest = addItemsToContainer(body, handler, levelableEntity);
+        body.setInventory(List.of(itemsLeftAfterVisitingChest));
 
-        body.setItemSlot(EquipmentSlot.MAINHAND, itemsLeftAfterVisitingChest);
         if (itemsLeftAfterVisitingChest.isEmpty()) {
             this.clearMemoriesAfterMatchingTargetFound(body);
         } else {
@@ -431,7 +381,7 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
         }
     }
 
-    private static ItemStack addItemsToContainer(PathfinderMob body, ResourceHandler<ItemResource> handler, @Nullable LevelableEntity levelableEntity) {
+    private static ItemStack addItemsToContainer(CrystalGolem body, ResourceHandler<ItemResource> handler, @Nullable LevelableEntity levelableEntity) {
         // TODO: More items
         ItemStack itemStack = body.getMainHandItem();
         int inserted = ResourceHandlerUtil.insertStacking(handler, ItemResource.of(itemStack), itemStack.count(), null);
@@ -447,7 +397,7 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
         }
     }
 
-    private Optional<TransportItemTarget> getTransportTarget(ServerLevel level, PathfinderMob body) {
+    private Optional<TransportItemTarget> getTransportTarget(ServerLevel level, CrystalGolem body) {
         AABB targetBlockSearchArea = this.getTargetSearchArea(body);
         Set<GlobalPosDirection> visitedPositions = getVisitedPositions(body);
         Set<GlobalPosDirection> unreachablePositions = getUnreachablePositions(body);
@@ -462,7 +412,6 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
                 for (BlockEntity potentialTarget : levelChunk.getBlockEntities().values()) {
                     double distance = potentialTarget.getBlockPos().distToCenterSqr(body.position());
                     if (distance < closestDistance) {
-                        // TODO: Loop over directions here
                         for (Direction direction : Direction.values()) {
                             TransportItemTarget targetValidToPick = this.isTargetValidToPick(body, level, potentialTarget, visitedPositions, unreachablePositions, targetBlockSearchArea, direction);
 
@@ -480,28 +429,7 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
         return target == null ? Optional.empty() : Optional.of(target);
     }
 
-    private AABB getTargetSearchArea(PathfinderMob mob) {
-        int horizontalSearchDistance = this.getHorizontalSearchDistance(mob);
-        return new AABB(mob.blockPosition()).inflate(horizontalSearchDistance, this.getVerticalSearchDistance(mob), horizontalSearchDistance);
-    }
-
-    private int getHorizontalSearchDistance(PathfinderMob mob) {
-        return mob.isPassenger() ? 1 : this.horizontalSearchDistance;
-    }
-
-    private int getVerticalSearchDistance(PathfinderMob mob) {
-        return mob.isPassenger() ? 1 : this.verticalSearchDistance;
-    }
-
-    private static Set<GlobalPosDirection> getVisitedPositions(PathfinderMob mob) {
-        return mob.getBrain().getMemory(ModRegistration.VISITED_BLOCK_POSITIONS.get()).orElse(Set.of());
-    }
-
-    private static Set<GlobalPosDirection> getUnreachablePositions(PathfinderMob mob) {
-        return mob.getBrain().getMemory(ModRegistration.UNREACHABLE_TRANSPORT_BLOCK_POSITIONS.get()).orElse(Set.of());
-    }
-
-    private @Nullable TransportItemTarget isTargetValidToPick(PathfinderMob body, Level level,
+    private @Nullable TransportItemTarget isTargetValidToPick(CrystalGolem body, Level level,
                                                               BlockEntity blockEntity, Set<GlobalPosDirection> visitedPositions,
                                                               Set<GlobalPosDirection> unreachablePositions,
                                                               AABB targetBlockSearchArea, Direction face) {
@@ -525,7 +453,7 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
     private boolean isPositionAlreadyVisited(Set<GlobalPosDirection> visitedPositions, Set<GlobalPosDirection> unreachablePositions,
                                              TransportItemTarget target, Level level) {
         return this.getConnectedTargets(target, level)
-                .map(transportItemTarget -> new GlobalPosDirection(level.dimension(), transportItemTarget.pos, transportItemTarget.face))
+                .map(transportItemTarget -> new GlobalPosDirection(level.dimension(), transportItemTarget.blockPos, transportItemTarget.face))
                 .anyMatch(pos -> visitedPositions.contains(pos) || unreachablePositions.contains(pos));
     }
 
@@ -533,25 +461,7 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
         return transportItemTarget.blockEntity instanceof BaseContainerBlockEntity blockEntity && blockEntity.isLocked();
     }
 
-    protected void setVisitedBlockPos(PathfinderMob body, Level level, BlockPos target, Direction face) {
-        Set<GlobalPosDirection> visitedPositions = new HashSet<>(getVisitedPositions(body));
-        visitedPositions.add(new GlobalPosDirection(level.dimension(), target, face));
-        if (visitedPositions.size() > 10) {
-            this.enterCooldownAfterNoMatchingTargetFound(body);
-        } else {
-            body.getBrain().setMemoryWithExpiry(ModRegistration.VISITED_BLOCK_POSITIONS.get(), visitedPositions, 6000L);
-        }
-    }
-
-    private void enterCooldownAfterNoMatchingTargetFound(PathfinderMob body) {
-        this.stopTargetingCurrentTarget(body);
-        // TODO: Something to increase?
-        body.getBrain().setMemory(MemoryModuleType.TRANSPORT_ITEMS_COOLDOWN_TICKS, 140);
-        body.getBrain().eraseMemory(ModRegistration.VISITED_BLOCK_POSITIONS.get());
-        body.getBrain().eraseMemory(ModRegistration.UNREACHABLE_TRANSPORT_BLOCK_POSITIONS.get());
-    }
-
-    protected void markVisitedBlockPosAsUnreachable(PathfinderMob body, Level level, BlockPos target, Direction face) {
+    protected void markVisitedBlockPosAsUnreachable(CrystalGolem body, Level level, BlockPos target, Direction face) {
         Set<GlobalPosDirection> visitedPositions = new HashSet<>(getVisitedPositions(body));
         visitedPositions.remove(new GlobalPosDirection(level.dimension(), target, face));
         Set<GlobalPosDirection> unreachablePositions = new HashSet<>(getUnreachablePositions(body));
@@ -559,19 +469,32 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
         if (unreachablePositions.size() > 50) {
             this.enterCooldownAfterNoMatchingTargetFound(body);
         } else {
-            body.getBrain().setMemoryWithExpiry(ModRegistration.VISITED_BLOCK_POSITIONS.get(), visitedPositions, 6000L);
-            body.getBrain().setMemoryWithExpiry(ModRegistration.UNREACHABLE_TRANSPORT_BLOCK_POSITIONS.get(), unreachablePositions, 6000L);
+            body.getBrain().setMemoryWithExpiry(visitedMemoryModule(), visitedPositions, 6000L);
+            body.getBrain().setMemoryWithExpiry(unreachableMemoryModule(), unreachablePositions, 6000L);
         }
     }
 
-
-    @FunctionalInterface
-    public interface OnTargetReachedInteraction extends TriConsumer<PathfinderMob, TransportItemTarget, Integer> {
+    @Override
+    public MemoryModuleType<Set<GlobalPosDirection>> visitedMemoryModule() {
+        return ModRegistration.VISITED_BLOCK_POSITIONS.get();
     }
 
-    // TODO: Face somehow
-    public record TransportItemTarget(BlockPos pos, ResourceHandler<ItemResource> handler, BlockEntity blockEntity,
-                                      BlockState state, Direction face) {
+    @Override
+    public MemoryModuleType<Set<GlobalPosDirection>> unreachableMemoryModule() {
+        return ModRegistration.UNREACHABLE_TRANSPORT_BLOCK_POSITIONS.get();
+    }
+
+    @Override
+    public MemoryModuleType<Integer> cooldownMemoryModule() {
+        return MemoryModuleType.TRANSPORT_ITEMS_COOLDOWN_TICKS;
+    }
+
+    @FunctionalInterface
+    public interface OnTargetReachedInteraction extends TriConsumer<CrystalGolem, TransportItemTarget, Integer> {
+    }
+
+    public record TransportItemTarget(BlockPos blockPos, ResourceHandler<ItemResource> handler, BlockEntity blockEntity,
+                                      BlockState state, Direction face) implements CrystalGolemTarget {
         public static @Nullable TransportItemTarget tryCreatePossibleTarget(BlockEntity blockEntity, Level level, Direction face) {
             BlockPos blockPos = blockEntity.getBlockPos();
             BlockState blockState = blockEntity.getBlockState();
@@ -583,6 +506,11 @@ public class TransportItemsBetweenHandlers extends Behavior<PathfinderMob> {
         public static @Nullable TransportItemTarget tryCreatePossibleTarget(BlockPos blockPos, Level level, Direction face) {
             BlockEntity blockEntity = level.getBlockEntity(blockPos);
             return blockEntity == null ? null : tryCreatePossibleTarget(blockEntity, level, face);
+        }
+
+        @Override
+        public AABB bounds(Level level) {
+            return state.getCollisionShape(level, blockPos).bounds();
         }
     }
 

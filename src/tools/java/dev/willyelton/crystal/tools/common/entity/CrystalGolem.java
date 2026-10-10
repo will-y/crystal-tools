@@ -8,10 +8,12 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraft.world.entity.animal.golem.AbstractGolem;
 import net.minecraft.world.entity.animal.golem.CopperGolem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -24,7 +26,7 @@ import java.util.Set;
 import static dev.willyelton.crystal.core.utils.ListUtils.firstN;
 
 public class CrystalGolem extends CopperGolem {
-    private static final Brain.Provider<CopperGolem> BRAIN_PROVIDER = Brain.provider(
+    private static final Brain.Provider<CrystalGolem> BRAIN_PROVIDER = Brain.provider(
             List.of(SensorType.NEAREST_LIVING_ENTITIES, SensorType.HURT_BY), CrystalGolemAi::getActivities);
 
     private static final EntityDataAccessor<List<BlockPosDirection>> SOURCE_POSITIONS = SynchedEntityData.defineId(
@@ -50,8 +52,9 @@ public class CrystalGolem extends CopperGolem {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     protected Brain<CopperGolem> makeBrain(Brain.Packed packedBrain) {
-        return BRAIN_PROVIDER.makeBrain(this, packedBrain);
+        return (Brain<CopperGolem>) ((Brain<?>) BRAIN_PROVIDER.makeBrain(this, packedBrain));
     }
 
     @Override
@@ -82,6 +85,52 @@ public class CrystalGolem extends CopperGolem {
         this.entityData.set(DESTINATION_POSITIONS, positionsToAdd);
 
         return positionsToAdd.size();
+    }
+
+    // TODO: Multiple items
+    public List<ItemStack> getInventory() {
+        return List.of(this.getItemBySlot(EquipmentSlot.MAINHAND));
+    }
+
+    // TODO: Options here. 1: update renderer to use inventory? or 2: always make sure there is an item in the main hand
+    public ItemStack addToInventory(ItemStack stack) {
+        ItemStack mainHandStack = this.getItemBySlot(EquipmentSlot.MAINHAND);
+        if (mainHandStack.isEmpty() || ItemStack.isSameItemSameComponents(mainHandStack, stack)) {
+            int totalCount = stack.count() + mainHandStack.count();
+
+            ItemStack newMainHandStack = new ItemStack(stack.getItem());
+
+            if (totalCount > stack.getMaxStackSize()) {
+                stack.setCount(totalCount - stack.getMaxStackSize());
+                newMainHandStack.setCount(stack.getMaxStackSize());
+            } else {
+                stack.setCount(0);
+                newMainHandStack.setCount(totalCount);
+            }
+
+            this.setItemSlot(EquipmentSlot.MAINHAND, newMainHandStack);
+            setGuaranteedDrop(EquipmentSlot.MAINHAND);
+        }
+
+        if (stack.isEmpty()) {
+            return ItemStack.EMPTY;
+        } else {
+            return stack;
+        }
+    }
+
+    public void setInventory(List<ItemStack> stacks) {
+        this.setItemSlot(EquipmentSlot.MAINHAND, stacks.getFirst());
+    }
+
+    public boolean canAcceptStack(ItemStack stack) {
+        return getMainHandItem().isEmpty() || (ItemStack.isSameItem(getMainHandItem(), stack)
+                && getMainHandItem().getMaxStackSize() > getMainHandItem().count());
+    }
+
+    // TODO: Increase
+    public double getInteractionRange() {
+        return getNavigation().getPath() != null && getNavigation().getPath().isDone() ? 1.0 : 0.5;
     }
 
     private @Nullable LevelableEntity getLevelableEntity() {

@@ -224,6 +224,8 @@ public class ModRegistration {
             () -> new MemoryModuleType<>(Optional.of(TransportItemsBetweenHandlers.GlobalPosDirection.CODEC.listOf().xmap(Sets::newHashSet, Lists::newArrayList))));
     public static final DeferredHolder<MemoryModuleType<?>, MemoryModuleType<Set<TransportItemsBetweenHandlers.GlobalPosDirection>>> UNREACHABLE_TRANSPORT_BLOCK_POSITIONS = MEMORY_MODULE_TYPES.register("unreachable_block_position_directions",
             () -> new MemoryModuleType<>(Optional.of(TransportItemsBetweenHandlers.GlobalPosDirection.CODEC.listOf().xmap(Sets::newHashSet, Lists::newArrayList))));
+    public static final DeferredHolder<MemoryModuleType<?>, MemoryModuleType<Integer>> PICKUP_ITEMS_COOLDOWN_TICKS = MEMORY_MODULE_TYPES.register("pickup_items_cooldown_ticks",
+            () -> new MemoryModuleType<>(Optional.of(Codec.INT)));
 
     // Creative Tabs
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> TAB = TABS.register("crystal_tools_tab", () ->
