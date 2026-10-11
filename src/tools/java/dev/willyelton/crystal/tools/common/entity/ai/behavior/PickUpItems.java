@@ -1,8 +1,10 @@
 package dev.willyelton.crystal.tools.common.entity.ai.behavior;
 
 import com.google.common.collect.ImmutableMap;
+import dev.willyelton.crystal.core.common.capability.LevelableEntity;
 import dev.willyelton.crystal.tools.ModRegistration;
 import dev.willyelton.crystal.tools.common.entity.CrystalGolem;
+import dev.willyelton.crystal.tools.utils.constants.EntitySkills;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.server.level.ServerLevel;
@@ -47,7 +49,8 @@ public class PickUpItems extends CrystalGolemBehavior<GlobalPos> {
 
     @Override
     protected boolean checkExtraStartConditions(ServerLevel level, CrystalGolem body) {
-        return !body.isLeashed();
+        LevelableEntity levelable = LevelableEntity.of(body, level.registryAccess());
+        return !body.isLeashed() && levelable != null && levelable.getEntitySkillData().hasSkill(EntitySkills.ITEM_PICKUP);
     }
 
     @Override

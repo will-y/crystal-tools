@@ -13,6 +13,7 @@ public class EntitySkills {
     // Golem
     public static Identifier SOURCE_SELECTION = rl("source_selection");
     public static Identifier DESTINATION_SELECTION = rl("destination_selection");
+    public static Identifier ITEM_PICKUP = rl("item_pickup");
 
     // Shared
     public static Identifier IMMORTALITY = rl("immortality");

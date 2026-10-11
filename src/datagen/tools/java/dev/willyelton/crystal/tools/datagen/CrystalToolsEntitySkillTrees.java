@@ -99,6 +99,7 @@ public class CrystalToolsEntitySkillTrees {
                 .nodeRequirement(0)
                 .infiniteEntityDataNode(2, entityDestinations(1), desc.entityDestinations(), EntitySkills.DESTINATION_SELECTION, 1)
                 .nodeRequirement(0)
+                .entityDataNode(3, entityPickUpItems(1), desc.entityPickUpItems(), EntitySkills.ITEM_PICKUP, 1)
                 .build();
     }
 }

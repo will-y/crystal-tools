@@ -58,6 +58,20 @@
           ],
           "value": 1.0
         }
+      },
+      {
+        "type": "crystal_core:entity_data",
+        "node": {
+          "description": "Allows your Crystal Golem to pick items up off of the ground",
+          "id": 3,
+          "key": [
+            "crystal_tools:item_pickup"
+          ],
+          "limit": 1,
+          "name": "Pick Up Items I",
+          "requirements": [],
+          "value": 1.0
+        }
       }
     ]
   ]

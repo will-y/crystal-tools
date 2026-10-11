@@ -394,4 +394,8 @@ public class SkillTreeDescriptions {
     public String entityDestinations() {
         return String.format("Allows your %s to choose specific block faces to place items into", toolName);
     }
+
+    public String entityPickUpItems() {
+        return String.format("Allows your %s to pick items up off of the ground", toolName);
+    }
 }

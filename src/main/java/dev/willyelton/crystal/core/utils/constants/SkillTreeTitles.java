@@ -271,12 +271,16 @@ public class SkillTreeTitles {
         return getName("Destination Selection", level);
     }
 
+    public static String entityPickUpItems(int level) {
+        return getName("Pick Up Items", level);
+    }
+
     private static String getName(String title, int level) {
         if (level == 0) {
             return "Infinite " + title;
         }
 
-        return String.format(title + " %s", intToRomanNumeral(level));
+        return String.format("%s %s", title, intToRomanNumeral(level));
     }
 
     public static String intToRomanNumeral(int number) {
