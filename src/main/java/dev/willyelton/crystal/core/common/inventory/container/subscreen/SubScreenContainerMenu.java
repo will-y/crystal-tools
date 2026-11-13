@@ -2,6 +2,7 @@ package dev.willyelton.crystal.core.common.inventory.container.subscreen;
 
 import dev.willyelton.crystal.core.common.inventory.container.SubScreenType;
 import dev.willyelton.crystal.core.common.network.model.BackpackAction;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 /**
  * Interface for container menus that can have subscreens

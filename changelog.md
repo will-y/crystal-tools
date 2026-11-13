@@ -1,6 +1,9 @@
 # Crystal Tools Change Log
 ## 26.2.0.2
 - Fixes mode switching not working
+- Fixes not getting experience when taking items out of a crystal furnace
+- Fixes GUIs not having the transparent black backgrounds
+- Fixes the energy bar texture being missing in the generator and quarry
 
 ## 26.2.0.1
 - Fixes a crash on dedicated servers

@@ -1,4 +1,7 @@
 # Crystal Core Change Log
+## 26.2.1.0
+- Correctly adds mode switching
+
 ## 26.2.0.2
 - Adds an overload to open an entity screen in `ScreenUtils` to prevent the server loading a client class
 

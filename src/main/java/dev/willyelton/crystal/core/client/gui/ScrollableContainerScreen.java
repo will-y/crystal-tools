@@ -106,6 +106,7 @@ public abstract class ScrollableContainerScreen<T extends AbstractContainerMenu 
 
     @Override
     public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
         if (this.canScroll()) {
             int scrollXActual = leftPos + scrollX;
             int scrollYActual = topPos + scrollY;

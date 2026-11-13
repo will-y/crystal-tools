@@ -74,6 +74,7 @@ public class QuarrySettingsScreen extends ContainerSubScreen<CrystalQuarryContai
 
     @Override
     public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        this.extractTransparentBackground(guiGraphics);
         drawTopBar(guiGraphics);
 
         for (int i = 0; i < 6; i++) {
