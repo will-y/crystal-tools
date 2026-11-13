@@ -18,7 +18,7 @@ public class ModeSwitchPacketHandler {
     // TODO: Try offhand if main hand doesn't get handled
     public void handle(final ModeSwitchPayload payload, final IPayloadContext context) {
         Player player = context.player();
-        ItemStack stack = ItemStackUtils.getHeldLevelableTool(player);
+        ItemStack stack = player.getMainHandItem();
 
         if (tryHandle(player, stack, payload, true)) {
             return;
@@ -37,11 +37,9 @@ public class ModeSwitchPacketHandler {
     private static boolean tryHandle(Player player, ItemStack stack, ModeSwitchPayload payload, boolean isHeld) {
         SkillData skillData = RegistryUtils.getSkillData(stack, player.level().registryAccess());
 
-        if (skillData != null) {
-            for (ModeSwitchHandlerRegistry.ModeSwitchHandler handler : ModeSwitchHandlerRegistry.getModeSwitchHandlers()) {
-                if (handler.handle(player, stack, skillData, payload.hasShiftDown(), payload.hasCtrlDown(), payload.hasAltDown(), isHeld)) {
-                    return true;
-                }
+        for (ModeSwitchHandlerRegistry.ModeSwitchHandler handler : ModeSwitchHandlerRegistry.getModeSwitchHandlers()) {
+            if (handler.handle(player, stack, skillData, payload.hasShiftDown(), payload.hasCtrlDown(), payload.hasAltDown(), isHeld)) {
+                return true;
             }
         }
 

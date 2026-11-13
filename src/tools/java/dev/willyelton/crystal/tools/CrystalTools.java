@@ -11,6 +11,8 @@ import net.neoforged.fml.config.ModConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import static dev.willyelton.crystal.tools.common.compat.core.ModeSwitchHandlers.registerModeSwitchHandlers;
+
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(CrystalTools.MODID)
 public class CrystalTools {
@@ -24,6 +26,8 @@ public class CrystalTools {
         // Register configs
         container.registerConfig(ModConfig.Type.COMMON, CrystalToolsConfig.COMMON_CONFIG, "crystal_tools.toml");
         container.registerConfig(ModConfig.Type.SERVER, CrystalToolsServerConfig.SERVER_CONFIG, "crystal_tools-server.toml");
+
+        registerModeSwitchHandlers();
     }
 
     public static Identifier rl(String path) {

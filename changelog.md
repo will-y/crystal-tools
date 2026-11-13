@@ -1,5 +1,8 @@
 # Crystal Tools Change Log
-##  26.2.0.1
+## 26.2.0.2
+- Fixes mode switching not working
+
+## 26.2.0.1
 - Fixes a crash on dedicated servers
 
 ## 26.2.0.0
