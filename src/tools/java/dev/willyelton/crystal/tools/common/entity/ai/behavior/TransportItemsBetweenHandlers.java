@@ -5,8 +5,10 @@ import com.google.common.collect.ImmutableMap;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.willyelton.crystal.core.common.capability.LevelableEntity;
+import dev.willyelton.crystal.core.utils.TransferUtils;
 import dev.willyelton.crystal.tools.ModRegistration;
 import dev.willyelton.crystal.tools.common.entity.CrystalGolem;
+import dev.willyelton.crystal.tools.common.inventory.CrystalGolemItemStackHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
@@ -36,6 +38,7 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.ResourceHandlerUtil;
 import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import net.neoforged.neoforge.transfer.resource.ResourceStack;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.apache.commons.lang3.function.TriConsumer;
@@ -175,7 +178,7 @@ public class TransportItemsBetweenHandlers extends CrystalGolemBehavior<Transpor
     }
 
     private boolean isWantedBlock(CrystalGolem mob, TransportItemTarget target) {
-        return canPickUpItems(mob) ? this.sourceBlockType.get().test(target) : this.destinationBlockType.get().test(target);
+        return canPickUpItems(mob, target) ? this.sourceBlockType.get().test(target) : this.destinationBlockType.get().test(target);
     }
 
     private boolean targetHasNotChanged(Level level, TransportItemTarget target) {
@@ -291,8 +294,7 @@ public class TransportItemsBetweenHandlers extends CrystalGolemBehavior<Transpor
     }
 
     private static boolean canPickUpItems(CrystalGolem body) {
-        // TODO: Mob handler to check if there is space
-        return body.getMainHandItem().isEmpty();
+        return !body.getInventoryCapability().isFull();
     }
 
     private void setInteractionState(TransportItemsBetweenContainers.ContainerInteractionState state) {
@@ -335,23 +337,9 @@ public class TransportItemsBetweenHandlers extends CrystalGolemBehavior<Transpor
         }
     }
 
-    // TODO: All Items
     private void pickUpItems(CrystalGolem body, ResourceHandler<ItemResource> handler) {
-        body.addToInventory(pickupItemFromContainer(handler));
+        TransferUtils.moveAll(handler, body.getInventoryCapability(), Predicates.alwaysTrue());
         this.clearMemoriesAfterMatchingTargetFound(body);
-    }
-
-    private static ItemStack pickupItemFromContainer(ResourceHandler<ItemResource> handler) {
-        try (Transaction tx = Transaction.openRoot()) {
-            // TODO: Increase stack size and stack count
-            ResourceStack<ItemResource> result = ResourceHandlerUtil.extractFirst(handler, Predicates.alwaysTrue(), 16, tx);
-            tx.commit();
-            if (result != null && !result.isEmpty()) {
-                return result.resource().toStack(result.amount());
-            }
-        }
-
-        return ItemStack.EMPTY;
     }
 
     protected void clearMemoriesAfterMatchingTargetFound(CrystalGolem body) {
@@ -371,30 +359,25 @@ public class TransportItemsBetweenHandlers extends CrystalGolemBehavior<Transpor
     private void putDownItem(CrystalGolem body, ResourceHandler<ItemResource> handler) {
         LevelableEntity levelableEntity = LevelableEntity.of(body, body.level().registryAccess());
 
-        ItemStack itemsLeftAfterVisitingChest = addItemsToContainer(body, handler, levelableEntity);
-        body.setInventory(List.of(itemsLeftAfterVisitingChest));
+        boolean itemsLeftAfterVisitingChest = addItemsToContainer(body, handler, levelableEntity);
 
-        if (itemsLeftAfterVisitingChest.isEmpty()) {
+        // TODO: Not sure about this if there are leftovers
+        if (itemsLeftAfterVisitingChest) {
             this.clearMemoriesAfterMatchingTargetFound(body);
         } else {
             this.stopTargetingCurrentTarget(body);
         }
     }
 
-    private static ItemStack addItemsToContainer(CrystalGolem body, ResourceHandler<ItemResource> handler, @Nullable LevelableEntity levelableEntity) {
-        // TODO: More items
-        ItemStack itemStack = body.getMainHandItem();
-        int inserted = ResourceHandlerUtil.insertStacking(handler, ItemResource.of(itemStack), itemStack.count(), null);
+    private static boolean addItemsToContainer(CrystalGolem body, ResourceHandler<ItemResource> handler, @Nullable LevelableEntity levelableEntity) {
+        CrystalGolemItemStackHandler bodyHandler = body.getInventoryCapability();
+        int inserted = TransferUtils.moveAll(bodyHandler, handler, resource -> ResourceHandlerUtil.contains(handler, resource));
 
         if (levelableEntity != null) {
             levelableEntity.addExp(body.level(), body.getOnPos(), body, inserted);
         }
 
-        if (inserted == itemStack.count()) {
-            return ItemStack.EMPTY;
-        } else {
-            return itemStack.copyWithCount(itemStack.count() - inserted);
-        }
+        return !bodyHandler.isEmpty();
     }
 
     private Optional<TransportItemTarget> getTransportTarget(ServerLevel level, CrystalGolem body) {

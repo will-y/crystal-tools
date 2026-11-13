@@ -12,6 +12,7 @@ import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * My utils for the transfer rework
@@ -119,5 +120,36 @@ public class TransferUtils {
             handler.insert(index, handler.getResource(index), amount, tx);
             tx.commit();
         }
+    }
+
+    /// Moves all resources from `source` to `destination` that match `predicate`.
+    /// Items that do not fit remain in the `source` handler.
+    public static int moveAll(ResourceHandler<ItemResource> source, ResourceHandler<ItemResource> destinationHandler, Predicate<ItemResource> predicate) {
+        int countMoved = 0;
+        try (Transaction tx = Transaction.openRoot()) {
+            for (int i = 0; i < source.size(); i++) {
+                try (Transaction subTx = Transaction.open(tx)) {
+                    ItemStack stack = extractAllFromSlot(source, i, subTx);
+                    if (!stack.isEmpty()) {
+                        ItemResource resource = ItemResource.of(stack);
+                        if (predicate.test(resource)) {
+                            int initialCount = stack.getCount();
+                            int inserted = destinationHandler.insert(resource, stack.getCount(), subTx);
+
+                            if (inserted < initialCount) {
+                                source.insert(i, resource, initialCount - inserted, subTx);
+                            }
+
+                            countMoved += inserted;
+                            subTx.commit();
+                        }
+                    }
+                }
+            }
+
+            tx.commit();
+        }
+
+        return countMoved;
     }
 }

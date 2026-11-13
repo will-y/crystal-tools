@@ -3,6 +3,7 @@ package dev.willyelton.crystal.tools.common.capability;
 import dev.willyelton.crystal.tools.CrystalTools;
 import dev.willyelton.crystal.tools.ModRegistration;
 import dev.willyelton.crystal.tools.common.energy.CrystalEnergyStorage;
+import dev.willyelton.crystal.tools.common.entity.CrystalGolem;
 import dev.willyelton.crystal.tools.common.inventory.CrystalBackpackInventory;
 import dev.willyelton.crystal.tools.common.inventory.PortableGeneratorInventory;
 import dev.willyelton.crystal.tools.common.levelable.PortableGenerator;
@@ -73,5 +74,10 @@ public class RegisterCapabilitiesEvent {
                 Capabilities.Item.BLOCK,
                 ModRegistration.CRYSTAL_CHEST_BLOCK_ENTITY.get(),
                 CrystalChestBlockEntity::getItemHandlerCapForSide);
+
+        // Golem
+        event.registerEntity(Capabilities.Item.ENTITY,
+                ModRegistration.CRYSTAL_GOLEM_ENTITY.get(),
+                (e, _) -> e.getInventoryCapability());
     }
 }

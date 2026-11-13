@@ -3,6 +3,7 @@ package dev.willyelton.crystal.tools.common.entity;
 import dev.willyelton.crystal.core.common.capability.LevelableEntity;
 import dev.willyelton.crystal.tools.ModRegistration;
 import dev.willyelton.crystal.tools.common.entity.ai.CrystalGolemAi;
+import dev.willyelton.crystal.tools.common.inventory.CrystalGolemItemStackHandler;
 import dev.willyelton.crystal.tools.utils.constants.EntitySkills;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -13,10 +14,12 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraft.world.entity.animal.golem.AbstractGolem;
 import net.minecraft.world.entity.animal.golem.CopperGolem;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import org.jspecify.annotations.Nullable;
 
 import java.util.HashSet;
@@ -35,9 +38,12 @@ public class CrystalGolem extends CopperGolem {
             CrystalGolem.class, ModRegistration.BLOCK_POSITION_DIRECTION_SERIALIZER.get());
 
     private @Nullable LevelableEntity levelableEntity;
+    private final CrystalGolemItemStackHandler itemStackHandler;
 
     public CrystalGolem(EntityType<? extends AbstractGolem> type, Level level) {
         super(type, level);
+
+        itemStackHandler = new CrystalGolemItemStackHandler(1, 16);
     }
 
     @Override
@@ -87,9 +93,12 @@ public class CrystalGolem extends CopperGolem {
         return positionsToAdd.size();
     }
 
-    // TODO: Multiple items
-    public List<ItemStack> getInventory() {
-        return List.of(this.getItemBySlot(EquipmentSlot.MAINHAND));
+    public CrystalGolemItemStackHandler getInventoryCapability() {
+        return itemStackHandler;
+    }
+
+    public ItemStack firstItem() {
+        return itemStackHandler.firstItem();
     }
 
     // TODO: Options here. 1: update renderer to use inventory? or 2: always make sure there is an item in the main hand
@@ -119,6 +128,7 @@ public class CrystalGolem extends CopperGolem {
         }
     }
 
+    // TODO: Shouldn't need this
     public void setInventory(List<ItemStack> stacks) {
         this.setItemSlot(EquipmentSlot.MAINHAND, stacks.getFirst());
     }
@@ -165,6 +175,8 @@ public class CrystalGolem extends CopperGolem {
 
         output.store("source_positions", BlockPosDirection.CODEC.listOf(), this.getSourcePositions().stream().toList());
         output.store("destination_positions", BlockPosDirection.CODEC.listOf(), this.getDestinationPositions().stream().toList());
+
+        itemStackHandler.serialize(output);
     }
 
     @Override
@@ -173,5 +185,7 @@ public class CrystalGolem extends CopperGolem {
 
         this.setSourcePositions(input.read("source_positions", BlockPosDirection.CODEC.listOf()).orElse(List.of()));
         this.setDestinationPositions(input.read("destination_positions", BlockPosDirection.CODEC.listOf()).orElse(List.of()));
+
+        itemStackHandler.deserialize(input);
     }
 }
