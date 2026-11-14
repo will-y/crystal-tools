@@ -106,19 +106,19 @@ public class ListComponentItemHandler extends ItemAccessResourceHandler<ItemReso
         // This causes it to mostly work
         List<ItemContainerContents> result = update(ItemResource.of(stack), index, resource, amount).get(this.component);
         stack.set(this.component, result);
-        CrystalTools.LOGGER.info("Setting stack in" + stack + " to " + resource + " with amount " + amount);
+        CrystalTools.LOGGER.debug("Setting stack in {} to {} with amount {} ", stack, resource, amount);
 
         // This updates the actual stack in the ItemAccess
         try (Transaction tx = Transaction.open(null)) {
             ItemResource extractedResource = this.getResource(index);
             if (!extractedResource.isEmpty()) {
                 int extracted = this.extract(index, extractedResource, this.getCapacity(index, extractedResource), tx);
-                CrystalTools.LOGGER.info("Extracted " + extracted + " of " + extractedResource);
+                CrystalTools.LOGGER.debug("Extracted {} of {}",extracted, extractedResource);
             }
 
             if (!resource.isEmpty()) {
                 int inserted = this.insert(index, resource, amount, tx);
-                CrystalTools.LOGGER.info("Inserted " + inserted + " of " + resource);
+                CrystalTools.LOGGER.debug("Inserted {} of {}", inserted, resource);
             }
 
             tx.commit();

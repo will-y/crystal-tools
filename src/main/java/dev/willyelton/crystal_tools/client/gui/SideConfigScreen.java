@@ -60,6 +60,7 @@ public class SideConfigScreen<T extends BaseContainerMenu & SideConfigContainerM
 
     @Override
     public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
         drawTopBar(guiGraphics);
 
         for (int i = 0; i < 6; i++) {

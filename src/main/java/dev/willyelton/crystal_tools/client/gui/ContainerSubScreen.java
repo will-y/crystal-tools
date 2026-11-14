@@ -31,6 +31,7 @@ public abstract class ContainerSubScreen<T extends BaseContainerMenu & SubScreen
 
     @Override
     public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
         int containerRows = getContainerRows();
         // Either filter rows or compression rows
         int contentRows = getRowsToDraw();

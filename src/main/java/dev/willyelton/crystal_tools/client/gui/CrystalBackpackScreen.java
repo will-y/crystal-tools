@@ -60,6 +60,7 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
 
     @Override
     public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
         int rowsToDraw = getDisplayRows();
 
         // Backpack top bar
@@ -72,8 +73,6 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
 
         // Player inventory
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, topPos + TOP_BAR_HEIGHT + ROW_HEIGHT * rowsToDraw, 0, 125, INVENTORY_WIDTH, INVENTORY_HEIGHT, TEXTURE_SIZE, TEXTURE_SIZE);
-
-        super.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
     }
 
     public int getDisplayRows() {
@@ -119,10 +118,10 @@ public class CrystalBackpackScreen extends ScrollableContainerScreen<CrystalBack
                     Component textComponent = Component.literal("Open Skill Tree");
                     guiGraphics.setTooltipForNextFrame(this.font, this.font.split(textComponent, Math.max(CrystalBackpackScreen.this.width / 2 - 43, 170)), mouseX, mouseY);
                 }, 40));
-//        screenButtonY += 21;
+        screenButtonY += 21;
 
-//        List<ContainerSideButton> subScreenButtons = getSideButtons(this.leftPos - 21, screenButtonY, this.width, menu);
-//        subScreenButtons.forEach(this::addRenderableWidget);
+        List<ContainerSideButton> subScreenButtons = getSideButtons(this.leftPos - 21, screenButtonY, this.width, menu);
+        subScreenButtons.forEach(this::addRenderableWidget);
     }
 
     @Override

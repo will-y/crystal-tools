@@ -66,12 +66,13 @@ public class CrystalFurnaceScreen extends BaseMenuUpgradeScreen<CrystalFurnaceCo
         super(container, inventory, name, Identifier.fromNamespaceAndPath(CrystalTools.MODID, "crystal_furnace"));
         this.slots = container.slots;
 
-//        this.imageHeight = 191;
+        this.imageHeight = 191;
         this.inventoryLabelY = this.imageHeight - 94;
     }
 
     @Override
     public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
         this.renderSlotsTexture(guiGraphics);
         this.renderFuelBar(guiGraphics);

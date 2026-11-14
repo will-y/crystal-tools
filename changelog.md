@@ -1,4 +1,10 @@
 # Crystal Tools Change Log
+## 26.1.1.2
+- Fixes not getting experience when taking items out of a crystal furnace
+- Fixes GUIs not having the transparent black backgrounds
+- Fixes furnace GUI missing texture around hotbar items
+- Fixing missing buttons on the backpack
+
 ## 26.1.1.1
 - Fixes a crash on dedicated servers
 - Updates to Neo 26.1.2.94

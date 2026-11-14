@@ -41,8 +41,8 @@ public class CrystalFurnaceOutputSlot extends CrystalSlotItemHandler {
     @Override
     protected void checkTakeAchievements(ItemStack stack) {
         stack.onCraftedBy(this.player, this.removeCount);
-        if (this.player instanceof ServerPlayer && this.container instanceof CrystalFurnaceBlockEntity crystalFurnaceBlockEntity) {
-            crystalFurnaceBlockEntity.popExp((ServerPlayer)this.player);
+        if (this.player instanceof ServerPlayer) {
+            crystalFurnaceContainerMenu.getBlockEntity().popExp((ServerPlayer)this.player);
         }
 
         if (this.removeCount != 0) {

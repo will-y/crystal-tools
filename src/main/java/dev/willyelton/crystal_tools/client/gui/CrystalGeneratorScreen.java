@@ -34,6 +34,7 @@ public class CrystalGeneratorScreen extends BaseMenuUpgradeScreen<AbstractGenera
 
     @Override
     public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.extractBackground(guiGraphics, mouseX, mouseY, partialTick);
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, texture(), leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
         this.renderFire(guiGraphics);
     }
