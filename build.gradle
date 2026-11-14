@@ -115,6 +115,8 @@ neoForge {
         enabledSourceSets = sourceSets
     }
 
+    validateAccessTransformers = true
+
     mods {
         crystal_core {
             sourceSet(sourceSets.main)
@@ -218,6 +220,7 @@ def crystalCoreJar = tasks.register("crystalCoreJar", Jar) {
     manifest.attributes(getManifestAttributes('CrystalCore'))
 }
 
+
 dependencies {
     compileOnly "mezz.jei:jei-26.1-pre-3-common-api:${jei_version}"
     compileOnly "mezz.jei:jei-26.1-pre-3-neoforge-api:${jei_version}"
@@ -228,7 +231,7 @@ dependencies {
 //    runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}"
 
     compileOnly "curse.maven:jade-api-324717:7313008"
-//    runtimeOnly "curse.maven:jade-324717:${jade_id}"
+    runtimeOnly "curse.maven:jade-324717:8326243"
 //    implementation "curse.maven:jade-324717:7313008"
 //
 //    runtimeOnly "mekanism:Mekanism:${mekanism_version}"// Mekanism
@@ -247,7 +250,7 @@ dependencies {
 
 //     implementation "curse.maven:energized-power-782147:6927412" // Energized Power
 
-    //    toolsJarJar (toolsImplementation("dev.willyelton.crystal.core:crystal_core")) {
+//    toolsJarJar (toolsImplementation("dev.willyelton.crystal.core:crystal_core")) {
 //        version {
 //            strictly '[26.2.0.0, 26.3.0.0)'
 //            prefer "${core_version}"
