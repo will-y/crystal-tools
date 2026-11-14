@@ -1,4 +1,7 @@
 # Crystal Tools Change Log
+## 26.2.0.3
+- Fixes backpack compression and sorting not working
+
 ## 26.2.0.2
 - Fixes mode switching not working
 - Fixes not getting experience when taking items out of a crystal furnace

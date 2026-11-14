@@ -10,11 +10,13 @@ import dev.willyelton.crystal.core.common.network.model.BackpackAction;
 import dev.willyelton.crystal.tools.client.gui.component.backpack.ClearFilterButton;
 import dev.willyelton.crystal.tools.client.gui.component.backpack.MatchContentsButton;
 import dev.willyelton.crystal.tools.client.gui.component.backpack.WhitelistToggleButton;
+import dev.willyelton.crystal.tools.common.network.data.BackpackScreenPayload;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 import static dev.willyelton.crystal.core.common.network.model.BackpackAction.PICKUP_BLACKLIST;
 import static dev.willyelton.crystal.core.common.network.model.BackpackAction.PICKUP_WHITELIST;
@@ -49,7 +51,7 @@ public class FilterConfigScreen<T extends BaseContainerMenu & SubScreenContainer
                             toggleButton.setWhitelist(whitelist);
                             menu.setWhitelist(whitelist);
                             BackpackAction type = whitelist ? PICKUP_WHITELIST : PICKUP_BLACKLIST;
-                            menu.sendUpdatePacket(type);
+                            ClientPacketDistributor.sendToServer(new BackpackScreenPayload(type, false));
                         }
                     },
                     whitelist, this));

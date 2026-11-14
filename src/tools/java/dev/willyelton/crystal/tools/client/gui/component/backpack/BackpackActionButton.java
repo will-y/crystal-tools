@@ -3,12 +3,14 @@ package dev.willyelton.crystal.tools.client.gui.component.backpack;
 import dev.willyelton.crystal.core.client.gui.component.CrystalToolsButton;
 import dev.willyelton.crystal.core.common.network.model.BackpackAction;
 import dev.willyelton.crystal.core.common.inventory.container.subscreen.SubScreenContainerMenu;
+import dev.willyelton.crystal.tools.common.network.data.BackpackScreenPayload;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 import static dev.willyelton.crystal.tools.client.gui.CrystalBackpackScreen.TEXTURE;
 
@@ -19,7 +21,7 @@ public abstract class BackpackActionButton extends CrystalToolsButton {
     private final int uOffset;
 
     public BackpackActionButton(int x, int y, Component name, BackpackAction action, int uOffset, Screen screen, SubScreenContainerMenu container) {
-        this(x, y, name, button -> container.sendUpdatePacket(action, Minecraft.getInstance().hasShiftDown()), (button, guiGraphics, mouseX, mouseY) -> {
+        this(x, y, name, _ -> ClientPacketDistributor.sendToServer(new BackpackScreenPayload(action, Minecraft.getInstance().hasShiftDown())), (_, guiGraphics, mouseX, mouseY) -> {
             guiGraphics.setTooltipForNextFrame(screen.getMinecraft().font, screen.getMinecraft().font.split(name, Math.max(screen.width / 2 - 43, 170)), mouseX, mouseY);
         }, uOffset);
     }

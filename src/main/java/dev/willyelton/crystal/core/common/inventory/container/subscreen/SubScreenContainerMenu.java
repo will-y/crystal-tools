@@ -14,13 +14,4 @@ public interface SubScreenContainerMenu {
     default void closeSubScreen() {}
 
     default void openSubScreen(SubScreenType subScreenType) {}
-
-    default void sendUpdatePacket(BackpackAction type) {
-        this.sendUpdatePacket(type, false);
-    }
-
-    default void sendUpdatePacket(BackpackAction type, boolean hasShiftDown) {
-        // TODO
-//        ClientPacketDistributor.sendToServer(new BackpackScreenPayload(type, hasShiftDown));
-    }
 }
