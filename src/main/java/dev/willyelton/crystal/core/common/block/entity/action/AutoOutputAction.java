@@ -9,8 +9,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -18,6 +18,7 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
+import org.jetbrains.annotations.NotNull;
 
 public class AutoOutputAction extends Action {
     private final AutoOutputable autoOutputable;
@@ -36,7 +37,7 @@ public class AutoOutputAction extends Action {
     }
 
     @Override
-    public void tickAction(Level level, BlockPos pos, BlockState state) {
+    public void tickAction(@NotNull ServerLevel level, BlockPos pos, BlockState state) {
         if (this.disabled || !autoOutputEnabled) return;
 
         for (Integer index : autoOutputable.getOutputStacks().keySet()) {

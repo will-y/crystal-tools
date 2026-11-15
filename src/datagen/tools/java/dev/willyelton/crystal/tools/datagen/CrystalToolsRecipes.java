@@ -21,6 +21,7 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.SpecialRecipeBuilder;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
@@ -37,8 +38,8 @@ import static dev.willyelton.crystal.core.datagen.CrystalCoreRecipes.HAS_CRYSTAL
 
 public class CrystalToolsRecipes extends RecipeProvider {
 
-    public CrystalToolsRecipes(HolderLookup.Provider registries, RecipeOutput output) {
-        super(registries, output);
+    public CrystalToolsRecipes(BootstrapContext<Recipe<?>> recipeOutput, BootstrapContext<Advancement> advancementOutput) {
+        super(recipeOutput, advancementOutput);
     }
 
     @Override
@@ -274,29 +275,11 @@ public class CrystalToolsRecipes extends RecipeProvider {
         crystalSmithing(Items.NETHERITE_BOOTS, ModRegistration.CRYSTAL_BOOTS, output);
     }
 
-    public static class Runner extends RecipeProvider.Runner {
-        public Runner(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
-            super(output, lookupProvider);
-        }
-
-        @Override
-        protected RecipeProvider createRecipeProvider(HolderLookup.Provider provider, RecipeOutput output) {
-            return new CrystalToolsRecipes(provider, output);
-        }
-
-        @Override
-        public String getName() {
-            return CrystalTools.MODID + ":recipes";
-        }
-    }
-
     protected void crystalSmithing(Item ingredientItem, DeferredHolder<Item, ? extends Item> resultItem, RecipeOutput output) {
         ResourceKey<Recipe<?>> resourceKey = ResourceKey.create(Registries.RECIPE, Identifier.parse(resultItem.getId() + "_smithing"));
 
         Advancement.Builder advancement$builder = output.advancement()
-                .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(resourceKey))
                 .rewards(AdvancementRewards.Builder.recipe(resourceKey))
-                .requirements(AdvancementRequirements.Strategy.OR)
                 .addCriterion("has_crystal", HAS_CRYSTAL);
 
         CrystalSmithingRecipe smithingtransformrecipe = new CrystalSmithingRecipe(Optional.of(Ingredient.of(ModRegistration.CRYSTAL_UPGRADE_SMITHING_TEMPLATE.get())),

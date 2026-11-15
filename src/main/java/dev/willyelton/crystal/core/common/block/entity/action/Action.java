@@ -5,8 +5,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -24,13 +24,13 @@ public abstract class Action {
     }
 
     /**
-     * Called every server tick, will call {@link Action#tickAction(Level, BlockPos, BlockState)}
+     * Called every server tick, will call {@link Action#tickAction(ServerLevel, BlockPos, BlockState)}
      * after the action's tick cooldown is reached
      * @param level Level reference
      * @param pos The position of the block entity
      * @param state The state of the block entity's block
      */
-    public void tick(Level level, BlockPos pos, BlockState state) {
+    public void tick(ServerLevel level, BlockPos pos, BlockState state) {
         if (!this.isActive() || params.maxTickCounter() == -1) return;
 
         if (++tickCounter >= params.maxTickCounter()) {
@@ -48,7 +48,7 @@ public abstract class Action {
      * @param pos The position of the block entity
      * @param state The state of the block entity's block
      */
-    public void tickAction(@NotNull Level level, BlockPos pos, BlockState state) {}
+    public void tickAction(@NotNull ServerLevel level, BlockPos pos, BlockState state) {}
 
     public abstract Identifier getActionType();
 

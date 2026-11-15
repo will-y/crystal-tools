@@ -1,24 +1,20 @@
 package dev.willyelton.crystal.tools.common.levelable.tool;
 
-import dev.willyelton.crystal.tools.VeinMiners;
 import dev.willyelton.crystal.core.utils.BlockCollectors;
 import dev.willyelton.crystal.core.utils.ToolUtils;
+import dev.willyelton.crystal.tools.VeinMiners;
 import dev.willyelton.crystal.tools.client.events.RegisterKeyBindingsEvent;
 import dev.willyelton.crystal.tools.common.components.DataComponents;
 import dev.willyelton.crystal.tools.common.config.CrystalToolsConfig;
-import dev.willyelton.crystal.tools.utils.ToolUseUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.ItemAbilities;
-import net.neoforged.neoforge.common.ItemAbility;
 
 import java.util.Collection;
 
@@ -29,7 +25,9 @@ public class AxeLevelableTool extends DiggerLevelableTool {
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
-        return ToolUseUtils.useOnAxeVeinStrip(context, this);
+        // TODO
+//        return ToolUseUtils.useOnAxeVeinStrip(context, this);
+        return InteractionResult.PASS;
     }
 
     @Override
@@ -45,11 +43,6 @@ public class AxeLevelableTool extends DiggerLevelableTool {
         }
 
         return super.mineBlock(tool, level, blockState, pos, entity);
-    }
-
-    @Override
-    public boolean canPerformAction(ItemInstance itemInstance, ItemAbility itemAbility) {
-        return ItemAbilities.DEFAULT_AXE_ACTIONS.contains(itemAbility);
     }
 
     @Override

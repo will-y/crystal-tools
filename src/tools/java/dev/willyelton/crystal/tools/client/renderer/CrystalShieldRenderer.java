@@ -49,7 +49,7 @@ public class CrystalShieldRenderer implements SpecialModelRenderer<DataComponent
         DyeColor baseColor = components != null ? components.get(DataComponents.BASE_COLOR) : null;
         boolean hasPatterns = !patterns.layers().isEmpty() || baseColor != null;
         SpriteId base = SHIELD_MATERIAL;
-        submitNodeCollector.submitModel(this.model, Unit.INSTANCE, poseStack, lightCoords, overlayCoords, -1, base, this.sprites, outlineColor, null);
+        submitNodeCollector.submitModel(this.model, Unit.INSTANCE, poseStack, lightCoords, overlayCoords, -1, base, this.sprites, outlineColor);
         if (hasPatterns) {
             BannerRenderer.submitPatterns(
                     this.sprites,
@@ -61,14 +61,7 @@ public class CrystalShieldRenderer implements SpecialModelRenderer<DataComponent
                     Unit.INSTANCE,
                     false,
                     Objects.requireNonNullElse(baseColor, DyeColor.WHITE),
-                    patterns,
-                    null
-            );
-        }
-
-        if (hasFoil) {
-            submitNodeCollector.submitModel(
-                    this.model, Unit.INSTANCE, poseStack, RenderTypes.entityGlint(), lightCoords, overlayCoords, -1, this.sprites.get(base), 0, null
+                    patterns
             );
         }
     }

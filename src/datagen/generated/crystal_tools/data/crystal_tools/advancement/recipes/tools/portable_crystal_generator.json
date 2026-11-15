@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "crystal_tools:portable_crystal_generator"
+        "recipes": "crystal_tools:portable_crystal_generator"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

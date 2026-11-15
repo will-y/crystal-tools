@@ -39,6 +39,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.BlockGetter;
@@ -253,7 +254,7 @@ public class CrystalQuarryBlockEntity extends SideConfigBlockEntity implements M
         ItemContainerContents contents = componentInput.get(DataComponents.CONTAINER);
         if (contents != null) {
             for (int i = 0; i < contents.getSlots(); i++) {
-                ItemStack stack = contents.getStackInSlot(i);
+                ItemStack stack = contents.getTemplateInSlot(i).map(ItemStackTemplate::create).orElse(ItemStack.EMPTY);
                 if (!stack.isEmpty()) {
                     this.itemHandler.set(i, ItemResource.of(stack), stack.getCount());
                 }
@@ -263,7 +264,7 @@ public class CrystalQuarryBlockEntity extends SideConfigBlockEntity implements M
         ItemContainerContents filterContents = componentInput.get(dev.willyelton.crystal.core.common.datacomponent.DataComponents.FILTER_INVENTORY);
         if (filterContents != null) {
             for (int i = 0; i < filterContents.getSlots(); i++) {
-                ItemStack stack = filterContents.getStackInSlot(i);
+                ItemStack stack = filterContents.getTemplateInSlot(i).map(ItemStackTemplate::create).orElse(ItemStack.EMPTY);
                 if (!stack.isEmpty()) {
                     this.filterItemHandler.set(i, ItemResource.of(stack), stack.getCount());
                 }
@@ -468,7 +469,7 @@ public class CrystalQuarryBlockEntity extends SideConfigBlockEntity implements M
     };
 
     @Override
-    public void serverTick(Level level, BlockPos pos, BlockState state) {
+    public void serverTick(ServerLevel level, BlockPos pos, BlockState state) {
         boolean hasRedstone = level.hasNeighborSignal(pos);
         if (hasRedstone && redstoneControl) {
             if (state.getValue(CrystalQuarryBlock.ACTIVE)) {

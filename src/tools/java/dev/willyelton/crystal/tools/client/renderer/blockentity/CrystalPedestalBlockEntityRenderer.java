@@ -61,7 +61,7 @@ public class CrystalPedestalBlockEntityRenderer implements BlockEntityRenderer<C
             poseStack.translate(0.5F, 0.5F, 0.5F);
             poseStack.scale(0.5F, 0.5F, 0.5F);
             poseStack.rotateAround(renderState.direction.getRotation(), 0, 0F, 0F);
-            poseStack.mulPose(Axis.YP.rotationDegrees(renderState.spin));
+            poseStack.rotate(Axis.YP.rotationDegrees(renderState.spin));
             poseStack.translate(0, renderState.height, 0);
             ItemEntityRenderer.renderMultipleFromCount(poseStack, nodeCollector, renderState.lightCoords, renderState.displayItem, this.random);
             poseStack.popPose();

@@ -3,8 +3,6 @@ package dev.willyelton.crystal.tools.common.network.handler;
 import dev.willyelton.crystal.core.common.capability.Capabilities;
 import dev.willyelton.crystal.core.common.capability.Levelable;
 import dev.willyelton.crystal.tools.common.network.data.BlockStripPayload;
-import dev.willyelton.crystal.tools.utils.ToolUseUtils;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -18,8 +16,9 @@ public class BlockStripHandler {
         ItemStack tool = player.getItemInHand(payload.hand());
         Levelable levelable = tool.getCapability(Capabilities.ITEM_SKILL, player.level().registryAccess());
         if (levelable != null) {
-            ToolUseUtils.stripBlock(player.level(), tool, player, payload.blockPos(),
-                    InteractionHand.MAIN_HAND, payload.strippedState(), levelable);
+            // TODO
+//            ToolUseUtils.stripBlock(player.level(), tool, player, payload.blockPos(),
+//                    InteractionHand.MAIN_HAND, payload.strippedState(), levelable);
         }
     }
 }

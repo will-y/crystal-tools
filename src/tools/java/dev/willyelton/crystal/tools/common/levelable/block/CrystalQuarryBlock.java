@@ -29,16 +29,10 @@ import net.minecraft.world.phys.BlockHitResult;
 public class CrystalQuarryBlock extends BaseEntityBlock implements CrystalToolsMenuProvider {
     public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
     public static final BooleanProperty ACTIVE = BlockStateProperties.LIT;
-    public static final MapCodec<CrystalQuarryBlock> CODEC = simpleCodec(CrystalQuarryBlock::new);
 
     public CrystalQuarryBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(ACTIVE, Boolean.FALSE));
-    }
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
     }
 
     @Override
@@ -48,8 +42,8 @@ public class CrystalQuarryBlock extends BaseEntityBlock implements CrystalToolsM
         }
 
         return (lvl, pos, blockState, t) -> {
-            if (t instanceof CrystalQuarryBlockEntity blockEntity) {
-                blockEntity.serverTick(level, blockEntity.getBlockPos(), blockState);
+            if (t instanceof CrystalQuarryBlockEntity blockEntity && lvl instanceof ServerLevel serverLevel) {
+                blockEntity.serverTick(serverLevel, blockEntity.getBlockPos(), blockState);
             }
         };
     }

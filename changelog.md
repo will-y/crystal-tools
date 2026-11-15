@@ -1,4 +1,7 @@
 # Crystal Tools Change Log
+## 26.3.0.0-alpha1
+- Updates to 26.3
+
 ## 26.2.0.3
 - Fixes backpack compression and sorting not working
 

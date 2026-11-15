@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "crystal_tools:crystal_collar"
+        "recipes": "crystal_tools:crystal_collar"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

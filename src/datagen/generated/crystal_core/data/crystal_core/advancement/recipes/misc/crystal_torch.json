@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "crystal_core:crystal_torch"
+        "recipes": "crystal_core:crystal_torch"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

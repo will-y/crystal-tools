@@ -3,26 +3,26 @@ package dev.willyelton.crystal.tools.datagen;
 import dev.willyelton.crystal.tools.CrystalTools;
 import dev.willyelton.crystal.tools.ModRegistration;
 import dev.willyelton.crystal.tools.common.components.DataComponents;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.loot.packs.VanillaBlockLoot;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer;
+import net.minecraft.world.level.storage.loot.entries.UniformContainerBase;
 import net.minecraft.world.level.storage.loot.functions.CopyComponentsFunction;
 import net.minecraft.world.level.storage.loot.functions.CopyNameFunction;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class CrystalToolsLootTables extends VanillaBlockLoot {
-    public CrystalToolsLootTables(HolderLookup.Provider provider) {
-        super(provider);
+    public CrystalToolsLootTables(LootTableSubProvider.Context context) {
+        super(context);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class CrystalToolsLootTables extends VanillaBlockLoot {
     }
 
     @Override
-    protected Iterable<Block> getKnownBlocks() {
+    public Iterable<Block> getKnownBlocks() {
         return BuiltInRegistries.BLOCK.entrySet().stream()
                 .filter(e -> e.getKey().identifier().getNamespace().equals(CrystalTools.MODID))
                 .map(Map.Entry::getValue)
@@ -63,7 +63,7 @@ public class CrystalToolsLootTables extends VanillaBlockLoot {
     }
 
     private void createComponentSavingTable(Block block, DataComponentType<?>... dataComponents) {
-        LootPoolSingletonContainer.Builder<?> lti = LootItem.lootTableItem(block);
+        UniformContainerBase.Builder<?> lti = LootItem.lootTableItem(block);
         lti.apply(CopyNameFunction.copyName(LootContext.BlockEntityTarget.BLOCK_ENTITY));
 
         CopyComponentsFunction.Builder copyComponentsFunctionBuilder = CopyComponentsFunction.copyComponentsFromBlockEntity(LootContext.BlockEntityTarget.BLOCK_ENTITY.contextParam());
@@ -74,7 +74,7 @@ public class CrystalToolsLootTables extends VanillaBlockLoot {
         lti.apply(copyComponentsFunctionBuilder);
 
         LootPool.Builder builder = LootPool.lootPool()
-                .setRolls(ConstantValue.exactly(1))
+                .setRolls(ContextIntProviders.exactly(1))
                 .add(lti);
         add(block, LootTable.lootTable().withPool(builder));
     }

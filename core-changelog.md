@@ -1,4 +1,7 @@
 # Crystal Core Change Log
+## 26.3.0.0
+- Updates to 26.3
+
 ## 26.2.1.0
 - Correctly adds mode switching
 

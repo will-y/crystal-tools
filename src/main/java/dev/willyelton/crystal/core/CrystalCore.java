@@ -20,7 +20,7 @@ public class CrystalCore {
     public CrystalCore(IEventBus modEventBus, ModContainer container) {
         Registration.init(modEventBus);
 
-        container.registerConfig(ModConfig.Type.COMMON, CrystalCoreConfig.COMMON_CONFIG, "crystal_core.toml");
+        container.registerConfig(ModConfig.Type.LOCAL, CrystalCoreConfig.COMMON_CONFIG, "crystal_core.toml");
 
         // TODO: this should be like actions as well
         SkillDataRequirements.bootstrap();

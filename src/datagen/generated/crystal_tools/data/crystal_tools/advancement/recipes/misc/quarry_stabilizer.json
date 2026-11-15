@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "crystal_tools:quarry_stabilizer"
+        "recipes": "crystal_tools:quarry_stabilizer"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -139,7 +139,7 @@ public class CrystalTridentEntity extends ThrownTrident {
             this.playSound(SoundEvents.TRIDENT_HIT, 1.0F, 1.0F);
         }
 
-        this.deflect(ProjectileDeflection.REVERSE, hitEntity, this.owner, false);
+        this.deflect(ProjectileDeflection.REVERSE, hitEntity, this.owner, false, new Vec3(0.02, 0.2, 0.02));
         this.setDeltaMovement(this.getDeltaMovement().multiply(-0.01D, -0.1D, -0.01D));
     }
 

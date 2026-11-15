@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "crystal_tools:crystal_backpack"
+        "recipes": "crystal_tools:crystal_backpack"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

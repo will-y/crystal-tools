@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "crystal_tools:crystal_pickaxe"
+        "recipes": "crystal_tools:crystal_pickaxe"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -42,8 +42,8 @@ public record GeneratorRecipe(ItemStack stack, int burnTime, int bonusGeneration
                 }
             }
 
-            // TODO (PORTING / JEI): idk if it is safe to get minecraft here
-            int burnTime = stack.getBurnTime(null, Minecraft.getInstance().level.fuelValues());
+            // TODO: This might be impossible now, see what JEI does at some point
+            int burnTime = 0;
             if (burnTime != 0) {
                 recipes.add(new GeneratorRecipe(stack, burnTime, 0, ""));
             }

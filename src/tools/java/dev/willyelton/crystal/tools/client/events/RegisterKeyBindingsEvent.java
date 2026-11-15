@@ -1,12 +1,12 @@
 package dev.willyelton.crystal.tools.client.events;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import dev.willyelton.crystal.tools.CrystalTools;
 import net.minecraft.client.KeyMapping;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
-import org.lwjgl.glfw.GLFW;
 
 import static dev.willyelton.crystal.tools.CrystalTools.rl;
 
@@ -29,10 +29,10 @@ public class RegisterKeyBindingsEvent {
     public static void registerKeys(RegisterKeyMappingsEvent e) {
         e.registerCategory(CATEGORY);
 
-        VEIN_MINE = createBinding("vein_mine", GLFW.GLFW_KEY_GRAVE_ACCENT, e);
-        OPEN_BACKPACK = createBinding("open_backpack", GLFW.GLFW_KEY_B, e);
-        TRIGGER_ROCKET = createBinding("trigger_rocket", GLFW.GLFW_KEY_R, e);
-        TOGGLE_MAGNET = createBinding("toggle_magnet", GLFW.GLFW_KEY_N, e);
+        VEIN_MINE = createBinding("vein_mine", InputConstants.KEY_GRAVE, e);
+        OPEN_BACKPACK = createBinding("open_backpack", InputConstants.KEY_B, e);
+        TRIGGER_ROCKET = createBinding("trigger_rocket",InputConstants.KEY_R, e);
+        TOGGLE_MAGNET = createBinding("toggle_magnet", InputConstants.KEY_N, e);
     }
 
     private static String getKey(String name) {

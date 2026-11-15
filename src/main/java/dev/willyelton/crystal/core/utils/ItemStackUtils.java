@@ -35,9 +35,7 @@ public class ItemStackUtils {
     }
 
     public static void removeAllComponents(ItemStack stack) {
-        stack.getComponentsPatch().entrySet().forEach(entry -> {
-            stack.remove(entry.getKey());
-        });
+        stack.getComponentsPatch().keySet().forEach(stack::remove);
     }
 
     public static ItemStack nextFuelItem(ResourceHandler<ItemResource> handler, Predicate<ItemResource> predicate) {

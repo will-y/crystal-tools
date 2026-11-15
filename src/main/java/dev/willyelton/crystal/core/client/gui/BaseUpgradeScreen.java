@@ -1,9 +1,10 @@
 package dev.willyelton.crystal.core.client.gui;
 
-import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.textures.FilterMode;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.renderpearl.api.pipeline.RenderPipeline;
+import com.mojang.renderpearl.api.textures.FilterMode;
 import dev.willyelton.crystal.core.Registration;
 import dev.willyelton.crystal.core.client.gui.component.SkillButton;
 import dev.willyelton.crystal.core.client.gui.component.XpButton;
@@ -49,7 +50,6 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3x2f;
-import org.lwjgl.glfw.GLFW;
 
 import java.util.HashMap;
 import java.util.List;
@@ -206,6 +206,7 @@ public abstract class BaseUpgradeScreen extends Screen {
     /**
      * Return a string that is the location of a vanilla block texture,
      * or an {@link Identifier} for a block texture
+     *
      * @return a string for the background block texture
      */
     protected String backgroundLocation() {
@@ -363,7 +364,8 @@ public abstract class BaseUpgradeScreen extends Screen {
                         }
                         case NodeSkillDataRequirement ignored -> textureY = 9;
                         case NodeOrSkillDataRequirement ignored -> textureY = 18;
-                        default -> {}
+                        default -> {
+                        }
                     }
 
                     List<Integer> nodes = nodeRequirement.getRequiredNodes();
@@ -463,7 +465,7 @@ public abstract class BaseUpgradeScreen extends Screen {
         int x = button.getX() + button.xOffset + button.getWidth() / 2;
         int y = button.getY() + button.yOffset + button.getHeight() / 2;
 
-        return new int[] {x, y};
+        return new int[]{x, y};
     }
 
     public void renderBlockBackground(GuiGraphicsExtractor guiGraphics, String block) {
@@ -495,7 +497,7 @@ public abstract class BaseUpgradeScreen extends Screen {
         if (xpButton == null) return super.keyPressed(event);
 
         int keyCode = event.key();
-        if (keyCode == GLFW.GLFW_KEY_LEFT_SHIFT || keyCode == GLFW.GLFW_KEY_LEFT_CONTROL || keyCode == GLFW.GLFW_KEY_RIGHT_SHIFT || keyCode == GLFW.GLFW_KEY_RIGHT_CONTROL) {
+        if (isModifierKey(keyCode)) {
             xpButton.update(XpUtils.getXpCost(getPointsToSpend(Integer.MAX_VALUE, hasShiftDown(), hasControlDown()), points.getTotalPoints() + getSkillPoints()), player);
         }
         return super.keyPressed(event);
@@ -505,7 +507,7 @@ public abstract class BaseUpgradeScreen extends Screen {
     public boolean keyReleased(KeyEvent event) {
         if (xpButton == null) return super.keyReleased(event);
         int keyCode = event.key();
-        if (keyCode == GLFW.GLFW_KEY_LEFT_SHIFT || keyCode == GLFW.GLFW_KEY_LEFT_CONTROL || keyCode == GLFW.GLFW_KEY_RIGHT_SHIFT || keyCode == GLFW.GLFW_KEY_RIGHT_CONTROL) {
+        if (isModifierKey(keyCode)) {
             xpButton.update(XpUtils.getXpCost(getPointsToSpend(Integer.MAX_VALUE, hasShiftDown(), hasControlDown()), points.getTotalPoints() + getSkillPoints()), player);
         }
         return super.keyReleased(event);
@@ -521,5 +523,9 @@ public abstract class BaseUpgradeScreen extends Screen {
 
     protected boolean hasAltDown() {
         return Minecraft.getInstance().hasAltDown();
+    }
+
+    private boolean isModifierKey(int keyCode) {
+        return keyCode == InputConstants.KEY_LSHIFT || keyCode == InputConstants.KEY_LCONTROL || keyCode == InputConstants.KEY_RSHIFT || keyCode == InputConstants.KEY_RCONTROL;
     }
 }

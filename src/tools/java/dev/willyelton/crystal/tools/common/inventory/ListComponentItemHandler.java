@@ -5,6 +5,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.neoforged.neoforge.transfer.ItemAccessResourceHandler;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
@@ -45,7 +46,7 @@ public class ListComponentItemHandler extends ItemAccessResourceHandler<ItemReso
         ItemContainerContents contents = contentsList.get(listIndex);
         int contextIndex = slot % MAX_CONTENTS_SIZE;
 
-        return contextIndex < contents.getSlots() ? contents.getStackInSlot(contextIndex) : ItemStack.EMPTY;
+        return contextIndex < contents.getSlots() ? contents.getTemplateInSlot(contextIndex).map(ItemStackTemplate::create).orElse(ItemStack.EMPTY) : ItemStack.EMPTY;
     }
 
     @Override

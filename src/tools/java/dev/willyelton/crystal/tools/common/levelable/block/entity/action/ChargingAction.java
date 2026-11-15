@@ -10,6 +10,7 @@ import dev.willyelton.crystal.tools.common.inventory.PortableGeneratorInventory;
 import dev.willyelton.crystal.tools.common.levelable.PortableGenerator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -49,7 +50,7 @@ public class ChargingAction extends Action {
     }
 
     @Override
-    public void tickAction(@NotNull Level level, BlockPos pos, BlockState state) {
+    public void tickAction(@NotNull ServerLevel level, BlockPos pos, BlockState state) {
         Vec3 centerPos = Vec3.atCenterOf(pos);
         ItemStack stack = getItem();
 

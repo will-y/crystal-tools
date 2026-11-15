@@ -90,7 +90,7 @@ public abstract class LevelableTool extends Item implements LevelableItem {
     }
 
     @Override
-    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<Item> onBroken) {
+    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<ItemStack> onBroken) {
         int durability = this.getMaxDamage(stack) - stack.getDamageValue();
         float unbreakingLevel = stack.getOrDefault(dev.willyelton.crystal.core.common.datacomponent.DataComponents.UNBREAKING, 0F);
         int damageToTake = 0;

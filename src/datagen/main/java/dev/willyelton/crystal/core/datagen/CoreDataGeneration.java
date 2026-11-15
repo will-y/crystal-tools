@@ -2,13 +2,18 @@ package dev.willyelton.crystal.core.datagen;
 
 import dev.willyelton.crystal.core.utils.constants.ApiConstants;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistrySetBuilder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.data.event.GatherDataRegistryEntriesEvent;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,7 +25,7 @@ public class CoreDataGeneration {
     public static void generate(GatherDataEvent.Client event) {
         DataGenerator generator = event.getGenerator();
         PackOutput packOutput = generator.getPackOutput();
-        CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
+        CompletableFuture<HolderLookup.Provider> lookupProvider = event.getWorldLookupProvider();
 
         generator.addProvider(true, new CrystalCoreModels(packOutput));
 
@@ -30,12 +35,14 @@ public class CoreDataGeneration {
         CrystalCoreItemTags itemTags = new CrystalCoreItemTags(packOutput, lookupProvider);
         generator.addProvider(true, itemTags);
 
-        generator.addProvider(true, new LootTableProvider(packOutput, Collections.emptySet(),
-                List.of(new LootTableProvider.SubProviderEntry(CrystalCoreLootTables::new, LootContextParamSets.BLOCK)), event.getLookupProvider()));
-
-        event.createProvider(CrystalCoreRecipes.Runner::new);
-
         CrystalCoreDataMapGenerator dataMaps = new CrystalCoreDataMapGenerator(packOutput, lookupProvider);
         generator.addProvider(true, dataMaps);
+    }
+
+    @SubscribeEvent
+    public static void generateRegistryEntries(GatherDataRegistryEntriesEvent event) {
+        event.gatherFor(ApiConstants.CORE_MOD_ID)
+                .recipe(CrystalCoreRecipes::new)
+                .lootTable(new LootTableProvider.SubProviderEntry(CrystalCoreLootTables::new, LootContextParamSets.BLOCK));
     }
 }

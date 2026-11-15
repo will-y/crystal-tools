@@ -22,11 +22,15 @@ import net.minecraft.client.renderer.feature.submit.TranslucentSubmit;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.BlockTransformer;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.BlockTransformers;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -37,7 +41,9 @@ import net.neoforged.neoforge.client.event.ExtractLevelRenderStateEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.client.event.SubmitCustomGeometryEvent;
 import net.neoforged.neoforge.client.submit.RenderPhaseKeys;
+import net.neoforged.neoforge.common.DataMapHooks;
 import net.neoforged.neoforge.common.ItemAbilities;
+import net.neoforged.neoforge.registries.datamaps.builtin.NeoForgeDataMaps;
 import org.joml.Matrix4f;
 
 import java.util.Collection;
@@ -101,7 +107,7 @@ public class BlockOverlayRenderer {
         poseStack.translate(pos.getX(), pos.getY(), pos.getZ());
         poseStack.translate(-0.0005f, -0.0005f, -0.0005f);
         poseStack.scale(1.001f, 1.001f, 1.001f);
-        poseStack.mulPose(Axis.YP.rotationDegrees(-90.0F));
+        poseStack.rotate(Axis.YP.rotationDegrees(-90.0F));
         event.getSubmitNodeCollector().submitSpecial(RenderPhaseKeys.OUTLINE, new CustomFeatureRenderer.Submit(
                 poseStack.last().copy(), CrystalToolsRenderTypes.BLOCK_OVERLAY, new OutlineRenderer(color)));
         poseStack.popPose();
@@ -117,11 +123,11 @@ public class BlockOverlayRenderer {
                 UseOnContext context = new UseOnContext(player, InteractionHand.MAIN_HAND, hitResult);
                 blockPosCollection = BlockCollectors.collect3x3Hoe(pos)
                         .stream()
-                        .filter(_ -> {
-                            BlockState state = level.getBlockState(pos);
-                            BlockState toolModifiedState = state.getToolModifiedState(context, ItemAbilities.HOE_TILL, true);
+                        .filter(newPos -> {
+                            BlockState state = level.getBlockState(newPos);
+                            boolean canTransform = canTransform(level, stack, context.getClickedFace(), newPos);
 
-                            return (toolModifiedState != null || stack.isCorrectToolForDrops(state)) && !state.isAir() && state.isSolidRender();
+                            return (canTransform || stack.isCorrectToolForDrops(state)) && !state.isAir() && state.isSolidRender();
                         })
                         .toList();
             } else {
@@ -136,6 +142,24 @@ public class BlockOverlayRenderer {
 
         return List.of();
 
+    }
+
+    private static boolean canTransform(Level level, ItemStack stack, Direction clickedFace, BlockPos pos) {
+        Holder<BlockTransformer> transformerHolder = stack.get(net.minecraft.core.component.DataComponents.BLOCK_TRANSFORMER);
+
+        if (transformerHolder != null) {
+            for (BlockTransformer.BlockTransformData transformData : DataMapHooks.getAllTransformers(transformerHolder)) {
+                if (!transformData.disallowedFaces().contains(clickedFace)) {
+                    BlockState newBlockState = transformData.blockStateProvider().value().getOptionalState(level, level.getRandom(), pos);
+
+                    if (newBlockState != null) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     private static Collection<BlockPos> extractVeinMiner(ItemStack stack, LevelableTool toolItem, Level level, BlockPos pos, BlockState hitBlockState) {

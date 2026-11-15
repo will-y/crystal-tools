@@ -1,15 +1,17 @@
 package dev.willyelton.crystal.tools.common.levelable.tool;
 
 import dev.willyelton.crystal.core.client.event.RegisterKeyBindingsEvent;
+import dev.willyelton.crystal.core.utils.BlockTransformerUtils;
 import dev.willyelton.crystal.core.utils.StringUtils;
 import dev.willyelton.crystal.tools.common.components.DataComponents;
-import dev.willyelton.crystal.tools.utils.ToolUseUtils;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.BlockTransformers;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.state.BlockState;
@@ -23,18 +25,16 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 import static dev.willyelton.crystal.tools.common.tags.CrystalToolsTags.MINABLE_WITH_AIOT;
-import static net.neoforged.neoforge.common.ItemAbilities.DEFAULT_AXE_ACTIONS;
-import static net.neoforged.neoforge.common.ItemAbilities.DEFAULT_HOE_ACTIONS;
-import static net.neoforged.neoforge.common.ItemAbilities.DEFAULT_SHOVEL_ACTIONS;
 
 public class AIOLevelableTool extends DiggerLevelableTool {
     public static final Set<ItemAbility> AIOT_ACTIONS = new HashSet<>();
 
     public AIOLevelableTool(Properties properties) {
-        super(properties.tool(CRYSTAL, MINABLE_WITH_AIOT, 3.0F, -2.4F, 5.0F));
-        AIOT_ACTIONS.addAll(DEFAULT_AXE_ACTIONS);
-        AIOT_ACTIONS.addAll(DEFAULT_HOE_ACTIONS);
-        AIOT_ACTIONS.addAll(DEFAULT_SHOVEL_ACTIONS);
+        super(properties
+                .tool(CRYSTAL, MINABLE_WITH_AIOT, 3.0F, -2.4F, 5.0F)
+                .delayedComponent(net.minecraft.core.component.DataComponents.BLOCK_TRANSFORMER, context -> Holder.direct(BlockTransformerUtils.combinedBlockTransformer(context.getOrThrow(BlockTransformers.AXE).value(),
+                        context.getOrThrow(BlockTransformers.HOE).value(),
+                        context.getOrThrow(BlockTransformers.SHOVEL).value()))));
     }
 
     @Override
@@ -43,20 +43,21 @@ public class AIOLevelableTool extends DiggerLevelableTool {
 
         UseMode mode = stack.getOrDefault(DataComponents.USE_MODE, UseMode.HOE);
 
-        switch (mode) {
-            case HOE -> {
-                return ToolUseUtils.useOnHoe3x3(context);
-            }
-            case SHOVEL -> {
-                return ToolUseUtils.useOnShovel3x3(context);
-            }
-            case AXE -> {
-                return ToolUseUtils.useOnAxeVeinStrip(context, this);
-            }
-            case TORCH -> {
-                return ToolUseUtils.useOnTorch(context);
-            }
-        }
+        // TODO: I think there is a neo overload in `transformBlock` that will help me here
+//        switch (mode) {
+//            case HOE -> {
+//                return ToolUseUtils.useOnHoe3x3(context);
+//            }
+//            case SHOVEL -> {
+//                return ToolUseUtils.useOnShovel3x3(context);
+//            }
+//            case AXE -> {
+//                return ToolUseUtils.useOnAxeVeinStrip(context, this);
+//            }
+//            case TORCH -> {
+//                return ToolUseUtils.useOnTorch(context);
+//            }
+//        }
 
         return InteractionResult.PASS;
     }
@@ -75,7 +76,7 @@ public class AIOLevelableTool extends DiggerLevelableTool {
 
     @Override
     public boolean canVeinMin(ItemStack stack, BlockState blockState) {
-        return blockState.is(Tags.Blocks.ORES) || blockState.is(BlockTags.LOGS) || (blockState.is(BlockTags.LEAVES));
+        return blockState.is(Tags.BlockItems.ORES.block()) || blockState.is(BlockTags.LOGS) || (blockState.is(BlockTags.LEAVES));
     }
 
     @Override

@@ -9,7 +9,6 @@ import dev.willyelton.crystal.tools.client.model.property.Lit;
 import dev.willyelton.crystal.tools.client.renderer.CrystalShieldRenderer;
 import dev.willyelton.crystal.tools.client.renderer.CrystalTridentSpecialRenderer;
 import dev.willyelton.crystal.tools.client.renderer.item.properties.BowUseDuration;
-import dev.willyelton.crystal.tools.common.levelable.armor.CrystalToolsArmorMaterials;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
@@ -27,11 +26,6 @@ import net.minecraft.world.level.block.Block;
 
 import java.util.Optional;
 import java.util.stream.Stream;
-
-import static net.minecraft.client.data.models.ItemModelGenerators.TRIM_PREFIX_BOOTS;
-import static net.minecraft.client.data.models.ItemModelGenerators.TRIM_PREFIX_CHESTPLATE;
-import static net.minecraft.client.data.models.ItemModelGenerators.TRIM_PREFIX_HELMET;
-import static net.minecraft.client.data.models.ItemModelGenerators.TRIM_PREFIX_LEGGINGS;
 
 public class CrystalToolsModels extends ModelProvider {
     public CrystalToolsModels(PackOutput output) {
@@ -64,10 +58,7 @@ public class CrystalToolsModels extends ModelProvider {
         generatePortableGenerator(itemModels);
 
         // Armor
-        itemModels.generateTrimmableItem(ModRegistration.CRYSTAL_HELMET.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, TRIM_PREFIX_HELMET, false);
-        itemModels.generateTrimmableItem(ModRegistration.CRYSTAL_CHESTPLATE.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, TRIM_PREFIX_CHESTPLATE, false);
-        itemModels.generateTrimmableItem(ModRegistration.CRYSTAL_LEGGINGS.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, TRIM_PREFIX_LEGGINGS, false);
-        itemModels.generateTrimmableItem(ModRegistration.CRYSTAL_BOOTS.get(), CrystalToolsArmorMaterials.CRYSTAL_EQUIPMENT_ASSET, TRIM_PREFIX_BOOTS, false);
+        itemModels.generateDynamicTrimmableArmorSet(ModRegistration.CRYSTAL_HELMET.get(), ModRegistration.CRYSTAL_CHESTPLATE.get(), ModRegistration.CRYSTAL_LEGGINGS.get(), ModRegistration.CRYSTAL_BOOTS.get(), null);
         itemModels.generateFlatItem(ModRegistration.CRYSTAL_ELYTRA.get(), ModelTemplates.FLAT_ITEM);
 
         // Blocks

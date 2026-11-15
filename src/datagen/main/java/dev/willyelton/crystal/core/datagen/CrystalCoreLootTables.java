@@ -1,26 +1,25 @@
 package dev.willyelton.crystal.core.datagen;
 
 import dev.willyelton.crystal.core.Registration;
-import dev.willyelton.crystal.core.common.block.entity.CrystalTorch;
 import dev.willyelton.crystal.core.utils.constants.ApiConstants;
-import net.minecraft.advancements.predicates.StatePropertiesPredicate;
-import net.minecraft.core.HolderLookup;
+import net.minecraft.advancements.predicates.BlockPredicate;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.data.loot.packs.VanillaBlockLoot;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.predicates.AnyOfCondition;
-import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.predicates.MatchBlock;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class CrystalCoreLootTables extends VanillaBlockLoot {
-    public CrystalCoreLootTables(HolderLookup.Provider provider) {
-        super(provider);
+    public CrystalCoreLootTables(LootTableSubProvider.Context context) {
+        super(context);
     }
 
     @Override
@@ -34,7 +33,7 @@ public class CrystalCoreLootTables extends VanillaBlockLoot {
     }
 
     @Override
-    protected Iterable<Block> getKnownBlocks() {
+    public Iterable<Block> getKnownBlocks() {
         return BuiltInRegistries.BLOCK.entrySet().stream()
                 .filter(e -> e.getKey().identifier().getNamespace().equals(ApiConstants.CORE_MOD_ID))
                 .map(Map.Entry::getValue)
@@ -43,12 +42,9 @@ public class CrystalCoreLootTables extends VanillaBlockLoot {
 
     private void createTorchTable(Block block) {
         LootPool.Builder builder = LootPool.lootPool()
-                .setRolls(ConstantValue.exactly(1))
+                .setRolls(ContextIntProviders.exactly(1))
                 .when(AnyOfCondition.anyOf(
-                        LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
-                                .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(CrystalTorch.DROP_ITEM, true)),
-                        LootItemBlockStatePropertyCondition.hasBlockStateProperties(Registration.CRYSTAL_WALL_TORCH.get())
-                                .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(CrystalTorch.DROP_ITEM, true))
+                        MatchBlock.blockMatches(BlockPredicate.Builder.block().of(this.blocks, block, Registration.CRYSTAL_WALL_TORCH.get()))
                 ))
                 .add(this.applyExplosionCondition(block, LootItem.lootTableItem(block)));
 

@@ -9,12 +9,20 @@ import dev.willyelton.crystal.core.utils.ToolUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
+import java.util.Optional;
 
 public abstract class LevelableBlockEntity extends ActionBlockEntity {
     public static final List<String> NBT_TAGS = List.of("SkillPoints", "Points", "Exp", "ExpCap");
@@ -162,5 +170,17 @@ public abstract class LevelableBlockEntity extends ActionBlockEntity {
 
     protected int getBaseExpCap() {
         return CrystalCoreConfig.BASE_EXPERIENCE_CAP.get();
+    }
+
+    protected LootContext getLootContext(ServerLevel level, ItemStack queriedStack) {
+        return new LootContext.Builder(
+                new LootParams.Builder(level)
+                        .withParameter(LootContextParams.BLOCK_STATE, this.getBlockState())
+                        .withParameter(LootContextParams.BLOCK_ENTITY, this)
+                        .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(this.getBlockPos()))
+                        .withOptionalParameter(net.neoforged.neoforge.common.loot.NeoForgeLootContextParams.QUERIED_STACK, queriedStack.isEmpty() ? null : queriedStack)
+                        .create(LootContextParamSets.CONTAINER_PROCESS)
+        )
+                .create(Optional.empty());
     }
 }

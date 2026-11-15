@@ -1,18 +1,8 @@
 package dev.willyelton.crystal.tools.common.levelable.block.entity;
 
 import com.google.common.base.Predicates;
-import dev.willyelton.crystal.tools.CrystalTools;
-import dev.willyelton.crystal.tools.ModRegistration;
 import dev.willyelton.crystal.core.common.block.entity.LevelableBlockEntity;
 import dev.willyelton.crystal.core.common.block.entity.SideConfigBlockEntity;
-import dev.willyelton.crystal.tools.common.components.DataComponents;
-import dev.willyelton.crystal.tools.common.components.FurnaceData;
-import dev.willyelton.crystal.tools.common.components.FurnaceUpgrades;
-import dev.willyelton.crystal.tools.common.config.CrystalToolsConfig;
-import dev.willyelton.crystal.tools.common.inventory.InputOutputDelegatingResourceHandler;
-import dev.willyelton.crystal.tools.common.inventory.VariableSizeItemStackHandler;
-import dev.willyelton.crystal.tools.common.inventory.container.CrystalFurnaceContainerMenu;
-import dev.willyelton.crystal.tools.common.levelable.block.CrystalFurnaceBlock;
 import dev.willyelton.crystal.core.common.block.entity.action.Action;
 import dev.willyelton.crystal.core.common.block.entity.action.AutoOutputAction;
 import dev.willyelton.crystal.core.common.block.entity.action.AutoOutputable;
@@ -21,6 +11,16 @@ import dev.willyelton.crystal.core.common.block.entity.model.SideConfigOption;
 import dev.willyelton.crystal.core.utils.ArrayUtils;
 import dev.willyelton.crystal.core.utils.NBTUtils;
 import dev.willyelton.crystal.core.utils.TransferUtils;
+import dev.willyelton.crystal.tools.CrystalTools;
+import dev.willyelton.crystal.tools.ModRegistration;
+import dev.willyelton.crystal.tools.common.components.DataComponents;
+import dev.willyelton.crystal.tools.common.components.FurnaceData;
+import dev.willyelton.crystal.tools.common.components.FurnaceUpgrades;
+import dev.willyelton.crystal.tools.common.config.CrystalToolsConfig;
+import dev.willyelton.crystal.tools.common.inventory.InputOutputDelegatingResourceHandler;
+import dev.willyelton.crystal.tools.common.inventory.VariableSizeItemStackHandler;
+import dev.willyelton.crystal.tools.common.inventory.container.CrystalFurnaceContainerMenu;
+import dev.willyelton.crystal.tools.common.levelable.block.CrystalFurnaceBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.RegistryAccess;
@@ -40,15 +40,16 @@ import net.minecraft.world.item.AirItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.CookingFuel;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ResolvableInt;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.item.ItemResource;
@@ -394,7 +395,7 @@ public class CrystalFurnaceBlockEntity extends SideConfigBlockEntity implements 
     };
 
     public boolean isFuel(ItemStack stack) {
-        return stack.getBurnTime(this.recipeType, this.level.fuelValues()) > 0;
+        return stack.has(net.minecraft.core.component.DataComponents.COOKING_FUEL);
     }
 
     public boolean hasRecipe(ItemStack stack) {
@@ -415,7 +416,7 @@ public class CrystalFurnaceBlockEntity extends SideConfigBlockEntity implements 
     }
 
     @Override
-    public void serverTick(Level level, BlockPos pos, BlockState state) {
+    public void serverTick(ServerLevel level, BlockPos pos, BlockState state) {
         // flag
         boolean isLit = this.isLit();
         boolean needsRebalance = false;
@@ -445,7 +446,7 @@ public class CrystalFurnaceBlockEntity extends SideConfigBlockEntity implements 
                 RecipeHolder<AbstractCookingRecipe> recipe = this.getRecipe(inputItemResource);
 
                 if (!this.isLit() && this.canBurn(level.registryAccess(), recipe, slot)) {
-                    this.litTime = this.getBurnDuration(fuelItemResource);
+                    this.litTime = this.getBurnDuration(level, fuelItemResource);
                     this.litTotalTime = this.litTime;
 
                     if (this.isLit()) {
@@ -558,11 +559,11 @@ public class CrystalFurnaceBlockEntity extends SideConfigBlockEntity implements 
         }
     }
 
-    private int getBurnDuration(ItemResource resource) {
+    private int getBurnDuration(ServerLevel level, ItemResource resource) {
         if (resource.isEmpty()) {
             return 0;
         } else {
-            return resource.toStack().getBurnTime(this.recipeType, this.level.fuelValues()) + this.fuelEfficiencyUpgrade * fuelEfficiencyAddedTicks;
+            return ResolvableInt.getFromItem(resource.toStack(), net.minecraft.core.component.DataComponents.COOKING_FUEL, CookingFuel::burnTime, this.getLootContext(level, resource.toStack()), 0);
         }
     }
 

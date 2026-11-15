@@ -1,11 +1,7 @@
 package dev.willyelton.crystal.tools.common.levelable.tool;
 
-import dev.willyelton.crystal.tools.utils.ToolUseUtils;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.context.UseOnContext;
-import net.neoforged.neoforge.common.ItemAbilities;
-import net.neoforged.neoforge.common.ItemAbility;
 
 
 public class ShovelLevelableTool extends DiggerLevelableTool {
@@ -15,11 +11,8 @@ public class ShovelLevelableTool extends DiggerLevelableTool {
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
-        return ToolUseUtils.useOnShovel3x3(context);
-    }
-
-    @Override
-    public boolean canPerformAction(ItemInstance instance, ItemAbility itemAbility) {
-        return ItemAbilities.DEFAULT_SHOVEL_ACTIONS.contains(itemAbility);
+        // TODO
+        return InteractionResult.PASS;
+//        return ToolUseUtils.useOnShovel3x3(context);
     }
 }

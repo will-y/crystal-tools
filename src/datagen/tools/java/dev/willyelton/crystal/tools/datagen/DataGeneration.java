@@ -1,7 +1,10 @@
 package dev.willyelton.crystal.tools.datagen;
 
+import dev.willyelton.crystal.core.datagen.CrystalCoreRecipes;
+import dev.willyelton.crystal.core.utils.constants.ApiConstants;
 import dev.willyelton.crystal.tools.CrystalTools;
 import dev.willyelton.crystal.core.common.event.DatapackRegistryEvents;
+import dev.willyelton.crystal.tools.common.crafting.CrystalToolsRecipe;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.data.DataGenerator;
@@ -11,6 +14,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.data.event.GatherDataRegistryEntriesEvent;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,11 +23,12 @@ import java.util.concurrent.CompletableFuture;
 
 @EventBusSubscriber(modid = CrystalTools.MODID)
 public class DataGeneration {
+
     @SubscribeEvent
     public static void generate(GatherDataEvent.Client event) {
         DataGenerator generator = event.getGenerator();
         PackOutput packOutput = generator.getPackOutput();
-        CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
+        CompletableFuture<HolderLookup.Provider> lookupProvider = event.getWorldLookupProvider();
 
         generator.addProvider(true, new CrystalToolsModels(packOutput));
 
@@ -36,19 +41,18 @@ public class DataGeneration {
         CrystalToolsEntityTypeTags entityTypeTags = new CrystalToolsEntityTypeTags(packOutput, lookupProvider);
         generator.addProvider(true, entityTypeTags);
 
-        generator.addProvider(true, new LootTableProvider(packOutput, Collections.emptySet(),
-                List.of(new LootTableProvider.SubProviderEntry(CrystalToolsLootTables::new, LootContextParamSets.BLOCK)), event.getLookupProvider()));
-
-        event.createProvider(CrystalToolsRecipes.Runner::new);
-
         CrystalToolsDataMaps dataMaps = new CrystalToolsDataMaps(packOutput, lookupProvider);
         generator.addProvider(true, dataMaps);
+    }
 
-        event.createDatapackRegistryObjects(
-                new RegistrySetBuilder()
-                        .add(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS, CrystalToolsItemSkillTrees::register)
-                        .add(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_BLOCKS, CrystalToolsBlockSkillTrees::register)
-                        .add(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ENTITIES, CrystalToolsEntitySkillTrees::register),
-                Set.of("crystal_tools", "minecraft"));
+    @SubscribeEvent
+    public static void generateRegistryEntries(GatherDataRegistryEntriesEvent event) {
+        event.gatherFor(CrystalTools.MODID)
+                .recipe(CrystalToolsRecipes::new);
+
+        event.gatherFor(CrystalTools.MODID, "minecraft")
+                .add(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ITEMS, CrystalToolsItemSkillTrees::register)
+                .add(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_BLOCKS, CrystalToolsBlockSkillTrees::register)
+                .add(DatapackRegistryEvents.SKILL_DATA_REGISTRY_KEY_ENTITIES, CrystalToolsEntitySkillTrees::register);
     }
 }

@@ -59,7 +59,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem, EntityTa
 
             int timeUsed = this.getUseDuration(stack, entity) - timeLeft;
 
-            timeUsed = EventHooks.onArrowLoose(stack, level, player, timeUsed, !itemstack.isEmpty() || creative);
+            timeUsed = EventHooks.onArrowLoose(stack, level, player, timeUsed);
             if (timeUsed < 0) return false;
 
             if (!itemstack.isEmpty() || creative) {
@@ -173,7 +173,7 @@ public class BowLevelableItem extends BowItem implements LevelableItem, EntityTa
     }
 
     @Override
-    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<Item> onBroken) {
+    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<ItemStack> onBroken) {
         int durability = this.getMaxDamage(stack) - stack.getDamageValue();
 
         if (durability - amount <= 0) {

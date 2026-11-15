@@ -1,12 +1,12 @@
 package dev.willyelton.crystal.tools.client.renderer;
 
-import com.mojang.blaze3d.PrimitiveTopology;
-import com.mojang.blaze3d.pipeline.BlendFunction;
-import com.mojang.blaze3d.pipeline.ColorTargetState;
-import com.mojang.blaze3d.pipeline.DepthStencilState;
-import com.mojang.blaze3d.pipeline.RenderPipeline;
-import com.mojang.blaze3d.platform.CompareOp;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.renderpearl.api.pipeline.BlendFunction;
+import com.mojang.renderpearl.api.pipeline.ColorTargetState;
+import com.mojang.renderpearl.api.pipeline.CompareOp;
+import com.mojang.renderpearl.api.pipeline.DepthStencilState;
+import com.mojang.renderpearl.api.pipeline.PrimitiveTopology;
+import com.mojang.renderpearl.api.pipeline.RenderPipeline;
 import dev.willyelton.crystal.tools.CrystalTools;
 import net.minecraft.client.renderer.BindGroupLayouts;
 import net.minecraft.client.renderer.rendertype.RenderSetup;
@@ -23,7 +23,8 @@ public class CrystalToolsRenderTypes {
     public static final Identifier QUARRY_LASER_LOCATION = Identifier.fromNamespaceAndPath(CrystalTools.MODID, "textures/entity/quarry_laser.png");
 
     public static final RenderPipeline.Snippet POSITION_COLOR_SNIPPET = RenderPipeline.builder(GLOBALS_SNIPPET)
-            .withBindGroupLayout(BindGroupLayouts.MATRICES_PROJECTION)
+            .withBindGroupLayout(BindGroupLayouts.PROJECTION)
+            .withBindGroupLayout(BindGroupLayouts.DYNAMIC_TRANSFORMS)
             .withVertexShader("core/position_color")
             .withFragmentShader("core/position_color")
             .withColorTargetState(new ColorTargetState(BlendFunction.TRANSLUCENT))
@@ -47,8 +48,8 @@ public class CrystalToolsRenderTypes {
 
     // Copied from the DEBUG_QUADS Render Type
     private static final RenderSetup BLOCK_OVERLAY_SETUP = RenderSetup.builder(POSITION_COLOR_PIPELINE)
-        .sortOnUpload()
-        .createRenderSetup();
+            .sortOnUpload()
+            .createRenderSetup();
 
     public static final RenderType BLOCK_OVERLAY = create(
             "CrystalToolsBlockOverlay",

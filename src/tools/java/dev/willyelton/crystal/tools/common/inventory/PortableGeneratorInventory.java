@@ -56,6 +56,6 @@ public class PortableGeneratorInventory extends ItemAccessItemHandler {
     public static boolean canBurn(ItemStack generatorStack, ItemStack stack, Level level) {
         GeneratorFuelData newFuelData = getFuelData(stack, generatorStack.getOrDefault(DataComponents.FOOD_GENERATOR, false),
                 generatorStack.getOrDefault(DataComponents.METAL_GENERATOR, false), generatorStack.getOrDefault(DataComponents.GEM_GENERATOR, false));
-        return newFuelData != null || stack.getBurnTime(RecipeType.SMELTING, level.fuelValues()) > 0;
+        return newFuelData != null || stack.has(net.minecraft.core.component.DataComponents.COOKING_FUEL);
     }
 }

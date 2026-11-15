@@ -35,7 +35,7 @@ public abstract class CrystalToolsButton extends Button {
 
     protected abstract int getTextureY(boolean isHovered);
 
-    @Override
+    // TODO: Migrate to new text system?
     public int getFGColor() {
         return this.active ? 16777215 : 10526880;
     }

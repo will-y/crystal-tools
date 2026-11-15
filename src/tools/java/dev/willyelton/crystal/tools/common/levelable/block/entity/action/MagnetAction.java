@@ -43,7 +43,7 @@ public class MagnetAction extends Action {
     }
 
     @Override
-    public void tickAction(@NotNull Level level, BlockPos pos, BlockState state) {
+    public void tickAction(@NotNull ServerLevel level, BlockPos pos, BlockState state) {
         Vec3 centerPos = Vec3.atCenterOf(pos);
         ItemStack stack = getItem();
 

@@ -50,7 +50,7 @@ public class BlockBreakAction extends Action {
     }
 
     @Override
-    public void tickAction(@NotNull Level level, BlockPos pos, BlockState state) {
+    public void tickAction(@NotNull ServerLevel level, BlockPos pos, BlockState state) {
         Direction facing = state.getValue(CrystalPedestalBlock.FACING);
         if (!noFit.isEmpty()) {
             ResourceHandler<ItemResource> handler = level.getCapability(Capabilities.Item.BLOCK, pos, null);

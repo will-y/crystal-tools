@@ -13,6 +13,7 @@ import dev.willyelton.crystal.core.common.block.entity.SideConfigBlockEntity;
 import dev.willyelton.crystal.core.utils.ArrayUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
@@ -164,7 +165,7 @@ public class CrystalFurnaceContainerMenu extends LevelableContainerMenu implemen
     }
 
     protected boolean isFuel(ItemStack stack) {
-        return stack.getBurnTime(RecipeType.SMELTING, level.fuelValues()) > 0;
+        return stack.has(DataComponents.COOKING_FUEL);
     }
 
     @Override

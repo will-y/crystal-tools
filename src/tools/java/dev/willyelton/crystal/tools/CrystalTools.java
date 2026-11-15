@@ -24,8 +24,8 @@ public class CrystalTools {
         ModRegistration.init(modEventBus);
 
         // Register configs
-        container.registerConfig(ModConfig.Type.COMMON, CrystalToolsConfig.COMMON_CONFIG, "crystal_tools.toml");
-        container.registerConfig(ModConfig.Type.SERVER, CrystalToolsServerConfig.SERVER_CONFIG, "crystal_tools-server.toml");
+        container.registerConfig(ModConfig.Type.LOCAL, CrystalToolsConfig.COMMON_CONFIG, "crystal_tools.toml");
+        container.registerConfig(ModConfig.Type.SYNCED, CrystalToolsServerConfig.SERVER_CONFIG, "crystal_tools-server.toml");
 
         registerModeSwitchHandlers();
     }

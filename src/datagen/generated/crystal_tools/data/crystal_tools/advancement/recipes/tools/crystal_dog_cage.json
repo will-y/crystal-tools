@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "crystal_tools:crystal_dog_cage"
+        "recipes": "crystal_tools:crystal_dog_cage"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

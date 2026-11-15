@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "crystal_tools:crystal_magnet"
+        "recipes": "crystal_tools:crystal_magnet"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

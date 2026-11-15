@@ -231,7 +231,7 @@ dependencies {
 //    runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}"
 
     compileOnly "curse.maven:jade-api-324717:7313008"
-    runtimeOnly "curse.maven:jade-324717:8326243"
+//    runtimeOnly "curse.maven:jade-324717:8326243"
 //    implementation "curse.maven:jade-324717:7313008"
 //
 //    runtimeOnly "mekanism:Mekanism:${mekanism_version}"// Mekanism
@@ -261,7 +261,7 @@ dependencies {
         // Production release parsing
         toolsJarJar(implementation("dev.willyelton.crystal.core:crystal_core")) {
             version {
-                strictly '[26.2.1.0, 26.3.0.0)'
+                strictly '[26.3.0.0, 26.4.0.0)'
                 prefer "${core_version}"
             }
         }

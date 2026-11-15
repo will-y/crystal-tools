@@ -56,7 +56,7 @@ public class ToolUtils {
             if (contents != null) {
                 Level level = player.level();
                 for (ItemContainerContents item : contents) {
-                    item.allItemsCopyStream().forEach(toDrop -> level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY(), player.getZ(), toDrop)));
+                    item.itemCopies().forEach(toDrop -> level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY(), player.getZ(), toDrop)));
                 }
             }
         }
@@ -99,7 +99,7 @@ public class ToolUtils {
             return Collections.emptyList();
         }
 
-        return filterContents.allItemsCopyStream().filter(stack1 -> !stack1.isEmpty()).toList();
+        return filterContents.itemCopies().filter(stack1 -> !stack1.isEmpty()).toList();
     }
 
     public static boolean matchesFilter(ItemStack stack, ItemStack toMatch, List<ItemStack> filter) {

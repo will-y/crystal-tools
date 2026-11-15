@@ -34,7 +34,7 @@ public class CrystalTridentSpecialRenderer implements NoDataSpecialModelRenderer
         poseStack.pushPose();
         poseStack.scale(1.0F, -1.0F, -1.0F);
         submitNodeCollector.order(0).submitModel(this.crystalTridentModel, Unit.INSTANCE, poseStack, this.crystalTridentModel.renderType(TEXTURE),
-                lightCoords, overlayCoords, outlineColor, null);
+                lightCoords, overlayCoords, outlineColor);
         poseStack.popPose();
     }
 

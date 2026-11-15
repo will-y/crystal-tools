@@ -28,23 +28,10 @@ public class CrystalTridentRenderer extends ThrownTridentRenderer {
     @Override
     public void submit(ThrownTridentRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
         poseStack.pushPose();
-        poseStack.mulPose(Axis.YP.rotationDegrees(state.yRot - 90.0F));
-        poseStack.mulPose(Axis.ZP.rotationDegrees(state.xRot + 90.0F));
+        poseStack.rotate(Axis.YP.rotationDegrees(state.yRot - 90.0F));
+        poseStack.rotate(Axis.ZP.rotationDegrees(state.xRot + 90.0F));
         submitNodeCollector.order(0)
-                .submitModel(this.model, Unit.INSTANCE, poseStack, CRYSTAL_TRIDENT_LOCATION, state.lightCoords, OverlayTexture.NO_OVERLAY, state.outlineColor, null);
-        if (state.isFoil) {
-            submitNodeCollector.order(1)
-                    .submitModel(
-                            this.model,
-                            Unit.INSTANCE,
-                            poseStack,
-                            RenderTypes.entityGlint(),
-                            state.lightCoords,
-                            OverlayTexture.NO_OVERLAY,
-                            state.outlineColor,
-                            null
-                    );
-        }
+                .submitModel(this.model, Unit.INSTANCE, poseStack, CRYSTAL_TRIDENT_LOCATION, state.lightCoords, OverlayTexture.NO_OVERLAY, state.outlineColor);
 
         poseStack.popPose();
         super.submit(state, poseStack, submitNodeCollector, camera);

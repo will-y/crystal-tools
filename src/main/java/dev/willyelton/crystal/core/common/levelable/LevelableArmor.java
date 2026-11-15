@@ -49,7 +49,7 @@ public class LevelableArmor extends Item implements LevelableItem {
     }
 
     @Override
-    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<Item> onBroken) {
+    public <T extends LivingEntity> int damageItem(ItemStack stack, int amount, T entity, Consumer<ItemStack> onBroken) {
         int durability = this.getMaxDamage(stack) - stack.getDamageValue();
 
         if (durability - amount <= 0) {

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "crystal_tools:crystal_shovel"
+        "recipes": "crystal_tools:crystal_shovel"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -1,6 +1,5 @@
 package dev.willyelton.crystal.tools.common.levelable.block;
 
-import com.mojang.serialization.MapCodec;
 import dev.willyelton.crystal.core.common.inventory.container.CrystalToolsMenuProvider;
 import dev.willyelton.crystal.tools.common.components.DataComponents;
 import dev.willyelton.crystal.tools.common.components.FurnaceData;
@@ -32,16 +31,10 @@ import net.minecraft.world.phys.BlockHitResult;
 public class CrystalFurnaceBlock extends BaseEntityBlock implements CrystalToolsMenuProvider {
     public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
-    public static final MapCodec<CrystalFurnaceBlock> CODEC = simpleCodec(CrystalFurnaceBlock::new);
 
     public CrystalFurnaceBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(LIT, Boolean.FALSE));
-    }
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
     }
 
     @Override
@@ -51,8 +44,8 @@ public class CrystalFurnaceBlock extends BaseEntityBlock implements CrystalTools
         }
 
         return (lvl, pos, blockState, t) -> {
-            if (t instanceof CrystalFurnaceBlockEntity blockEntity) {
-                blockEntity.serverTick(level, blockEntity.getBlockPos(), blockState);
+            if (t instanceof CrystalFurnaceBlockEntity blockEntity && lvl instanceof ServerLevel serverLevel) {
+                blockEntity.serverTick(serverLevel, blockEntity.getBlockPos(), blockState);
             }
         };
     }

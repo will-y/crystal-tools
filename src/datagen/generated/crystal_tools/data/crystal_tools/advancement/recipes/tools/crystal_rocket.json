@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "crystal_tools:crystal_rocket"
+        "recipes": "crystal_tools:crystal_rocket"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

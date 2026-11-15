@@ -20,6 +20,7 @@ import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -27,11 +28,14 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.component.CookingFuel;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ResolvableInt;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.ResourceHandlerUtil;
@@ -134,7 +138,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         ItemContainerContents contents = componentInput.get(DataComponents.CONTAINER);
         if (contents != null) {
             for (int i = 0; i < contents.getSlots(); i++) {
-                ItemStack stack = contents.getStackInSlot(i);
+                ItemStack stack = contents.getTemplateInSlot(i).map(ItemStackTemplate::create).orElse(ItemStack.EMPTY);;
                 if (!stack.isEmpty()) {
                     this.fuelHandler.set(i, ItemResource.of(stack), stack.getCount());
                 }
@@ -275,7 +279,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         return CrystalToolsConfig.GENERATOR_BASE_EXPERIENCE_CAP.get();
     }
 
-    public void serverTick(Level level, BlockPos pos, BlockState state) {
+    public void serverTick(ServerLevel level, BlockPos pos, BlockState state) {
         boolean hasRedstone = level.hasNeighborSignal(pos);
         if (hasRedstone && redstoneControl) {
             return;
@@ -302,7 +306,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
             boolean hasFuel = !fuelItemStack.isEmpty();
 
             if (!this.isLit() && hasFuel) {
-                this.litTime = this.getBurnDuration(fuelItemStack);
+                this.litTime = this.getBurnDuration(level, fuelItemStack);
                 this.litTotalTime = this.litTime;
                 this.burnedItem = fuelItemStack.copy();
 
@@ -393,7 +397,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
         return this.litTime > 0;
     }
 
-    public int getBurnDuration(ItemStack stack) {
+    public int getBurnDuration(ServerLevel level, ItemStack stack) {
         if (stack.isEmpty()) {
             return 0;
         } else {
@@ -403,7 +407,7 @@ public class CrystalGeneratorBlockEntity extends LevelableBlockEntity implements
                 return (int) (fuelData.burnTime() * (1 + fuelEfficiency));
             }
 
-            return (int) (stack.getBurnTime(null, this.level.fuelValues()) * (1 + fuelEfficiency));
+            return (int) (ResolvableInt.getFromItem(stack, DataComponents.COOKING_FUEL, CookingFuel::burnTime, this.getLootContext(level, stack), 0) * (1 + fuelEfficiency));
         }
     }
 

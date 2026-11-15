@@ -78,7 +78,7 @@ public class CrystalQuarryBlockEntityRenderer implements BlockEntityRenderer<Cry
             poseStack.pushPose();
             poseStack.translate(renderState.cubePos);
             nodeCollector.submitModel(model, renderState, poseStack, RenderTypes.entityCutout(rl("textures/entity/crystal_quarry_cube.png")), 0x00F000F0,
-                    OverlayTexture.NO_OVERLAY, 0, null);
+                    OverlayTexture.NO_OVERLAY, 0);
             poseStack.popPose();
 
             Vec3 view = cameraRenderState.pos;

@@ -1,9 +1,9 @@
 package dev.willyelton.crystal.tools.common.levelable.block;
 
-import com.mojang.serialization.MapCodec;
 import dev.willyelton.crystal.tools.common.levelable.block.entity.CrystalPedestalBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -32,7 +32,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Map;
 
 public class CrystalPedestalBlock extends BaseEntityBlock {
-    public static final MapCodec<CrystalPedestalBlock> CODEC = simpleCodec(CrystalPedestalBlock::new);
+
     public static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
 
     private static final VoxelShape SHAPE = Shapes.or(
@@ -56,11 +56,6 @@ public class CrystalPedestalBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
-    }
-
-    @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> entityType) {
         if (level.isClientSide()) {
             return (lvl, pos, blockState, t) -> {
@@ -71,8 +66,8 @@ public class CrystalPedestalBlock extends BaseEntityBlock {
         }
 
         return (lvl, pos, blockState, t) -> {
-            if (t instanceof CrystalPedestalBlockEntity blockEntity) {
-                blockEntity.serverTick(level, blockEntity.getBlockPos(), blockState);
+            if (t instanceof CrystalPedestalBlockEntity blockEntity && lvl instanceof ServerLevel serverLevel) {
+                blockEntity.serverTick(serverLevel, blockEntity.getBlockPos(), blockState);
             }
         };
     }

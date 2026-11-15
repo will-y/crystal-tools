@@ -1,7 +1,6 @@
 package dev.willyelton.crystal.tools.common.levelable.tool;
 
 import dev.willyelton.crystal.tools.common.components.DataComponents;
-import dev.willyelton.crystal.tools.utils.ToolUseUtils;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.context.UseOnContext;
@@ -15,12 +14,13 @@ public class HoeLevelableTool extends DiggerLevelableTool {
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
-        return ToolUseUtils.useOnHoe3x3(context);
+        // TODO
+        return InteractionResult.PASS;
+//        return ToolUseUtils.useOnHoe3x3(context);
     }
 
     @Override
     public boolean canPerformAction(ItemInstance itemInstance, ItemAbility itemAbility) {
-        return ItemAbilities.DEFAULT_HOE_ACTIONS.contains(itemAbility) ||
-                (itemInstance.getOrDefault(DataComponents.SHEAR, false) && ItemAbilities.DEFAULT_SHEARS_ACTIONS.contains(itemAbility));
+        return itemInstance.getOrDefault(DataComponents.SHEAR, false) && ItemAbilities.DEFAULT_SHEARS_ACTIONS.contains(itemAbility);
     }
 }
