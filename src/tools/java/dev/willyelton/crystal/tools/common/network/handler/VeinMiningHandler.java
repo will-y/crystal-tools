@@ -10,16 +10,14 @@ public class VeinMiningHandler {
     public static VeinMiningHandler INSTANCE = new VeinMiningHandler();
 
     public void handle(final VeinMiningPayload payload, final IPayloadContext context) {
-        context.enqueueWork(() -> {
-            Player player = context.player();
+        Player player = context.player();
 
-            if (player instanceof ServerPlayer serverPlayer) {
-                if (payload.start()) {
-                    VeinMiners.startVeinMining(serverPlayer);
-                } else {
-                    VeinMiners.stopVeinMining(serverPlayer);
-                }
+        if (player instanceof ServerPlayer serverPlayer) {
+            if (payload.start()) {
+                VeinMiners.startVeinMining(serverPlayer);
+            } else {
+                VeinMiners.stopVeinMining(serverPlayer);
             }
-        });
+        }
     }
 }

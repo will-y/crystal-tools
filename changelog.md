@@ -4,6 +4,8 @@
 - Armor can now be trimmed
 - Fixes AIOT mode use modes
 - Fixes skill trees not showing up on any items
+- Fixes outline rendering
+- Fixes axe, shovel, hoe use on abilities
 
 ## 26.3.0.0-alpha1
 - Updates to 26.3

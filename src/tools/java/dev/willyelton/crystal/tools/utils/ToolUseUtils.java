@@ -1,6 +1,7 @@
 package dev.willyelton.crystal.tools.utils;
 
 import dev.willyelton.crystal.core.Registration;
+import dev.willyelton.crystal.core.common.block.FakeUseOnContext;
 import dev.willyelton.crystal.core.common.block.entity.CrystalTorch;
 import dev.willyelton.crystal.core.common.capability.Capabilities;
 import dev.willyelton.crystal.core.common.capability.Levelable;
@@ -17,6 +18,8 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+
+import java.util.Collection;
 
 
 public class ToolUseUtils {
@@ -44,6 +47,20 @@ public class ToolUseUtils {
         }
 
         return InteractionResult.PASS;
+    }
+
+    public static InteractionResult useOnMultipleBlocks(UseOnContext context, Levelable levelable, Collection<BlockPos> blocks) {
+        InteractionResult result = useOnTransform(context, levelable);
+
+        if (result != InteractionResult.PASS) {
+            FakeUseOnContext fakeContext = FakeUseOnContext.withBlockPos(context, context.getClickedPos());
+            for (BlockPos blockpos : blocks) {
+                fakeContext.setBlockPos(blockpos);
+                useOnTransform(fakeContext, levelable);
+            }
+        }
+
+        return result;
     }
 
     public static InteractionResult useOnTorch(UseOnContext context) {

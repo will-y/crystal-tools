@@ -3,8 +3,6 @@ package dev.willyelton.crystal.tools.client.renderer;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.renderpearl.api.pipeline.BlendFunction;
 import com.mojang.renderpearl.api.pipeline.ColorTargetState;
-import com.mojang.renderpearl.api.pipeline.CompareOp;
-import com.mojang.renderpearl.api.pipeline.DepthStencilState;
 import com.mojang.renderpearl.api.pipeline.PrimitiveTopology;
 import com.mojang.renderpearl.api.pipeline.RenderPipeline;
 import dev.willyelton.crystal.tools.CrystalTools;
@@ -22,6 +20,7 @@ import static net.minecraft.client.renderer.rendertype.RenderType.create;
 public class CrystalToolsRenderTypes {
     public static final Identifier QUARRY_LASER_LOCATION = Identifier.fromNamespaceAndPath(CrystalTools.MODID, "textures/entity/quarry_laser.png");
 
+    // TODO: Removing the depth makes this weird, but i kinda like it more
     public static final RenderPipeline.Snippet POSITION_COLOR_SNIPPET = RenderPipeline.builder(GLOBALS_SNIPPET)
             .withBindGroupLayout(BindGroupLayouts.PROJECTION)
             .withBindGroupLayout(BindGroupLayouts.DYNAMIC_TRANSFORMS)
@@ -30,7 +29,6 @@ public class CrystalToolsRenderTypes {
             .withColorTargetState(new ColorTargetState(BlendFunction.TRANSLUCENT))
             .withVertexBinding(0, DefaultVertexFormat.POSITION_COLOR)
             .withPrimitiveTopology(PrimitiveTopology.QUADS)
-            .withDepthStencilState(new DepthStencilState(CompareOp.GREATER_THAN_OR_EQUAL, false))
             .withCull(false)
             .buildSnippet();
 
@@ -46,7 +44,7 @@ public class CrystalToolsRenderTypes {
 //            .add("Color", VertexFormatElement.COLOR)
 //            .build();
 
-    // Copied from the DEBUG_QUADS Render Type
+    // Copied from the DEBUG_QUADS Render Type (not entirely now because of depth)
     private static final RenderSetup BLOCK_OVERLAY_SETUP = RenderSetup.builder(POSITION_COLOR_PIPELINE)
             .sortOnUpload()
             .createRenderSetup();

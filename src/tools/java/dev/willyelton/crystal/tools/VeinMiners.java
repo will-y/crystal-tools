@@ -1,6 +1,8 @@
 package dev.willyelton.crystal.tools;
 
+import dev.willyelton.crystal.tools.client.events.RegisterKeyBindingsEvent;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,7 +22,11 @@ public class VeinMiners {
         VEIN_MINING_PLAYERS.remove(player.getUUID());
     }
 
-    public static boolean isVeinMining(ServerPlayer player) {
-        return VEIN_MINING_PLAYERS.contains(player.getUUID());
+    public static boolean isVeinMining(Player player) {
+        if (player.level().isClientSide()) {
+            return RegisterKeyBindingsEvent.VEIN_MINE.isDown();
+        } else {
+            return VEIN_MINING_PLAYERS.contains(player.getUUID());
+        }
     }
 }

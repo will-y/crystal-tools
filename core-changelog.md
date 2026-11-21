@@ -1,4 +1,8 @@
 # Crystal Core Change Log
+## 26.3.0.1
+- Adds `FakeUseOnContext`
+- Adds access transformer for UseOnContext
+
 ## 26.3.0.0
 - Updates to 26.3
 
