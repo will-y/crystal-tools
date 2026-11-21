@@ -27,6 +27,8 @@ import net.minecraft.world.level.block.Block;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static net.minecraft.client.data.models.ItemModelGenerators.TRIM_PREFIX_HELMET;
+
 public class CrystalToolsModels extends ModelProvider {
     public CrystalToolsModels(PackOutput output) {
         super(output, CrystalTools.MODID);
@@ -58,7 +60,7 @@ public class CrystalToolsModels extends ModelProvider {
         generatePortableGenerator(itemModels);
 
         // Armor
-        itemModels.generateDynamicTrimmableArmorSet(ModRegistration.CRYSTAL_HELMET.get(), ModRegistration.CRYSTAL_CHESTPLATE.get(), ModRegistration.CRYSTAL_LEGGINGS.get(), ModRegistration.CRYSTAL_BOOTS.get(), null);
+        generateArmors(itemModels, ModRegistration.CRYSTAL_HELMET.get(), ModRegistration.CRYSTAL_CHESTPLATE.get(), ModRegistration.CRYSTAL_LEGGINGS.get(), ModRegistration.CRYSTAL_BOOTS.get());
         itemModels.generateFlatItem(ModRegistration.CRYSTAL_ELYTRA.get(), ModelTemplates.FLAT_ITEM);
 
         // Blocks
@@ -71,6 +73,17 @@ public class CrystalToolsModels extends ModelProvider {
 
         blockModels.createFlatItemModel(ModRegistration.QUARRY_STABILIZER_ITEM.get());
         blockModels.createFlatItemModel(ModRegistration.CRYSTAL_PEDESTAL_ITEM.get());
+    }
+
+    private void generateArmors(ItemModelGenerators itemModels, Item helmet, Item chestplate, Item leggings, Item boots) {
+        generateArmor(itemModels, helmet);
+        generateArmor(itemModels, chestplate);
+        generateArmor(itemModels, leggings);
+        generateArmor(itemModels, boots);
+    }
+
+    private void generateArmor(ItemModelGenerators itemModels, Item item) {
+        itemModels.generateDynamicTrimmableItem(item, itemModels.createFlatItemModel(item, ModelTemplates.FLAT_ITEM), TRIM_PREFIX_HELMET, null);
     }
 
     private void generateCrystalBow(ItemModelGenerators itemModels) {

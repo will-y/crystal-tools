@@ -5,6 +5,6 @@
       "type": "minecraft:model",
       "model": "crystal_tools:item/crystal_chestplate"
     },
-    "base_trim_texture": "minecraft:trims/items/chestplate_trim"
+    "base_trim_texture": "minecraft:trims/items/helmet_trim"
   }
 }

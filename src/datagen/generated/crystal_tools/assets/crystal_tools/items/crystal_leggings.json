@@ -5,6 +5,6 @@
       "type": "minecraft:model",
       "model": "crystal_tools:item/crystal_leggings"
     },
-    "base_trim_texture": "minecraft:trims/items/leggings_trim"
+    "base_trim_texture": "minecraft:trims/items/helmet_trim"
   }
 }

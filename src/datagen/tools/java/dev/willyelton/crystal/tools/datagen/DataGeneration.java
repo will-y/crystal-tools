@@ -1,24 +1,15 @@
 package dev.willyelton.crystal.tools.datagen;
 
-import dev.willyelton.crystal.core.datagen.CrystalCoreRecipes;
-import dev.willyelton.crystal.core.utils.constants.ApiConstants;
-import dev.willyelton.crystal.tools.CrystalTools;
 import dev.willyelton.crystal.core.common.event.DatapackRegistryEvents;
-import dev.willyelton.crystal.tools.common.crafting.CrystalToolsRecipe;
+import dev.willyelton.crystal.tools.CrystalTools;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.loot.LootTableProvider;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.data.event.GatherDataRegistryEntriesEvent;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 @EventBusSubscriber(modid = CrystalTools.MODID)
