@@ -558,7 +558,7 @@ public class CrystalQuarryBlockEntity extends SideConfigBlockEntity implements M
         currentProgress += getDestroyProgress(miningState, level, miningAt);
 
         if (level.getGameTime() % 2 == 0) {
-            spawnBreakingParticles((ServerLevel) level);
+            spawnBreakingParticles(level);
         }
 
         // TODO: Maybe try to break multiple blocks in a tick later?
@@ -571,7 +571,7 @@ public class CrystalQuarryBlockEntity extends SideConfigBlockEntity implements M
                     miningStack = SILK_TOUCH_STACK;
                 }
 
-                List<ItemStack> drops = new ArrayList<>(Block.getDrops(level.getBlockState(miningAt), (ServerLevel) level, miningAt, level.getBlockEntity(miningAt), null, miningStack));
+                List<ItemStack> drops = new ArrayList<>(Block.getDrops(level.getBlockState(miningAt), level, miningAt, level.getBlockEntity(miningAt), null, miningStack));
                 drops.addAll(getInventoryContents(level));
                 List<ItemStack> noFit = new ArrayList<>(InventoryUtils.tryInsertStacks(itemHandler, drops, this::shouldPickUp));
 
@@ -581,7 +581,7 @@ public class CrystalQuarryBlockEntity extends SideConfigBlockEntity implements M
 
                 level.destroyBlock(miningAt, false, null);
                 if (useDirt) {
-                    level.setBlock(miningAt, Blocks.DIRT.defaultBlockState(), 3);
+                    level.setBlock(miningAt, Blocks.DIRT.defaultBlockState(), Block.UPDATE_NEIGHBORS | Block.UPDATE_CLIENTS);
                 }
 
                 addExp(1);

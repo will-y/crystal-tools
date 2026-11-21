@@ -7,11 +7,15 @@ import dev.willyelton.crystal.core.utils.EnchantmentUtils;
 import dev.willyelton.crystal.tools.ModRegistration;
 import dev.willyelton.crystal.tools.common.components.DataComponents;
 import dev.willyelton.crystal.tools.common.levelable.tool.UseMode;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.BlockTransformer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.neoforged.neoforge.common.NeoForgeMod;
+
+import java.util.Optional;
 
 public class ModeSwitchHandlers {
     private ModeSwitchHandlers() {}
@@ -65,7 +69,11 @@ public class ModeSwitchHandlers {
         ModeSwitchHandlerRegistry.addModeSwitchHandler((player, stack, skillData, hasShiftDown, hasCtrlDown, hasAltDown, isHeld) -> {
             if (hasAltDown && !hasShiftDown && !hasCtrlDown && stack.is(ModRegistration.CRYSTAL_AIOT)) {
                 UseMode currentMode = stack.getOrDefault(DataComponents.USE_MODE, UseMode.HOE);
-                stack.set(DataComponents.USE_MODE, UseMode.nextMode(stack, currentMode));
+                UseMode nextMode = UseMode.nextMode(stack, currentMode);
+                stack.set(DataComponents.USE_MODE, nextMode);
+                Optional<Holder.Reference<BlockTransformer>> transformer = nextMode.blockTransformer(player.level());
+                transformer.ifPresent(blockTransformerReference -> stack.set(net.minecraft.core.component.DataComponents.BLOCK_TRANSFORMER, blockTransformerReference));
+
                 player.sendOverlayMessage(Component.literal("Mode: " + UseMode.nextMode(stack, currentMode)));
                 return true;
             }

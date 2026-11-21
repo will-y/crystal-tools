@@ -1,10 +1,9 @@
 package dev.willyelton.crystal.tools.common.levelable.tool;
 
 import dev.willyelton.crystal.core.client.event.RegisterKeyBindingsEvent;
-import dev.willyelton.crystal.core.utils.BlockTransformerUtils;
 import dev.willyelton.crystal.core.utils.StringUtils;
 import dev.willyelton.crystal.tools.common.components.DataComponents;
-import net.minecraft.core.Holder;
+import dev.willyelton.crystal.tools.utils.ToolUseUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
@@ -32,9 +31,7 @@ public class AIOLevelableTool extends DiggerLevelableTool {
     public AIOLevelableTool(Properties properties) {
         super(properties
                 .tool(CRYSTAL, MINABLE_WITH_AIOT, 3.0F, -2.4F, 5.0F)
-                .delayedComponent(net.minecraft.core.component.DataComponents.BLOCK_TRANSFORMER, context -> Holder.direct(BlockTransformerUtils.combinedBlockTransformer(context.getOrThrow(BlockTransformers.AXE).value(),
-                        context.getOrThrow(BlockTransformers.HOE).value(),
-                        context.getOrThrow(BlockTransformers.SHOVEL).value()))));
+                .delayedComponent(net.minecraft.core.component.DataComponents.BLOCK_TRANSFORMER, context -> context.getOrThrow(BlockTransformers.HOE)));
     }
 
     @Override
@@ -42,24 +39,11 @@ public class AIOLevelableTool extends DiggerLevelableTool {
         ItemStack stack = context.getItemInHand();
 
         UseMode mode = stack.getOrDefault(DataComponents.USE_MODE, UseMode.HOE);
+        if (mode == UseMode.TORCH) {
+            return ToolUseUtils.useOnTorch(context);
+        }
 
-        // TODO: I think there is a neo overload in `transformBlock` that will help me here
-//        switch (mode) {
-//            case HOE -> {
-//                return ToolUseUtils.useOnHoe3x3(context);
-//            }
-//            case SHOVEL -> {
-//                return ToolUseUtils.useOnShovel3x3(context);
-//            }
-//            case AXE -> {
-//                return ToolUseUtils.useOnAxeVeinStrip(context, this);
-//            }
-//            case TORCH -> {
-//                return ToolUseUtils.useOnTorch(context);
-//            }
-//        }
-
-        return InteractionResult.PASS;
+        return super.useOn(context);
     }
 
     @Override

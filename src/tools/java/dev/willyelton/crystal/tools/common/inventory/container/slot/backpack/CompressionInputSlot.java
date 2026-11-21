@@ -97,7 +97,6 @@ public class CompressionInputSlot extends CrystalSlotItemHandler {
             return recipeManager.getRecipeFor(RecipeType.CRAFTING, craftingInput, level);
         }
 
-        // TODO: see if this is ok to return on the client?
         return Optional.empty();
     }
 

@@ -46,7 +46,6 @@ public class CrystalApple extends LevelableTool {
         levelableInventoryTick(itemStack, level, entity, slot, CrystalToolsConfig.APPLE_REPAIR_MODIFIER.get());
     }
 
-    // TODO: This should really use the component but can't think of a way to do that right now
     @Override
     public int getUseDuration(ItemStack stack, LivingEntity entity) {
         return BASE_EAT_SPEED - stack.getOrDefault(DataComponents.EAT_SPEED_BONUS, 0);

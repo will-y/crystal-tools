@@ -96,7 +96,7 @@ public class BlockBreakAction extends Action {
 
                 level.destroyBlock(miningPos, false);
                 // TODO: Abstract this part out into `Action`
-                stack.hurtAndBreak(durabilityToUse, (ServerLevel) level, null, item -> {});
+                stack.hurtAndBreak(durabilityToUse, level, null, _ -> {});
                 Levelable levelable = stack.getCapability(dev.willyelton.crystal.core.common.capability.Capabilities.ITEM_SKILL, level.registryAccess());
                 if (levelable != null && CrystalToolsConfig.LEVEL_ITEMS_IN_PEDESTAL.get()) {
                     levelable.addExp(level, pos, null);

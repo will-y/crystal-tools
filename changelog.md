@@ -2,6 +2,7 @@
 ## 26.3.0.0-beta1
 - Fixes armor item models
 - Armor can now be trimmed
+- Fixes AIOT mode use modes
 
 ## 26.3.0.0-alpha1
 - Updates to 26.3

@@ -10,7 +10,6 @@ import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
 public class RegisterDataMapsEvent {
     @SubscribeEvent
     public static void onRegisterDataMaps(final RegisterDataMapTypesEvent event) {
-        // TODO: Move to core
         event.register(CrystalCoreDataMaps.MOB_HEADS);
         event.register(CrystalCoreDataMaps.SKILL_TREES);
         event.register(CrystalCoreDataMaps.ENTITY_SKILL_TREES);

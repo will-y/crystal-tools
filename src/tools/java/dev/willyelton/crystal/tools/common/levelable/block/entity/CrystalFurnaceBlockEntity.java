@@ -327,8 +327,6 @@ public class CrystalFurnaceBlockEntity extends SideConfigBlockEntity implements 
             level.setBlock(this.getBlockPos(), state, Block.UPDATE_NEIGHBORS | Block.UPDATE_CLIENTS);
         }
 
-        // TODO: Do I need to clear these client side still?
-
         // Furnace things
         this.litTime = 0;
         this.litTotalTime = 0;
@@ -586,7 +584,6 @@ public class CrystalFurnaceBlockEntity extends SideConfigBlockEntity implements 
     }
 
     // Upgrade things
-    // TODO: Check and there is probably a better way to do this
     private void balanceFuel() {
         combineStacks(fuelHandler, 0, 1);
         combineStacks(fuelHandler, 0, 2);
