@@ -3,6 +3,7 @@
 - Fixes armor item models
 - Armor can now be trimmed
 - Fixes AIOT mode use modes
+- Fixes skill trees not showing up on any items
 
 ## 26.3.0.0-alpha1
 - Updates to 26.3

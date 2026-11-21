@@ -18,8 +18,8 @@ public class DatapackRegistryEvents {
 
     @SubscribeEvent
     public static void registerDatapackRegistry(NewDatapackRegistryEvent event) {
-        event.reloadableRegistry(SKILL_DATA_REGISTRY_KEY_ITEMS, SkillData.CODEC);
-        event.reloadableRegistry(SKILL_DATA_REGISTRY_KEY_BLOCKS, SkillData.CODEC);
-        event.reloadableRegistry(SKILL_DATA_REGISTRY_KEY_ENTITIES, SkillData.CODEC);
+        event.worldRegistry(SKILL_DATA_REGISTRY_KEY_ITEMS, SkillData.CODEC, SkillData.CODEC);
+        event.worldRegistry(SKILL_DATA_REGISTRY_KEY_BLOCKS, SkillData.CODEC, SkillData.CODEC);
+        event.worldRegistry(SKILL_DATA_REGISTRY_KEY_ENTITIES, SkillData.CODEC, SkillData.CODEC);
     }
 }
